@@ -115,16 +115,18 @@ python src/data_collection/convert_characters_to_roles.py \
 
 ** Step 3: Generate Responses (GPU)
 
-Uses the [[https://github.com/safety-research/assistant-axis][assistant-axis]] pipeline.
+Uses the [[https://github.com/safety-research/assistant-axis][assistant-axis]] pipeline. The extraction questions (240 diverse prompts) come from that repo.
 
 #+begin_src bash
 # Clone assistant-axis for the full pipeline
 git clone https://github.com/safety-research/assistant-axis
 cd assistant-axis && uv sync && cd ..
 
+# The questions file is in assistant-axis/data/extraction_questions.jsonl
 uv run python src/extraction/1_generate.py \
     --model Qwen/Qwen2.5-32B-Instruct \
     --roles_dir outputs/character_roles \
+    --questions_file assistant-axis/data/extraction_questions.jsonl \
     --output_dir outputs/responses \
     --num_workers 4
 #+end_src
