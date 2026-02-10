@@ -5,239 +5,422 @@
 
 * Overview
 
-We extracted activations from Qwen 2.5 32B for 399 fictional characters (402 total, 3 corrupted files skipped). Each character was prompted with 240 questions, and we averaged the layer 32 activations across all questions to get a single 5120-dimensional vector per character.
+We extracted activations from Qwen 2.5 32B for 399 fictional characters. Each character was prompted with 240 questions, and we averaged the layer 32 activations across all questions to get a single 5120-dimensional vector per character.
 
 PCA on this space reveals interpretable axes of variation.
 
-This work builds on the methodology from [[https://arxiv.org/abs/2601.10387][Lu et al. (2026), "The Assistant Axis: Situating and Stabilizing the Default Persona of Language Models"]], which extracted persona vectors for 275 generic character archetypes (roles like "accountant", "anarchist", "hero"). We extend this to specific fictional characters.
+This work builds on the methodology from [[https://arxiv.org/abs/2601.10387][Lu et al. (2026), "The Assistant Axis: Situating and Stabilizing the Default Persona of Language Models"]], which extracted persona vectors for 275 generic character archetypes.
+
+* Setup
+
+#+begin_src python
+import pickle
+import numpy as np
+import pandas as pd
+from pathlib import Path
+
+# Load results
+with open('results/fictional_character_analysis.pkl', 'rb') as f:
+    results = pickle.load(f)
+
+char_names = results['character_names']
+transformed = results['char_transformed']  # (399, 50) - PCA projections
+pca = results['char_pca']
+activation_matrix = results['activation_matrix']  # (399, 5120) - raw activations
+
+print(f"Loaded {len(char_names)} characters")
+print(f"PCA transformed shape: {transformed.shape}")
+print(f"Variance explained by 50 PCs: {sum(pca.explained_variance_ratio_):.1%}")
+#+end_src
 
 * Key Results
 
-| Metric | Value |
-|--------|-------|
-| Characters | 399 |
-| Hidden dim | 5120 |
-| Layer | 32 |
-| PC1 variance | 18.0% |
-| PC2 variance | 8.1% |
-| First 10 PCs | 56.4% |
-| First 50 PCs | 84.5% |
+#+begin_src python
+cumvar = np.cumsum(pca.explained_variance_ratio_)
+df = pd.DataFrame({
+    'Metric': ['Characters', 'Hidden dim', 'Layer', 'PC1 variance', 'PC2 variance', 'First 10 PCs', 'First 50 PCs'],
+    'Value': [len(char_names), 5120, 32, 
+              f"{pca.explained_variance_ratio_[0]:.1%}", 
+              f"{pca.explained_variance_ratio_[1]:.1%}",
+              f"{cumvar[9]:.1%}", 
+              f"{cumvar[49]:.1%}"]
+})
+print(df.to_string(index=False))
+#+end_src
 
-* Principal Component Interpretations
+* Principal Components
 
-** PC1 (18.0%): Groundedness / Relatability
+#+begin_src python
+def show_pc(pc_idx, top_k=5):
+    """Show top and bottom characters for a PC."""
+    scores = transformed[:, pc_idx]
+    sorted_idx = np.argsort(scores)
+    var_pct = pca.explained_variance_ratio_[pc_idx] * 100
+    
+    print(f"\n=== PC{pc_idx+1} ({var_pct:.1f}% variance) ===")
+    print("\nHIGH:")
+    for i in sorted_idx[-top_k:][::-1]:
+        name = char_names[i].replace('_', ' ').title()
+        print(f"  {name:35s} {scores[i]:+.1f}")
+    print("\nLOW:")
+    for i in sorted_idx[:top_k]:
+        name = char_names[i].replace('_', ' ').title()
+        print(f"  {name:35s} {scores[i]:+.1f}")
 
-*High*: Modern, relatable, often comedic characters
-- Holden Caulfield, Saitama, Goku, Ron Weasley, Spider-Man
+for i in range(10):
+    show_pc(i)
+#+end_src
 
-*Low*: Ancient gods, ethereal/mythological beings
-- Quetzalcoatl, Anubis, Osiris, Ra, Galadriel
+** Interpretations
 
-This axis seems to capture how "human" and accessible a character is vs. how transcendent/divine.
+| PC | Variance | High | Low | Interpretation |
+|----+----------+------+-----+----------------|
+| 1 | 18.0% | Holden, Goku, Ron | Quetzalcoatl, Anubis, Osiris | Groundedness (human vs divine) |
+| 2 | 8.1% | Voldemort, Joker, Cersei | Snow White, Totoro, Sailor Moon | Moral alignment (evil vs innocent) |
+| 3 | 6.9% | Bottom, Falstaff, Mad Hatter | Mace Windu, Darth Vader | Comedy vs seriousness |
+| 4 | 5.2% | Mr Darcy, Spock, HAL 9000 | Conan, Popeye, Maui | Intellectual vs physical |
+| 5 | 4.3% | Willy Wonka, Queen of Hearts | Jon Snow, Ned Stark, Aragorn | Whimsical vs grim/honorable |
+| 6 | 3.5% | Darth Vader, R2D2, Chewbacca | Meursault, Holden | Star Wars cluster |
+| 7 | 3.1% | Gollum, Totoro, Rapunzel | Rama, Arjuna, Bhima | Fairy tale vs Indian epic |
+| 8 | 2.9% | Gollum, Big Brother, Meursault | Iron Man, James Bond | Alienated vs suave |
+| 9 | 2.4% | The Dude, Obi-Wan, Luke | Nezuko, Sasuke, Vegeta | Western vs anime |
+| 10 | 2.0% | Draco, Ron, Harry, Snape | Terminator, R2D2 | Harry Potter cluster |
 
-** PC2 (8.1%): Moral Alignment
+* Fun Analyses
 
-*High*: Villains, morally dark characters
-- Voldemort, Tyler Durden, Cersei Lannister, Bellatrix, The Joker
+** Find Similar Characters
 
-*Low*: Innocent, pure characters
-- Snow White, Totoro, Sailor Moon, Sita, Little Red Riding Hood
+#+begin_src python
+from scipy.spatial.distance import cdist
 
-A clear good/evil axis.
+def find_similar(query_name, top_k=10):
+    """Find characters most similar to query in PCA space."""
+    # Find query index
+    query_idx = None
+    for i, name in enumerate(char_names):
+        if query_name.lower() in name.lower():
+            query_idx = i
+            break
+    
+    if query_idx is None:
+        print(f"Character '{query_name}' not found")
+        return
+    
+    query_vec = transformed[query_idx:query_idx+1]
+    distances = cdist(query_vec, transformed, metric='euclidean')[0]
+    
+    sorted_idx = np.argsort(distances)
+    
+    print(f"\nCharacters most similar to {char_names[query_idx].replace('_', ' ').title()}:\n")
+    for i in sorted_idx[1:top_k+1]:  # Skip self
+        name = char_names[i].replace('_', ' ').title()
+        print(f"  {name:35s} (distance: {distances[i]:.1f})")
 
-** PC3 (6.9%): Absurdist Comedy vs. Stoic Seriousness
+find_similar("harry_potter")
+#+end_src
 
-*High*: Comic, absurdist, Shakespearean fools
-- Bottom, Falstaff, Mad Hatter, Alice, Puck
+#+begin_src python
+find_similar("darth_vader")
+#+end_src
 
-*Low*: Serious, stoic warriors
-- Mace Windu, Darth Vader, Black Panther, Sasuke, The Terminator
+#+begin_src python
+find_similar("sherlock_holmes")
+#+end_src
 
-** PC4 (5.2%): Refined/Intellectual vs. Physical/Primal
+#+begin_src python
+find_similar("gollum")
+#+end_src
 
-*High*: Refined, intellectual, emotionally reserved
-- Mr. Darcy, Elizabeth Bennet, Spock, HAL 9000, Jane Eyre
+** Find Opposite Characters
 
-*Low*: Physical, primal, action-oriented
-- Shango, Conan the Barbarian, Popeye, Maui, Long John Silver
+#+begin_src python
+def find_opposite(query_name, top_k=10):
+    """Find characters most dissimilar to query."""
+    query_idx = None
+    for i, name in enumerate(char_names):
+        if query_name.lower() in name.lower():
+            query_idx = i
+            break
+    
+    if query_idx is None:
+        print(f"Character '{query_name}' not found")
+        return
+    
+    query_vec = transformed[query_idx:query_idx+1]
+    distances = cdist(query_vec, transformed, metric='euclidean')[0]
+    
+    sorted_idx = np.argsort(distances)[::-1]  # Reverse for most distant
+    
+    print(f"\nCharacters most opposite to {char_names[query_idx].replace('_', ' ').title()}:\n")
+    for i in sorted_idx[:top_k]:
+        name = char_names[i].replace('_', ' ').title()
+        print(f"  {name:35s} (distance: {distances[i]:.1f})")
 
-** PC5 (4.3%): Whimsical Eccentricity vs. Grim Honor
+find_opposite("snow_white")
+#+end_src
 
-*High*: Whimsical, eccentric, chaotic
-- Willy Wonka, Queen of Hearts, Mad Hatter, Wicked Witch, Vishnu
+#+begin_src python
+find_opposite("the_joker")
+#+end_src
 
-*Low*: Grim, honorable, duty-bound
-- Jon Snow, Ned Stark, Arya Stark, Aragorn, Boromir
+** Character Arithmetic
 
-** PC6 (3.5%): Star Wars Universe
+Like word2vec's "king - man + woman = queen", we can do character arithmetic.
 
-*High*: Star Wars characters
-- Darth Vader, R2D2, Darth Maul, Chewbacca, C3PO
+#+begin_src python
+def char_arithmetic(positive, negative, top_k=5):
+    """
+    Find characters closest to: sum(positive) - sum(negative)
+    
+    Example: villain + comedy = ?
+    """
+    result_vec = np.zeros(transformed.shape[1])
+    
+    used_indices = set()
+    
+    for name in positive:
+        for i, cname in enumerate(char_names):
+            if name.lower() in cname.lower():
+                result_vec += transformed[i]
+                used_indices.add(i)
+                break
+    
+    for name in negative:
+        for i, cname in enumerate(char_names):
+            if name.lower() in cname.lower():
+                result_vec -= transformed[i]
+                used_indices.add(i)
+                break
+    
+    distances = cdist(result_vec.reshape(1, -1), transformed, metric='euclidean')[0]
+    sorted_idx = np.argsort(distances)
+    
+    pos_str = ' + '.join(positive)
+    neg_str = ' - '.join(negative) if negative else ''
+    equation = pos_str + (' - ' + neg_str if neg_str else '')
+    
+    print(f"\n{equation} = ?\n")
+    count = 0
+    for i in sorted_idx:
+        if i not in used_indices:
+            name = char_names[i].replace('_', ' ').title()
+            print(f"  {name:35s} (distance: {distances[i]:.1f})")
+            count += 1
+            if count >= top_k:
+                break
 
-*Low*: Existentialist literary characters
-- Meursault, Holden Caulfield, Krishna, Vishnu, Tyler Durden
+# Darth Vader - evil = ? (should give heroic Star Wars characters)
+char_arithmetic(["darth_vader"], ["voldemort"])
+#+end_src
 
-Interesting that this picks up franchise clustering.
+#+begin_src python
+# Harry Potter + villain = ?
+char_arithmetic(["harry_potter", "the_joker"], [])
+#+end_src
 
-** PC7 (3.1%): Otherworldly Creatures vs. Indian Epic Heroes
+#+begin_src python
+# Sherlock Holmes + magic = ?
+char_arithmetic(["sherlock_holmes", "gandalf"], [])
+#+end_src
 
-*High*: Magical creatures, fairy tale figures
-- Gollum, Mami Wata, Totoro, Rapunzel, The Little Prince
+#+begin_src python
+# Comedy villain: Joker + Falstaff - serious
+char_arithmetic(["the_joker", "falstaff"], ["darth_vader"])
+#+end_src
 
-*Low*: Indian epic heroes (Ramayana, Mahabharata)
-- Rama, Arjuna, Bhima, Krishna, Malvolio
+** Franchise Clustering
 
-** PC8 (2.9%): Alienation vs. Suave Competence
+Which franchises cluster together?
 
-*High*: Alienated, isolated, existentially troubled
-- Gollum, Big Brother, Meursault, Okonkwo, Winston Smith
+#+begin_src python
+franchises = {
+    'Harry Potter': ['harry_potter', 'ron_weasley', 'hermione_granger', 'draco_malfoy', 
+                     'severus_snape', 'albus_dumbledore', 'lord_voldemort', 'rubeus_hagrid',
+                     'bellatrix_lestrange'],
+    'Star Wars': ['darth_vader', 'luke_skywalker', 'leia', 'han_solo', 'yoda',
+                  'obiwan_kenobi', 'r2d2', 'c3po', 'chewbacca', 'darth_maul'],
+    'Lord of the Rings': ['frodo_baggins', 'gandalf', 'aragorn', 'legolas', 'gimli',
+                          'samwise_gamgee', 'gollum', 'saruman', 'sauron', 'boromir'],
+    'Marvel': ['iron_man', 'spiderman', 'captain_america', 'thor', 'hulk',
+               'black_widow', 'black_panther', 'thanos'],
+    'Game of Thrones': ['jon_snow', 'daenerys_targaryen', 'tyrion_lannister', 
+                        'cersei_lannister', 'arya_stark', 'ned_stark'],
+    'Greek Mythology': ['zeus', 'athena', 'apollo', 'aphrodite', 'hades', 
+                        'poseidon', 'hermes', 'ares'],
+}
 
-*Low*: Suave, competent, action heroes
-- Iron Man, James Bond, Catwoman, Robert Langdon
+def get_franchise_centroid(franchise_chars):
+    """Get centroid of franchise characters in PCA space."""
+    indices = []
+    for fc in franchise_chars:
+        for i, name in enumerate(char_names):
+            if fc.lower() in name.lower():
+                indices.append(i)
+                break
+    if not indices:
+        return None, 0
+    return transformed[indices].mean(axis=0), len(indices)
 
-** PC9 (2.4%): Western Media vs. Anime
+# Calculate inter-franchise distances
+franchise_names = list(franchises.keys())
+centroids = {}
+for fname, chars in franchises.items():
+    centroid, count = get_franchise_centroid(chars)
+    if centroid is not None:
+        centroids[fname] = centroid
+        print(f"{fname}: {count} characters found")
 
-*High*: Western (especially Star Wars, Coen Brothers)
-- The Dude, Obi-Wan Kenobi, R2D2, Luke Skywalker, Qui-Gon Jinn
+print("\n=== Inter-Franchise Distances ===\n")
+for i, f1 in enumerate(franchise_names):
+    if f1 not in centroids:
+        continue
+    for f2 in franchise_names[i+1:]:
+        if f2 not in centroids:
+            continue
+        dist = np.linalg.norm(centroids[f1] - centroids[f2])
+        print(f"  {f1:20s} <-> {f2:20s}: {dist:.1f}")
+#+end_src
 
-*Low*: Anime characters
-- Nezuko Kamado, Sasuke Uchiha, Vegeta, Tanjiro Kamado, Sailor Moon
+** Variance Explained Plot
 
-** PC10 (2.0%): Harry Potter Universe vs. Robots/Monsters
+#+begin_src python :results file
+import matplotlib.pyplot as plt
 
-*High*: Harry Potter characters
-- Draco Malfoy, Ron Weasley, Harry Potter, Severus Snape, Hagrid
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
 
-*Low*: Non-human entities (robots, monsters)
-- The Terminator, R2D2, Frankenstein's Monster, Buzz Lightyear
+# Scree plot
+ax1.bar(range(1, 21), pca.explained_variance_ratio_[:20] * 100)
+ax1.set_xlabel('Principal Component')
+ax1.set_ylabel('Variance Explained (%)')
+ax1.set_title('Scree Plot')
 
-* Observations
+# Cumulative
+cumvar = np.cumsum(pca.explained_variance_ratio_) * 100
+ax2.plot(range(1, 51), cumvar, 'b-', linewidth=2)
+ax2.axhline(y=50, color='r', linestyle='--', alpha=0.5, label='50%')
+ax2.axhline(y=80, color='g', linestyle='--', alpha=0.5, label='80%')
+ax2.set_xlabel('Number of Components')
+ax2.set_ylabel('Cumulative Variance Explained (%)')
+ax2.set_title('Cumulative Variance')
+ax2.legend()
+ax2.grid(True, alpha=0.3)
 
-1. *The first two PCs are highly interpretable*: groundedness (18%) and morality (8%) together explain 26% of variance.
+plt.tight_layout()
+plt.savefig('results/variance_explained.png', dpi=150, bbox_inches='tight')
+print('results/variance_explained.png')
+#+end_src
 
-2. *Franchise clustering emerges naturally*: PCs 6, 9, and 10 pick up Star Wars, anime, and Harry Potter respectively. The model has learned that characters from the same fictional universe share embedding space.
+** 2D Scatter Plot
 
-3. *Cultural origin matters*: PC7 separates Indian epic heroes from Western fairy tale creatures.
+#+begin_src python :results file
+fig, ax = plt.subplots(figsize=(14, 10))
 
-4. *Genre matters*: PC3 separates comedy from action, PC4 separates intellectual drama from physical action.
+scatter = ax.scatter(transformed[:, 0], transformed[:, 1], alpha=0.6, s=30)
 
-5. *The space is high-dimensional*: 50 PCs only capture 84.5% of variance, suggesting rich structure.
+# Label outliers
+distances = np.sqrt(transformed[:, 0]**2 + transformed[:, 1]**2)
+outlier_idx = np.argsort(distances)[-25:]
+
+for idx in outlier_idx:
+    name = char_names[idx].replace('_', ' ').title()
+    ax.annotate(name, (transformed[idx, 0], transformed[idx, 1]), 
+                fontsize=7, alpha=0.8)
+
+ax.set_xlabel(f'PC1: Groundedness ({pca.explained_variance_ratio_[0]:.1%})')
+ax.set_ylabel(f'PC2: Moral Alignment ({pca.explained_variance_ratio_[1]:.1%})')
+ax.set_title('Fictional Characters in PC1-PC2 Space')
+ax.axhline(y=0, color='k', linestyle='-', alpha=0.2)
+ax.axvline(x=0, color='k', linestyle='-', alpha=0.2)
+ax.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig('results/pc1_pc2_scatter.png', dpi=150, bbox_inches='tight')
+print('results/pc1_pc2_scatter.png')
+#+end_src
+
+** Highlight Specific Characters
+
+#+begin_src python :results file
+fig, ax = plt.subplots(figsize=(14, 10))
+
+# Plot all characters in gray
+ax.scatter(transformed[:, 0], transformed[:, 1], alpha=0.3, s=20, c='gray')
+
+# Highlight specific groups
+highlights = {
+    'Harry Potter': (['harry_potter', 'ron_weasley', 'hermione_granger', 'voldemort', 
+                      'draco_malfoy', 'severus_snape'], 'blue'),
+    'Star Wars': (['darth_vader', 'luke_skywalker', 'yoda', 'obiwan_kenobi', 
+                   'han_solo', 'r2d2'], 'red'),
+    'Greek Gods': (['zeus', 'athena', 'apollo', 'poseidon', 'hades'], 'gold'),
+    'Villains': (['the_joker', 'cersei_lannister', 'sauron', 'thanos'], 'purple'),
+}
+
+for group_name, (chars, color) in highlights.items():
+    indices = []
+    for c in chars:
+        for i, name in enumerate(char_names):
+            if c.lower() in name.lower():
+                indices.append(i)
+                break
+    if indices:
+        ax.scatter(transformed[indices, 0], transformed[indices, 1], 
+                   s=80, c=color, label=group_name, edgecolors='black', linewidths=0.5)
+        for idx in indices:
+            name = char_names[idx].replace('_', ' ').title()
+            ax.annotate(name, (transformed[idx, 0], transformed[idx, 1]), 
+                        fontsize=7, alpha=0.9)
+
+ax.set_xlabel(f'PC1: Groundedness ({pca.explained_variance_ratio_[0]:.1%})')
+ax.set_ylabel(f'PC2: Moral Alignment ({pca.explained_variance_ratio_[1]:.1%})')
+ax.set_title('Franchise Clusters in Character Space')
+ax.legend(loc='upper right')
+ax.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig('results/franchise_clusters.png', dpi=150, bbox_inches='tight')
+print('results/franchise_clusters.png')
+#+end_src
 
 * Comparison to Assistant Axis Role Vectors
 
-Lu et al. extracted vectors for 463 generic roles (e.g., "accountant", "anarchist", "hero", "villain") using the same methodology. Their leading principal component—the "Assistant Axis"—captures variation in how much a model operates in its default helpful assistant mode.
+Lu et al. extracted vectors for 463 generic roles using the same methodology. When we project fictional characters onto their role-based PCA:
 
-When we project our 399 fictional characters onto the role-based PCA from the Assistant Axis paper:
+#+begin_src python
+# This requires the Christina/Assistant Axis vectors
+# Load if available
+christina_path = Path('../MindViruses/christina_vectors_backup/layer32_pos23.pt')
+if christina_path.exists():
+    import torch
+    christina = torch.load(christina_path, map_location='cpu', weights_only=False)
+    christina_pca = christina['pca']
+    christina_scaler = christina['scaler']
+    
+    # Project our characters onto Christina's space
+    scaled = christina_scaler.transform(activation_matrix)
+    projected = christina_pca.transform(scaled)
+    
+    # Calculate variance explained
+    total_var = np.var(scaled, axis=0).sum()
+    var_per_comp = np.var(projected, axis=0)
+    
+    print("Character variance explained by Assistant Axis role PCs:\n")
+    cumvar = 0
+    for i in [1, 5, 10, 20, 50, 100]:
+        if i <= len(var_per_comp):
+            cumvar = sum(var_per_comp[:i]) / total_var
+            print(f"  {i:3d} components: {cumvar:.1%}")
+else:
+    print("Assistant Axis vectors not found - skipping comparison")
+#+end_src
 
-| Role PCs | Character Variance Explained | R² |
-|----------|------------------------------|----|
-| 10 | 29% | 0.13 |
-| 50 | - | 0.34 |
-| 100 | - | 0.43 |
+*Finding*: The fictional character space is largely orthogonal to the generic role space. Role-based PCs only capture ~43% of fictional character variance with 100 components, while character-specific PCA captures 56% with just 10.
 
-*Finding*: The fictional character space is largely orthogonal to the generic role space. The 463 role-based PCs only capture 43% of fictional character variance (with 100 components), while our own PCA captures 56% with just 10 components.
-
-This suggests fictional characters occupy a distinct subspace that isn't well-described by combinations of generic roles. Characters are more than the sum of their role labels—they carry additional structure from their specific narratives, relationships, and cultural contexts.
+Characters are more than the sum of their role labels—they carry additional structure from their specific narratives, relationships, and cultural contexts.
 
 * Full Pipeline Reproduction
 
-** Requirements
-
-- GPU with ~80GB VRAM (e.g., A100) for Qwen 2.5 32B
-- Python 3.10+
-- [[https://github.com/astral-sh/uv][uv]] package manager
-
-** Step 1: Collect Characters from Wikidata
-
-#+begin_src bash :eval no
-# Fetch culturally significant fictional characters from Wikidata
-python src/data_collection/fetch_wikidata_characters.py \
-    --output data/wikidata_characters.json \
-    --min_sitelinks 10
-
-# Merge with hand-curated list
-python src/data_collection/merge_character_lists.py \
-    --wikidata data/wikidata_characters.json \
-    --curated data/curated_characters.json \
-    --output data/canonical_fictional_characters.json
-#+end_src
-
-The canonical list is in ~data/canonical_fictional_characters.json~ (411 characters).
-
-** Step 2: Generate Role Files
-
-#+begin_src bash :eval no
-# Convert characters to role instruction files for the assistant-axis pipeline
-python src/data_collection/convert_characters_to_roles.py \
-    --characters data/canonical_fictional_characters.json \
-    --output_dir outputs/character_roles
-#+end_src
-
-Each character gets a JSON file with system prompts like:
-#+begin_example
-You are roleplaying as {character}. Respond to questions as this character would.
-#+end_example
-
-** Step 3: Generate Model Responses
-
-Uses the [[https://github.com/safety-research/assistant-axis][assistant-axis]] pipeline.
-
-#+begin_src bash :eval no
-# Generate responses for all characters using Qwen 2.5 32B
-# Requires GPU with vLLM
-uv run python src/extraction/1_generate.py \
-    --model Qwen/Qwen2.5-32B-Instruct \
-    --roles_dir outputs/character_roles \
-    --output_dir outputs/responses \
-    --num_workers 4
-#+end_src
-
-** Step 4: Extract Activations
-
-#+begin_src bash :eval no
-# Extract activations from model's hidden states
-uv run python src/extraction/2_activations.py \
-    --model Qwen/Qwen2.5-32B-Instruct \
-    --responses_dir outputs/responses \
-    --output_dir outputs/activations \
-    --num_workers 4
-#+end_src
-
-Output: One ~.pt~ file per character, containing:
-- Keys: ~pos_p0_q0~, ~pos_p0_q1~, ... ~pos_p0_q239~ (240 questions)
-- Values: Tensors of shape ~[64, 5120]~ (64 layers × 5120 hidden dim)
-
-** Step 5: PCA Analysis
-
-#+begin_src bash :eval no
-uv run python src/analysis/fictional_character_pca.py \
-    --activation-dir outputs/activations \
-    --output-dir results \
-    --layer 32 \
-    --n-components 50
-#+end_src
-
-* Data
-
-| Field | Value |
-|-------|-------|
-| Model | Qwen 2.5 32B Instruct |
-| Layer | 32 (of 64) |
-| Hidden dim | 5120 |
-| Characters | 399 (3 corrupted: porthos, the_headless_horseman, wonder_woman) |
-| Questions per character | 240 |
-
-** File Format
-
-Each ~{character_name}.pt~ contains a dict:
-#+begin_src python
-{
-    'pos_p0_q0': tensor([64, 5120]),  # layer activations for question 0
-    'pos_p0_q1': tensor([64, 5120]),  # layer activations for question 1
-    ...
-    'pos_p0_q239': tensor([64, 5120]),
-}
-#+end_src
+See [[file:README.org][README.org]] for complete reproduction instructions.
 
 * References
 

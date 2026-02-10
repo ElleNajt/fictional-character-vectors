@@ -1,0 +1,109 @@
+#+TITLE: Fictional Character Vectors
+#+AUTHOR: Elle
+
+PCA analysis of fictional character activations in Qwen 2.5 32B, extending the methodology from [[https://arxiv.org/abs/2601.10387][Lu et al. (2026) "The Assistant Axis"]].
+
+* Quick Start
+
+#+begin_src bash
+# Clone and setup
+git clone https://github.com/ElleNajt/fictional-character-vectors
+cd fictional-character-vectors
+uv venv && uv pip install torch numpy scikit-learn pandas matplotlib seaborn
+
+# Open the analysis notebook
+emacs analysis.org  # or your preferred org-mode editor
+#+end_src
+
+Then run the code blocks in ~analysis.org~ to explore the results.
+
+* Key Findings
+
+- *PC1 (18%)*: Groundedness - human/relatable characters vs divine/mythological beings
+- *PC2 (8%)*: Moral alignment - villains vs innocents
+- *Franchise clustering*: Star Wars, Harry Potter, anime characters cluster together
+- *Orthogonal to roles*: Generic role vectors only explain 43% of character variance
+
+* Project Structure
+
+#+begin_example
+fictional-character-vectors/
+├── analysis.org                         # Main analysis notebook (run this!)
+├── README.org                           # This file
+├── pyproject.toml
+├── data/
+│   └── canonical_fictional_characters.json   # 411 character list
+├── src/
+│   ├── analysis/
+│   │   └── fictional_character_pca.py        # PCA analysis
+│   ├── data_collection/
+│   │   ├── fetch_wikidata_characters.py      # Get characters from Wikidata
+│   │   ├── merge_character_lists.py          # Merge with curated list
+│   │   ├── generate_character_variants.py    # Generate prompt variants
+│   │   └── convert_characters_to_roles.py    # Create role files
+│   └── extraction/
+│       ├── 1_generate.py                     # Generate model responses
+│       └── 2_activations.py                  # Extract activations
+└── results/
+    └── fictional_character_analysis.pkl      # Pre-computed results
+#+end_example
+
+* Full Reproduction
+
+To reproduce from scratch (requires GPU with ~80GB VRAM):
+
+** Step 1: Collect Characters
+
+#+begin_src bash
+python src/data_collection/fetch_wikidata_characters.py \
+    --output data/wikidata_characters.json \
+    --min_sitelinks 10
+
+python src/data_collection/merge_character_lists.py \
+    --wikidata data/wikidata_characters.json \
+    --curated data/curated_characters.json \
+    --output data/canonical_fictional_characters.json
+#+end_src
+
+** Step 2: Generate Role Files
+
+#+begin_src bash
+python src/data_collection/convert_characters_to_roles.py \
+    --characters data/canonical_fictional_characters.json \
+    --output_dir outputs/character_roles
+#+end_src
+
+** Step 3: Generate Responses (GPU required)
+
+#+begin_src bash
+uv run python src/extraction/1_generate.py \
+    --model Qwen/Qwen2.5-32B-Instruct \
+    --roles_dir outputs/character_roles \
+    --output_dir outputs/responses \
+    --num_workers 4
+#+end_src
+
+** Step 4: Extract Activations (GPU required)
+
+#+begin_src bash
+uv run python src/extraction/2_activations.py \
+    --model Qwen/Qwen2.5-32B-Instruct \
+    --responses_dir outputs/responses \
+    --output_dir outputs/activations \
+    --num_workers 4
+#+end_src
+
+** Step 5: Run PCA
+
+#+begin_src bash
+uv run python src/analysis/fictional_character_pca.py \
+    --activation-dir outputs/activations \
+    --output-dir results \
+    --layer 32 \
+    --n-components 50
+#+end_src
+
+* References
+
+- Lu, C., Gallagher, J., Michala, J., Fish, K., & Lindsey, J. (2026). [[https://arxiv.org/abs/2601.10387][The Assistant Axis: Situating and Stabilizing the Default Persona of Language Models]]. arXiv:2601.10387.
+- [[https://github.com/safety-research/assistant-axis][safety-research/assistant-axis]] - Original extraction pipeline
