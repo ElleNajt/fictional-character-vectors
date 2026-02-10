@@ -331,7 +331,7 @@ def main():
     }
 
     # Save to JSON
-    output_file = "/workspace/wikidata_characters_ranked.json"
+    output_file = "wikidata_characters_ranked.json"
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
 

@@ -77,7 +77,9 @@ def merge_character_data(manual_char: Dict, wikidata_char: Dict) -> Dict:
 
     # Add Wikidata fields
     merged["wikidata_id"] = wikidata_char.get("wikidata_id", "")
-    merged["wikipedia_languages"] = wikidata_char.get("sitelinks", wikidata_char.get("wikipedia_languages", 0))
+    merged["wikipedia_languages"] = wikidata_char.get(
+        "sitelinks", wikidata_char.get("wikipedia_languages", 0)
+    )
     merged["wikidata_description"] = wikidata_char.get("description", "")
 
     return merged
@@ -157,7 +159,9 @@ def create_hybrid_dataset(
             "era": "Unknown",
             "archetype": char.get("description", ""),
             "wikidata_id": char["wikidata_id"],
-            "wikipedia_languages": char.get("sitelinks", char.get("wikipedia_languages", 0)),
+            "wikipedia_languages": char.get(
+                "sitelinks", char.get("wikipedia_languages", 0)
+            ),
             "notes": "Added from Wikidata top rankings",
         }
         wikidata_additions.append(new_char)
@@ -199,10 +203,10 @@ def main():
     print("Merging Manual and Wikidata Character Lists")
     print("=" * 80)
 
-    # File paths
-    manual_file = "/workspace/canonical_fictional_characters.json"
-    wikidata_file = "/workspace/wikidata_characters_ranked.json"
-    output_file = "/workspace/comprehensive_characters_dataset.json"
+    # File paths (relative to working directory)
+    manual_file = "data/canonical_fictional_characters.json"
+    wikidata_file = "wikidata_characters_ranked.json"
+    output_file = "comprehensive_characters_dataset.json"
 
     # Create hybrid dataset
     hybrid_data = create_hybrid_dataset(

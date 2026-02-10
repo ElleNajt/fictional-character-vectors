@@ -193,13 +193,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--dataset",
         type=str,
-        default="/workspace/comprehensive_characters_dataset.json",
+        default="comprehensive_characters_dataset.json",
         help="Path to character dataset JSON",
     )
     parser.add_argument(
         "--output-dir",
         type=str,
-        default="/workspace/character_roles_5variants",
+        default="character_roles_5variants",
         help="Output directory for role files",
     )
 

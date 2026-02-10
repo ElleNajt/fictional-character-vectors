@@ -4,8 +4,8 @@ Convert canonical_fictional_characters.json to role files for the assistant-axis
 
 Usage:
     python convert_characters_to_roles.py \
-        --characters canonical_fictional_characters.json \
-        --output_dir /workspace/character_roles \
+        --characters data/canonical_fictional_characters.json \
+        --output_dir outputs/character_roles \
         --max_characters 20
 """
 
