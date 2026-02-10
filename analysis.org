@@ -840,13 +840,9 @@ Potential follow-ups that would strengthen or challenge these findings:
 
 1. *Dense franchise sampling*: Collect 50+ characters from a single franchise (e.g., Naruto, Harry Potter, Marvel) and run within-franchise PCA. What structure emerges? Hero/villain? Protagonist/supporting? Generations? This would test whether franchise-specific directions encode meaningful within-universe structure, not just "this is from Naruto."
 
-2. *Layer sweep*: Extract activations at layers 16, 24, 32, 40 and compare PCA structure
+2. *Cross-model comparison*: Run same characters through Llama 3, GPT-4, compare PC structure. Do the same archetypal dimensions emerge, or is this Qwen-specific?
 
-3. *Cross-model comparison*: Run same characters through Llama 3, GPT-4, compare PC structure
-
-4. *Activation patching*: Can we make Harry Potter "more Star Wars" by adding the franchise direction?
-
-5. *Random Wikidata sample*: Use top-N by Wikipedia language count without curation
+3. *Wikipedia pages as "characters"*: Have the model roleplay as non-person entities - concepts (Democracy, Quantum Mechanics), places (New York City, Amazon Rainforest), events (French Revolution, Moon Landing), objects (Mona Lisa, the Internet). Do the same archetypal PCs apply? Or does completely different structure emerge for non-person entities?
 
 * Full Pipeline Reproduction
 
