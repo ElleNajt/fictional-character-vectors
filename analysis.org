@@ -1,0 +1,163 @@
+#+TITLE: Principal Components of Fictional Character Space
+#+AUTHOR: Elle
+#+DATE: 2026-02-10
+#+PROPERTY: header-args:python :results output drawer :python "./.venv/bin/python3" :async t :session char_pca
+
+* Overview
+
+We extracted activations from Qwen 2.5 32B for 399 fictional characters (402 total, 3 corrupted files skipped). Each character was prompted with 240 questions, and we averaged the layer 32 activations across all questions to get a single 5120-dimensional vector per character.
+
+PCA on this space reveals interpretable axes of variation.
+
+* Key Results
+
+| Metric | Value |
+|--------|-------|
+| Characters | 399 |
+| Hidden dim | 5120 |
+| Layer | 32 |
+| PC1 variance | 18.0% |
+| PC2 variance | 8.1% |
+| First 10 PCs | 56.4% |
+| First 50 PCs | 84.5% |
+
+* Principal Component Interpretations
+
+** PC1 (18.0%): Groundedness / Relatability
+
+*High*: Modern, relatable, often comedic characters
+- Holden Caulfield, Saitama, Goku, Ron Weasley, Spider-Man
+
+*Low*: Ancient gods, ethereal/mythological beings
+- Quetzalcoatl, Anubis, Osiris, Ra, Galadriel
+
+This axis seems to capture how "human" and accessible a character is vs. how transcendent/divine.
+
+** PC2 (8.1%): Moral Alignment
+
+*High*: Villains, morally dark characters
+- Voldemort, Tyler Durden, Cersei Lannister, Bellatrix, The Joker
+
+*Low*: Innocent, pure characters
+- Snow White, Totoro, Sailor Moon, Sita, Little Red Riding Hood
+
+A clear good/evil axis.
+
+** PC3 (6.9%): Absurdist Comedy vs. Stoic Seriousness
+
+*High*: Comic, absurdist, Shakespearean fools
+- Bottom, Falstaff, Mad Hatter, Alice, Puck
+
+*Low*: Serious, stoic warriors
+- Mace Windu, Darth Vader, Black Panther, Sasuke, The Terminator
+
+** PC4 (5.2%): Refined/Intellectual vs. Physical/Primal
+
+*High*: Refined, intellectual, emotionally reserved
+- Mr. Darcy, Elizabeth Bennet, Spock, HAL 9000, Jane Eyre
+
+*Low*: Physical, primal, action-oriented
+- Shango, Conan the Barbarian, Popeye, Maui, Long John Silver
+
+** PC5 (4.3%): Whimsical Eccentricity vs. Grim Honor
+
+*High*: Whimsical, eccentric, chaotic
+- Willy Wonka, Queen of Hearts, Mad Hatter, Wicked Witch, Vishnu
+
+*Low*: Grim, honorable, duty-bound
+- Jon Snow, Ned Stark, Arya Stark, Aragorn, Boromir
+
+** PC6 (3.5%): Star Wars Universe
+
+*High*: Star Wars characters
+- Darth Vader, R2D2, Darth Maul, Chewbacca, C3PO
+
+*Low*: Existentialist literary characters
+- Meursault, Holden Caulfield, Krishna, Vishnu, Tyler Durden
+
+Interesting that this picks up franchise clustering.
+
+** PC7 (3.1%): Otherworldly Creatures vs. Indian Epic Heroes
+
+*High*: Magical creatures, fairy tale figures
+- Gollum, Mami Wata, Totoro, Rapunzel, The Little Prince
+
+*Low*: Indian epic heroes (Ramayana, Mahabharata)
+- Rama, Arjuna, Bhima, Krishna, Malvolio
+
+** PC8 (2.9%): Alienation vs. Suave Competence
+
+*High*: Alienated, isolated, existentially troubled
+- Gollum, Big Brother, Meursault, Okonkwo, Winston Smith
+
+*Low*: Suave, competent, action heroes
+- Iron Man, James Bond, Catwoman, Robert Langdon
+
+** PC9 (2.4%): Western Media vs. Anime
+
+*High*: Western (especially Star Wars, Coen Brothers)
+- The Dude, Obi-Wan Kenobi, R2D2, Luke Skywalker, Qui-Gon Jinn
+
+*Low*: Anime characters
+- Nezuko Kamado, Sasuke Uchiha, Vegeta, Tanjiro Kamado, Sailor Moon
+
+** PC10 (2.0%): Harry Potter Universe vs. Robots/Monsters
+
+*High*: Harry Potter characters
+- Draco Malfoy, Ron Weasley, Harry Potter, Severus Snape, Hagrid
+
+*Low*: Non-human entities (robots, monsters)
+- The Terminator, R2D2, Frankenstein's Monster, Buzz Lightyear
+
+* Observations
+
+1. *The first two PCs are highly interpretable*: groundedness (18%) and morality (8%) together explain 26% of variance.
+
+2. *Franchise clustering emerges naturally*: PCs 6, 9, and 10 pick up Star Wars, anime, and Harry Potter respectively. The model has learned that characters from the same fictional universe share embedding space.
+
+3. *Cultural origin matters*: PC7 separates Indian epic heroes from Western fairy tale creatures.
+
+4. *Genre matters*: PC3 separates comedy from action, PC4 separates intellectual drama from physical action.
+
+5. *The space is high-dimensional*: 50 PCs only capture 84.5% of variance, suggesting rich structure.
+
+* Comparison to Christina's Role Vectors
+
+Christina extracted vectors for 463 generic roles (e.g., "accountant", "anarchist", "hero", "villain") using a similar methodology.
+
+When we project our 399 fictional characters onto Christina's role-based PCA:
+
+| Christina PCs | Character Variance Explained | R² |
+|---------------|------------------------------|----|
+| 10 | 29% | 0.13 |
+| 50 | - | 0.34 |
+| 100 | - | 0.43 |
+
+*Finding*: The fictional character space is largely orthogonal to the generic role space. Christina's 463 role-based PCs only capture 43% of fictional character variance (with 100 components), while our own PCA captures 56% with just 10 components.
+
+This suggests fictional characters occupy a distinct subspace that isn't well-described by combinations of generic roles. Characters are more than the sum of their role labels.
+
+* Reproducibility
+
+#+begin_src bash :results output :eval no
+# On AFP RunPod cluster
+cd /workspace-vast/lnajt/persona_vectors
+
+# Data location
+ls fictional_characters/character_activations_qwen3_v0/*.pt | wc -l  # 402 files
+
+# Run analysis
+uv run --with torch --with scikit-learn --with numpy --with tqdm \
+    python fictional_character_analysis.py
+#+end_src
+
+* Data
+
+- Model: Qwen 2.5 32B
+- Layer: 32 (of 64)
+- Hidden dim: 5120
+- Characters: 399 (3 corrupted: porthos, the_headless_horseman, wonder_woman)
+- Questions per character: 240
+- Activation file format: ~{char_name}.pt~ containing dict of tensors
+
+Location: ~/workspace-vast/lnajt/persona_vectors/fictional_characters/character_activations_qwen3_v0/~

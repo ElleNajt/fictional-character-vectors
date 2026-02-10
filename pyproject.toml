@@ -1,0 +1,17 @@
+[project]
+name = "fictional-character-vectors"
+version = "0.1.0"
+description = "PCA analysis of fictional character activations in Qwen 2.5 32B"
+requires-python = ">=3.10"
+dependencies = [
+    "torch",
+    "numpy",
+    "scikit-learn",
+    "tqdm",
+    "matplotlib",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "ipython",
+]

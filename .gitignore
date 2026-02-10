@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.env
+
+# Data (too large for git)
+data/*.pt
+data/*.tar
+results/*.pkl
+
+# OS
+.DS_Store
+
+# Editor
+*.swp
+*~
