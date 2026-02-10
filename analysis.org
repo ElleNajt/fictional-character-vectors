@@ -838,10 +838,15 @@ We interpret PCs post-hoc based on which characters load high/low. These interpr
 
 Potential follow-ups that would strengthen or challenge these findings:
 
-1. *Layer sweep*: Extract activations at layers 16, 24, 32, 40 and compare PCA structure
-2. *Cross-model comparison*: Run same characters through Llama 3, GPT-4, compare PC structure
-3. *Activation patching*: Can we make Harry Potter "more Star Wars" by adding the franchise direction?
-4. *Random Wikidata sample*: Use top-N by Wikipedia language count without curation
+1. *Dense franchise sampling*: Collect 50+ characters from a single franchise (e.g., Naruto, Harry Potter, Marvel) and run within-franchise PCA. What structure emerges? Hero/villain? Protagonist/supporting? Generations? This would test whether franchise-specific directions encode meaningful within-universe structure, not just "this is from Naruto."
+
+2. *Layer sweep*: Extract activations at layers 16, 24, 32, 40 and compare PCA structure
+
+3. *Cross-model comparison*: Run same characters through Llama 3, GPT-4, compare PC structure
+
+4. *Activation patching*: Can we make Harry Potter "more Star Wars" by adding the franchise direction?
+
+5. *Random Wikidata sample*: Use top-N by Wikipedia language count without curation
 
 * Full Pipeline Reproduction
 
