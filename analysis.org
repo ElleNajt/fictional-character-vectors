@@ -137,27 +137,104 @@ When we project our 399 fictional characters onto Christina's role-based PCA:
 
 This suggests fictional characters occupy a distinct subspace that isn't well-described by combinations of generic roles. Characters are more than the sum of their role labels.
 
-* Reproducibility
+* Full Pipeline Reproduction
 
-#+begin_src bash :results output :eval no
-# On AFP RunPod cluster
-cd /workspace-vast/lnajt/persona_vectors
+** Step 1: Collect Characters from Wikidata
 
-# Data location
-ls fictional_characters/character_activations_qwen3_v0/*.pt | wc -l  # 402 files
+#+begin_src bash :eval no
+# Fetch culturally significant fictional characters from Wikidata
+python src/data_collection/fetch_wikidata_characters.py \
+    --output data/wikidata_characters.json \
+    --min_sitelinks 10
 
-# Run analysis
-uv run --with torch --with scikit-learn --with numpy --with tqdm \
-    python fictional_character_analysis.py
+# Merge with hand-curated list
+python src/data_collection/merge_character_lists.py \
+    --wikidata data/wikidata_characters.json \
+    --curated data/curated_characters.json \
+    --output data/canonical_fictional_characters.json
+#+end_src
+
+The canonical list is in ~data/canonical_fictional_characters.json~ (411 characters).
+
+** Step 2: Generate Role Files
+
+#+begin_src bash :eval no
+# Convert characters to role instruction files for the assistant-axis pipeline
+python src/data_collection/convert_characters_to_roles.py \
+    --characters data/canonical_fictional_characters.json \
+    --output_dir outputs/character_roles
+#+end_src
+
+Each character gets a JSON file with system prompts like:
+#+begin_example
+You are roleplaying as {character}. Respond to questions as this character would.
+#+end_example
+
+** Step 3: Generate Model Responses
+
+Uses the [[https://github.com/safety-research/assistant-axis][assistant-axis]] pipeline.
+
+#+begin_src bash :eval no
+# Generate responses for all characters using Qwen 2.5 32B
+# Requires GPU with vLLM
+uv run python src/extraction/1_generate.py \
+    --model Qwen/Qwen2.5-32B-Instruct \
+    --roles_dir outputs/character_roles \
+    --output_dir outputs/responses \
+    --num_workers 4
+#+end_src
+
+** Step 4: Extract Activations
+
+#+begin_src bash :eval no
+# Extract activations from model's hidden states
+uv run python src/extraction/2_activations.py \
+    --model Qwen/Qwen2.5-32B-Instruct \
+    --responses_dir outputs/responses \
+    --output_dir outputs/activations \
+    --num_workers 4
+#+end_src
+
+Output: One ~.pt~ file per character, containing:
+- Keys: ~pos_p0_q0~, ~pos_p0_q1~, ... ~pos_p0_q239~ (240 questions)
+- Values: Tensors of shape ~[64, 5120]~ (64 layers × 5120 hidden dim)
+
+** Step 5: PCA Analysis
+
+#+begin_src bash :eval no
+uv run python src/analysis/fictional_character_pca.py \
+    --activation-dir outputs/activations \
+    --output-dir results \
+    --layer 32 \
+    --n-components 50
 #+end_src
 
 * Data
 
-- Model: Qwen 2.5 32B
-- Layer: 32 (of 64)
-- Hidden dim: 5120
-- Characters: 399 (3 corrupted: porthos, the_headless_horseman, wonder_woman)
-- Questions per character: 240
-- Activation file format: ~{char_name}.pt~ containing dict of tensors
+| Field | Value |
+|-------|-------|
+| Model | Qwen 2.5 32B Instruct |
+| Layer | 32 (of 64) |
+| Hidden dim | 5120 |
+| Characters | 399 (3 corrupted: porthos, the_headless_horseman, wonder_woman) |
+| Questions per character | 240 |
 
-Location: ~/workspace-vast/lnajt/persona_vectors/fictional_characters/character_activations_qwen3_v0/~
+** File Format
+
+Each ~{character_name}.pt~ contains a dict:
+#+begin_src python
+{
+    'pos_p0_q0': tensor([64, 5120]),  # layer activations for question 0
+    'pos_p0_q1': tensor([64, 5120]),  # layer activations for question 1
+    ...
+    'pos_p0_q239': tensor([64, 5120]),
+}
+#+end_src
+
+** Remote Location
+
+AFP RunPod cluster: ~/workspace-vast/lnajt/persona_vectors/fictional_characters/character_activations_qwen3_v0/~
+
+* Dependencies
+
+This project uses code from [[https://github.com/safety-research/assistant-axis][assistant-axis]] for the response generation and activation extraction pipeline.

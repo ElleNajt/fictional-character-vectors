@@ -1,0 +1,2650 @@
+{
+  "metadata": {
+    "title": "Canonical Fictional Characters for ML Research",
+    "description": "A comprehensive list of 200+ culturally significant fictional characters from diverse global sources for testing persona space representation in LLMs",
+    "total_characters": 370,
+    "sources": [
+      "AFI's 100 Heroes & Villains",
+      "Literary character surveys and rankings",
+      "MyAnimeList and anime/manga rankings",
+      "Greek mythology",
+      "Norse mythology",
+      "Egyptian mythology",
+      "Hindu epics (Mahabharata, Ramayana)",
+      "Chinese classical literature",
+      "Japanese classical literature",
+      "Arabian Nights",
+      "African folklore and literature",
+      "Latin American literature",
+      "Video game character rankings",
+      "Contemporary literature and film"
+    ],
+    "version": "1.0",
+    "compiled_date": "2026-01-12"
+  },
+  "characters": [
+    {
+      "name": "Atticus Finch",
+      "source": "To Kill a Mockingbird",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "moral hero, defender of justice",
+      "notes": "#1 AFI Hero"
+    },
+    {
+      "name": "Dr. Hannibal Lecter",
+      "source": "The Silence of the Lambs",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "brilliant psychopath, cannibalistic villain",
+      "notes": "#1 AFI Villain"
+    },
+    {
+      "name": "Indiana Jones",
+      "source": "Raiders of the Lost Ark",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "adventurer, archaeologist hero",
+      "notes": "AFI Hero #2"
+    },
+    {
+      "name": "James Bond",
+      "source": "007 series",
+      "media_type": "literature/film",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "spy, suave agent",
+      "notes": "AFI Hero #3"
+    },
+    {
+      "name": "Darth Vader",
+      "source": "Star Wars",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "fallen hero, redeemed villain",
+      "notes": "AFI Villain #3"
+    },
+    {
+      "name": "Norman Bates",
+      "source": "Psycho",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "disturbed killer",
+      "notes": "AFI Villain #2"
+    },
+    {
+      "name": "Rick Blaine",
+      "source": "Casablanca",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "cynical romantic hero"
+    },
+    {
+      "name": "Ellen Ripley",
+      "source": "Alien",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "female action hero, survivor"
+    },
+    {
+      "name": "The Wicked Witch of the West",
+      "source": "The Wizard of Oz",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "evil witch"
+    },
+    {
+      "name": "Nurse Ratched",
+      "source": "One Flew Over the Cuckoo's Nest",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "authoritarian oppressor"
+    },
+    {
+      "name": "Rocky Balboa",
+      "source": "Rocky",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "underdog fighter"
+    },
+    {
+      "name": "Clarice Starling",
+      "source": "The Silence of the Lambs",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "determined FBI agent"
+    },
+    {
+      "name": "Sherlock Holmes",
+      "source": "Sherlock Holmes stories",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "brilliant detective"
+    },
+    {
+      "name": "Hamlet",
+      "source": "Hamlet",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "tragic prince, philosopher"
+    },
+    {
+      "name": "Jay Gatsby",
+      "source": "The Great Gatsby",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "tragic romantic, nouveau riche"
+    },
+    {
+      "name": "Holden Caulfield",
+      "source": "The Catcher in the Rye",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "alienated youth"
+    },
+    {
+      "name": "Don Quixote",
+      "source": "Don Quixote",
+      "media_type": "literature",
+      "culture": "Spanish",
+      "era": "17th century",
+      "archetype": "delusional idealist, knight-errant"
+    },
+    {
+      "name": "Sancho Panza",
+      "source": "Don Quixote",
+      "media_type": "literature",
+      "culture": "Spanish",
+      "era": "17th century",
+      "archetype": "practical sidekick"
+    },
+    {
+      "name": "Ebenezer Scrooge",
+      "source": "A Christmas Carol",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "miser, redeemed villain"
+    },
+    {
+      "name": "Captain Ahab",
+      "source": "Moby-Dick",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "19th century",
+      "archetype": "obsessed hunter"
+    },
+    {
+      "name": "Huckleberry Finn",
+      "source": "The Adventures of Huckleberry Finn",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "19th century",
+      "archetype": "free-spirited boy"
+    },
+    {
+      "name": "Anna Karenina",
+      "source": "Anna Karenina",
+      "media_type": "literature",
+      "culture": "Russian",
+      "era": "19th century",
+      "archetype": "tragic adulteress"
+    },
+    {
+      "name": "Harry Potter",
+      "source": "Harry Potter series",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "Contemporary",
+      "archetype": "chosen one, wizard hero"
+    },
+    {
+      "name": "Hermione Granger",
+      "source": "Harry Potter series",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "Contemporary",
+      "archetype": "brilliant witch, loyal friend"
+    },
+    {
+      "name": "Lord Voldemort",
+      "source": "Harry Potter series",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "Contemporary",
+      "archetype": "dark lord, genocidal wizard"
+    },
+    {
+      "name": "Katniss Everdeen",
+      "source": "The Hunger Games",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "rebel hero, survivor"
+    },
+    {
+      "name": "Elizabeth Bennet",
+      "source": "Pride and Prejudice",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "spirited heroine"
+    },
+    {
+      "name": "Mr. Darcy",
+      "source": "Pride and Prejudice",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "proud gentleman"
+    },
+    {
+      "name": "Jane Eyre",
+      "source": "Jane Eyre",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "independent governess"
+    },
+    {
+      "name": "Hester Prynne",
+      "source": "The Scarlet Letter",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "19th century",
+      "archetype": "stigmatized woman"
+    },
+    {
+      "name": "Scarlett O'Hara",
+      "source": "Gone with the Wind",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "determined survivor"
+    },
+    {
+      "name": "Rhett Butler",
+      "source": "Gone with the Wind",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "roguish gentleman"
+    },
+    {
+      "name": "Odysseus",
+      "source": "The Odyssey",
+      "media_type": "epic poetry",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "cunning hero, wanderer"
+    },
+    {
+      "name": "Achilles",
+      "source": "The Iliad",
+      "media_type": "epic poetry",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "warrior hero, tragic fighter"
+    },
+    {
+      "name": "Hector",
+      "source": "The Iliad",
+      "media_type": "epic poetry",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "noble warrior"
+    },
+    {
+      "name": "Hercules (Heracles)",
+      "source": "Greek mythology",
+      "media_type": "mythology",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "demigod hero, strongest man"
+    },
+    {
+      "name": "Perseus",
+      "source": "Greek mythology",
+      "media_type": "mythology",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "monster slayer"
+    },
+    {
+      "name": "Medusa",
+      "source": "Greek mythology",
+      "media_type": "mythology",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "cursed monster"
+    },
+    {
+      "name": "Medea",
+      "source": "Greek mythology",
+      "media_type": "mythology",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "vengeful sorceress"
+    },
+    {
+      "name": "Zeus",
+      "source": "Greek mythology",
+      "media_type": "mythology",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "king of gods"
+    },
+    {
+      "name": "Athena",
+      "source": "Greek mythology",
+      "media_type": "mythology",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "goddess of wisdom and war"
+    },
+    {
+      "name": "Aphrodite",
+      "source": "Greek mythology",
+      "media_type": "mythology",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "goddess of love"
+    },
+    {
+      "name": "Hades",
+      "source": "Greek mythology",
+      "media_type": "mythology",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "god of underworld"
+    },
+    {
+      "name": "Poseidon",
+      "source": "Greek mythology",
+      "media_type": "mythology",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "god of the sea"
+    },
+    {
+      "name": "Odin",
+      "source": "Norse mythology",
+      "media_type": "mythology",
+      "culture": "Norse",
+      "era": "Medieval",
+      "archetype": "all-father, god of wisdom"
+    },
+    {
+      "name": "Thor",
+      "source": "Norse mythology",
+      "media_type": "mythology",
+      "culture": "Norse",
+      "era": "Medieval",
+      "archetype": "god of thunder"
+    },
+    {
+      "name": "Loki",
+      "source": "Norse mythology",
+      "media_type": "mythology",
+      "culture": "Norse",
+      "era": "Medieval",
+      "archetype": "trickster god"
+    },
+    {
+      "name": "Freya",
+      "source": "Norse mythology",
+      "media_type": "mythology",
+      "culture": "Norse",
+      "era": "Medieval",
+      "archetype": "goddess of love and war"
+    },
+    {
+      "name": "Baldur",
+      "source": "Norse mythology",
+      "media_type": "mythology",
+      "culture": "Norse",
+      "era": "Medieval",
+      "archetype": "god of light and purity"
+    },
+    {
+      "name": "Ra",
+      "source": "Egyptian mythology",
+      "media_type": "mythology",
+      "culture": "Egyptian",
+      "era": "Ancient",
+      "archetype": "sun god, creator"
+    },
+    {
+      "name": "Osiris",
+      "source": "Egyptian mythology",
+      "media_type": "mythology",
+      "culture": "Egyptian",
+      "era": "Ancient",
+      "archetype": "god of afterlife"
+    },
+    {
+      "name": "Isis",
+      "source": "Egyptian mythology",
+      "media_type": "mythology",
+      "culture": "Egyptian",
+      "era": "Ancient",
+      "archetype": "goddess of magic, motherhood"
+    },
+    {
+      "name": "Set",
+      "source": "Egyptian mythology",
+      "media_type": "mythology",
+      "culture": "Egyptian",
+      "era": "Ancient",
+      "archetype": "god of chaos and storms"
+    },
+    {
+      "name": "Horus",
+      "source": "Egyptian mythology",
+      "media_type": "mythology",
+      "culture": "Egyptian",
+      "era": "Ancient",
+      "archetype": "falcon god, sky god"
+    },
+    {
+      "name": "Anubis",
+      "source": "Egyptian mythology",
+      "media_type": "mythology",
+      "culture": "Egyptian",
+      "era": "Ancient",
+      "archetype": "god of death and mummification"
+    },
+    {
+      "name": "Thoth",
+      "source": "Egyptian mythology",
+      "media_type": "mythology",
+      "culture": "Egyptian",
+      "era": "Ancient",
+      "archetype": "god of wisdom and writing"
+    },
+    {
+      "name": "Sun Wukong (Monkey King)",
+      "source": "Journey to the West",
+      "media_type": "literature",
+      "culture": "Chinese",
+      "era": "16th century",
+      "archetype": "trickster hero, immortal rebel"
+    },
+    {
+      "name": "Tang Sanzang",
+      "source": "Journey to the West",
+      "media_type": "literature",
+      "culture": "Chinese",
+      "era": "16th century",
+      "archetype": "Buddhist monk, pilgrim"
+    },
+    {
+      "name": "Liu Bei",
+      "source": "Romance of the Three Kingdoms",
+      "media_type": "literature",
+      "culture": "Chinese",
+      "era": "14th century",
+      "archetype": "virtuous ruler"
+    },
+    {
+      "name": "Cao Cao",
+      "source": "Romance of the Three Kingdoms",
+      "media_type": "literature",
+      "culture": "Chinese",
+      "era": "14th century",
+      "archetype": "cunning strategist"
+    },
+    {
+      "name": "Zhuge Liang",
+      "source": "Romance of the Three Kingdoms",
+      "media_type": "literature",
+      "culture": "Chinese",
+      "era": "14th century",
+      "archetype": "brilliant strategist, advisor"
+    },
+    {
+      "name": "Guan Yu",
+      "source": "Romance of the Three Kingdoms",
+      "media_type": "literature",
+      "culture": "Chinese",
+      "era": "14th century",
+      "archetype": "loyal warrior, deified general"
+    },
+    {
+      "name": "Zhang Fei",
+      "source": "Romance of the Three Kingdoms",
+      "media_type": "literature",
+      "culture": "Chinese",
+      "era": "14th century",
+      "archetype": "fierce warrior"
+    },
+    {
+      "name": "Mulan",
+      "source": "Ballad of Mulan",
+      "media_type": "folklore",
+      "culture": "Chinese",
+      "era": "Ancient/Medieval",
+      "archetype": "female warrior, filial daughter"
+    },
+    {
+      "name": "Rama",
+      "source": "Ramayana",
+      "media_type": "epic",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "ideal king, avatar of Vishnu"
+    },
+    {
+      "name": "Sita",
+      "source": "Ramayana",
+      "media_type": "epic",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "devoted wife, symbol of purity"
+    },
+    {
+      "name": "Hanuman",
+      "source": "Ramayana",
+      "media_type": "epic",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "monkey god, loyal devotee"
+    },
+    {
+      "name": "Ravana",
+      "source": "Ramayana",
+      "media_type": "epic",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "demon king, scholar villain"
+    },
+    {
+      "name": "Arjuna",
+      "source": "Mahabharata",
+      "media_type": "epic",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "warrior prince, archer"
+    },
+    {
+      "name": "Krishna",
+      "source": "Mahabharata",
+      "media_type": "epic",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "divine avatar, philosopher"
+    },
+    {
+      "name": "Draupadi",
+      "source": "Mahabharata",
+      "media_type": "epic",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "strong-willed queen"
+    },
+    {
+      "name": "Karna",
+      "source": "Mahabharata",
+      "media_type": "epic",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "tragic hero, loyal friend"
+    },
+    {
+      "name": "Bhima",
+      "source": "Mahabharata",
+      "media_type": "epic",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "strongest warrior"
+    },
+    {
+      "name": "Yudhishthira",
+      "source": "Mahabharata",
+      "media_type": "epic",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "righteous king"
+    },
+    {
+      "name": "Scheherazade",
+      "source": "One Thousand and One Nights",
+      "media_type": "folklore",
+      "culture": "Persian/Arabic",
+      "era": "Medieval",
+      "archetype": "clever storyteller"
+    },
+    {
+      "name": "Shahryar",
+      "source": "One Thousand and One Nights",
+      "media_type": "folklore",
+      "culture": "Persian/Arabic",
+      "era": "Medieval",
+      "archetype": "betrayed king"
+    },
+    {
+      "name": "Aladdin",
+      "source": "One Thousand and One Nights",
+      "media_type": "folklore",
+      "culture": "Arabic",
+      "era": "Medieval",
+      "archetype": "street urchin hero"
+    },
+    {
+      "name": "Sinbad the Sailor",
+      "source": "One Thousand and One Nights",
+      "media_type": "folklore",
+      "culture": "Arabic",
+      "era": "Medieval",
+      "archetype": "adventurous sailor"
+    },
+    {
+      "name": "Ali Baba",
+      "source": "One Thousand and One Nights",
+      "media_type": "folklore",
+      "culture": "Arabic",
+      "era": "Medieval",
+      "archetype": "clever woodcutter"
+    },
+    {
+      "name": "Anansi",
+      "source": "West African folklore",
+      "media_type": "folklore",
+      "culture": "West African (Akan)",
+      "era": "Traditional",
+      "archetype": "spider trickster"
+    },
+    {
+      "name": "Sundiata",
+      "source": "Epic of Sundiata",
+      "media_type": "epic",
+      "culture": "West African (Mali)",
+      "era": "Medieval",
+      "archetype": "founder-hero, disabled warrior"
+    },
+    {
+      "name": "Mami Wata",
+      "source": "African folklore",
+      "media_type": "folklore",
+      "culture": "West African",
+      "era": "Traditional",
+      "archetype": "water spirit, mermaid goddess"
+    },
+    {
+      "name": "Shango",
+      "source": "Yoruba mythology",
+      "media_type": "mythology",
+      "culture": "West African (Yoruba)",
+      "era": "Traditional",
+      "archetype": "thunder god, warrior king"
+    },
+    {
+      "name": "Oya",
+      "source": "Yoruba mythology",
+      "media_type": "mythology",
+      "culture": "West African (Yoruba)",
+      "era": "Traditional",
+      "archetype": "goddess of storms and transformation"
+    },
+    {
+      "name": "Eshu",
+      "source": "Yoruba mythology",
+      "media_type": "mythology",
+      "culture": "West African (Yoruba)",
+      "era": "Traditional",
+      "archetype": "trickster messenger god"
+    },
+    {
+      "name": "Okonkwo",
+      "source": "Things Fall Apart",
+      "media_type": "literature",
+      "culture": "Nigerian",
+      "era": "20th century",
+      "archetype": "tragic warrior, colonialism victim"
+    },
+    {
+      "name": "Colonel Aureliano Buendía",
+      "source": "One Hundred Years of Solitude",
+      "media_type": "literature",
+      "culture": "Colombian",
+      "era": "20th century",
+      "archetype": "revolutionary, isolated leader"
+    },
+    {
+      "name": "Clara del Valle",
+      "source": "The House of the Spirits",
+      "media_type": "literature",
+      "culture": "Chilean",
+      "era": "20th century",
+      "archetype": "clairvoyant matriarch"
+    },
+    {
+      "name": "Esteban Trueba",
+      "source": "The House of the Spirits",
+      "media_type": "literature",
+      "culture": "Chilean",
+      "era": "20th century",
+      "archetype": "patriarch, conservative landowner"
+    },
+    {
+      "name": "Goku",
+      "source": "Dragon Ball",
+      "media_type": "anime/manga",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "pure-hearted warrior, strongest fighter"
+    },
+    {
+      "name": "Monkey D. Luffy",
+      "source": "One Piece",
+      "media_type": "anime/manga",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "optimistic pirate captain"
+    },
+    {
+      "name": "Naruto Uzumaki",
+      "source": "Naruto",
+      "media_type": "anime/manga",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "underdog ninja hero"
+    },
+    {
+      "name": "Light Yagami",
+      "source": "Death Note",
+      "media_type": "anime/manga",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "brilliant antihero, god-complex vigilante"
+    },
+    {
+      "name": "Lelouch vi Britannia",
+      "source": "Code Geass",
+      "media_type": "anime",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "strategic genius, tragic rebel"
+    },
+    {
+      "name": "Edward Elric",
+      "source": "Fullmetal Alchemist",
+      "media_type": "anime/manga",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "brilliant alchemist, redemption seeker"
+    },
+    {
+      "name": "Spike Spiegel",
+      "source": "Cowboy Bebop",
+      "media_type": "anime",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "cool bounty hunter"
+    },
+    {
+      "name": "Sailor Moon",
+      "source": "Sailor Moon",
+      "media_type": "anime/manga",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "magical girl hero"
+    },
+    {
+      "name": "Totoro",
+      "source": "My Neighbor Totoro",
+      "media_type": "anime/film",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "gentle forest spirit"
+    },
+    {
+      "name": "Guts",
+      "source": "Berserk",
+      "media_type": "manga",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "dark warrior, berserker"
+    },
+    {
+      "name": "L",
+      "source": "Death Note",
+      "media_type": "anime/manga",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "eccentric detective"
+    },
+    {
+      "name": "Mario",
+      "source": "Super Mario Bros.",
+      "media_type": "video game",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "heroic plumber",
+      "notes": "#1 video game character"
+    },
+    {
+      "name": "Link",
+      "source": "The Legend of Zelda",
+      "media_type": "video game",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "silent hero"
+    },
+    {
+      "name": "Master Chief",
+      "source": "Halo",
+      "media_type": "video game",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "super soldier"
+    },
+    {
+      "name": "Solid Snake",
+      "source": "Metal Gear",
+      "media_type": "video game",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "stealth operative"
+    },
+    {
+      "name": "Cloud Strife",
+      "source": "Final Fantasy VII",
+      "media_type": "video game",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "mercenary hero, identity seeker"
+    },
+    {
+      "name": "Sephiroth",
+      "source": "Final Fantasy VII",
+      "media_type": "video game",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "iconic villain, fallen hero"
+    },
+    {
+      "name": "Lara Croft",
+      "source": "Tomb Raider",
+      "media_type": "video game",
+      "culture": "British",
+      "era": "Contemporary",
+      "archetype": "female adventurer"
+    },
+    {
+      "name": "Kratos",
+      "source": "God of War",
+      "media_type": "video game",
+      "culture": "American/Greek",
+      "era": "Contemporary",
+      "archetype": "rage-filled warrior"
+    },
+    {
+      "name": "Sonic the Hedgehog",
+      "source": "Sonic the Hedgehog",
+      "media_type": "video game",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "fast hero"
+    },
+    {
+      "name": "PAC-Man",
+      "source": "PAC-Man",
+      "media_type": "video game",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "iconic arcade character"
+    },
+    {
+      "name": "Commander Shepard",
+      "source": "Mass Effect",
+      "media_type": "video game",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "space commander"
+    },
+    {
+      "name": "Geralt of Rivia",
+      "source": "The Witcher",
+      "media_type": "literature/video game",
+      "culture": "Polish",
+      "era": "Contemporary",
+      "archetype": "monster hunter, witcher"
+    },
+    {
+      "name": "Beowulf",
+      "source": "Beowulf",
+      "media_type": "epic poetry",
+      "culture": "Anglo-Saxon",
+      "era": "Medieval",
+      "archetype": "heroic warrior"
+    },
+    {
+      "name": "King Arthur",
+      "source": "Arthurian legend",
+      "media_type": "legend",
+      "culture": "British",
+      "era": "Medieval",
+      "archetype": "legendary king"
+    },
+    {
+      "name": "Merlin",
+      "source": "Arthurian legend",
+      "media_type": "legend",
+      "culture": "British",
+      "era": "Medieval",
+      "archetype": "wise wizard"
+    },
+    {
+      "name": "Lancelot",
+      "source": "Arthurian legend",
+      "media_type": "legend",
+      "culture": "British",
+      "era": "Medieval",
+      "archetype": "greatest knight"
+    },
+    {
+      "name": "Guinevere",
+      "source": "Arthurian legend",
+      "media_type": "legend",
+      "culture": "British",
+      "era": "Medieval",
+      "archetype": "tragic queen"
+    },
+    {
+      "name": "Morgana/Morgan le Fay",
+      "source": "Arthurian legend",
+      "media_type": "legend",
+      "culture": "British",
+      "era": "Medieval",
+      "archetype": "enchantress, antagonist"
+    },
+    {
+      "name": "Frodo Baggins",
+      "source": "The Lord of the Rings",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "reluctant hero, ring-bearer"
+    },
+    {
+      "name": "Gandalf",
+      "source": "The Lord of the Rings",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "wise wizard"
+    },
+    {
+      "name": "Aragorn",
+      "source": "The Lord of the Rings",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "hidden king"
+    },
+    {
+      "name": "Gollum",
+      "source": "The Lord of the Rings",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "corrupted creature"
+    },
+    {
+      "name": "Sauron",
+      "source": "The Lord of the Rings",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "dark lord"
+    },
+    {
+      "name": "Samwise Gamgee",
+      "source": "The Lord of the Rings",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "loyal companion"
+    },
+    {
+      "name": "Legolas",
+      "source": "The Lord of the Rings",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "elf archer"
+    },
+    {
+      "name": "Daenerys Targaryen",
+      "source": "A Song of Ice and Fire / Game of Thrones",
+      "media_type": "literature/TV",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "dragon queen, tragic conqueror"
+    },
+    {
+      "name": "Jon Snow",
+      "source": "A Song of Ice and Fire / Game of Thrones",
+      "media_type": "literature/TV",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "reluctant leader, hidden heir"
+    },
+    {
+      "name": "Tyrion Lannister",
+      "source": "A Song of Ice and Fire / Game of Thrones",
+      "media_type": "literature/TV",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "clever dwarf"
+    },
+    {
+      "name": "Arya Stark",
+      "source": "A Song of Ice and Fire / Game of Thrones",
+      "media_type": "literature/TV",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "young assassin"
+    },
+    {
+      "name": "Walter White",
+      "source": "Breaking Bad",
+      "media_type": "TV",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "teacher turned drug lord"
+    },
+    {
+      "name": "Tony Soprano",
+      "source": "The Sopranos",
+      "media_type": "TV",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "mob boss"
+    },
+    {
+      "name": "Don Draper",
+      "source": "Mad Men",
+      "media_type": "TV",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "advertising genius, identity thief"
+    },
+    {
+      "name": "Homer Simpson",
+      "source": "The Simpsons",
+      "media_type": "TV",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "bumbling father"
+    },
+    {
+      "name": "Batman / Bruce Wayne",
+      "source": "DC Comics",
+      "media_type": "comics",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "dark vigilante"
+    },
+    {
+      "name": "Superman / Clark Kent",
+      "source": "DC Comics",
+      "media_type": "comics",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "alien hero, symbol of hope"
+    },
+    {
+      "name": "Wonder Woman / Diana Prince",
+      "source": "DC Comics",
+      "media_type": "comics",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "amazon warrior"
+    },
+    {
+      "name": "The Joker",
+      "source": "DC Comics",
+      "media_type": "comics",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "chaotic villain"
+    },
+    {
+      "name": "Spider-Man / Peter Parker",
+      "source": "Marvel Comics",
+      "media_type": "comics",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "teenage hero"
+    },
+    {
+      "name": "Iron Man / Tony Stark",
+      "source": "Marvel Comics",
+      "media_type": "comics",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "genius billionaire hero"
+    },
+    {
+      "name": "Captain America / Steve Rogers",
+      "source": "Marvel Comics",
+      "media_type": "comics",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "super soldier, patriot"
+    },
+    {
+      "name": "Black Widow / Natasha Romanoff",
+      "source": "Marvel Comics",
+      "media_type": "comics",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "spy assassin"
+    },
+    {
+      "name": "Wolverine / Logan",
+      "source": "Marvel Comics",
+      "media_type": "comics",
+      "culture": "American/Canadian",
+      "era": "20th century",
+      "archetype": "immortal berserker"
+    },
+    {
+      "name": "Thanos",
+      "source": "Marvel Comics",
+      "media_type": "comics",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "genocidal titan"
+    },
+    {
+      "name": "Dracula",
+      "source": "Dracula",
+      "media_type": "literature",
+      "culture": "British/Romanian",
+      "era": "19th century",
+      "archetype": "vampire lord"
+    },
+    {
+      "name": "Frankenstein's Monster",
+      "source": "Frankenstein",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "tragic creation"
+    },
+    {
+      "name": "Dr. Victor Frankenstein",
+      "source": "Frankenstein",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "mad scientist"
+    },
+    {
+      "name": "Dr. Jekyll / Mr. Hyde",
+      "source": "Strange Case of Dr Jekyll and Mr Hyde",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "dual personality"
+    },
+    {
+      "name": "Dorian Gray",
+      "source": "The Picture of Dorian Gray",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "vain immortal"
+    },
+    {
+      "name": "Alice",
+      "source": "Alice's Adventures in Wonderland",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "curious child"
+    },
+    {
+      "name": "The Mad Hatter",
+      "source": "Alice's Adventures in Wonderland",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "eccentric character"
+    },
+    {
+      "name": "The Queen of Hearts",
+      "source": "Alice's Adventures in Wonderland",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "tyrannical ruler"
+    },
+    {
+      "name": "Peter Pan",
+      "source": "Peter Pan",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "eternal child"
+    },
+    {
+      "name": "Captain Hook",
+      "source": "Peter Pan",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "pirate villain"
+    },
+    {
+      "name": "Winnie-the-Pooh",
+      "source": "Winnie-the-Pooh",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "lovable bear"
+    },
+    {
+      "name": "The Little Prince",
+      "source": "The Little Prince",
+      "media_type": "literature",
+      "culture": "French",
+      "era": "20th century",
+      "archetype": "innocent philosopher"
+    },
+    {
+      "name": "Pinocchio",
+      "source": "The Adventures of Pinocchio",
+      "media_type": "literature",
+      "culture": "Italian",
+      "era": "19th century",
+      "archetype": "living puppet"
+    },
+    {
+      "name": "Cinderella",
+      "source": "Fairy tale",
+      "media_type": "folklore",
+      "culture": "European",
+      "era": "Traditional",
+      "archetype": "persecuted maiden"
+    },
+    {
+      "name": "Snow White",
+      "source": "Fairy tale",
+      "media_type": "folklore",
+      "culture": "European",
+      "era": "Traditional",
+      "archetype": "innocent princess"
+    },
+    {
+      "name": "Little Red Riding Hood",
+      "source": "Fairy tale",
+      "media_type": "folklore",
+      "culture": "European",
+      "era": "Traditional",
+      "archetype": "innocent child"
+    },
+    {
+      "name": "The Big Bad Wolf",
+      "source": "Fairy tale",
+      "media_type": "folklore",
+      "culture": "European",
+      "era": "Traditional",
+      "archetype": "predatory villain"
+    },
+    {
+      "name": "Rapunzel",
+      "source": "Fairy tale",
+      "media_type": "folklore",
+      "culture": "European",
+      "era": "Traditional",
+      "archetype": "imprisoned maiden"
+    },
+    {
+      "name": "Robin Hood",
+      "source": "English folklore",
+      "media_type": "folklore",
+      "culture": "British",
+      "era": "Medieval",
+      "archetype": "noble thief"
+    },
+    {
+      "name": "Juliet Capulet",
+      "source": "Romeo and Juliet",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "tragic lover"
+    },
+    {
+      "name": "Romeo Montague",
+      "source": "Romeo and Juliet",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "tragic lover"
+    },
+    {
+      "name": "Macbeth",
+      "source": "Macbeth",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "ambitious tyrant"
+    },
+    {
+      "name": "Lady Macbeth",
+      "source": "Macbeth",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "ambitious manipulator"
+    },
+    {
+      "name": "Othello",
+      "source": "Othello",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "tragic general"
+    },
+    {
+      "name": "Iago",
+      "source": "Othello",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "manipulative villain"
+    },
+    {
+      "name": "King Lear",
+      "source": "King Lear",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "tragic king"
+    },
+    {
+      "name": "Shylock",
+      "source": "The Merchant of Venice",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "vengeful moneylender"
+    },
+    {
+      "name": "Prospero",
+      "source": "The Tempest",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "wizard, exiled duke"
+    },
+    {
+      "name": "Caliban",
+      "source": "The Tempest",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "savage slave"
+    },
+    {
+      "name": "Faust",
+      "source": "Faust",
+      "media_type": "literature/theatre",
+      "culture": "German",
+      "era": "19th century",
+      "archetype": "seeker of knowledge, devil's bargain"
+    },
+    {
+      "name": "Mephistopheles",
+      "source": "Faust",
+      "media_type": "literature/theatre",
+      "culture": "German",
+      "era": "19th century",
+      "archetype": "devil, tempter"
+    },
+    {
+      "name": "Raskolnikov",
+      "source": "Crime and Punishment",
+      "media_type": "literature",
+      "culture": "Russian",
+      "era": "19th century",
+      "archetype": "philosophical murderer"
+    },
+    {
+      "name": "Ivan Karamazov",
+      "source": "The Brothers Karamazov",
+      "media_type": "literature",
+      "culture": "Russian",
+      "era": "19th century",
+      "archetype": "intellectual atheist"
+    },
+    {
+      "name": "Dmitri Karamazov",
+      "source": "The Brothers Karamazov",
+      "media_type": "literature",
+      "culture": "Russian",
+      "era": "19th century",
+      "archetype": "passionate warrior"
+    },
+    {
+      "name": "Alyosha Karamazov",
+      "source": "The Brothers Karamazov",
+      "media_type": "literature",
+      "culture": "Russian",
+      "era": "19th century",
+      "archetype": "saintly novice"
+    },
+    {
+      "name": "Winston Smith",
+      "source": "Nineteen Eighty-Four",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "rebel against totalitarianism"
+    },
+    {
+      "name": "Big Brother",
+      "source": "Nineteen Eighty-Four",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "totalitarian figurehead"
+    },
+    {
+      "name": "HAL 9000",
+      "source": "2001: A Space Odyssey",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "rogue AI"
+    },
+    {
+      "name": "John Yossarian",
+      "source": "Catch-22",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "anti-war protagonist"
+    },
+    {
+      "name": "Atticus Finch",
+      "source": "To Kill a Mockingbird",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "moral lawyer"
+    },
+    {
+      "name": "Scout Finch",
+      "source": "To Kill a Mockingbird",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "innocent observer"
+    },
+    {
+      "name": "Boo Radley",
+      "source": "To Kill a Mockingbird",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "misunderstood recluse"
+    },
+    {
+      "name": "Jean Valjean",
+      "source": "Les Misérables",
+      "media_type": "literature",
+      "culture": "French",
+      "era": "19th century",
+      "archetype": "redeemed criminal"
+    },
+    {
+      "name": "Inspector Javert",
+      "source": "Les Misérables",
+      "media_type": "literature",
+      "culture": "French",
+      "era": "19th century",
+      "archetype": "lawful pursuer"
+    },
+    {
+      "name": "Cosette",
+      "source": "Les Misérables",
+      "media_type": "literature",
+      "culture": "French",
+      "era": "19th century",
+      "archetype": "innocent girl"
+    },
+    {
+      "name": "Edmond Dantès / The Count of Monte Cristo",
+      "source": "The Count of Monte Cristo",
+      "media_type": "literature",
+      "culture": "French",
+      "era": "19th century",
+      "archetype": "vengeful nobleman"
+    },
+    {
+      "name": "d'Artagnan",
+      "source": "The Three Musketeers",
+      "media_type": "literature",
+      "culture": "French",
+      "era": "19th century",
+      "archetype": "ambitious musketeer"
+    },
+    {
+      "name": "Athos",
+      "source": "The Three Musketeers",
+      "media_type": "literature",
+      "culture": "French",
+      "era": "19th century",
+      "archetype": "noble musketeer"
+    },
+    {
+      "name": "Porthos",
+      "source": "The Three Musketeers",
+      "media_type": "literature",
+      "culture": "French",
+      "era": "19th century",
+      "archetype": "strong musketeer"
+    },
+    {
+      "name": "Aramis",
+      "source": "The Three Musketeers",
+      "media_type": "literature",
+      "culture": "French",
+      "era": "19th century",
+      "archetype": "romantic musketeer"
+    },
+    {
+      "name": "Gilgamesh",
+      "source": "Epic of Gilgamesh",
+      "media_type": "epic poetry",
+      "culture": "Mesopotamian",
+      "era": "Ancient",
+      "archetype": "demigod king, quest for immortality"
+    },
+    {
+      "name": "Enkidu",
+      "source": "Epic of Gilgamesh",
+      "media_type": "epic poetry",
+      "culture": "Mesopotamian",
+      "era": "Ancient",
+      "archetype": "wild man companion"
+    },
+    {
+      "name": "Aeneas",
+      "source": "The Aeneid",
+      "media_type": "epic poetry",
+      "culture": "Roman",
+      "era": "Ancient",
+      "archetype": "dutiful hero, founder"
+    },
+    {
+      "name": "Cú Chulainn",
+      "source": "Irish mythology",
+      "media_type": "mythology",
+      "culture": "Celtic",
+      "era": "Ancient/Medieval",
+      "archetype": "tragic hero, berserker"
+    },
+    {
+      "name": "Quetzalcoatl",
+      "source": "Aztec mythology",
+      "media_type": "mythology",
+      "culture": "Mesoamerican",
+      "era": "Ancient",
+      "archetype": "feathered serpent god"
+    },
+    {
+      "name": "Coyote",
+      "source": "Native American mythology",
+      "media_type": "mythology",
+      "culture": "Native American",
+      "era": "Traditional",
+      "archetype": "trickster spirit"
+    },
+    {
+      "name": "Raven",
+      "source": "Pacific Northwest mythology",
+      "media_type": "mythology",
+      "culture": "Native American (Pacific Northwest)",
+      "era": "Traditional",
+      "archetype": "trickster creator"
+    },
+    {
+      "name": "Maui",
+      "source": "Polynesian mythology",
+      "media_type": "mythology",
+      "culture": "Polynesian",
+      "era": "Traditional",
+      "archetype": "trickster demigod"
+    },
+    {
+      "name": "Amaterasu",
+      "source": "Japanese mythology",
+      "media_type": "mythology",
+      "culture": "Japanese",
+      "era": "Ancient",
+      "archetype": "sun goddess"
+    },
+    {
+      "name": "Susanoo",
+      "source": "Japanese mythology",
+      "media_type": "mythology",
+      "culture": "Japanese",
+      "era": "Ancient",
+      "archetype": "storm god"
+    },
+    {
+      "name": "Lady Murasaki's Genji",
+      "source": "The Tale of Genji",
+      "media_type": "literature",
+      "culture": "Japanese",
+      "era": "11th century",
+      "archetype": "romantic prince"
+    },
+    {
+      "name": "The Monkey King (additional form)",
+      "source": "Dragon Ball (Goku inspiration)",
+      "media_type": "anime",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "transformation of classical hero"
+    },
+    {
+      "name": "Luke Skywalker",
+      "source": "Star Wars",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "farm boy hero, Jedi"
+    },
+    {
+      "name": "Princess Leia",
+      "source": "Star Wars",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "rebel leader, princess"
+    },
+    {
+      "name": "Han Solo",
+      "source": "Star Wars",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "smuggler hero"
+    },
+    {
+      "name": "Yoda",
+      "source": "Star Wars",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "wise mentor"
+    },
+    {
+      "name": "The Terminator",
+      "source": "The Terminator",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "killer robot"
+    },
+    {
+      "name": "Sarah Connor",
+      "source": "The Terminator",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "warrior mother"
+    },
+    {
+      "name": "Forrest Gump",
+      "source": "Forrest Gump",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "innocent everyman"
+    },
+    {
+      "name": "Tyler Durden",
+      "source": "Fight Club",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "anarchist alter ego"
+    },
+    {
+      "name": "Neo",
+      "source": "The Matrix",
+      "media_type": "film",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "the chosen one, hacker"
+    },
+    {
+      "name": "Morpheus",
+      "source": "The Matrix",
+      "media_type": "film",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "mentor, rebel leader"
+    },
+    {
+      "name": "Trinity",
+      "source": "The Matrix",
+      "media_type": "film",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "skilled hacker warrior"
+    },
+    {
+      "name": "Elsa",
+      "source": "Frozen",
+      "media_type": "film",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "ice queen, self-acceptance"
+    },
+    {
+      "name": "Simba",
+      "source": "The Lion King",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "exiled prince"
+    },
+    {
+      "name": "Scar",
+      "source": "The Lion King",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "treacherous uncle"
+    },
+    {
+      "name": "Woody",
+      "source": "Toy Story",
+      "media_type": "film",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "loyal cowboy toy"
+    },
+    {
+      "name": "Buzz Lightyear",
+      "source": "Toy Story",
+      "media_type": "film",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "space ranger toy"
+    },
+    {
+      "name": "Shrek",
+      "source": "Shrek",
+      "media_type": "film",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "unconventional hero, ogre"
+    },
+    {
+      "name": "Black Panther / T'Challa",
+      "source": "Marvel Comics",
+      "media_type": "comics/film",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "African king superhero"
+    },
+    {
+      "name": "Killmonger",
+      "source": "Black Panther",
+      "media_type": "film",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "revolutionary villain"
+    },
+    {
+      "name": "Puck",
+      "source": "A Midsummer Night's Dream",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "mischievous sprite"
+    },
+    {
+      "name": "Oberon",
+      "source": "A Midsummer Night's Dream",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "fairy king"
+    },
+    {
+      "name": "Titania",
+      "source": "A Midsummer Night's Dream",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "fairy queen"
+    },
+    {
+      "name": "Bottom",
+      "source": "A Midsummer Night's Dream",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "comedic weaver"
+    },
+    {
+      "name": "Ariel",
+      "source": "The Tempest",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "air spirit, servant"
+    },
+    {
+      "name": "Beatrice",
+      "source": "Much Ado About Nothing",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "witty heroine"
+    },
+    {
+      "name": "Benedick",
+      "source": "Much Ado About Nothing",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "witty bachelor"
+    },
+    {
+      "name": "Portia",
+      "source": "The Merchant of Venice",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "clever heiress"
+    },
+    {
+      "name": "Rosalind",
+      "source": "As You Like It",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "disguised heroine"
+    },
+    {
+      "name": "Viola",
+      "source": "Twelfth Night",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "cross-dressing heroine"
+    },
+    {
+      "name": "Malvolio",
+      "source": "Twelfth Night",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "pompous steward"
+    },
+    {
+      "name": "Falstaff",
+      "source": "Henry IV",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "comic rogue"
+    },
+    {
+      "name": "Richard III",
+      "source": "Richard III",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "villainous king"
+    },
+    {
+      "name": "Henry V",
+      "source": "Henry V",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "heroic king"
+    },
+    {
+      "name": "Ophelia",
+      "source": "Hamlet",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "tragic maiden"
+    },
+    {
+      "name": "Desdemona",
+      "source": "Othello",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "innocent wife"
+    },
+    {
+      "name": "Cordelia",
+      "source": "King Lear",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "truthful daughter"
+    },
+    {
+      "name": "Petruchio",
+      "source": "The Taming of the Shrew",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "fortune hunter"
+    },
+    {
+      "name": "Katherina",
+      "source": "The Taming of the Shrew",
+      "media_type": "theatre",
+      "culture": "British",
+      "era": "Renaissance",
+      "archetype": "shrewish woman"
+    },
+    {
+      "name": "Dr. Watson",
+      "source": "Sherlock Holmes stories",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "loyal sidekick, narrator"
+    },
+    {
+      "name": "Professor Moriarty",
+      "source": "Sherlock Holmes stories",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "criminal mastermind"
+    },
+    {
+      "name": "Hercule Poirot",
+      "source": "Agatha Christie mysteries",
+      "media_type": "literature",
+      "culture": "British/Belgian",
+      "era": "20th century",
+      "archetype": "meticulous detective"
+    },
+    {
+      "name": "Miss Marple",
+      "source": "Agatha Christie mysteries",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "elderly amateur detective"
+    },
+    {
+      "name": "Philip Marlowe",
+      "source": "The Big Sleep",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "hard-boiled detective"
+    },
+    {
+      "name": "Sam Spade",
+      "source": "The Maltese Falcon",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "hard-boiled detective"
+    },
+    {
+      "name": "Oedipus",
+      "source": "Oedipus Rex",
+      "media_type": "theatre",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "tragic king, cursed hero"
+    },
+    {
+      "name": "Antigone",
+      "source": "Antigone",
+      "media_type": "theatre",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "defiant heroine"
+    },
+    {
+      "name": "Prometheus",
+      "source": "Greek mythology",
+      "media_type": "mythology",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "fire-bringer, rebel titan"
+    },
+    {
+      "name": "Pandora",
+      "source": "Greek mythology",
+      "media_type": "mythology",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "first woman, curiosity"
+    },
+    {
+      "name": "Penelope",
+      "source": "The Odyssey",
+      "media_type": "epic poetry",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "faithful wife"
+    },
+    {
+      "name": "Circe",
+      "source": "The Odyssey",
+      "media_type": "epic poetry",
+      "culture": "Greek",
+      "era": "Ancient",
+      "archetype": "enchantress, goddess"
+    },
+    {
+      "name": "Grendel",
+      "source": "Beowulf",
+      "media_type": "epic poetry",
+      "culture": "Anglo-Saxon",
+      "era": "Medieval",
+      "archetype": "monster villain"
+    },
+    {
+      "name": "Robinson Crusoe",
+      "source": "Robinson Crusoe",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "18th century",
+      "archetype": "castaway, survivor"
+    },
+    {
+      "name": "Friday",
+      "source": "Robinson Crusoe",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "18th century",
+      "archetype": "native companion"
+    },
+    {
+      "name": "Lemuel Gulliver",
+      "source": "Gulliver's Travels",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "18th century",
+      "archetype": "satirical traveler"
+    },
+    {
+      "name": "Tom Sawyer",
+      "source": "The Adventures of Tom Sawyer",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "19th century",
+      "archetype": "mischievous boy"
+    },
+    {
+      "name": "Oliver Twist",
+      "source": "Oliver Twist",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "innocent orphan"
+    },
+    {
+      "name": "Fagin",
+      "source": "Oliver Twist",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "criminal mentor"
+    },
+    {
+      "name": "The Artful Dodger",
+      "source": "Oliver Twist",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "charming pickpocket"
+    },
+    {
+      "name": "Miss Havisham",
+      "source": "Great Expectations",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "jilted bride"
+    },
+    {
+      "name": "Pip",
+      "source": "Great Expectations",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "ambitious orphan"
+    },
+    {
+      "name": "Long John Silver",
+      "source": "Treasure Island",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "cunning pirate"
+    },
+    {
+      "name": "Jim Hawkins",
+      "source": "Treasure Island",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "adventurous cabin boy"
+    },
+    {
+      "name": "Prince Myshkin",
+      "source": "The Idiot",
+      "media_type": "literature",
+      "culture": "Russian",
+      "era": "19th century",
+      "archetype": "saintly innocent"
+    },
+    {
+      "name": "Natasha Rostova",
+      "source": "War and Peace",
+      "media_type": "literature",
+      "culture": "Russian",
+      "era": "19th century",
+      "archetype": "spirited noblewoman"
+    },
+    {
+      "name": "Pierre Bezukhov",
+      "source": "War and Peace",
+      "media_type": "literature",
+      "culture": "Russian",
+      "era": "19th century",
+      "archetype": "searching nobleman"
+    },
+    {
+      "name": "Andrei Bolkonsky",
+      "source": "War and Peace",
+      "media_type": "literature",
+      "culture": "Russian",
+      "era": "19th century",
+      "archetype": "proud prince"
+    },
+    {
+      "name": "Humbert Humbert",
+      "source": "Lolita",
+      "media_type": "literature",
+      "culture": "Russian/American",
+      "era": "20th century",
+      "archetype": "unreliable narrator, predator"
+    },
+    {
+      "name": "Meursault",
+      "source": "The Stranger",
+      "media_type": "literature",
+      "culture": "French",
+      "era": "20th century",
+      "archetype": "absurdist protagonist"
+    },
+    {
+      "name": "Gregor Samsa",
+      "source": "The Metamorphosis",
+      "media_type": "literature",
+      "culture": "Czech/German",
+      "era": "20th century",
+      "archetype": "transformed man, insect"
+    },
+    {
+      "name": "Josef K.",
+      "source": "The Trial",
+      "media_type": "literature",
+      "culture": "Czech/German",
+      "era": "20th century",
+      "archetype": "accused everyman"
+    },
+    {
+      "name": "Leopold Bloom",
+      "source": "Ulysses",
+      "media_type": "literature",
+      "culture": "Irish",
+      "era": "20th century",
+      "archetype": "modern Odysseus"
+    },
+    {
+      "name": "Stephen Dedalus",
+      "source": "A Portrait of the Artist as a Young Man",
+      "media_type": "literature",
+      "culture": "Irish",
+      "era": "20th century",
+      "archetype": "artist in development"
+    },
+    {
+      "name": "Matilda Wormwood",
+      "source": "Matilda",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "Contemporary",
+      "archetype": "gifted child"
+    },
+    {
+      "name": "Charlie Bucket",
+      "source": "Charlie and the Chocolate Factory",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "poor honest child"
+    },
+    {
+      "name": "Willy Wonka",
+      "source": "Charlie and the Chocolate Factory",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "eccentric chocolatier"
+    },
+    {
+      "name": "The BFG",
+      "source": "The BFG",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "gentle giant"
+    },
+    {
+      "name": "Dorothy Gale",
+      "source": "The Wizard of Oz",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "innocent heroine"
+    },
+    {
+      "name": "The Scarecrow",
+      "source": "The Wizard of Oz",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "brainless seeker of wisdom"
+    },
+    {
+      "name": "The Tin Man",
+      "source": "The Wizard of Oz",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "heartless seeker of love"
+    },
+    {
+      "name": "The Cowardly Lion",
+      "source": "The Wizard of Oz",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "fearful seeker of courage"
+    },
+    {
+      "name": "Anne Shirley",
+      "source": "Anne of Green Gables",
+      "media_type": "literature",
+      "culture": "Canadian",
+      "era": "20th century",
+      "archetype": "imaginative orphan"
+    },
+    {
+      "name": "Pippi Longstocking",
+      "source": "Pippi Longstocking",
+      "media_type": "literature",
+      "culture": "Swedish",
+      "era": "20th century",
+      "archetype": "unconventional girl"
+    },
+    {
+      "name": "The Headless Horseman",
+      "source": "The Legend of Sleepy Hollow",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "19th century",
+      "archetype": "ghostly villain"
+    },
+    {
+      "name": "Ichabod Crane",
+      "source": "The Legend of Sleepy Hollow",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "19th century",
+      "archetype": "superstitious schoolmaster"
+    },
+    {
+      "name": "Rip Van Winkle",
+      "source": "Rip Van Winkle",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "19th century",
+      "archetype": "time-displaced sleeper"
+    },
+    {
+      "name": "The Invisible Man",
+      "source": "The Invisible Man",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "mad scientist"
+    },
+    {
+      "name": "Dr. Moreau",
+      "source": "The Island of Doctor Moreau",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "19th century",
+      "archetype": "mad vivisectionist"
+    },
+    {
+      "name": "The Phantom of the Opera",
+      "source": "The Phantom of the Opera",
+      "media_type": "literature",
+      "culture": "French",
+      "era": "20th century",
+      "archetype": "disfigured genius"
+    },
+    {
+      "name": "Quasimodo",
+      "source": "The Hunchback of Notre-Dame",
+      "media_type": "literature",
+      "culture": "French",
+      "era": "19th century",
+      "archetype": "deformed bell-ringer"
+    },
+    {
+      "name": "Esmeralda",
+      "source": "The Hunchback of Notre-Dame",
+      "media_type": "literature",
+      "culture": "French",
+      "era": "19th century",
+      "archetype": "beautiful gypsy"
+    },
+    {
+      "name": "Paul Atreides",
+      "source": "Dune",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "chosen one, kwisatz haderach"
+    },
+    {
+      "name": "Ender Wiggin",
+      "source": "Ender's Game",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "child military genius"
+    },
+    {
+      "name": "Arthur Dent",
+      "source": "The Hitchhiker's Guide to the Galaxy",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "bewildered everyman"
+    },
+    {
+      "name": "R2-D2",
+      "source": "Star Wars",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "loyal droid"
+    },
+    {
+      "name": "C-3PO",
+      "source": "Star Wars",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "protocol droid"
+    },
+    {
+      "name": "Vegeta",
+      "source": "Dragon Ball",
+      "media_type": "anime/manga",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "proud warrior prince"
+    },
+    {
+      "name": "Sasuke Uchiha",
+      "source": "Naruto",
+      "media_type": "anime/manga",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "vengeful rival"
+    },
+    {
+      "name": "Eren Yeager",
+      "source": "Attack on Titan",
+      "media_type": "anime/manga",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "freedom fighter, titan shifter"
+    },
+    {
+      "name": "Saitama",
+      "source": "One Punch Man",
+      "media_type": "anime/manga",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "overpowered hero, parody"
+    },
+    {
+      "name": "Tanjiro Kamado",
+      "source": "Demon Slayer",
+      "media_type": "anime/manga",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "compassionate demon slayer"
+    },
+    {
+      "name": "Nezuko Kamado",
+      "source": "Demon Slayer",
+      "media_type": "anime/manga",
+      "culture": "Japanese",
+      "era": "Contemporary",
+      "archetype": "demon sister"
+    },
+    {
+      "name": "Vito Corleone",
+      "source": "The Godfather",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "mafia don"
+    },
+    {
+      "name": "Michael Corleone",
+      "source": "The Godfather",
+      "media_type": "literature/film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "reluctant crime boss"
+    },
+    {
+      "name": "Travis Bickle",
+      "source": "Taxi Driver",
+      "media_type": "film",
+      "culture": "American",
+      "era": "20th century",
+      "archetype": "alienated vigilante"
+    },
+    {
+      "name": "Alex DeLarge",
+      "source": "A Clockwork Orange",
+      "media_type": "literature/film",
+      "culture": "British",
+      "era": "20th century",
+      "archetype": "violent delinquent"
+    },
+    {
+      "name": "Amélie Poulain",
+      "source": "Amélie",
+      "media_type": "film",
+      "culture": "French",
+      "era": "Contemporary",
+      "archetype": "whimsical do-gooder"
+    },
+    {
+      "name": "The Dude (Jeffrey Lebowski)",
+      "source": "The Big Lebowski",
+      "media_type": "film",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "laid-back slacker"
+    },
+    {
+      "name": "Garuda",
+      "source": "Hindu/Buddhist mythology",
+      "media_type": "mythology",
+      "culture": "South/Southeast Asian",
+      "era": "Ancient",
+      "archetype": "divine eagle, Vishnu's mount"
+    },
+    {
+      "name": "Naga",
+      "source": "Hindu/Buddhist mythology",
+      "media_type": "mythology",
+      "culture": "South/Southeast Asian",
+      "era": "Ancient",
+      "archetype": "serpent deity"
+    },
+    {
+      "name": "Durga",
+      "source": "Hindu mythology",
+      "media_type": "mythology",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "warrior goddess"
+    },
+    {
+      "name": "Kali",
+      "source": "Hindu mythology",
+      "media_type": "mythology",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "goddess of destruction"
+    },
+    {
+      "name": "Shiva",
+      "source": "Hindu mythology",
+      "media_type": "mythology",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "destroyer god"
+    },
+    {
+      "name": "Vishnu",
+      "source": "Hindu mythology",
+      "media_type": "mythology",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "preserver god"
+    },
+    {
+      "name": "Brahma",
+      "source": "Hindu mythology",
+      "media_type": "mythology",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "creator god"
+    },
+    {
+      "name": "Ganesha",
+      "source": "Hindu mythology",
+      "media_type": "mythology",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "elephant-headed god of wisdom"
+    },
+    {
+      "name": "Lakshmi",
+      "source": "Hindu mythology",
+      "media_type": "mythology",
+      "culture": "Indian",
+      "era": "Ancient",
+      "archetype": "goddess of wealth and fortune"
+    },
+    {
+      "name": "Ron Weasley",
+      "source": "Harry Potter series",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "Contemporary",
+      "archetype": "loyal sidekick"
+    },
+    {
+      "name": "Severus Snape",
+      "source": "Harry Potter series",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "Contemporary",
+      "archetype": "complex antihero"
+    },
+    {
+      "name": "Albus Dumbledore",
+      "source": "Harry Potter series",
+      "media_type": "literature",
+      "culture": "British",
+      "era": "Contemporary",
+      "archetype": "wise headmaster"
+    },
+    {
+      "name": "Peeta Mellark",
+      "source": "The Hunger Games",
+      "media_type": "literature",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "gentle love interest"
+    },
+    {
+      "name": "Cersei Lannister",
+      "source": "A Song of Ice and Fire / Game of Thrones",
+      "media_type": "literature/TV",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "ruthless queen"
+    },
+    {
+      "name": "Ned Stark",
+      "source": "A Song of Ice and Fire / Game of Thrones",
+      "media_type": "literature/TV",
+      "culture": "American",
+      "era": "Contemporary",
+      "archetype": "honorable lord"
+    }
+  ]
+}
