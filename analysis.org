@@ -391,27 +391,80 @@ Lu et al. extracted vectors for 463 generic roles (e.g., "accountant", "anarchis
 
 ** Setup: Load Role Vectors
 
+First, download role vectors from HuggingFace if you haven't already:
+
+#+begin_src bash :eval no
+python src/data_collection/download_role_vectors.py --model qwen-3-32b --layer 32 --output data/role_vectors/
+#+end_src
+
 #+begin_src python
 import torch
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+from huggingface_hub import hf_hub_download, list_repo_files
 
-# Load Assistant Axis role vectors
-christina_path = Path('../MindViruses/christina_vectors_backup/layer32_pos23.pt')
-christina = torch.load(christina_path, map_location='cpu', weights_only=False)
+# Check for pre-computed role PCA, or download and compute
+role_pca_path = Path('data/role_vectors/qwen-3-32b_pca_layer32.pkl')
 
-christina_pca = christina['pca']
-christina_scaler = christina['scaler']
-roles_flat = christina['roles']['pos_2'] + christina['roles']['pos_3']
-role_projections = christina['pca_transformed']  # (463, 463)
+if role_pca_path.exists():
+    # Load pre-computed
+    with open(role_pca_path, 'rb') as f:
+        role_data = pickle.load(f)
+    role_pca = role_data['pca']
+    role_scaler = role_data['scaler']
+    roles_flat = role_data['role_names']
+    role_projections = role_data['transformed']
+    print(f"Loaded pre-computed role PCA from {role_pca_path}")
+else:
+    # Download from HuggingFace and compute PCA
+    print("Downloading role vectors from HuggingFace...")
+    all_files = list_repo_files("lu-christina/assistant-axis-vectors", repo_type="dataset")
+    role_files = [f for f in all_files if f.startswith("qwen-3-32b/role_vectors/")]
+    
+    role_vectors = {}
+    for file_path in role_files:
+        role_name = Path(file_path).stem
+        local_path = hf_hub_download(
+            repo_id="lu-christina/assistant-axis-vectors",
+            filename=file_path,
+            repo_type="dataset"
+        )
+        data = torch.load(local_path, map_location="cpu", weights_only=False)
+        if isinstance(data, dict) and 'vector' in data:
+            role_vectors[role_name] = data['vector']
+        elif isinstance(data, torch.Tensor):
+            role_vectors[role_name] = data
+    
+    print(f"Downloaded {len(role_vectors)} role vectors")
+    
+    # Extract layer 32 and fit PCA
+    roles_flat = sorted(role_vectors.keys())
+    layer_vectors = []
+    for role in roles_flat:
+        vec = role_vectors[role]
+        if vec.dim() == 2:
+            layer_vectors.append(vec[32].float().numpy())
+        else:
+            layer_vectors.append(vec.float().numpy())
+    
+    X = np.vstack(layer_vectors)
+    role_scaler = StandardScaler()
+    X_scaled = role_scaler.fit_transform(X)
+    
+    role_pca = PCA(n_components=min(X.shape))
+    role_projections = role_pca.fit_transform(X_scaled)
+    
+    print(f"Fitted PCA: {role_pca.n_components_} components")
 
 print(f"Loaded {len(roles_flat)} roles")
-print(f"Role PCA components: {christina_pca.components_.shape}")
+print(f"Role PCA components: {role_pca.components_.shape}")
 
 # Project characters onto role space
-chars_scaled = christina_scaler.transform(activation_matrix)
-chars_in_role_space = christina_pca.transform(chars_scaled)
+chars_scaled = role_scaler.transform(activation_matrix)
+chars_in_role_space = role_pca.transform(chars_scaled)
 
 # Reconstruct and get residuals
-reconstructed = chars_in_role_space @ christina_pca.components_
+reconstructed = chars_in_role_space @ role_pca.components_
 residuals = chars_scaled - reconstructed
 
 # Variance accounting
@@ -441,7 +494,7 @@ def show_role_pc(pc_idx):
     char_scores = chars_in_role_space[:, pc_idx]
     sorted_char_idx = np.argsort(char_scores)
     
-    var_pct = christina['variance_explained'][pc_idx] * 100
+    var_pct = role_pca.explained_variance_ratio_[pc_idx] * 100
     
     print(f"\n{'='*70}")
     print(f"Role PC{pc_idx+1} ({var_pct:.1f}% of role variance)")

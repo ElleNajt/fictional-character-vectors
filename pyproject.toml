@@ -7,11 +7,15 @@ dependencies = [
     "torch",
     "numpy",
     "scikit-learn",
+    "scipy",
+    "pandas",
     "tqdm",
     "matplotlib",
+    "seaborn",
+    "huggingface_hub",
 ]
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "ipython",
 ]
