@@ -10,6 +10,7 @@ Methodology:
 2. Randomly sample 1 character per franchise
 3. Run PCA on the subsampled set
 4. Compare to full dataset PCA
+5. Project onto role space and check if residual structure persists
 
 If the same interpretable PCs emerge, franchise clustering reflects
 genuine structure, not just "we included 10 Star Wars characters."
@@ -22,6 +23,7 @@ from collections import defaultdict
 from pathlib import Path
 
 import numpy as np
+from scipy.spatial.distance import cdist
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
@@ -189,6 +191,77 @@ def main():
     with open(output_path, "wb") as f:
         pickle.dump(output, f)
     print(f"\nResults saved to {output_path}")
+
+    # Now test residuals
+    print("\n" + "=" * 70)
+    print("Residual Analysis (after projecting out role space)")
+    print("=" * 70)
+
+    # Load role PCA if available
+    role_pca_path = Path("data/role_vectors/qwen-3-32b_pca_layer32.pkl")
+    if not role_pca_path.exists():
+        print(f"\nRole PCA not found at {role_pca_path}")
+        print("Run: python src/data_collection/download_role_vectors.py first")
+        return
+
+    with open(role_pca_path, "rb") as f:
+        role_data = pickle.load(f)
+
+    role_pca = role_data["pca"]
+    role_scaler = role_data["scaler"]
+
+    # Project subsampled characters onto role space
+    sub_scaled = role_scaler.transform(sub_activations)
+    sub_in_role_space = role_pca.transform(sub_scaled)
+
+    # Get residuals
+    reconstructed = sub_in_role_space @ role_pca.components_
+    residuals = sub_scaled - reconstructed
+
+    # Variance accounting
+    original_var = np.var(sub_scaled, axis=0).sum()
+    residual_var = np.var(residuals, axis=0).sum()
+    captured_var = original_var - residual_var
+
+    print(f"\nVariance decomposition (subsampled, {len(sub_names)} chars):")
+    print(f"  Total variance:        {original_var:.1f}")
+    print(
+        f"  Captured by roles:     {captured_var:.1f} ({captured_var / original_var:.1%})"
+    )
+    print(
+        f"  Residual:              {residual_var:.1f} ({residual_var / original_var:.1%})"
+    )
+
+    # PCA on residuals
+    residual_pca = PCA(n_components=10)
+    residuals_transformed = residual_pca.fit_transform(residuals)
+
+    print(f"\nResidual PCs (subsampled):")
+    cumvar = np.cumsum(residual_pca.explained_variance_ratio_)
+    for i in range(5):
+        print(
+            f"  Residual PC{i + 1}: {residual_pca.explained_variance_ratio_[i]:.1%} (cumulative: {cumvar[i]:.1%})"
+        )
+
+    # Show top residual PCs
+    for pc_idx in range(3):
+        scores = residuals_transformed[:, pc_idx]
+        sorted_idx = np.argsort(scores)
+        var_pct = residual_pca.explained_variance_ratio_[pc_idx] * 100
+
+        print(
+            f"\n--- Residual PC{pc_idx + 1} ({var_pct:.1f}% of residual variance) ---"
+        )
+        print("HIGH:")
+        for i in sorted_idx[-5:][::-1]:
+            name = sub_names[i].replace("_", " ").title()
+            src = get_source(sub_names[i], char_meta)
+            print(f"  {name:30s} ({src[:25]})")
+        print("LOW:")
+        for i in sorted_idx[:5]:
+            name = sub_names[i].replace("_", " ").title()
+            src = get_source(sub_names[i], char_meta)
+            print(f"  {name:30s} ({src[:25]})")
 
 
 if __name__ == "__main__":

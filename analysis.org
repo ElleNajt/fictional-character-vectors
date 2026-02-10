@@ -781,6 +781,33 @@ The variance structure is nearly identical. The same interpretable PCs emerge:
 
 *Conclusion:* The PC structure is NOT an artifact of franchise clustering. The same archetypal dimensions emerge whether we include 10 Star Wars characters or just 1. This validates that the PCs capture genuine semantic structure in how the model represents fictional characters.
 
+** Residual Analysis (Subsampled)
+
+What about the residuals after projecting out role space? With the full dataset, residual PC1 was "Star Wars vs Indian Epic." Does that persist?
+
+| Metric | Full (399 chars) | Subsampled (166 chars) |
+|--------+------------------+------------------------|
+| Role space captures | 69% | 65% |
+| Residual | 31% | 35% |
+
+*Subsampled Residual PCs:*
+
+| Residual PC | High | Low | Interpretation |
+|-------------+------+-----+----------------|
+| 1 (8.1%) | Katherina, Portia, Romeo, Beatrice | Luffy, Nezuko, Vegeta, Mario | *Shakespeare vs Anime/Games* |
+| 2 (5.4%) | Winston Smith, Meursault, Forrest Gump | Guan Yu, Ravana, Achilles, Krishna | *Modern alienated vs Epic heroes* |
+| 3 (4.0%) | Quetzalcoatl, Isis, Shango, Anansi | Nezuko, Vegeta, Luffy, Mr Darcy | *Non-Western mythology vs Anime* |
+
+*Key finding:* The specific "Star Wars vs Indian Epic" axis *disappears* with one-per-franchise sampling. Instead we see broader cultural/media clustering:
+- Shakespeare plays cluster together (even though they're different plays)
+- Anime characters cluster (different franchises)
+- Epic heroes from different cultures cluster (Greek, Hindu, Chinese)
+
+This suggests:
+1. *Franchise-specific* clustering (Star Wars-ness) requires multiple characters per franchise
+2. *Broader media/cultural* clustering persists even with 1 character per source
+3. The model encodes both "this is anime" and "this is specifically Naruto" - but the latter needs multiple Naruto characters to emerge as a PC
+
 * Limitations and Caveats
 
 ** Franchise Clustering: Validated by Control
