@@ -9,6 +9,8 @@ We extracted activations from Qwen 2.5 32B for 399 fictional characters (402 tot
 
 PCA on this space reveals interpretable axes of variation.
 
+This work builds on the methodology from [[https://arxiv.org/abs/2601.10387][Lu et al. (2026), "The Assistant Axis: Situating and Stabilizing the Default Persona of Language Models"]], which extracted persona vectors for 275 generic character archetypes (roles like "accountant", "anarchist", "hero"). We extend this to specific fictional characters.
+
 * Key Results
 
 | Metric | Value |
@@ -121,23 +123,29 @@ Interesting that this picks up franchise clustering.
 
 5. *The space is high-dimensional*: 50 PCs only capture 84.5% of variance, suggesting rich structure.
 
-* Comparison to Christina's Role Vectors
+* Comparison to Assistant Axis Role Vectors
 
-Christina extracted vectors for 463 generic roles (e.g., "accountant", "anarchist", "hero", "villain") using a similar methodology.
+Lu et al. extracted vectors for 463 generic roles (e.g., "accountant", "anarchist", "hero", "villain") using the same methodology. Their leading principal component—the "Assistant Axis"—captures variation in how much a model operates in its default helpful assistant mode.
 
-When we project our 399 fictional characters onto Christina's role-based PCA:
+When we project our 399 fictional characters onto the role-based PCA from the Assistant Axis paper:
 
-| Christina PCs | Character Variance Explained | R² |
-|---------------|------------------------------|----|
+| Role PCs | Character Variance Explained | R² |
+|----------|------------------------------|----|
 | 10 | 29% | 0.13 |
 | 50 | - | 0.34 |
 | 100 | - | 0.43 |
 
-*Finding*: The fictional character space is largely orthogonal to the generic role space. Christina's 463 role-based PCs only capture 43% of fictional character variance (with 100 components), while our own PCA captures 56% with just 10 components.
+*Finding*: The fictional character space is largely orthogonal to the generic role space. The 463 role-based PCs only capture 43% of fictional character variance (with 100 components), while our own PCA captures 56% with just 10 components.
 
-This suggests fictional characters occupy a distinct subspace that isn't well-described by combinations of generic roles. Characters are more than the sum of their role labels.
+This suggests fictional characters occupy a distinct subspace that isn't well-described by combinations of generic roles. Characters are more than the sum of their role labels—they carry additional structure from their specific narratives, relationships, and cultural contexts.
 
 * Full Pipeline Reproduction
+
+** Requirements
+
+- GPU with ~80GB VRAM (e.g., A100) for Qwen 2.5 32B
+- Python 3.10+
+- [[https://github.com/astral-sh/uv][uv]] package manager
 
 ** Step 1: Collect Characters from Wikidata
 
@@ -231,10 +239,8 @@ Each ~{character_name}.pt~ contains a dict:
 }
 #+end_src
 
-** Remote Location
+* References
 
-AFP RunPod cluster: ~/workspace-vast/lnajt/persona_vectors/fictional_characters/character_activations_qwen3_v0/~
+- Lu, C., Gallagher, J., Michala, J., Fish, K., & Lindsey, J. (2026). [[https://arxiv.org/abs/2601.10387][The Assistant Axis: Situating and Stabilizing the Default Persona of Language Models]]. arXiv:2601.10387.
 
-* Dependencies
-
-This project uses code from [[https://github.com/safety-research/assistant-axis][assistant-axis]] for the response generation and activation extraction pipeline.
+- Code adapted from [[https://github.com/safety-research/assistant-axis][safety-research/assistant-axis]].
