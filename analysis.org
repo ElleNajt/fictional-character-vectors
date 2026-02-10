@@ -750,6 +750,47 @@ But they miss *cultural/franchise identity*:
 
 *Characters are more than the sum of their roles* - they carry the DNA of their narrative universes.
 
+* Limitations and Caveats
+
+** Franchise Clustering is Partly a Dataset Artifact
+
+The franchise clusters (Star Wars, Harry Potter, etc.) emerge partly because we included *multiple characters per franchise*. If we had only one character from each franchise, these clusters would be less pronounced or invisible.
+
+To test this properly, one would need to:
+1. Sample one character per franchise and re-run PCA
+2. Compare variance explained to the full dataset
+3. See which PCs disappear vs persist
+
+** The Specific PCs Depend on Dataset Composition
+
+The particular axes we found (PC1 = groundedness, PC7 = fairy tale vs Indian epic) are contingent on our character selection. Different results to expect with:
+
+- *More anime characters*: Might see anime-specific PCs (shonen vs slice-of-life, etc.)
+- *More African folklore*: Currently underrepresented; would likely form its own cluster
+- *Historical figures instead of fictional*: Different archetypal structure entirely
+
+** Single Model, Single Layer
+
+We only analyzed Qwen 2.5 32B at layer 32. Open questions:
+
+- Do other layers show different structure?
+- Do other models (Llama, GPT) produce similar PCs?
+- Is layer 32 special or would any middle layer work?
+
+** No Ground Truth
+
+We interpret PCs post-hoc based on which characters load high/low. These interpretations are subjective and could be confabulated. The "groundedness" interpretation for PC1 is a hypothesis, not a verified fact.
+
+* Future Experiments
+
+Potential follow-ups that would strengthen or challenge these findings:
+
+1. *One-per-franchise control*: Subsample to 1 character per franchise, re-run analysis
+2. *Random Wikidata sample*: Use top-N by Wikipedia language count without curation
+3. *Layer sweep*: Extract activations at layers 16, 24, 32, 40 and compare PCA structure
+4. *Cross-model comparison*: Run same characters through Llama 3, GPT-4, compare PC structure
+5. *Activation patching*: Can we make Harry Potter "more Star Wars" by adding the franchise direction?
+
 * Full Pipeline Reproduction
 
 See [[file:README.org][README.org]] for complete reproduction instructions.
