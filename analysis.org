@@ -11,6 +11,80 @@ PCA on this space reveals interpretable axes of variation.
 
 This work builds on the methodology from [[https://arxiv.org/abs/2601.10387][Lu et al. (2026), "The Assistant Axis: Situating and Stabilizing the Default Persona of Language Models"]], which extracted persona vectors for 275 generic character archetypes.
 
+* Dataset: Canonical Fictional Characters
+
+The character dataset was curated to cover culturally significant fictional characters across diverse sources. The selection affects results - certain clusters emerge because of deliberate inclusion choices.
+
+** Sources
+
+Characters were compiled from:
+- AFI's 100 Greatest Heroes & Villains
+- Literary character surveys and rankings
+- MyAnimeList and anime/manga rankings
+- Classical mythology (Greek, Norse, Egyptian, Hindu, Chinese)
+- Epic literature (Mahabharata, Ramayana, Iliad, Odyssey)
+- Arabian Nights and Persian folklore
+- African folklore and literature (Yoruba, Akan, Malian traditions)
+- Video game character rankings
+- Contemporary film and television
+
+** Cultural Breakdown
+
+| Culture | Count | Notes |
+|---------+-------+-------|
+| British | 89 | Shakespeare, Dickens, Harry Potter, LOTR, James Bond |
+| American | 83 | AFI heroes/villains, Marvel, Star Wars, modern literature |
+| Japanese | 28 | Anime protagonists (Naruto, Goku, etc.), Studio Ghibli |
+| Greek | 18 | Olympian gods, tragic heroes, Homeric figures |
+| Indian | 17 | Mahabharata & Ramayana heroes (Rama, Arjuna, Hanuman, etc.) |
+| French | 14 | Three Musketeers, Hugo, Verne, Dumas characters |
+| Russian | 9 | Dostoevsky, Tolstoy, Chekhov characters |
+| Chinese | 8 | Journey to the West, classical literature |
+| Egyptian | 7 | Ancient Egyptian deities (Osiris, Anubis, Ra, etc.) |
+| Other | ~55 | Norse, Arabic, Celtic, African, Latin American, etc. |
+
+** Media Type Distribution
+
+| Media Type | Count |
+|------------+-------|
+| Literature | 115 |
+| Mythology | 42 |
+| Theatre | 32 |
+| Film | 26 |
+| Literature/Film | 19 |
+| Folklore | 14 |
+| Anime/Manga | 13 |
+| Epic Poetry | 10 |
+| Video Games | 11 |
+| Comics | 10 |
+| Other | ~35 |
+
+** How Dataset Choices Affect Results
+
+The dataset was *intentionally* curated to include diversity, which directly affects the PCA results:
+
+- *Indian mythology cluster*: We specifically included 17 characters from the Mahabharata and Ramayana. This creates a visible "Indian Epic" cluster in residual PC1/PC2. Without this deliberate inclusion, this dimension would not appear.
+
+- *Anime representation*: The 28 Japanese anime/manga characters create a distinct cluster. A Western-only dataset would miss this axis.
+
+- *African folklore*: Including Anansi, Sundiata, Mami Wata, and Okonkwo ensures non-Western narrative traditions are represented, though they're a smaller cluster.
+
+- *Greek mythology*: The 18 Greek mythological figures anchor the "divine/cosmic" end of several PCs.
+
+If you replicate this with a different character set, expect different clusters. The PCA finds structure in *whatever characters you give it* - the interpretations depend on the dataset composition.
+
+** Dataset File
+
+The full character list with metadata is in =data/canonical_fictional_characters.json=:
+
+#+begin_src python
+import json
+with open('data/canonical_fictional_characters.json') as f:
+    data = json.load(f)
+print(f"Total characters: {len(data['characters'])}")
+print(f"Sources: {len(data['metadata']['sources'])} sources cited")
+#+end_src
+
 * Setup
 
 #+begin_src python
