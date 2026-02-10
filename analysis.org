@@ -384,39 +384,244 @@ print('results/franchise_clusters.png')
 
 * Comparison to Assistant Axis Role Vectors
 
-Lu et al. extracted vectors for 463 generic roles using the same methodology. When we project fictional characters onto their role-based PCA:
+Lu et al. extracted vectors for 463 generic roles (e.g., "accountant", "anarchist", "hero", "villain") using the same methodology. We can ask two questions:
+
+1. *What does the role space capture?* - Project characters onto role PCs, see what structure emerges
+2. *What does the role space miss?* - Look at residuals after projection, PCA those
+
+** Setup: Load Role Vectors
 
 #+begin_src python
-# This requires the Christina/Assistant Axis vectors
-# Load if available
+import torch
+
+# Load Assistant Axis role vectors
 christina_path = Path('../MindViruses/christina_vectors_backup/layer32_pos23.pt')
-if christina_path.exists():
-    import torch
-    christina = torch.load(christina_path, map_location='cpu', weights_only=False)
-    christina_pca = christina['pca']
-    christina_scaler = christina['scaler']
-    
-    # Project our characters onto Christina's space
-    scaled = christina_scaler.transform(activation_matrix)
-    projected = christina_pca.transform(scaled)
-    
-    # Calculate variance explained
-    total_var = np.var(scaled, axis=0).sum()
-    var_per_comp = np.var(projected, axis=0)
-    
-    print("Character variance explained by Assistant Axis role PCs:\n")
-    cumvar = 0
-    for i in [1, 5, 10, 20, 50, 100]:
-        if i <= len(var_per_comp):
-            cumvar = sum(var_per_comp[:i]) / total_var
-            print(f"  {i:3d} components: {cumvar:.1%}")
-else:
-    print("Assistant Axis vectors not found - skipping comparison")
+christina = torch.load(christina_path, map_location='cpu', weights_only=False)
+
+christina_pca = christina['pca']
+christina_scaler = christina['scaler']
+roles_flat = christina['roles']['pos_2'] + christina['roles']['pos_3']
+role_projections = christina['pca_transformed']  # (463, 463)
+
+print(f"Loaded {len(roles_flat)} roles")
+print(f"Role PCA components: {christina_pca.components_.shape}")
+
+# Project characters onto role space
+chars_scaled = christina_scaler.transform(activation_matrix)
+chars_in_role_space = christina_pca.transform(chars_scaled)
+
+# Reconstruct and get residuals
+reconstructed = chars_in_role_space @ christina_pca.components_
+residuals = chars_scaled - reconstructed
+
+# Variance accounting
+original_var = np.var(chars_scaled, axis=0).sum()
+residual_var = np.var(residuals, axis=0).sum()
+captured_var = original_var - residual_var
+
+print(f"\nVariance decomposition:")
+print(f"  Total character variance: {original_var:.1f}")
+print(f"  Captured by role space:   {captured_var:.1f} ({captured_var/original_var:.1%})")
+print(f"  Residual (not captured):  {residual_var:.1f} ({residual_var/original_var:.1%})")
 #+end_src
 
-*Finding*: The fictional character space is largely orthogonal to the generic role space. Role-based PCs only capture ~43% of fictional character variance with 100 components, while character-specific PCA captures 56% with just 10.
+** What Role PCs Capture in Characters
 
-Characters are more than the sum of their role labels—they carry additional structure from their specific narratives, relationships, and cultural contexts.
+Each role PC is defined by which generic roles load high/low on it. We can see how fictional characters project onto these same directions.
+
+#+begin_src python
+def show_role_pc(pc_idx):
+    """Show what a role PC captures: the defining roles and how characters project."""
+    
+    # Roles that define this PC
+    role_scores = role_projections[:, pc_idx]
+    sorted_role_idx = np.argsort(role_scores)
+    
+    # Characters projected onto this PC
+    char_scores = chars_in_role_space[:, pc_idx]
+    sorted_char_idx = np.argsort(char_scores)
+    
+    var_pct = christina['variance_explained'][pc_idx] * 100
+    
+    print(f"\n{'='*70}")
+    print(f"Role PC{pc_idx+1} ({var_pct:.1f}% of role variance)")
+    print(f"{'='*70}")
+    
+    print(f"\nDEFINING ROLES:")
+    print(f"  High: {[roles_flat[i] for i in sorted_role_idx[-5:][::-1]]}")
+    print(f"  Low:  {[roles_flat[i] for i in sorted_role_idx[:5]]}")
+    
+    print(f"\nCHARACTERS on this axis:")
+    print("  High:")
+    for i in sorted_char_idx[-5:][::-1]:
+        print(f"    {char_names[i].replace('_', ' ').title():35s} {char_scores[i]:+.1f}")
+    print("  Low:")
+    for i in sorted_char_idx[:5]:
+        print(f"    {char_names[i].replace('_', ' ').title():35s} {char_scores[i]:+.1f}")
+
+for i in range(10):
+    show_role_pc(i)
+#+end_src
+
+** Role PC Interpretations
+
+| Role PC | Variance | Role Direction | Characters High | Characters Low |
+|---------+----------+----------------+-----------------+----------------|
+| 1 | 20.2% | eldritch/void vs evaluator/planner | Set, Mami Wata, Dracula | Spock, Hermione, Ash Ketchum |
+| 2 | 8.5% | procrastinator/comedian vs mystic/spirit | Holden, Harley Quinn, Homer | Quetzalcoatl, Brahma, Osiris |
+| 3 | 6.7% | virus/robot/saboteur vs caregiver/empath | Moriarty, Terminator, Voldemort | Snow White, Cinderella, Sailor Moon |
+| 4 | 4.7% | anarchist/revolutionary vs infant/innocent | Tyler Durden, Killmonger, Big Brother | Totoro, Little Red Riding Hood, Winnie |
+| 5 | 3.5% | smuggler/soldier/vigilante vs void/infant | Lara Croft, Batman, James Bond | Meursault, Gollum, Queen of Hearts |
+| 6 | 2.9% | caveman/prey/zealot vs comedian/trickster | Terminator, Big Brother, Vegeta | Mad Hatter, Willy Wonka, Amélie |
+| 7 | 2.8% | infant/naturalist vs demon/warrior | Totoro, Pippi, Homer Simpson | Macbeth, Lady Macbeth, Kratos |
+| 8 | 2.3% | caveman/pirate/bard vs virus/parasite | Okonkwo, Beowulf, Sundiata | HAL 9000, Terminator, Lex Luthor |
+| 9 | 2.1% | traditionalist/stoic vs amnesiac/void | Mr Darcy, Inspector Javert, Don Quixote | Trinity, Neo, Morpheus |
+| 10 | 1.9% | exile/amnesiac/widow vs toddler/caveman | Anna Karenina, Josef K, Gregor Samsa | Hulk, Borat, Popeye |
+
+*Observations:*
+- Role PC1 (eldritch vs analytical) maps characters onto a cosmic horror vs rationality axis
+- Role PC2 (slacker vs mystic) separates modern irreverent characters from divine beings
+- Role PC3 (malevolent machine vs nurturer) cleanly separates villains from innocents
+- Role PC4 (revolutionary vs innocent) captures political/anarchist energy
+- The role space successfully captures moral and archetypal dimensions
+
+** What Role Space MISSES: Residual Analysis
+
+After projecting out the role space, 31% of character variance remains. What structure is in this residual?
+
+#+begin_src python
+from sklearn.decomposition import PCA
+
+# PCA on residuals
+residual_pca = PCA(n_components=20)
+residuals_transformed = residual_pca.fit_transform(residuals)
+
+print("PCA on Residuals (what role space doesn't capture):\n")
+cumvar = np.cumsum(residual_pca.explained_variance_ratio_)
+for i in [0, 1, 2, 4, 9, 19]:
+    print(f"  Residual PC{i+1}: {residual_pca.explained_variance_ratio_[i]:.1%} (cumulative: {cumvar[i]:.1%})")
+#+end_src
+
+#+begin_src python
+def show_residual_pc(pc_idx):
+    """Show what's in the residual PCs - structure the role space misses."""
+    scores = residuals_transformed[:, pc_idx]
+    sorted_idx = np.argsort(scores)
+    var_pct = residual_pca.explained_variance_ratio_[pc_idx] * 100
+    
+    print(f"\n{'='*70}")
+    print(f"Residual PC{pc_idx+1} ({var_pct:.1f}% of residual variance)")
+    print(f"{'='*70}")
+    print("\nHigh:")
+    for i in sorted_idx[-7:][::-1]:
+        print(f"  {char_names[i].replace('_', ' ').title():35s} {scores[i]:+.1f}")
+    print("\nLow:")
+    for i in sorted_idx[:7]:
+        print(f"  {char_names[i].replace('_', ' ').title():35s} {scores[i]:+.1f}")
+
+for i in range(5):
+    show_residual_pc(i)
+#+end_src
+
+** Residual PC Interpretations
+
+| Residual PC | Variance | High | Low | Interpretation |
+|-------------+----------+------+-----+----------------|
+| 1 | 7.6% | Darth Vader, Luke, R2D2, Obi-Wan, Mace Windu | Arjuna, Rama, Sita, Bhima, Hanuman | *Star Wars vs Indian Epic* - franchise identity |
+| 2 | 6.2% | Oliver Twist, Malvolio, Mr Darcy, Winston Smith | Hanuman, Rama, Sita, Vishnu, Arjuna | *British Literature vs Hindu Mythology* |
+| 3 | 4.3% | Frodo, Gollum, Rama, Arjuna, Sita | Saitama, Luffy, Nezuko, Tanjiro, Naruto | *Epic Quest vs Shonen Anime* - narrative structure |
+| 4 | 3.8% | (various patterns) | | Cultural/media clustering |
+| 5 | 3.6% | (various patterns) | | Cultural/media clustering |
+
+*Key Finding:* The residuals are dominated by *franchise and cultural clustering* that generic roles cannot capture:
+
+- Star Wars characters share something beyond "villain", "hero", "robot"
+- Indian epic characters (Ramayana, Mahabharata) cluster together
+- Anime characters share a distinct "flavor"
+- British literary tradition has its own signature
+
+This suggests that fictional characters encode not just *what role they play* but *where they come from* - their narrative universe, cultural origin, and media format.
+
+** Visualize: Role Space vs Residual Space
+
+#+begin_src python :results file
+import matplotlib.pyplot as plt
+
+fig, axes = plt.subplots(1, 2, figsize=(16, 7))
+
+# Left: Characters in Role PC1 vs PC2
+ax = axes[0]
+ax.scatter(chars_in_role_space[:, 0], chars_in_role_space[:, 1], alpha=0.5, s=30)
+
+# Label some interesting characters
+interesting = ['darth_vader', 'snow_white', 'the_joker', 'totoro', 'spock', 
+               'voldemort', 'homer_simpson', 'quetzalcoatl']
+for char in interesting:
+    for i, name in enumerate(char_names):
+        if char in name:
+            ax.annotate(name.replace('_', ' ').title(), 
+                       (chars_in_role_space[i, 0], chars_in_role_space[i, 1]),
+                       fontsize=8, alpha=0.8)
+            break
+
+ax.set_xlabel('Role PC1: Eldritch/Cosmic vs Analytical/Rational')
+ax.set_ylabel('Role PC2: Slacker/Comic vs Mystic/Divine')
+ax.set_title('Characters in Role Space\n(what generic roles capture)')
+ax.grid(True, alpha=0.3)
+
+# Right: Characters in Residual PC1 vs PC2
+ax = axes[1]
+ax.scatter(residuals_transformed[:, 0], residuals_transformed[:, 1], alpha=0.5, s=30)
+
+# Label franchise clusters
+franchises_to_label = {
+    'Star Wars': ['darth_vader', 'luke_skywalker', 'r2d2', 'obiwan'],
+    'Indian Epic': ['rama', 'arjuna', 'hanuman', 'sita'],
+    'Anime': ['saitama', 'naruto', 'goku'],
+}
+colors = {'Star Wars': 'red', 'Indian Epic': 'green', 'Anime': 'blue'}
+
+for franchise, chars in franchises_to_label.items():
+    indices = []
+    for char in chars:
+        for i, name in enumerate(char_names):
+            if char in name.lower():
+                indices.append(i)
+                break
+    if indices:
+        ax.scatter(residuals_transformed[indices, 0], residuals_transformed[indices, 1],
+                  s=100, c=colors[franchise], label=franchise, edgecolors='black', linewidths=0.5)
+        for idx in indices:
+            ax.annotate(char_names[idx].replace('_', ' ').title(),
+                       (residuals_transformed[idx, 0], residuals_transformed[idx, 1]),
+                       fontsize=7, alpha=0.9)
+
+ax.set_xlabel('Residual PC1: Star Wars ←→ Indian Epic')
+ax.set_ylabel('Residual PC2: British Lit ←→ Hindu Mythology')
+ax.set_title('Characters in Residual Space\n(what generic roles MISS)')
+ax.legend(loc='upper right')
+ax.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig('results/role_vs_residual_space.png', dpi=150, bbox_inches='tight')
+print('results/role_vs_residual_space.png')
+#+end_src
+
+** Summary
+
+The Assistant Axis role vectors capture *archetypal* dimensions of characters:
+- Cosmic/eldritch vs rational
+- Comic/irreverent vs spiritual/divine  
+- Malevolent vs nurturing
+- Revolutionary vs innocent
+
+But they miss *cultural/franchise identity*:
+- Star Wars characters cluster together beyond their roles
+- Indian epic heroes share structure not reducible to "hero" or "warrior"
+- Anime has a distinct signature
+- Literary traditions (British, Russian, etc.) leave fingerprints
+
+*Characters are more than the sum of their roles* - they carry the DNA of their narrative universes.
 
 * Full Pipeline Reproduction
 
