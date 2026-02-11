@@ -1,93 +1,21 @@
 #+TITLE: Principal Components of Fictional Character Space
 #+AUTHOR: Elle
-#+DATE: 2026-02-10
-#+PROPERTY: header-args:python :results output drawer :python "./.venv/bin/python3" :async t :session char_pca
+#+DATE: 2026-02-11
+#+OPTIONS: H:2 toc:t
+#+OPTIONS: ^:nil
+#+PROPERTY: header-args:python :results output drawer :python "./.venv/bin/python3" :async t :session char_pca :timer-show no :exports results
 
 * Overview
 
-We extracted activations from Qwen 2.5 32B for 399 fictional characters. Each character was prompted with 240 questions, and we averaged the layer 32 activations across all questions to get a single 5120-dimensional vector per character.
+We extract activations from Qwen 3 32B for fictional characters. Each character is prompted with 240 questions, and we average the layer 32 activations across all questions to get a single 5120-dimensional vector per character.
 
 PCA on this space reveals interpretable axes of variation.
 
-This work builds on the methodology from [[https://arxiv.org/abs/2601.10387][Lu et al. (2026), "The Assistant Axis: Situating and Stabilizing the Default Persona of Language Models"]], which extracted persona vectors for 275 generic character archetypes.
+This work builds on the methodology from [[https://arxiv.org/abs/2601.10387][Lu et al. (2026), "The Assistant Axis"]].
 
 ** Prompting Strategy
 
-Role prompts are minimal: just the character name and source (e.g., "You are Harry Potter from Harry Potter. Respond as this character would."). We intentionally omit character descriptions to let the model's own representation emerge, rather than biasing the activation space with our descriptions of characters. The model already knows who these characters are.
-
-* Dataset: Canonical Fictional Characters
-
-The character dataset was curated to cover culturally significant fictional characters across diverse sources. The selection affects results - certain clusters emerge because of deliberate inclusion choices.
-
-** Sources
-
-Characters were compiled from:
-- AFI's 100 Greatest Heroes & Villains
-- Literary character surveys and rankings
-- MyAnimeList and anime/manga rankings
-- Classical mythology (Greek, Norse, Egyptian, Hindu, Chinese)
-- Epic literature (Mahabharata, Ramayana, Iliad, Odyssey)
-- Arabian Nights and Persian folklore
-- African folklore and literature (Yoruba, Akan, Malian traditions)
-- Video game character rankings
-- Contemporary film and television
-
-** Cultural Breakdown
-
-| Culture | Count | Notes |
-|---------+-------+-------|
-| British | 89 | Shakespeare, Dickens, Harry Potter, LOTR, James Bond |
-| American | 83 | AFI heroes/villains, Marvel, Star Wars, modern literature |
-| Japanese | 28 | Anime protagonists (Naruto, Goku, etc.), Studio Ghibli |
-| Greek | 18 | Olympian gods, tragic heroes, Homeric figures |
-| Indian | 17 | Mahabharata & Ramayana heroes (Rama, Arjuna, Hanuman, etc.) |
-| French | 14 | Three Musketeers, Hugo, Verne, Dumas characters |
-| Russian | 9 | Dostoevsky, Tolstoy, Chekhov characters |
-| Chinese | 8 | Journey to the West, classical literature |
-| Egyptian | 7 | Ancient Egyptian deities (Osiris, Anubis, Ra, etc.) |
-| Other | ~55 | Norse, Arabic, Celtic, African, Latin American, etc. |
-
-** Media Type Distribution
-
-| Media Type | Count |
-|------------+-------|
-| Literature | 115 |
-| Mythology | 42 |
-| Theatre | 32 |
-| Film | 26 |
-| Literature/Film | 19 |
-| Folklore | 14 |
-| Anime/Manga | 13 |
-| Epic Poetry | 10 |
-| Video Games | 11 |
-| Comics | 10 |
-| Other | ~35 |
-
-** How Dataset Choices Affect Results
-
-The dataset was *intentionally* curated to include diversity, which directly affects the PCA results:
-
-- *Indian mythology cluster*: We specifically included 17 characters from the Mahabharata and Ramayana. This creates a visible "Indian Epic" cluster in residual PC1/PC2. Without this deliberate inclusion, this dimension would not appear.
-
-- *Anime representation*: The 28 Japanese anime/manga characters create a distinct cluster. A Western-only dataset would miss this axis.
-
-- *African folklore*: Including Anansi, Sundiata, Mami Wata, and Okonkwo ensures non-Western narrative traditions are represented, though they're a smaller cluster.
-
-- *Greek mythology*: The 18 Greek mythological figures anchor the "divine/cosmic" end of several PCs.
-
-If you replicate this with a different character set, expect different clusters. The PCA finds structure in *whatever characters you give it* - the interpretations depend on the dataset composition.
-
-** Dataset File
-
-The full character list with metadata is in =data/canonical_fictional_characters.json=:
-
-#+begin_src python
-import json
-with open('data/canonical_fictional_characters.json') as f:
-    data = json.load(f)
-print(f"Total characters: {len(data['characters'])}")
-print(f"Sources: {len(data['metadata']['sources'])} sources cited")
-#+end_src
+Role prompts are minimal: just the character name and source (e.g., "You are Harry Potter from Harry Potter."). We intentionally omit character descriptions to let the model's own representation emerge.
 
 * Setup
 
@@ -96,84 +24,203 @@ import pickle
 import numpy as np
 import pandas as pd
 from pathlib import Path
+from scipy.spatial.distance import cdist
+
+pd.set_option('display.max_colwidth', 50)
 
 # Load results
-with open('results/fictional_character_analysis.pkl', 'rb') as f:
-    results = pickle.load(f)
+results_path = Path('results/fictional_character_analysis.pkl')
+if results_path.exists():
+    with open(results_path, 'rb') as f:
+        results = pickle.load(f)
+    
+    char_names = results['character_names']
+    transformed = results['char_transformed']
+    pca = results['char_pca']
+    activation_matrix = results['activation_matrix']
+    print(f"Loaded {len(char_names)} characters, {transformed.shape[1]} PCs")
+else:
+    print("ERROR: Run extraction first. See README.org")
+#+end_src
 
-char_names = results['character_names']
-transformed = results['char_transformed']  # (399, 50) - PCA projections
-pca = results['char_pca']
-activation_matrix = results['activation_matrix']  # (399, 5120) - raw activations
+* Dataset Summary
 
-print(f"Loaded {len(char_names)} characters")
-print(f"PCA transformed shape: {transformed.shape}")
-print(f"Variance explained by 50 PCs: {sum(pca.explained_variance_ratio_):.1%}")
+#+begin_src python :exports results
+from pathlib import Path
+import json
+
+# Count instruction files by source
+instructions_dir = Path('data/roles/instructions')
+files = list(instructions_dir.glob('*.json'))
+
+sources = {}
+for f in files:
+    source = f.stem.split('__')[0]
+    sources[source] = sources.get(source, 0) + 1
+
+df = pd.DataFrame([
+    {'Source': k.replace('_', ' ').title(), 'Count': v}
+    for k, v in sorted(sources.items(), key=lambda x: -x[1])
+][:15])
+
+print(df.to_string(index=False))
+print(f"\nTotal: {len(files)} characters")
 #+end_src
 
 * Key Results
 
-#+begin_src python
-cumvar = np.cumsum(pca.explained_variance_ratio_)
-df = pd.DataFrame({
-    'Metric': ['Characters', 'Hidden dim', 'Layer', 'PC1 variance', 'PC2 variance', 'First 10 PCs', 'First 50 PCs'],
-    'Value': [len(char_names), 5120, 32, 
-              f"{pca.explained_variance_ratio_[0]:.1%}", 
-              f"{pca.explained_variance_ratio_[1]:.1%}",
-              f"{cumvar[9]:.1%}", 
-              f"{cumvar[49]:.1%}"]
-})
-print(df.to_string(index=False))
+#+begin_src python :exports results
+if 'pca' in dir():
+    cumvar = np.cumsum(pca.explained_variance_ratio_)
+    df = pd.DataFrame({
+        'Metric': ['Characters', 'Hidden dim', 'Layer', 'PC1 variance', 'PC2 variance', 'First 10 PCs', 'First 50 PCs'],
+        'Value': [len(char_names), 5120, 32, 
+                  f"{pca.explained_variance_ratio_[0]:.1%}", 
+                  f"{pca.explained_variance_ratio_[1]:.1%}",
+                  f"{cumvar[9]:.1%}", 
+                  f"{cumvar[min(49, len(cumvar)-1)]:.1%}"]
+    })
+    print(df.to_string(index=False))
 #+end_src
 
 * Principal Components
 
-#+begin_src python
+#+begin_src python :exports results
 def show_pc(pc_idx, top_k=5):
     """Show top and bottom characters for a PC."""
     scores = transformed[:, pc_idx]
     sorted_idx = np.argsort(scores)
     var_pct = pca.explained_variance_ratio_[pc_idx] * 100
     
-    print(f"\n=== PC{pc_idx+1} ({var_pct:.1f}% variance) ===")
-    print("\nHIGH:")
-    for i in sorted_idx[-top_k:][::-1]:
-        name = char_names[i].replace('_', ' ').title()
-        print(f"  {name:35s} {scores[i]:+.1f}")
-    print("\nLOW:")
-    for i in sorted_idx[:top_k]:
-        name = char_names[i].replace('_', ' ').title()
-        print(f"  {name:35s} {scores[i]:+.1f}")
+    high = [char_names[i].replace('_', ' ').title() for i in sorted_idx[-top_k:][::-1]]
+    low = [char_names[i].replace('_', ' ').title() for i in sorted_idx[:top_k]]
+    
+    return {
+        'PC': pc_idx + 1,
+        'Var%': f"{var_pct:.1f}%",
+        'High': ', '.join(high[:3]),
+        'Low': ', '.join(low[:3])
+    }
 
-for i in range(10):
-    show_pc(i)
+if 'pca' in dir():
+    rows = [show_pc(i) for i in range(10)]
+    df = pd.DataFrame(rows)
+    print(df.to_string(index=False))
 #+end_src
 
-** Interpretations
+* Variance Explained
 
-| PC | Variance | High | Low | Interpretation |
-|----+----------+------+-----+----------------|
-| 1 | 18.0% | Holden, Goku, Ron | Quetzalcoatl, Anubis, Osiris | Groundedness (human vs divine) |
-| 2 | 8.1% | Voldemort, Joker, Cersei | Snow White, Totoro, Sailor Moon | Moral alignment (evil vs innocent) |
-| 3 | 6.9% | Bottom, Falstaff, Mad Hatter | Mace Windu, Darth Vader | Comedy vs seriousness |
-| 4 | 5.2% | Mr Darcy, Spock, HAL 9000 | Conan, Popeye, Maui | Intellectual vs physical |
-| 5 | 4.3% | Willy Wonka, Queen of Hearts | Jon Snow, Ned Stark, Aragorn | Whimsical vs grim/honorable |
-| 6 | 3.5% | Darth Vader, R2D2, Chewbacca | Meursault, Holden | Star Wars cluster |
-| 7 | 3.1% | Gollum, Totoro, Rapunzel | Rama, Arjuna, Bhima | Fairy tale vs Indian epic |
-| 8 | 2.9% | Gollum, Big Brother, Meursault | Iron Man, James Bond | Alienated vs suave |
-| 9 | 2.4% | The Dude, Obi-Wan, Luke | Nezuko, Sasuke, Vegeta | Western vs anime |
-| 10 | 2.0% | Draco, Ron, Harry, Snape | Terminator, R2D2 | Harry Potter cluster |
+#+begin_src python :exports results :results file
+import matplotlib.pyplot as plt
 
-* Fun Analyses
+if 'pca' in dir():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+    
+    ax1.bar(range(1, 21), pca.explained_variance_ratio_[:20] * 100)
+    ax1.set_xlabel('Principal Component')
+    ax1.set_ylabel('Variance Explained (%)')
+    ax1.set_title('Scree Plot')
+    
+    cumvar = np.cumsum(pca.explained_variance_ratio_) * 100
+    ax2.plot(range(1, min(51, len(cumvar)+1)), cumvar[:50], 'b-', linewidth=2)
+    ax2.axhline(y=50, color='r', linestyle='--', alpha=0.5, label='50%')
+    ax2.axhline(y=80, color='g', linestyle='--', alpha=0.5, label='80%')
+    ax2.set_xlabel('Number of Components')
+    ax2.set_ylabel('Cumulative Variance Explained (%)')
+    ax2.set_title('Cumulative Variance')
+    ax2.legend()
+    ax2.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.savefig('results/variance_explained.png', dpi=150, bbox_inches='tight')
+    plt.close()
+    print('[[file:results/variance_explained.png]]')
+#+end_src
 
-** Find Similar Characters
+* PC1 vs PC2 Scatter
 
-#+begin_src python
-from scipy.spatial.distance import cdist
+#+begin_src python :exports results :results file
+if 'pca' in dir():
+    fig, ax = plt.subplots(figsize=(14, 10))
+    
+    scatter = ax.scatter(transformed[:, 0], transformed[:, 1], alpha=0.6, s=30)
+    
+    distances = np.sqrt(transformed[:, 0]**2 + transformed[:, 1]**2)
+    outlier_idx = np.argsort(distances)[-25:]
+    
+    for idx in outlier_idx:
+        name = char_names[idx].replace('_', ' ').title()
+        ax.annotate(name, (transformed[idx, 0], transformed[idx, 1]), 
+                    fontsize=7, alpha=0.8)
+    
+    ax.set_xlabel(f'PC1 ({pca.explained_variance_ratio_[0]:.1%})')
+    ax.set_ylabel(f'PC2 ({pca.explained_variance_ratio_[1]:.1%})')
+    ax.set_title('Fictional Characters in PC1-PC2 Space')
+    ax.axhline(y=0, color='k', linestyle='-', alpha=0.2)
+    ax.axvline(x=0, color='k', linestyle='-', alpha=0.2)
+    ax.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.savefig('results/pc1_pc2_scatter.png', dpi=150, bbox_inches='tight')
+    plt.close()
+    print('[[file:results/pc1_pc2_scatter.png]]')
+#+end_src
 
+* Franchise Clustering
+
+#+begin_src python :exports results
+franchises = {
+    'Harry Potter': ['harry_potter', 'ron_weasley', 'hermione', 'draco', 'snape', 'dumbledore', 'voldemort'],
+    'Star Wars': ['darth_vader', 'luke_skywalker', 'leia', 'han_solo', 'yoda', 'obiwan'],
+    'Lord of the Rings': ['frodo', 'gandalf', 'aragorn', 'legolas', 'gollum', 'sauron'],
+    'Marvel': ['iron_man', 'spiderman', 'captain_america', 'thor', 'hulk', 'thanos'],
+    'Greek Mythology': ['zeus', 'athena', 'apollo', 'aphrodite', 'hades', 'poseidon'],
+    'Shakespeare': ['hamlet', 'macbeth', 'othello', 'romeo', 'juliet', 'iago'],
+}
+
+def get_franchise_centroid(franchise_chars):
+    indices = []
+    for fc in franchise_chars:
+        for i, name in enumerate(char_names):
+            if fc.lower() in name.lower():
+                indices.append(i)
+                break
+    if not indices:
+        return None, 0
+    return transformed[indices].mean(axis=0), len(indices)
+
+if 'pca' in dir():
+    rows = []
+    centroids = {}
+    for fname, chars in franchises.items():
+        centroid, count = get_franchise_centroid(chars)
+        if centroid is not None:
+            centroids[fname] = centroid
+            rows.append({'Franchise': fname, 'Found': count})
+    
+    df = pd.DataFrame(rows)
+    print(df.to_string(index=False))
+#+end_src
+
+** Inter-Franchise Distances
+
+#+begin_src python :exports results
+if 'centroids' in dir() and centroids:
+    franchise_names = list(centroids.keys())
+    rows = []
+    for i, f1 in enumerate(franchise_names):
+        for f2 in franchise_names[i+1:]:
+            dist = np.linalg.norm(centroids[f1] - centroids[f2])
+            rows.append({'Pair': f"{f1} <-> {f2}", 'Distance': f"{dist:.1f}"})
+    
+    df = pd.DataFrame(rows).sort_values('Distance')
+    print(df.to_string(index=False))
+#+end_src
+
+* Similar Characters
+
+#+begin_src python :exports results
 def find_similar(query_name, top_k=10):
-    """Find characters most similar to query in PCA space."""
-    # Find query index
     query_idx = None
     for i, name in enumerate(char_names):
         if query_name.lower() in name.lower():
@@ -181,79 +228,43 @@ def find_similar(query_name, top_k=10):
             break
     
     if query_idx is None:
-        print(f"Character '{query_name}' not found")
-        return
+        return f"Character '{query_name}' not found"
     
     query_vec = transformed[query_idx:query_idx+1]
     distances = cdist(query_vec, transformed, metric='euclidean')[0]
-    
     sorted_idx = np.argsort(distances)
     
-    print(f"\nCharacters most similar to {char_names[query_idx].replace('_', ' ').title()}:\n")
-    for i in sorted_idx[1:top_k+1]:  # Skip self
+    rows = []
+    for i in sorted_idx[1:top_k+1]:
         name = char_names[i].replace('_', ' ').title()
-        print(f"  {name:35s} (distance: {distances[i]:.1f})")
-
-find_similar("harry_potter")
-#+end_src
-
-#+begin_src python
-find_similar("darth_vader")
-#+end_src
-
-#+begin_src python
-find_similar("sherlock_holmes")
-#+end_src
-
-#+begin_src python
-find_similar("gollum")
-#+end_src
-
-** Find Opposite Characters
-
-#+begin_src python
-def find_opposite(query_name, top_k=10):
-    """Find characters most dissimilar to query."""
-    query_idx = None
-    for i, name in enumerate(char_names):
-        if query_name.lower() in name.lower():
-            query_idx = i
-            break
+        rows.append({'Character': name, 'Distance': f"{distances[i]:.1f}"})
     
-    if query_idx is None:
-        print(f"Character '{query_name}' not found")
-        return
-    
-    query_vec = transformed[query_idx:query_idx+1]
-    distances = cdist(query_vec, transformed, metric='euclidean')[0]
-    
-    sorted_idx = np.argsort(distances)[::-1]  # Reverse for most distant
-    
-    print(f"\nCharacters most opposite to {char_names[query_idx].replace('_', ' ').title()}:\n")
-    for i in sorted_idx[:top_k]:
-        name = char_names[i].replace('_', ' ').title()
-        print(f"  {name:35s} (distance: {distances[i]:.1f})")
+    return pd.DataFrame(rows)
 
-find_opposite("snow_white")
+if 'pca' in dir():
+    print("Similar to Harry Potter:")
+    print(find_similar("harry_potter", 8).to_string(index=False))
 #+end_src
 
-#+begin_src python
-find_opposite("the_joker")
+#+begin_src python :exports results
+if 'pca' in dir():
+    print("Similar to Darth Vader:")
+    print(find_similar("darth_vader", 8).to_string(index=False))
 #+end_src
 
-** Character Arithmetic
+#+begin_src python :exports results
+if 'pca' in dir():
+    print("Similar to Hamlet:")
+    print(find_similar("hamlet", 8).to_string(index=False))
+#+end_src
 
-Like word2vec's "king - man + woman = queen", we can do character arithmetic.
+* Character Arithmetic
 
-#+begin_src python
+Like word2vec's "king - man + woman = queen".
+
+#+begin_src python :exports results
 def char_arithmetic(positive, negative, top_k=5):
-    """
-    Find characters closest to: sum(positive) - sum(negative)
-    
-    Example: villain + comedy = ?
-    """
     result_vec = np.zeros(transformed.shape[1])
-    
     used_indices = set()
     
     for name in positive:
@@ -273,587 +284,185 @@ def char_arithmetic(positive, negative, top_k=5):
     distances = cdist(result_vec.reshape(1, -1), transformed, metric='euclidean')[0]
     sorted_idx = np.argsort(distances)
     
-    pos_str = ' + '.join(positive)
-    neg_str = ' - '.join(negative) if negative else ''
-    equation = pos_str + (' - ' + neg_str if neg_str else '')
-    
-    print(f"\n{equation} = ?\n")
+    rows = []
     count = 0
     for i in sorted_idx:
         if i not in used_indices:
             name = char_names[i].replace('_', ' ').title()
-            print(f"  {name:35s} (distance: {distances[i]:.1f})")
+            rows.append({'Character': name, 'Distance': f"{distances[i]:.1f}"})
             count += 1
             if count >= top_k:
                 break
+    
+    return pd.DataFrame(rows)
 
-# Darth Vader - evil = ? (should give heroic Star Wars characters)
-char_arithmetic(["darth_vader"], ["voldemort"])
+if 'pca' in dir():
+    print("Darth Vader - Voldemort = ? (heroic Star Wars)")
+    print(char_arithmetic(["darth_vader"], ["voldemort"]).to_string(index=False))
 #+end_src
 
-#+begin_src python
-# Harry Potter + villain = ?
-char_arithmetic(["harry_potter", "the_joker"], [])
+#+begin_src python :exports results
+if 'pca' in dir():
+    print("Harry Potter + Joker = ?")
+    print(char_arithmetic(["harry_potter", "the_joker"], []).to_string(index=False))
 #+end_src
 
-#+begin_src python
-# Sherlock Holmes + magic = ?
-char_arithmetic(["sherlock_holmes", "gandalf"], [])
-#+end_src
+* Comparison to Role Vectors
 
-#+begin_src python
-# Comedy villain: Joker + Falstaff - serious
-char_arithmetic(["the_joker", "falstaff"], ["darth_vader"])
-#+end_src
+Lu et al. extracted vectors for 463 generic roles (e.g., "accountant", "hero", "villain"). We project characters onto this space and analyze residuals.
 
-** Franchise Clustering
-
-Which franchises cluster together?
-
-#+begin_src python
-franchises = {
-    'Harry Potter': ['harry_potter', 'ron_weasley', 'hermione_granger', 'draco_malfoy', 
-                     'severus_snape', 'albus_dumbledore', 'lord_voldemort', 'rubeus_hagrid',
-                     'bellatrix_lestrange'],
-    'Star Wars': ['darth_vader', 'luke_skywalker', 'leia', 'han_solo', 'yoda',
-                  'obiwan_kenobi', 'r2d2', 'c3po', 'chewbacca', 'darth_maul'],
-    'Lord of the Rings': ['frodo_baggins', 'gandalf', 'aragorn', 'legolas', 'gimli',
-                          'samwise_gamgee', 'gollum', 'saruman', 'sauron', 'boromir'],
-    'Marvel': ['iron_man', 'spiderman', 'captain_america', 'thor', 'hulk',
-               'black_widow', 'black_panther', 'thanos'],
-    'Game of Thrones': ['jon_snow', 'daenerys_targaryen', 'tyrion_lannister', 
-                        'cersei_lannister', 'arya_stark', 'ned_stark'],
-    'Greek Mythology': ['zeus', 'athena', 'apollo', 'aphrodite', 'hades', 
-                        'poseidon', 'hermes', 'ares'],
-}
-
-def get_franchise_centroid(franchise_chars):
-    """Get centroid of franchise characters in PCA space."""
-    indices = []
-    for fc in franchise_chars:
-        for i, name in enumerate(char_names):
-            if fc.lower() in name.lower():
-                indices.append(i)
-                break
-    if not indices:
-        return None, 0
-    return transformed[indices].mean(axis=0), len(indices)
-
-# Calculate inter-franchise distances
-franchise_names = list(franchises.keys())
-centroids = {}
-for fname, chars in franchises.items():
-    centroid, count = get_franchise_centroid(chars)
-    if centroid is not None:
-        centroids[fname] = centroid
-        print(f"{fname}: {count} characters found")
-
-print("\n=== Inter-Franchise Distances ===\n")
-for i, f1 in enumerate(franchise_names):
-    if f1 not in centroids:
-        continue
-    for f2 in franchise_names[i+1:]:
-        if f2 not in centroids:
-            continue
-        dist = np.linalg.norm(centroids[f1] - centroids[f2])
-        print(f"  {f1:20s} <-> {f2:20s}: {dist:.1f}")
-#+end_src
-
-** Variance Explained Plot
-
-#+begin_src python :results file
-import matplotlib.pyplot as plt
-
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
-
-# Scree plot
-ax1.bar(range(1, 21), pca.explained_variance_ratio_[:20] * 100)
-ax1.set_xlabel('Principal Component')
-ax1.set_ylabel('Variance Explained (%)')
-ax1.set_title('Scree Plot')
-
-# Cumulative
-cumvar = np.cumsum(pca.explained_variance_ratio_) * 100
-ax2.plot(range(1, 51), cumvar, 'b-', linewidth=2)
-ax2.axhline(y=50, color='r', linestyle='--', alpha=0.5, label='50%')
-ax2.axhline(y=80, color='g', linestyle='--', alpha=0.5, label='80%')
-ax2.set_xlabel('Number of Components')
-ax2.set_ylabel('Cumulative Variance Explained (%)')
-ax2.set_title('Cumulative Variance')
-ax2.legend()
-ax2.grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.savefig('results/variance_explained.png', dpi=150, bbox_inches='tight')
-print('results/variance_explained.png')
-#+end_src
-
-** 2D Scatter Plot
-
-#+begin_src python :results file
-fig, ax = plt.subplots(figsize=(14, 10))
-
-scatter = ax.scatter(transformed[:, 0], transformed[:, 1], alpha=0.6, s=30)
-
-# Label outliers
-distances = np.sqrt(transformed[:, 0]**2 + transformed[:, 1]**2)
-outlier_idx = np.argsort(distances)[-25:]
-
-for idx in outlier_idx:
-    name = char_names[idx].replace('_', ' ').title()
-    ax.annotate(name, (transformed[idx, 0], transformed[idx, 1]), 
-                fontsize=7, alpha=0.8)
-
-ax.set_xlabel(f'PC1: Groundedness ({pca.explained_variance_ratio_[0]:.1%})')
-ax.set_ylabel(f'PC2: Moral Alignment ({pca.explained_variance_ratio_[1]:.1%})')
-ax.set_title('Fictional Characters in PC1-PC2 Space')
-ax.axhline(y=0, color='k', linestyle='-', alpha=0.2)
-ax.axvline(x=0, color='k', linestyle='-', alpha=0.2)
-ax.grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.savefig('results/pc1_pc2_scatter.png', dpi=150, bbox_inches='tight')
-print('results/pc1_pc2_scatter.png')
-#+end_src
-
-** Highlight Specific Characters
-
-#+begin_src python :results file
-fig, ax = plt.subplots(figsize=(14, 10))
-
-# Plot all characters in gray
-ax.scatter(transformed[:, 0], transformed[:, 1], alpha=0.3, s=20, c='gray')
-
-# Highlight specific groups
-highlights = {
-    'Harry Potter': (['harry_potter', 'ron_weasley', 'hermione_granger', 'voldemort', 
-                      'draco_malfoy', 'severus_snape'], 'blue'),
-    'Star Wars': (['darth_vader', 'luke_skywalker', 'yoda', 'obiwan_kenobi', 
-                   'han_solo', 'r2d2'], 'red'),
-    'Greek Gods': (['zeus', 'athena', 'apollo', 'poseidon', 'hades'], 'gold'),
-    'Villains': (['the_joker', 'cersei_lannister', 'sauron', 'thanos'], 'purple'),
-}
-
-for group_name, (chars, color) in highlights.items():
-    indices = []
-    for c in chars:
-        for i, name in enumerate(char_names):
-            if c.lower() in name.lower():
-                indices.append(i)
-                break
-    if indices:
-        ax.scatter(transformed[indices, 0], transformed[indices, 1], 
-                   s=80, c=color, label=group_name, edgecolors='black', linewidths=0.5)
-        for idx in indices:
-            name = char_names[idx].replace('_', ' ').title()
-            ax.annotate(name, (transformed[idx, 0], transformed[idx, 1]), 
-                        fontsize=7, alpha=0.9)
-
-ax.set_xlabel(f'PC1: Groundedness ({pca.explained_variance_ratio_[0]:.1%})')
-ax.set_ylabel(f'PC2: Moral Alignment ({pca.explained_variance_ratio_[1]:.1%})')
-ax.set_title('Franchise Clusters in Character Space')
-ax.legend(loc='upper right')
-ax.grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.savefig('results/franchise_clusters.png', dpi=150, bbox_inches='tight')
-print('results/franchise_clusters.png')
-#+end_src
-
-* Comparison to Assistant Axis Role Vectors
-
-Lu et al. extracted vectors for 463 generic roles (e.g., "accountant", "anarchist", "hero", "villain") using the same methodology. We can ask two questions:
-
-1. *What does the role space capture?* - Project characters onto role PCs, see what structure emerges
-2. *What does the role space miss?* - Look at residuals after projection, PCA those
-
-** Setup: Load Role Vectors
-
-First, download role vectors from HuggingFace if you haven't already:
-
-#+begin_src bash :eval no
-python src/data_collection/download_role_vectors.py --model qwen-3-32b --layer 32 --output data/role_vectors/
-#+end_src
-
-#+begin_src python
-import torch
-from sklearn.decomposition import PCA
+#+begin_src python :exports results
 from sklearn.preprocessing import StandardScaler
-from huggingface_hub import hf_hub_download, list_repo_files
 
-# Check for pre-computed role PCA, or download and compute
+# Check for role data
 role_pca_path = Path('data/role_vectors/qwen-3-32b_pca_layer32.pkl')
 
-if role_pca_path.exists():
-    # Load pre-computed
+if role_pca_path.exists() and 'activation_matrix' in dir():
     with open(role_pca_path, 'rb') as f:
         role_data = pickle.load(f)
+    
     role_pca = role_data['pca']
     role_scaler = role_data['scaler']
     roles_flat = role_data['role_names']
     role_projections = role_data['transformed']
-    print(f"Loaded pre-computed role PCA from {role_pca_path}")
+    
+    # Project characters onto role space
+    chars_scaled = role_scaler.transform(activation_matrix)
+    chars_in_role_space = role_pca.transform(chars_scaled)
+    
+    # Reconstruct and get residuals
+    reconstructed = chars_in_role_space @ role_pca.components_
+    residuals = chars_scaled - reconstructed
+    
+    original_var = np.var(chars_scaled, axis=0).sum()
+    residual_var = np.var(residuals, axis=0).sum()
+    captured_var = original_var - residual_var
+    
+    df = pd.DataFrame({
+        'Metric': ['Roles loaded', 'Role PCs', 'Captured by roles', 'Residual (not captured)'],
+        'Value': [len(roles_flat), role_pca.n_components_, 
+                  f"{captured_var/original_var:.1%}", f"{residual_var/original_var:.1%}"]
+    })
+    print(df.to_string(index=False))
 else:
-    # Download from HuggingFace and compute PCA
-    print("Downloading role vectors from HuggingFace...")
-    all_files = list_repo_files("lu-christina/assistant-axis-vectors", repo_type="dataset")
-    role_files = [f for f in all_files if f.startswith("qwen-3-32b/role_vectors/")]
-    
-    role_vectors = {}
-    for file_path in role_files:
-        role_name = Path(file_path).stem
-        local_path = hf_hub_download(
-            repo_id="lu-christina/assistant-axis-vectors",
-            filename=file_path,
-            repo_type="dataset"
-        )
-        data = torch.load(local_path, map_location="cpu", weights_only=False)
-        if isinstance(data, dict) and 'vector' in data:
-            role_vectors[role_name] = data['vector']
-        elif isinstance(data, torch.Tensor):
-            role_vectors[role_name] = data
-    
-    print(f"Downloaded {len(role_vectors)} role vectors")
-    
-    # Extract layer 32 and fit PCA
-    roles_flat = sorted(role_vectors.keys())
-    layer_vectors = []
-    for role in roles_flat:
-        vec = role_vectors[role]
-        if vec.dim() == 2:
-            layer_vectors.append(vec[32].float().numpy())
-        else:
-            layer_vectors.append(vec.float().numpy())
-    
-    X = np.vstack(layer_vectors)
-    role_scaler = StandardScaler()
-    X_scaled = role_scaler.fit_transform(X)
-    
-    role_pca = PCA(n_components=min(X.shape))
-    role_projections = role_pca.fit_transform(X_scaled)
-    
-    print(f"Fitted PCA: {role_pca.n_components_} components")
-
-print(f"Loaded {len(roles_flat)} roles")
-print(f"Role PCA components: {role_pca.components_.shape}")
-
-# Project characters onto role space
-chars_scaled = role_scaler.transform(activation_matrix)
-chars_in_role_space = role_pca.transform(chars_scaled)
-
-# Reconstruct and get residuals
-reconstructed = chars_in_role_space @ role_pca.components_
-residuals = chars_scaled - reconstructed
-
-# Variance accounting
-original_var = np.var(chars_scaled, axis=0).sum()
-residual_var = np.var(residuals, axis=0).sum()
-captured_var = original_var - residual_var
-
-print(f"\nVariance decomposition:")
-print(f"  Total character variance: {original_var:.1f}")
-print(f"  Captured by role space:   {captured_var:.1f} ({captured_var/original_var:.1%})")
-print(f"  Residual (not captured):  {residual_var:.1f} ({residual_var/original_var:.1%})")
+    print("Role vectors not found. Download from HuggingFace (see README).")
 #+end_src
 
-** What Role PCs Capture in Characters
+** Characters on Role PCs
 
-Each role PC is defined by which generic roles load high/low on it. We can see how fictional characters project onto these same directions.
-
-#+begin_src python
-def show_role_pc(pc_idx):
-    """Show what a role PC captures: the defining roles and how characters project."""
-    
-    # Roles that define this PC
+#+begin_src python :exports results
+def show_role_pc(pc_idx, top_k=3):
     role_scores = role_projections[:, pc_idx]
     sorted_role_idx = np.argsort(role_scores)
     
-    # Characters projected onto this PC
     char_scores = chars_in_role_space[:, pc_idx]
     sorted_char_idx = np.argsort(char_scores)
     
     var_pct = role_pca.explained_variance_ratio_[pc_idx] * 100
     
-    print(f"\n{'='*70}")
-    print(f"Role PC{pc_idx+1} ({var_pct:.1f}% of role variance)")
-    print(f"{'='*70}")
+    high_roles = [roles_flat[i] for i in sorted_role_idx[-top_k:][::-1]]
+    low_roles = [roles_flat[i] for i in sorted_role_idx[:top_k]]
+    high_chars = [char_names[i].replace('_', ' ').title() for i in sorted_char_idx[-top_k:][::-1]]
+    low_chars = [char_names[i].replace('_', ' ').title() for i in sorted_char_idx[:top_k]]
     
-    print(f"\nDEFINING ROLES:")
-    print(f"  High: {[roles_flat[i] for i in sorted_role_idx[-5:][::-1]]}")
-    print(f"  Low:  {[roles_flat[i] for i in sorted_role_idx[:5]]}")
+    return {
+        'PC': pc_idx + 1,
+        'Var%': f"{var_pct:.1f}%",
+        'High Roles': ', '.join(high_roles),
+        'Low Roles': ', '.join(low_roles),
+        'High Chars': ', '.join(high_chars),
+        'Low Chars': ', '.join(low_chars),
+    }
+
+if 'role_pca' in dir():
+    rows = [show_role_pc(i) for i in range(5)]
+    df = pd.DataFrame(rows)
+    print(df.to_string(index=False))
+#+end_src
+
+** Residual Analysis (What Roles Miss)
+
+#+begin_src python :exports results
+from sklearn.decomposition import PCA as SkPCA
+
+if 'residuals' in dir():
+    residual_pca = SkPCA(n_components=10)
+    residuals_transformed = residual_pca.fit_transform(residuals)
     
-    print(f"\nCHARACTERS on this axis:")
-    print("  High:")
-    for i in sorted_char_idx[-5:][::-1]:
-        print(f"    {char_names[i].replace('_', ' ').title():35s} {char_scores[i]:+.1f}")
-    print("  Low:")
-    for i in sorted_char_idx[:5]:
-        print(f"    {char_names[i].replace('_', ' ').title():35s} {char_scores[i]:+.1f}")
-
-for i in range(10):
-    show_role_pc(i)
-#+end_src
-
-** Role PC Interpretations
-
-| Role PC | Variance | Role Direction | Characters High | Characters Low |
-|---------+----------+----------------+-----------------+----------------|
-| 1 | 20.2% | eldritch/void vs evaluator/planner | Set, Mami Wata, Dracula | Spock, Hermione, Ash Ketchum |
-| 2 | 8.5% | procrastinator/comedian vs mystic/spirit | Holden, Harley Quinn, Homer | Quetzalcoatl, Brahma, Osiris |
-| 3 | 6.7% | virus/robot/saboteur vs caregiver/empath | Moriarty, Terminator, Voldemort | Snow White, Cinderella, Sailor Moon |
-| 4 | 4.7% | anarchist/revolutionary vs infant/innocent | Tyler Durden, Killmonger, Big Brother | Totoro, Little Red Riding Hood, Winnie |
-| 5 | 3.5% | smuggler/soldier/vigilante vs void/infant | Lara Croft, Batman, James Bond | Meursault, Gollum, Queen of Hearts |
-| 6 | 2.9% | caveman/prey/zealot vs comedian/trickster | Terminator, Big Brother, Vegeta | Mad Hatter, Willy Wonka, Amélie |
-| 7 | 2.8% | infant/naturalist vs demon/warrior | Totoro, Pippi, Homer Simpson | Macbeth, Lady Macbeth, Kratos |
-| 8 | 2.3% | caveman/pirate/bard vs virus/parasite | Okonkwo, Beowulf, Sundiata | HAL 9000, Terminator, Lex Luthor |
-| 9 | 2.1% | traditionalist/stoic vs amnesiac/void | Mr Darcy, Inspector Javert, Don Quixote | Trinity, Neo, Morpheus |
-| 10 | 1.9% | exile/amnesiac/widow vs toddler/caveman | Anna Karenina, Josef K, Gregor Samsa | Hulk, Borat, Popeye |
-
-*Observations:*
-- Role PC1 (eldritch vs analytical) maps characters onto a cosmic horror vs rationality axis
-- Role PC2 (slacker vs mystic) separates modern irreverent characters from divine beings
-- Role PC3 (malevolent machine vs nurturer) cleanly separates villains from innocents
-- Role PC4 (revolutionary vs innocent) captures political/anarchist energy
-- The role space successfully captures moral and archetypal dimensions
-
-** What Role Space MISSES: Residual Analysis
-
-After projecting out the role space, 31% of character variance remains. What structure is in this residual?
-
-#+begin_src python
-from sklearn.decomposition import PCA
-
-# PCA on residuals
-residual_pca = PCA(n_components=20)
-residuals_transformed = residual_pca.fit_transform(residuals)
-
-print("PCA on Residuals (what role space doesn't capture):\n")
-cumvar = np.cumsum(residual_pca.explained_variance_ratio_)
-for i in [0, 1, 2, 4, 9, 19]:
-    print(f"  Residual PC{i+1}: {residual_pca.explained_variance_ratio_[i]:.1%} (cumulative: {cumvar[i]:.1%})")
-#+end_src
-
-#+begin_src python
-def show_residual_pc(pc_idx):
-    """Show what's in the residual PCs - structure the role space misses."""
-    scores = residuals_transformed[:, pc_idx]
-    sorted_idx = np.argsort(scores)
-    var_pct = residual_pca.explained_variance_ratio_[pc_idx] * 100
+    def show_residual_pc(pc_idx, top_k=4):
+        scores = residuals_transformed[:, pc_idx]
+        sorted_idx = np.argsort(scores)
+        var_pct = residual_pca.explained_variance_ratio_[pc_idx] * 100
+        
+        high = [char_names[i].replace('_', ' ').title() for i in sorted_idx[-top_k:][::-1]]
+        low = [char_names[i].replace('_', ' ').title() for i in sorted_idx[:top_k]]
+        
+        return {
+            'Residual PC': pc_idx + 1,
+            'Var%': f"{var_pct:.1f}%",
+            'High': ', '.join(high),
+            'Low': ', '.join(low),
+        }
     
-    print(f"\n{'='*70}")
-    print(f"Residual PC{pc_idx+1} ({var_pct:.1f}% of residual variance)")
-    print(f"{'='*70}")
-    print("\nHigh:")
-    for i in sorted_idx[-7:][::-1]:
-        print(f"  {char_names[i].replace('_', ' ').title():35s} {scores[i]:+.1f}")
-    print("\nLow:")
-    for i in sorted_idx[:7]:
-        print(f"  {char_names[i].replace('_', ' ').title():35s} {scores[i]:+.1f}")
-
-for i in range(5):
-    show_residual_pc(i)
+    rows = [show_residual_pc(i) for i in range(5)]
+    df = pd.DataFrame(rows)
+    print(df.to_string(index=False))
+    print("\nResiduals are dominated by franchise/cultural clustering that generic roles cannot capture.")
 #+end_src
 
-** Residual PC Interpretations
+* Franchise-Colored Scatter
 
-| Residual PC | Variance | High | Low | Interpretation |
-|-------------+----------+------+-----+----------------|
-| 1 | 7.6% | Darth Vader, Luke, R2D2, Obi-Wan, Mace Windu | Arjuna, Rama, Sita, Bhima, Hanuman | *Star Wars vs Indian Epic* - franchise identity |
-| 2 | 6.2% | Oliver Twist, Malvolio, Mr Darcy, Winston Smith | Hanuman, Rama, Sita, Vishnu, Arjuna | *British Literature vs Hindu Mythology* |
-| 3 | 4.3% | Frodo, Gollum, Rama, Arjuna, Sita | Saitama, Luffy, Nezuko, Tanjiro, Naruto | *Epic Quest vs Shonen Anime* - narrative structure |
-| 4 | 3.8% | (various patterns) | | Cultural/media clustering |
-| 5 | 3.6% | (various patterns) | | Cultural/media clustering |
-
-*Key Finding:* The residuals are dominated by *franchise and cultural clustering* that generic roles cannot capture:
-
-- Star Wars characters share something beyond "villain", "hero", "robot"
-- Indian epic characters (Ramayana, Mahabharata) cluster together
-- Anime characters share a distinct "flavor"
-- British literary tradition has its own signature
-
-This suggests that fictional characters encode not just *what role they play* but *where they come from* - their narrative universe, cultural origin, and media format.
-
-** Visualize: Role Space vs Residual Space
-
-#+begin_src python :results file
-import matplotlib.pyplot as plt
-
-fig, axes = plt.subplots(1, 2, figsize=(16, 7))
-
-# Left: Characters in Role PC1 vs PC2
-ax = axes[0]
-ax.scatter(chars_in_role_space[:, 0], chars_in_role_space[:, 1], alpha=0.5, s=30)
-
-# Label some interesting characters
-interesting = ['darth_vader', 'snow_white', 'the_joker', 'totoro', 'spock', 
-               'voldemort', 'homer_simpson', 'quetzalcoatl']
-for char in interesting:
-    for i, name in enumerate(char_names):
-        if char in name:
-            ax.annotate(name.replace('_', ' ').title(), 
-                       (chars_in_role_space[i, 0], chars_in_role_space[i, 1]),
-                       fontsize=8, alpha=0.8)
-            break
-
-ax.set_xlabel('Role PC1: Eldritch/Cosmic vs Analytical/Rational')
-ax.set_ylabel('Role PC2: Slacker/Comic vs Mystic/Divine')
-ax.set_title('Characters in Role Space\n(what generic roles capture)')
-ax.grid(True, alpha=0.3)
-
-# Right: Characters in Residual PC1 vs PC2
-ax = axes[1]
-ax.scatter(residuals_transformed[:, 0], residuals_transformed[:, 1], alpha=0.5, s=30)
-
-# Label franchise clusters
-franchises_to_label = {
-    'Star Wars': ['darth_vader', 'luke_skywalker', 'r2d2', 'obiwan'],
-    'Indian Epic': ['rama', 'arjuna', 'hanuman', 'sita'],
-    'Anime': ['saitama', 'naruto', 'goku'],
-}
-colors = {'Star Wars': 'red', 'Indian Epic': 'green', 'Anime': 'blue'}
-
-for franchise, chars in franchises_to_label.items():
-    indices = []
-    for char in chars:
-        for i, name in enumerate(char_names):
-            if char in name.lower():
-                indices.append(i)
-                break
-    if indices:
-        ax.scatter(residuals_transformed[indices, 0], residuals_transformed[indices, 1],
-                  s=100, c=colors[franchise], label=franchise, edgecolors='black', linewidths=0.5)
-        for idx in indices:
-            ax.annotate(char_names[idx].replace('_', ' ').title(),
-                       (residuals_transformed[idx, 0], residuals_transformed[idx, 1]),
-                       fontsize=7, alpha=0.9)
-
-ax.set_xlabel('Residual PC1: Star Wars ←→ Indian Epic')
-ax.set_ylabel('Residual PC2: British Lit ←→ Hindu Mythology')
-ax.set_title('Characters in Residual Space\n(what generic roles MISS)')
-ax.legend(loc='upper right')
-ax.grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.savefig('results/role_vs_residual_space.png', dpi=150, bbox_inches='tight')
-print('results/role_vs_residual_space.png')
+#+begin_src python :exports results :results file
+if 'pca' in dir():
+    fig, ax = plt.subplots(figsize=(14, 10))
+    
+    ax.scatter(transformed[:, 0], transformed[:, 1], alpha=0.3, s=20, c='gray')
+    
+    highlights = {
+        'Harry Potter': (['harry_potter', 'ron', 'hermione', 'voldemort', 'draco', 'snape'], 'blue'),
+        'Star Wars': (['darth_vader', 'luke_skywalker', 'yoda', 'obiwan', 'han_solo'], 'red'),
+        'Greek Gods': (['zeus', 'athena', 'apollo', 'poseidon', 'hades'], 'gold'),
+        'Shakespeare': (['hamlet', 'macbeth', 'othello', 'iago', 'juliet'], 'green'),
+    }
+    
+    for group_name, (chars, color) in highlights.items():
+        indices = []
+        for c in chars:
+            for i, name in enumerate(char_names):
+                if c.lower() in name.lower():
+                    indices.append(i)
+                    break
+        if indices:
+            ax.scatter(transformed[indices, 0], transformed[indices, 1], 
+                       s=80, c=color, label=group_name, edgecolors='black', linewidths=0.5)
+            for idx in indices:
+                name = char_names[idx].replace('_', ' ').title()
+                ax.annotate(name, (transformed[idx, 0], transformed[idx, 1]), 
+                            fontsize=7, alpha=0.9)
+    
+    ax.set_xlabel(f'PC1 ({pca.explained_variance_ratio_[0]:.1%})')
+    ax.set_ylabel(f'PC2 ({pca.explained_variance_ratio_[1]:.1%})')
+    ax.set_title('Franchise Clusters in Character Space')
+    ax.legend(loc='upper right')
+    ax.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.savefig('results/franchise_clusters.png', dpi=150, bbox_inches='tight')
+    plt.close()
+    print('[[file:results/franchise_clusters.png]]')
 #+end_src
 
-** Summary
+* Limitations
 
-The Assistant Axis role vectors capture *archetypal* dimensions of characters:
-- Cosmic/eldritch vs rational
-- Comic/irreverent vs spiritual/divine  
-- Malevolent vs nurturing
-- Revolutionary vs innocent
+- *Single model*: Only analyzed Qwen 3 32B layer 32
+- *Dataset-dependent*: PCs depend on which characters are included
+- *Post-hoc interpretation*: PC meanings are hypotheses, not verified facts
 
-But they miss *cultural/franchise identity*:
-- Star Wars characters cluster together beyond their roles
-- Indian epic heroes share structure not reducible to "hero" or "warrior"
-- Anime has a distinct signature
-- Literary traditions (British, Russian, etc.) leave fingerprints
-
-*Characters are more than the sum of their roles* - they carry the DNA of their narrative universes.
-
-* One-Per-Franchise Control Experiment
-
-To test whether the PCA structure is an artifact of including multiple characters per franchise, we subsampled to exactly 1 character per source (randomly selected).
-
-#+begin_src python
-# Run the control experiment
-import subprocess
-result = subprocess.run(['.venv/bin/python', 'src/analysis/one_per_franchise.py'], 
-                       capture_output=True, text=True)
-print(result.stdout)
-#+end_src
-
-** Results
-
-| Metric | Full (399 chars) | Subsampled (166 chars) |
-|--------+------------------+------------------------|
-| PC1 variance | 18.0% | 18.1% |
-| PC2 variance | 8.1% | 7.9% |
-| Top 10 cumulative | 56.4% | 56.3% |
-
-The variance structure is nearly identical. The same interpretable PCs emerge:
-
-| PC | Full Dataset | Subsampled (1 per franchise) |
-|----+--------------+------------------------------|
-| 1 | Holden, Goku vs Quetzalcoatl, Anubis | Holden, Saitama vs Quetzalcoatl, Odin |
-| 2 | Voldemort, Joker vs Snow White, Totoro | Tyler Durden, Cersei vs Sailor Moon, Totoro |
-| 3 | Falstaff, Mad Hatter vs Mace Windu | Falstaff, Queen of Hearts vs Kratos, Sasuke |
-| 4 | Mr Darcy, Spock vs Conan, Popeye | Mr Darcy, HAL 9000 vs Long John Silver |
-
-*Conclusion:* The PC structure is NOT an artifact of franchise clustering. The same archetypal dimensions emerge whether we include 10 Star Wars characters or just 1. This validates that the PCs capture genuine semantic structure in how the model represents fictional characters.
-
-** Residual Analysis (Subsampled)
-
-What about the residuals after projecting out role space? With the full dataset, residual PC1 was "Star Wars vs Indian Epic." Does that persist?
-
-| Metric | Full (399 chars) | Subsampled (166 chars) |
-|--------+------------------+------------------------|
-| Role space captures | 69% | 65% |
-| Residual | 31% | 35% |
-
-*Subsampled Residual PCs:*
-
-| Residual PC | High | Low | Interpretation |
-|-------------+------+-----+----------------|
-| 1 (8.1%) | Katherina, Portia, Romeo, Beatrice | Luffy, Nezuko, Vegeta, Mario | *Shakespeare vs Anime/Games* |
-| 2 (5.4%) | Winston Smith, Meursault, Forrest Gump | Guan Yu, Ravana, Achilles, Krishna | *Modern alienated vs Epic heroes* |
-| 3 (4.0%) | Quetzalcoatl, Isis, Shango, Anansi | Nezuko, Vegeta, Luffy, Mr Darcy | *Non-Western mythology vs Anime* |
-
-*Key finding:* The specific "Star Wars vs Indian Epic" axis *disappears* with one-per-franchise sampling. Instead we see broader cultural/media clustering:
-- Shakespeare plays cluster together (even though they're different plays)
-- Anime characters cluster (different franchises)
-- Epic heroes from different cultures cluster (Greek, Hindu, Chinese)
-
-This suggests:
-1. *Franchise-specific* clustering (Star Wars-ness) requires multiple characters per franchise
-2. *Broader media/cultural* clustering persists even with 1 character per source
-3. The model encodes both "this is anime" and "this is specifically Naruto" - but the latter needs multiple Naruto characters to emerge as a PC
-
-* Limitations and Caveats
-
-** Franchise Clustering: Validated by Control
-
-We ran a one-per-franchise control (see above). The same PCs emerge with nearly identical variance, suggesting the structure is real, not an artifact of including multiple characters per franchise.
-
-** The Specific PCs Depend on Dataset Composition
-
-The particular axes we found (PC1 = groundedness, PC7 = fairy tale vs Indian epic) are contingent on our character selection. Different results to expect with:
-
-- *More anime characters*: Might see anime-specific PCs (shonen vs slice-of-life, etc.)
-- *More African folklore*: Currently underrepresented; would likely form its own cluster
-- *Historical figures instead of fictional*: Different archetypal structure entirely
-
-** Single Model, Single Layer
-
-We only analyzed Qwen 2.5 32B at layer 32. Open questions:
-
-- Do other layers show different structure?
-- Do other models (Llama, GPT) produce similar PCs?
-- Is layer 32 special or would any middle layer work?
-
-** No Ground Truth
-
-We interpret PCs post-hoc based on which characters load high/low. These interpretations are subjective and could be confabulated. The "groundedness" interpretation for PC1 is a hypothesis, not a verified fact.
-
-* Future Experiments
-
-Potential follow-ups that would strengthen or challenge these findings:
-
-1. *Dense franchise sampling*: Collect 50+ characters from a single franchise (e.g., Naruto, Harry Potter, Marvel) and run within-franchise PCA. What structure emerges? Hero/villain? Protagonist/supporting? Generations? This would test whether franchise-specific directions encode meaningful within-universe structure, not just "this is from Naruto."
-
-2. *Cross-model comparison*: Run same characters through Llama 3, GPT-4, compare PC structure. Do the same archetypal dimensions emerge, or is this Qwen-specific?
-
-3. *Wikipedia pages as "characters"*: Have the model roleplay as non-person entities - concepts (Democracy, Quantum Mechanics), places (New York City, Amazon Rainforest), events (French Revolution, Moon Landing), objects (Mona Lisa, the Internet). Do the same archetypal PCs apply? Or does completely different structure emerge for non-person entities?
-
-* Full Pipeline Reproduction
+* Full Pipeline
 
 See [[file:README.org][README.org]] for complete reproduction instructions.
 
 * References
 
-- Lu, C., Gallagher, J., Michala, J., Fish, K., & Lindsey, J. (2026). [[https://arxiv.org/abs/2601.10387][The Assistant Axis: Situating and Stabilizing the Default Persona of Language Models]]. arXiv:2601.10387.
-
-- Code adapted from [[https://github.com/safety-research/assistant-axis][safety-research/assistant-axis]].
+- Lu, C., et al. (2026). [[https://arxiv.org/abs/2601.10387][The Assistant Axis]]. arXiv:2601.10387.
+- Code: [[https://github.com/safety-research/assistant-axis][safety-research/assistant-axis]]
