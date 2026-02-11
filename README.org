@@ -85,6 +85,16 @@ python src/analysis/fictional_character_pca.py \
     --layer 32
 #+end_src
 
+This produces ~results/fictional_character_analysis.pkl~.
+
+** Step 5: Explore Results
+
+Open ~analysis.org~ and run the code blocks to explore the PCA results, visualize clusters, and compare with role vectors.
+
+#+begin_src bash
+emacs analysis.org
+#+end_src
+
 * Dataset
 
 914 fictional characters from:
