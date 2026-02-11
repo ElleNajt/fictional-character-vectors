@@ -1,14 +1,12 @@
 #+TITLE: Fictional Character Vectors
 #+AUTHOR: Elle
 
-PCA analysis of fictional character activations in Qwen 2.5 32B, extending the methodology from [[https://arxiv.org/abs/2601.10387][Lu et al. (2026) "The Assistant Axis"]].
+PCA analysis of fictional character activations in Qwen 3 32B, extending the methodology from [[https://arxiv.org/abs/2601.10387][Lu et al. (2026) "The Assistant Axis"]].
 
 * Quick Start (Pre-computed Results)
 
-The easiest way to explore the results:
-
 #+begin_src bash
-git clone https://github.com/ElleNajt/fictional-character-vectors
+git clone --recurse-submodules https://github.com/ElleNajt/fictional-character-vectors
 cd fictional-character-vectors
 
 # Setup
@@ -18,147 +16,138 @@ uv venv && uv pip install -e .
 emacs analysis.org
 #+end_src
 
-The ~results/fictional_character_analysis.pkl~ contains pre-computed PCA results for 399 characters. Run the code blocks in ~analysis.org~ to explore.
+* Reproducing from Scratch
+
+This repo is designed to be fully reproducible. Clone it, give it a GPU machine, and regenerate the data.
+
+** Requirements
+
+- GPU cluster with 4x 80GB GPUs (e.g., 4x A100/H100) for Qwen 3 32B with tensor parallelism
+- Python 3.10+
+- SLURM (for cluster) or local GPU setup
+
+** Step 1: Clone with Submodule
+
+#+begin_src bash
+git clone --recurse-submodules https://github.com/ElleNajt/fictional-character-vectors
+cd fictional-character-vectors
+#+end_src
+
+** Step 2: Prepare Role Files
+
+Convert character JSONs to role instruction format:
+
+#+begin_src bash
+python scripts/prepare_roles.py
+#+end_src
+
+This creates ~data/roles/instructions/*.json~ (914 role files from 6 franchises + canonical characters).
+
+** Step 3a: Run on SLURM Cluster
+
+#+begin_src bash
+# Submit the extraction job
+sbatch scripts/slurm_extract.sh
+#+end_src
+
+The job will:
+1. Create a virtual environment (first run only)
+2. Install dependencies (first run only)
+3. Generate 240 responses per character using Qwen 3 32B
+4. Extract layer 32 activations from all responses
+5. Save to ~outputs/qwen3-32b_<timestamp>/~
+
+Monitor progress:
+#+begin_src bash
+# Check job status
+squeue -u $USER
+
+# Tail the log
+tail -f logs/char_vectors_<jobid>.out
+#+end_src
+
+** Step 3b: Run Locally (Interactive)
+
+For a local GPU machine:
+
+#+begin_src bash
+./scripts/run_extraction.sh --model Qwen/Qwen3-32B --gpus 4
+#+end_src
+
+** Step 4: Run PCA Analysis
+
+Once extraction is complete:
+
+#+begin_src bash
+python src/analysis/fictional_character_pca.py \
+    --activation-dir outputs/qwen3-32b_<timestamp>/activations \
+    --output-dir results \
+    --layer 32
+#+end_src
+
+* Dataset
+
+914 fictional characters from:
+- 6 dense franchise samples (50-100+ characters each):
+  - Harry Potter (102)
+  - Naruto (84)
+  - Marvel (102)
+  - Star Wars (103)
+  - Game of Thrones (99)
+  - Lord of the Rings (97)
+- Canonical fictional characters (327) from diverse global sources
+
+Role prompts are minimal: just character name and source (e.g., "You are Harry Potter from Harry Potter."). We intentionally omit descriptions to let the model's own representation emerge.
 
 * Key Findings
 
 - *PC1 (18%)*: Groundedness - human/relatable characters vs divine/mythological beings
 - *PC2 (8%)*: Moral alignment - villains vs innocents
-- *Franchise clustering*: Star Wars, Harry Potter, anime characters cluster together
-- *Orthogonal to roles*: Generic role vectors (from Assistant Axis) only explain 43% of character variance
+- *Franchise clustering*: Characters from the same franchise cluster together
+- *Orthogonal to roles*: Generic role vectors only explain 43% of character variance
 
-** What Role Space Captures vs Misses
-
-Role vectors capture *archetypal* dimensions:
-- Eldritch/cosmic vs analytical/rational
-- Slacker/comic vs spiritual/divine
-- Malevolent vs nurturing
-
-But they miss *cultural/franchise identity*:
-- Star Wars characters cluster beyond "villain" or "hero"
-- Indian epic heroes share structure beyond "warrior"
-- Anime has a distinct signature
-
-*Characters are more than the sum of their roles*.
+*Characters are more than the sum of their roles.*
 
 * Project Structure
 
 #+begin_example
 fictional-character-vectors/
-├── analysis.org                         # Main analysis notebook (start here!)
+├── analysis.org                    # Main analysis notebook
 ├── README.org
-├── pyproject.toml
+├── assistant-axis/                 # Submodule: extraction pipeline
 ├── data/
-│   └── canonical_fictional_characters.json   # 411 character list
+│   ├── canonical_fictional_characters.json
+│   ├── franchises/                 # 6 franchise character lists
+│   │   ├── harry_potter.json
+│   │   ├── naruto.json
+│   │   ├── marvel.json
+│   │   ├── star_wars.json
+│   │   ├── game_of_thrones.json
+│   │   └── lord_of_the_rings.json
+│   └── roles/instructions/         # Generated role files (914)
+├── scripts/
+│   ├── prepare_roles.py            # Convert characters → role format
+│   ├── slurm_extract.sh            # SLURM job for cluster
+│   └── run_extraction.sh           # Local/interactive extraction
 ├── src/
 │   ├── analysis/
-│   │   └── fictional_character_pca.py
-│   ├── data_collection/
-│   │   ├── download_role_vectors.py          # Download Assistant Axis vectors
-│   │   ├── fetch_wikidata_characters.py
-│   │   ├── merge_character_lists.py
-│   │   ├── generate_character_variants.py
-│   │   └── convert_characters_to_roles.py
-│   └── extraction/
-│       ├── 1_generate.py
-│       └── 2_activations.py
-└── results/
-    ├── fictional_character_analysis.pkl      # Pre-computed character PCA
-    └── residual_analysis.npz                 # Role projection residuals
+│   └── data_collection/
+├── outputs/                        # Generated responses & activations
+└── results/                        # PCA results
 #+end_example
 
-* Comparing with Assistant Axis Role Vectors
+* Customizing the SLURM Script
 
-To compare fictional characters with generic role vectors from the Assistant Axis paper:
-
-#+begin_src bash
-# Download role vectors from HuggingFace
-python src/data_collection/download_role_vectors.py \
-    --model qwen-3-32b \
-    --layer 32 \
-    --output data/role_vectors/
-
-# This creates data/role_vectors/qwen-3-32b_pca_layer32.pkl
-#+end_src
-
-Then use the role comparison sections in ~analysis.org~.
-
-* Full Reproduction (Requires GPU)
-
-To reproduce character activations from scratch:
-
-** Requirements
-- GPU with ~80GB VRAM (e.g., A100 80GB) for Qwen 2.5 32B
-- Python 3.10+
-- [[https://github.com/astral-sh/uv][uv]] package manager
-
-** Step 1: Collect Characters
+Edit ~scripts/slurm_extract.sh~ for your cluster:
 
 #+begin_src bash
-python src/data_collection/fetch_wikidata_characters.py \
-    --output data/wikidata_characters.json \
-    --min_sitelinks 10
-
-python src/data_collection/merge_character_lists.py \
-    --wikidata data/wikidata_characters.json \
-    --curated data/curated_characters.json \
-    --output data/canonical_fictional_characters.json
+#SBATCH --partition=your-partition
+#SBATCH --gres=gpu:4                # 4 GPUs for Qwen 3 32B
+#SBATCH --exclude=bad-nodes         # Exclude problematic nodes
 #+end_src
-
-** Step 2: Generate Role Files
-
-#+begin_src bash
-python src/data_collection/convert_characters_to_roles.py \
-    --characters data/canonical_fictional_characters.json \
-    --output_dir outputs/character_roles
-#+end_src
-
-** Step 3: Generate Responses (GPU)
-
-Uses the [[https://github.com/safety-research/assistant-axis][assistant-axis]] pipeline. The extraction questions (240 diverse prompts) come from that repo.
-
-#+begin_src bash
-# Clone assistant-axis for the full pipeline
-git clone https://github.com/safety-research/assistant-axis
-cd assistant-axis && uv sync && cd ..
-
-# The questions file is in assistant-axis/data/extraction_questions.jsonl
-uv run python src/extraction/1_generate.py \
-    --model Qwen/Qwen2.5-32B-Instruct \
-    --roles_dir outputs/character_roles \
-    --questions_file assistant-axis/data/extraction_questions.jsonl \
-    --output_dir outputs/responses \
-    --num_workers 4
-#+end_src
-
-** Step 4: Extract Activations (GPU)
-
-#+begin_src bash
-uv run python src/extraction/2_activations.py \
-    --model Qwen/Qwen2.5-32B-Instruct \
-    --responses_dir outputs/responses \
-    --output_dir outputs/activations \
-    --num_workers 4
-#+end_src
-
-** Step 5: Run PCA
-
-#+begin_src bash
-uv run python src/analysis/fictional_character_pca.py \
-    --activation-dir outputs/activations \
-    --output-dir results \
-    --layer 32 \
-    --n-components 50
-#+end_src
-
-* Data Sources
-
-- *Character list*: Wikidata + hand-curated list of culturally significant fictional characters
-- *Role vectors*: [[https://huggingface.co/datasets/lu-christina/assistant-axis-vectors][lu-christina/assistant-axis-vectors]] on HuggingFace
-- *Model*: Qwen 2.5 32B Instruct
 
 * References
 
-- Lu, C., Gallagher, J., Michala, J., Fish, K., & Lindsey, J. (2026). [[https://arxiv.org/abs/2601.10387][The Assistant Axis: Situating and Stabilizing the Default Persona of Language Models]]. arXiv:2601.10387.
-- [[https://github.com/safety-research/assistant-axis][safety-research/assistant-axis]] - Original extraction pipeline
+- Lu, C., et al. (2026). [[https://arxiv.org/abs/2601.10387][The Assistant Axis: Situating and Stabilizing the Default Persona of Language Models]].
+- [[https://github.com/safety-research/assistant-axis][safety-research/assistant-axis]] - Extraction pipeline
 - [[https://huggingface.co/datasets/lu-christina/assistant-axis-vectors][lu-christina/assistant-axis-vectors]] - Pre-computed role vectors
