@@ -53,6 +53,16 @@ if [ ! -d "$REPO_ROOT/.venv" ]; then
 fi
 source "$REPO_ROOT/.venv/bin/activate"
 
+# Load .env if exists (for HF_TOKEN, etc.)
+if [ -f "$REPO_ROOT/.env" ]; then
+    export $(grep -v '^#' "$REPO_ROOT/.env" | xargs)
+fi
+
+# HuggingFace token for gated models (Gemma, Llama, etc.)
+if [ -n "$HF_TOKEN" ]; then
+    export HUGGING_FACE_HUB_TOKEN="$HF_TOKEN"
+fi
+
 # Install dependencies
 pip install -e . --quiet
 
