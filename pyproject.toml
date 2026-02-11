@@ -1,21 +1,39 @@
 [project]
 name = "fictional-character-vectors"
 version = "0.1.0"
-description = "PCA analysis of fictional character activations in Qwen 2.5 32B"
+description = "PCA analysis of fictional character activations in language models"
 requires-python = ">=3.10"
 dependencies = [
-    "torch",
+    # Core
+    "torch>=2.0",
     "numpy",
     "scikit-learn",
     "scipy",
     "pandas",
     "tqdm",
+    
+    # Visualization
     "matplotlib",
     "seaborn",
+    "plotly",
+    
+    # HuggingFace
+    "transformers>=4.40",
+    "accelerate",
     "huggingface_hub",
+    
+    # Generation (from assistant-axis)
+    "vllm",
+    "jsonlines",
 ]
 
-[dependency-groups]
+[project.optional-dependencies]
 dev = [
     "ipython",
+    "jupyter",
+    "pytest",
 ]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

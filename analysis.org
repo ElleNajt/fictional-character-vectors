@@ -11,6 +11,10 @@ PCA on this space reveals interpretable axes of variation.
 
 This work builds on the methodology from [[https://arxiv.org/abs/2601.10387][Lu et al. (2026), "The Assistant Axis: Situating and Stabilizing the Default Persona of Language Models"]], which extracted persona vectors for 275 generic character archetypes.
 
+** Prompting Strategy
+
+Role prompts are minimal: just the character name and source (e.g., "You are Harry Potter from Harry Potter. Respond as this character would."). We intentionally omit character descriptions to let the model's own representation emerge, rather than biasing the activation space with our descriptions of characters. The model already knows who these characters are.
+
 * Dataset: Canonical Fictional Characters
 
 The character dataset was curated to cover culturally significant fictional characters across diverse sources. The selection affects results - certain clusters emerge because of deliberate inclusion choices.
