@@ -33,15 +33,15 @@ git clone --recurse-submodules https://github.com/ElleNajt/fictional-character-v
 cd fictional-character-vectors
 #+end_src
 
-** Step 2: Prepare Role Files
+** Step 2: Role Files
 
-Convert character JSONs to role instruction format:
+Role instruction files are already included in ~data/roles/instructions/~ (1346 characters).
+
+To add new characters, edit ~scripts/add_mythology_shakespeare.py~ or create a similar script, then run:
 
 #+begin_src bash
-python scripts/prepare_roles.py
+python scripts/add_mythology_shakespeare.py
 #+end_src
-
-This creates ~data/roles/instructions/*.json~ (914 role files from 6 franchises + canonical characters).
 
 ** Step 3a: Run on SLURM Cluster
 
@@ -101,15 +101,23 @@ emacs analysis.org
 
 * Dataset
 
-914 fictional characters from:
-- 6 dense franchise samples (50-100+ characters each):
-  - Harry Potter (102)
-  - Naruto (84)
-  - Marvel (102)
-  - Star Wars (103)
-  - Game of Thrones (99)
-  - Lord of the Rings (97)
-- Canonical fictional characters (327) from diverse global sources
+1346 fictional characters from:
+
+| Source              | Count |
+|---------------------|-------|
+| Shakespeare         |   115 |
+| Greek mythology     |   108 |
+| Star Wars           |   105 |
+| Marvel              |   102 |
+| Harry Potter        |   102 |
+| Game of Thrones     |    99 |
+| Lord of the Rings   |    97 |
+| Naruto              |    84 |
+| Chinese mythology   |    77 |
+| Hindu mythology     |    71 |
+| Norse mythology     |    55 |
+| Egyptian mythology  |    44 |
+| Other (canonical)   |  ~287 |
 
 Role prompts are minimal: just character name and source (e.g., "You are Harry Potter from Harry Potter."). We intentionally omit descriptions to let the model's own representation emerge.
 
@@ -138,10 +146,12 @@ fictional-character-vectors/
 │   │   ├── star_wars.json
 │   │   ├── game_of_thrones.json
 │   │   └── lord_of_the_rings.json
-│   └── roles/instructions/         # Generated role files (914)
+│   └── roles/instructions/         # Role files (1346 characters)
 ├── scripts/
+│   ├── add_mythology_shakespeare.py # Add new characters to role files
 │   ├── prepare_roles.py            # Convert characters → role format
 │   ├── slurm_extract.sh            # SLURM job for cluster
+│   ├── slurm_activations.sh        # Extract activations only
 │   └── run_extraction.sh           # Local/interactive extraction
 ├── src/
 │   ├── analysis/
