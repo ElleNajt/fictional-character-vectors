@@ -46,8 +46,12 @@ This creates ~data/roles/instructions/*.json~ (914 role files from 6 franchises 
 ** Step 3a: Run on SLURM Cluster
 
 #+begin_src bash
-# Submit the extraction job
+# Submit extraction job (default: Qwen3-32B)
 sbatch scripts/slurm_extract.sh
+
+# Or specify a different model:
+MODEL=google/gemma-2-27b-it sbatch scripts/slurm_extract.sh
+MODEL=Qwen/Qwen3-32B sbatch scripts/slurm_extract.sh
 #+end_src
 
 The job will:
