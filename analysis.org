@@ -25,6 +25,8 @@ import numpy as np
 import pandas as pd
 from pathlib import Path
 from scipy.spatial.distance import cdist
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA as SkPCA
 
 pd.set_option('display.max_colwidth', 50)
 
@@ -41,13 +43,53 @@ if results_path.exists():
     print(f"Loaded {len(char_names)} characters, {transformed.shape[1]} PCs")
 else:
     print("ERROR: Run extraction first. See README.org")
+
+# Load role vectors if available
+role_pca_path = Path('data/role_vectors/qwen-3-32b_pca_layer32.pkl')
+if role_pca_path.exists() and 'activation_matrix' in dir():
+    with open(role_pca_path, 'rb') as f:
+        role_data = pickle.load(f)
+    
+    role_pca = role_data['pca']
+    role_scaler = role_data['scaler']
+    roles_flat = role_data['role_names']
+    role_projections = role_data['transformed']
+    
+    # Project characters onto role space and compute residuals
+    chars_scaled = role_scaler.transform(activation_matrix)
+    chars_in_role_space = role_pca.transform(chars_scaled)
+    reconstructed = chars_in_role_space @ role_pca.components_
+    residuals = chars_scaled - reconstructed
+    
+    print(f"Loaded {len(roles_flat)} role vectors")
+else:
+    print("Role vectors not found - residual analysis will be skipped")
+
+# Define universes/franchises for analysis
+UNIVERSES = {
+    'shakespeare': 'shakespeare__',
+    'greek_mythology': 'greek_mythology__',
+    'harry_potter': 'harry_potter__',
+    'star_wars': 'star_wars__',
+    'marvel': 'marvel__',
+    'game_of_thrones': 'game_of_thrones__',
+    'lord_of_the_rings': 'lord_of_the_rings__',
+    'naruto': 'naruto__',
+    'chinese_mythology': 'chinese_mythology__',
+    'hindu_mythology': 'hindu_mythology__',
+    'norse_mythology': 'norse_mythology__',
+    'egyptian_mythology': 'egyptian_mythology__',
+}
+
+def get_universe_indices(prefix):
+    """Get indices of characters belonging to a universe."""
+    return [i for i, name in enumerate(char_names) if name.startswith(prefix)]
 #+end_src
 
 * Dataset Summary
 
 #+begin_src python :exports results
 from pathlib import Path
-import json
 
 # Count instruction files by source
 instructions_dir = Path('data/roles/instructions')
@@ -83,11 +125,10 @@ if 'pca' in dir():
     print(df.to_string(index=False))
 #+end_src
 
-* Principal Components
+* Principal Components (Global)
 
 #+begin_src python :exports results
 def show_pc(pc_idx, top_k=5):
-    """Show top and bottom characters for a PC."""
     scores = transformed[:, pc_idx]
     sorted_idx = np.argsort(scores)
     var_pct = pca.explained_variance_ratio_[pc_idx] * 100
@@ -137,9 +178,306 @@ if 'pca' in dir():
     print('[[file:results/variance_explained.png]]')
 #+end_src
 
-* PC1 vs PC2 Scatter
+* Role Space Projection
+
+Lu et al. extracted vectors for 463 generic roles (e.g., "accountant", "hero", "villain"). We project characters onto this space. The key question: what do roles capture, and what's left over?
+
+** Overall Variance Decomposition
+
+#+begin_src python :exports results
+if 'residuals' in dir():
+    original_var = np.var(chars_scaled, axis=0).sum()
+    residual_var = np.var(residuals, axis=0).sum()
+    captured_var = original_var - residual_var
+    
+    df = pd.DataFrame({
+        'Metric': ['Total character variance', 'Captured by role space', 'Residual (not captured)'],
+        'Value': [f"{original_var:.1f}", 
+                  f"{captured_var:.1f} ({captured_var/original_var:.1%})", 
+                  f"{residual_var:.1f} ({residual_var/original_var:.1%})"]
+    })
+    print(df.to_string(index=False))
+#+end_src
+
+** Variance Captured by Universe
+
+How much of each universe's variance is explained by generic roles?
+
+#+begin_src python :exports results
+if 'residuals' in dir():
+    rows = []
+    for universe, prefix in UNIVERSES.items():
+        indices = get_universe_indices(prefix)
+        if len(indices) < 5:
+            continue
+        
+        u_chars = chars_scaled[indices]
+        u_residuals = residuals[indices]
+        
+        u_total_var = np.var(u_chars, axis=0).sum()
+        u_residual_var = np.var(u_residuals, axis=0).sum()
+        u_captured = u_total_var - u_residual_var
+        
+        rows.append({
+            'Universe': universe.replace('_', ' ').title(),
+            'N': len(indices),
+            'Captured': f"{u_captured/u_total_var:.1%}",
+            'Residual': f"{u_residual_var/u_total_var:.1%}",
+        })
+    
+    df = pd.DataFrame(rows).sort_values('Residual', ascending=False)
+    print(df.to_string(index=False))
+    print("\nHigher residual = more 'universe-specific' structure not captured by generic roles")
+#+end_src
+
+* Global Residual Analysis
+
+What structure exists in the residuals (after projecting out role space)?
+
+#+begin_src python :exports results
+if 'residuals' in dir():
+    residual_pca = SkPCA(n_components=20)
+    residuals_transformed = residual_pca.fit_transform(residuals)
+    
+    def show_residual_pc(pc_idx, top_k=4):
+        scores = residuals_transformed[:, pc_idx]
+        sorted_idx = np.argsort(scores)
+        var_pct = residual_pca.explained_variance_ratio_[pc_idx] * 100
+        
+        high = [char_names[i].replace('_', ' ').title() for i in sorted_idx[-top_k:][::-1]]
+        low = [char_names[i].replace('_', ' ').title() for i in sorted_idx[:top_k]]
+        
+        return {
+            'Residual PC': pc_idx + 1,
+            'Var%': f"{var_pct:.1f}%",
+            'High': ', '.join(high),
+            'Low': ', '.join(low),
+        }
+    
+    rows = [show_residual_pc(i) for i in range(10)]
+    df = pd.DataFrame(rows)
+    print(df.to_string(index=False))
+#+end_src
+
+* Within-Universe Residual Analysis
+
+For each major universe, what structure remains in the residuals after projecting out role space? This reveals universe-specific dimensions that generic roles like "hero" or "villain" don't capture.
+
+** Shakespeare Residuals
+
+#+begin_src python :exports results
+def analyze_universe_residuals(universe_name, prefix, n_pcs=5):
+    """PCA on residuals within a single universe."""
+    indices = get_universe_indices(prefix)
+    if len(indices) < 10:
+        print(f"{universe_name}: Only {len(indices)} characters, skipping")
+        return
+    
+    u_residuals = residuals[indices]
+    u_names = [char_names[i] for i in indices]
+    
+    # PCA on this universe's residuals
+    u_pca = SkPCA(n_components=min(n_pcs, len(indices)-1))
+    u_transformed = u_pca.fit_transform(u_residuals)
+    
+    print(f"=== {universe_name} ({len(indices)} characters) ===\n")
+    
+    rows = []
+    for pc_idx in range(min(n_pcs, u_pca.n_components_)):
+        scores = u_transformed[:, pc_idx]
+        sorted_idx = np.argsort(scores)
+        var_pct = u_pca.explained_variance_ratio_[pc_idx] * 100
+        
+        # Get character names without prefix
+        high = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[-3:][::-1]]
+        low = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[:3]]
+        
+        rows.append({
+            'PC': pc_idx + 1,
+            'Var%': f"{var_pct:.1f}%",
+            'High': ', '.join(high),
+            'Low': ', '.join(low),
+        })
+    
+    df = pd.DataFrame(rows)
+    print(df.to_string(index=False))
+    print()
+
+if 'residuals' in dir():
+    analyze_universe_residuals("Shakespeare", "shakespeare__")
+#+end_src
+
+** Greek Mythology Residuals
+
+#+begin_src python :exports results
+if 'residuals' in dir():
+    analyze_universe_residuals("Greek Mythology", "greek_mythology__")
+#+end_src
+
+** Harry Potter Residuals
+
+#+begin_src python :exports results
+if 'residuals' in dir():
+    analyze_universe_residuals("Harry Potter", "harry_potter__")
+#+end_src
+
+** Star Wars Residuals
+
+#+begin_src python :exports results
+if 'residuals' in dir():
+    analyze_universe_residuals("Star Wars", "star_wars__")
+#+end_src
+
+** Marvel Residuals
+
+#+begin_src python :exports results
+if 'residuals' in dir():
+    analyze_universe_residuals("Marvel", "marvel__")
+#+end_src
+
+** Game of Thrones Residuals
+
+#+begin_src python :exports results
+if 'residuals' in dir():
+    analyze_universe_residuals("Game of Thrones", "game_of_thrones__")
+#+end_src
+
+** Lord of the Rings Residuals
+
+#+begin_src python :exports results
+if 'residuals' in dir():
+    analyze_universe_residuals("Lord of the Rings", "lord_of_the_rings__")
+#+end_src
+
+** Naruto Residuals
+
+#+begin_src python :exports results
+if 'residuals' in dir():
+    analyze_universe_residuals("Naruto", "naruto__")
+#+end_src
+
+** Chinese Mythology Residuals
+
+#+begin_src python :exports results
+if 'residuals' in dir():
+    analyze_universe_residuals("Chinese Mythology", "chinese_mythology__")
+#+end_src
+
+** Hindu Mythology Residuals
+
+#+begin_src python :exports results
+if 'residuals' in dir():
+    analyze_universe_residuals("Hindu Mythology", "hindu_mythology__")
+#+end_src
+
+** Norse Mythology Residuals
+
+#+begin_src python :exports results
+if 'residuals' in dir():
+    analyze_universe_residuals("Norse Mythology", "norse_mythology__")
+#+end_src
+
+** Egyptian Mythology Residuals
+
+#+begin_src python :exports results
+if 'residuals' in dir():
+    analyze_universe_residuals("Egyptian Mythology", "egyptian_mythology__")
+#+end_src
+
+* Within-Universe PCA (Full Space)
+
+For comparison, what does PCA look like on the full activation space (not residuals) within each universe?
+
+#+begin_src python :exports results
+def analyze_universe_full(universe_name, prefix, n_pcs=5):
+    """PCA on full activations within a single universe."""
+    indices = get_universe_indices(prefix)
+    if len(indices) < 10:
+        print(f"{universe_name}: Only {len(indices)} characters, skipping")
+        return
+    
+    u_activations = activation_matrix[indices]
+    u_names = [char_names[i] for i in indices]
+    
+    # Standardize and PCA
+    scaler = StandardScaler()
+    u_scaled = scaler.fit_transform(u_activations)
+    u_pca = SkPCA(n_components=min(n_pcs, len(indices)-1))
+    u_transformed = u_pca.fit_transform(u_scaled)
+    
+    print(f"=== {universe_name} (Full Space, {len(indices)} characters) ===\n")
+    
+    rows = []
+    for pc_idx in range(min(n_pcs, u_pca.n_components_)):
+        scores = u_transformed[:, pc_idx]
+        sorted_idx = np.argsort(scores)
+        var_pct = u_pca.explained_variance_ratio_[pc_idx] * 100
+        
+        high = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[-3:][::-1]]
+        low = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[:3]]
+        
+        rows.append({
+            'PC': pc_idx + 1,
+            'Var%': f"{var_pct:.1f}%",
+            'High': ', '.join(high),
+            'Low': ', '.join(low),
+        })
+    
+    df = pd.DataFrame(rows)
+    print(df.to_string(index=False))
+    print()
+
+if 'activation_matrix' in dir():
+    analyze_universe_full("Shakespeare", "shakespeare__")
+#+end_src
+
+#+begin_src python :exports results
+if 'activation_matrix' in dir():
+    analyze_universe_full("Harry Potter", "harry_potter__")
+#+end_src
+
+#+begin_src python :exports results
+if 'activation_matrix' in dir():
+    analyze_universe_full("Greek Mythology", "greek_mythology__")
+#+end_src
+
+* Sanity Check: Similar Characters
+
+Basic check that the embedding space is sensible - similar characters should cluster.
+
+#+begin_src python :exports results
+def find_similar(query_name, top_k=5):
+    query_idx = None
+    for i, name in enumerate(char_names):
+        if query_name.lower() in name.lower():
+            query_idx = i
+            break
+    
+    if query_idx is None:
+        return f"'{query_name}' not found"
+    
+    query_vec = transformed[query_idx:query_idx+1]
+    distances = cdist(query_vec, transformed, metric='euclidean')[0]
+    sorted_idx = np.argsort(distances)
+    
+    results = []
+    for i in sorted_idx[1:top_k+1]:
+        results.append(char_names[i].replace('_', ' ').title())
+    return ', '.join(results)
+
+if 'pca' in dir():
+    checks = ['harry_potter', 'darth_vader', 'hamlet', 'zeus', 'naruto']
+    for c in checks:
+        print(f"{c.replace('_', ' ').title()}: {find_similar(c)}")
+#+end_src
+
+* Visualizations
+
+** PC1 vs PC2 Scatter
 
 #+begin_src python :exports results :results file
+import matplotlib.pyplot as plt
+
 if 'pca' in dir():
     fig, ax = plt.subplots(figsize=(14, 10))
     
@@ -166,290 +504,76 @@ if 'pca' in dir():
     print('[[file:results/pc1_pc2_scatter.png]]')
 #+end_src
 
-* Franchise Clustering
-
-#+begin_src python :exports results
-franchises = {
-    'Harry Potter': ['harry_potter', 'ron_weasley', 'hermione', 'draco', 'snape', 'dumbledore', 'voldemort'],
-    'Star Wars': ['darth_vader', 'luke_skywalker', 'leia', 'han_solo', 'yoda', 'obiwan'],
-    'Lord of the Rings': ['frodo', 'gandalf', 'aragorn', 'legolas', 'gollum', 'sauron'],
-    'Marvel': ['iron_man', 'spiderman', 'captain_america', 'thor', 'hulk', 'thanos'],
-    'Greek Mythology': ['zeus', 'athena', 'apollo', 'aphrodite', 'hades', 'poseidon'],
-    'Shakespeare': ['hamlet', 'macbeth', 'othello', 'romeo', 'juliet', 'iago'],
-}
-
-def get_franchise_centroid(franchise_chars):
-    indices = []
-    for fc in franchise_chars:
-        for i, name in enumerate(char_names):
-            if fc.lower() in name.lower():
-                indices.append(i)
-                break
-    if not indices:
-        return None, 0
-    return transformed[indices].mean(axis=0), len(indices)
-
-if 'pca' in dir():
-    rows = []
-    centroids = {}
-    for fname, chars in franchises.items():
-        centroid, count = get_franchise_centroid(chars)
-        if centroid is not None:
-            centroids[fname] = centroid
-            rows.append({'Franchise': fname, 'Found': count})
-    
-    df = pd.DataFrame(rows)
-    print(df.to_string(index=False))
-#+end_src
-
-** Inter-Franchise Distances
-
-#+begin_src python :exports results
-if 'centroids' in dir() and centroids:
-    franchise_names = list(centroids.keys())
-    rows = []
-    for i, f1 in enumerate(franchise_names):
-        for f2 in franchise_names[i+1:]:
-            dist = np.linalg.norm(centroids[f1] - centroids[f2])
-            rows.append({'Pair': f"{f1} <-> {f2}", 'Distance': f"{dist:.1f}"})
-    
-    df = pd.DataFrame(rows).sort_values('Distance')
-    print(df.to_string(index=False))
-#+end_src
-
-* Similar Characters
-
-#+begin_src python :exports results
-def find_similar(query_name, top_k=10):
-    query_idx = None
-    for i, name in enumerate(char_names):
-        if query_name.lower() in name.lower():
-            query_idx = i
-            break
-    
-    if query_idx is None:
-        return f"Character '{query_name}' not found"
-    
-    query_vec = transformed[query_idx:query_idx+1]
-    distances = cdist(query_vec, transformed, metric='euclidean')[0]
-    sorted_idx = np.argsort(distances)
-    
-    rows = []
-    for i in sorted_idx[1:top_k+1]:
-        name = char_names[i].replace('_', ' ').title()
-        rows.append({'Character': name, 'Distance': f"{distances[i]:.1f}"})
-    
-    return pd.DataFrame(rows)
-
-if 'pca' in dir():
-    print("Similar to Harry Potter:")
-    print(find_similar("harry_potter", 8).to_string(index=False))
-#+end_src
-
-#+begin_src python :exports results
-if 'pca' in dir():
-    print("Similar to Darth Vader:")
-    print(find_similar("darth_vader", 8).to_string(index=False))
-#+end_src
-
-#+begin_src python :exports results
-if 'pca' in dir():
-    print("Similar to Hamlet:")
-    print(find_similar("hamlet", 8).to_string(index=False))
-#+end_src
-
-* Character Arithmetic
-
-Like word2vec's "king - man + woman = queen".
-
-#+begin_src python :exports results
-def char_arithmetic(positive, negative, top_k=5):
-    result_vec = np.zeros(transformed.shape[1])
-    used_indices = set()
-    
-    for name in positive:
-        for i, cname in enumerate(char_names):
-            if name.lower() in cname.lower():
-                result_vec += transformed[i]
-                used_indices.add(i)
-                break
-    
-    for name in negative:
-        for i, cname in enumerate(char_names):
-            if name.lower() in cname.lower():
-                result_vec -= transformed[i]
-                used_indices.add(i)
-                break
-    
-    distances = cdist(result_vec.reshape(1, -1), transformed, metric='euclidean')[0]
-    sorted_idx = np.argsort(distances)
-    
-    rows = []
-    count = 0
-    for i in sorted_idx:
-        if i not in used_indices:
-            name = char_names[i].replace('_', ' ').title()
-            rows.append({'Character': name, 'Distance': f"{distances[i]:.1f}"})
-            count += 1
-            if count >= top_k:
-                break
-    
-    return pd.DataFrame(rows)
-
-if 'pca' in dir():
-    print("Darth Vader - Voldemort = ? (heroic Star Wars)")
-    print(char_arithmetic(["darth_vader"], ["voldemort"]).to_string(index=False))
-#+end_src
-
-#+begin_src python :exports results
-if 'pca' in dir():
-    print("Harry Potter + Joker = ?")
-    print(char_arithmetic(["harry_potter", "the_joker"], []).to_string(index=False))
-#+end_src
-
-* Comparison to Role Vectors
-
-Lu et al. extracted vectors for 463 generic roles (e.g., "accountant", "hero", "villain"). We project characters onto this space and analyze residuals.
-
-#+begin_src python :exports results
-from sklearn.preprocessing import StandardScaler
-
-# Check for role data
-role_pca_path = Path('data/role_vectors/qwen-3-32b_pca_layer32.pkl')
-
-if role_pca_path.exists() and 'activation_matrix' in dir():
-    with open(role_pca_path, 'rb') as f:
-        role_data = pickle.load(f)
-    
-    role_pca = role_data['pca']
-    role_scaler = role_data['scaler']
-    roles_flat = role_data['role_names']
-    role_projections = role_data['transformed']
-    
-    # Project characters onto role space
-    chars_scaled = role_scaler.transform(activation_matrix)
-    chars_in_role_space = role_pca.transform(chars_scaled)
-    
-    # Reconstruct and get residuals
-    reconstructed = chars_in_role_space @ role_pca.components_
-    residuals = chars_scaled - reconstructed
-    
-    original_var = np.var(chars_scaled, axis=0).sum()
-    residual_var = np.var(residuals, axis=0).sum()
-    captured_var = original_var - residual_var
-    
-    df = pd.DataFrame({
-        'Metric': ['Roles loaded', 'Role PCs', 'Captured by roles', 'Residual (not captured)'],
-        'Value': [len(roles_flat), role_pca.n_components_, 
-                  f"{captured_var/original_var:.1%}", f"{residual_var/original_var:.1%}"]
-    })
-    print(df.to_string(index=False))
-else:
-    print("Role vectors not found. Download from HuggingFace (see README).")
-#+end_src
-
-** Characters on Role PCs
-
-#+begin_src python :exports results
-def show_role_pc(pc_idx, top_k=3):
-    role_scores = role_projections[:, pc_idx]
-    sorted_role_idx = np.argsort(role_scores)
-    
-    char_scores = chars_in_role_space[:, pc_idx]
-    sorted_char_idx = np.argsort(char_scores)
-    
-    var_pct = role_pca.explained_variance_ratio_[pc_idx] * 100
-    
-    high_roles = [roles_flat[i] for i in sorted_role_idx[-top_k:][::-1]]
-    low_roles = [roles_flat[i] for i in sorted_role_idx[:top_k]]
-    high_chars = [char_names[i].replace('_', ' ').title() for i in sorted_char_idx[-top_k:][::-1]]
-    low_chars = [char_names[i].replace('_', ' ').title() for i in sorted_char_idx[:top_k]]
-    
-    return {
-        'PC': pc_idx + 1,
-        'Var%': f"{var_pct:.1f}%",
-        'High Roles': ', '.join(high_roles),
-        'Low Roles': ', '.join(low_roles),
-        'High Chars': ', '.join(high_chars),
-        'Low Chars': ', '.join(low_chars),
-    }
-
-if 'role_pca' in dir():
-    rows = [show_role_pc(i) for i in range(5)]
-    df = pd.DataFrame(rows)
-    print(df.to_string(index=False))
-#+end_src
-
-** Residual Analysis (What Roles Miss)
-
-#+begin_src python :exports results
-from sklearn.decomposition import PCA as SkPCA
-
-if 'residuals' in dir():
-    residual_pca = SkPCA(n_components=10)
-    residuals_transformed = residual_pca.fit_transform(residuals)
-    
-    def show_residual_pc(pc_idx, top_k=4):
-        scores = residuals_transformed[:, pc_idx]
-        sorted_idx = np.argsort(scores)
-        var_pct = residual_pca.explained_variance_ratio_[pc_idx] * 100
-        
-        high = [char_names[i].replace('_', ' ').title() for i in sorted_idx[-top_k:][::-1]]
-        low = [char_names[i].replace('_', ' ').title() for i in sorted_idx[:top_k]]
-        
-        return {
-            'Residual PC': pc_idx + 1,
-            'Var%': f"{var_pct:.1f}%",
-            'High': ', '.join(high),
-            'Low': ', '.join(low),
-        }
-    
-    rows = [show_residual_pc(i) for i in range(5)]
-    df = pd.DataFrame(rows)
-    print(df.to_string(index=False))
-    print("\nResiduals are dominated by franchise/cultural clustering that generic roles cannot capture.")
-#+end_src
-
-* Franchise-Colored Scatter
+** Universe-Colored Scatter
 
 #+begin_src python :exports results :results file
 if 'pca' in dir():
     fig, ax = plt.subplots(figsize=(14, 10))
     
-    ax.scatter(transformed[:, 0], transformed[:, 1], alpha=0.3, s=20, c='gray')
+    ax.scatter(transformed[:, 0], transformed[:, 1], alpha=0.2, s=15, c='gray')
     
-    highlights = {
-        'Harry Potter': (['harry_potter', 'ron', 'hermione', 'voldemort', 'draco', 'snape'], 'blue'),
-        'Star Wars': (['darth_vader', 'luke_skywalker', 'yoda', 'obiwan', 'han_solo'], 'red'),
-        'Greek Gods': (['zeus', 'athena', 'apollo', 'poseidon', 'hades'], 'gold'),
-        'Shakespeare': (['hamlet', 'macbeth', 'othello', 'iago', 'juliet'], 'green'),
+    colors = {
+        'shakespeare__': ('Shakespeare', 'green'),
+        'greek_mythology__': ('Greek', 'gold'),
+        'harry_potter__': ('Harry Potter', 'blue'),
+        'star_wars__': ('Star Wars', 'red'),
+        'marvel__': ('Marvel', 'purple'),
+        'chinese_mythology__': ('Chinese', 'orange'),
+        'hindu_mythology__': ('Hindu', 'brown'),
     }
     
-    for group_name, (chars, color) in highlights.items():
-        indices = []
-        for c in chars:
-            for i, name in enumerate(char_names):
-                if c.lower() in name.lower():
-                    indices.append(i)
-                    break
+    for prefix, (label, color) in colors.items():
+        indices = get_universe_indices(prefix)
         if indices:
             ax.scatter(transformed[indices, 0], transformed[indices, 1], 
-                       s=80, c=color, label=group_name, edgecolors='black', linewidths=0.5)
-            for idx in indices:
-                name = char_names[idx].replace('_', ' ').title()
-                ax.annotate(name, (transformed[idx, 0], transformed[idx, 1]), 
-                            fontsize=7, alpha=0.9)
+                       s=40, c=color, label=label, alpha=0.7, edgecolors='black', linewidths=0.3)
     
     ax.set_xlabel(f'PC1 ({pca.explained_variance_ratio_[0]:.1%})')
     ax.set_ylabel(f'PC2 ({pca.explained_variance_ratio_[1]:.1%})')
-    ax.set_title('Franchise Clusters in Character Space')
-    ax.legend(loc='upper right')
+    ax.set_title('Characters by Universe')
+    ax.legend(loc='upper right', fontsize=9)
     ax.grid(True, alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig('results/franchise_clusters.png', dpi=150, bbox_inches='tight')
+    plt.savefig('results/universe_clusters.png', dpi=150, bbox_inches='tight')
     plt.close()
-    print('[[file:results/franchise_clusters.png]]')
+    print('[[file:results/universe_clusters.png]]')
+#+end_src
+
+** Residual Space Scatter
+
+#+begin_src python :exports results :results file
+if 'residuals' in dir():
+    fig, ax = plt.subplots(figsize=(14, 10))
+    
+    ax.scatter(residuals_transformed[:, 0], residuals_transformed[:, 1], alpha=0.2, s=15, c='gray')
+    
+    colors = {
+        'shakespeare__': ('Shakespeare', 'green'),
+        'greek_mythology__': ('Greek', 'gold'),
+        'harry_potter__': ('Harry Potter', 'blue'),
+        'star_wars__': ('Star Wars', 'red'),
+        'marvel__': ('Marvel', 'purple'),
+        'chinese_mythology__': ('Chinese', 'orange'),
+        'hindu_mythology__': ('Hindu', 'brown'),
+    }
+    
+    for prefix, (label, color) in colors.items():
+        indices = get_universe_indices(prefix)
+        if indices:
+            ax.scatter(residuals_transformed[indices, 0], residuals_transformed[indices, 1], 
+                       s=40, c=color, label=label, alpha=0.7, edgecolors='black', linewidths=0.3)
+    
+    ax.set_xlabel(f'Residual PC1 ({residual_pca.explained_variance_ratio_[0]:.1%})')
+    ax.set_ylabel(f'Residual PC2 ({residual_pca.explained_variance_ratio_[1]:.1%})')
+    ax.set_title('Characters in Residual Space (after projecting out role space)')
+    ax.legend(loc='upper right', fontsize=9)
+    ax.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.savefig('results/residual_clusters.png', dpi=150, bbox_inches='tight')
+    plt.close()
+    print('[[file:results/residual_clusters.png]]')
 #+end_src
 
 * Limitations
