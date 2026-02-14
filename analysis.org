@@ -942,21 +942,6 @@ The LLM interpretations above are hypotheses, not conclusions. This section prov
 2. *Full tables* of top 10 and bottom 10 characters with their actual scores
 3. *Histograms* showing the distribution of characters along each PC
 
-** Select Universe for Detailed View
-
-#+begin_src python
-# Configuration - change this to view different universes
-DETAIL_UNIVERSE = 'harry_potter'  # Options: harry_potter, star_wars, marvel, game_of_thrones, 
-                                  # lord_of_the_rings, naruto, greek_mythology, chinese_mythology,
-                                  # hindu_mythology, norse_mythology, egyptian_mythology, shakespeare
-#+end_src
-
-#+RESULTS:
-:results:
-:end:
-
-** PC Details: Tables and Distributions
-
 #+begin_src python
 import matplotlib.pyplot as plt
 
@@ -1019,42 +1004,8 @@ def detailed_pc_analysis(universe_name, prefix, n_pcs=5, n_extreme=10):
     print(f'\n[[file:results/pc_detail_{universe_name}.png]]')
 
 if 'residuals_role' in dir():
-    detailed_pc_analysis(DETAIL_UNIVERSE, UNIVERSES[DETAIL_UNIVERSE])
-#+end_src
-
-#+RESULTS:
-:results:
-:end:
-
-** All Universes Summary Table
-
-Quick reference: Top 3 PCs for each universe with variance explained.
-
-#+begin_src python
-if 'residuals_role' in dir():
-    rows = []
     for universe, prefix in UNIVERSES.items():
-        indices = get_universe_indices(prefix)
-        if len(indices) < 10:
-            continue
-        
-        u_residuals = residuals_role[indices]
-        u_pca = SkPCA(n_components=5)
-        u_pca.fit(u_residuals)
-        
-        cumvar = np.cumsum(u_pca.explained_variance_ratio_)
-        rows.append({
-            'Universe': universe.replace('_', ' ').title(),
-            'N': len(indices),
-            'PC1': f"{u_pca.explained_variance_ratio_[0]:.1%}",
-            'PC2': f"{u_pca.explained_variance_ratio_[1]:.1%}",
-            'PC3': f"{u_pca.explained_variance_ratio_[2]:.1%}",
-            'Top 3': f"{cumvar[2]:.1%}",
-            'Top 5': f"{cumvar[4]:.1%}",
-        })
-    
-    df = pd.DataFrame(rows).sort_values('Top 5', ascending=False)
-    print(df)
+        detailed_pc_analysis(universe, prefix)
 #+end_src
 
 #+RESULTS:
