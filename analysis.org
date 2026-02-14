@@ -945,7 +945,7 @@ The LLM interpretations above are hypotheses, not conclusions. This section prov
 #+begin_src python
 import matplotlib.pyplot as plt
 
-def detailed_pc_analysis(universe_name, prefix, n_pcs=5, n_extreme=10):
+def detailed_pc_analysis(universe_name, prefix, n_pcs=5):
     """Generate detailed tables and histograms for each PC."""
     indices = get_universe_indices(prefix)
     if len(indices) < 10:
@@ -973,19 +973,11 @@ def detailed_pc_analysis(universe_name, prefix, n_pcs=5, n_extreme=10):
         sorted_idx = np.argsort(scores)
         var_pct = u_pca.explained_variance_ratio_[pc_idx] * 100
         
-        # Print detailed table
+        # Print ALL characters sorted by score
         print(f"\n--- PC{pc_idx + 1} ({var_pct:.1f}% variance) ---\n")
-        
-        print("TOP 10 (positive direction):")
+        print("All characters (sorted by score):")
         rows = []
-        for i in sorted_idx[-n_extreme:][::-1]:
-            name = u_names[i].split('__')[-1].replace('_', ' ').title()
-            rows.append({'Character': name, 'Score': f"{scores[i]:+.2f}"})
-        print(pd.DataFrame(rows))
-        
-        print("\nBOTTOM 10 (negative direction):")
-        rows = []
-        for i in sorted_idx[:n_extreme]:
+        for i in sorted_idx[::-1]:  # High to low
             name = u_names[i].split('__')[-1].replace('_', ' ').title()
             rows.append({'Character': name, 'Score': f"{scores[i]:+.2f}"})
         print(pd.DataFrame(rows))
@@ -1008,8 +1000,1877 @@ if 'residuals_role' in dir():
         detailed_pc_analysis(universe, prefix)
 #+end_src
 
+** Question-Level Analysis
+
+Which questions drive a character's position on a PC? This helps interpret what the axis means.
+
+#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_pca :async t
+import torch
+import numpy as np
+import json
+from pathlib import Path
+from sklearn.decomposition import PCA as SkPCA
+
+activations_dir = Path('outputs/qwen3-32b_20260211_002840/activations')
+questions_file = Path('assistant-axis/data/extraction_questions.jsonl')
+
+# Load questions
+questions = []
+with open(questions_file) as f:
+    for line in f:
+        q = json.loads(line)
+        questions.append(q['question'])
+print(f"Loaded {len(questions)} questions")
+
+def load_per_question_activations(char_name, layer=32):
+    """Load activations split by question for a single character."""
+    pt_file = activations_dir / f"{char_name}.pt"
+    if not pt_file.exists():
+        return None
+    
+    data = torch.load(pt_file, map_location='cpu')
+    
+    n_questions = 240
+    question_activations = []
+    
+    for q_idx in range(n_questions):
+        q_acts = []
+        for p_idx in range(5):  # 5 prompt variants
+            key = f'pos_p{p_idx}_q{q_idx}'
+            if key in data:
+                act = data[key]
+                if isinstance(act, torch.Tensor):
+                    act = act.float().numpy()
+                if len(act.shape) == 2:
+                    q_acts.append(act[layer-1] if act.shape[0] >= layer else act[-1])
+                else:
+                    q_acts.append(act)
+        if q_acts:
+            question_activations.append(np.mean(q_acts, axis=0))
+    
+    return np.array(question_activations) if question_activations else None
+
+print("Question loading functions ready")
+#+end_src
+
 #+RESULTS:
 :results:
+:end:
+
+#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_pca :async t
+def explain_character_pc_position(char_name, pc_direction, top_k=10):
+    """
+    Explain why a character scores high/low on a PC by finding which questions
+    contribute most to their position along that direction.
+    
+    Returns questions where the character's activation is most aligned/anti-aligned
+    with the PC direction.
+    """
+    acts = load_per_question_activations(char_name)
+    if acts is None:
+        return None
+    
+    # Project each question's activation onto the PC direction
+    # pc_direction should be normalized
+    pc_norm = pc_direction / np.linalg.norm(pc_direction)
+    
+    # For each question, compute dot product with PC direction
+    projections = acts @ pc_norm
+    
+    # Sort questions by projection
+    sorted_idx = np.argsort(projections)
+    
+    results = {
+        'high': [(questions[i], projections[i]) for i in sorted_idx[-top_k:][::-1]],
+        'low': [(questions[i], projections[i]) for i in sorted_idx[:top_k]],
+    }
+    return results
+
+
+def compare_characters_on_pc(char1_name, char2_name, pc_direction, top_k=5):
+    """
+    Compare two characters to find which questions differentiate them most on a PC.
+    """
+    acts1 = load_per_question_activations(char1_name)
+    acts2 = load_per_question_activations(char2_name)
+    
+    if acts1 is None or acts2 is None:
+        return None
+    
+    pc_norm = pc_direction / np.linalg.norm(pc_direction)
+    
+    proj1 = acts1 @ pc_norm
+    proj2 = acts2 @ pc_norm
+    
+    # Difference in projections per question
+    diff = proj1 - proj2
+    sorted_idx = np.argsort(diff)
+    
+    results = {
+        'char1_higher': [(questions[i], proj1[i], proj2[i]) for i in sorted_idx[-top_k:][::-1]],
+        'char2_higher': [(questions[i], proj1[i], proj2[i]) for i in sorted_idx[:top_k]],
+    }
+    return results
+
+print("Analysis functions defined")
+#+end_src
+
+#+RESULTS:
+:results:
+:end:
+
+*** Example: Harry Potter PC1 - Tom Riddle vs Ron Weasley
+
+#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_pca :async t
+import pickle
+from sklearn.preprocessing import StandardScaler
+
+# Load data
+with open('results/fictional_character_analysis_filtered.pkl', 'rb') as f:
+    results = pickle.load(f)
+
+with open('data/role_vectors/qwen-3-32b_pca_layer32.pkl', 'rb') as f:
+    role_data = pickle.load(f)
+
+char_names = results['character_names']
+activation_matrix = results['activation_matrix']
+
+# Compute residuals
+role_pca = role_data['pca']
+role_scaler = role_data['scaler']
+chars_scaled = role_scaler.transform(activation_matrix)
+chars_in_role_space = role_pca.transform(chars_scaled)
+reconstructed = chars_in_role_space @ role_pca.components_
+residuals_role = chars_scaled - reconstructed
+
+# Harry Potter PCA
+hp_prefixes = ['harry_potter__', 'harry_potter_series__']
+hp_indices = [i for i, name in enumerate(char_names) if any(name.startswith(p) for p in hp_prefixes)]
+hp_names = [char_names[i] for i in hp_indices]
+hp_residuals = residuals_role[hp_indices]
+
+hp_pca = SkPCA(n_components=5)
+hp_pca.fit(hp_residuals)
+
+# Get PC1 direction (in the original activation space, we need to unscale)
+# Actually, we need the PC direction in the original space to project per-question acts
+# For simplicity, let's use the PC direction from the residual PCA
+pc1_direction = hp_pca.components_[0]
+
+print("HP PC1 direction shape:", pc1_direction.shape)
+print("This is in residual space (after role projection)")
+#+end_src
+
+#+RESULTS:
+:results:
+:end:
+
+#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_pca :async t
+# Compare Tom Riddle (high PC1) vs Ron Weasley (low PC1)
+# We need to work in the same space - let's project question activations through the same pipeline
+
+def get_question_residuals(char_name):
+    """Get per-question residuals (after role projection) for a character."""
+    acts = load_per_question_activations(char_name)
+    if acts is None:
+        return None
+    
+    # Scale each question's activation
+    acts_scaled = role_scaler.transform(acts)
+    # Project to role space and compute residual
+    in_role_space = role_pca.transform(acts_scaled)
+    reconstructed = in_role_space @ role_pca.components_
+    residuals = acts_scaled - reconstructed
+    
+    return residuals
+
+
+tom_residuals = get_question_residuals('harry_potter__tom_riddle')
+ron_residuals = get_question_residuals('harry_potter__ron_weasley')
+
+if tom_residuals is not None and ron_residuals is not None:
+    # Project onto HP PC1
+    tom_proj = tom_residuals @ pc1_direction
+    ron_proj = ron_residuals @ pc1_direction
+    
+    print(f"Tom Riddle mean PC1 projection: {tom_proj.mean():.2f}")
+    print(f"Ron Weasley mean PC1 projection: {ron_proj.mean():.2f}")
+    
+    # Find questions where they differ most
+    diff = tom_proj - ron_proj
+    sorted_idx = np.argsort(diff)
+    
+    print("\n=== Questions where Tom >> Ron on PC1 ===")
+    for i in sorted_idx[-5:][::-1]:
+        print(f"  [{diff[i]:+.1f}] {questions[i][:80]}...")
+    
+    print("\n=== Questions where Ron >> Tom on PC1 ===")
+    for i in sorted_idx[:5]:
+        print(f"  [{diff[i]:+.1f}] {questions[i][:80]}...")
+#+end_src
+
+#+RESULTS:
+:results:
+:end:
+
+#+RESULTS:
+:results:
+=== Harry Potter (102 characters) ===
+Top 5 PCs explain 43.5% of within-universe residual variance
+--- PC1 (12.1% variance) ---
+TOP 10 (positive direction):
+| idx | Character           |  Score |
+|-----+---------------------+--------|
+|   0 | Tom Riddle          | +22.17 |
+|   1 | Nagini              | +21.76 |
+|   2 | The Bloody Baron    | +20.93 |
+|   3 | Professor Trelawney | +20.58 |
+|   4 | Igor Karkaroff      | +19.35 |
+|   5 | Lord Voldemort      | +19.22 |
+|   6 | Dolores Umbridge    | +18.70 |
+|   7 | The Sorting Hat     | +18.56 |
+|   8 | Gellert Grindelwald | +18.45 |
+|   9 | Aragog              | +18.13 |
+BOTTOM 10 (negative direction):
+| idx | Character          |  Score |
+|-----+--------------------+--------|
+|   0 | Ron Weasley        | -27.20 |
+|   1 | Charlie Weasley    | -24.94 |
+|   2 | Fred Weasley       | -24.70 |
+|   3 | George Weasley     | -22.62 |
+|   4 | Percy Weasley      | -22.38 |
+|   5 | Bill Weasley       | -20.94 |
+|   6 | Arthur Weasley     | -20.33 |
+|   7 | Seamus Finnigan    | -19.42 |
+|   8 | Rubeus Hagrid      | -19.18 |
+|   9 | Mundungus Fletcher | -18.44 |
+--- PC2 (9.8% variance) ---
+TOP 10 (positive direction):
+| idx | Character          |  Score |
+|-----+--------------------+--------|
+|   0 | Ollivander         | +19.84 |
+|   1 | The Sorting Hat    | +19.52 |
+|   2 | Professor Flitwick | +15.14 |
+|   3 | Albus Dumbledore   | +12.93 |
+|   4 | Minerva Mcgonagall | +12.15 |
+|   5 | Viktor Krum        | +11.51 |
+|   6 | Padma Patil        | +11.15 |
+|   7 | Oliver Wood        | +11.06 |
+|   8 | Helena Ravenclaw   | +10.87 |
+|   9 | Professor Sprout   | +10.84 |
+BOTTOM 10 (negative direction):
+| idx | Character           |  Score |
+|-----+---------------------+--------|
+|   0 | Vernon Dursley      | -43.26 |
+|   1 | Petunia Dursley     | -40.07 |
+|   2 | Dudley Dursley      | -39.32 |
+|   3 | Crabbe              | -20.98 |
+|   4 | Kreacher            | -20.02 |
+|   5 | Dolores Umbridge    | -18.67 |
+|   6 | Argus Filch         | -17.20 |
+|   7 | Pansy Parkinson     | -16.97 |
+|   8 | Bellatrix Lestrange | -13.54 |
+|   9 | Draco Malfoy        | -13.31 |
+--- PC3 (8.4% variance) ---
+TOP 10 (positive direction):
+| idx | Character            |  Score |
+|-----+----------------------+--------|
+|   0 | Argus Filch          | +25.16 |
+|   1 | Dobby The House Elf  | +21.97 |
+|   2 | Rubeus Hagrid        | +21.71 |
+|   3 | Xenophilius Lovegood | +17.62 |
+|   4 | Moaning Myrtle       | +16.91 |
+|   5 | Dolores Umbridge     | +16.82 |
+|   6 | The Sorting Hat      | +16.58 |
+|   7 | Nearly Headless Nick | +16.54 |
+|   8 | Professor Sprout     | +15.53 |
+|   9 | Professor Flitwick   | +14.72 |
+BOTTOM 10 (negative direction):
+| idx | Character            |  Score |
+|-----+----------------------+--------|
+|   0 | Bellatrix Lestrange  | -23.69 |
+|   1 | Regulus Black        | -18.72 |
+|   2 | Lord Voldemort       | -17.87 |
+|   3 | Kingsley Shacklebolt | -14.73 |
+|   4 | Sirius Black         | -14.68 |
+|   5 | Lucius Malfoy        | -12.83 |
+|   6 | Draco Malfoy         | -12.79 |
+|   7 | Tom Riddle           | -12.55 |
+|   8 | Barty Crouch Jr      | -12.43 |
+|   9 | Gellert Grindelwald  | -12.40 |
+--- PC4 (7.1% variance) ---
+TOP 10 (positive direction):
+| idx | Character        |  Score |
+|-----+------------------+--------|
+|   0 | Crookshanks      | +27.75 |
+|   1 | Scabbers         | +23.77 |
+|   2 | Fenrir Greyback  | +23.44 |
+|   3 | Aragog           | +20.21 |
+|   4 | Hedwig           | +16.71 |
+|   5 | Buckbeak         | +15.67 |
+|   6 | The Bloody Baron | +15.45 |
+|   7 | Peeves           | +14.85 |
+|   8 | Crabbe           | +12.48 |
+|   9 | Nagini           | +11.27 |
+BOTTOM 10 (negative direction):
+| idx | Character            |  Score |
+|-----+----------------------+--------|
+|   0 | Dolores Umbridge     | -33.25 |
+|   1 | Cornelius Fudge      | -23.10 |
+|   2 | Gilderoy Lockhart    | -17.54 |
+|   3 | Barty Crouch Sr      | -16.44 |
+|   4 | Horace Slughorn      | -15.13 |
+|   5 | Xenophilius Lovegood | -14.77 |
+|   6 | Professor Flitwick   | -13.65 |
+|   7 | Lucius Malfoy        | -13.45 |
+|   8 | Narcissa Malfoy      | -12.05 |
+|   9 | Pansy Parkinson      | -11.92 |
+--- PC5 (6.1% variance) ---
+TOP 10 (positive direction):
+| idx | Character        |  Score |
+|-----+------------------+--------|
+|   0 | Petunia Dursley  | +15.27 |
+|   1 | Dudley Dursley   | +13.61 |
+|   2 | Cormac Mclaggen  | +12.61 |
+|   3 | Madame Pomfrey   | +12.24 |
+|   4 | Vernon Dursley   | +12.21 |
+|   5 | Argus Filch      | +11.90 |
+|   6 | Helena Ravenclaw | +10.03 |
+|   7 | Professor Sprout |  +9.57 |
+|   8 | The Sorting Hat  |  +9.48 |
+|   9 | Oliver Wood      |  +9.08 |
+BOTTOM 10 (negative direction):
+| idx | Character           |  Score |
+|-----+---------------------+--------|
+|   0 | Dobby The House Elf | -46.46 |
+|   1 | Kreacher            | -39.17 |
+|   2 | Winky               | -15.93 |
+|   3 | Bellatrix Lestrange | -13.83 |
+|   4 | Lord Voldemort      | -13.09 |
+|   5 | Scabbers            | -10.66 |
+|   6 | Ollivander          | -10.34 |
+|   7 | Griphook            | -10.01 |
+|   8 | Quirinus Quirrell   |  -9.49 |
+|   9 | Nagini              |  -7.96 |
+[[file:results/pc_detail_harry_potter.png]]
+=== Star Wars (105 characters) ===
+Top 5 PCs explain 60.0% of within-universe residual variance
+--- PC1 (25.9% variance) ---
+TOP 10 (positive direction):
+| idx | Character                    |  Score |
+|-----+------------------------------+--------|
+|   0 | Darth Vader Anakin Skywalker | +44.66 |
+|   1 | Obiwan Kenobi                | +40.39 |
+|   2 | Mace Windu                   | +40.18 |
+|   3 | Darth Vader                  | +40.05 |
+|   4 | Yoda                         | +39.57 |
+|   5 | Quigon Jinn                  | +37.05 |
+|   6 | Darth Maul                   | +32.31 |
+|   7 | Plo Koon                     | +32.06 |
+|   8 | Kiadimundi                   | +30.96 |
+|   9 | Luminara Unduli              | +30.81 |
+BOTTOM 10 (negative direction):
+| idx | Character        |  Score |
+|-----+------------------+--------|
+|   0 | Han Solo         | -28.93 |
+|   1 | Hondo Ohnaka     | -22.05 |
+|   2 | Lando Calrissian | -21.88 |
+|   3 | Bossk            | -21.80 |
+|   4 | Greef Karga      | -20.71 |
+|   5 | Qira             | -20.71 |
+|   6 | Dengar           | -20.34 |
+|   7 | Doctor Aphra     | -19.86 |
+|   8 | Jyn Erso         | -18.75 |
+|   9 | Fennec Shand     | -18.62 |
+--- PC2 (14.1% variance) ---
+TOP 10 (positive direction):
+| idx | Character            |  Score |
+|-----+----------------------+--------|
+|   0 | Grand Admiral Thrawn | +21.37 |
+|   1 | Bokatan Kryze        | +19.02 |
+|   2 | Wilhuff Tarkin       | +17.03 |
+|   3 | Asajj Ventress       | +17.02 |
+|   4 | General Hux          | +14.75 |
+|   5 | Qira                 | +14.30 |
+|   6 | Cassian Andor        | +14.06 |
+|   7 | Governor Tarkin      | +13.38 |
+|   8 | Savage Opress        | +12.58 |
+|   9 | Director Krennic     | +12.45 |
+BOTTOM 10 (negative direction):
+| idx | Character      |  Score |
+|-----+----------------+--------|
+|   0 | R2D2           | -61.94 |
+|   1 | Bb8            | -51.26 |
+|   2 | Chewbacca      | -33.67 |
+|   3 | C3Po           | -28.34 |
+|   4 | Jar Jar Binks  | -28.23 |
+|   5 | Chopper        | -25.21 |
+|   6 | Bd1            | -23.78 |
+|   7 | Luke Skywalker | -20.31 |
+|   8 | Watto          | -19.07 |
+|   9 | L337           | -15.28 |
+--- PC3 (8.9% variance) ---
+TOP 10 (positive direction):
+| idx | Character                       |  Score |
+|-----+---------------------------------+--------|
+|   0 | General Grievous                | +27.78 |
+|   1 | Darth Vader                     | +27.25 |
+|   2 | Nute Gunray                     | +22.78 |
+|   3 | Darth Vader Anakin Skywalker    | +22.63 |
+|   4 | Governor Tarkin                 | +21.59 |
+|   5 | Emperor Palpatine Darth Sidious | +21.46 |
+|   6 | General Hux                     | +20.33 |
+|   7 | Darth Maul                      | +19.11 |
+|   8 | Jabba The Hutt                  | +18.59 |
+|   9 | Supreme Leader Snoke            | +17.37 |
+BOTTOM 10 (negative direction):
+| idx | Character               |  Score |
+|-----+-------------------------+--------|
+|   0 | Ezra Bridger            | -15.34 |
+|   1 | Rey                     | -14.83 |
+|   2 | Cal Kestis              | -14.53 |
+|   3 | Chirrut Imwe            | -13.21 |
+|   4 | Ahsoka Tano             | -13.20 |
+|   5 | Yoda                    | -12.65 |
+|   6 | Luke Skywalker          | -12.47 |
+|   7 | Grogu Baby Yoda         | -12.09 |
+|   8 | Kanan Jarrus Caleb Dume | -11.48 |
+|   9 | Rose Tico               | -11.43 |
+--- PC4 (6.7% variance) ---
+TOP 10 (positive direction):
+| idx | Character            |  Score |
+|-----+----------------------+--------|
+|   0 | Princess Leia Organa | +20.44 |
+|   1 | Princess Leia        | +20.13 |
+|   2 | Governor Tarkin      | +18.64 |
+|   3 | C3Po                 | +18.49 |
+|   4 | Admiral Ackbar       | +17.46 |
+|   5 | Mon Mothma           | +17.20 |
+|   6 | Padme Amidala        | +14.86 |
+|   7 | Bail Organa          | +13.82 |
+|   8 | Wilhuff Tarkin       | +12.77 |
+|   9 | Director Krennic     | +11.44 |
+BOTTOM 10 (negative direction):
+| idx | Character                  |  Score |
+|-----+----------------------------+--------|
+|   0 | Jabba The Hutt             | -23.56 |
+|   1 | Sebulba                    | -22.35 |
+|   2 | Grogu Baby Yoda            | -20.02 |
+|   3 | Darth Maul                 | -19.71 |
+|   4 | Jango Fett                 | -17.54 |
+|   5 | Savage Opress              | -16.69 |
+|   6 | Bossk                      | -15.89 |
+|   7 | Din Djarin The Mandalorian | -15.16 |
+|   8 | Boba Fett                  | -15.06 |
+|   9 | Yoda                       | -14.87 |
+--- PC5 (4.4% variance) ---
+TOP 10 (positive direction):
+| idx | Character                    |  Score |
+|-----+------------------------------+--------|
+|   0 | Darth Vader                  | +21.17 |
+|   1 | Darth Vader Anakin Skywalker | +21.09 |
+|   2 | Kylo Ren Ben Solo            | +19.37 |
+|   3 | Luke Skywalker               | +16.23 |
+|   4 | Princess Leia                | +15.41 |
+|   5 | Princess Leia Organa         | +14.43 |
+|   6 | Rey                          | +14.04 |
+|   7 | Jyn Erso                     | +11.18 |
+|   8 | Han Solo                     | +10.69 |
+|   9 | Supreme Leader Snoke         |  +9.32 |
+BOTTOM 10 (negative direction):
+| idx | Character            |  Score |
+|-----+----------------------+--------|
+|   0 | Ig88                 | -14.97 |
+|   1 | 4Lom                 | -14.60 |
+|   2 | Grand Admiral Thrawn | -13.83 |
+|   3 | Kiadimundi           | -13.43 |
+|   4 | Bd1                  | -13.34 |
+|   5 | L337                 | -13.27 |
+|   6 | C3Po                 | -12.24 |
+|   7 | Plo Koon             | -11.57 |
+|   8 | Shaak Ti             |  -9.87 |
+|   9 | K2So                 |  -9.23 |
+[[file:results/pc_detail_star_wars.png]]
+=== Marvel (108 characters) ===
+Top 5 PCs explain 42.9% of within-universe residual variance
+--- PC1 (13.1% variance) ---
+TOP 10 (positive direction):
+| idx | Character                  |  Score |
+|-----+----------------------------+--------|
+|   0 | Cyclops Scott Summers      | +37.89 |
+|   1 | Iceman Bobby Drake         | +30.13 |
+|   2 | Beast Hank Mccoy           | +25.52 |
+|   3 | Peter Parker               | +25.49 |
+|   4 | Professor X Charles Xavier | +25.46 |
+|   5 | Spiderman Peter Parker     | +24.73 |
+|   6 | Kitty Pryde                | +23.60 |
+|   7 | Colossus Piotr Rasputin    | +22.36 |
+|   8 | Jean Grey                  | +22.03 |
+|   9 | Nightcrawler Kurt Wagner   | +20.17 |
+BOTTOM 10 (negative direction):
+| idx | Character           |  Score |
+|-----+---------------------+--------|
+|   0 | Odin                | -22.41 |
+|   1 | Hela                | -20.84 |
+|   2 | Heimdall            | -20.80 |
+|   3 | Thanos              | -20.76 |
+|   4 | Groot               | -17.48 |
+|   5 | Galactus            | -17.28 |
+|   6 | Gamora              | -17.21 |
+|   7 | Loki                | -17.21 |
+|   8 | Valkyrie Brunnhilde | -16.19 |
+|   9 | Red Skull           | -15.68 |
+--- PC2 (10.7% variance) ---
+TOP 10 (positive direction):
+| idx | Character                  |  Score |
+|-----+----------------------------+--------|
+|   0 | Professor X Charles Xavier | +26.30 |
+|   1 | Magneto Erik Lehnsherr     | +24.68 |
+|   2 | Mister Sinister            | +22.42 |
+|   3 | Jean Grey                  | +21.81 |
+|   4 | Dark Phoenix               | +20.96 |
+|   5 | Apocalypse En Sabah Nur    | +20.07 |
+|   6 | Cyclops Scott Summers      | +18.54 |
+|   7 | Beast Hank Mccoy           | +16.30 |
+|   8 | Psylocke Betsy Braddock    | +15.53 |
+|   9 | Colossus Piotr Rasputin    | +14.68 |
+BOTTOM 10 (negative direction):
+| idx | Character                    |  Score |
+|-----+------------------------------+--------|
+|   0 | Iron Man Tony Stark          | -23.00 |
+|   1 | Tony Stark                   | -22.34 |
+|   2 | Spiderman Peter Parker       | -20.86 |
+|   3 | Antman Scott Lang            | -20.42 |
+|   4 | Peter Parker                 | -20.19 |
+|   5 | Hawkeye Clint Barton         | -18.86 |
+|   6 | War Machine James Rhodes     | -17.77 |
+|   7 | Captain America Steve Rogers | -16.63 |
+|   8 | Steve Rogers                 | -15.96 |
+|   9 | Nick Fury                    | -14.56 |
+--- PC3 (7.1% variance) ---
+TOP 10 (positive direction):
+| idx | Character                                      |  Score |
+|-----+------------------------------------------------+--------|
+|   0 | Tchalla                                        | +26.68 |
+|   1 | Black Panther Tchalla                          | +26.10 |
+|   2 | Peter Parker                                   | +20.10 |
+|   3 | Spiderman Peter Parker                         | +19.36 |
+|   4 | Mbaku                                          | +16.76 |
+|   5 | The Fantastic Fours Mr Fantastic Reed Richards | +16.20 |
+|   6 | Invisible Woman Sue Storm                      | +14.75 |
+|   7 | Steve Rogers                                   | +14.21 |
+|   8 | Captain America Steve Rogers                   | +13.94 |
+|   9 | Doctor Strange Stephen Strange                 | +13.63 |
+BOTTOM 10 (negative direction):
+| idx | Character                   |  Score |
+|-----+-----------------------------+--------|
+|   0 | Sabretooth Victor Creed     | -28.75 |
+|   1 | Wolverine Logan             | -20.76 |
+|   2 | Logan                       | -20.58 |
+|   3 | Carnage Cletus Kasady       | -17.78 |
+|   4 | Gambit Remy Lebeau          | -14.75 |
+|   5 | The Punisher Frank Castle   | -14.47 |
+|   6 | Ghost Rider Johnny Blaze    | -14.15 |
+|   7 | Rogue Anna Marie            | -11.57 |
+|   8 | Deadpool Wade Wilson        | -11.13 |
+|   9 | Winter Soldier Bucky Barnes |  -9.95 |
+--- PC4 (6.1% variance) ---
+TOP 10 (positive direction):
+| idx | Character                  |  Score |
+|-----+----------------------------+--------|
+|   0 | Groot                      | +23.25 |
+|   1 | Silver Surfer Norrin Radd  | +20.79 |
+|   2 | Galactus                   | +17.98 |
+|   3 | Peter Parker               | +17.64 |
+|   4 | Spiderman Peter Parker     | +16.84 |
+|   5 | Thanos                     | +16.36 |
+|   6 | Carnage Cletus Kasady      | +15.98 |
+|   7 | Venom Eddie Brock          | +15.04 |
+|   8 | Green Goblin Norman Osborn | +14.96 |
+|   9 | Hulk Bruce Banner          | +13.78 |
+BOTTOM 10 (negative direction):
+| idx | Character                    |  Score |
+|-----+------------------------------+--------|
+|   0 | Okoye                        | -15.75 |
+|   1 | Black Panther Tchalla        | -15.74 |
+|   2 | Shuri                        | -15.49 |
+|   3 | Tchalla                      | -15.13 |
+|   4 | Black Widow Natasha Romanoff | -14.79 |
+|   5 | Mbaku                        | -14.50 |
+|   6 | Natasha Romanoff             | -14.25 |
+|   7 | Maria Hill                   | -11.86 |
+|   8 | Valkyrie Brunnhilde          | -11.38 |
+|   9 | Killmonger Erik Stevens      | -11.19 |
+--- PC5 (5.9% variance) ---
+TOP 10 (positive direction):
+| idx | Character                    |  Score |
+|-----+------------------------------+--------|
+|   0 | Green Goblin Norman Osborn   | +22.99 |
+|   1 | Kingpin Wilson Fisk          | +18.91 |
+|   2 | Doctor Octopus Otto Octavius | +16.52 |
+|   3 | Doctor Doom Victor Von Doom  | +16.21 |
+|   4 | Killmonger Erik Stevens      | +16.07 |
+|   5 | Red Skull                    | +15.85 |
+|   6 | Carnage Cletus Kasady        | +14.88 |
+|   7 | The Punisher Frank Castle    | +14.06 |
+|   8 | Peter Parker                 | +13.45 |
+|   9 | Spiderman Peter Parker       | +13.15 |
+BOTTOM 10 (negative direction):
+| idx | Character                    |  Score |
+|-----+------------------------------+--------|
+|   0 | Groot                        | -34.58 |
+|   1 | Starlord Peter Quill         | -17.72 |
+|   2 | Rocket Raccoon               | -14.47 |
+|   3 | Gamora                       | -13.05 |
+|   4 | Nebula                       | -12.61 |
+|   5 | Drax The Destroyer           | -10.65 |
+|   6 | Thor                         | -10.45 |
+|   7 | Adam Warlock                 | -10.34 |
+|   8 | Captain Marvel Carol Danvers |  -9.79 |
+|   9 | Kitty Pryde                  |  -8.35 |
+[[file:results/pc_detail_marvel.png]]
+=== Game Of Thrones (99 characters) ===
+Top 5 PCs explain 46.6% of within-universe residual variance
+--- PC1 (13.6% variance) ---
+TOP 10 (positive direction):
+| idx | Character                |  Score |
+|-----+--------------------------+--------|
+|   0 | Mad King Aerys Targaryen | +31.53 |
+|   1 | Viserys Targaryen        | +30.43 |
+|   2 | Viserion                 | +27.45 |
+|   3 | Daenerys Targaryen       | +26.57 |
+|   4 | Drogon                   | +22.75 |
+|   5 | Rhaegal                  | +22.37 |
+|   6 | Melisandre               | +17.65 |
+|   7 | Rhaegar Targaryen        | +15.93 |
+|   8 | Cersei Lannister         | +14.58 |
+|   9 | Joffrey Baratheon        | +14.33 |
+BOTTOM 10 (negative direction):
+| idx | Character                   |  Score |
+|-----+-----------------------------+--------|
+|   0 | Tormund Giantsbane          | -24.95 |
+|   1 | Sandor Clegane The Hound    | -21.82 |
+|   2 | Gendry                      | -21.04 |
+|   3 | Hot Pie                     | -20.33 |
+|   4 | Podrick Payne               | -20.17 |
+|   5 | Hodor                       | -19.51 |
+|   6 | Ygritte                     | -18.42 |
+|   7 | Bronn                       | -17.95 |
+|   8 | Shaggydog                   | -15.80 |
+|   9 | Gregor Clegane The Mountain | -15.78 |
+--- PC2 (9.4% variance) ---
+TOP 10 (positive direction):
+| idx | Character          |  Score |
+|-----+--------------------+--------|
+|   0 | Night King         | +31.82 |
+|   1 | Jon Snow           | +24.65 |
+|   2 | Hodor              | +23.62 |
+|   3 | Bran Stark         | +20.62 |
+|   4 | Rickon Stark       | +16.07 |
+|   5 | Drogon             | +15.49 |
+|   6 | Viserion           | +13.32 |
+|   7 | Grey Wind          | +12.32 |
+|   8 | Robb Stark         | +12.23 |
+|   9 | Daenerys Targaryen | +11.98 |
+BOTTOM 10 (negative direction):
+| idx | Character                  |  Score |
+|-----+----------------------------+--------|
+|   0 | Olenna Tyrell              | -20.46 |
+|   1 | Petyr Baelish Littlefinger | -18.07 |
+|   2 | Margaery Tyrell            | -17.10 |
+|   3 | Ellaria Sand               | -13.57 |
+|   4 | Kraznys Mo Nakloz          | -12.72 |
+|   5 | Oberyn Martell             | -12.16 |
+|   6 | Cersei Lannister           | -12.04 |
+|   7 | Xaro Xhoan Daxos           | -11.90 |
+|   8 | Tywin Lannister            | -11.77 |
+|   9 | Syrio Forel                | -11.64 |
+--- PC3 (9.1% variance) ---
+TOP 10 (positive direction):
+| idx | Character         |  Score |
+|-----+-------------------+--------|
+|   0 | Ned Stark         | +19.97 |
+|   1 | Robb Stark        | +17.14 |
+|   2 | Edmure Tully      | +15.03 |
+|   3 | Catelyn Stark     | +14.93 |
+|   4 | Stannis Baratheon | +14.43 |
+|   5 | Jon Snow          | +14.41 |
+|   6 | Robert Baratheon  | +12.13 |
+|   7 | Selyse Baratheon  | +11.20 |
+|   8 | Jeor Mormont      | +10.82 |
+|   9 | Balon Greyjoy     | +10.77 |
+BOTTOM 10 (negative direction):
+| idx | Character       |  Score |
+|-----+-----------------+--------|
+|   0 | Hodor           | -32.81 |
+|   1 | The Waif        | -19.36 |
+|   2 | Viserion        | -17.33 |
+|   3 | Melisandre      | -16.93 |
+|   4 | Threeeyed Raven | -15.10 |
+|   5 | Syrio Forel     | -14.56 |
+|   6 | Mirri Maz Duur  | -14.32 |
+|   7 | Shaggydog       | -13.97 |
+|   8 | Jaqen Hghar     | -13.47 |
+|   9 | Thoros Of Myr   | -11.98 |
+--- PC4 (8.2% variance) ---
+TOP 10 (positive direction):
+| idx | Character          |  Score |
+|-----+--------------------+--------|
+|   0 | Hodor              | +14.76 |
+|   1 | Sansa Stark        | +14.57 |
+|   2 | Bran Stark         | +14.53 |
+|   3 | Missandei          | +14.06 |
+|   4 | Threeeyed Raven    | +12.37 |
+|   5 | Meera Reed         | +11.43 |
+|   6 | Lady               | +10.58 |
+|   7 | Catelyn Stark      | +10.50 |
+|   8 | Jon Snow           | +10.29 |
+|   9 | Myrcella Baratheon | +10.13 |
+BOTTOM 10 (negative direction):
+| idx | Character                   |  Score |
+|-----+-----------------------------+--------|
+|   0 | Gregor Clegane The Mountain | -22.53 |
+|   1 | Sandor Clegane The Hound    | -22.26 |
+|   2 | Joffrey Baratheon           | -19.96 |
+|   3 | Mad King Aerys Targaryen    | -19.54 |
+|   4 | Viserion                    | -19.54 |
+|   5 | Bronn                       | -16.17 |
+|   6 | Viserys Targaryen           | -15.40 |
+|   7 | Robert Baratheon            | -15.18 |
+|   8 | Tormund Giantsbane          | -15.08 |
+|   9 | Drogon                      | -14.19 |
+--- PC5 (6.2% variance) ---
+TOP 10 (positive direction):
+| idx | Character          |  Score |
+|-----+--------------------+--------|
+|   0 | Melisandre         | +13.97 |
+|   1 | Thoros Of Myr      | +10.16 |
+|   2 | Mance Rayder       |  +8.87 |
+|   3 | Night King         |  +7.98 |
+|   4 | Beric Dondarrion   |  +7.90 |
+|   5 | Syrio Forel        |  +7.53 |
+|   6 | Jaqen Hghar        |  +7.52 |
+|   7 | Tormund Giantsbane |  +6.53 |
+|   8 | Jon Snow           |  +6.50 |
+|   9 | Osha               |  +6.33 |
+BOTTOM 10 (negative direction):
+| idx | Character                   |  Score |
+|-----+-----------------------------+--------|
+|   0 | Hodor                       | -58.26 |
+|   1 | Joffrey Baratheon           | -16.16 |
+|   2 | Tommen Baratheon            | -14.01 |
+|   3 | Myrcella Baratheon          |  -8.25 |
+|   4 | Mad King Aerys Targaryen    |  -8.13 |
+|   5 | Tywin Lannister             |  -7.75 |
+|   6 | Cersei Lannister            |  -7.27 |
+|   7 | Viserys Targaryen           |  -6.51 |
+|   8 | Gregor Clegane The Mountain |  -5.99 |
+|   9 | Robert Baratheon            |  -5.27 |
+[[file:results/pc_detail_game_of_thrones.png]]
+=== Lord Of The Rings (97 characters) ===
+Top 5 PCs explain 56.1% of within-universe residual variance
+--- PC1 (23.1% variance) ---
+TOP 10 (positive direction):
+| idx | Character   |  Score |
+|-----+-------------+--------|
+|   0 | Gilgalad    | +31.37 |
+|   1 | Fingolfin   | +30.61 |
+|   2 | Elendil     | +26.99 |
+|   3 | Feanor      | +24.38 |
+|   4 | Galadriel   | +20.98 |
+|   5 | Isildur     | +20.73 |
+|   6 | Luthien     | +20.69 |
+|   7 | Celeborn    | +20.49 |
+|   8 | Denethor    | +19.37 |
+|   9 | Celebrimbor | +18.82 |
+BOTTOM 10 (negative direction):
+| idx | Character                |  Score |
+|-----+--------------------------+--------|
+|   0 | Fredegar Bolger Fatty    | -30.96 |
+|   1 | Bilbo Baggins            | -30.47 |
+|   2 | Bombur                   | -29.74 |
+|   3 | Bofur                    | -26.11 |
+|   4 | Gollum Smeagol           | -25.85 |
+|   5 | Great Goblin             | -24.69 |
+|   6 | Lobelia Sackvillebaggins | -24.42 |
+|   7 | Old Gaffer               | -22.86 |
+|   8 | Farmer Maggot            | -22.74 |
+|   9 | Samwise Gamgee           | -21.60 |
+--- PC2 (13.1% variance) ---
+TOP 10 (positive direction):
+| idx | Character                 |  Score |
+|-----+---------------------------+--------|
+|   0 | Bilbo Baggins             | +18.26 |
+|   1 | Merry Meriadoc Brandybuck | +15.42 |
+|   2 | Frodo Baggins             | +15.32 |
+|   3 | Samwise Gamgee            | +13.46 |
+|   4 | Pippin Peregrin Took      | +13.06 |
+|   5 | Gimli                     | +12.29 |
+|   6 | Fili                      | +11.55 |
+|   7 | Kili                      | +11.50 |
+|   8 | Bombur                    | +10.72 |
+|   9 | Nori                      | +10.54 |
+BOTTOM 10 (negative direction):
+| idx | Character               |  Score |
+|-----+-------------------------+--------|
+|   0 | Azog The Defiler        | -36.57 |
+|   1 | The Witchking Of Angmar | -29.03 |
+|   2 | Ungoliant               | -28.15 |
+|   3 | Grishnakh               | -22.77 |
+|   4 | Morgoth Melkor          | -22.33 |
+|   5 | Shelob                  | -22.24 |
+|   6 | Gothmog                 | -21.77 |
+|   7 | Mouth Of Sauron         | -21.43 |
+|   8 | Ugluk                   | -21.24 |
+|   9 | Balrog Of Moria         | -20.87 |
+--- PC3 (8.6% variance) ---
+TOP 10 (positive direction):
+| idx | Character       |  Score |
+|-----+-----------------+--------|
+|   0 | Gollum Smeagol  | +61.91 |
+|   1 | Frodo Baggins   | +22.47 |
+|   2 | Sauron          | +16.21 |
+|   3 | Mouth Of Sauron | +14.35 |
+|   4 | Isildur         | +13.08 |
+|   5 | Samwise Gamgee  | +11.25 |
+|   6 | Boromir         |  +8.84 |
+|   7 | Bilbo Baggins   |  +8.57 |
+|   8 | Sharkey Saruman |  +8.50 |
+|   9 | Saruman         |  +8.18 |
+BOTTOM 10 (negative direction):
+| idx | Character          |  Score |
+|-----+--------------------+--------|
+|   0 | Dwalin             | -16.25 |
+|   1 | Bofur              | -13.27 |
+|   2 | Gloin              | -12.84 |
+|   3 | Durin              | -12.24 |
+|   4 | Gimli              | -11.41 |
+|   5 | Balin              | -11.20 |
+|   6 | Balrog Of Moria    | -10.50 |
+|   7 | Thorin Oakenshield | -10.37 |
+|   8 | Gothmog            |  -9.71 |
+|   9 | Beorn              |  -9.57 |
+--- PC4 (6.8% variance) ---
+TOP 10 (positive direction):
+| idx | Character                |  Score |
+|-----+--------------------------+--------|
+|   0 | Farmer Maggot            | +16.96 |
+|   1 | Lobelia Sackvillebaggins | +14.48 |
+|   2 | Bill The Pony            | +13.21 |
+|   3 | Shadowfax                | +11.89 |
+|   4 | Grima Wormtongue         | +11.85 |
+|   5 | Goldberry                | +10.99 |
+|   6 | Eomer                    | +10.62 |
+|   7 | Eowyn                    | +10.53 |
+|   8 | Theodred                 | +10.39 |
+|   9 | Old Gaffer               |  +9.98 |
+BOTTOM 10 (negative direction):
+| idx | Character          |  Score |
+|-----+--------------------+--------|
+|   0 | Durin              | -23.97 |
+|   1 | Gollum Smeagol     | -21.15 |
+|   2 | Thorin Oakenshield | -17.97 |
+|   3 | Balin              | -17.01 |
+|   4 | Balrog Of Moria    | -16.13 |
+|   5 | Gloin              | -14.82 |
+|   6 | Gimli              | -13.93 |
+|   7 | Smaug              | -13.40 |
+|   8 | Fili               | -12.86 |
+|   9 | Feanor             | -12.37 |
+--- PC5 (4.4% variance) ---
+TOP 10 (positive direction):
+| idx | Character                |  Score |
+|-----+--------------------------+--------|
+|   0 | Tom Bombadil             | +16.13 |
+|   1 | Ungoliant                | +13.29 |
+|   2 | Treebeard                | +13.28 |
+|   3 | Lobelia Sackvillebaggins | +12.93 |
+|   4 | Feanor                   | +12.48 |
+|   5 | Radagast                 | +11.20 |
+|   6 | Luthien                  | +10.73 |
+|   7 | Goldberry                | +10.47 |
+|   8 | Galadriel                |  +9.86 |
+|   9 | Morgoth Melkor           |  +9.29 |
+BOTTOM 10 (negative direction):
+| idx | Character     |  Score |
+|-----+---------------+--------|
+|   0 | Theoden       | -15.11 |
+|   1 | Boromir       | -13.80 |
+|   2 | Eomer         | -13.36 |
+|   3 | Denethor      | -11.78 |
+|   4 | Frodo Baggins | -10.51 |
+|   5 | Ugluk         |  -9.59 |
+|   6 | Brego         |  -9.58 |
+|   7 | Theodred      |  -9.45 |
+|   8 | Aragorn       |  -8.64 |
+|   9 | Lurtz         |  -8.59 |
+[[file:results/pc_detail_lord_of_the_rings.png]]
+=== Naruto (84 characters) ===
+Top 5 PCs explain 50.3% of within-universe residual variance
+--- PC1 (19.7% variance) ---
+TOP 10 (positive direction):
+| idx | Character           |  Score |
+|-----+---------------------+--------|
+|   0 | Naruto Uzumaki      | +26.61 |
+|   1 | Rock Lee            | +22.84 |
+|   2 | Konohamaru Sarutobi | +17.32 |
+|   3 | Mito Uzumaki        | +17.28 |
+|   4 | Anko Mitarashi      | +16.59 |
+|   5 | Sakura Haruno       | +16.13 |
+|   6 | Sai                 | +15.92 |
+|   7 | Iruka Umino         | +15.64 |
+|   8 | Kiba Inuzuka        | +15.57 |
+|   9 | Kushina Uzumaki     | +15.48 |
+BOTTOM 10 (negative direction):
+| idx | Character           |  Score |
+|-----+---------------------+--------|
+|   0 | Madara Uchiha       | -24.68 |
+|   1 | Toneri Otsutsuki    | -23.25 |
+|   2 | Kinshiki Otsutsuki  | -22.22 |
+|   3 | Ashura Otsutsuki    | -21.62 |
+|   4 | Momoshiki Otsutsuki | -21.36 |
+|   5 | Kaguya Otsutsuki    | -21.17 |
+|   6 | Hamura Otsutsuki    | -21.15 |
+|   7 | Indra Otsutsuki     | -20.21 |
+|   8 | Hagoromo Otsutsuki  | -18.77 |
+|   9 | Itachi Uchiha       | -18.45 |
+--- PC2 (13.3% variance) ---
+TOP 10 (positive direction):
+| idx | Character        |  Score |
+|-----+------------------+--------|
+|   0 | Hidan            | +37.53 |
+|   1 | Tayuya           | +35.52 |
+|   2 | Deidara          | +24.42 |
+|   3 | Suigetsu Hozuki  | +18.79 |
+|   4 | Sakon And Ukon   | +18.76 |
+|   5 | Kisame Hoshigaki | +18.26 |
+|   6 | Sasori           | +16.70 |
+|   7 | Kakuzu           | +14.12 |
+|   8 | Ibiki Morino     | +13.66 |
+|   9 | Shikamaru Nara   | +13.48 |
+BOTTOM 10 (negative direction):
+| idx | Character          |  Score |
+|-----+--------------------+--------|
+|   0 | Rock Lee           | -21.19 |
+|   1 | Might Guy          | -17.01 |
+|   2 | Tobirama Senju     | -15.12 |
+|   3 | Minato Namikaze    | -14.33 |
+|   4 | Hiruzen Sarutobi   | -11.90 |
+|   5 | Fugaku Uchiha      | -11.75 |
+|   6 | Hashirama Senju    | -11.52 |
+|   7 | Naruto Uzumaki     | -11.48 |
+|   8 | Hagoromo Otsutsuki | -10.04 |
+|   9 | Ashura Otsutsuki   |  -9.12 |
+--- PC3 (7.3% variance) ---
+TOP 10 (positive direction):
+| idx | Character      |  Score |
+|-----+----------------+--------|
+|   0 | Shino Aburame  | +20.53 |
+|   1 | Hiashi Hyuga   | +14.95 |
+|   2 | Hinata Hyuga   | +13.69 |
+|   3 | Shizune        | +13.24 |
+|   4 | Konan          | +12.98 |
+|   5 | Kurenai Yuhi   | +10.12 |
+|   6 | Hanabi Hyuga   | +10.04 |
+|   7 | Gaara          |  +8.99 |
+|   8 | Asuma Sarutobi |  +8.93 |
+|   9 | Neji Hyuga     |  +8.69 |
+BOTTOM 10 (negative direction):
+| idx | Character           |  Score |
+|-----+---------------------+--------|
+|   0 | Might Guy           | -15.27 |
+|   1 | Momoshiki Otsutsuki | -14.99 |
+|   2 | Rock Lee            | -14.72 |
+|   3 | Naruto Uzumaki      | -14.71 |
+|   4 | Kinshiki Otsutsuki  | -14.42 |
+|   5 | Killer Bee          | -14.09 |
+|   6 | Madara Uchiha       | -11.69 |
+|   7 | Hidan               | -10.95 |
+|   8 | Kurama Ninetails    |  -9.51 |
+|   9 | Izuna Uchiha        |  -9.48 |
+--- PC4 (5.6% variance) ---
+TOP 10 (positive direction):
+| idx | Character        |  Score |
+|-----+------------------+--------|
+|   0 | Hiruzen Sarutobi | +12.72 |
+|   1 | A Fourth Raikage | +10.47 |
+|   2 | Tobirama Senju   | +10.18 |
+|   3 | Minato Namikaze  |  +9.80 |
+|   4 | Asuma Sarutobi   |  +9.47 |
+|   5 | Kakashi Hatake   |  +8.67 |
+|   6 | Madara Uchiha    |  +8.61 |
+|   7 | Tsunade          |  +8.34 |
+|   8 | Danzo Shimura    |  +8.15 |
+|   9 | Hashirama Senju  |  +7.86 |
+BOTTOM 10 (negative direction):
+| idx | Character        |  Score |
+|-----+------------------+--------|
+|   0 | Rock Lee         | -23.38 |
+|   1 | Might Guy        | -20.53 |
+|   2 | Hinata Hyuga     | -17.99 |
+|   3 | Shino Aburame    | -13.21 |
+|   4 | Hanabi Hyuga     | -11.69 |
+|   5 | Neji Hyuga       | -11.45 |
+|   6 | Hiashi Hyuga     | -10.92 |
+|   7 | Kimimaro         |  -8.00 |
+|   8 | Choji Akimichi   |  -7.54 |
+|   9 | Kaguya Otsutsuki |  -6.78 |
+--- PC5 (4.4% variance) ---
+TOP 10 (positive direction):
+| idx | Character        |  Score |
+|-----+------------------+--------|
+|   0 | Hinata Hyuga     | +14.37 |
+|   1 | Gaara            |  +9.17 |
+|   2 | Kushina Uzumaki  |  +8.82 |
+|   3 | Karin Uzumaki    |  +8.51 |
+|   4 | Kurama Ninetails |  +8.30 |
+|   5 | Mikoto Uchiha    |  +7.32 |
+|   6 | Temari           |  +7.26 |
+|   7 | Hanabi Hyuga     |  +7.11 |
+|   8 | Sakura Haruno    |  +7.07 |
+|   9 | Kaguya Otsutsuki |  +6.69 |
+BOTTOM 10 (negative direction):
+| idx | Character        |  Score |
+|-----+------------------+--------|
+|   0 | Might Guy        | -21.51 |
+|   1 | Rock Lee         | -17.06 |
+|   2 | Orochimaru       | -12.10 |
+|   3 | Danzo Shimura    | -10.58 |
+|   4 | Hiruzen Sarutobi | -10.15 |
+|   5 | Kakuzu           |  -9.13 |
+|   6 | Onoki            |  -9.05 |
+|   7 | Kabuto Yakushi   |  -8.18 |
+|   8 | Sasori           |  -7.98 |
+|   9 | Asuma Sarutobi   |  -7.80 |
+[[file:results/pc_detail_naruto.png]]
+=== Greek Mythology (107 characters) ===
+Top 5 PCs explain 35.8% of within-universe residual variance
+--- PC1 (13.6% variance) ---
+TOP 10 (positive direction):
+| idx | Character     |  Score |
+|-----+---------------+--------|
+|   0 | Agamemnon     | +29.84 |
+|   1 | Menelaus      | +25.99 |
+|   2 | Telemachus    | +24.81 |
+|   3 | Priam         | +24.23 |
+|   4 | Clytemnestra  | +23.53 |
+|   5 | Oedipus       | +23.20 |
+|   6 | Helen Of Troy | +22.80 |
+|   7 | Patroclus     | +22.30 |
+|   8 | Penelope      | +22.27 |
+|   9 | Orestes       | +19.60 |
+BOTTOM 10 (negative direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Uranus    | -23.31 |
+|   1 | Chaos     | -20.14 |
+|   2 | Erebus    | -19.13 |
+|   3 | Nyx       | -16.68 |
+|   4 | Gaia      | -16.25 |
+|   5 | Cerberus  | -14.74 |
+|   6 | Dionysus  | -14.48 |
+|   7 | Oceanus   | -14.13 |
+|   8 | Thanatos  | -13.94 |
+|   9 | Demeter   | -13.49 |
+--- PC2 (7.4% variance) ---
+TOP 10 (positive direction):
+| idx | Character     |  Score |
+|-----+---------------+--------|
+|   0 | Diomedes      | +17.29 |
+|   1 | Patroclus     | +16.87 |
+|   2 | Agamemnon     | +15.86 |
+|   3 | Priam         | +14.13 |
+|   4 | Andromache    | +12.15 |
+|   5 | Menelaus      | +11.62 |
+|   6 | Hera          | +11.34 |
+|   7 | Zeus          | +10.79 |
+|   8 | Helen Of Troy | +10.57 |
+|   9 | Ajax          | +10.57 |
+BOTTOM 10 (negative direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Minotaur  | -32.32 |
+|   1 | Ariadne   | -28.30 |
+|   2 | Daedalus  | -27.94 |
+|   3 | Theseus   | -27.24 |
+|   4 | Icarus    | -23.58 |
+|   5 | Minos     | -16.67 |
+|   6 | Medusa    | -15.83 |
+|   7 | Sisyphus  | -13.49 |
+|   8 | Perseus   | -12.36 |
+|   9 | Arachne   | -11.56 |
+--- PC3 (5.7% variance) ---
+TOP 10 (positive direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Siren     | +17.61 |
+|   1 | Galatea   | +15.38 |
+|   2 | Pygmalion | +15.24 |
+|   3 | Narcissus | +12.83 |
+|   4 | Thanatos  | +10.06 |
+|   5 | Hecate    |  +9.96 |
+|   6 | Morpheus  |  +9.80 |
+|   7 | Eurydice  |  +9.49 |
+|   8 | Phaedra   |  +9.43 |
+|   9 | Medea     |  +9.38 |
+BOTTOM 10 (negative direction):
+| idx | Character         |  Score |
+|-----+-------------------+--------|
+|   0 | Hercules Heracles | -22.23 |
+|   1 | Zeus              | -21.51 |
+|   2 | Perseus           | -17.73 |
+|   3 | Uranus            | -16.58 |
+|   4 | Iapetus           | -16.01 |
+|   5 | Jason             | -14.64 |
+|   6 | Atlas             | -14.23 |
+|   7 | Cronus            | -12.85 |
+|   8 | Ixion             | -11.94 |
+|   9 | Typhon            | -11.93 |
+--- PC4 (4.8% variance) ---
+TOP 10 (positive direction):
+| idx | Character  |  Score |
+|-----+------------+--------|
+|   0 | Prometheus | +24.67 |
+|   1 | Oedipus    | +23.09 |
+|   2 | Creon      | +18.79 |
+|   3 | Icarus     | +14.81 |
+|   4 | Sisyphus   | +14.48 |
+|   5 | Orestes    | +13.26 |
+|   6 | Ixion      | +12.94 |
+|   7 | Aegisthus  | +12.85 |
+|   8 | Tantalus   | +12.76 |
+|   9 | Jocasta    | +12.60 |
+BOTTOM 10 (negative direction):
+| idx | Character  |  Score |
+|-----+------------+--------|
+|   0 | Theseus    | -15.62 |
+|   1 | Minotaur   | -13.16 |
+|   2 | Ariadne    | -12.49 |
+|   3 | Penelope   | -11.40 |
+|   4 | Polyphemus | -11.23 |
+|   5 | Diomedes   | -11.18 |
+|   6 | Perseus    | -10.92 |
+|   7 | Artemis    | -10.57 |
+|   8 | Pan        | -10.37 |
+|   9 | Persephone |  -9.71 |
+--- PC5 (4.2% variance) ---
+TOP 10 (positive direction):
+| idx | Character  |  Score |
+|-----+------------+--------|
+|   0 | Charybdis  | +12.55 |
+|   1 | Chimera    | +11.56 |
+|   2 | Polyphemus | +11.15 |
+|   3 | Patroclus  | +10.30 |
+|   4 | Hydra      | +10.25 |
+|   5 | Typhon     |  +9.93 |
+|   6 | Scylla     |  +9.31 |
+|   7 | Sisyphus   |  +8.99 |
+|   8 | Tartarus   |  +8.31 |
+|   9 | Cerberus   |  +7.77 |
+BOTTOM 10 (negative direction):
+| idx | Character  |  Score |
+|-----+------------+--------|
+|   0 | Oedipus    | -24.81 |
+|   1 | Demeter    | -23.99 |
+|   2 | Persephone | -19.17 |
+|   3 | Dionysus   | -16.15 |
+|   4 | Apollo     | -13.90 |
+|   5 | Theseus    | -11.48 |
+|   6 | Artemis    | -11.47 |
+|   7 | Jocasta    | -11.26 |
+|   8 | Eurydice   | -11.22 |
+|   9 | Orpheus    | -10.57 |
+[[file:results/pc_detail_greek_mythology.png]]
+=== Chinese Mythology (78 characters) ===
+Top 5 PCs explain 45.5% of within-universe residual variance
+--- PC1 (16.9% variance) ---
+TOP 10 (positive direction):
+| idx | Character              |  Score |
+|-----+------------------------+--------|
+|   0 | Sun Wukong Monkey King | +59.44 |
+|   1 | Zhu Bajie              | +51.63 |
+|   2 | Tang Sanzang           | +49.95 |
+|   3 | Sun Wukong             | +49.76 |
+|   4 | Sha Wujing             | +32.57 |
+|   5 | Red Boy                | +18.90 |
+|   6 | Nezha                  | +18.77 |
+|   7 | Lu Zhishen             | +18.45 |
+|   8 | Princess Iron Fan      | +16.03 |
+|   9 | Xuanzang               | +15.83 |
+BOTTOM 10 (negative direction):
+| idx | Character      |  Score |
+|-----+----------------+--------|
+|   0 | Yellow Emperor | -16.04 |
+|   1 | Yan Emperor    | -15.41 |
+|   2 | Phoenix        | -15.11 |
+|   3 | King Zhou      | -14.26 |
+|   4 | Fuxi           | -12.98 |
+|   5 | Cao Cao        | -12.88 |
+|   6 | Sima Yi        | -12.35 |
+|   7 | Dragon         | -11.96 |
+|   8 | Sun Quan       | -11.61 |
+|   9 | Weaver Girl    | -11.14 |
+--- PC2 (11.3% variance) ---
+TOP 10 (positive direction):
+| idx | Character   |  Score |
+|-----+-------------+--------|
+|   0 | Guan Yu     | +38.07 |
+|   1 | Liu Bei     | +36.78 |
+|   2 | Cao Cao     | +30.17 |
+|   3 | Sima Yi     | +27.19 |
+|   4 | Lu Bu       | +26.29 |
+|   5 | Zhuge Liang | +25.29 |
+|   6 | Zhang Fei   | +24.93 |
+|   7 | Sun Quan    | +23.11 |
+|   8 | Zhou Yu     | +22.57 |
+|   9 | Song Jiang  | +19.13 |
+BOTTOM 10 (negative direction):
+| idx | Character   |  Score |
+|-----+-------------+--------|
+|   0 | Phoenix     | -15.94 |
+|   1 | Change      | -13.74 |
+|   2 | Weaver Girl | -12.41 |
+|   3 | Gonggong    | -12.40 |
+|   4 | Lei Gong    | -12.40 |
+|   5 | Zhu Rong    | -12.32 |
+|   6 | Nuwa        | -12.27 |
+|   7 | Dragon      | -11.85 |
+|   8 | Cowherd     | -11.68 |
+|   9 | Pangu       | -11.49 |
+--- PC3 (6.4% variance) ---
+TOP 10 (positive direction):
+| idx | Character          |  Score |
+|-----+--------------------+--------|
+|   0 | Dragon             | +17.66 |
+|   1 | Lei Gong           | +14.00 |
+|   2 | Bull Demon King    | +13.94 |
+|   3 | Phoenix            | +13.60 |
+|   4 | White Dragon Horse | +11.80 |
+|   5 | Caishen            | +11.13 |
+|   6 | White Bone Demon   | +11.02 |
+|   7 | Zhu Rong           | +10.97 |
+|   8 | Pixiu              | +10.61 |
+|   9 | Qilin              |  +9.69 |
+BOTTOM 10 (negative direction):
+| idx | Character    |  Score |
+|-----+--------------+--------|
+|   0 | Hou Yi       | -29.53 |
+|   1 | Change       | -29.45 |
+|   2 | Wu Gang      | -28.15 |
+|   3 | Weaver Girl  | -22.37 |
+|   4 | Cowherd      | -20.71 |
+|   5 | Meng Jiangnu | -15.64 |
+|   6 | Nuwa         | -11.38 |
+|   7 | Zhu Yingtai  | -10.68 |
+|   8 | Xu Xian      | -10.59 |
+|   9 | Liang Shanbo | -10.20 |
+--- PC4 (5.6% variance) ---
+TOP 10 (positive direction):
+| idx | Character      |  Score |
+|-----+----------------+--------|
+|   0 | Yellow Emperor | +25.98 |
+|   1 | Fuxi           | +23.94 |
+|   2 | Pangu          | +16.69 |
+|   3 | Yan Emperor    | +16.58 |
+|   4 | Tang Sanzang   | +15.80 |
+|   5 | Jiang Ziya     | +14.14 |
+|   6 | Zhuge Liang    | +13.15 |
+|   7 | Jade Emperor   | +12.51 |
+|   8 | Nuwa           | +12.30 |
+|   9 | Shennong       | +10.89 |
+BOTTOM 10 (negative direction):
+| idx | Character    |  Score |
+|-----+--------------+--------|
+|   0 | Weaver Girl  | -16.46 |
+|   1 | Meng Jiangnu | -13.65 |
+|   2 | Wu Song      | -13.56 |
+|   3 | Zhu Yingtai  | -13.25 |
+|   4 | Li Kui       | -13.06 |
+|   5 | Lan Caihe    | -12.58 |
+|   6 | Lu Zhishen   | -11.79 |
+|   7 | Diao Chan    | -11.14 |
+|   8 | Lin Chong    | -10.85 |
+|   9 | Daji         | -10.80 |
+--- PC5 (5.3% variance) ---
+TOP 10 (positive direction):
+| idx | Character    |  Score |
+|-----+--------------+--------|
+|   0 | Xuanzang     | +28.71 |
+|   1 | Tang Sanzang | +22.61 |
+|   2 | Guanyin      | +19.68 |
+|   3 | Fahai        | +13.98 |
+|   4 | Diao Chan    | +11.08 |
+|   5 | Zhu Yingtai  | +10.69 |
+|   6 | Sha Wujing   |  +9.50 |
+|   7 | Liang Shanbo |  +8.10 |
+|   8 | Xu Xian      |  +7.94 |
+|   9 | Qilin        |  +7.86 |
+BOTTOM 10 (negative direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Lei Gong  | -23.90 |
+|   1 | Gonggong  | -19.74 |
+|   2 | Hou Yi    | -17.43 |
+|   3 | Zhang Fei | -16.41 |
+|   4 | Nezha     | -15.12 |
+|   5 | Pangu     | -11.91 |
+|   6 | Li Kui    | -10.99 |
+|   7 | Guan Yu   | -10.20 |
+|   8 | Lu Bu     | -10.18 |
+|   9 | Wu Gang   | -10.00 |
+[[file:results/pc_detail_chinese_mythology.png]]
+=== Hindu Mythology (72 characters) ===
+Top 5 PCs explain 47.5% of within-universe residual variance
+--- PC1 (17.8% variance) ---
+TOP 10 (positive direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Naga      | +22.30 |
+|   1 | Kali      | +20.89 |
+|   2 | Agni      | +20.10 |
+|   3 | Shiva     | +17.88 |
+|   4 | Ganga     | +17.73 |
+|   5 | Garuda    | +17.65 |
+|   6 | Surya     | +17.47 |
+|   7 | Vayu      | +17.47 |
+|   8 | Varuna    | +17.45 |
+|   9 | Yamuna    | +16.43 |
+BOTTOM 10 (negative direction):
+| idx | Character    |  Score |
+|-----+--------------+--------|
+|   0 | Arjuna       | -21.37 |
+|   1 | Yudhishthira | -20.65 |
+|   2 | Lakshmana    | -19.82 |
+|   3 | Rama         | -19.79 |
+|   4 | Abhimanyu    | -18.25 |
+|   5 | Valmiki      | -17.07 |
+|   6 | Duryodhana   | -16.81 |
+|   7 | Karna        | -16.73 |
+|   8 | Bhima        | -15.49 |
+|   9 | Shatrughna   | -15.09 |
+--- PC2 (12.1% variance) ---
+TOP 10 (positive direction):
+| idx | Character      |  Score |
+|-----+----------------+--------|
+|   0 | Hiranyakashipu | +26.12 |
+|   1 | Mahishasura    | +25.44 |
+|   2 | Shakuni        | +22.67 |
+|   3 | Kumbhakarna    | +21.67 |
+|   4 | Duryodhana     | +18.90 |
+|   5 | Naga           | +18.25 |
+|   6 | Ravana         | +17.35 |
+|   7 | Garuda         | +17.26 |
+|   8 | Vali           | +13.36 |
+|   9 | Jatayu         | +13.33 |
+BOTTOM 10 (negative direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Vishnu    | -21.00 |
+|   1 | Krishna   | -20.66 |
+|   2 | Vyasa     | -17.28 |
+|   3 | Rama      | -15.12 |
+|   4 | Arjuna    | -13.98 |
+|   5 | Radha     | -12.41 |
+|   6 | Valmiki   | -11.99 |
+|   7 | Vasishtha | -11.48 |
+|   8 | Bharata   | -10.78 |
+|   9 | Hanuman   |  -9.62 |
+--- PC3 (7.5% variance) ---
+TOP 10 (positive direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Hanuman   | +22.22 |
+|   1 | Varaha    | +18.85 |
+|   2 | Kurma     | +15.97 |
+|   3 | Sugriva   | +13.90 |
+|   4 | Narasimha | +12.40 |
+|   5 | Jatayu    | +11.81 |
+|   6 | Angada    | +10.69 |
+|   7 | Ganesha   | +10.35 |
+|   8 | Matsya    | +10.05 |
+|   9 | Ravana    |  +9.68 |
+BOTTOM 10 (negative direction):
+| idx | Character   |  Score |
+|-----+-------------+--------|
+|   0 | Gandhari    | -15.18 |
+|   1 | Drona       | -13.39 |
+|   2 | Agni        | -12.86 |
+|   3 | Ganga       | -12.76 |
+|   4 | Shakuni     | -12.65 |
+|   5 | Yamuna      | -12.17 |
+|   6 | Bhishma     | -11.71 |
+|   7 | Kunti       | -10.58 |
+|   8 | Karna       |  -9.81 |
+|   9 | Ashwatthama |  -9.40 |
+--- PC4 (5.9% variance) ---
+TOP 10 (positive direction):
+| idx | Character    |  Score |
+|-----+--------------+--------|
+|   0 | Kurma        | +24.53 |
+|   1 | Matsya       | +14.10 |
+|   2 | Varaha       | +12.82 |
+|   3 | Indra        | +12.63 |
+|   4 | Vyasa        |  +9.96 |
+|   5 | Garuda       |  +9.94 |
+|   6 | Arjuna       |  +9.12 |
+|   7 | Yudhishthira |  +8.29 |
+|   8 | Bhishma      |  +7.65 |
+|   9 | Drona        |  +7.57 |
+BOTTOM 10 (negative direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Radha     | -20.75 |
+|   1 | Sita      | -14.93 |
+|   2 | Yamuna    | -13.33 |
+|   3 | Hanuman   | -11.69 |
+|   4 | Parvati   | -11.42 |
+|   5 | Ganga     | -11.36 |
+|   6 | Mandodari | -10.47 |
+|   7 | Lakshmi   |  -9.56 |
+|   8 | Prahlada  |  -8.77 |
+|   9 | Saraswati |  -7.92 |
+--- PC5 (4.2% variance) ---
+TOP 10 (positive direction):
+| idx | Character      |  Score |
+|-----+----------------+--------|
+|   0 | Hiranyakashipu | +13.38 |
+|   1 | Mahishasura    | +12.72 |
+|   2 | Prahlada       | +10.64 |
+|   3 | Narasimha      | +10.09 |
+|   4 | Durga          | +10.05 |
+|   5 | Kali           |  +9.60 |
+|   6 | Duryodhana     |  +9.10 |
+|   7 | Shiva          |  +8.97 |
+|   8 | Vamana         |  +8.95 |
+|   9 | Ganesha        |  +6.03 |
+BOTTOM 10 (negative direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Agni      | -15.80 |
+|   1 | Jatayu    | -12.45 |
+|   2 | Ganga     | -10.62 |
+|   3 | Sugriva   |  -9.93 |
+|   4 | Garuda    |  -9.78 |
+|   5 | Lakshmana |  -8.89 |
+|   6 | Yamuna    |  -8.86 |
+|   7 | Chandra   |  -8.42 |
+|   8 | Angada    |  -8.16 |
+|   9 | Surya     |  -8.00 |
+[[file:results/pc_detail_hindu_mythology.png]]
+=== Norse Mythology (48 characters) ===
+Top 5 PCs explain 49.8% of within-universe residual variance
+--- PC1 (15.8% variance) ---
+TOP 10 (positive direction):
+| idx | Character         |  Score |
+|-----+-------------------+--------|
+|   0 | Erik The Red      | +27.22 |
+|   1 | Leif Erikson      | +26.14 |
+|   2 | Ragnar Lothbrok   | +19.72 |
+|   3 | Bjorn Ironside    | +18.72 |
+|   4 | Ivar The Boneless | +17.61 |
+|   5 | Lagertha          | +14.63 |
+|   6 | Sigurd            |  +9.08 |
+|   7 | Grendels Mother   |  +8.53 |
+|   8 | Wayland The Smith |  +8.12 |
+|   9 | Skadi             |  +6.35 |
+BOTTOM 10 (negative direction):
+| idx | Character   |  Score |
+|-----+-------------+--------|
+|   0 | Urd         | -17.27 |
+|   1 | Norns       | -17.00 |
+|   2 | Verdandi    | -13.67 |
+|   3 | Skuld       | -13.15 |
+|   4 | Ratatoskr   | -13.03 |
+|   5 | Idun        | -11.54 |
+|   6 | Frigg       | -10.87 |
+|   7 | Hermod      |  -8.83 |
+|   8 | Jormungandr |  -8.41 |
+|   9 | Sleipnir    |  -7.73 |
+--- PC2 (13.0% variance) ---
+TOP 10 (positive direction):
+| idx | Character         |  Score |
+|-----+-------------------+--------|
+|   0 | Grendels Mother   | +27.72 |
+|   1 | Fafnir            | +23.80 |
+|   2 | Surtr             | +16.94 |
+|   3 | Nidhogg           | +14.33 |
+|   4 | Wayland The Smith | +13.99 |
+|   5 | Fenrir            | +13.20 |
+|   6 | Andvari           | +12.08 |
+|   7 | Jormungandr       | +11.63 |
+|   8 | Garm              |  +8.72 |
+|   9 | Angrboda          |  +7.70 |
+BOTTOM 10 (negative direction):
+| idx | Character       |  Score |
+|-----+-----------------+--------|
+|   0 | Leif Erikson    | -14.29 |
+|   1 | Bragi           | -11.40 |
+|   2 | Freyr           | -11.40 |
+|   3 | Freya           |  -9.21 |
+|   4 | Ragnar Lothbrok |  -8.50 |
+|   5 | Baldur          |  -8.28 |
+|   6 | Hermod          |  -8.13 |
+|   7 | Erik The Red    |  -7.65 |
+|   8 | Bjorn Ironside  |  -7.46 |
+|   9 | Norns           |  -6.65 |
+--- PC3 (8.4% variance) ---
+TOP 10 (positive direction):
+| idx | Character   |  Score |
+|-----+-------------+--------|
+|   0 | Sleipnir    | +13.70 |
+|   1 | Garm        | +11.88 |
+|   2 | Fenrir      | +10.48 |
+|   3 | Surtr       | +10.14 |
+|   4 | Ymir        |  +9.27 |
+|   5 | Hermod      |  +8.77 |
+|   6 | Thrym       |  +8.48 |
+|   7 | Nidhogg     |  +6.67 |
+|   8 | Jormungandr |  +6.36 |
+|   9 | Ratatoskr   |  +6.33 |
+BOTTOM 10 (negative direction):
+| idx | Character       |  Score |
+|-----+-----------------+--------|
+|   0 | Grendels Mother | -20.68 |
+|   1 | Verdandi        | -18.32 |
+|   2 | Skuld           | -12.85 |
+|   3 | Urd             | -12.59 |
+|   4 | Norns           | -11.46 |
+|   5 | Njord           |  -7.66 |
+|   6 | Lagertha        |  -7.48 |
+|   7 | Frigg           |  -5.62 |
+|   8 | Brynhild        |  -5.30 |
+|   9 | Leif Erikson    |  -4.80 |
+--- PC4 (6.6% variance) ---
+TOP 10 (positive direction):
+| idx | Character    |  Score |
+|-----+--------------+--------|
+|   0 | Jormungandr  | +14.79 |
+|   1 | Ratatoskr    | +11.07 |
+|   2 | Leif Erikson |  +9.98 |
+|   3 | Erik The Red |  +8.81 |
+|   4 | Norns        |  +8.78 |
+|   5 | Nidhogg      |  +8.44 |
+|   6 | Fenrir       |  +8.13 |
+|   7 | Garm         |  +7.56 |
+|   8 | Ymir         |  +7.40 |
+|   9 | Verdandi     |  +7.32 |
+BOTTOM 10 (negative direction):
+| idx | Character         |  Score |
+|-----+-------------------+--------|
+|   0 | Brynhild          | -14.80 |
+|   1 | Wayland The Smith | -12.11 |
+|   2 | Freyr             |  -9.20 |
+|   3 | Andvari           |  -9.16 |
+|   4 | Thrym             |  -8.19 |
+|   5 | Sif               |  -8.11 |
+|   6 | Valkyrie          |  -5.84 |
+|   7 | Sigurd            |  -5.81 |
+|   8 | Freya             |  -5.74 |
+|   9 | Idun              |  -5.63 |
+--- PC5 (5.9% variance) ---
+TOP 10 (positive direction):
+| idx | Character       |  Score |
+|-----+-----------------+--------|
+|   0 | Ratatoskr       | +16.44 |
+|   1 | Hugin           | +12.20 |
+|   2 | Fafnir          | +11.43 |
+|   3 | Andvari         | +10.92 |
+|   4 | Munin           |  +8.76 |
+|   5 | Grendels Mother |  +6.63 |
+|   6 | Hermod          |  +6.09 |
+|   7 | Mimir           |  +5.46 |
+|   8 | Jormungandr     |  +5.21 |
+|   9 | Brynhild        |  +5.15 |
+BOTTOM 10 (negative direction):
+| idx | Character         |  Score |
+|-----+-------------------+--------|
+|   0 | Surtr             | -17.11 |
+|   1 | Ymir              |  -9.52 |
+|   2 | Skadi             |  -7.65 |
+|   3 | Fenrir            |  -7.27 |
+|   4 | Vidar             |  -7.24 |
+|   5 | Norns             |  -6.23 |
+|   6 | Verdandi          |  -5.99 |
+|   7 | Skuld             |  -5.80 |
+|   8 | Wayland The Smith |  -5.46 |
+|   9 | Garm              |  -5.40 |
+[[file:results/pc_detail_norse_mythology.png]]
+=== Egyptian Mythology (44 characters) ===
+Top 5 PCs explain 53.3% of within-universe residual variance
+--- PC1 (19.9% variance) ---
+TOP 10 (positive direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Cleopatra | +24.82 |
+|   1 | Apep      | +24.62 |
+|   2 | Khonsu    | +17.72 |
+|   3 | Sekhmet   | +17.65 |
+|   4 | Bes       | +17.04 |
+|   5 | Set       | +15.72 |
+|   6 | Serqet    | +15.38 |
+|   7 | Bastet    | +14.27 |
+|   8 | Neith     | +13.09 |
+|   9 | Taweret   | +12.51 |
+BOTTOM 10 (negative direction):
+| idx | Character   |  Score |
+|-----+-------------+--------|
+|   0 | Tutankhamun | -31.10 |
+|   1 | Khufu       | -24.74 |
+|   2 | Anubis      | -21.23 |
+|   3 | Osiris      | -19.73 |
+|   4 | Imhotep     | -16.99 |
+|   5 | Ramesses Ii | -14.33 |
+|   6 | Atum        | -13.80 |
+|   7 | Hatshepsut  | -13.60 |
+|   8 | Ra          | -12.82 |
+|   9 | Horus       | -11.79 |
+--- PC2 (13.1% variance) ---
+TOP 10 (positive direction):
+| idx | Character   |  Score |
+|-----+-------------+--------|
+|   0 | Akhenaten   | +26.48 |
+|   1 | Cleopatra   | +24.96 |
+|   2 | Ramesses Ii | +24.42 |
+|   3 | Hatshepsut  | +24.05 |
+|   4 | Nefertiti   | +15.72 |
+|   5 | Tutankhamun | +13.84 |
+|   6 | Khufu       | +12.56 |
+|   7 | Aten        |  +6.11 |
+|   8 | Sekhmet     |  +4.44 |
+|   9 | Sobek       |  +4.40 |
+BOTTOM 10 (negative direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Anubis    | -20.63 |
+|   1 | Osiris    | -16.51 |
+|   2 | Ammit     | -15.86 |
+|   3 | Atum      | -12.29 |
+|   4 | Maat      | -11.24 |
+|   5 | Nut       |  -9.29 |
+|   6 | Horus     |  -8.87 |
+|   7 | Thoth     |  -8.64 |
+|   8 | Nephthys  |  -8.04 |
+|   9 | Shu       |  -8.01 |
+--- PC3 (9.8% variance) ---
+TOP 10 (positive direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Ammit     | +13.27 |
+|   1 | Anubis    | +12.21 |
+|   2 | Cleopatra | +10.22 |
+|   3 | Serqet    |  +9.46 |
+|   4 | Imhotep   |  +9.21 |
+|   5 | Seshat    |  +8.34 |
+|   6 | Wadjet    |  +8.08 |
+|   7 | Khufu     |  +7.17 |
+|   8 | Maat      |  +6.95 |
+|   9 | Nekhbet   |  +6.89 |
+BOTTOM 10 (negative direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Aten      | -25.14 |
+|   1 | Akhenaten | -23.84 |
+|   2 | Khepri    | -19.88 |
+|   3 | Ra        | -19.48 |
+|   4 | Khonsu    | -14.74 |
+|   5 | Atum      | -13.22 |
+|   6 | Nut       | -11.66 |
+|   7 | Geb       |  -5.63 |
+|   8 | Shu       |  -5.12 |
+|   9 | Horus     |  -3.96 |
+--- PC4 (5.8% variance) ---
+TOP 10 (positive direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Ammit     | +18.54 |
+|   1 | Anubis    | +13.07 |
+|   2 | Maat      | +10.53 |
+|   3 | Akhenaten | +10.53 |
+|   4 | Apep      |  +8.66 |
+|   5 | Khonsu    |  +8.26 |
+|   6 | Cleopatra |  +7.17 |
+|   7 | Aten      |  +6.03 |
+|   8 | Thoth     |  +5.24 |
+|   9 | Serqet    |  +3.85 |
+BOTTOM 10 (negative direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Sobek     | -15.27 |
+|   1 | Tefnut    | -14.61 |
+|   2 | Khnum     | -14.35 |
+|   3 | Atum      | -12.41 |
+|   4 | Taweret   |  -9.73 |
+|   5 | Geb       |  -7.58 |
+|   6 | Wadjet    |  -7.26 |
+|   7 | Nekhbet   |  -6.84 |
+|   8 | Min       |  -5.95 |
+|   9 | Ptah      |  -4.72 |
+--- PC5 (4.8% variance) ---
+TOP 10 (positive direction):
+| idx | Character  | Score |
+|-----+------------+-------|
+|   0 | Seshat     | +9.93 |
+|   1 | Cleopatra  | +9.42 |
+|   2 | Thoth      | +8.10 |
+|   3 | Isis       | +8.06 |
+|   4 | Ptah       | +7.99 |
+|   5 | Nephthys   | +7.61 |
+|   6 | Khonsu     | +7.52 |
+|   7 | Neith      | +7.50 |
+|   8 | Imhotep    | +6.00 |
+|   9 | Hatshepsut | +4.81 |
+BOTTOM 10 (negative direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Wadjet    | -14.57 |
+|   1 | Sobek     | -14.17 |
+|   2 | Bastet    | -13.23 |
+|   3 | Serqet    | -11.36 |
+|   4 | Apep      |  -9.31 |
+|   5 | Ammit     |  -9.03 |
+|   6 | Taweret   |  -7.49 |
+|   7 | Sekhmet   |  -6.89 |
+|   8 | Akhenaten |  -5.50 |
+|   9 | Aten      |  -5.43 |
+[[file:results/pc_detail_egyptian_mythology.png]]
+=== Shakespeare (114 characters) ===
+Top 5 PCs explain 40.4% of within-universe residual variance
+--- PC1 (12.5% variance) ---
+TOP 10 (positive direction):
+| idx | Character     |  Score |
+|-----+---------------+--------|
+|   0 | Macbeth       | +33.85 |
+|   1 | Lady Macbeth  | +26.82 |
+|   2 | King Lear     | +22.06 |
+|   3 | Julius Caesar | +19.69 |
+|   4 | Banquo        | +16.45 |
+|   5 | Claudius      | +16.10 |
+|   6 | Othello       | +16.04 |
+|   7 | Macduff       | +15.93 |
+|   8 | Richard Iii   | +15.61 |
+|   9 | Richard Ii    | +14.76 |
+BOTTOM 10 (negative direction):
+| idx | Character            |  Score |
+|-----+----------------------+--------|
+|   0 | Bottom               | -28.05 |
+|   1 | Puck                 | -24.27 |
+|   2 | Sir Toby Belch       | -21.48 |
+|   3 | Dogberry             | -19.41 |
+|   4 | Sir Andrew Aguecheek | -19.14 |
+|   5 | Oberon               | -17.61 |
+|   6 | Titania              | -16.80 |
+|   7 | Falstaff             | -15.94 |
+|   8 | Touchstone           | -15.72 |
+|   9 | Benedick             | -14.95 |
+--- PC2 (8.5% variance) ---
+TOP 10 (positive direction):
+| idx | Character            |  Score |
+|-----+----------------------+--------|
+|   0 | Dogberry             | +22.21 |
+|   1 | Falstaff             | +20.17 |
+|   2 | Sir Andrew Aguecheek | +18.64 |
+|   3 | Sir Toby Belch       | +17.78 |
+|   4 | Hotspur              | +16.86 |
+|   5 | Henry V              | +13.61 |
+|   6 | Henry Iv             | +13.18 |
+|   7 | Polonius             | +11.93 |
+|   8 | Malvolio             | +11.60 |
+|   9 | Prince Hal           |  +9.47 |
+BOTTOM 10 (negative direction):
+| idx | Character         |  Score |
+|-----+-------------------+--------|
+|   0 | Titania           | -29.06 |
+|   1 | Oberon            | -24.75 |
+|   2 | Puck              | -19.68 |
+|   3 | Juliet Capulet    | -18.97 |
+|   4 | Hermia            | -18.84 |
+|   5 | Desdemona         | -15.65 |
+|   6 | Lady Macbeth      | -15.19 |
+|   7 | Bottom            | -14.57 |
+|   8 | Romeo Montague    | -14.38 |
+|   9 | The Three Witches | -14.15 |
+--- PC3 (7.8% variance) ---
+TOP 10 (positive direction):
+| idx | Character      |  Score |
+|-----+----------------+--------|
+|   0 | Romeo Montague | +27.59 |
+|   1 | Romeo          | +26.83 |
+|   2 | Juliet Capulet | +24.16 |
+|   3 | Juliet         | +23.12 |
+|   4 | Montague       | +18.24 |
+|   5 | Benvolio       | +17.72 |
+|   6 | Lady Capulet   | +16.54 |
+|   7 | Capulet        | +15.47 |
+|   8 | Friar Lawrence | +15.43 |
+|   9 | Horatio        | +10.10 |
+BOTTOM 10 (negative direction):
+| idx | Character         |  Score |
+|-----+-------------------+--------|
+|   0 | Puck              | -16.96 |
+|   1 | The Three Witches | -15.85 |
+|   2 | Caliban           | -15.28 |
+|   3 | Falstaff          | -14.88 |
+|   4 | Oberon            | -14.18 |
+|   5 | Bottom            | -14.03 |
+|   6 | Titania           | -13.32 |
+|   7 | Iago              | -12.59 |
+|   8 | The Fool          | -11.19 |
+|   9 | King Lear         | -10.58 |
+--- PC4 (6.1% variance) ---
+TOP 10 (positive direction):
+| idx | Character      |  Score |
+|-----+----------------+--------|
+|   0 | Shylock        | +20.00 |
+|   1 | Tybalt         | +17.31 |
+|   2 | Roderigo       | +16.80 |
+|   3 | Othello        | +16.10 |
+|   4 | Romeo Montague | +13.72 |
+|   5 | Mercutio       | +12.63 |
+|   6 | Brabantio      | +12.62 |
+|   7 | Caliban        | +12.31 |
+|   8 | Sir Toby Belch | +12.04 |
+|   9 | Capulet        | +11.71 |
+BOTTOM 10 (negative direction):
+| idx | Character  |  Score |
+|-----+------------+--------|
+|   0 | Hippolyta  | -11.63 |
+|   1 | Lavinia    | -11.31 |
+|   2 | Isabella   | -10.91 |
+|   3 | Celia      | -10.84 |
+|   4 | Gertrude   | -10.78 |
+|   5 | Richard Ii | -10.57 |
+|   6 | Henry V    | -10.38 |
+|   7 | Perdita    | -10.29 |
+|   8 | Hermione   | -10.19 |
+|   9 | Olivia     | -10.18 |
+--- PC5 (5.5% variance) ---
+TOP 10 (positive direction):
+| idx | Character |  Score |
+|-----+-----------+--------|
+|   0 | Othello   | +20.24 |
+|   1 | Desdemona | +18.68 |
+|   2 | Shylock   | +15.76 |
+|   3 | Ophelia   | +13.97 |
+|   4 | Roderigo  | +12.47 |
+|   5 | Bassanio  | +12.26 |
+|   6 | Brabantio | +10.82 |
+|   7 | Iago      |  +9.91 |
+|   8 | Cordelia  |  +9.78 |
+|   9 | Beatrice  |  +9.74 |
+BOTTOM 10 (negative direction):
+| idx | Character         |  Score |
+|-----+-------------------+--------|
+|   0 | Julius Caesar     | -19.77 |
+|   1 | The Three Witches | -17.02 |
+|   2 | Puck              | -11.92 |
+|   3 | Mark Antony       | -11.79 |
+|   4 | Oberon            | -10.50 |
+|   5 | Titania           | -10.15 |
+|   6 | Bottom            |  -9.94 |
+|   7 | Octavius          |  -9.84 |
+|   8 | Hotspur           |  -9.80 |
+|   9 | Macbeth           |  -9.11 |
+[[file:results/pc_detail_shakespeare.png]]
 :end:
 
 * Stress Test 4: Fictional Character Space Residuals
