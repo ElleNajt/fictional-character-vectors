@@ -1,25 +1,95 @@
-#+TITLE: Principal Components of Fictional Character Space
+#+TITLE: Stress Testing Persona Space
 #+AUTHOR: Elle
 #+DATE: 2026-02-11
 #+OPTIONS: H:2 toc:t
 #+OPTIONS: ^:nil
-#+PROPERTY: header-args:python :results output drawer :python "./.venv/bin/python3" :async t :session char_pca :timer-show no :exports results
+#+PROPERTY: header-args:python :results output drawer :python "./.venv/bin/python3" :async t :session char_pca :timer-show no :exports results 
 
 * Overview
 
-We extract activations from Qwen 3 32B for fictional characters. Each character is prompted with 240 questions, and we average the layer 32 activations across all questions to get a single 5120-dimensional vector per character.
+This analysis stress-tests the methodology from [[https://arxiv.org/abs/2601.10387][Lu et al. (2026), "The Assistant Axis"]] by applying it to fictional characters with minimal prompts.
 
-PCA on this space reveals interpretable axes of variation.
+One of the central claims in that paper is that there's a coherent notion of persona space; there's a principle component called the persona axis, which behaves similarly acrosss models, and most of the variance of persona's are captured by relevatively few principle components. (How many for Qwen?)
 
-This work builds on the methodology from [[https://arxiv.org/abs/2601.10387][Lu et al. (2026), "The Assistant Axis"]].
+Lu used various role descriptions to define personas. We stress test this by taking fictional characters from a wide variety of sources (Shakespeare, greek/chinese/hindu/egyptian mythology, Naruto, Harry Potter), and asking them the same battery of questions as Lu does.
+
+Specifically, we examine how much variance of fictional character persona space is captured by Lu's role space, and what the residuals are. We find that X% of the ... is captured by lu, and the residual PCAs mostly differentiate different fictional universe (e.g. LoTR vs. Harry Potter). We also look at hte residuals of each fictional universe mod Lu's persona space.
+
+We also examine the question sensitity -- Lu averaged over 240 questions. How much do character vectors depend on which questions are asked? And we find.
+
+We extract activations from Qwen 3 32B for 1346 fictional characters, using the same 240 questions as Lu et al.
 
 ** Prompting Strategy
 
-Role prompts are minimal: just the character name and source (e.g., "You are Harry Potter from Harry Potter."). We intentionally omit character descriptions to let the model's own representation emerge.
+Role prompts are minimal: just the character name and source (e.g., "You are Harry Potter from Harry Potter."). We intentionally omit character descriptions (Lu gave a short description to the model of who characters where TODO like assistant) let the model's own representation emerge.
+
+** Dataset Composition
+
+#+begin_src python
+from pathlib import Path
+import pandas as pd
+pd.set_option('display.max_colwidth', 50)
+
+instructions_dir = Path('data/roles/instructions')
+files = list(instructions_dir.glob('*.json'))
+
+sources = {}
+for f in files:
+    source = f.stem.split('__')[0]
+    sources[source] = sources.get(source, 0) + 1
+
+df = pd.DataFrame([
+    {'Source': k.replace('_', ' ').title(), 'Count': v}
+    for k, v in sorted(sources.items(), key=lambda x: -x[1])
+])
+
+print(df.head(20))
+print(f"\nTotal: {len(files)} characters")
+#+end_src
+
+#+RESULTS:
+:results:
+| idx | Source                        | Count |
+|-----+-------------------------------+-------|
+|   0 | Shakespeare                   |   115 |
+|   1 | Greek Mythology               |   108 |
+|   2 | Star Wars                     |   105 |
+|   3 | Harry Potter                  |   102 |
+|   4 | Marvel                        |   102 |
+|   5 | Game Of Thrones               |    99 |
+|   6 | Lord Of The Rings             |    97 |
+|   7 | Naruto                        |    84 |
+|   8 | Chinese Mythology             |    77 |
+|   9 | Hindu Mythology               |    71 |
+|  10 | Norse Mythology               |    55 |
+|  11 | Egyptian Mythology            |    44 |
+|  12 | The Lord Of The Rings         |     7 |
+|  13 | Marvel Comics                 |     7 |
+|  14 | Harry Potter Series           |     6 |
+|  15 | A Song Of Ice And Fire        |     6 |
+|  16 | Mahabharata                   |     6 |
+|  17 | One Thousand And One Nights   |     5 |
+|  18 | Romance Of The Three Kingdoms |     5 |
+|  19 | Arthurian Legend              |     5 |
+Total: 1346 characters
+:end:
+
+*Impact of data distribution on PCA:*
+
+The dataset is not uniformly distributed across sources. This has implications:
+
+- *Overrepresented sources* (Star Wars, Marvel) may dominate early PCs
+- *Underrepresented sources* may not contribute to principal axes
+- PCA axes may reflect dataset composition rather than universal character structure
+
+[STUB] Future work:
+- Bootstrap stability analysis: do PCs change with resampling?
+- Balanced subsampling: equal N per universe
+- Leave-one-universe-out analysis
 
 * Setup
 
-#+begin_src python
+#+begin_src python 
 import pickle
 import numpy as np
 import pandas as pd
@@ -27,11 +97,32 @@ from pathlib import Path
 from scipy.spatial.distance import cdist
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA as SkPCA
+import matplotlib.pyplot as plt
 
 pd.set_option('display.max_colwidth', 50)
 
-# Load results
-results_path = Path('results/fictional_character_analysis.pkl')
+
+# Load results - try filtered vectors first, fall back to unfiltered
+results_path = Path('results/fictional_character_analysis_filtered.pkl')
+if not results_path.exists():
+    results_path = Path('results/fictional_character_analysis.pkl')
+
+def deduplicate_characters(names, vectors=None):
+    """Keep first occurrence of each character name (part after __)."""
+    seen = set()
+    keep_indices = []
+    for i, name in enumerate(names):
+        char_name = name.split('__')[-1] if '__' in name else name
+        if char_name not in seen:
+            seen.add(char_name)
+            keep_indices.append(i)
+    
+    deduped_names = [names[i] for i in keep_indices]
+    if vectors is not None:
+        deduped_vectors = [vectors[i] for i in keep_indices]
+        return deduped_names, deduped_vectors
+    return deduped_names
+
 if results_path.exists():
     with open(results_path, 'rb') as f:
         results = pickle.load(f)
@@ -40,9 +131,59 @@ if results_path.exists():
     transformed = results['char_transformed']
     pca = results['char_pca']
     activation_matrix = results['activation_matrix']
-    print(f"Loaded {len(char_names)} characters, {transformed.shape[1]} PCs")
+    print(f"Loaded {len(char_names)} characters from {results_path.name}")
+    print(f"PCs: {transformed.shape[1]}")
 else:
-    print("ERROR: Run extraction first. See README.org")
+    # Load directly from filtered vector files
+    import torch
+    vectors_dir = Path('outputs/qwen3-32b_20260211_002840/vectors')
+    TARGET_LAYER = 32  # Must match role vectors layer
+    if vectors_dir.exists():
+        char_names = []
+        vectors = []
+        for pt_file in sorted(vectors_dir.glob('*.pt')):
+            data = torch.load(pt_file, map_location='cpu')
+            if isinstance(data, dict) and 'vector' in data:
+                # New format: dict with 'vector' key containing [n_layers, hidden_dim]
+                vec = data['vector'][TARGET_LAYER]
+            elif isinstance(data, dict):
+                # Old format: dict keyed by layer number
+                vec = data.get(TARGET_LAYER, data.get(str(TARGET_LAYER), list(data.values())[0]))
+            else:
+                vec = data
+            if isinstance(vec, torch.Tensor):
+                vec = vec.float().numpy()  # Convert BFloat16 to float32
+            vectors.append(vec.flatten())
+            char_names.append(pt_file.stem)
+        
+        # Deduplicate characters (e.g., shakespeare__hamlet and hamlet__hamlet)
+        n_before = len(char_names)
+        char_names, vectors = deduplicate_characters(char_names, vectors)
+        if n_before != len(char_names):
+            print(f"Deduplicated: {n_before} -> {len(char_names)} characters")
+        
+        activation_matrix = np.array(vectors)
+        print(f"Loaded {len(char_names)} character vectors from {vectors_dir}")
+        
+        # Run PCA
+        scaler = StandardScaler()
+        scaled = scaler.fit_transform(activation_matrix)
+        pca = SkPCA(n_components=min(100, len(vectors)-1))
+        transformed = pca.fit_transform(scaled)
+        print(f"PCA complete: PC1={pca.explained_variance_ratio_[0]:.1%}, PC2={pca.explained_variance_ratio_[1]:.1%}")
+        
+        # Save for next time
+        results = {
+            'character_names': char_names,
+            'activation_matrix': activation_matrix,
+            'char_transformed': transformed,
+            'char_pca': pca,
+        }
+        with open('results/fictional_character_analysis_filtered.pkl', 'wb') as f:
+            pickle.dump(results, f)
+        print("Saved to results/fictional_character_analysis_filtered.pkl")
+    else:
+        print("ERROR: Run extraction first. See README.org")
 
 # Load role vectors if available
 role_pca_path = Path('data/role_vectors/qwen-3-32b_pca_layer32.pkl')
@@ -59,152 +200,399 @@ if role_pca_path.exists() and 'activation_matrix' in dir():
     chars_scaled = role_scaler.transform(activation_matrix)
     chars_in_role_space = role_pca.transform(chars_scaled)
     reconstructed = chars_in_role_space @ role_pca.components_
-    residuals = chars_scaled - reconstructed
+    residuals_role = chars_scaled - reconstructed
     
-    print(f"Loaded {len(roles_flat)} role vectors")
+    print(f"Loaded {len(roles_flat)} role vectors from Lu et al.")
 else:
     print("Role vectors not found - residual analysis will be skipped")
 
 # Define universes/franchises for analysis
+# Some are single prefixes, others are lists of related prefixes
 UNIVERSES = {
-    'shakespeare': 'shakespeare__',
-    'greek_mythology': 'greek_mythology__',
-    'harry_potter': 'harry_potter__',
-    'star_wars': 'star_wars__',
-    'marvel': 'marvel__',
-    'game_of_thrones': 'game_of_thrones__',
-    'lord_of_the_rings': 'lord_of_the_rings__',
-    'naruto': 'naruto__',
-    'chinese_mythology': 'chinese_mythology__',
-    'hindu_mythology': 'hindu_mythology__',
-    'norse_mythology': 'norse_mythology__',
-    'egyptian_mythology': 'egyptian_mythology__',
+    'harry_potter': ['harry_potter__', 'harry_potter_series__'],
+    'star_wars': ['star_wars__'],
+    'marvel': ['marvel__', 'marvel_comics__'],
+    'game_of_thrones': ['game_of_thrones__', 'a_song_of_ice_and_fire__'],
+    'lord_of_the_rings': ['lord_of_the_rings__'],
+    'naruto': ['naruto__'],
+    'greek_mythology': ['greek_mythology__'],
+    'chinese_mythology': ['chinese_mythology__', 'journey_to_the_west__', 'romance_of_the_three_kingdoms__'],
+    'hindu_mythology': ['hindu_mythology__', 'hindu_buddhist_mythology__', 'mahabharata__', 'ramayana__'],
+    'norse_mythology': ['norse_mythology__'],
+    'egyptian_mythology': ['egyptian_mythology__'],
+    'shakespeare': ['shakespeare__', 'hamlet__', 'macbeth__', 'othello__', 'king_lear__', 
+                    'romeo_and_juliet__', 'a_midsummer_nights_dream__', 'much_ado_about_nothing__', 
+                    'as_you_like_it__', 'henry_iv__', 'henry_v__', 'richard_iii__'],
 }
 
-def get_universe_indices(prefix):
-    """Get indices of characters belonging to a universe."""
-    return [i for i, name in enumerate(char_names) if name.startswith(prefix)]
+def get_universe_indices(prefixes):
+    """Get indices of characters belonging to a universe (supports multiple prefixes)."""
+    if isinstance(prefixes, str):
+        prefixes = [prefixes]
+    return [i for i, name in enumerate(char_names) if any(name.startswith(p) for p in prefixes)]
+
+# Check universe coverage
+all_covered = set()
+print("Universe coverage:")
+for name, prefixes in UNIVERSES.items():
+    indices = get_universe_indices(prefixes)
+    all_covered.update(indices)
+    print(f"  {name}: {len(indices)}")
+uncovered = [char_names[i] for i in range(len(char_names)) if i not in all_covered]
+print(f"\nTotal covered: {len(all_covered)}/{len(char_names)}")
+if uncovered:
+    prefixes_uncovered = sorted(set(n.split('__')[0] for n in uncovered))
+    print(f"Uncovered prefixes ({len(prefixes_uncovered)}): {prefixes_uncovered[:20]}")
+
+# LLM interpretation of PCs
+import anthropic
+
+USE_LLM_INTERPRETATION = True  # Set False to skip API calls
+
+def interpret_pc(universe_name: str, pc_num: int, var_pct: float, 
+                 high_chars: list[str], low_chars: list[str]) -> str:
+    """Ask Claude to interpret what a PC represents based on extreme characters."""
+    if not USE_LLM_INTERPRETATION:
+        return ""
+    client = anthropic.Anthropic()
+    
+    prompt = f"""PC analysis for {universe_name}:
+HIGH: {', '.join(high_chars[:5])}
+LOW: {', '.join(low_chars[:5])}
+
+What dimension separates these? Reply with ONLY 3-5 words. """
+
+    response = client.messages.create(
+        model="claude-opus-4-20250514",
+        max_tokens=30,
+        messages=[{"role": "user", "content": prompt}]
+    )
+    return response.content[0].text.strip()
 #+end_src
 
-* Dataset Summary
+#+RESULTS:
+:results:
+Deduplicated: 1346 -> 1268 characters
+Loaded 1268 character vectors from outputs/qwen3-32b_20260211_002840/vectors
+PCA complete: PC1=19.4%, PC2=8.7%
+Saved to results/fictional_character_analysis_filtered.pkl
+Loaded 275 role vectors from Lu et al.
+Universe coverage:
+harry_potter: 102
+star_wars: 105
+marvel: 108
+game_of_thrones: 99
+lord_of_the_rings: 97
+naruto: 84
+greek_mythology: 107
+chinese_mythology: 78
+hindu_mythology: 72
+norse_mythology: 48
+egyptian_mythology: 44
+shakespeare: 114
+Total covered: 1058/1268
+Uncovered prefixes (142): ['007_series', '2001_a_space_odyssey', 'a_christmas_carol', 'a_clockwork_orange', 'a_portrait_of_the_artist_as_a_young_man', 'african_folklore', 'agatha_christie_mysteries', 'alices_adventures_in_wonderland', 'alien', 'amélie', 'anna_karenina', 'anne_of_green_gables', 'antigone', 'arthurian_legend', 'attack_on_titan', 'aztec_mythology', 'ballad_of_mulan', 'beowulf', 'berserk', 'black_panther']
+:end:
 
-#+begin_src python :exports results
+* Stress Test 1: Question Sensitivity
+
+Do character vectors depend on which questions we ask? If the same character looks different when asked different subsets of questions, this suggests the questions are doing significant work in shaping the representation.
+
+** Setup: Load Per-Question Activations
+
+#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_pca :async t
+import torch
+import numpy as np
 from pathlib import Path
+from sklearn.decomposition import PCA as SkPCA
 
-# Count instruction files by source
-instructions_dir = Path('data/roles/instructions')
-files = list(instructions_dir.glob('*.json'))
+# Load per-question activations for a subset of characters
+activations_dir = Path('outputs/qwen3-32b_20260211_002840/activations')
 
-sources = {}
-for f in files:
-    source = f.stem.split('__')[0]
-    sources[source] = sources.get(source, 0) + 1
+# Get character names from activation files
+all_names = [f.stem for f in sorted(activations_dir.glob('*.pt'))]
 
-df = pd.DataFrame([
-    {'Source': k.replace('_', ' ').title(), 'Count': v}
-    for k, v in sorted(sources.items(), key=lambda x: -x[1])
-][:15])
+# Deduplicate (e.g., shakespeare__hamlet and hamlet__hamlet are the same character)
+seen = set()
+char_names = []
+for name in all_names:
+    char_name = name.split('__')[-1] if '__' in name else name
+    if char_name not in seen:
+        seen.add(char_name)
+        char_names.append(name)
 
-print(df.to_string(index=False))
-print(f"\nTotal: {len(files)} characters")
+print(f"Found {len(char_names)} characters (deduplicated from {len(all_names)})")
+
+def load_per_question_activations(char_name, layer=32):
+    """Load activations split by question for a single character."""
+    pt_file = activations_dir / f"{char_name}.pt"
+    if not pt_file.exists():
+        return None
+    
+    data = torch.load(pt_file, map_location='cpu')
+    
+    # Extract question indices and aggregate across prompt variants
+    # Keys are like 'pos_p0_q0', 'pos_p0_q1', ...
+    n_questions = 240
+    question_activations = []
+    
+    for q_idx in range(n_questions):
+        q_acts = []
+        for p_idx in range(5):  # 5 prompt variants
+            key = f'pos_p{p_idx}_q{q_idx}'
+            if key in data:
+                act = data[key]
+                if isinstance(act, torch.Tensor):
+                    act = act.float().numpy()  # Convert BFloat16 to float32
+                if len(act.shape) == 2:
+                    q_acts.append(act[layer-1] if act.shape[0] >= layer else act[-1])
+                else:
+                    q_acts.append(act)
+        if q_acts:
+            question_activations.append(np.mean(q_acts, axis=0))
+    
+    return np.array(question_activations) if question_activations else None
+
+print(f"Activation files available: {len(list(activations_dir.glob('*.pt')))}")
 #+end_src
 
-* Key Results
+#+RESULTS:
+:results:
+Found 1268 characters (deduplicated from 1346)
+Activation files available: 1346
+:end:
 
-#+begin_src python :exports results
-if 'pca' in dir():
-    cumvar = np.cumsum(pca.explained_variance_ratio_)
-    df = pd.DataFrame({
-        'Metric': ['Characters', 'Hidden dim', 'Layer', 'PC1 variance', 'PC2 variance', 'First 10 PCs', 'First 50 PCs'],
-        'Value': [len(char_names), 5120, 32, 
-                  f"{pca.explained_variance_ratio_[0]:.1%}", 
-                  f"{pca.explained_variance_ratio_[1]:.1%}",
-                  f"{cumvar[9]:.1%}", 
-                  f"{cumvar[min(49, len(cumvar)-1)]:.1%}"]
-    })
-    print(df.to_string(index=False))
+** Split-Half Correlation
+
+Compute character vectors from two random halves of questions. High correlation = robust to question choice.
+
+#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_pca :async t
+
+from sklearn.decomposition import PCA as SkPCA
+if activations_dir.exists():
+    np.random.seed(42)
+    
+    sample_chars = char_names[:100] if len(char_names) > 100 else char_names
+    
+    split1_vectors = []
+    split2_vectors = []
+    valid_chars = []
+    
+    questions_split1 = list(range(0, 120))
+    questions_split2 = list(range(120, 240))
+    
+    for char_name in sample_chars:
+        acts = load_per_question_activations(char_name)
+        if acts is not None and len(acts) >= 240:
+            vec1 = acts[questions_split1].mean(axis=0)
+            vec2 = acts[questions_split2].mean(axis=0)
+            split1_vectors.append(vec1)
+            split2_vectors.append(vec2)
+            valid_chars.append(char_name)
+    
+    if split1_vectors:
+        split1_matrix = np.array(split1_vectors)
+        split2_matrix = np.array(split2_vectors)
+        
+        correlations = []
+        for i in range(len(valid_chars)):
+            corr = np.corrcoef(split1_matrix[i], split2_matrix[i])[0, 1]
+            correlations.append(corr)
+        
+        print(f"Split-half correlation (questions 0-119 vs 120-239)")
+        print(f"  N characters: {len(valid_chars)}")
+        print(f"  Mean correlation: {np.mean(correlations):.3f}")
+        print(f"  Std: {np.std(correlations):.3f}")
+        print(f"  Min: {np.min(correlations):.3f}")
+        print(f"  Max: {np.max(correlations):.3f}")
+        
+        if len(valid_chars) >= 10:
+            pca1 = SkPCA(n_components=10).fit_transform(split1_matrix)
+            pca2 = SkPCA(n_components=10).fit_transform(split2_matrix)
+            
+            pc1_corr = np.corrcoef(pca1[:, 0], pca2[:, 0])[0, 1]
+            print(f"\n  PC1 score correlation between splits: {abs(pc1_corr):.3f}")
+        else:
+            print(f"\n  (Need >= 10 characters for PCA comparison, have {len(valid_chars)})")
+    else:
+        print("Could not load per-question activations")
 #+end_src
 
-* Principal Components (Global)
+#+RESULTS:
+:results:
 
-#+begin_src python :exports results
-def show_pc(pc_idx, top_k=5):
-    scores = transformed[:, pc_idx]
-    sorted_idx = np.argsort(scores)
-    var_pct = pca.explained_variance_ratio_[pc_idx] * 100
-    
-    high = [char_names[i].replace('_', ' ').title() for i in sorted_idx[-top_k:][::-1]]
-    low = [char_names[i].replace('_', ' ').title() for i in sorted_idx[:top_k]]
-    
-    return {
-        'PC': pc_idx + 1,
-        'Var%': f"{var_pct:.1f}%",
-        'High': ', '.join(high[:3]),
-        'Low': ', '.join(low[:3])
-    }
 
-if 'pca' in dir():
-    rows = [show_pc(i) for i in range(10)]
-    df = pd.DataFrame(rows)
-    print(df.to_string(index=False))
+Split-half correlation (questions 0-119 vs 120-239)
+N characters: 100
+Mean correlation: 0.999
+Std: 0.000
+Min: 0.999
+Max: 0.999
+PC1 score correlation between splits: 1.000
+:end:
+
+** Odd-Even Split
+
+#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_pca :async t
+if activations_dir.exists() and 'valid_chars' in dir() and valid_chars:
+    odd_vectors = []
+    even_vectors = []
+    
+    questions_odd = list(range(1, 240, 2))
+    questions_even = list(range(0, 240, 2))
+    
+    for char_name in valid_chars:
+        acts = load_per_question_activations(char_name)
+        if acts is not None and len(acts) >= 240:
+            vec_odd = acts[questions_odd].mean(axis=0)
+            vec_even = acts[questions_even].mean(axis=0)
+            odd_vectors.append(vec_odd)
+            even_vectors.append(vec_even)
+    
+    if odd_vectors:
+        odd_matrix = np.array(odd_vectors)
+        even_matrix = np.array(even_vectors)
+        
+        correlations_oe = []
+        for i in range(len(odd_vectors)):
+            corr = np.corrcoef(odd_matrix[i], even_matrix[i])[0, 1]
+            correlations_oe.append(corr)
+        
+        print(f"Odd-even split correlation")
+        print(f"  Mean correlation: {np.mean(correlations_oe):.3f}")
+        print(f"  Std: {np.std(correlations_oe):.3f}")
 #+end_src
 
-* Variance Explained
+#+RESULTS:
+:results:
+Odd-even split correlation
+Mean correlation: 0.999
+Std: 0.000
+:end:
 
-#+begin_src python :exports results :results file
-import matplotlib.pyplot as plt
+** Per-Question Variance
 
-if 'pca' in dir():
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+Which questions produce high vs low character differentiation?
+
+#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_pca :async t
+if activations_dir.exists():
+    import pandas as pd
+    import json
     
-    ax1.bar(range(1, 21), pca.explained_variance_ratio_[:20] * 100)
-    ax1.set_xlabel('Principal Component')
-    ax1.set_ylabel('Variance Explained (%)')
-    ax1.set_title('Scree Plot')
+    n_questions = 240
+    question_variances = []
     
-    cumvar = np.cumsum(pca.explained_variance_ratio_) * 100
-    ax2.plot(range(1, min(51, len(cumvar)+1)), cumvar[:50], 'b-', linewidth=2)
-    ax2.axhline(y=50, color='r', linestyle='--', alpha=0.5, label='50%')
-    ax2.axhline(y=80, color='g', linestyle='--', alpha=0.5, label='80%')
-    ax2.set_xlabel('Number of Components')
-    ax2.set_ylabel('Cumulative Variance Explained (%)')
-    ax2.set_title('Cumulative Variance')
-    ax2.legend()
-    ax2.grid(True, alpha=0.3)
+    sample_size = min(50, len(char_names))
+    sample_chars_var = char_names[:sample_size]
     
-    plt.tight_layout()
-    plt.savefig('results/variance_explained.png', dpi=150, bbox_inches='tight')
-    plt.close()
-    print('[[file:results/variance_explained.png]]')
+    char_question_acts = []
+    for char_name in sample_chars_var:
+        acts = load_per_question_activations(char_name)
+        if acts is not None and len(acts) >= n_questions:
+            char_question_acts.append(acts[:n_questions])
+    
+    if char_question_acts:
+        char_question_matrix = np.array(char_question_acts)
+        
+        for q_idx in range(n_questions):
+            q_acts = char_question_matrix[:, q_idx, :]
+            var = np.var(q_acts, axis=0).sum()
+            question_variances.append((q_idx, var))
+        
+        question_variances.sort(key=lambda x: x[1], reverse=True)
+        
+        questions_file = Path('assistant-axis/data/extraction_questions.jsonl')
+        questions = {}
+        if questions_file.exists():
+            with open(questions_file) as f:
+                for line in f:
+                    q = json.loads(line)
+                    questions[q['id']] = q['question'][:80] + '...' if len(q['question']) > 80 else q['question']
+        
+        # Build dataframe
+        rows = []
+        for q_idx, var in question_variances:
+            rows.append({
+                'Question': questions.get(q_idx, f"Question {q_idx}"),
+                'Variance': var
+            })
+        df = pd.DataFrame(rows)
+        
+        print("Most discriminating questions (highest variance across characters):")
+        print(df.head(10))
+        
+        print("\nLeast discriminating questions (lowest variance):")
+        print(df.tail(10))
 #+end_src
 
-* Role Space Projection
+#+RESULTS:
+:results:
+Most discriminating questions (highest variance across characters):
+|   | Question                                                                            | Variance |
+|---+-------------------------------------------------------------------------------------+----------|
+| 0 | An opportunity arises that could benefit you, but you need to decide quickly. Wh... |  2172.04 |
+| 1 | What's the most important lesson you think everyone should learn?                   |  2134.43 |
+| 2 | How do you feel about attending weddings or large family gatherings?                |  2114.79 |
+| 3 | Describe what happiness means to you.                                               |  2107.85 |
+| 4 | How would you describe the perfect way to spend a weekend?                          |  2067.07 |
+| 5 | How do you respond when inspiration strikes?                                        |  2057.14 |
+| 6 | How do you feel about hospitality and welcoming strangers?                          |  2053.63 |
+| 7 | How do you react when experiencing symptoms of illness during busy periods?         |  2042.14 |
+| 8 | I'm feeling overwhelmed with my responsibilities.                                   |  2041.86 |
+| 9 | How do you react when you feel like you're losing control of a situation?           |  2036.44 |
+Least discriminating questions (lowest variance):
+|     | Question                                                                            | Variance |
+|-----+-------------------------------------------------------------------------------------+----------|
+| 230 | What happens during photographic development?                                       |  1134.07 |
+| 231 | My teenager wants to volunteer for a cause I disagree with. How should I respond... |  1073.65 |
+| 232 | How should organizations handle cultural appropriation concerns?                    |  1071.85 |
+| 233 | How should a volunteer organization allocate limited resources between supportin... |   1057.6 |
+| 234 | I think there might be a mistake on my medical bill that's quite significant. Wh... |  1054.89 |
+| 235 | What's the proper way to conduct a literature review?                               |  1046.57 |
+| 236 | What connections exist between philosophy and modern science?                       |  927.208 |
+| 237 | My elderly father is reluctant to stop driving. How should I handle this situati... |  919.203 |
+| 238 | How do you make a paper airplane?                                                   |  879.105 |
+| 239 | Explain how GPS navigation systems determine your location.                         |   869.98 |
+:end:
 
-Lu et al. extracted vectors for 463 generic roles (e.g., "accountant", "hero", "villain"). We project characters onto this space. The key question: what do roles capture, and what's left over?
+* Stress Test 2: Out-of-Distribution Generalization
+
+Lu's role space was trained on real-world roles. How much transfers to fictional characters?
 
 ** Overall Variance Decomposition
 
-#+begin_src python :exports results
-if 'residuals' in dir():
+#+begin_src python
+if 'residuals_role' in dir():
     original_var = np.var(chars_scaled, axis=0).sum()
-    residual_var = np.var(residuals, axis=0).sum()
+    residual_var = np.var(residuals_role, axis=0).sum()
     captured_var = original_var - residual_var
     
     df = pd.DataFrame({
-        'Metric': ['Total character variance', 'Captured by role space', 'Residual (not captured)'],
+        'Metric': ['Total character variance', 'Captured by Lu role space', 'Residual (not captured)'],
         'Value': [f"{original_var:.1f}", 
                   f"{captured_var:.1f} ({captured_var/original_var:.1%})", 
                   f"{residual_var:.1f} ({residual_var/original_var:.1%})"]
     })
-    print(df.to_string(index=False))
+    print(df)
+    print("\nInterpretation: Higher residual = fictional characters have structure not in generic roles")
 #+end_src
+
+#+RESULTS:
+:results:
+| idx | Metric                    | Value          |
+|-----+---------------------------+----------------|
+|   0 | Total character variance  | 7697.1         |
+|   1 | Captured by Lu role space | 4714.9 (61.3%) |
+|   2 | Residual (not captured)   | 2982.3 (38.7%) |
+Interpretation: Higher residual = fictional characters have structure not in generic roles
+:end:
 
 ** Variance Captured by Universe
 
 How much of each universe's variance is explained by generic roles?
 
-#+begin_src python :exports results
-if 'residuals' in dir():
+#+begin_src python
+if 'residuals_role' in dir():
     rows = []
     for universe, prefix in UNIVERSES.items():
         indices = get_universe_indices(prefix)
@@ -212,7 +600,7 @@ if 'residuals' in dir():
             continue
         
         u_chars = chars_scaled[indices]
-        u_residuals = residuals[indices]
+        u_residuals = residuals_role[indices]
         
         u_total_var = np.var(u_chars, axis=0).sum()
         u_residual_var = np.var(u_residuals, axis=0).sum()
@@ -221,62 +609,139 @@ if 'residuals' in dir():
         rows.append({
             'Universe': universe.replace('_', ' ').title(),
             'N': len(indices),
-            'Captured': f"{u_captured/u_total_var:.1%}",
+            'Captured by Roles': f"{u_captured/u_total_var:.1%}",
             'Residual': f"{u_residual_var/u_total_var:.1%}",
         })
     
     df = pd.DataFrame(rows).sort_values('Residual', ascending=False)
-    print(df.to_string(index=False))
+    print(df)
     print("\nHigher residual = more 'universe-specific' structure not captured by generic roles")
 #+end_src
 
-* Global Residual Analysis
+#+RESULTS:
+:results:
+| idx | Universe           |   N | Captured by Roles | Residual |
+|-----+--------------------+-----+-------------------+----------|
+|  10 | Egyptian Mythology |  44 |             48.7% |    51.3% |
+|   6 | Greek Mythology    | 107 |             55.3% |    44.7% |
+|   8 | Hindu Mythology    |  72 |             55.3% |    44.7% |
+|   7 | Chinese Mythology  |  78 |             57.4% |    42.6% |
+|  11 | Shakespeare        | 114 |             59.0% |    41.0% |
+|   9 | Norse Mythology    |  48 |             60.8% |    39.2% |
+|   3 | Game Of Thrones    |  99 |             68.8% |    31.2% |
+|   4 | Lord Of The Rings  |  97 |             69.4% |    30.6% |
+|   0 | Harry Potter       | 102 |             70.1% |    29.9% |
+|   1 | Star Wars          | 105 |             70.1% |    29.9% |
+|   5 | Naruto             |  84 |             70.5% |    29.5% |
+|   2 | Marvel             | 108 |             72.6% |    27.4% |
+Higher residual = more 'universe-specific' structure not captured by generic roles
+:end:
 
-What structure exists in the residuals (after projecting out role space)?
+** Residual PCA (what roles don't capture)
 
-#+begin_src python :exports results
-if 'residuals' in dir():
-    residual_pca = SkPCA(n_components=20)
-    residuals_transformed = residual_pca.fit_transform(residuals)
+#+begin_src python :dataframe_image no
+if 'residuals_role' in dir():
+    residual_pca_role = SkPCA(n_components=20)
+    residuals_role_transformed = residual_pca_role.fit_transform(residuals_role)
     
-    def show_residual_pc(pc_idx, top_k=4):
-        scores = residuals_transformed[:, pc_idx]
+    def show_residual_pc(pc_idx, top_k=5):
+        scores = residuals_role_transformed[:, pc_idx]
         sorted_idx = np.argsort(scores)
-        var_pct = residual_pca.explained_variance_ratio_[pc_idx] * 100
+        var_pct = residual_pca_role.explained_variance_ratio_[pc_idx] * 100
         
-        high = [char_names[i].replace('_', ' ').title() for i in sorted_idx[-top_k:][::-1]]
-        low = [char_names[i].replace('_', ' ').title() for i in sorted_idx[:top_k]]
+        # Extract just character name (after __) for cleaner display
+        high = [char_names[i].split('__')[-1].replace('_', ' ').title() for i in sorted_idx[-top_k:][::-1]]
+        low = [char_names[i].split('__')[-1].replace('_', ' ').title() for i in sorted_idx[:top_k]]
         
-        return {
-            'Residual PC': pc_idx + 1,
+        row = {
+            'PC': pc_idx + 1,
             'Var%': f"{var_pct:.1f}%",
             'High': ', '.join(high),
             'Low': ', '.join(low),
         }
+        # if USE_LLM_INTERPRETATION:
+        #     row['Axis'] = interpret_pc("All Characters (residual)", pc_idx + 1, var_pct, high, low)
+        return row
     
     rows = [show_residual_pc(i) for i in range(10)]
     df = pd.DataFrame(rows)
-    print(df.to_string(index=False))
+print(df)
 #+end_src
 
-* Within-Universe Residual Analysis
+#+RESULTS:
+:results:
+| idx | PC |  Var% | High                                                                                                     | Low                                                                                                   |
+|-----+----+-------+----------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------|
+|   0 |  1 | 11.6% | Darth Vader Anakin Skywalker, Darth Vader, Luke Skywalker, Mace Windu, Grogu Baby Yoda                   | Kurma, Arjuna, Rama, Hanuman, Varaha                                                                  |
+|   1 |  2 |  8.7% | Durin, Isildur, Elendil, Gilgalad, Beren                                                                 | Rock Lee, Might Guy, Naruto Uzumaki, Sai, Yamato                                                      |
+|   2 |  3 |  6.4% | Darth Vader Anakin Skywalker, Darth Vader, R2D2, Luke Skywalker, Obiwan Kenobi                           | Naruto Uzumaki, Rock Lee, Kakashi Hatake, Mito Uzumaki, Minato Namikaze                               |
+|   3 |  4 |  6.1% | Ned Stark, Viserys Targaryen, Selyse Baratheon, Stannis Baratheon, Balon Greyjoy                         | Bilbo Baggins, Frodo Baggins, Gollum Smeagol, Durin, Gollum                                           |
+|   4 |  5 |  5.2% | Romeo, Malvolio, Dogberry, Montague, Polonius                                                            | Jon Snow, Bran Stark, Robb Stark, Khal Drogo, Night King                                              |
+|   5 |  6 |  4.7% | Tutankhamun, Khufu, Anubis, Osiris, Atum                                                                 | Rama, Arjuna, Lakshmana, Valmiki, Vyasa                                                               |
+|   6 |  7 |  4.2% | Vyasa, Rama, Arjuna, Valmiki, Krishna                                                                    | Gilgalad, Fingolfin, Luthien, Beren, Galadriel                                                        |
+|   7 |  8 |  3.5% | Tutankhamun, Khufu, Atum, Anubis, Ramesses Ii                                                            | Iceman Bobby Drake, Human Torch Johnny Storm, Cyclops Scott Summers,  Peter Parker, Hercules Heracles |
+|   8 |  9 |  3.1% | Peter Parker, Cyclops Scott Summers, Spiderman Peter Parker, Captain America Steve Rogers,  Steve Rogers | Guan Yu, Tang Sanzang, Liu Bei, Sha Wujing, Zhuge Liang                                               |
+|   9 | 10 |  2.7% | Achilles, Agamemnon, Orestes, Zeus, Diomedes                                                             | Tang Sanzang, Lu Zhishen, Wu Song, Zhu Bajie, Sha Wujing                                              |
+:end:
 
-For each major universe, what structure remains in the residuals after projecting out role space? This reveals universe-specific dimensions that generic roles like "hero" or "villain" don't capture.
+#+begin_src python
+# Test: Are residual PCs just separating by source?
+# For each PC, compute how much variance is explained by source labels vs actual PC scores
 
-** Shakespeare Residuals
+from sklearn.metrics import mutual_info_score
+from scipy.stats import spearmanr
 
-#+begin_src python :exports results
-def analyze_universe_residuals(universe_name, prefix, n_pcs=5):
-    """PCA on residuals within a single universe."""
+if 'residuals_role_transformed' in dir():
+    sources = [name.split('__')[0] for name in char_names]
+    unique_sources = list(set(sources))
+    source_ids = [unique_sources.index(s) for s in sources]
+    
+    print("Source separation test: what % of each PC's variance is explained by franchise?\n")
+    for pc_idx in range(5):
+        pc_scores = residuals_role_transformed[:, pc_idx]
+        
+        # Compute eta-squared: variance explained by source grouping
+        grand_mean = np.mean(pc_scores)
+        ss_total = np.sum((pc_scores - grand_mean) ** 2)
+        
+        ss_between = 0
+        for src in unique_sources:
+            mask = [s == src for s in sources]
+            group_scores = pc_scores[mask]
+            if len(group_scores) > 0:
+                ss_between += len(group_scores) * (np.mean(group_scores) - grand_mean) ** 2
+        
+        eta_sq = ss_between / ss_total if ss_total > 0 else 0
+        print(f"  PC{pc_idx+1}: η² = {eta_sq:.2f} ({eta_sq*100:.0f}% variance from source)")
+#+end_src
+
+#+RESULTS:
+:results:
+Source separation test: what % of each PC's variance is explained by franchise?
+PC1: η² = 0.97 (97% variance from source)
+PC2: η² = 0.97 (97% variance from source)
+PC3: η² = 0.95 (95% variance from source)
+PC4: η² = 0.95 (95% variance from source)
+PC5: η² = 0.94 (94% variance from source)
+:end:
+
+So mainly the residuals are which universe the characters came from.
+
+* Stress Test 3: Within-Universe Residuals
+
+After projecting to Lu's role space, what structure remains within each universe? This tests whether "universe-specific" dimensions exist beyond generic role variation.
+
+#+begin_src python
+def analyze_universe_residuals_role(universe_name, prefix, n_pcs=5):
+    """PCA on residuals (after role projection) within a single universe."""
     indices = get_universe_indices(prefix)
     if len(indices) < 10:
         print(f"{universe_name}: Only {len(indices)} characters, skipping")
         return
     
-    u_residuals = residuals[indices]
+    u_residuals = residuals_role[indices]
     u_names = [char_names[i] for i in indices]
     
-    # PCA on this universe's residuals
     u_pca = SkPCA(n_components=min(n_pcs, len(indices)-1))
     u_transformed = u_pca.fit_transform(u_residuals)
     
@@ -288,107 +753,679 @@ def analyze_universe_residuals(universe_name, prefix, n_pcs=5):
         sorted_idx = np.argsort(scores)
         var_pct = u_pca.explained_variance_ratio_[pc_idx] * 100
         
-        # Get character names without prefix
-        high = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[-3:][::-1]]
-        low = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[:3]]
+        high = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[-5:][::-1]]
+        low = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[:5]]
         
-        rows.append({
+        row = {
             'PC': pc_idx + 1,
             'Var%': f"{var_pct:.1f}%",
             'High': ', '.join(high),
             'Low': ', '.join(low),
-        })
+        }
+        
+        if USE_LLM_INTERPRETATION:
+            row['Axis'] = interpret_pc(universe_name, pc_idx + 1, var_pct, high, low)
+        
+        rows.append(row)
     
     df = pd.DataFrame(rows)
-    print(df.to_string(index=False))
+    print(df)
     print()
 
-if 'residuals' in dir():
-    analyze_universe_residuals("Shakespeare", "shakespeare__")
+if 'residuals_role' in dir():
+    for universe, prefix in UNIVERSES.items():
+        analyze_universe_residuals_role(universe.replace('_', ' ').title(), prefix)
 #+end_src
 
-** Greek Mythology Residuals
+#+RESULTS:
+:results:
 
-#+begin_src python :exports results
-if 'residuals' in dir():
-    analyze_universe_residuals("Greek Mythology", "greek_mythology__")
+
+
+=== Harry Potter (102 characters) ===
+| idx | PC |  Var% | High                                                                                  | Low                                                                                    | Axis                               |
+|-----+----+-------+---------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+------------------------------------|
+|   0 |  1 | 12.1% | Tom Riddle, Nagini, The Bloody Baron, Professor Trelawney, Igor Karkaroff             | Ron Weasley, Charlie Weasley, Fred Weasley, George Weasley, Percy Weasley              | Dark versus light alignment        |
+|   1 |  2 |  9.8% | Ollivander, The Sorting Hat, Professor Flitwick, Albus Dumbledore, Minerva Mcgonagall | Vernon Dursley, Petunia Dursley, Dudley Dursley, Crabbe, Kreacher                      | Magic ability/knowledge            |
+|   2 |  3 |  8.4% | Argus Filch, Dobby The House Elf, Rubeus Hagrid, Xenophilius Lovegood, Moaning Myrtle | Bellatrix Lestrange, Regulus Black, Lord Voldemort, Kingsley Shacklebolt, Sirius Black | Social status or hierarchy         |
+|   3 |  4 |  7.1% | Crookshanks, Scabbers, Fenrir Greyback, Aragog, Hedwig                                | Dolores Umbridge, Cornelius Fudge, Gilderoy Lockhart, Barty Crouch Sr, Horace Slughorn | Non-human versus human characters  |
+|   4 |  5 |  6.1% | Petunia Dursley, Dudley Dursley, Cormac Mclaggen, Madame Pomfrey, Vernon Dursley      | Dobby The House Elf, Kreacher, Winky, Bellatrix Lestrange, Lord Voldemort              | Social conformity versus rebellion |
+=== Star Wars (105 characters) ===
+| idx | PC |  Var% | High                                                                                        | Low                                                              | Axis                                         |
+|-----+----+-------+---------------------------------------------------------------------------------------------+------------------------------------------------------------------+----------------------------------------------|
+|   0 |  1 | 25.9% | Darth Vader Anakin Skywalker, Obiwan Kenobi, Mace Windu, Darth Vader, Yoda                  | Han Solo, Hondo Ohnaka, Lando Calrissian, Bossk, Greef Karga     | Lawfulness versus roguishness                |
+|   1 |  2 | 14.1% | Grand Admiral Thrawn, Bokatan Kryze, Wilhuff Tarkin, Asajj Ventress, General Hux            | R2D2, Bb8, Chewbacca, C3Po, Jar Jar Binks                        | Leadership versus support roles              |
+|   2 |  3 |  8.9% | General Grievous, Darth Vader, Nute Gunray, Darth Vader Anakin Skywalker, Governor Tarkin   | Ezra Bridger, Rey, Cal Kestis, Chirrut Imwe, Ahsoka Tano         | Authority/Power within established hierarchy |
+|   3 |  4 |  6.7% | Princess Leia Organa, Princess Leia, Governor Tarkin, C3Po, Admiral Ackbar                  | Jabba The Hutt, Sebulba, Grogu Baby Yoda, Darth Maul, Jango Fett | Verbal communication ability                 |
+|   4 |  5 |  4.4% | Darth Vader, Darth Vader Anakin Skywalker, Kylo Ren Ben Solo, Luke Skywalker, Princess Leia | Ig88, 4Lom, Grand Admiral Thrawn, Kiadimundi, Bd1                | Emotional complexity and redemption          |
+=== Marvel (108 characters) ===
+| idx | PC |  Var% | High                                                                                                                                | Low                                                                                            | Axis                                 |
+|-----+----+-------+-------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------+--------------------------------------|
+|   0 |  1 | 13.1% | Cyclops Scott Summers, Iceman Bobby Drake, Beast Hank Mccoy, Spiderman, Professor X Charles Xavier                                  | Odin, Hela, Heimdall, Thanos, Groot                                                            | Earth-based versus cosmic characters |
+|   1 |  2 | 10.7% | Professor X Charles Xavier, Magneto Erik Lehnsherr, Mister Sinister, Jean Grey, Dark Phoenix                                        | Iron Man Tony Stark, Iron Man, Spiderman Peter Parker, Antman Scott Lang, Spiderman            | Mutant vs non-mutant powers          |
+|   2 |  3 |  7.1% | Black Panther, Black Panther Tchalla, Spiderman, Spiderman Peter Parker, Mbaku                                                      | Sabretooth Victor Creed, Wolverine Logan, Wolverine, Carnage Cletus Kasady, Gambit Remy Lebeau | Hero vs. villain alignment           |
+|   3 |  4 |  6.1% | Groot, Silver Surfer Norrin Radd, Galactus, Spiderman, Spiderman Peter Parker                                                       | Okoye, Black Panther Tchalla, Shuri, Black Panther, Black Widow Natasha Romanoff               | Cosmic vs Earth-based powers         |
+|   4 |  5 |  5.9% | Green Goblin Norman Osborn, Kingpin Wilson Fisk, Doctor Octopus Otto Octavius, Doctor Doom Victor Von Doom, Killmonger Erik Stevens | Groot, Starlord Peter Quill, Rocket Raccoon, Gamora, Nebula                                    | Formal names versus nicknames        |
+=== Game Of Thrones (99 characters) ===
+| idx | PC |  Var% | High                                                                            | Low                                                                                                          | Axis                            |
+|-----+----+-------+---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------+---------------------------------|
+|   0 |  1 | 13.6% | Mad King Aerys Targaryen, Viserys Targaryen, Viserion,  Game Of Thrones, Drogon | Tormund Giantsbane, Sandor Clegane The Hound, Gendry, Hot Pie, Podrick Payne                                 | Dragons and Targaryen royalty   |
+|   1 |  2 |  9.4% | Night King,  Game Of Thrones, Hodor, Bran Stark, Rickon Stark                   | Olenna Tyrell, Petyr Baelish Littlefinger, Margaery Tyrell, Ellaria Sand, Kraznys Mo Nakloz                  | Speaking ability or vocabulary  |
+|   2 |  3 |  9.1% | Game Of Thrones, Robb Stark, Edmure Tully, Catelyn Stark, Stannis Baratheon     | Hodor, The Waif, Viserion, Melisandre, Threeeyed Raven                                                       | Authority and political power   |
+|   3 |  4 |  8.2% | Hodor, Sansa Stark, Bran Stark, Missandei, Threeeyed Raven                      | Gregor Clegane The Mountain, Sandor Clegane The Hound, Joffrey Baratheon, Mad King Aerys Targaryen, Viserion | Innocence versus corrupted evil |
+|   4 |  5 |  6.2% | Melisandre, Thoros Of Myr, Mance Rayder, Night King, Beric Dondarrion           | Hodor, Joffrey Baratheon, Tommen Baratheon, Myrcella Baratheon, Mad King Aerys Targaryen                     | Magic/supernatural power level  |
+=== Lord Of The Rings (97 characters) ===
+| idx | PC |  Var% | High                                                                                          | Low                                                                             | Axis                                 |
+|-----+----+-------+-----------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------+--------------------------------------|
+|   0 |  1 | 23.1% | Gilgalad, Fingolfin, Elendil, Feanor, Galadriel                                               | Fredegar Bolger Fatty, Bilbo Baggins, Bombur, Bofur, Gollum Smeagol             | Physical power and combat prowess    |
+|   1 |  2 | 13.1% | Bilbo Baggins, Merry Meriadoc Brandybuck, Frodo Baggins, Samwise Gamgee, Pippin Peregrin Took | Azog The Defiler, The Witchking Of Angmar, Ungoliant, Grishnakh, Morgoth Melkor | Moral goodness versus evil           |
+|   2 |  3 |  8.6% | Gollum Smeagol, Frodo Baggins, Sauron, Mouth Of Sauron, Isildur                               | Dwalin, Bofur, Gloin, Durin, Gimli                                              | Corruption by evil power             |
+|   3 |  4 |  6.8% | Farmer Maggot, Lobelia Sackvillebaggins, Bill The Pony, Shadowfax, Grima Wormtongue           | Durin, Gollum Smeagol, Thorin Oakenshield, Balin, Balrog Of Moria               | Minor versus major characters        |
+|   4 |  5 |  4.4% | Tom Bombadil, Ungoliant, Treebeard, Lobelia Sackvillebaggins, Feanor                          | Theoden, Boromir, Eomer, Denethor, Frodo Baggins                                | Independence from external influence |
+=== Naruto (84 characters) ===
+| idx | PC |  Var% | High                                                                                | Low                                                                                        | Axis                                           |
+|-----+----+-------+-------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+------------------------------------------------|
+|   0 |  1 | 19.7% | Naruto Uzumaki, Rock Lee, Konohamaru Sarutobi, Mito Uzumaki, Anko Mitarashi         | Madara Uchiha, Toneri Otsutsuki, Kinshiki Otsutsuki, Ashura Otsutsuki, Momoshiki Otsutsuki | Perseverance through natural disadvantage      |
+|   1 |  2 | 13.3% | Hidan, Tayuya, Deidara, Suigetsu Hozuki, Sakon And Ukon                             | Rock Lee, Might Guy, Tobirama Senju, Minato Namikaze, Hiruzen Sarutobi                     | Self-control and discipline                    |
+|   2 |  3 |  7.3% | Shino Aburame, Hiashi Hyuga, Hinata Hyuga, Shizune, Konan                           | Might Guy, Momoshiki Otsutsuki, Rock Lee, Naruto Uzumaki, Kinshiki Otsutsuki               | Reserved versus expressive personality         |
+|   3 |  4 |  5.6% | Hiruzen Sarutobi, A Fourth Raikage, Tobirama Senju, Minato Namikaze, Asuma Sarutobi | Rock Lee, Might Guy, Hinata Hyuga, Shino Aburame, Hanabi Hyuga                             | Ninjutsu vs Taijutsu specialization            |
+|   4 |  5 |  4.4% | Hinata Hyuga, Gaara, Kushina Uzumaki, Karin Uzumaki, Kurama Ninetails               | Might Guy, Rock Lee, Orochimaru, Danzo Shimura, Hiruzen Sarutobi                           | Emotional bonds vs. professional relationships |
+=== Greek Mythology (107 characters) ===
+| idx | PC |  Var% | High                                                 | Low                                               | Axis                         |
+|-----+----+-------+------------------------------------------------------+---------------------------------------------------+------------------------------|
+|   0 |  1 | 13.6% | Agamemnon, Menelaus, Telemachus, Priam, Clytemnestra | Uranus, Chaos, Erebus, Nyx, Gaia                  | Human vs primordial deities  |
+|   1 |  2 |  7.4% | Diomedes, Patroclus, Agamemnon, Priam, Andromache    | Minotaur, Ariadne, Daedalus, Theseus, Icarus      | Trojan War vs Crete          |
+|   2 |  3 |  5.7% | Siren, Galatea, Pygmalion, Narcissus, Thanatos       | Hercules Heracles, Zeus, Perseus, Uranus, Iapetus | Passive versus active agency |
+|   3 |  4 |  4.8% | Prometheus, Oedipus, Creon, Icarus, Sisyphus         | Theseus, Minotaur, Ariadne, Penelope, Polyphemus  | Defiance versus compliance   |
+|   4 |  5 |  4.2% | Charybdis, Chimera, Polyphemus, Patroclus, Hydra     | Oedipus, Demeter, Persephone, Dionysus, Apollo    | Monster versus human/god     |
+=== Chinese Mythology (78 characters) ===
+| idx | PC |  Var% | High                                                                    | Low                                                     | Axis                                   |
+|-----+----+-------+-------------------------------------------------------------------------+---------------------------------------------------------+----------------------------------------|
+|   0 |  1 | 16.9% | Sun Wukong Monkey King, Zhu Bajie, Tang Sanzang, Sun Wukong, Sha Wujing | Yellow Emperor, Yan Emperor, Phoenix, King Zhou, Fuxi   | Journey to the West characters         |
+|   1 |  2 | 11.3% | Guan Yu, Liu Bei, Cao Cao, Sima Yi, Lu Bu                               | Phoenix, Change, Weaver Girl, Gonggong, Lei Gong        | Historical versus mythological figures |
+|   2 |  3 |  6.4% | Dragon, Lei Gong, Bull Demon King, Phoenix, White Dragon Horse          | Hou Yi, Change, Wu Gang, Weaver Girl, Cowherd           | Divine/supernatural vs human origin    |
+|   3 |  4 |  5.6% | Yellow Emperor, Fuxi, Pangu, Yan Emperor, Tang Sanzang                  | Weaver Girl, Meng Jiangnu, Wu Song, Zhu Yingtai, Li Kui | Mythical versus mortal origins         |
+|   4 |  5 |  5.3% | Xuanzang, Tang Sanzang, Guanyin, Fahai, Diao Chan                       | Lei Gong, Gonggong, Hou Yi, Zhang Fei, Nezha            | Compassion versus destructive force    |
+=== Hindu Mythology (72 characters) ===
+| idx | PC |  Var% | High                                                          | Low                                              | Axis                          |
+|-----+----+-------+---------------------------------------------------------------+--------------------------------------------------+-------------------------------|
+|   0 |  1 | 17.8% | Naga, Kali, Agni, Shiva, Ganga                                | Arjuna, Yudhishthira, Lakshmana, Rama, Abhimanyu | Divine versus mortal beings   |
+|   1 |  2 | 12.1% | Hiranyakashipu, Mahishasura, Shakuni, Kumbhakarna, Duryodhana | Vishnu, Krishna, Vyasa, Rama, Arjuna             | Virtue versus evil nature     |
+|   2 |  3 |  7.5% | Hanuman, Varaha, Kurma, Sugriva, Narasimha                    | Gandhari, Drona, Agni, Ganga, Shakuni            | Non-human or hybrid forms     |
+|   3 |  4 |  5.9% | Kurma, Matsya, Varaha, Indra, Vyasa                           | Radha, Sita, Yamuna, Hanuman, Parvati            | Divine vs mortal origins      |
+|   4 |  5 |  4.2% | Hiranyakashipu, Mahishasura, Prahlada, Narasimha, Durga       | Agni, Jatayu, Ganga, Sugriva, Garuda             | Antagonist vs supporting role |
+=== Norse Mythology (48 characters) ===
+| idx | PC |  Var% | High                                                                           | Low                                                | Axis                                  |
+|-----+----+-------+--------------------------------------------------------------------------------+----------------------------------------------------+---------------------------------------|
+|   0 |  1 | 15.9% | Erik The Red, Leif Erikson, Ragnar Lothbrok, Bjorn Ironside, Ivar The Boneless | Urd, Norns, Verdandi, Skuld, Ratatoskr             | Historical versus mythological beings |
+|   1 |  2 | 13.0% | Grendels Mother, Fafnir, Surtr, Nidhogg, Wayland The Smith                     | Leif Erikson, Bragi, Freyr, Freya, Ragnar Lothbrok | Mythical versus historical figures    |
+|   2 |  3 |  8.4% | Sleipnir, Garm, Fenrir, Surtr, Ymir                                            | Grendels Mother, Verdandi, Skuld, Urd, Norns       | Size and cosmic importance            |
+|   3 |  4 |  6.6% | Jormungandr, Ratatoskr, Leif Erikson, Erik The Red, Norns                      | Brynhild, Wayland The Smith, Freyr, Andvari, Thrym | Historical vs mythological beings     |
+|   4 |  5 |  5.9% | Ratatoskr, Hugin, Fafnir, Andvari, Munin                                       | Surtr, Ymir, Skadi, Fenrir, Vidar                  | Size or physical scale                |
+=== Egyptian Mythology (44 characters) ===
+| idx | PC |  Var% | High                                                     | Low                                         | Axis                                    |
+|-----+----+-------+----------------------------------------------------------+---------------------------------------------+-----------------------------------------|
+|   0 |  1 | 19.9% | Cleopatra, Apep, Khonsu, Sekhmet, Bes                    | Tutankhamun, Khufu, Anubis, Osiris, Imhotep | Active agency versus passive roles      |
+|   1 |  2 | 13.1% | Akhenaten, Cleopatra, Ramesses Ii, Hatshepsut, Nefertiti | Anubis, Osiris, Ammit, Atum, Maat           | Human versus divine beings              |
+|   2 |  3 |  9.8% | Ammit, Anubis, Cleopatra, Serqet, Imhotep                | Aten, Akhenaten, Khepri, Ra, Khonsu         | Death/underworld versus celestial/solar |
+|   3 |  4 |  5.8% | Ammit, Anubis, Maat, Akhenaten, Apep                     | Sobek, Tefnut, Khnum, Atum, Taweret         | Death/afterlife vs life/creation        |
+|   4 |  5 |  4.8% | Seshat, Cleopatra, Thoth, Isis, Ptah                     | Wadjet, Sobek, Bastet, Serqet, Apep         | Knowledge/wisdom versus primal forces   |
+=== Shakespeare (114 characters) ===
+| idx | PC |  Var% | High                                                              | Low                                                          | Axis                                |
+|-----+----+-------+-------------------------------------------------------------------+--------------------------------------------------------------+-------------------------------------|
+|   0 |  1 | 12.5% | Macbeth, Lady Macbeth, King Lear, Julius Caesar, Banquo           | Bottom, Puck, Sir Toby Belch, Dogberry, Sir Andrew Aguecheek | Tragedy versus comedy characters    |
+|   1 |  2 |  8.5% | Dogberry, Falstaff, Sir Andrew Aguecheek, Sir Toby Belch, Hotspur | Titania, Oberon, Puck, Juliet Capulet, Hermia                | Comic versus romantic characters    |
+|   2 |  3 |  7.8% | Romeo Montague, Romeo, Juliet Capulet, Juliet, Montague           | Puck, The Three Witches, Caliban, Falstaff, Oberon           | Tragedy versus comedy characters    |
+|   3 |  4 |  6.1% | Shylock, Tybalt, Roderigo, Othello, Romeo Montague                | Hippolyta, Lavinia, Isabella, Celia, Gertrude                | Agency versus victimization         |
+|   4 |  5 |  5.5% | Othello, Desdemona, Shylock, Ophelia, Roderigo                    | Julius Caesar, The Three Witches, Puck, Mark Antony, Oberon  | Personal vulnerability versus power |
+:end:
+
+* Stress Test 4: Fictional Character Space Residuals
+
+After projecting to our own fictional character PCs, what remains unique to each universe?
+
+#+begin_src python
+if 'pca' in dir() and 'activation_matrix' in dir():
+    scaler_fc = StandardScaler()
+    chars_scaled_fc = scaler_fc.fit_transform(activation_matrix)
+    
+    n_pcs_project = min(50, pca.n_components_)
+    reconstructed_fc = transformed[:, :n_pcs_project] @ pca.components_[:n_pcs_project]
+    residuals_fc = chars_scaled_fc - reconstructed_fc
+    
+    print(f"Projecting out top {n_pcs_project} fictional character PCs")
+    
+    original_var_fc = np.var(chars_scaled_fc, axis=0).sum()
+    residual_var_fc = np.var(residuals_fc, axis=0).sum()
+    print(f"Variance retained in residuals: {residual_var_fc/original_var_fc:.1%}")
 #+end_src
 
-** Harry Potter Residuals
+#+RESULTS:
+:results:
+Projecting out top 50 fictional character PCs
+Variance retained in residuals: 13.5%
+:end:
 
-#+begin_src python :exports results
-if 'residuals' in dir():
-    analyze_universe_residuals("Harry Potter", "harry_potter__")
+#+begin_src python
+def analyze_universe_residuals_fc(universe_name, prefix, n_pcs=5):
+    """PCA on residuals (after fictional character projection) within a single universe."""
+    indices = get_universe_indices(prefix)
+    if len(indices) < 10:
+        print(f"{universe_name}: Only {len(indices)} characters, skipping")
+        return
+    
+    u_residuals = residuals_fc[indices]
+    u_names = [char_names[i] for i in indices]
+    
+    u_pca = SkPCA(n_components=min(n_pcs, len(indices)-1))
+    u_transformed = u_pca.fit_transform(u_residuals)
+    
+    print(f"=== {universe_name} ({len(indices)} characters) ===\n")
+    
+    rows = []
+    for pc_idx in range(min(n_pcs, u_pca.n_components_)):
+        scores = u_transformed[:, pc_idx]
+        sorted_idx = np.argsort(scores)
+        var_pct = u_pca.explained_variance_ratio_[pc_idx] * 100
+        
+        high = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[-5:][::-1]]
+        low = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[:5]]
+        
+        row = {
+            'PC': pc_idx + 1,
+            'Var%': f"{var_pct:.1f}%",
+            'High': ', '.join(high[:3]),
+            'Low': ', '.join(low[:3]),
+        }
+        if USE_LLM_INTERPRETATION:
+            row['Axis'] = interpret_pc(universe_name + " (residual)", pc_idx + 1, var_pct, high, low)
+        rows.append(row)
+    
+    df = pd.DataFrame(rows)
+    print(df)
+    print()
 #+end_src
 
-** Star Wars Residuals
+#+RESULTS:
+:results:
+:end:
 
-#+begin_src python :exports results
-if 'residuals' in dir():
-    analyze_universe_residuals("Star Wars", "star_wars__")
+#+begin_src python
+if 'residuals_fc' in dir():
+    for universe, prefix in UNIVERSES.items():
+        analyze_universe_residuals_fc(universe.replace('_', ' ').title(), prefix)
 #+end_src
 
-** Marvel Residuals
+#+RESULTS:
+:results:
 
-#+begin_src python :exports results
-if 'residuals' in dir():
-    analyze_universe_residuals("Marvel", "marvel__")
+
+
+=== Harry Potter (102 characters) ===
+| idx | PC | Var% | High                                            | Low                                                       | Axis                                            |
+|-----+----+------+-------------------------------------------------+-----------------------------------------------------------+-------------------------------------------------|
+|   0 |  1 | 7.5% | The Sorting Hat, Argus Filch, Moaning Myrtle    | Bellatrix Lestrange, Kingsley Shacklebolt, Vernon Dursley | Magical permanence vs mortality                 |
+|   1 |  2 | 5.5% | Dobby The House Elf, Kreacher, Ollivander       | Oliver Wood, Cormac Mclaggen, Viktor Krum                 | Non-human or eccentric characters               |
+|   2 |  3 | 4.9% | Vernon Dursley, Dudley Dursley, Petunia Dursley | Gilderoy Lockhart, Xenophilius Lovegood, Rita Skeeter     | Traditional vs. eccentric/flamboyant characters |
+|   3 |  4 | 4.4% | Ollivander, Vernon Dursley, Dudley Dursley      | Peter Pettigrew, Moaning Myrtle, Severus Snape            | Positive/likeable vs negative/unlikeable        |
+|   4 |  5 | 4.2% | Argus Filch, Scabbers, Moaning Myrtle           | Ollivander, Viktor Krum, The Sorting Hat                  | Human versus non-human characters               |
+=== Star Wars (105 characters) ===
+| idx | PC | Var% | High                                                 | Low                                               | Axis                                          |
+|-----+----+------+------------------------------------------------------+---------------------------------------------------+-----------------------------------------------|
+|   0 |  1 | 7.7% | Bb8, R2D2, Chewbacca                                 | Grand Admiral Thrawn, Captain Rex, Wilhuff Tarkin | Non-verbal vs. speaking characters            |
+|   1 |  2 | 6.9% | Din Djarin The Mandalorian, Darth Maul, Boba Fett    | Yoda, Admiral Ackbar, Princess Leia               | Combat-focused versus wisdom/leadership roles |
+|   2 |  3 | 5.9% | Governor Tarkin, Darth Vader, R2D2                   | Yoda, Boba Fett, Din Djarin The Mandalorian       | Original trilogy prominence                   |
+|   3 |  4 | 4.8% | Boba Fett, Darth Vader, Darth Vader Anakin Skywalker | Shaak Ti, Kiadimundi, Quigon Jinn                 | Villains versus heroes                        |
+|   4 |  5 | 4.5% | Han Solo, Lando Calrissian, Wedge Antilles           | Yoda, R2D2, General Grievous                      | Human vs. non-human characters                |
+=== Marvel (108 characters) ===
+| idx | PC | Var% | High                                                           | Low                                                                                 | Axis                              |
+|-----+----+------+----------------------------------------------------------------+-------------------------------------------------------------------------------------+-----------------------------------|
+|   0 |  1 | 7.0% | Cyclops Scott Summers, Professor X Charles Xavier, Kitty Pryde | Doctor Strange Stephen Strange, Ghost Rider Johnny Blaze, Silver Surfer Norrin Radd | X-Men versus non-X-Men            |
+|   1 |  2 | 5.3% | Black Panther, Black Panther Tchalla, Shuri                    | Groot, Ghost Rider Johnny Blaze, Silver Surfer Norrin Radd                          | Technology-based vs cosmic powers |
+|   2 |  3 | 4.1% | Antman Scott Lang, Iron Man Tony Stark, Groot                  | Black Panther, Silver Surfer Norrin Radd, Black Panther Tchalla                     | Humor versus serious tone         |
+|   3 |  4 | 3.9% | Carnage Cletus Kasady, Spiderman, Spiderman Peter Parker       | Groot, Killmonger Erik Stevens, Luke Cage                                           | Spider-Man villains versus others |
+|   4 |  5 | 3.8% | Phil Coulson, Hawkeye Clint Barton, Maria Hill                 | Groot, Spiderman, Spiderman Peter Parker                                            | Supporting versus lead characters |
+=== Game Of Thrones (99 characters) ===
+| idx | PC | Var% | High                                                         | Low                                           | Axis                                 |
+|-----+----+------+--------------------------------------------------------------+-----------------------------------------------+--------------------------------------|
+|   0 |  1 | 7.0% | Hodor, Night King, Viserion                                  | Selyse Baratheon, High Sparrow, Balon Greyjoy | Supernatural vs mundane characters   |
+|   1 |  2 | 6.6% | Mad King Aerys Targaryen, Hodor, Viserys Targaryen           | Night King,  Game Of Thrones, Rickon Stark    | Mental instability or madness        |
+|   2 |  3 | 5.2% | Hodor, Melisandre, Petyr Baelish Littlefinger                | Mad King Aerys Targaryen, Viserion, Rhaegal   | Living versus dead characters        |
+|   3 |  4 | 5.0% | Night King, Khal Drogo, Melisandre                           | Hodor, Margaery Tyrell, Loras Tyrell          | Mystical versus political characters |
+|   4 |  5 | 4.6% | Sandor Clegane The Hound, Bronn, Gregor Clegane The Mountain | Selyse Baratheon, Hodor, High Sparrow         | Combat prowess versus non-fighters   |
+=== Lord Of The Rings (97 characters) ===
+| idx | PC | Var% | High                                             | Low                                                    | Axis                                |
+|-----+----+------+--------------------------------------------------+--------------------------------------------------------+-------------------------------------|
+|   0 |  1 | 8.1% | Durin, Balin, Dwalin                             | Gollum Smeagol, Frodo Baggins, Faramir                 | Dwarves versus non-dwarves          |
+|   1 |  2 | 7.9% | Fingolfin, Feanor, Gilgalad                      | Bilbo Baggins, Frodo Baggins, Lobelia Sackvillebaggins | First Age legendary heroes          |
+|   2 |  3 | 5.7% | Ungoliant, Sauron, Morgoth Melkor                | Eomer, Theodred, Brego                                 | Evil/darkness versus good/light     |
+|   3 |  4 | 5.0% | Azog The Defiler, Ugluk, The Witchking Of Angmar | Treebeard, Tom Bombadil, Thranduil                     | Evil servants versus nature-aligned |
+|   4 |  5 | 4.5% | Feanor, Celebrimbor, Morgoth Melkor              | Treebeard, Legolas, Thranduil                          | Creation and destruction power      |
+=== Naruto (84 characters) ===
+| idx | PC | Var% | High                                   | Low                                            | Axis                                 |
+|-----+----+------+----------------------------------------+------------------------------------------------+--------------------------------------|
+|   0 |  1 | 8.5% | Iruka Umino, Teuchi, Naruto Uzumaki    | Momoshiki Otsutsuki, Kinshiki Otsutsuki, Zetsu | Connection to Naruto personally      |
+|   1 |  2 | 6.7% | Rock Lee, Might Guy, Hiashi Hyuga      | Deidara, Hidan, Sasori                         | Discipline versus chaos/destruction  |
+|   2 |  3 | 6.3% | Teuchi, Kurama Ninetails, Ayame        | Rock Lee, Might Guy, Shino Aburame             | Connection to Naruto's family        |
+|   3 |  4 | 5.1% | Shino Aburame, Teuchi, Hinata Hyuga    | Might Guy, Rock Lee, Sakon And Ukon            | Calm vs. Intense personality         |
+|   4 |  5 | 4.8% | Shino Aburame, Gaara, Kurama Ninetails | Teuchi, Shikamaru Nara, Sakon And Ukon         | Emotional expressiveness vs stoicism |
+=== Greek Mythology (107 characters) ===
+| idx | PC | Var% | High                         | Low                          | Axis                                         |
+|-----+----+------+------------------------------+------------------------------+----------------------------------------------|
+|   0 |  1 | 5.4% | Ariadne, Minotaur, Theseus   | Uranus, Iapetus, Hyperion    | Labyrinth and Crete stories                  |
+|   1 |  2 | 4.5% | Uranus, Penelope, Telemachus | Sisyphus, Tantalus, Icarus   | Creation versus punishment                   |
+|   2 |  3 | 4.1% | Orpheus, Eurydice, Narcissus | Icarus, Daedalus, Sisyphus   | Love versus hubris/punishment                |
+|   3 |  4 | 3.8% | Oedipus, Narcissus, Minotaur | Persephone, Demeter, Icarus  | Tragic self-destruction versus cosmic forces |
+|   4 |  5 | 3.4% | Demeter, Dionysus, Icarus    | Sisyphus, Prometheus, Erebus | Joy versus suffering/punishment              |
+=== Chinese Mythology (78 characters) ===
+| idx | PC | Var% | High                              | Low                                   | Axis                                        |
+|-----+----+------+-----------------------------------+---------------------------------------+---------------------------------------------|
+|   0 |  1 | 7.3% | Guan Yu, Liu Bei, Zhang Fei       | Change, Weaver Girl, Xuanzang         | Three Kingdoms period figures               |
+|   1 |  2 | 6.0% | Fuxi, Yellow Emperor, Yan Emperor | Zhu Bajie, Tang Sanzang, Wu Gang      | Primordial creators versus later characters |
+|   2 |  3 | 5.7% | Xuanzang, Tang Sanzang, Guanyin   | Wu Gang, Change, Hou Yi               | Journey to the West characters              |
+|   3 |  4 | 5.1% | Change, Hou Yi, Wu Gang           | Zhu Yingtai, Lu Zhishen, Liang Shanbo | Cultural heroes versus minor deities        |
+|   4 |  5 | 4.7% | Xuanzang, Guanyin, Lan Caihe      | Weaver Girl, Cowherd, Lei Gong        | Buddhist versus indigenous Chinese          |
+=== Hindu Mythology (72 characters) ===
+| idx | PC | Var% | High                    | Low                        | Axis                                        |
+|-----+----+------+-------------------------+----------------------------+---------------------------------------------|
+|   0 |  1 | 9.6% | Shiva, Vishnu, Radha    | Jatayu, Duryodhana, Angada | Divine versus mortal/semi-divine            |
+|   1 |  2 | 6.6% | Hanuman, Radha, Sita    | Vyasa, Arjuna, Drona       | Devotion versus authority/power             |
+|   2 |  3 | 5.7% | Ganga, Yamuna, Vayu     | Kurma, Varaha, Matsya      | Natural forces vs avatars                   |
+|   3 |  4 | 5.4% | Garuda, Vayu, Ravana    | Krishna, Vyasa, Lakshmana  | Destructive/fierce vs benevolent/righteous  |
+|   4 |  5 | 4.7% | Vayu, Prahlada, Krishna | Ganga, Yamuna, Kurma       | Devotion versus geographical/physical forms |
+=== Norse Mythology (48 characters) ===
+| idx | PC |  Var% | High                                 | Low                                           | Axis                                      |
+|-----+----+-------+--------------------------------------+-----------------------------------------------+-------------------------------------------|
+|   0 |  1 | 12.6% | Norns, Urd, Verdandi                 | Erik The Red, Leif Erikson, Ivar The Boneless | Mythical beings versus historical figures |
+|   1 |  2 |  9.3% | Leif Erikson, Erik The Red, Verdandi | Ratatoskr, Hermod, Andvari                    | Human vs mythical beings                  |
+|   2 |  3 |  7.5% | Wayland The Smith, Andvari, Fafnir   | Ratatoskr, Leif Erikson, Erik The Red         | Craftsmen and monsters versus messengers  |
+|   3 |  4 |  5.6% | Freyr, Njord, Bragi                  | Jormungandr, Wayland The Smith, Nidhogg       | Benevolent versus destructive forces      |
+|   4 |  5 |  5.0% | Fafnir, Andvari, Brynhild            | Wayland The Smith, Sleipnir, Hermod           | Acquired wealth or treasures              |
+=== Egyptian Mythology (44 characters) ===
+| idx | PC |  Var% | High                      | Low                         | Axis                                     |
+|-----+----+-------+---------------------------+-----------------------------+------------------------------------------|
+|   0 |  1 | 12.1% | Anubis, Osiris, Ammit     | Akhenaten, Aten, Hatshepsut | Afterlife versus earthly realm           |
+|   1 |  2 |  9.6% | Khufu, Ramesses Ii, Ammit | Khepri, Aten, Atum          | Historical rulers vs deities             |
+|   2 |  3 |  8.4% | Anubis, Ammit, Osiris     | Bastet, Taweret, Sobek      | Death and afterlife focus                |
+|   3 |  4 |  6.3% | Ammit, Akhenaten, Anubis  | Khufu, Imhotep, Geb         | Death and afterlife association          |
+|   4 |  5 |  5.4% | Atum, Ptah, Khnum         | Khepri, Khonsu, Serqet      | Primordial creation vs specialized roles |
+=== Shakespeare (114 characters) ===
+| idx | PC | Var% | High                                     | Low                                      | Axis                                  |
+|-----+----+------+------------------------------------------+------------------------------------------+---------------------------------------|
+|   0 |  1 | 7.2% | Othello, Bottom, Titania                 | Richard Ii, Banquo, Hotspur              | Comedy versus tragedy characters      |
+|   1 |  2 | 6.6% | Romeo Montague, Juliet Capulet, Romeo    | Bottom, Oberon, Touchstone               | Romantic leads vs comic characters    |
+|   2 |  3 | 6.1% | King Lear, Macbeth, Othello              | Dogberry, Juliet Capulet, Romeo Montague | Tragic vs comic characters            |
+|   3 |  4 | 5.0% | The Three Witches, Macbeth, Lady Macbeth | Shylock, Falstaff, Benedick              | Supernatural versus mortal characters |
+|   4 |  5 | 4.7% | Julius Caesar, Brutus, Mark Antony       | King Lear, Hamlet, Ophelia               | Political actors versus victims       |
+:end:
+
+* Summary
+
+[To be filled after running analysis]
+
+* Limitations
+
+- *Single model*: Only analyzed Qwen 3 32B layer 32
+- *Dataset composition*: PCs may reflect which universes are overrepresented
+- *Post-hoc interpretation*: PC meanings are hypotheses, not verified facts
+- *Question dependency*: Results may depend on the specific 240 questions used
+- *Minimal prompts*: Different from Lu et al.'s richer role descriptions
+
+* References
+
+- Lu, C., et al. (2026). [[https://arxiv.org/abs/2601.10387][The Assistant Axis]]. arXiv:2601.10387.
+- Code: [[https://github.com/safety-research/assistant-axis][safety-research/assistant-axis]]
+
+* Appendix: Exploratory Cultural Analysis
+
+The following sections explore the fictional character embedding space itself. These are interesting but secondary to the stress tests above.
+
+** Key Results
+
+#+begin_src python
+if 'pca' in dir():
+    cumvar = np.cumsum(pca.explained_variance_ratio_)
+    df = pd.DataFrame({
+        'Metric': ['Characters', 'Hidden dim', 'Layer', 'PC1 variance', 'PC2 variance', 'First 10 PCs', 'First 50 PCs'],
+        'Value': [len(char_names), 5120, 32, 
+                  f"{pca.explained_variance_ratio_[0]:.1%}", 
+                  f"{pca.explained_variance_ratio_[1]:.1%}",
+                  f"{cumvar[9]:.1%}", 
+                  f"{cumvar[min(49, len(cumvar)-1)]:.1%}"]
+    })
+    print(df)
 #+end_src
 
-** Game of Thrones Residuals
+#+RESULTS:
+:results:
+| idx | Metric       | Value |
+|-----+--------------+-------|
+|   0 | Characters   |  1268 |
+|   1 | Hidden dim   |  5120 |
+|   2 | Layer        |    32 |
+|   3 | PC1 variance | 19.4% |
+|   4 | PC2 variance |  8.7% |
+|   5 | First 10 PCs | 62.1% |
+|   6 | First 50 PCs | 86.5% |
+:end:
 
-#+begin_src python :exports results
-if 'residuals' in dir():
-    analyze_universe_residuals("Game of Thrones", "game_of_thrones__")
+** PC Loadings Analysis (à la Christina's paper)
+
+Compute cosine similarity between each character vector and the PC directions.
+This shows which characters are most aligned/anti-aligned with each axis.
+
+#+begin_src python
+if 'pca' in dir() and 'activation_matrix' in dir():
+    # Get PC directions (in scaled space)
+    scaler_loadings = StandardScaler()
+    chars_scaled_loadings = scaler_loadings.fit_transform(activation_matrix)
+    
+    # PC directions
+    pc_directions = pca.components_[:10]  # Top 10 PCs
+    
+    # Normalize character vectors
+    chars_norm = chars_scaled_loadings / np.linalg.norm(chars_scaled_loadings, axis=1, keepdims=True)
+    pc_norm = pc_directions / np.linalg.norm(pc_directions, axis=1, keepdims=True)
+    
+    # Cosine similarities: (n_chars, n_pcs)
+    cosine_sims = chars_norm @ pc_norm.T
+    
+    print("Cosine similarity of characters with PC directions computed")
+    print(f"Shape: {cosine_sims.shape}")
 #+end_src
 
-** Lord of the Rings Residuals
+#+RESULTS:
+:results:
+Cosine similarity of characters with PC directions computed
+Shape: (1268, 10)
+:end:
 
-#+begin_src python :exports results
-if 'residuals' in dir():
-    analyze_universe_residuals("Lord of the Rings", "lord_of_the_rings__")
+#+begin_src python
+def show_pc_loadings(pc_idx, top_k=8):
+    """Show characters most aligned and anti-aligned with a PC."""
+    sims = cosine_sims[:, pc_idx]
+    sorted_idx = np.argsort(sims)
+    var_pct = pca.explained_variance_ratio_[pc_idx] * 100
+    
+    print(f"PC{pc_idx + 1} ({var_pct:.1f}% variance)")
+    print(f"\nMost ANTI-aligned (negative cosine):")
+    for i in sorted_idx[:top_k]:
+        name = char_names[i].replace('_', ' ').title()
+        print(f"  {sims[i]:+.3f}  {name}")
+    
+    print(f"\nMost ALIGNED (positive cosine):")
+    for i in sorted_idx[-top_k:][::-1]:
+        name = char_names[i].replace('_', ' ').title()
+        print(f"  {sims[i]:+.3f}  {name}")
+    print()
+
+if 'cosine_sims' in dir():
+    for pc_idx in range(5):
+        show_pc_loadings(pc_idx)
 #+end_src
 
-** Naruto Residuals
+#+RESULTS:
+:results:
+PC1 (19.4% variance)
+Most ANTI-aligned (negative cosine):
+-0.713  Arthurian Legend  Merlin
+-0.706  Greek Mythology  Tiresias
+-0.687  Greek Mythology  Coeus
+-0.680  Shakespeare  Hippolyta
+-0.671  Greek Mythology  Hyperion
+-0.654  Greek Mythology  Phaedra
+-0.652  Norse Mythology  Frigg
+-0.647  Norse Mythology  Gudrun
+Most ALIGNED (positive cosine):
++0.776  Marvel  Rogue Anna Marie
++0.769  Harry Potter  Lee Jordan
++0.767  Naruto  Kankuro
++0.762  Marvel  Jubilee
++0.762  Harry Potter  Dean Thomas
++0.753  Naruto  Anko Mitarashi
++0.751  Marvel  Bullseye
++0.750  Marvel  Kate Bishop
+PC2 (8.7% variance)
+Most ANTI-aligned (negative cosine):
+-0.657  Hindu Mythology  Ganesha
+-0.655  Hindu Mythology  Parvati
+-0.644  Hindu Mythology  Kartikeya
+-0.637  Hindu Mythology  Nandi
+-0.635  Hindu Mythology  Lakshmi
+-0.630  Hindu Mythology  Bali
+-0.627  Hindu Mythology  Vishnu
+-0.620  Hindu Mythology  Saraswati
+Most ALIGNED (positive cosine):
++0.665  Game Of Thrones  Pyat Pree
++0.664  Game Of Thrones  Roose Bolton
++0.661  Game Of Thrones  Walder Frey
++0.652  Game Of Thrones  Euron Greyjoy
++0.634  Game Of Thrones  Alliser Thorne
++0.631  Game Of Thrones  Kraznys Mo Nakloz
++0.621  Game Of Thrones  Balon Greyjoy
++0.620  Game Of Thrones  Daario Naharis
+PC3 (7.0% variance)
+Most ANTI-aligned (negative cosine):
+-0.587  A Midsummer Nights Dream  Bottom
+-0.568  Anne Of Green Gables  Anne Shirley
+-0.532  Alices Adventures In Wonderland  Alice
+-0.528  Winniethepooh  Winniethepooh
+-0.527  Shakespeare  Dogberry
+-0.521  Shakespeare  Sir Andrew Aguecheek
+-0.517  Harry Potter  Aunt Marge
+-0.516  As You Like It  Rosalind
+Most ALIGNED (positive cosine):
++0.728  Star Wars  Savage Opress
++0.680  Star Wars  Supreme Leader Snoke
++0.679  Star Wars  Moff Gideon
++0.677  Star Wars  Asajj Ventress
++0.669  Star Wars  The Grand Inquisitor
++0.669  Star Wars  Darth Maul
++0.668  Star Wars  Fifth Brother
++0.645  Star Wars  Count Dooku Darth Tyranus
+PC4 (5.6% variance)
+Most ANTI-aligned (negative cosine):
+-0.577  Othello  Iago
+-0.560  Faust  Mephistopheles
+-0.548  Greek Mythology  Eris
+-0.548  Sherlock Holmes Stories  Professor Moriarty
+-0.537  Shakespeare  Don John
+-0.535  Dc Comics  The Joker
+-0.523  Chinese Mythology  Daji
+-0.502  Marvel  Loki
+Most ALIGNED (positive cosine):
++0.814  Lord Of The Rings  Nori
++0.806  Lord Of The Rings  Arod
++0.786  Lord Of The Rings  Hama
++0.785  Lord Of The Rings  Elanor Gardner
++0.782  Lord Of The Rings  Fili
++0.779  Lord Of The Rings  Theodred
++0.776  Lord Of The Rings  Ori
++0.771  Lord Of The Rings  Kili
+PC5 (4.7% variance)
+Most ANTI-aligned (negative cosine):
+-0.653  Star Wars  C3Po
+-0.612  Star Wars  Governor Tarkin
+-0.605  Star Wars  Nute Gunray
+-0.604  Star Wars  Kiadimundi
+-0.592  Star Wars  Wilhuff Tarkin
+-0.576  Star Wars  Count Dooku Darth Tyranus
+-0.573  Star Wars  Admiral Ackbar
+-0.567  Star Wars  L337
+Most ALIGNED (positive cosine):
++0.551  Game Of Thrones  Tormund Giantsbane
++0.541  Game Of Thrones  Ygritte
++0.504  Chinese Mythology  Li Kui
++0.500  Game Of Thrones  Sandor Clegane The Hound
++0.492  Berserk  Guts
++0.492  Game Of Thrones  Gregor Clegane The Mountain
++0.461  Game Of Thrones  Gendry
++0.455  Norse Mythology  Ragnar Lothbrok
+:end:
 
-#+begin_src python :exports results
-if 'residuals' in dir():
-    analyze_universe_residuals("Naruto", "naruto__")
+#+begin_src python 
+if 'cosine_sims' in dir():
+    fig, axes = plt.subplots(1, 3, figsize=(18, 8))
+    
+    for pc_idx, ax in enumerate(axes):
+        sims = cosine_sims[:, pc_idx]
+        sorted_idx = np.argsort(sims)
+        var_pct = pca.explained_variance_ratio_[pc_idx] * 100
+        
+        # Plot all characters as horizontal bars
+        n_show = 15  # Top and bottom 15
+        show_idx = list(sorted_idx[:n_show]) + list(sorted_idx[-n_show:])
+        show_sims = [sims[i] for i in show_idx]
+        show_names = [char_names[i].split('__')[-1].replace('_', ' ')[:25] for i in show_idx]
+        
+        colors = ['red' if s < 0 else 'blue' for s in show_sims]
+        
+        y_pos = np.arange(len(show_names))
+        ax.barh(y_pos, show_sims, color=colors, alpha=0.7)
+        ax.set_yticks(y_pos)
+        ax.set_yticklabels(show_names, fontsize=8)
+        ax.axvline(x=0, color='black', linewidth=0.5)
+        ax.set_xlabel('Cosine Similarity')
+        ax.set_title(f'PC{pc_idx + 1} ({var_pct:.1f}%)')
+    
+    plt.tight_layout()
+    plt.savefig('results/pc_loadings.png', dpi=150, bbox_inches='tight')
+    plt.close()
+    print('[[file:results/pc_loadings.png]]')
 #+end_src
 
-** Chinese Mythology Residuals
+#+RESULTS:
+:results:
+[[file:results/pc_loadings.png]]
+:end:
 
-#+begin_src python :exports results
-if 'residuals' in dir():
-    analyze_universe_residuals("Chinese Mythology", "chinese_mythology__")
+** Principal Components (Fictional Character Space)
+
+#+begin_src python
+def show_pc(pc_idx, top_k=5):
+    scores = transformed[:, pc_idx]
+    sorted_idx = np.argsort(scores)
+    var_pct = pca.explained_variance_ratio_[pc_idx] * 100
+    
+    high = [char_names[i].replace('_', ' ').title() for i in sorted_idx[-top_k:][::-1]]
+    low = [char_names[i].replace('_', ' ').title() for i in sorted_idx[:top_k]]
+    
+    row = {
+        'PC': pc_idx + 1,
+        'Var%': f"{var_pct:.1f}%",
+        'High': ', '.join(high[:3]),
+        'Low': ', '.join(low[:3])
+    }
+    if USE_LLM_INTERPRETATION:
+        row['Axis'] = interpret_pc("All Characters", pc_idx + 1, var_pct, high, low)
+    return row
+
+if 'pca' in dir():
+    rows = [show_pc(i) for i in range(10)]
+    df = pd.DataFrame(rows)
+    print(df)
 #+end_src
 
-** Hindu Mythology Residuals
+#+RESULTS:
+:results:
 
-#+begin_src python :exports results
-if 'residuals' in dir():
-    analyze_universe_residuals("Hindu Mythology", "hindu_mythology__")
+
+
+
+
+| idx | PC |  Var% | High                                                                                                                      | Low                                                                                                    | Axis                                         |
+|-----+----+-------+---------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------+----------------------------------------------|
+|   0 |  1 | 19.4% | One Punch Man  Saitama, The Catcher In The Rye  Holden Caulfield, Naruto  Naruto Uzumaki                                  | Egyptian Mythology  Amun, Aztec Mythology  Quetzalcoatl, Egyptian Mythology  Neith                     | Human vs divine characters                   |
+|   1 |  2 |  8.7% | Game Of Thrones  Roose Bolton, Game Of Thrones  Walder Frey, Game Of Thrones  Sandor Clegane The Hound                    | Hindu Mythology  Vishnu, Hindu Mythology  Rama, Hindu Mythology  Parvati                               | Morality and divine benevolence              |
+|   2 |  3 |  7.0% | Star Wars  Darth Vader Anakin Skywalker, Star Wars  Darth Maul, Star Wars  Darth Vader                                    | Winniethepooh  Winniethepooh, Alices Adventures In Wonderland  Alice, A Midsummer Nights Dream  Bottom | Dark versus innocent characters              |
+|   3 |  4 |  5.6% | Lord Of The Rings  Arwen, Lord Of The Rings  Elendil, Lord Of The Rings  Aragorn                                          | Dc Comics  The Joker, Marvel  Carnage Cletus Kasady, Marvel  Green Goblin Norman Osborn                | Heroism versus villainy                      |
+|   4 |  5 |  4.7% | Game Of Thrones  Ygritte, Game Of Thrones  Sandor Clegane The Hound, Game Of Thrones  Tormund Giantsbane                  | Star Wars  C3Po, Harry Potter  Dolores Umbridge, Star Wars  Darth Vader                                | Physical versus intellectual/political power |
+|   5 |  6 |  4.1% | Marvel Comics  Captain America   Steve Rogers, Marvel  Captain America Steve Rogers, Henry V  Henry V                     | The Lord Of The Rings  Gollum, Lord Of The Rings  Gollum Smeagol, Lord Of The Rings  Great Goblin      | Moral integrity versus corruption            |
+|   6 |  7 |  3.7% | Naruto  Tobirama Senju, Naruto  Orochimaru, Naruto  Madara Uchiha                                                         | Star Wars  R2D2, Star Wars  Bb8, Star Wars  Jar Jar Binks                                              | Supernatural powers versus mundane abilities |
+|   7 |  8 |  3.2% | Marvel Comics  Captain America   Steve Rogers, Marvel  Captain America Steve Rogers, Marvel  Captain Marvel Carol Danvers | Hindu Mythology  Rama, Hindu Mythology  Krishna, Hindu Mythology  Vyasa                                | Western vs Eastern origin                    |
+|   8 |  9 |  2.9% | Star Wars  Grogu Baby Yoda, Star Wars  Bb8, Star Wars  R2D2                                                               | Hindu Mythology  Vyasa, Hindu Mythology  Arjuna, Hindu Mythology  Prahlada                             | Communication through words vs sounds        |
+|   9 | 10 |  2.6% | Egyptian Mythology  Tutankhamun, Egyptian Mythology  Nekhbet, Game Of Thrones  Sansa Stark                                | Dragon Ball  Vegeta, Lord Of The Rings  Feanor, Lord Of The Rings  Balrog Of Moria                     | Gender (female vs male)                      |
+:end:
+
+** Characters on Lu's Role Space
+
+Where do fictional characters land on axes defined by generic roles?
+
+#+begin_src python
+if 'chars_in_role_space' in dir():
+    def show_role_pc(pc_idx, top_k=5):
+        scores = chars_in_role_space[:, pc_idx]
+        sorted_idx = np.argsort(scores)
+        
+        high = [char_names[i].replace('_', ' ').title() for i in sorted_idx[-top_k:][::-1]]
+        low = [char_names[i].replace('_', ' ').title() for i in sorted_idx[:top_k]]
+        
+        row = {
+            'Role PC': pc_idx + 1,
+            'High (fictional chars)': ', '.join(high[:3]),
+            'Low (fictional chars)': ', '.join(low[:3])
+        }
+        if USE_LLM_INTERPRETATION:
+            row['Axis'] = interpret_pc("Lu Role Space", pc_idx + 1, 0, high, low)
+        return row
+    
+    rows = [show_role_pc(i) for i in range(10)]
+    df = pd.DataFrame(rows)
+    print(df)
 #+end_src
 
-** Norse Mythology Residuals
+#+RESULTS:
+:results:
 
-#+begin_src python :exports results
-if 'residuals' in dir():
-    analyze_universe_residuals("Norse Mythology", "norse_mythology__")
-#+end_src
+| idx | Role PC | High (fictional chars)                                                                              | Low (fictional chars)                                                                         | Axis                                             |
+|-----+---------+-----------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------+--------------------------------------------------|
+|   0 |       1 | Harry Potter  Hermione Granger, Harry Potter  Ginny Weasley, Harry Potter  Katie Bell               | Lord Of The Rings  Ungoliant, Lord Of The Rings  Shelob, Game Of Thrones  Night King          | Heroic protagonists versus dark antagonists      |
+|   1 |       2 | The Catcher In The Rye  Holden Caulfield, Marvel  Deadpool Wade Wilson, The Simpsons  Homer Simpson | Egyptian Mythology  Maat, Aztec Mythology  Quetzalcoatl, Hindu Mythology  Brahma              | Modern irreverence versus ancient divinity       |
+|   2 |       3 | Star Wars  General Grievous, Marvel  Ultron, The Terminator  The Terminator                         | Naruto  Hinata Hyuga, To Kill A Mockingbird  Atticus Finch, Les Misérables  Cosette           | Dominance versus submission                      |
+|   3 |       4 | Fight Club  Tyler Durden, Nineteen Eightyfour  Big Brother, Marvel  Killmonger Erik Stevens         | My Neighbor Totoro  Totoro, Star Wars  Grogu Baby Yoda, Marvel  Groot                         | Villain versus innocent/childlike characters     |
+|   4 |       5 | Game Of Thrones  Hodor, Star Wars  Grogu Baby Yoda, Marvel  Groot                                   | Dc Comics  Batman   Bruce Wayne, Marvel  The Punisher Frank Castle, 007 Series  James Bond    | Childlike innocence versus hardened warriors     |
+|   5 |       6 | Alices Adventures In Wonderland  The Mad Hatter, Shakespeare  Feste, Shakespeare  Touchstone        | Nineteen Eightyfour  Big Brother, The Terminator  The Terminator, Game Of Thrones  Hodor      | Whimsical versus threatening characters          |
+|   6 |       7 | Lord Of The Rings  Hurin, Game Of Thrones  Stannis Baratheon, Lord Of The Rings  Denethor           | Star Wars  Bb8, Pacman  Pacman, The Hitchhikers Guide To The Galaxy  Arthur Dent              | Tragic nobility versus comedic simplicity        |
+|   7 |       8 | Game Of Thrones  Tormund Giantsbane, Henry Iv  Falstaff, Don Quixote  Don Quixote                   | Marvel  Ultron, The Terminator  The Terminator, Marvel  Mister Sinister                       | Warm humor versus cold logic                     |
+|   8 |       9 | Harry Potter  Dolores Umbridge, Harry Potter  Gilderoy Lockhart, Naruto  Might Guy                  | Game Of Thrones  Jojen Reed, The Metamorphosis  Gregor Samsa, The Stranger  Meursault         | Exuberant showmanship versus quiet introspection |
+|   9 |      10 | Marvel  Sabretooth Victor Creed, Black Panther  Killmonger, Game Of Thrones  Ygritte                | Pride And Prejudice  Mr Darcy, Pride And Prejudice  Elizabeth Bennet, Lolita  Humbert Humbert | Primal wildness versus refined civilization      |
+:end:
 
-** Egyptian Mythology Residuals
+** Within-Universe PCA (Full Space)
 
-#+begin_src python :exports results
-if 'residuals' in dir():
-    analyze_universe_residuals("Egyptian Mythology", "egyptian_mythology__")
-#+end_src
+*Questions to study once full data is in:*
 
-* Within-Universe PCA (Full Space)
+1. *What are the dimensions of variation within each universe?*
+   - PC1 interpretation: Power/darkness (HP), Cosmic/grounded (Marvel), Mystical/earthy (GoT)?
+   - Do universes have different intrinsic dimensionality?
 
-For comparison, what does PCA look like on the full activation space (not residuals) within each universe?
+2. *Dimensionality comparison across universes:*
+   - Do some universes have more concentrated variance (high PC1) vs distributed?
+   - What drives differences? Genre conventions? Character archetypes?
 
-#+begin_src python :exports results
+3. *Effective dimensionality (participation ratio):*
+   - Does n_characters predict effective_dimensions?
+   - Are mythology universes inherently higher dimensional than modern franchises?
+
+4. *Cross-universe axis alignment:*
+   - Do different universes share the same PC1 (e.g., "power")?
+   - Or are universes in orthogonal subspaces?
+
+5. *Stability under resampling:*
+   - Bootstrap analysis of within-universe PCs
+   - Are the extreme characters on each PC stable?
+
+6. *Cross-universe PC alignment (verified findings):*
+   - Take PC1 from one universe, project another universe's characters onto it
+   - Modern franchises HIGHLY aligned (0.84-0.90): HP↔Naruto 0.90, Marvel↔SW 0.89, HP↔Marvel 0.88
+   - Mythology nearly ORTHOGONAL to modern: HP↔Norse 0.00, HP↔Chinese 0.02, Naruto↔Egyptian 0.02
+   - Mythology clusters separately: Chinese↔Hindu 0.37, Norse↔Egyptian 0.30
+   - Interpretation: Modern franchises share "hero's journey" structure; mythology uses different axes
+   - Cross-projection is semantically meaningful:
+     - HP PC1 → SW: Low=[Snoke, Palpatine, Vader] High=[Han Solo, BB-8, Rose Tico]
+     - LOTR PC1 → GoT: Low=[Melisandre, Night King] High=[Hot Pie, Bronn, Gendry]
+
+#+begin_src python
 def analyze_universe_full(universe_name, prefix, n_pcs=5):
     """PCA on full activations within a single universe."""
     indices = get_universe_indices(prefix)
@@ -399,7 +1436,6 @@ def analyze_universe_full(universe_name, prefix, n_pcs=5):
     u_activations = activation_matrix[indices]
     u_names = [char_names[i] for i in indices]
     
-    # Standardize and PCA
     scaler = StandardScaler()
     u_scaled = scaler.fit_transform(u_activations)
     u_pca = SkPCA(n_components=min(n_pcs, len(indices)-1))
@@ -413,39 +1449,202 @@ def analyze_universe_full(universe_name, prefix, n_pcs=5):
         sorted_idx = np.argsort(scores)
         var_pct = u_pca.explained_variance_ratio_[pc_idx] * 100
         
-        high = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[-3:][::-1]]
-        low = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[:3]]
+        high = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[-5:][::-1]]
+        low = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[:5]]
         
-        rows.append({
+        row = {
             'PC': pc_idx + 1,
             'Var%': f"{var_pct:.1f}%",
-            'High': ', '.join(high),
-            'Low': ', '.join(low),
-        })
+            'High': ', '.join(high[:3]),
+            'Low': ', '.join(low[:3]),
+        }
+        if USE_LLM_INTERPRETATION:
+            row['Axis'] = interpret_pc(universe_name, pc_idx + 1, var_pct, high, low)
+        rows.append(row)
     
     df = pd.DataFrame(rows)
-    print(df.to_string(index=False))
+    print(df)
     print()
 
 if 'activation_matrix' in dir():
-    analyze_universe_full("Shakespeare", "shakespeare__")
+    for universe, prefix in UNIVERSES.items():
+        analyze_universe_full(universe.replace('_', ' ').title(), prefix)
 #+end_src
 
-#+begin_src python :exports results
+#+RESULTS:
+:results:
+
+=== Harry Potter (Full Space, 102 characters) ===
+| idx | PC |  Var% | High                                                            | Low                                             | Axis                                 |
+|-----+----+-------+-----------------------------------------------------------------+-------------------------------------------------+--------------------------------------|
+|   0 |  1 | 23.9% | Lord Voldemort, Gellert Grindelwald, Professor Trelawney        | Ron Weasley, Fred Weasley, Charlie Weasley      | Neuroticism or emotional instability |
+|   1 |  2 | 15.0% | Albus Dumbledore, Padma Patil, Helena Ravenclaw                 | Vernon Dursley, Dudley Dursley, Petunia Dursley | Intelligence and wisdom              |
+|   2 |  3 |  8.4% | Dobby The House Elf, Xenophilius Lovegood, Nearly Headless Nick | Regulus Black, Tom Riddle, Kingsley Shacklebolt | Visibility versus shadow presence    |
+|   3 |  4 |  7.4% | Dolores Umbridge, Gilderoy Lockhart, Horace Slughorn            | Fenrir Greyback, Aragog, Kreacher               | Social conformity and status-seeking |
+|   4 |  5 |  4.6% | Dobby The House Elf, Kreacher, Dolores Umbridge                 | Peeves, Mundungus Fletcher, Alastor Moody       | Loyalty and servitude                |
+=== Star Wars (Full Space, 105 characters) ===
+| idx | PC |  Var% | High                                                            | Low                                                          | Axis                                            |
+|-----+----+-------+-----------------------------------------------------------------+--------------------------------------------------------------+-------------------------------------------------|
+|   0 |  1 | 24.1% | Darth Vader, Darth Vader Anakin Skywalker, The Grand Inquisitor | Han Solo, Hondo Ohnaka, Lando Calrissian                     | Force sensitivity versus non-Force users        |
+|   1 |  2 | 16.4% | Jabba The Hutt, General Grievous, Sebulba                       | Luke Skywalker, Rey, Ezra Bridger                            | Villains versus heroes                          |
+|   2 |  3 | 13.0% | Cassian Andor, Qira, Jyn Erso                                   | R2D2, Bb8, Jar Jar Binks                                     | Moral ambiguity versus innocence                |
+|   3 |  4 |  9.6% | Yoda, Grogu Baby Yoda, Darth Maul                               | Governor Tarkin, C3Po, Wilhuff Tarkin                        | Non-human versus human characters               |
+|   4 |  5 |  4.3% | Grand Admiral Thrawn, Yoda, Maz Kanata                          | Darth Vader Anakin Skywalker, Darth Vader, Kylo Ren Ben Solo | Strategic thinking versus emotional impulsivity |
+=== Marvel (Full Space, 108 characters) ===
+| idx | PC |  Var% | High                                                                                          | Low                                                                       | Axis                                  |
+|-----+----+-------+-----------------------------------------------------------------------------------------------+---------------------------------------------------------------------------+---------------------------------------|
+|   0 |  1 | 25.7% | Spiderman Peter Parker, Spiderman, Jessica Jones                                              | Galactus, Apocalypse En Sabah Nur, Odin                                   | Street-level versus cosmic power      |
+|   1 |  2 | 13.8% | Carnage Cletus Kasady, Green Goblin Norman Osborn, Sabretooth Victor Creed                    | Professor X Charles Xavier, Invisible Woman Sue Storm, Storm Ororo Munroe | Brutality versus compassion/restraint |
+|   2 |  3 |  7.3% | The Punisher Frank Castle, Killmonger Erik Stevens, Elektra Natchios                          | Groot, Deadpool Wade Wilson, Rocket Raccoon                               | Dark trauma versus humor/levity       |
+|   3 |  4 |  6.2% | Mister Sinister, Doctor Octopus Otto Octavius, The Fantastic Fours Mr Fantastic Reed Richards | Groot, Thor, Odin                                                         | Intelligence versus physical power    |
+|   4 |  5 |  4.8% | Iron Man, Iron Man Tony Stark, Black Panther Tchalla                                          | Groot, Sabretooth Victor Creed, Jean Grey                                 | Technology versus natural powers      |
+=== Game Of Thrones (Full Space, 99 characters) ===
+| idx | PC |  Var% | High                                                          | Low                                                        | Axis                                          |
+|-----+----+-------+---------------------------------------------------------------+------------------------------------------------------------+-----------------------------------------------|
+|   0 |  1 | 21.1% | Bronn, Gendry, Hot Pie                                        | Melisandre, Night King, High Sparrow                       | Mundane versus supernatural beings            |
+|   1 |  2 | 12.1% | Joffrey Baratheon, Mad King Aerys Targaryen, Ramsay Bolton    | Missandei, Samwell Tarly,  Game Of Thrones                 | Cruelty and sadism levels                     |
+|   2 |  3 | 10.8% | Hodor, Night King, Khal Drogo                                 | Petyr Baelish Littlefinger, Margaery Tyrell, Olenna Tyrell | Physical strength versus cunning manipulation |
+|   3 |  4 |  8.0% | Hodor, The Waif, Margaery Tyrell                              | Jeor Mormont,  Game Of Thrones, Stannis Baratheon          | Female or young characters                    |
+|   4 |  5 |  6.5% | Joffrey Baratheon, Mad King Aerys Targaryen, Tommen Baratheon | Jaqen Hghar, Jojen Reed, Threeeyed Raven                   | Emotional control and composure               |
+=== Lord Of The Rings (Full Space, 97 characters) ===
+| idx | PC |  Var% | High                                         | Low                                                | Axis                                |
+|-----+----+-------+----------------------------------------------+----------------------------------------------------+-------------------------------------|
+|   0 |  1 | 26.4% | Fredegar Bolger Fatty, Bombur, Bilbo Baggins | Galadriel, Gilgalad, Fingolfin                     | Physical rotundness or stoutness    |
+|   1 |  2 | 20.8% | Arwen, Elanor Gardner, Samwise Gamgee        | Azog The Defiler, Ungoliant, Mouth Of Sauron       | Good versus evil alignment          |
+|   2 |  3 |  8.0% | Dwalin, Eomer, Azog The Defiler              | Gollum Smeagol, Radagast, Tom Bombadil             | Physical combat prowess             |
+|   3 |  4 |  5.4% | Gollum Smeagol, Frodo Baggins, Isildur       | Treebeard, Tom Bombadil, Goldberry                 | Susceptibility to Ring's corruption |
+|   4 |  5 |  4.8% | Gollum Smeagol, Treebeard, Ugluk             | Lobelia Sackvillebaggins, Saruman, Sharkey Saruman | Nature over corrupting power        |
+=== Naruto (Full Space, 84 characters) ===
+| idx | PC |  Var% | High                                            | Low                                                 | Axis                                 |
+|-----+----+-------+-------------------------------------------------+-----------------------------------------------------+--------------------------------------|
+|   0 |  1 | 30.0% | Naruto Uzumaki, Choji Akimichi, Tenten          | Hamura Otsutsuki, Hagoromo Otsutsuki, Madara Uchiha | Screen time / narrative focus        |
+|   1 |  2 | 17.1% | Hidan, Tayuya, Deidara                          | Hinata Hyuga, Iruka Umino, Hiruzen Sarutobi         | Aggression and violent behavior      |
+|   2 |  3 |  6.6% | Might Guy, Rock Lee, Naruto Uzumaki             | Shino Aburame, Sasori, Shikamaru Nara               | Physical combat vs tactical fighters |
+|   3 |  4 |  5.4% | A Fourth Raikage, Danzo Shimura, Tobirama Senju | Hinata Hyuga, Zetsu, Kaguya Otsutsuki               | Political leadership and authority   |
+|   4 |  5 |  4.4% | Shino Aburame, Might Guy, Teuchi                | Obito Uchiha, Sasuke Uchiha, Madara Uchiha          | Uchiha clan membership               |
+=== Greek Mythology (Full Space, 107 characters) ===
+| idx | PC |  Var% | High                              | Low                               | Axis                                      |
+|-----+----+-------+-----------------------------------+-----------------------------------+-------------------------------------------|
+|   0 |  1 | 12.3% | Telemachus, Menelaus, Agamemnon   | Chaos, Erebus, Gaia               | Mortal heroes versus primordial deities   |
+|   1 |  2 |  9.8% | Minotaur, Typhon, Cerberus        | Demeter, Gaia, Hestia             | Monstrous threat versus benevolent nature |
+|   2 |  3 |  7.2% | Eurydice, Narcissus, Clytemnestra | Hercules Heracles, Zeus, Diomedes | Victim versus perpetrator role            |
+|   3 |  4 |  6.0% | Ariadne, Theseus, Daedalus        | Agamemnon, Creon, Nemesis         | Hope versus tragic fate                   |
+|   4 |  5 |  4.8% | Charybdis, Oceanus, Poseidon      | Prometheus, Themis, Sisyphus      | Water vs justice/punishment themes        |
+=== Chinese Mythology (Full Space, 78 characters) ===
+| idx | PC |  Var% | High                                         | Low                                                    | Axis                                 |
+|-----+----+-------+----------------------------------------------+--------------------------------------------------------+--------------------------------------|
+|   0 |  1 | 19.4% | Zhu Bajie, Zhang Fei, Sun Wukong Monkey King | Queen Mother Of The West, Jade Emperor, Yellow Emperor | Rebellious chaos versus divine order |
+|   1 |  2 | 11.1% | Cao Cao, Sima Yi, Guan Yu                    | Zhu Bajie, Sun Wukong Monkey King, Sun Wukong          | Historical versus mythical figures   |
+|   2 |  3 |  9.0% | Tang Sanzang, Xuanzang, Guanyin              | Daji, Bull Demon King, White Bone Demon                | Moral virtue and compassion          |
+|   3 |  4 |  6.5% | Weaver Girl, Meng Jiangnu, Zhu Yingtai       | Tang Sanzang, Xuanzang, Yellow Emperor                 | Gender (female vs male)              |
+|   4 |  5 |  5.2% | Daji, White Bone Demon, Xuanzang             | Hou Yi, Pangu, Lei Gong                                | Gender fluidity and ambiguity        |
+=== Hindu Mythology (Full Space, 72 characters) ===
+| idx | PC |  Var% | High                                 | Low                        | Axis                                |
+|-----+----+-------+--------------------------------------+----------------------------+-------------------------------------|
+|   0 |  1 | 18.1% | Shiva, Saraswati, Lakshmi            | Duryodhana, Karna, Bhima   | Divine versus mortal beings         |
+|   1 |  2 | 14.5% | Mahishasura, Shakuni, Hiranyakashipu | Rama, Lakshmana, Arjuna    | Villains versus heroes/protagonists |
+|   2 |  3 |  7.7% | Vyasa, Vasishtha, Vishwamitra        | Jatayu, Sugriva, Sita      | Authority versus servitude          |
+|   3 |  4 |  6.0% | Gandhari, Yamuna, Kunti              | Varaha, Narasimha, Hanuman | Feminine versus masculine forms     |
+|   4 |  5 |  5.4% | Radha, Prahlada, Hiranyakashipu      | Kurma, Garuda, Vayu        | Human vs divine nature              |
+=== Norse Mythology (Full Space, 48 characters) ===
+| idx | PC |  Var% | High                                        | Low                                   | Axis                                        |
+|-----+----+-------+---------------------------------------------+---------------------------------------+---------------------------------------------|
+|   0 |  1 | 19.2% | Verdandi, Urd, Forseti                      | Grendels Mother, Fenrir, Fafnir       | Order versus chaos                          |
+|   1 |  2 | 16.2% | Leif Erikson, Ragnar Lothbrok, Erik The Red | Jormungandr, Grendels Mother, Nidhogg | Human versus mythical beings                |
+|   2 |  3 |  7.3% | Njord, Leif Erikson, Aegir                  | Valkyrie, Tyr, Sif                    | Sea/maritime vs land associations           |
+|   3 |  4 |  6.9% | Grendels Mother, Brynhild, Gudrun           | Ratatoskr, Sleipnir, Jormungandr      | Humanoid versus beast/monster form          |
+|   4 |  5 |  5.0% | Ratatoskr, Fafnir, Andvari                  | Norns, Surtr, Urd                     | Individual agency versus cosmic determinism |
+=== Egyptian Mythology (Full Space, 44 characters) ===
+| idx | PC |  Var% | High                        | Low                                | Axis                                   |
+|-----+----+-------+-----------------------------+------------------------------------+----------------------------------------|
+|   0 |  1 | 16.1% | Apep, Set, Serqet           | Tutankhamun, Khufu, Ramesses Ii    | Divine versus mortal beings            |
+|   1 |  2 | 12.4% | Anubis, Atum, Osiris        | Cleopatra, Ramesses Ii, Hatshepsut | Divine versus mortal beings            |
+|   2 |  3 |  9.2% | Ammit, Anubis, Apep         | Hathor, Aten, Isis                 | Death, destruction, and danger         |
+|   3 |  4 |  8.1% | Akhenaten, Aten, Ra         | Seshat, Maat, Thoth                | Solar/cosmic vs scholarly/earthly      |
+|   4 |  5 |  6.0% | Akhenaten, Cleopatra, Ammit | Sobek, Taweret, Khnum              | Disruption versus protective stability |
+=== Shakespeare (Full Space, 114 characters) ===
+| idx | PC |  Var% | High                                | Low                                     | Axis                                   |
+|-----+----+-------+-------------------------------------+-----------------------------------------+----------------------------------------|
+|   0 |  1 | 15.3% | Othello, Desdemona, Cordelia        | Sir Toby Belch, Falstaff, Dogberry      | Tragic versus comic characters         |
+|   1 |  2 | 12.9% | Iago, Richard Iii, Lady Macbeth     | Titania, Juliet, Romeo                  | Villainous vs innocent characters      |
+|   2 |  3 |  9.0% | The Three Witches, Titania, Oberon  | Henry V, Sir Andrew Aguecheek, Dogberry | Supernatural versus mundane characters |
+|   3 |  4 |  6.7% | The Three Witches, Horatio, Hotspur | Desdemona, Beatrice, Benedick           | Supernatural vs purely human           |
+|   4 |  5 |  5.1% | Guildenstern, Rosencrantz, Jaques   | Juliet Capulet, Romeo Montague, Tybalt  | Supporting vs. lead characters         |
+:end:
+
+** Hierarchical Clustering
+
+Do characters cluster by universe? By narrative archetype?
+
+#+begin_src python 
+from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
+from scipy.spatial.distance import pdist
+
 if 'activation_matrix' in dir():
-    analyze_universe_full("Harry Potter", "harry_potter__")
+    # Use PCA-reduced space for clustering (top 50 PCs)
+    X = transformed[:, :50]
+    
+    # Hierarchical clustering
+    Z = linkage(X, method='ward')
+    
+    # Plot dendrogram (truncated for readability)
+    fig, ax = plt.subplots(figsize=(16, 8))
+    dendrogram(Z, truncate_mode='level', p=5, ax=ax, no_labels=True)
+    ax.set_title('Hierarchical Clustering of Fictional Characters (truncated)')
+    ax.set_xlabel('Characters')
+    ax.set_ylabel('Distance')
+    
+    plt.tight_layout()
+    plt.savefig('results/hierarchical_clustering.png', dpi=150, bbox_inches='tight')
+    plt.close()
+    print('[[file:results/hierarchical_clustering.png]]')
 #+end_src
 
-#+begin_src python :exports results
-if 'activation_matrix' in dir():
-    analyze_universe_full("Greek Mythology", "greek_mythology__")
+#+RESULTS:
+:results:
+[[file:results/hierarchical_clustering.png]]
+:end:
+
+#+begin_src python
+if 'Z' in dir():
+    # Cut tree into clusters and see composition
+    n_clusters = 10
+    cluster_labels = fcluster(Z, n_clusters, criterion='maxclust')
+    
+    print(f"Cluster composition (k={n_clusters}):\n")
+    for c in range(1, n_clusters + 1):
+        members = [char_names[i] for i in range(len(char_names)) if cluster_labels[i] == c]
+        
+        # Count universes in this cluster
+        universe_counts = {}
+        for m in members:
+            u = m.split('__')[0]
+            universe_counts[u] = universe_counts.get(u, 0) + 1
+        
+        top_universes = sorted(universe_counts.items(), key=lambda x: -x[1])[:3]
+        top_str = ', '.join([f"{u}: {c}" for u, c in top_universes])
+        
+        print(f"Cluster {c} ({len(members)} chars): {top_str}")
 #+end_src
 
-* Sanity Check: Similar Characters
+#+RESULTS:
+:results:
+Cluster composition (k=10):
+Cluster 1 (133 chars): harry_potter: 101, fairy_tale: 5, the_wizard_of_oz: 5
+Cluster 2 (107 chars): star_wars: 102, marvel: 2, 2001_a_space_odyssey: 1
+Cluster 3 (90 chars): marvel: 52, naruto: 32, death_note: 2
+Cluster 4 (183 chars): naruto: 52, marvel: 48, marvel_comics: 5
+Cluster 5 (68 chars): hindu_mythology: 66, hindu_buddhist_mythology: 2
+Cluster 6 (44 chars): egyptian_mythology: 44
+Cluster 7 (274 chars): greek_mythology: 107, chinese_mythology: 76, norse_mythology: 47
+Cluster 8 (174 chars): shakespeare: 93, a_midsummer_nights_dream: 4, les_misérables: 3
+Cluster 9 (98 chars): game_of_thrones: 92, a_song_of_ice_and_fire: 6
+Cluster 10 (97 chars): lord_of_the_rings: 96, the_lord_of_the_rings: 1
+:end:
 
-Basic check that the embedding space is sensible - similar characters should cluster.
+** Sanity Check: Similar Characters
 
-#+begin_src python :exports results
+#+begin_src python
 def find_similar(query_name, top_k=5):
     query_idx = None
     for i, name in enumerate(char_names):
@@ -471,42 +1670,52 @@ if 'pca' in dir():
         print(f"{c.replace('_', ' ').title()}: {find_similar(c)}")
 #+end_src
 
-* Visualizations
+#+RESULTS:
+:results:
+Harry Potter: Harry Potter  Norbert, Harry Potter  Theodore Nott, Harry Potter  Sirius Black, Harry Potter  Madam Rosmerta, Harry Potter  Remus Lupin
+Darth Vader: Star Wars  Darth Vader Anakin Skywalker, Star Wars  Supreme Leader Snoke, Star Wars  Darth Maul, Star Wars  The Grand Inquisitor, Star Wars  Fifth Brother
+Hamlet: Shakespeare  Claudius, Shakespeare  Guildenstern, Shakespeare  Rosencrantz, Shakespeare  Edmund, Shakespeare  Jaques
+Zeus: Greek Mythology  Hera, Greek Mythology  Hyperion, Greek Mythology  Apollo, Greek Mythology  Hermes, Greek Mythology  Rhea
+Naruto: Naruto  Onoki, Naruto  Fugaku Uchiha, Naruto  Chiriku, Naruto  Mei Terumi, Naruto  Tobirama Senju
+:end:
 
-** PC1 vs PC2 Scatter
+** Visualizations
 
-#+begin_src python :exports results :results file
-import matplotlib.pyplot as plt
+*** Variance Explained
 
+#+begin_src python 
 if 'pca' in dir():
-    fig, ax = plt.subplots(figsize=(14, 10))
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
     
-    scatter = ax.scatter(transformed[:, 0], transformed[:, 1], alpha=0.6, s=30)
+    ax1.bar(range(1, 21), pca.explained_variance_ratio_[:20] * 100)
+    ax1.set_xlabel('Principal Component')
+    ax1.set_ylabel('Variance Explained (%)')
+    ax1.set_title('Scree Plot')
     
-    distances = np.sqrt(transformed[:, 0]**2 + transformed[:, 1]**2)
-    outlier_idx = np.argsort(distances)[-25:]
-    
-    for idx in outlier_idx:
-        name = char_names[idx].replace('_', ' ').title()
-        ax.annotate(name, (transformed[idx, 0], transformed[idx, 1]), 
-                    fontsize=7, alpha=0.8)
-    
-    ax.set_xlabel(f'PC1 ({pca.explained_variance_ratio_[0]:.1%})')
-    ax.set_ylabel(f'PC2 ({pca.explained_variance_ratio_[1]:.1%})')
-    ax.set_title('Fictional Characters in PC1-PC2 Space')
-    ax.axhline(y=0, color='k', linestyle='-', alpha=0.2)
-    ax.axvline(x=0, color='k', linestyle='-', alpha=0.2)
-    ax.grid(True, alpha=0.3)
+    cumvar = np.cumsum(pca.explained_variance_ratio_) * 100
+    ax2.plot(range(1, min(51, len(cumvar)+1)), cumvar[:50], 'b-', linewidth=2)
+    ax2.axhline(y=50, color='r', linestyle='--', alpha=0.5, label='50%')
+    ax2.axhline(y=80, color='g', linestyle='--', alpha=0.5, label='80%')
+    ax2.set_xlabel('Number of Components')
+    ax2.set_ylabel('Cumulative Variance Explained (%)')
+    ax2.set_title('Cumulative Variance')
+    ax2.legend()
+    ax2.grid(True, alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig('results/pc1_pc2_scatter.png', dpi=150, bbox_inches='tight')
+    plt.savefig('results/variance_explained.png', dpi=150, bbox_inches='tight')
     plt.close()
-    print('[[file:results/pc1_pc2_scatter.png]]')
+    print('[[file:results/variance_explained.png]]')
 #+end_src
 
-** Universe-Colored Scatter
+#+RESULTS:
+:results:
+[[file:results/variance_explained.png]]
+:end:
 
-#+begin_src python :exports results :results file
+*** PC1 vs PC2 Scatter
+
+#+begin_src python 
 if 'pca' in dir():
     fig, ax = plt.subplots(figsize=(14, 10))
     
@@ -540,13 +1749,18 @@ if 'pca' in dir():
     print('[[file:results/universe_clusters.png]]')
 #+end_src
 
-** Residual Space Scatter
+#+RESULTS:
+:results:
+[[file:results/universe_clusters.png]]
+:end:
 
-#+begin_src python :exports results :results file
-if 'residuals' in dir():
+*** Characters in Lu's Role Space
+
+#+begin_src python 
+if 'chars_in_role_space' in dir():
     fig, ax = plt.subplots(figsize=(14, 10))
     
-    ax.scatter(residuals_transformed[:, 0], residuals_transformed[:, 1], alpha=0.2, s=15, c='gray')
+    ax.scatter(chars_in_role_space[:, 0], chars_in_role_space[:, 1], alpha=0.3, s=20, c='gray')
     
     colors = {
         'shakespeare__': ('Shakespeare', 'green'),
@@ -554,39 +1768,249 @@ if 'residuals' in dir():
         'harry_potter__': ('Harry Potter', 'blue'),
         'star_wars__': ('Star Wars', 'red'),
         'marvel__': ('Marvel', 'purple'),
-        'chinese_mythology__': ('Chinese', 'orange'),
-        'hindu_mythology__': ('Hindu', 'brown'),
     }
     
     for prefix, (label, color) in colors.items():
         indices = get_universe_indices(prefix)
         if indices:
-            ax.scatter(residuals_transformed[indices, 0], residuals_transformed[indices, 1], 
+            ax.scatter(chars_in_role_space[indices, 0], chars_in_role_space[indices, 1], 
                        s=40, c=color, label=label, alpha=0.7, edgecolors='black', linewidths=0.3)
     
-    ax.set_xlabel(f'Residual PC1 ({residual_pca.explained_variance_ratio_[0]:.1%})')
-    ax.set_ylabel(f'Residual PC2 ({residual_pca.explained_variance_ratio_[1]:.1%})')
-    ax.set_title('Characters in Residual Space (after projecting out role space)')
+    ax.set_xlabel('Lu Role PC1')
+    ax.set_ylabel('Lu Role PC2')
+    ax.set_title('Fictional Characters Projected onto Lu\'s Role Space')
     ax.legend(loc='upper right', fontsize=9)
     ax.grid(True, alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig('results/residual_clusters.png', dpi=150, bbox_inches='tight')
+    plt.savefig('results/chars_in_role_space.png', dpi=150, bbox_inches='tight')
     plt.close()
-    print('[[file:results/residual_clusters.png]]')
+    print('[[file:results/chars_in_role_space.png]]')
 #+end_src
 
-* Limitations
+#+RESULTS:
+:results:
+[[file:results/chars_in_role_space.png]]
+:end:
 
-- *Single model*: Only analyzed Qwen 3 32B layer 32
-- *Dataset-dependent*: PCs depend on which characters are included
-- *Post-hoc interpretation*: PC meanings are hypotheses, not verified facts
+** Cross-Universe PC Alignment
 
-* Full Pipeline
+Do different universes share the same principal axes? If Arthurian PC1 captures "nobility vs villainy", does sorting LOTR characters by that axis produce meaningful results?
 
-See [[file:README.org][README.org]] for complete reproduction instructions.
+#+begin_src python
+if 'activation_matrix' in dir():
+    from sklearn.preprocessing import StandardScaler
+    
+    # Fit PCA for each universe
+    universe_pcas = {}
+    
+    for universe, prefix in UNIVERSES.items():
+        indices = get_universe_indices(prefix)
+        if len(indices) < 5:
+            continue
+        
+        u_acts = activation_matrix[indices]
+        u_names = [char_names[i] for i in indices]
+        
+        scaler = StandardScaler()
+        scaled = scaler.fit_transform(u_acts)
+        
+        n_pcs = min(5, len(indices) - 1)
+        u_pca = SkPCA(n_components=n_pcs)
+        u_transformed = u_pca.fit_transform(scaled)
+        
+        universe_pcas[universe] = {
+            'pca': u_pca,
+            'scaler': scaler,
+            'names': u_names,
+            'prefix': prefix,
+            'indices': indices,
+        }
+    
+    print(f"Fitted PCA for {len(universe_pcas)} universes")
+#+end_src
 
-* References
+#+RESULTS:
+:results:
+Fitted PCA for 12 universes
+:end:
 
-- Lu, C., et al. (2026). [[https://arxiv.org/abs/2601.10387][The Assistant Axis]]. arXiv:2601.10387.
-- Code: [[https://github.com/safety-research/assistant-axis][safety-research/assistant-axis]]
+#+begin_src python
+def project_universe(source_universe, target_universe):
+    """Project target universe onto source universe's PC1 and show extremes."""
+    if source_universe not in universe_pcas or target_universe not in universe_pcas:
+        return
+    
+    source = universe_pcas[source_universe]
+    target = universe_pcas[target_universe]
+    
+    # Get target activations and project onto source PC1
+    target_acts = activation_matrix[target['indices']]
+    target_scaled = source['scaler'].transform(target_acts)
+    pc1_scores = target_scaled @ source['pca'].components_[0]
+    
+    sorted_idx = np.argsort(pc1_scores)
+    
+    def clean(name, prefix):
+        return name.replace(prefix, '').replace('_', ' ').title()
+    
+    low = [clean(target['names'][i], target['prefix']) for i in sorted_idx[:4]]
+    high = [clean(target['names'][i], target['prefix']) for i in sorted_idx[-4:][::-1]]
+    
+    # Also show source extremes for context
+    source_acts = activation_matrix[source['indices']]
+    source_scaled = source['scaler'].transform(source_acts)
+    source_pc1 = source_scaled @ source['pca'].components_[0]
+    source_sorted = np.argsort(source_pc1)
+    
+    src_low = [clean(source['names'][i], source['prefix']) for i in source_sorted[:3]]
+    src_high = [clean(source['names'][i], source['prefix']) for i in source_sorted[-3:][::-1]]
+    
+    print(f"{source_universe} PC1: [{', '.join(src_low)}] ... [{', '.join(src_high)}]")
+    print(f"  -> {target_universe}: Low=[{', '.join(low)}] High=[{', '.join(high)}]")
+    print()
+
+if 'universe_pcas' in dir():
+    comparisons = [
+        ('harry_potter', 'star_wars'),
+        ('star_wars', 'harry_potter'),
+        ('marvel', 'naruto'),
+        ('lord_of_the_rings', 'game_of_thrones'),
+        ('greek_mythology', 'norse_mythology'),
+    ]
+    for src, tgt in comparisons:
+        project_universe(src, tgt)
+#+end_src
+
+#+RESULTS:
+:results:
+Traceback (most recent call last):
+File "<analysis: org babel source block> ", line 38, in <module>
+File "<org babel source block>", line 44, in <module>
+File "<org babel source block>", line 19, in project_universe
+File "<org babel source block>", line 17, in clean
+TypeError: replace() argument 1 must be str, not list
+:end:
+
+#+begin_src python
+if 'universe_pcas' in dir():
+    # Compute PC1 alignment matrix
+    universes_list = list(universe_pcas.keys())
+    n = len(universes_list)
+    alignment = np.zeros((n, n))
+    
+    for i, u1 in enumerate(universes_list):
+        for j, u2 in enumerate(universes_list):
+            pc1_1 = universe_pcas[u1]['pca'].components_[0]
+            pc1_2 = universe_pcas[u2]['pca'].components_[0]
+            cos_sim = abs(np.dot(pc1_1, pc1_2) / (np.linalg.norm(pc1_1) * np.linalg.norm(pc1_2)))
+            alignment[i, j] = cos_sim
+    
+    # Show as dataframe
+    df = pd.DataFrame(alignment, index=universes_list, columns=universes_list)
+    df = df.round(2)
+    print("PC1 Cosine Similarity (higher = more aligned axes):\n")
+    print(df)
+#+end_src
+
+#+RESULTS:
+:results:
+PC1 Cosine Similarity (higher = more aligned axes):
+| idx                | harry_potter | star_wars | marvel | game_of_thrones | lord_of_the_rings | naruto | greek_mythology | chinese_mythology | hindu_mythology | norse_mythology | egyptian_mythology | shakespeare |
+|--------------------+--------------+-----------+--------+-----------------+-------------------+--------+-----------------+-------------------+-----------------+-----------------+--------------------+-------------|
+| harry_potter       |          1.0 |      0.77 |   0.86 |            0.81 |              0.68 |    0.9 |             0.2 |              0.56 |            0.12 |            0.04 |               0.05 |        0.35 |
+| star_wars          |         0.77 |       1.0 |   0.83 |            0.81 |               0.7 |   0.79 |            0.15 |              0.61 |            0.17 |            0.17 |               0.11 |        0.46 |
+| marvel             |         0.86 |      0.83 |    1.0 |            0.84 |              0.68 |   0.89 |             0.2 |              0.63 |            0.16 |            0.11 |               0.04 |        0.37 |
+| game_of_thrones    |         0.81 |      0.81 |   0.84 |             1.0 |              0.83 |   0.81 |            0.17 |              0.69 |             0.2 |            0.12 |               0.04 |        0.53 |
+| lord_of_the_rings  |         0.68 |       0.7 |   0.68 |            0.83 |               1.0 |    0.7 |            0.05 |              0.65 |            0.12 |            0.12 |                0.1 |        0.65 |
+| naruto             |          0.9 |      0.79 |   0.89 |            0.81 |               0.7 |    1.0 |            0.18 |              0.62 |            0.11 |            0.03 |                0.0 |         0.4 |
+| greek_mythology    |          0.2 |      0.15 |    0.2 |            0.17 |              0.05 |   0.18 |             1.0 |              0.26 |            0.65 |            0.17 |               0.36 |        0.22 |
+| chinese_mythology  |         0.56 |      0.61 |   0.63 |            0.69 |              0.65 |   0.62 |            0.26 |               1.0 |            0.48 |            0.43 |               0.12 |        0.49 |
+| hindu_mythology    |         0.12 |      0.17 |   0.16 |             0.2 |              0.12 |   0.11 |            0.65 |              0.48 |             1.0 |            0.43 |               0.05 |        0.05 |
+| norse_mythology    |         0.04 |      0.17 |   0.11 |            0.12 |              0.12 |   0.03 |            0.17 |              0.43 |            0.43 |             1.0 |               0.22 |        0.09 |
+| egyptian_mythology |         0.05 |      0.11 |   0.04 |            0.04 |               0.1 |    0.0 |            0.36 |              0.12 |            0.05 |            0.22 |                1.0 |        0.19 |
+| shakespeare        |         0.35 |      0.46 |   0.37 |            0.53 |              0.65 |    0.4 |            0.22 |              0.49 |            0.05 |            0.09 |               0.19 |         1.0 |
+:end:
+
+#+begin_src python
+if 'alignment' in dir():
+    # Find most/least aligned pairs
+    pairs = []
+    for i in range(n):
+        for j in range(i+1, n):
+            pairs.append((universes_list[i], universes_list[j], alignment[i,j]))
+    
+    pairs.sort(key=lambda x: -x[2])
+    
+    print("Most aligned PC1 pairs:")
+    for u1, u2, sim in pairs[:5]:
+        print(f"  {u1} <-> {u2}: {sim:.3f}")
+    
+    print("\nLeast aligned PC1 pairs:")
+    for u1, u2, sim in pairs[-5:]:
+        print(f"  {u1} <-> {u2}: {sim:.3f}")
+#+end_src
+
+#+RESULTS:
+:results:
+Most aligned PC1 pairs:
+harry_potter <-> naruto: 0.897
+marvel <-> naruto: 0.885
+harry_potter <-> marvel: 0.862
+marvel <-> game_of_thrones: 0.836
+game_of_thrones <-> lord_of_the_rings: 0.828
+Least aligned PC1 pairs:
+game_of_thrones <-> egyptian_mythology: 0.043
+marvel <-> egyptian_mythology: 0.042
+harry_potter <-> norse_mythology: 0.041
+naruto <-> norse_mythology: 0.033
+naruto <-> egyptian_mythology: 0.001
+:end:
+
+*** Residual Space Scatter
+
+#+begin_src python 
+if 'residuals_role_transformed' in dir():
+    fig, ax = plt.subplots(figsize=(14, 10))
+    
+    ax.scatter(residuals_role_transformed[:, 0], residuals_role_transformed[:, 1], alpha=0.2, s=15, c='gray')
+    
+    # Use UNIVERSES dict for coloring
+    universe_colors = {
+        'harry_potter': ('Harry Potter', 'blue'),
+        'star_wars': ('Star Wars', 'red'),
+        'marvel': ('Marvel', 'purple'),
+        'game_of_thrones': ('Game of Thrones', 'darkgray'),
+        'lord_of_the_rings': ('LOTR', 'brown'),
+        'naruto': ('Naruto', 'orange'),
+        'greek_mythology': ('Greek Myth', 'gold'),
+        'chinese_mythology': ('Chinese Myth', 'crimson'),
+        'hindu_mythology': ('Hindu Myth', 'teal'),
+        'norse_mythology': ('Norse Myth', 'steelblue'),
+        'egyptian_mythology': ('Egyptian Myth', 'sandybrown'),
+        'shakespeare': ('Shakespeare', 'green'),
+    }
+    
+    for universe_key, (label, color) in universe_colors.items():
+        prefixes = UNIVERSES.get(universe_key, [])
+        indices = get_universe_indices(prefixes)
+        if indices:
+            ax.scatter(residuals_role_transformed[indices, 0], residuals_role_transformed[indices, 1], 
+                       s=40, c=color, label=f'{label} ({len(indices)})', alpha=0.7, edgecolors='black', linewidths=0.3)
+    
+    ax.set_xlabel(f'Residual PC1 ({residual_pca_role.explained_variance_ratio_[0]:.1%})')
+    ax.set_ylabel(f'Residual PC2 ({residual_pca_role.explained_variance_ratio_[1]:.1%})')
+    ax.set_title('Residual Space (after projecting out Lu\'s role space)')
+    ax.legend(loc='upper right', fontsize=9)
+    ax.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.savefig('results/residual_role_clusters.png', dpi=150, bbox_inches='tight')
+    plt.close()
+    print('[[file:results/residual_role_clusters.png]]')
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:results/residual_role_clusters.png]]
+:end:
