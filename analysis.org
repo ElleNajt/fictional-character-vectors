@@ -250,32 +250,80 @@ import anthropic
 USE_LLM_INTERPRETATION = True  # Set False to skip API calls
 
 def interpret_pc(universe_name: str, pc_num: int, var_pct: float, 
-                 high_chars: list[str], low_chars: list[str]) -> str:
-    """Ask Claude to interpret what a PC represents based on extreme characters."""
+                 high_chars: list[tuple[str, float]], low_chars: list[tuple[str, float]],
+                 within_universe: bool = True) -> str:
+    """Ask Claude to interpret what a PC represents based on extreme characters with scores."""
     if not USE_LLM_INTERPRETATION:
         return ""
+    import json
     client = anthropic.Anthropic()
     
-    prompt = f"""PC analysis for {universe_name}:
-HIGH: {', '.join(high_chars[:5])}
-LOW: {', '.join(low_chars[:5])}
+    # Format as "Name (score)" for more context
+    high_str = ', '.join([f"{name} ({score:+.1f})" for name, score in high_chars[:10]])
+    low_str = ', '.join([f"{name} ({score:+.1f})" for name, score in low_chars[:10]])
+    
+    if within_universe:
+        prompt = f"""These are {universe_name} characters separated by PC{pc_num} ({var_pct:.1f}% variance):
 
-What dimension separates these? Reply with ONLY 3-5 words. """
+HIGH: {high_str}
+LOW: {low_str}
+
+What do the HIGH characters have in common that the LOW characters don't?
+
+Return JSON: {{"axis": "2-5 word label", "explanation": "one sentence why"}}"""
+    else:
+        prompt = f"""These fictional characters are separated by PC{pc_num} ({var_pct:.1f}% variance):
+
+HIGH: {high_str}
+LOW: {low_str}
+
+What pattern separates them?
+
+Return JSON: {{"axis": "2-5 word label", "explanation": "one sentence why"}}"""
 
     response = client.messages.create(
         model="claude-opus-4-20250514",
-        max_tokens=30,
+        max_tokens=150,
         messages=[{"role": "user", "content": prompt}]
     )
-    return response.content[0].text.strip()
+    text = response.content[0].text.strip()
+    
+    # Try to find JSON anywhere in the response
+    import re
+    json_match = re.search(r'\{[^{}]*"axis"[^{}]*\}', text)
+    if json_match:
+        try:
+            data = json.loads(json_match.group())
+            return data.get('axis', text[:50])
+        except json.JSONDecodeError:
+            pass
+    
+    # Try to parse the whole thing as JSON
+    try:
+        data = json.loads(text)
+        return data.get('axis', text[:50])
+    except json.JSONDecodeError:
+        pass
+    
+    # If it's not valid JSON, try to extract from markdown code block
+    if '```' in text:
+        code_block = text.split('```')[1]
+        if code_block.startswith('json'):
+            code_block = code_block[4:]
+        try:
+            data = json.loads(code_block.strip())
+            return data.get('axis', text[:50])
+        except:
+            pass
+    
+    # Last resort: return first 50 chars
+    return text[:50] if len(text) > 50 else text
 #+end_src
 
 #+RESULTS:
 :results:
-Deduplicated: 1346 -> 1268 characters
-Loaded 1268 character vectors from outputs/qwen3-32b_20260211_002840/vectors
-PCA complete: PC1=19.4%, PC2=8.7%
-Saved to results/fictional_character_analysis_filtered.pkl
+Loaded 1268 characters from fictional_character_analysis_filtered.pkl
+PCs: 100
 Loaded 275 role vectors from Lu et al.
 Universe coverage:
 harry_potter: 102
@@ -732,7 +780,7 @@ So mainly the residuals are which universe the characters came from.
 After projecting to Lu's role space, what structure remains within each universe? This tests whether "universe-specific" dimensions exist beyond generic role variation.
 
 #+begin_src python
-def analyze_universe_residuals_role(universe_name, prefix, n_pcs=5):
+def analyze_universe_residuals_role(universe_name, prefix, n_pcs=5, n_extreme=8):
     """PCA on residuals (after role projection) within a single universe."""
     indices = get_universe_indices(prefix)
     if len(indices) < 10:
@@ -753,18 +801,25 @@ def analyze_universe_residuals_role(universe_name, prefix, n_pcs=5):
         sorted_idx = np.argsort(scores)
         var_pct = u_pca.explained_variance_ratio_[pc_idx] * 100
         
-        high = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[-5:][::-1]]
-        low = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[:5]]
+        # Get names with scores for LLM
+        high_with_scores = [(u_names[i].split('__')[-1].replace('_', ' ').title(), scores[i]) 
+                           for i in sorted_idx[-n_extreme:][::-1]]
+        low_with_scores = [(u_names[i].split('__')[-1].replace('_', ' ').title(), scores[i]) 
+                          for i in sorted_idx[:n_extreme]]
+        
+        # Display names only in table (truncate for readability)
+        high_display = ', '.join([name for name, _ in high_with_scores[:5]])
+        low_display = ', '.join([name for name, _ in low_with_scores[:5]])
         
         row = {
             'PC': pc_idx + 1,
             'Var%': f"{var_pct:.1f}%",
-            'High': ', '.join(high),
-            'Low': ', '.join(low),
+            'High': high_display,
+            'Low': low_display,
         }
         
         if USE_LLM_INTERPRETATION:
-            row['Axis'] = interpret_pc(universe_name, pc_idx + 1, var_pct, high, low)
+            row['Axis'] = interpret_pc(universe_name, pc_idx + 1, var_pct, high_with_scores, low_with_scores, within_universe=True)
         
         rows.append(row)
     
@@ -779,105 +834,104 @@ if 'residuals_role' in dir():
 
 #+RESULTS:
 :results:
-
-
-
 === Harry Potter (102 characters) ===
-| idx | PC |  Var% | High                                                                                  | Low                                                                                    | Axis                               |
-|-----+----+-------+---------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+------------------------------------|
-|   0 |  1 | 12.1% | Tom Riddle, Nagini, The Bloody Baron, Professor Trelawney, Igor Karkaroff             | Ron Weasley, Charlie Weasley, Fred Weasley, George Weasley, Percy Weasley              | Dark versus light alignment        |
-|   1 |  2 |  9.8% | Ollivander, The Sorting Hat, Professor Flitwick, Albus Dumbledore, Minerva Mcgonagall | Vernon Dursley, Petunia Dursley, Dudley Dursley, Crabbe, Kreacher                      | Magic ability/knowledge            |
-|   2 |  3 |  8.4% | Argus Filch, Dobby The House Elf, Rubeus Hagrid, Xenophilius Lovegood, Moaning Myrtle | Bellatrix Lestrange, Regulus Black, Lord Voldemort, Kingsley Shacklebolt, Sirius Black | Social status or hierarchy         |
-|   3 |  4 |  7.1% | Crookshanks, Scabbers, Fenrir Greyback, Aragog, Hedwig                                | Dolores Umbridge, Cornelius Fudge, Gilderoy Lockhart, Barty Crouch Sr, Horace Slughorn | Non-human versus human characters  |
-|   4 |  5 |  6.1% | Petunia Dursley, Dudley Dursley, Cormac Mclaggen, Madame Pomfrey, Vernon Dursley      | Dobby The House Elf, Kreacher, Winky, Bellatrix Lestrange, Lord Voldemort              | Social conformity versus rebellion |
+| idx | PC |  Var% | High                                                                                  | Low                                                                                    | Axis                                               |
+|-----+----+-------+---------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------|
+|   0 |  1 | 12.1% | Tom Riddle, Nagini, The Bloody Baron, Professor Trelawney, Igor Karkaroff             | Ron Weasley, Charlie Weasley, Fred Weasley, George Weasley, Percy Weasley              | Dark or mystical nature                            |
+|   1 |  2 |  9.8% | Ollivander, The Sorting Hat, Professor Flitwick, Albus Dumbledore, Minerva Mcgonagall | Vernon Dursley, Petunia Dursley, Dudley Dursley, Crabbe, Kreacher                      | Magical wisdom/competence                          |
+|   2 |  3 |  8.4% | Argus Filch, Dobby The House Elf, Rubeus Hagrid, Xenophilius Lovegood, Moaning Myrtle | Bellatrix Lestrange, Regulus Black, Lord Voldemort, Kingsley Shacklebolt, Sirius Black | Social outsider vs elite                           |
+|   3 |  4 |  7.1% | Crookshanks, Scabbers, Fenrir Greyback, Aragog, Hedwig                                | Dolores Umbridge, Cornelius Fudge, Gilderoy Lockhart, Barty Crouch Sr, Horace Slughorn | Looking at the HIGH group, I notice these are pred |
+|   4 |  5 |  6.1% | Petunia Dursley, Dudley Dursley, Cormac Mclaggen, Madame Pomfrey, Vernon Dursley      | Dobby The House Elf, Kreacher, Winky, Bellatrix Lestrange, Lord Voldemort              | Normal society membership                          |
 === Star Wars (105 characters) ===
-| idx | PC |  Var% | High                                                                                        | Low                                                              | Axis                                         |
-|-----+----+-------+---------------------------------------------------------------------------------------------+------------------------------------------------------------------+----------------------------------------------|
-|   0 |  1 | 25.9% | Darth Vader Anakin Skywalker, Obiwan Kenobi, Mace Windu, Darth Vader, Yoda                  | Han Solo, Hondo Ohnaka, Lando Calrissian, Bossk, Greef Karga     | Lawfulness versus roguishness                |
-|   1 |  2 | 14.1% | Grand Admiral Thrawn, Bokatan Kryze, Wilhuff Tarkin, Asajj Ventress, General Hux            | R2D2, Bb8, Chewbacca, C3Po, Jar Jar Binks                        | Leadership versus support roles              |
-|   2 |  3 |  8.9% | General Grievous, Darth Vader, Nute Gunray, Darth Vader Anakin Skywalker, Governor Tarkin   | Ezra Bridger, Rey, Cal Kestis, Chirrut Imwe, Ahsoka Tano         | Authority/Power within established hierarchy |
-|   3 |  4 |  6.7% | Princess Leia Organa, Princess Leia, Governor Tarkin, C3Po, Admiral Ackbar                  | Jabba The Hutt, Sebulba, Grogu Baby Yoda, Darth Maul, Jango Fett | Verbal communication ability                 |
-|   4 |  5 |  4.4% | Darth Vader, Darth Vader Anakin Skywalker, Kylo Ren Ben Solo, Luke Skywalker, Princess Leia | Ig88, 4Lom, Grand Admiral Thrawn, Kiadimundi, Bd1                | Emotional complexity and redemption          |
+| idx | PC |  Var% | High                                                                                        | Low                                                              | Axis                                               |
+|-----+----+-------+---------------------------------------------------------------------------------------------+------------------------------------------------------------------+----------------------------------------------------|
+|   0 |  1 | 25.9% | Darth Vader Anakin Skywalker, Obiwan Kenobi, Mace Windu, Darth Vader, Yoda                  | Han Solo, Hondo Ohnaka, Lando Calrissian, Bossk, Greef Karga     | Force users vs Non-Force                           |
+|   1 |  2 | 14.1% | Grand Admiral Thrawn, Bokatan Kryze, Wilhuff Tarkin, Asajj Ventress, General Hux            | R2D2, Bb8, Chewbacca, C3Po, Jar Jar Binks                        | Looking at these character groupings, I can see a  |
+|   2 |  3 |  8.9% | General Grievous, Darth Vader, Nute Gunray, Darth Vader Anakin Skywalker, Governor Tarkin   | Ezra Bridger, Rey, Cal Kestis, Chirrut Imwe, Ahsoka Tano         | Villain vs Hero                                    |
+|   3 |  4 |  6.7% | Princess Leia Organa, Princess Leia, Governor Tarkin, C3Po, Admiral Ackbar                  | Jabba The Hutt, Sebulba, Grogu Baby Yoda, Darth Maul, Jango Fett | Looking at the HIGH and LOW groups, I notice a cle |
+|   4 |  5 |  4.4% | Darth Vader, Darth Vader Anakin Skywalker, Kylo Ren Ben Solo, Luke Skywalker, Princess Leia | Ig88, 4Lom, Grand Admiral Thrawn, Kiadimundi, Bd1                | Skywalker saga protagonists                        |
 === Marvel (108 characters) ===
-| idx | PC |  Var% | High                                                                                                                                | Low                                                                                            | Axis                                 |
-|-----+----+-------+-------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------+--------------------------------------|
-|   0 |  1 | 13.1% | Cyclops Scott Summers, Iceman Bobby Drake, Beast Hank Mccoy, Spiderman, Professor X Charles Xavier                                  | Odin, Hela, Heimdall, Thanos, Groot                                                            | Earth-based versus cosmic characters |
-|   1 |  2 | 10.7% | Professor X Charles Xavier, Magneto Erik Lehnsherr, Mister Sinister, Jean Grey, Dark Phoenix                                        | Iron Man Tony Stark, Iron Man, Spiderman Peter Parker, Antman Scott Lang, Spiderman            | Mutant vs non-mutant powers          |
-|   2 |  3 |  7.1% | Black Panther, Black Panther Tchalla, Spiderman, Spiderman Peter Parker, Mbaku                                                      | Sabretooth Victor Creed, Wolverine Logan, Wolverine, Carnage Cletus Kasady, Gambit Remy Lebeau | Hero vs. villain alignment           |
-|   3 |  4 |  6.1% | Groot, Silver Surfer Norrin Radd, Galactus, Spiderman, Spiderman Peter Parker                                                       | Okoye, Black Panther Tchalla, Shuri, Black Panther, Black Widow Natasha Romanoff               | Cosmic vs Earth-based powers         |
-|   4 |  5 |  5.9% | Green Goblin Norman Osborn, Kingpin Wilson Fisk, Doctor Octopus Otto Octavius, Doctor Doom Victor Von Doom, Killmonger Erik Stevens | Groot, Starlord Peter Quill, Rocket Raccoon, Gamora, Nebula                                    | Formal names versus nicknames        |
+| idx | PC |  Var% | High                                                                                                                                | Low                                                                                         | Axis                 |
+|-----+----+-------+-------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------+----------------------|
+|   0 |  1 | 13.1% | Cyclops Scott Summers, Iceman Bobby Drake, Beast Hank Mccoy,  Peter Parker, Professor X Charles Xavier                              | Odin, Hela, Heimdall, Thanos, Groot                                                         | Human Earth Heroes   |
+|   1 |  2 | 10.7% | Professor X Charles Xavier, Magneto Erik Lehnsherr, Mister Sinister, Jean Grey, Dark Phoenix                                        | Iron Man Tony Stark,  Tony Stark, Spiderman Peter Parker, Antman Scott Lang,  Peter Parker  | Mutant vs Non-Mutant |
+|   2 |  3 |  7.1% | Tchalla, Black Panther Tchalla,  Peter Parker, Spiderman Peter Parker, Mbaku                                                        | Sabretooth Victor Creed, Wolverine Logan,  Logan, Carnage Cletus Kasady, Gambit Remy Lebeau | Hero vs Antihero     |
+|   3 |  4 |  6.1% | Groot, Silver Surfer Norrin Radd, Galactus,  Peter Parker, Spiderman Peter Parker                                                   | Okoye, Black Panther Tchalla, Shuri,  Tchalla, Black Widow Natasha Romanoff                 | Alien/Cosmic Origins |
+|   4 |  5 |  5.9% | Green Goblin Norman Osborn, Kingpin Wilson Fisk, Doctor Octopus Otto Octavius, Doctor Doom Victor Von Doom, Killmonger Erik Stevens | Groot, Starlord Peter Quill, Rocket Raccoon, Gamora, Nebula                                 | Earth-based villains |
 === Game Of Thrones (99 characters) ===
-| idx | PC |  Var% | High                                                                            | Low                                                                                                          | Axis                            |
-|-----+----+-------+---------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------+---------------------------------|
-|   0 |  1 | 13.6% | Mad King Aerys Targaryen, Viserys Targaryen, Viserion,  Game Of Thrones, Drogon | Tormund Giantsbane, Sandor Clegane The Hound, Gendry, Hot Pie, Podrick Payne                                 | Dragons and Targaryen royalty   |
-|   1 |  2 |  9.4% | Night King,  Game Of Thrones, Hodor, Bran Stark, Rickon Stark                   | Olenna Tyrell, Petyr Baelish Littlefinger, Margaery Tyrell, Ellaria Sand, Kraznys Mo Nakloz                  | Speaking ability or vocabulary  |
-|   2 |  3 |  9.1% | Game Of Thrones, Robb Stark, Edmure Tully, Catelyn Stark, Stannis Baratheon     | Hodor, The Waif, Viserion, Melisandre, Threeeyed Raven                                                       | Authority and political power   |
-|   3 |  4 |  8.2% | Hodor, Sansa Stark, Bran Stark, Missandei, Threeeyed Raven                      | Gregor Clegane The Mountain, Sandor Clegane The Hound, Joffrey Baratheon, Mad King Aerys Targaryen, Viserion | Innocence versus corrupted evil |
-|   4 |  5 |  6.2% | Melisandre, Thoros Of Myr, Mance Rayder, Night King, Beric Dondarrion           | Hodor, Joffrey Baratheon, Tommen Baratheon, Myrcella Baratheon, Mad King Aerys Targaryen                     | Magic/supernatural power level  |
+| idx | PC |  Var% | High                                                                              | Low                                                                                                          | Axis                                               |
+|-----+----+-------+-----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------+----------------------------------------------------|
+|   0 |  1 | 13.6% | Mad King Aerys Targaryen, Viserys Targaryen, Viserion, Daenerys Targaryen, Drogon | Tormund Giantsbane, Sandor Clegane The Hound, Gendry, Hot Pie, Podrick Payne                                 | Magical/Royal Bloodlines                           |
+|   1 |  2 |  9.4% | Night King, Jon Snow, Hodor, Bran Stark, Rickon Stark                             | Olenna Tyrell, Petyr Baelish Littlefinger, Margaery Tyrell, Ellaria Sand, Kraznys Mo Nakloz                  | Simple vs Scheming                                 |
+|   2 |  3 |  9.1% | Ned Stark, Robb Stark, Edmure Tully, Catelyn Stark, Stannis Baratheon             | Hodor, The Waif, Viserion, Melisandre, Threeeyed Raven                                                       | Traditional vs Mystical                            |
+|   3 |  4 |  8.2% | Hodor, Sansa Stark, Bran Stark, Missandei, Threeeyed Raven                        | Gregor Clegane The Mountain, Sandor Clegane The Hound, Joffrey Baratheon, Mad King Aerys Targaryen, Viserion | Gentle protective nurturing                        |
+|   4 |  5 |  6.2% | Melisandre, Thoros Of Myr, Mance Rayder, Night King, Beric Dondarrion             | Hodor, Joffrey Baratheon, Tommen Baratheon, Myrcella Baratheon, Mad King Aerys Targaryen                     | Looking at these characters, I notice a clear patt |
 === Lord Of The Rings (97 characters) ===
-| idx | PC |  Var% | High                                                                                          | Low                                                                             | Axis                                 |
-|-----+----+-------+-----------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------+--------------------------------------|
-|   0 |  1 | 23.1% | Gilgalad, Fingolfin, Elendil, Feanor, Galadriel                                               | Fredegar Bolger Fatty, Bilbo Baggins, Bombur, Bofur, Gollum Smeagol             | Physical power and combat prowess    |
-|   1 |  2 | 13.1% | Bilbo Baggins, Merry Meriadoc Brandybuck, Frodo Baggins, Samwise Gamgee, Pippin Peregrin Took | Azog The Defiler, The Witchking Of Angmar, Ungoliant, Grishnakh, Morgoth Melkor | Moral goodness versus evil           |
-|   2 |  3 |  8.6% | Gollum Smeagol, Frodo Baggins, Sauron, Mouth Of Sauron, Isildur                               | Dwalin, Bofur, Gloin, Durin, Gimli                                              | Corruption by evil power             |
-|   3 |  4 |  6.8% | Farmer Maggot, Lobelia Sackvillebaggins, Bill The Pony, Shadowfax, Grima Wormtongue           | Durin, Gollum Smeagol, Thorin Oakenshield, Balin, Balrog Of Moria               | Minor versus major characters        |
-|   4 |  5 |  4.4% | Tom Bombadil, Ungoliant, Treebeard, Lobelia Sackvillebaggins, Feanor                          | Theoden, Boromir, Eomer, Denethor, Frodo Baggins                                | Independence from external influence |
+| idx | PC |  Var% | High                                                                                          | Low                                                                             | Axis                                               |
+|-----+----+-------+-----------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------+----------------------------------------------------|
+|   0 |  1 | 23.1% | Gilgalad, Fingolfin, Elendil, Feanor, Galadriel                                               | Fredegar Bolger Fatty, Bilbo Baggins, Bombur, Bofur, Gollum Smeagol             | Legendary Noble Status                             |
+|   1 |  2 | 13.1% | Bilbo Baggins, Merry Meriadoc Brandybuck, Frodo Baggins, Samwise Gamgee, Pippin Peregrin Took | Azog The Defiler, The Witchking Of Angmar, Ungoliant, Grishnakh, Morgoth Melkor | Heroic Fellowship Members                          |
+|   2 |  3 |  8.6% | Gollum Smeagol, Frodo Baggins, Sauron, Mouth Of Sauron, Isildur                               | Dwalin, Bofur, Gloin, Durin, Gimli                                              | Ring corruption influence                          |
+|   3 |  4 |  6.8% | Farmer Maggot, Lobelia Sackvillebaggins, Bill The Pony, Shadowfax, Grima Wormtongue           | Durin, Gollum Smeagol, Thorin Oakenshield, Balin, Balrog Of Moria               | Looking at these characters, I notice the HIGH gro |
+|   4 |  5 |  4.4% | Tom Bombadil, Ungoliant, Treebeard, Lobelia Sackvillebaggins, Feanor                          | Theoden, Boromir, Eomer, Denethor, Frodo Baggins                                | Looking at these characters, I notice the HIGH gro |
 === Naruto (84 characters) ===
-| idx | PC |  Var% | High                                                                                | Low                                                                                        | Axis                                           |
-|-----+----+-------+-------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+------------------------------------------------|
-|   0 |  1 | 19.7% | Naruto Uzumaki, Rock Lee, Konohamaru Sarutobi, Mito Uzumaki, Anko Mitarashi         | Madara Uchiha, Toneri Otsutsuki, Kinshiki Otsutsuki, Ashura Otsutsuki, Momoshiki Otsutsuki | Perseverance through natural disadvantage      |
-|   1 |  2 | 13.3% | Hidan, Tayuya, Deidara, Suigetsu Hozuki, Sakon And Ukon                             | Rock Lee, Might Guy, Tobirama Senju, Minato Namikaze, Hiruzen Sarutobi                     | Self-control and discipline                    |
-|   2 |  3 |  7.3% | Shino Aburame, Hiashi Hyuga, Hinata Hyuga, Shizune, Konan                           | Might Guy, Momoshiki Otsutsuki, Rock Lee, Naruto Uzumaki, Kinshiki Otsutsuki               | Reserved versus expressive personality         |
-|   3 |  4 |  5.6% | Hiruzen Sarutobi, A Fourth Raikage, Tobirama Senju, Minato Namikaze, Asuma Sarutobi | Rock Lee, Might Guy, Hinata Hyuga, Shino Aburame, Hanabi Hyuga                             | Ninjutsu vs Taijutsu specialization            |
-|   4 |  5 |  4.4% | Hinata Hyuga, Gaara, Kushina Uzumaki, Karin Uzumaki, Kurama Ninetails               | Might Guy, Rock Lee, Orochimaru, Danzo Shimura, Hiruzen Sarutobi                           | Emotional bonds vs. professional relationships |
+| idx | PC |  Var% | High                                                                                | Low                                                                                        | Axis                                               |
+|-----+----+-------+-------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+----------------------------------------------------|
+|   0 |  1 | 19.7% | Naruto Uzumaki, Rock Lee, Konohamaru Sarutobi, Mito Uzumaki, Anko Mitarashi         | Madara Uchiha, Toneri Otsutsuki, Kinshiki Otsutsuki, Ashura Otsutsuki, Momoshiki Otsutsuki | Looking at these characters, I notice a clear patt |
+|   1 |  2 | 13.3% | Hidan, Tayuya, Deidara, Suigetsu Hozuki, Sakon And Ukon                             | Rock Lee, Might Guy, Tobirama Senju, Minato Namikaze, Hiruzen Sarutobi                     | Sadistic Villainy                                  |
+|   2 |  3 |  7.3% | Shino Aburame, Hiashi Hyuga, Hinata Hyuga, Shizune, Konan                           | Might Guy, Momoshiki Otsutsuki, Rock Lee, Naruto Uzumaki, Kinshiki Otsutsuki               | Looking at these character groupings, I notice a c |
+|   3 |  4 |  5.6% | Hiruzen Sarutobi, A Fourth Raikage, Tobirama Senju, Minato Namikaze, Asuma Sarutobi | Rock Lee, Might Guy, Hinata Hyuga, Shino Aburame, Hanabi Hyuga                             | Leadership and Authority                           |
+|   4 |  5 |  4.4% | Hinata Hyuga, Gaara, Kushina Uzumaki, Karin Uzumaki, Kurama Ninetails               | Might Guy, Rock Lee, Orochimaru, Danzo Shimura, Hiruzen Sarutobi                           | Looking at these character groupings, I notice a s |
 === Greek Mythology (107 characters) ===
-| idx | PC |  Var% | High                                                 | Low                                               | Axis                         |
-|-----+----+-------+------------------------------------------------------+---------------------------------------------------+------------------------------|
-|   0 |  1 | 13.6% | Agamemnon, Menelaus, Telemachus, Priam, Clytemnestra | Uranus, Chaos, Erebus, Nyx, Gaia                  | Human vs primordial deities  |
-|   1 |  2 |  7.4% | Diomedes, Patroclus, Agamemnon, Priam, Andromache    | Minotaur, Ariadne, Daedalus, Theseus, Icarus      | Trojan War vs Crete          |
-|   2 |  3 |  5.7% | Siren, Galatea, Pygmalion, Narcissus, Thanatos       | Hercules Heracles, Zeus, Perseus, Uranus, Iapetus | Passive versus active agency |
-|   3 |  4 |  4.8% | Prometheus, Oedipus, Creon, Icarus, Sisyphus         | Theseus, Minotaur, Ariadne, Penelope, Polyphemus  | Defiance versus compliance   |
-|   4 |  5 |  4.2% | Charybdis, Chimera, Polyphemus, Patroclus, Hydra     | Oedipus, Demeter, Persephone, Dionysus, Apollo    | Monster versus human/god     |
+| idx | PC |  Var% | High                                                 | Low                                               | Axis                                               |
+|-----+----+-------+------------------------------------------------------+---------------------------------------------------+----------------------------------------------------|
+|   0 |  1 | 13.6% | Agamemnon, Menelaus, Telemachus, Priam, Clytemnestra | Uranus, Chaos, Erebus, Nyx, Gaia                  | Mortal vs Primordial/Divine                        |
+|   1 |  2 |  7.4% | Diomedes, Patroclus, Agamemnon, Priam, Andromache    | Minotaur, Ariadne, Daedalus, Theseus, Icarus      | Trojan War participants                            |
+|   2 |  3 |  5.7% | Siren, Galatea, Pygmalion, Narcissus, Thanatos       | Hercules Heracles, Zeus, Perseus, Uranus, Iapetus | Passive/Mystical vs Active/Martial                 |
+|   3 |  4 |  4.8% | Prometheus, Oedipus, Creon, Icarus, Sisyphus         | Theseus, Minotaur, Ariadne, Penelope, Polyphemus  | Looking at the HIGH characters, I notice they all  |
+|   4 |  5 |  4.2% | Charybdis, Chimera, Polyphemus, Patroclus, Hydra     | Oedipus, Demeter, Persephone, Dionysus, Apollo    | Looking at these two groups, I notice that the HIG |
 === Chinese Mythology (78 characters) ===
-| idx | PC |  Var% | High                                                                    | Low                                                     | Axis                                   |
-|-----+----+-------+-------------------------------------------------------------------------+---------------------------------------------------------+----------------------------------------|
-|   0 |  1 | 16.9% | Sun Wukong Monkey King, Zhu Bajie, Tang Sanzang, Sun Wukong, Sha Wujing | Yellow Emperor, Yan Emperor, Phoenix, King Zhou, Fuxi   | Journey to the West characters         |
-|   1 |  2 | 11.3% | Guan Yu, Liu Bei, Cao Cao, Sima Yi, Lu Bu                               | Phoenix, Change, Weaver Girl, Gonggong, Lei Gong        | Historical versus mythological figures |
-|   2 |  3 |  6.4% | Dragon, Lei Gong, Bull Demon King, Phoenix, White Dragon Horse          | Hou Yi, Change, Wu Gang, Weaver Girl, Cowherd           | Divine/supernatural vs human origin    |
-|   3 |  4 |  5.6% | Yellow Emperor, Fuxi, Pangu, Yan Emperor, Tang Sanzang                  | Weaver Girl, Meng Jiangnu, Wu Song, Zhu Yingtai, Li Kui | Mythical versus mortal origins         |
-|   4 |  5 |  5.3% | Xuanzang, Tang Sanzang, Guanyin, Fahai, Diao Chan                       | Lei Gong, Gonggong, Hou Yi, Zhang Fei, Nezha            | Compassion versus destructive force    |
+| idx | PC |  Var% | High                                                                    | Low                                                     | Axis                                               |
+|-----+----+-------+-------------------------------------------------------------------------+---------------------------------------------------------+----------------------------------------------------|
+|   0 |  1 | 16.9% | Sun Wukong Monkey King, Zhu Bajie, Tang Sanzang, Sun Wukong, Sha Wujing | Yellow Emperor, Yan Emperor, Phoenix, King Zhou, Fuxi   | Folk Heroes vs Mythological Rulers                 |
+|   1 |  2 | 11.3% | Guan Yu, Liu Bei, Cao Cao, Sima Yi, Lu Bu                               | Phoenix, Change, Weaver Girl, Gonggong, Lei Gong        | Historical vs Mythological                         |
+|   2 |  3 |  6.4% | Dragon, Lei Gong, Bull Demon King, Phoenix, White Dragon Horse          | Hou Yi, Change, Wu Gang, Weaver Girl, Cowherd           | Destructive vs Romantic/Tragic                     |
+|   3 |  4 |  5.6% | Yellow Emperor, Fuxi, Pangu, Yan Emperor, Tang Sanzang                  | Weaver Girl, Meng Jiangnu, Wu Song, Zhu Yingtai, Li Kui | Cosmic/civilizational founders                     |
+|   4 |  5 |  5.3% | Xuanzang, Tang Sanzang, Guanyin, Fahai, Diao Chan                       | Lei Gong, Gonggong, Hou Yi, Zhang Fei, Nezha            | Looking at these characters, I notice the HIGH gro |
 === Hindu Mythology (72 characters) ===
-| idx | PC |  Var% | High                                                          | Low                                              | Axis                          |
-|-----+----+-------+---------------------------------------------------------------+--------------------------------------------------+-------------------------------|
-|   0 |  1 | 17.8% | Naga, Kali, Agni, Shiva, Ganga                                | Arjuna, Yudhishthira, Lakshmana, Rama, Abhimanyu | Divine versus mortal beings   |
-|   1 |  2 | 12.1% | Hiranyakashipu, Mahishasura, Shakuni, Kumbhakarna, Duryodhana | Vishnu, Krishna, Vyasa, Rama, Arjuna             | Virtue versus evil nature     |
-|   2 |  3 |  7.5% | Hanuman, Varaha, Kurma, Sugriva, Narasimha                    | Gandhari, Drona, Agni, Ganga, Shakuni            | Non-human or hybrid forms     |
-|   3 |  4 |  5.9% | Kurma, Matsya, Varaha, Indra, Vyasa                           | Radha, Sita, Yamuna, Hanuman, Parvati            | Divine vs mortal origins      |
-|   4 |  5 |  4.2% | Hiranyakashipu, Mahishasura, Prahlada, Narasimha, Durga       | Agni, Jatayu, Ganga, Sugriva, Garuda             | Antagonist vs supporting role |
+| idx | PC |  Var% | High                                                          | Low                                              | Axis                                               |
+|-----+----+-------+---------------------------------------------------------------+--------------------------------------------------+----------------------------------------------------|
+|   0 |  1 | 17.8% | Naga, Kali, Agni, Shiva, Ganga                                | Arjuna, Yudhishthira, Lakshmana, Rama, Abhimanyu | Divine vs Human Heroes                             |
+|   1 |  2 | 12.1% | Hiranyakashipu, Mahishasura, Shakuni, Kumbhakarna, Duryodhana | Vishnu, Krishna, Vyasa, Rama, Arjuna             | Antagonists vs Divine Heroes                       |
+|   2 |  3 |  7.5% | Hanuman, Varaha, Kurma, Sugriva, Narasimha                    | Gandhari, Drona, Agni, Ganga, Shakuni            | Looking at the HIGH and LOW groups, I notice a cle |
+|   3 |  4 |  5.9% | Kurma, Matsya, Varaha, Indra, Vyasa                           | Radha, Sita, Yamuna, Hanuman, Parvati            | Divine masculine authority                         |
+|   4 |  5 |  4.2% | Hiranyakashipu, Mahishasura, Prahlada, Narasimha, Durga       | Agni, Jatayu, Ganga, Sugriva, Garuda             | Looking at the HIGH and LOW groups, I notice a cle |
 === Norse Mythology (48 characters) ===
-| idx | PC |  Var% | High                                                                           | Low                                                | Axis                                  |
-|-----+----+-------+--------------------------------------------------------------------------------+----------------------------------------------------+---------------------------------------|
-|   0 |  1 | 15.9% | Erik The Red, Leif Erikson, Ragnar Lothbrok, Bjorn Ironside, Ivar The Boneless | Urd, Norns, Verdandi, Skuld, Ratatoskr             | Historical versus mythological beings |
-|   1 |  2 | 13.0% | Grendels Mother, Fafnir, Surtr, Nidhogg, Wayland The Smith                     | Leif Erikson, Bragi, Freyr, Freya, Ragnar Lothbrok | Mythical versus historical figures    |
-|   2 |  3 |  8.4% | Sleipnir, Garm, Fenrir, Surtr, Ymir                                            | Grendels Mother, Verdandi, Skuld, Urd, Norns       | Size and cosmic importance            |
-|   3 |  4 |  6.6% | Jormungandr, Ratatoskr, Leif Erikson, Erik The Red, Norns                      | Brynhild, Wayland The Smith, Freyr, Andvari, Thrym | Historical vs mythological beings     |
-|   4 |  5 |  5.9% | Ratatoskr, Hugin, Fafnir, Andvari, Munin                                       | Surtr, Ymir, Skadi, Fenrir, Vidar                  | Size or physical scale                |
+|         idx | PC |  Var% | High                                                                           | Low                                                | Axis                                              |
+|-------------+----+-------+--------------------------------------------------------------------------------+----------------------------------------------------+---------------------------------------------------|
+|           0 |  1 | 15.9% | Erik The Red, Leif Erikson, Ragnar Lothbrok, Bjorn Ironside, Ivar The Boneless | Urd, Norns, Verdandi, Skuld, Ratatoskr             | "Looking at the HIGH vs LOW characters:           |
+|             |    |       |                                                                                |                                                    |                                                   |
+| HIGH chara" |    |       |                                                                                |                                                    |                                                   |
+|           1 |  2 | 13.0% | Grendels Mother, Fafnir, Surtr, Nidhogg, Wayland The Smith                     | Leif Erikson, Bragi, Freyr, Freya, Ragnar Lothbrok | Monstrous vs Heroic/Divine                        |
+|           2 |  3 |  8.4% | Sleipnir, Garm, Fenrir, Surtr, Ymir                                            | Grendels Mother, Verdandi, Skuld, Urd, Norns       | Cosmic Threat Entities                            |
+|           3 |  4 |  6.6% | Jormungandr, Ratatoskr, Leif Erikson, Erik The Red, Norns                      | Brynhild, Wayland The Smith, Freyr, Andvari, Thrym | Looking at the HIGH vs LOW characters, I notice a |
+|           4 |  5 |  5.9% | Ratatoskr, Hugin, Fafnir, Andvari, Munin                                       | Surtr, Ymir, Skadi, Fenrir, Vidar                  | Looking at the HIGH vs LOW characters, I notice a |
 === Egyptian Mythology (44 characters) ===
-| idx | PC |  Var% | High                                                     | Low                                         | Axis                                    |
-|-----+----+-------+----------------------------------------------------------+---------------------------------------------+-----------------------------------------|
-|   0 |  1 | 19.9% | Cleopatra, Apep, Khonsu, Sekhmet, Bes                    | Tutankhamun, Khufu, Anubis, Osiris, Imhotep | Active agency versus passive roles      |
-|   1 |  2 | 13.1% | Akhenaten, Cleopatra, Ramesses Ii, Hatshepsut, Nefertiti | Anubis, Osiris, Ammit, Atum, Maat           | Human versus divine beings              |
-|   2 |  3 |  9.8% | Ammit, Anubis, Cleopatra, Serqet, Imhotep                | Aten, Akhenaten, Khepri, Ra, Khonsu         | Death/underworld versus celestial/solar |
-|   3 |  4 |  5.8% | Ammit, Anubis, Maat, Akhenaten, Apep                     | Sobek, Tefnut, Khnum, Atum, Taweret         | Death/afterlife vs life/creation        |
-|   4 |  5 |  4.8% | Seshat, Cleopatra, Thoth, Isis, Ptah                     | Wadjet, Sobek, Bastet, Serqet, Apep         | Knowledge/wisdom versus primal forces   |
+| idx | PC |  Var% | High                                                     | Low                                         | Axis                                               |
+|-----+----+-------+----------------------------------------------------------+---------------------------------------------+----------------------------------------------------|
+|   0 |  1 | 19.9% | Cleopatra, Apep, Khonsu, Sekhmet, Bes                    | Tutankhamun, Khufu, Anubis, Osiris, Imhotep | Looking at these Egyptian mythological figures, I  |
+|   1 |  2 | 13.1% | Akhenaten, Cleopatra, Ramesses Ii, Hatshepsut, Nefertiti | Anubis, Osiris, Ammit, Atum, Maat           | Historical vs Mythological                         |
+|   2 |  3 |  9.8% | Ammit, Anubis, Cleopatra, Serqet, Imhotep                | Aten, Akhenaten, Khepri, Ra, Khonsu         | Looking at the HIGH and LOW groups, I notice a cle |
+|   3 |  4 |  5.8% | Ammit, Anubis, Akhenaten, Maat, Apep                     | Sobek, Tefnut, Khnum, Atum, Taweret         | Looking at the HIGH vs LOW characters, I notice a  |
+|   4 |  5 |  4.8% | Seshat, Cleopatra, Thoth, Isis, Ptah                     | Wadjet, Sobek, Bastet, Serqet, Apep         | Looking at these Egyptian mythology characters, I  |
 === Shakespeare (114 characters) ===
-| idx | PC |  Var% | High                                                              | Low                                                          | Axis                                |
-|-----+----+-------+-------------------------------------------------------------------+--------------------------------------------------------------+-------------------------------------|
-|   0 |  1 | 12.5% | Macbeth, Lady Macbeth, King Lear, Julius Caesar, Banquo           | Bottom, Puck, Sir Toby Belch, Dogberry, Sir Andrew Aguecheek | Tragedy versus comedy characters    |
-|   1 |  2 |  8.5% | Dogberry, Falstaff, Sir Andrew Aguecheek, Sir Toby Belch, Hotspur | Titania, Oberon, Puck, Juliet Capulet, Hermia                | Comic versus romantic characters    |
-|   2 |  3 |  7.8% | Romeo Montague, Romeo, Juliet Capulet, Juliet, Montague           | Puck, The Three Witches, Caliban, Falstaff, Oberon           | Tragedy versus comedy characters    |
-|   3 |  4 |  6.1% | Shylock, Tybalt, Roderigo, Othello, Romeo Montague                | Hippolyta, Lavinia, Isabella, Celia, Gertrude                | Agency versus victimization         |
-|   4 |  5 |  5.5% | Othello, Desdemona, Shylock, Ophelia, Roderigo                    | Julius Caesar, The Three Witches, Puck, Mark Antony, Oberon  | Personal vulnerability versus power |
+| idx | PC |  Var% | High                                                              | Low                                                          | Axis                                               |
+|-----+----+-------+-------------------------------------------------------------------+--------------------------------------------------------------+----------------------------------------------------|
+|   0 |  1 | 12.5% | Macbeth, Lady Macbeth, King Lear, Julius Caesar, Banquo           | Bottom, Puck, Sir Toby Belch, Dogberry, Sir Andrew Aguecheek | Tragic nobility and power                          |
+|   1 |  2 |  8.5% | Dogberry, Falstaff, Sir Andrew Aguecheek, Sir Toby Belch, Hotspur | Titania, Oberon, Puck, Juliet Capulet, Hermia                | Looking at these characters, I notice a clear patt |
+|   2 |  3 |  7.8% | Romeo Montague, Romeo, Juliet Capulet, Juliet, Montague           | Puck, The Three Witches, Caliban, Falstaff, Oberon           | Tragic Young Love                                  |
+|   3 |  4 |  6.1% | Shylock, Tybalt, Roderigo, Othello, Romeo Montague                | Hippolyta, Lavinia, Isabella, Celia, Gertrude                | Looking at these characters, the HIGH group consis |
+|   4 |  5 |  5.5% | Othello, Desdemona, Shylock, Ophelia, Roderigo                    | Julius Caesar, The Three Witches, Puck, Mark Antony, Oberon  | Looking at the HIGH vs LOW characters, I notice th |
 :end:
 
 * Stress Test 4: Fictional Character Space Residuals
@@ -907,7 +961,7 @@ Variance retained in residuals: 13.5%
 :end:
 
 #+begin_src python
-def analyze_universe_residuals_fc(universe_name, prefix, n_pcs=5):
+def analyze_universe_residuals_fc(universe_name, prefix, n_pcs=5, n_extreme=8):
     """PCA on residuals (after fictional character projection) within a single universe."""
     indices = get_universe_indices(prefix)
     if len(indices) < 10:
@@ -928,17 +982,19 @@ def analyze_universe_residuals_fc(universe_name, prefix, n_pcs=5):
         sorted_idx = np.argsort(scores)
         var_pct = u_pca.explained_variance_ratio_[pc_idx] * 100
         
-        high = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[-5:][::-1]]
-        low = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[:5]]
+        high_with_scores = [(u_names[i].split('__')[-1].replace('_', ' ').title(), scores[i]) 
+                           for i in sorted_idx[-n_extreme:][::-1]]
+        low_with_scores = [(u_names[i].split('__')[-1].replace('_', ' ').title(), scores[i]) 
+                          for i in sorted_idx[:n_extreme]]
         
         row = {
             'PC': pc_idx + 1,
             'Var%': f"{var_pct:.1f}%",
-            'High': ', '.join(high[:3]),
-            'Low': ', '.join(low[:3]),
+            'High': ', '.join([name for name, _ in high_with_scores[:5]]),
+            'Low': ', '.join([name for name, _ in low_with_scores[:5]]),
         }
         if USE_LLM_INTERPRETATION:
-            row['Axis'] = interpret_pc(universe_name + " (residual)", pc_idx + 1, var_pct, high, low)
+            row['Axis'] = interpret_pc(universe_name, pc_idx + 1, var_pct, high_with_scores, low_with_scores, within_universe=True)
         rows.append(row)
     
     df = pd.DataFrame(rows)
@@ -962,101 +1018,171 @@ if 'residuals_fc' in dir():
 
 
 === Harry Potter (102 characters) ===
-| idx | PC | Var% | High                                            | Low                                                       | Axis                                            |
-|-----+----+------+-------------------------------------------------+-----------------------------------------------------------+-------------------------------------------------|
-|   0 |  1 | 7.5% | The Sorting Hat, Argus Filch, Moaning Myrtle    | Bellatrix Lestrange, Kingsley Shacklebolt, Vernon Dursley | Magical permanence vs mortality                 |
-|   1 |  2 | 5.5% | Dobby The House Elf, Kreacher, Ollivander       | Oliver Wood, Cormac Mclaggen, Viktor Krum                 | Non-human or eccentric characters               |
-|   2 |  3 | 4.9% | Vernon Dursley, Dudley Dursley, Petunia Dursley | Gilderoy Lockhart, Xenophilius Lovegood, Rita Skeeter     | Traditional vs. eccentric/flamboyant characters |
-|   3 |  4 | 4.4% | Ollivander, Vernon Dursley, Dudley Dursley      | Peter Pettigrew, Moaning Myrtle, Severus Snape            | Positive/likeable vs negative/unlikeable        |
-|   4 |  5 | 4.2% | Argus Filch, Scabbers, Moaning Myrtle           | Ollivander, Viktor Krum, The Sorting Hat                  | Human versus non-human characters               |
+|                     idx | PC | Var% | High                                                                                | Low                                                                                     | Axis                                                                                                        |
+|-------------------------+----+------+-------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------|
+|                       0 |  1 | 7.5% | The Sorting Hat, Argus Filch, Moaning Myrtle, Nearly Headless Nick, Horace Slughorn | Bellatrix Lestrange, Kingsley Shacklebolt, Vernon Dursley, Bill Weasley, Arthur Weasley | Looking at the HIGH characters: The Sorting Hat, Argus Filch, Moaning Myrtle, Nearly Headless               |
+|                       1 |  2 | 5.5% | Dobby The House Elf, Kreacher, Ollivander, Griphook, Xenophilius Lovegood           | Oliver Wood, Cormac Mclaggen, Viktor Krum, Marcus Flint, Cedric Diggory                 | Non-human or eccentric characters                                                                           |
+|                       2 |  3 | 4.9% | Vernon Dursley, Dudley Dursley, Petunia Dursley, The Sorting Hat, Argus Filch       | Gilderoy Lockhart, Xenophilius Lovegood, Rita Skeeter, Cornelius Fudge, Luna Lovegood   | Looking at the HIGH characters (Dursleys, Sorting Hat, Filch, Scabbers, Snape, Cra                          |
+|                       3 |  4 | 4.4% | Ollivander, Vernon Dursley, Dudley Dursley, Petunia Dursley, Oliver Wood            | Peter Pettigrew, Moaning Myrtle, Severus Snape, Kreacher, Bellatrix Lestrange           | "Looking at these character groupings, I need to find what distinguishes the HIGH group from the LOW group. |
+|                         |    |      |                                                                                     |                                                                                         |                                                                                                             |
+| HIGH group: Ollivander" |    |      |                                                                                     |                                                                                         |                                                                                                             |
+|                       4 |  5 | 4.2% | Argus Filch, Scabbers, Moaning Myrtle, Crookshanks, Rubeus Hagrid                   | Ollivander, Viktor Krum, The Sorting Hat, Lucius Malfoy, Bellatrix Lestrange            | Looking at the HIGH characters (Filch, Scabbers, Myrtle, Crookshanks, Hagrid,                               |
 === Star Wars (105 characters) ===
-| idx | PC | Var% | High                                                 | Low                                               | Axis                                          |
-|-----+----+------+------------------------------------------------------+---------------------------------------------------+-----------------------------------------------|
-|   0 |  1 | 7.7% | Bb8, R2D2, Chewbacca                                 | Grand Admiral Thrawn, Captain Rex, Wilhuff Tarkin | Non-verbal vs. speaking characters            |
-|   1 |  2 | 6.9% | Din Djarin The Mandalorian, Darth Maul, Boba Fett    | Yoda, Admiral Ackbar, Princess Leia               | Combat-focused versus wisdom/leadership roles |
-|   2 |  3 | 5.9% | Governor Tarkin, Darth Vader, R2D2                   | Yoda, Boba Fett, Din Djarin The Mandalorian       | Original trilogy prominence                   |
-|   3 |  4 | 4.8% | Boba Fett, Darth Vader, Darth Vader Anakin Skywalker | Shaak Ti, Kiadimundi, Quigon Jinn                 | Villains versus heroes                        |
-|   4 |  5 | 4.5% | Han Solo, Lando Calrissian, Wedge Antilles           | Yoda, R2D2, General Grievous                      | Human vs. non-human characters                |
+|                                                                                                     idx | PC | Var% | High                                                                             | Low                                                                             | Axis                                                                             |
+|---------------------------------------------------------------------------------------------------------+----+------+----------------------------------------------------------------------------------+---------------------------------------------------------------------------------+----------------------------------------------------------------------------------|
+|                                                                                                       0 |  1 | 7.7% | Bb8, R2D2, Chewbacca, Chopper, Owen Lars                                         | Grand Admiral Thrawn, Captain Rex, Wilhuff Tarkin, Governor Tarkin, General Hux | "Non-military/informal characters                                                |
+|                                                                                                         |    |      |                                                                                  |                                                                                 |                                                                                  |
+| The HIGH characters are droids, smugglers, farmers, and non-military figures, while the LOW characters" |    |      |                                                                                  |                                                                                 |                                                                                  |
+|                                                                                                       1 |  2 | 6.9% | Din Djarin The Mandalorian, Darth Maul, Boba Fett, Bb8, Jango Fett               | Yoda, Admiral Ackbar, Princess Leia, Mon Mothma, Princess Leia Organa           | "Looking at the HIGH vs LOW groups:                                              |
+|                                                                                                         |    |      |                                                                                  |                                                                                 |                                                                                  |
+|                              HIGH characters are either masked/helmeted warriors (Mandalorian, Maul, F" |    |      |                                                                                  |                                                                                 |                                                                                  |
+|                                                                                                       2 |  3 | 5.9% | Governor Tarkin, Darth Vader, R2D2, Darth Vader Anakin Skywalker, Princess Leia  | Yoda, Boba Fett, Din Djarin The Mandalorian, Jango Fett, Bossk                  | Imperial/Rebellion leadership figures                                            |
+|                                                                                                       3 |  4 | 4.8% | Boba Fett, Darth Vader, Darth Vader Anakin Skywalker, Jango Fett, Captain Phasma | Shaak Ti, Kiadimundi, Quigon Jinn, Plo Koon, Jar Jar Binks                      | Looking at the HIGH characters (Boba Fett, Darth Vader, Jango Fett, Captain Phas |
+|                                                                                                       4 |  5 | 4.5% | Han Solo, Lando Calrissian, Wedge Antilles, Princess Leia, Princess Leia Organa  | Yoda, R2D2, General Grievous, Darth Maul, Bb8                                   | "Looking at the patterns:                                                        |
+|                                                                                                         |    |      |                                                                                  |                                                                                 |                                                                                  |
+|                                         HIGH characters: Han Solo, Lando, Wedge, Leia (twice), Thrawn," |    |      |                                                                                  |                                                                                 |                                                                                  |
 === Marvel (108 characters) ===
-| idx | PC | Var% | High                                                           | Low                                                                                 | Axis                              |
-|-----+----+------+----------------------------------------------------------------+-------------------------------------------------------------------------------------+-----------------------------------|
-|   0 |  1 | 7.0% | Cyclops Scott Summers, Professor X Charles Xavier, Kitty Pryde | Doctor Strange Stephen Strange, Ghost Rider Johnny Blaze, Silver Surfer Norrin Radd | X-Men versus non-X-Men            |
-|   1 |  2 | 5.3% | Black Panther, Black Panther Tchalla, Shuri                    | Groot, Ghost Rider Johnny Blaze, Silver Surfer Norrin Radd                          | Technology-based vs cosmic powers |
-|   2 |  3 | 4.1% | Antman Scott Lang, Iron Man Tony Stark, Groot                  | Black Panther, Silver Surfer Norrin Radd, Black Panther Tchalla                     | Humor versus serious tone         |
-|   3 |  4 | 3.9% | Carnage Cletus Kasady, Spiderman, Spiderman Peter Parker       | Groot, Killmonger Erik Stevens, Luke Cage                                           | Spider-Man villains versus others |
-|   4 |  5 | 3.8% | Phil Coulson, Hawkeye Clint Barton, Maria Hill                 | Groot, Spiderman, Spiderman Peter Parker                                            | Supporting versus lead characters |
+|                               idx | PC | Var% | High                                                                                                        | Low                                                                                                                          | Axis                                                                                                                   |
+|-----------------------------------+----+------+-------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------|
+|                                 0 |  1 | 7.0% | Cyclops Scott Summers, Professor X Charles Xavier, Kitty Pryde, Iceman Bobby Drake, Beast Hank Mccoy        | Doctor Strange Stephen Strange, Ghost Rider Johnny Blaze, Silver Surfer Norrin Radd, Iron Fist Danny Rand, Venom Eddie Brock | X-Men team members                                                                                                     |
+|                                 1 |  2 | 5.3% | Tchalla, Black Panther Tchalla, Shuri, Iron Man Tony Stark,  Tony Stark                                     | Groot, Ghost Rider Johnny Blaze, Silver Surfer Norrin Radd, Starlord Peter Quill, Galactus                                   | Technology-based or modern heroes                                                                                      |
+|                                 2 |  3 | 4.1% | Antman Scott Lang, Iron Man Tony Stark, Groot, Hulk Bruce Banner,  Tony Stark                               | Tchalla, Silver Surfer Norrin Radd, Black Panther Tchalla, The Punisher Frank Castle, Iron Fist Danny Rand                   | "Looking at this grouping, the HIGH characters share several key traits that distinguish them from the LOW characters: |
+|                                   |    |      |                                                                                                             |                                                                                                                              |                                                                                                                        |
+|     **""Humor and relatability""" |    |      |                                                                                                             |                                                                                                                              |                                                                                                                        |
+|                                 3 |  4 | 3.9% | Carnage Cletus Kasady,  Peter Parker, Spiderman Peter Parker, Venom Eddie Brock, Green Goblin Norman Osborn | Groot, Killmonger Erik Stevens, Luke Cage, Black Panther Tchalla,  Tchalla                                                   | "Looking at the HIGH vs LOW characters, the key distinction appears to be:                                             |
+|                                   |    |      |                                                                                                             |                                                                                                                              |                                                                                                                        |
+| **""Cosmic or scientific powers""** |    |      |                                                                                                             |                                                                                                                              |                                                                                                                        |
+|                                   |    |      |                                                                                                             |                                                                                                                              |                                                                                                                        |
+|          The HIGH characters all" |    |      |                                                                                                             |                                                                                                                              |                                                                                                                        |
+|                                 4 |  5 | 3.8% | Phil Coulson, Hawkeye Clint Barton, Maria Hill, War Machine James Rhodes,  Natasha Romanoff                 | Groot,  Peter Parker, Spiderman Peter Parker,  Tchalla, Black Panther Tchalla                                                | Government/military affiliated agents                                                                                  |
 === Game Of Thrones (99 characters) ===
-| idx | PC | Var% | High                                                         | Low                                           | Axis                                 |
-|-----+----+------+--------------------------------------------------------------+-----------------------------------------------+--------------------------------------|
-|   0 |  1 | 7.0% | Hodor, Night King, Viserion                                  | Selyse Baratheon, High Sparrow, Balon Greyjoy | Supernatural vs mundane characters   |
-|   1 |  2 | 6.6% | Mad King Aerys Targaryen, Hodor, Viserys Targaryen           | Night King,  Game Of Thrones, Rickon Stark    | Mental instability or madness        |
-|   2 |  3 | 5.2% | Hodor, Melisandre, Petyr Baelish Littlefinger                | Mad King Aerys Targaryen, Viserion, Rhaegal   | Living versus dead characters        |
-|   3 |  4 | 5.0% | Night King, Khal Drogo, Melisandre                           | Hodor, Margaery Tyrell, Loras Tyrell          | Mystical versus political characters |
-|   4 |  5 | 4.6% | Sandor Clegane The Hound, Bronn, Gregor Clegane The Mountain | Selyse Baratheon, Hodor, High Sparrow         | Combat prowess versus non-fighters   |
+| idx                                                                                                                            | PC | Var% | High                                                                                        | Low                                                                                   | Axis                                                                                       |
+|--------------------------------------------------------------------------------------------------------------------------------+----+------+---------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------|
+| 0                                                                                                                              |  1 | 7.0% | Hodor, Night King, Viserion, Drogon, Gendry                                                 | Selyse Baratheon, High Sparrow, Balon Greyjoy, Brynden Tully Blackfish, Doran Martell | Physical power over intellect                                                              |
+| 1                                                                                                                              |  2 | 6.6% | Mad King Aerys Targaryen, Hodor, Viserys Targaryen, High Sparrow, Joffrey Baratheon         | Night King, Jon Snow, Rickon Stark, Mance Rayder, Alliser Thorne                      | "Looking at the HIGH vs LOW characters:                                                    |
+|                                                                                                                                |    |      |                                                                                             |                                                                                       |                                                                                            |
+| HIGH characters are predominantly associated with fire, religious fanaticism, madness, or supernatural/mystical"               |    |      |                                                                                             |                                                                                       |                                                                                            |
+| 2                                                                                                                              |  3 | 5.2% | Hodor, Melisandre, Petyr Baelish Littlefinger, Jaqen Hghar, High Sparrow                    | Mad King Aerys Targaryen, Viserion, Rhaegal, Drogon, Viserys Targaryen                | "Looking at the patterns:                                                                  |
+|                                                                                                                                |    |      |                                                                                             |                                                                                       |                                                                                            |
+| HIGH characters are mostly advisors, mentors, religious figures, or servants who work behind the scenes to influence others (" |    |      |                                                                                             |                                                                                       |                                                                                            |
+| 3                                                                                                                              |  4 | 5.0% | Night King, Khal Drogo, Melisandre, Jaqen Hghar, High Sparrow                               | Hodor, Margaery Tyrell, Loras Tyrell, Sansa Stark, Olenna Tyrell                      | "Looking at the HIGH characters, they share a distinct trait that the LOW characters lack: |
+|                                                                                                                                |    |      |                                                                                             |                                                                                       |                                                                                            |
+| **Supernatural or mystical elements**                                                                                            |    |      |                                                                                             |                                                                                       |                                                                                            |
+|                                                                                                                                |    |      |                                                                                             |                                                                                       |                                                                                            |
+| The HIGH group"                                                                                                                |    |      |                                                                                             |                                                                                       |                                                                                            |
+| 4                                                                                                                              |  5 | 4.6% | Sandor Clegane The Hound, Bronn, Gregor Clegane The Mountain, Daario Naharis, Podrick Payne | Selyse Baratheon, Hodor, High Sparrow, Night King, Ned Stark                          | "Looking at the HIGH vs LOW characters, the key distinction appears to be:                 |
+|                                                                                                                                |    |      |                                                                                             |                                                                                       |                                                                                            |
+| **""Survivors through adaptability""** or **""Prag"                                                                              |    |      |                                                                                             |                                                                                       |                                                                                            |
 === Lord Of The Rings (97 characters) ===
-| idx | PC | Var% | High                                             | Low                                                    | Axis                                |
-|-----+----+------+--------------------------------------------------+--------------------------------------------------------+-------------------------------------|
-|   0 |  1 | 8.1% | Durin, Balin, Dwalin                             | Gollum Smeagol, Frodo Baggins, Faramir                 | Dwarves versus non-dwarves          |
-|   1 |  2 | 7.9% | Fingolfin, Feanor, Gilgalad                      | Bilbo Baggins, Frodo Baggins, Lobelia Sackvillebaggins | First Age legendary heroes          |
-|   2 |  3 | 5.7% | Ungoliant, Sauron, Morgoth Melkor                | Eomer, Theodred, Brego                                 | Evil/darkness versus good/light     |
-|   3 |  4 | 5.0% | Azog The Defiler, Ugluk, The Witchking Of Angmar | Treebeard, Tom Bombadil, Thranduil                     | Evil servants versus nature-aligned |
-|   4 |  5 | 4.5% | Feanor, Celebrimbor, Morgoth Melkor              | Treebeard, Legolas, Thranduil                          | Creation and destruction power      |
+|                                                                          idx | PC | Var% | High                                                                | Low                                                                           | Axis                                                                                                                             |
+|------------------------------------------------------------------------------+----+------+---------------------------------------------------------------------+-------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------|
+|                                                                            0 |  1 | 8.1% | Durin, Balin, Dwalin, Gloin, Gimli                                  | Gollum Smeagol, Frodo Baggins, Faramir, Isildur, Sauron                       | All are dwarves.                                                                                                                 |
+|                                                                            1 |  2 | 7.9% | Fingolfin, Feanor, Gilgalad, Luthien, Hurin                         | Bilbo Baggins, Frodo Baggins, Lobelia Sackvillebaggins, Bill The Pony, Bombur | Ancient/legendary heroic figures                                                                                                 |
+|                                                                            2 |  3 | 5.7% | Ungoliant, Sauron, Morgoth Melkor, Mouth Of Sauron, Balrog Of Moria | Eomer, Theodred, Brego, Theoden, Asfaloth                                     | """Ancient/primordial beings""                                                                                                   |
+|                                                                              |    |      |                                                                     |                                                                               |                                                                                                                                  |
+| The HIGH characters are either ancient entities (Morgoth, Sauron, Ungoliant" |    |      |                                                                     |                                                                               |                                                                                                                                  |
+|                                                                            3 |  4 | 5.0% | Azog The Defiler, Ugluk, The Witchking Of Angmar, Lurtz, Gorbag     | Treebeard, Tom Bombadil, Thranduil, Haldir, Celeborn                          | Evil/corrupted beings                                                                                                            |
+|                                                                            4 |  5 | 4.5% | Feanor, Celebrimbor, Morgoth Melkor, Ungoliant, Fingolfin           | Treebeard, Legolas, Thranduil, Haldir, Radagast                               | Looking at the HIGH characters, I notice they are either creators of legendary artifacts (Feanor, Celebrimbor), beings of primor |
 === Naruto (84 characters) ===
-| idx | PC | Var% | High                                   | Low                                            | Axis                                 |
-|-----+----+------+----------------------------------------+------------------------------------------------+--------------------------------------|
-|   0 |  1 | 8.5% | Iruka Umino, Teuchi, Naruto Uzumaki    | Momoshiki Otsutsuki, Kinshiki Otsutsuki, Zetsu | Connection to Naruto personally      |
-|   1 |  2 | 6.7% | Rock Lee, Might Guy, Hiashi Hyuga      | Deidara, Hidan, Sasori                         | Discipline versus chaos/destruction  |
-|   2 |  3 | 6.3% | Teuchi, Kurama Ninetails, Ayame        | Rock Lee, Might Guy, Shino Aburame             | Connection to Naruto's family        |
-|   3 |  4 | 5.1% | Shino Aburame, Teuchi, Hinata Hyuga    | Might Guy, Rock Lee, Sakon And Ukon            | Calm vs. Intense personality         |
-|   4 |  5 | 4.8% | Shino Aburame, Gaara, Kurama Ninetails | Teuchi, Shikamaru Nara, Sakon And Ukon         | Emotional expressiveness vs stoicism |
+|                                                                                                                      idx | PC | Var% | High                                                                | Low                                                                             | Axis                                                                                                                        |
+|--------------------------------------------------------------------------------------------------------------------------+----+------+---------------------------------------------------------------------+---------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------|
+|                                                                                                                        0 |  1 | 8.5% | Iruka Umino, Teuchi, Naruto Uzumaki, Rock Lee, Minato Namikaze      | Momoshiki Otsutsuki, Kinshiki Otsutsuki, Zetsu, Ashura Otsutsuki, Shino Aburame | """Normal human connections""                                                                                               |
+|                                                                                                                          |    |      |                                                                     |                                                                                 |                                                                                                                             |
+| The HIGH characters are relatable, everyday people who form genuine bonds with others (teachers, mentors, friends). The" |    |      |                                                                     |                                                                                 |                                                                                                                             |
+|                                                                                                                        1 |  2 | 6.7% | Rock Lee, Might Guy, Hiashi Hyuga, Hinata Hyuga, Neji Hyuga         | Deidara, Hidan, Sasori, Tayuya, Kisame Hoshigaki                                | Looking at the HIGH group, I notice they're predominantly taijutsu specialists (Rock Lee, Might Guy) and Hyuga clan members |
+|                                                                                                                        2 |  3 | 6.3% | Teuchi, Kurama Ninetails, Ayame, Ashura Otsutsuki, Kushina Uzumaki  | Rock Lee, Might Guy, Shino Aburame, Neji Hyuga, Shikamaru Nara                  | Looking at the HIGH characters (Teuchi, Kurama, Ayame, Ashura, Kushina, Hagoromo                                            |
+|                                                                                                                        3 |  4 | 5.1% | Shino Aburame, Teuchi, Hinata Hyuga, Hiashi Hyuga, Ayame            | Might Guy, Rock Lee, Sakon And Ukon, Zabuza Momochi, Kisame Hoshigaki           | Looking at the HIGH characters (Shino, Teuchi, Hinata, Hiashi, Ayame, Choji,                                                |
+|                                                                                                                        4 |  5 | 4.8% | Shino Aburame, Gaara, Kurama Ninetails, Minato Namikaze, Killer Bee | Teuchi, Shikamaru Nara, Sakon And Ukon, Might Guy, Madara Uchiha                | "Looking at the patterns, the HIGH characters share:                                                                        |
+|                                                                                                                          |    |      |                                                                     |                                                                                 |                                                                                                                             |
+|                                                                                             ""Sealed entities or hosts"" |    |      |                                                                     |                                                                                 |                                                                                                                             |
+|                                                                                                                          |    |      |                                                                     |                                                                                 |                                                                                                                             |
+|                                                                       The HIGH group consists primarily of jinchuriki (" |    |      |                                                                     |                                                                                 |                                                                                                                             |
 === Greek Mythology (107 characters) ===
-| idx | PC | Var% | High                         | Low                          | Axis                                         |
-|-----+----+------+------------------------------+------------------------------+----------------------------------------------|
-|   0 |  1 | 5.4% | Ariadne, Minotaur, Theseus   | Uranus, Iapetus, Hyperion    | Labyrinth and Crete stories                  |
-|   1 |  2 | 4.5% | Uranus, Penelope, Telemachus | Sisyphus, Tantalus, Icarus   | Creation versus punishment                   |
-|   2 |  3 | 4.1% | Orpheus, Eurydice, Narcissus | Icarus, Daedalus, Sisyphus   | Love versus hubris/punishment                |
-|   3 |  4 | 3.8% | Oedipus, Narcissus, Minotaur | Persephone, Demeter, Icarus  | Tragic self-destruction versus cosmic forces |
-|   4 |  5 | 3.4% | Demeter, Dionysus, Icarus    | Sisyphus, Prometheus, Erebus | Joy versus suffering/punishment              |
+|                                                                         idx | PC | Var% | High                                             | Low                                               | Axis                                                                                                                                                        |
+|-----------------------------------------------------------------------------+----+------+--------------------------------------------------+---------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|                                                                           0 |  1 | 5.4% | Ariadne, Minotaur, Theseus, Minos, Daedalus      | Uranus, Iapetus, Hyperion, Cronus, Orestes        | Labyrinth/underworld connections                                                                                                                            |
+|                                                                           1 |  2 | 4.5% | Uranus, Penelope, Telemachus, Chaos, Arachne     | Sisyphus, Tantalus, Icarus, Prometheus, Narcissus | "Looking at these characters, I notice a clear pattern:                                                                                                     |
+|                                                                             |    |      |                                                  |                                                   |                                                                                                                                                             |
+| The HIGH characters are primarily defined by their relationships and roles: |    |      |                                                  |                                                   |                                                                                                                                                             |
+|                                                                  - Uranus," |    |      |                                                  |                                                   |                                                                                                                                                             |
+|                                                                           2 |  3 | 4.1% | Orpheus, Eurydice, Narcissus, Pygmalion, Galatea | Icarus, Daedalus, Sisyphus, Minotaur, Ixion       | Love, death, and transformation                                                                                                                             |
+|                                                                           3 |  4 | 3.8% | Oedipus, Narcissus, Minotaur, Jocasta, Theseus   | Persephone, Demeter, Icarus, Hades, Uranus        | "Looking at these groupings, the HIGH characters share a distinct pattern that sets them apart from the LOW characters:                                     |
+|                                                                             |    |      |                                                  |                                                   |                                                                                                                                                             |
+|                                              **""Transformed by their sins" |    |      |                                                  |                                                   |                                                                                                                                                             |
+|                                                                           4 |  5 | 3.4% | Demeter, Dionysus, Icarus, Persephone, Orpheus   | Sisyphus, Prometheus, Erebus, Hestia, Atlas       | Looking at these two groups, the HIGH characters share a common thread of **transformation or transcendence** - they all undergo or facilitate major changes: |
 === Chinese Mythology (78 characters) ===
-| idx | PC | Var% | High                              | Low                                   | Axis                                        |
-|-----+----+------+-----------------------------------+---------------------------------------+---------------------------------------------|
-|   0 |  1 | 7.3% | Guan Yu, Liu Bei, Zhang Fei       | Change, Weaver Girl, Xuanzang         | Three Kingdoms period figures               |
-|   1 |  2 | 6.0% | Fuxi, Yellow Emperor, Yan Emperor | Zhu Bajie, Tang Sanzang, Wu Gang      | Primordial creators versus later characters |
-|   2 |  3 | 5.7% | Xuanzang, Tang Sanzang, Guanyin   | Wu Gang, Change, Hou Yi               | Journey to the West characters              |
-|   3 |  4 | 5.1% | Change, Hou Yi, Wu Gang           | Zhu Yingtai, Lu Zhishen, Liang Shanbo | Cultural heroes versus minor deities        |
-|   4 |  5 | 4.7% | Xuanzang, Guanyin, Lan Caihe      | Weaver Girl, Cowherd, Lei Gong        | Buddhist versus indigenous Chinese          |
+|                                                                                                                                          idx | PC | Var% | High                                                                | Low                                                              | Axis                                                                                                                                                        |
+|----------------------------------------------------------------------------------------------------------------------------------------------+----+------+---------------------------------------------------------------------+------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|                                                                                                                                            0 |  1 | 7.3% | Guan Yu, Liu Bei, Zhang Fei, Lu Bu, Cao Cao                         | Change, Weaver Girl, Xuanzang, Wu Gang, Tang Sanzang             | "Three Kingdoms military leaders                                                                                                                            |
+|                                                                                                                                              |    |      |                                                                     |                                                                  |                                                                                                                                                             |
+| The HIGH characters are all military/political figures from the Three Kingdoms period or similar historical warrior contexts, while the LOW" |    |      |                                                                     |                                                                  |                                                                                                                                                             |
+|                                                                                                                                            1 |  2 | 6.0% | Fuxi, Yellow Emperor, Yan Emperor, Jiang Ziya, Lei Gong             | Zhu Bajie, Tang Sanzang, Wu Gang, Sun Wukong Monkey King, Change | Looking at these characters, the HIGH group consists of primordial creator deities, emperors, and divine/celestial authorities (Fuxi                        |
+|                                                                                                                                            2 |  3 | 5.7% | Xuanzang, Tang Sanzang, Guanyin, Sun Wukong Monkey King, Sha Wujing | Wu Gang, Change, Hou Yi, Wu Song, Li Kui                         | "Journey/Buddhist theme                                                                                                                                     |
+|                                                                                                                                              |    |      |                                                                     |                                                                  |                                                                                                                                                             |
+|                                                The HIGH characters are predominantly from Journey to the West (Xuanzang/Tang Sanzang, Sun W" |    |      |                                                                     |                                                                  |                                                                                                                                                             |
+|                                                                                                                                            3 |  4 | 5.1% | Change, Hou Yi, Wu Gang, Fuxi, Yellow Emperor                       | Zhu Yingtai, Lu Zhishen, Liang Shanbo, Yue Lao, Lei Gong         | Looking at these characters, the HIGH group consists primarily of mythological founders, culture heroes, and cosmic/primordial figures (Chang'e,            |
+|                                                                                                                                            4 |  5 | 4.7% | Xuanzang, Guanyin, Lan Caihe, Wu Gang, Fahai                        | Weaver Girl, Cowherd, Lei Gong, Nuwa, Zhu Bajie                  | "Looking at these groupings, the HIGH characters share a common trait of being ""solitary spiritual seekers"" or having ""individual spiritual journeys.""" |
 === Hindu Mythology (72 characters) ===
-| idx | PC | Var% | High                    | Low                        | Axis                                        |
-|-----+----+------+-------------------------+----------------------------+---------------------------------------------|
-|   0 |  1 | 9.6% | Shiva, Vishnu, Radha    | Jatayu, Duryodhana, Angada | Divine versus mortal/semi-divine            |
-|   1 |  2 | 6.6% | Hanuman, Radha, Sita    | Vyasa, Arjuna, Drona       | Devotion versus authority/power             |
-|   2 |  3 | 5.7% | Ganga, Yamuna, Vayu     | Kurma, Varaha, Matsya      | Natural forces vs avatars                   |
-|   3 |  4 | 5.4% | Garuda, Vayu, Ravana    | Krishna, Vyasa, Lakshmana  | Destructive/fierce vs benevolent/righteous  |
-|   4 |  5 | 4.7% | Vayu, Prahlada, Krishna | Ganga, Yamuna, Kurma       | Devotion versus geographical/physical forms |
+|                                                                        idx | PC | Var% | High                                       | Low                                           | Axis                                                                                                                            |
+|----------------------------------------------------------------------------+----+------+--------------------------------------------+-----------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------|
+|                                                                          0 |  1 | 9.6% | Shiva, Vishnu, Radha, Krishna, Parvati     | Jatayu, Duryodhana, Angada, Shatrughna, Bhima | "Looking at these characters, the key distinction appears to be:                                                                |
+|                                                                            |    |      |                                            |                                               |                                                                                                                                 |
+|                                                 **Divine vs mortal/demonic** |    |      |                                            |                                               |                                                                                                                                 |
+|                                                                            |    |      |                                            |                                               |                                                                                                                                 |
+|                                 The HIGH group consists entirely of major" |    |      |                                            |                                               |                                                                                                                                 |
+|                                                                          1 |  2 | 6.6% | Hanuman, Radha, Sita, Prahlada, Lakshmana  | Vyasa, Arjuna, Drona, Bhishma, Yama           | Devotion over duty                                                                                                              |
+|                                                                          2 |  3 | 5.7% | Ganga, Yamuna, Vayu, Surya, Agni           | Kurma, Varaha, Matsya, Narasimha, Vamana      | Looking at the HIGH group, I see natural forces and celestial entities (rivers, wind, sun, fire, moon) plus associated deities, |
+|                                                                          3 |  4 | 5.4% | Garuda, Vayu, Ravana, Kali, Mahishasura    | Krishna, Vyasa, Lakshmana, Prahlada, Arjuna   | "Looking at these characters, the HIGH group consists of:                                                                       |
+| - Powerful beings with extraordinary physical forms (Garuda - eagle, Jata" |    |      |                                            |                                               |                                                                                                                                 |
+|                                                                          4 |  5 | 4.7% | Vayu, Prahlada, Krishna, Vasishtha, Garuda | Ganga, Yamuna, Kurma, Matsya, Varaha          | Looking at the HIGH vs LOW groups, I notice the LOW group is dominated by water deities (Ganga, Yamuna, Var                     |
 === Norse Mythology (48 characters) ===
-| idx | PC |  Var% | High                                 | Low                                           | Axis                                      |
-|-----+----+-------+--------------------------------------+-----------------------------------------------+-------------------------------------------|
-|   0 |  1 | 12.6% | Norns, Urd, Verdandi                 | Erik The Red, Leif Erikson, Ivar The Boneless | Mythical beings versus historical figures |
-|   1 |  2 |  9.3% | Leif Erikson, Erik The Red, Verdandi | Ratatoskr, Hermod, Andvari                    | Human vs mythical beings                  |
-|   2 |  3 |  7.5% | Wayland The Smith, Andvari, Fafnir   | Ratatoskr, Leif Erikson, Erik The Red         | Craftsmen and monsters versus messengers  |
-|   3 |  4 |  5.6% | Freyr, Njord, Bragi                  | Jormungandr, Wayland The Smith, Nidhogg       | Benevolent versus destructive forces      |
-|   4 |  5 |  5.0% | Fafnir, Andvari, Brynhild            | Wayland The Smith, Sleipnir, Hermod           | Acquired wealth or treasures              |
+|                                    idx | PC |  Var% | High                                                        | Low                                                                            | Axis                                                                                                                                                                           |
+|----------------------------------------+----+-------+-------------------------------------------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|                                      0 |  1 | 12.6% | Norns, Urd, Verdandi, Skuld, Ratatoskr                      | Erik The Red, Leif Erikson, Ivar The Boneless, Ragnar Lothbrok, Bjorn Ironside | Divine/supernatural vs mortal/legendary humans                                                                                                                                 |
+|                                      1 |  2 |  9.3% | Leif Erikson, Erik The Red, Verdandi, Norns, Skuld          | Ratatoskr, Hermod, Andvari, Sleipnir, Hugin                                    | Looking at the HIGH characters, I notice they're all either human/mortal figures (Leif Erikson, Erik the Red,                                                                  |
+|                                      2 |  3 |  7.5% | Wayland The Smith, Andvari, Fafnir, Grendels Mother, Fenrir | Ratatoskr, Leif Erikson, Erik The Red, Hugin, Hermod                           | "Looking at the HIGH vs LOW characters, the key distinction appears to be:                                                                                                     |
+|                                        |    |       |                                                             |                                                                                |                                                                                                                                                                                |
+|           **""Tragic or violent fate""** |    |       |                                                             |                                                                                |                                                                                                                                                                                |
+|                                        |    |       |                                                             |                                                                                |                                                                                                                                                                                |
+|               The HIGH characters all" |    |       |                                                             |                                                                                |                                                                                                                                                                                |
+|                                      3 |  4 |  5.6% | Freyr, Njord, Bragi, Forseti, Freya                         | Jormungandr, Wayland The Smith, Nidhogg, Surtr, Garm                           | Looking at these two groups, the HIGH characters are predominantly associated with positive, constructive, or civilized aspects of Norse mythology - they include fertility de |
+|                                      4 |  5 |  5.0% | Fafnir, Andvari, Brynhild, Erik The Red, Skadi              | Wayland The Smith, Sleipnir, Hermod, Fenrir, Hugin                             | "Looking at the HIGH vs LOW characters, the key distinction appears to be:                                                                                                     |
+|                                        |    |       |                                                             |                                                                                |                                                                                                                                                                                |
+|      **Transformation or metamorphosis** |    |       |                                                             |                                                                                |                                                                                                                                                                                |
+|                                        |    |       |                                                             |                                                                                |                                                                                                                                                                                |
+| The HIGH characters notably underwent" |    |       |                                                             |                                                                                |                                                                                                                                                                                |
 === Egyptian Mythology (44 characters) ===
-| idx | PC |  Var% | High                      | Low                         | Axis                                     |
-|-----+----+-------+---------------------------+-----------------------------+------------------------------------------|
-|   0 |  1 | 12.1% | Anubis, Osiris, Ammit     | Akhenaten, Aten, Hatshepsut | Afterlife versus earthly realm           |
-|   1 |  2 |  9.6% | Khufu, Ramesses Ii, Ammit | Khepri, Aten, Atum          | Historical rulers vs deities             |
-|   2 |  3 |  8.4% | Anubis, Ammit, Osiris     | Bastet, Taweret, Sobek      | Death and afterlife focus                |
-|   3 |  4 |  6.3% | Ammit, Akhenaten, Anubis  | Khufu, Imhotep, Geb         | Death and afterlife association          |
-|   4 |  5 |  5.4% | Atum, Ptah, Khnum         | Khepri, Khonsu, Serqet      | Primordial creation vs specialized roles |
+| idx                                                                                                                                | PC |  Var% | High                                               | Low                                                 | Axis                                                                               |
+|------------------------------------------------------------------------------------------------------------------------------------+----+-------+----------------------------------------------------+-----------------------------------------------------+------------------------------------------------------------------------------------|
+| 0                                                                                                                                  |  1 | 12.1% | Anubis, Osiris, Ammit, Nephthys, Thoth             | Akhenaten, Aten, Hatshepsut, Ramesses Ii, Nefertiti | "Divine vs mortal rulers                                                           |
+|                                                                                                                                    |    |       |                                                    |                                                     |                                                                                    |
+| The HIGH group consists of gods and goddesses from Egyptian mythology, while the LOW group contains historical pharaohs and human" |    |       |                                                    |                                                     |                                                                                    |
+| 1                                                                                                                                  |  2 |  9.6% | Khufu, Ramesses Ii, Ammit, Tutankhamun, Hatshepsut | Khepri, Aten, Atum, Khonsu, Ra                      | "Looking at the HIGH vs LOW groups:                                                |
+|                                                                                                                                    |    |       |                                                    |                                                     |                                                                                    |
+| HIGH includes mortal rulers (Khufu, Ramesses II, Tutankhamun"                                                                      |    |       |                                                    |                                                     |                                                                                    |
+| 2                                                                                                                                  |  3 |  8.4% | Anubis, Ammit, Osiris, Maat, Ra                    | Bastet, Taweret, Sobek, Khnum, Sekhmet              | "Looking at the HIGH vs LOW groups, the pattern appears to be:                     |
+|                                                                                                                                    |    |       |                                                    |                                                     |                                                                                    |
+| **""Cosmic or afterlife roles""**                                                                                                    |    |       |                                                    |                                                     |                                                                                    |
+|                                                                                                                                    |    |       |                                                    |                                                     |                                                                                    |
+| The HIGH characters ("                                                                                                             |    |       |                                                    |                                                     |                                                                                    |
+| 3                                                                                                                                  |  4 |  6.3% | Ammit, Akhenaten, Anubis, Bastet, Serqet           | Khufu, Imhotep, Geb, Seshat, Atum                   | "Looking at the HIGH vs LOW groups, I notice the HIGH group consists primarily of: |
+| - Death/afterlife deities (Ammit,"                                                                                                 |    |       |                                                    |                                                     |                                                                                    |
+| 4                                                                                                                                  |  5 |  5.4% | Atum, Ptah, Khnum, Maat, Tefnut                    | Khepri, Khonsu, Serqet, Horus, Cleopatra            | "Looking at the HIGH vs LOW groups, the key distinction appears to be:             |
+|                                                                                                                                    |    |       |                                                    |                                                     |                                                                                    |
+| **""Abstract primordial concepts""**                                                                                                 |    |       |                                                    |                                                     |                                                                                    |
+|                                                                                                                                    |    |       |                                                    |                                                     |                                                                                    |
+| The HIGH group consists"                                                                                                           |    |       |                                                    |                                                     |                                                                                    |
 === Shakespeare (114 characters) ===
-| idx | PC | Var% | High                                     | Low                                      | Axis                                  |
-|-----+----+------+------------------------------------------+------------------------------------------+---------------------------------------|
-|   0 |  1 | 7.2% | Othello, Bottom, Titania                 | Richard Ii, Banquo, Hotspur              | Comedy versus tragedy characters      |
-|   1 |  2 | 6.6% | Romeo Montague, Juliet Capulet, Romeo    | Bottom, Oberon, Touchstone               | Romantic leads vs comic characters    |
-|   2 |  3 | 6.1% | King Lear, Macbeth, Othello              | Dogberry, Juliet Capulet, Romeo Montague | Tragic vs comic characters            |
-|   3 |  4 | 5.0% | The Three Witches, Macbeth, Lady Macbeth | Shylock, Falstaff, Benedick              | Supernatural versus mortal characters |
-|   4 |  5 | 4.7% | Julius Caesar, Brutus, Mark Antony       | King Lear, Hamlet, Ophelia               | Political actors versus victims       |
+| idx | PC | Var% | High                                                      | Low                                                                   | Axis                                                                               |
+|-----+----+------+-----------------------------------------------------------+-----------------------------------------------------------------------+------------------------------------------------------------------------------------|
+|   0 |  1 | 7.2% | Othello, Bottom, Titania, Oberon, Desdemona               | Richard Ii, Banquo, Hotspur, Malcolm, Macbeth                         | Looking at the HIGH characters (Othello, Bottom, Titania, Oberon, Desdemona, Puck, |
+|   1 |  2 | 6.6% | Romeo Montague, Juliet Capulet, Romeo, Benvolio, Juliet   | Bottom, Oberon, Touchstone, Feste, Puck                               | Tragedy versus comedy                                                              |
+|   2 |  3 | 6.1% | King Lear, Macbeth, Othello, Lady Macbeth, Coriolanus     | Dogberry, Juliet Capulet, Romeo Montague, Romeo, Sir Andrew Aguecheek | Tragic downfall/death                                                              |
+|   3 |  4 | 5.0% | The Three Witches, Macbeth, Lady Macbeth, Titania, Oberon | Shylock, Falstaff, B                                                  |                                                                                    |
+
+
+enedick, Bassanio, Sir Toby Belch|Supernatural or magical elements |
+| 4 | 5 | 4.7% | Julius Caesar, Brutus, Mark Antony, Bottom, Octavius | King Lear, Hamlet, Ophelia, Cordelia, Gloucester | Roman or comedic characters |
 :end:
 
 * Summary
@@ -1302,22 +1428,24 @@ if 'cosine_sims' in dir():
 ** Principal Components (Fictional Character Space)
 
 #+begin_src python
-def show_pc(pc_idx, top_k=5):
+def show_pc(pc_idx, top_k=8):
     scores = transformed[:, pc_idx]
     sorted_idx = np.argsort(scores)
     var_pct = pca.explained_variance_ratio_[pc_idx] * 100
     
-    high = [char_names[i].replace('_', ' ').title() for i in sorted_idx[-top_k:][::-1]]
-    low = [char_names[i].replace('_', ' ').title() for i in sorted_idx[:top_k]]
+    high_with_scores = [(char_names[i].replace('_', ' ').title(), scores[i]) 
+                        for i in sorted_idx[-top_k:][::-1]]
+    low_with_scores = [(char_names[i].replace('_', ' ').title(), scores[i]) 
+                       for i in sorted_idx[:top_k]]
     
     row = {
         'PC': pc_idx + 1,
         'Var%': f"{var_pct:.1f}%",
-        'High': ', '.join(high[:3]),
-        'Low': ', '.join(low[:3])
+        'High': ', '.join([name for name, _ in high_with_scores[:3]]),
+        'Low': ', '.join([name for name, _ in low_with_scores[:3]])
     }
     if USE_LLM_INTERPRETATION:
-        row['Axis'] = interpret_pc("All Characters", pc_idx + 1, var_pct, high, low)
+        row['Axis'] = interpret_pc("All Characters", pc_idx + 1, var_pct, high_with_scores, low_with_scores, within_universe=False)
     return row
 
 if 'pca' in dir():
@@ -1330,21 +1458,25 @@ if 'pca' in dir():
 :results:
 
 
-
-
-
-| idx | PC |  Var% | High                                                                                                                      | Low                                                                                                    | Axis                                         |
-|-----+----+-------+---------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------+----------------------------------------------|
-|   0 |  1 | 19.4% | One Punch Man  Saitama, The Catcher In The Rye  Holden Caulfield, Naruto  Naruto Uzumaki                                  | Egyptian Mythology  Amun, Aztec Mythology  Quetzalcoatl, Egyptian Mythology  Neith                     | Human vs divine characters                   |
-|   1 |  2 |  8.7% | Game Of Thrones  Roose Bolton, Game Of Thrones  Walder Frey, Game Of Thrones  Sandor Clegane The Hound                    | Hindu Mythology  Vishnu, Hindu Mythology  Rama, Hindu Mythology  Parvati                               | Morality and divine benevolence              |
-|   2 |  3 |  7.0% | Star Wars  Darth Vader Anakin Skywalker, Star Wars  Darth Maul, Star Wars  Darth Vader                                    | Winniethepooh  Winniethepooh, Alices Adventures In Wonderland  Alice, A Midsummer Nights Dream  Bottom | Dark versus innocent characters              |
-|   3 |  4 |  5.6% | Lord Of The Rings  Arwen, Lord Of The Rings  Elendil, Lord Of The Rings  Aragorn                                          | Dc Comics  The Joker, Marvel  Carnage Cletus Kasady, Marvel  Green Goblin Norman Osborn                | Heroism versus villainy                      |
-|   4 |  5 |  4.7% | Game Of Thrones  Ygritte, Game Of Thrones  Sandor Clegane The Hound, Game Of Thrones  Tormund Giantsbane                  | Star Wars  C3Po, Harry Potter  Dolores Umbridge, Star Wars  Darth Vader                                | Physical versus intellectual/political power |
-|   5 |  6 |  4.1% | Marvel Comics  Captain America   Steve Rogers, Marvel  Captain America Steve Rogers, Henry V  Henry V                     | The Lord Of The Rings  Gollum, Lord Of The Rings  Gollum Smeagol, Lord Of The Rings  Great Goblin      | Moral integrity versus corruption            |
-|   6 |  7 |  3.7% | Naruto  Tobirama Senju, Naruto  Orochimaru, Naruto  Madara Uchiha                                                         | Star Wars  R2D2, Star Wars  Bb8, Star Wars  Jar Jar Binks                                              | Supernatural powers versus mundane abilities |
-|   7 |  8 |  3.2% | Marvel Comics  Captain America   Steve Rogers, Marvel  Captain America Steve Rogers, Marvel  Captain Marvel Carol Danvers | Hindu Mythology  Rama, Hindu Mythology  Krishna, Hindu Mythology  Vyasa                                | Western vs Eastern origin                    |
-|   8 |  9 |  2.9% | Star Wars  Grogu Baby Yoda, Star Wars  Bb8, Star Wars  R2D2                                                               | Hindu Mythology  Vyasa, Hindu Mythology  Arjuna, Hindu Mythology  Prahlada                             | Communication through words vs sounds        |
-|   9 | 10 |  2.6% | Egyptian Mythology  Tutankhamun, Egyptian Mythology  Nekhbet, Game Of Thrones  Sansa Stark                                | Dragon Ball  Vegeta, Lord Of The Rings  Feanor, Lord Of The Rings  Balrog Of Moria                     | Gender (female vs male)                      |
+| idx | PC |  Var% | High                                                                                                     | Low                                                                                                    | Axis                                                                                                                                                 |
+|-----+----+-------+----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------|
+|   0 |  1 | 19.4% | One Punch Man  Saitama, The Catcher In The Rye  Holden Caulfield, Naruto  Naruto Uzumaki                 | Egyptian Mythology  Amun, Aztec Mythology  Quetzalcoatl, Egyptian Mythology  Neith                     | Modern pop culture characters                                                                                                                        |
+|   1 |  2 |  8.7% | Game Of Thrones  Roose Bolton, Game Of Thrones  Walder Frey, Game Of Thrones  Sandor Clegane The Hound   | Hindu Mythology  Vishnu, Hindu Mythology  Rama, Hindu Mythology  Parvati                               | Looking at these characters, the high PC2 group consists of cruel, villainous characters from Game of Thrones who are known for brut                 |
+|   2 |  3 |  7.0% | Star Wars  Darth Vader Anakin Skywalker, Star Wars  Darth Maul, Star Wars  Darth Vader                   | Winniethepooh  Winniethepooh, Alices Adventures In Wonderland  Alice, A Midsummer Nights Dream  Bottom | Evil versus innocent/childlike.                                                                                                                      |
+|   3 |  4 |  5.6% | Lord Of The Rings  Arwen, Lord Of The Rings  Elendil, Lord Of The Rings  Aragorn                         | Dc Comics  The Joker, Marvel  Carnage Cletus Kasady, Marvel  Green Goblin Norman Osborn                | Looking at the HIGH characters (Lord of the Rings heroes and noble figures) versus the LOW characters (villains like Joker, Carn                     |
+|   4 |  5 |  4.7% | Game Of Thrones  Ygritte, Game Of Thrones  Sandor Clegane The Hound, Game Of Thrones  Tormund Giantsbane | Star Wars  C3Po, Harry Potter  Dolores Umbridge, Star Wars  Darth Vader                                | Looking at the HIGH group, I see characters who are primarily physical fighters, brawlers, and warriors who rely on raw strength and combat skills - |
+|   5 |  6 |  4.1% | Marvel Comics  Captain America   Steve Rogers, Marvel  Captain America Steve Rogers, Henry V  Henry V    | The Lord Of The Rings  Gollum, Lord Of The Rings  Gollum Smeagol, Lord Of The Rings  Great Goblin      | Looking at the HIGH group, I see noble, heroic, and morally upright characters - Captain America, Henry V, Jean Valj                                 |
+|   6 |  7 |  3.7% | Naruto  Tobirama Senju, Naruto  Orochimaru, Naruto  Madara Uchiha                                        | Star Wars  R2D2, Star Wars  Bb8, Star Wars  Jar Jar Binks                                              | "Looking at the characters, I notice all the HIGH characters are from Naruto and                                                                     |
+ all the LOW characters are from Star Wars. |
+|                                                                                    |    |      |                                                                                                                           |                                                                                    |                                      |
+|                                                                More specifically," |    |      |                                                                                                                           |                                                                                    |                                      |
+|                                                                                  7 |  8 | 3.2% | Marvel Comics  Captain America   Steve Rogers, Marvel  Captain America Steve Rogers, Marvel  Captain Marvel Carol Danvers | Hindu Mythology  Rama, Hindu Mythology  Krishna, Hindu Mythology  Vyasa            | Western vs Hindu mythology           |
+|                                                                                  8 |  9 | 2.9% | Star Wars  Grogu Baby Yoda, Star Wars  Bb8, Star Wars  R2D2                                                               | Hindu Mythology  Vyasa, Hindu Mythology  Arjuna, Hindu Mythology  Prahlada         | "Looking at this split, I see:       |
+|                                                                                    |    |      |                                                                                                                           |                                                                                    |                                      |
+|            HIGH: Mostly non-human or cute/childlike characters (Baby Yoda, droids" |    |      |                                                                                                                           |                                                                                    |                                      |
+|                                                                                  9 | 10 | 2.6% | Egyptian Mythology  Tutankhamun, Egyptian Mythology  Nekhbet, Game Of Thrones  Sansa Stark                                | Dragon Ball  Vegeta, Lord Of The Rings  Feanor, Lord Of The Rings  Balrog Of Moria | "Looking at the high and low groups: |
+|                                                                                    |    |      |                                                                                                                           |                                                                                    |                                      |
+| HIGH: Egyptian royalty/deities (mostly female figures) and Game of Thrones noblew" |    |      |                                                                                                                           |                                                                                    |                                      |
 :end:
 
 ** Characters on Lu's Role Space
@@ -1353,20 +1485,22 @@ Where do fictional characters land on axes defined by generic roles?
 
 #+begin_src python
 if 'chars_in_role_space' in dir():
-    def show_role_pc(pc_idx, top_k=5):
+    def show_role_pc(pc_idx, top_k=8):
         scores = chars_in_role_space[:, pc_idx]
         sorted_idx = np.argsort(scores)
         
-        high = [char_names[i].replace('_', ' ').title() for i in sorted_idx[-top_k:][::-1]]
-        low = [char_names[i].replace('_', ' ').title() for i in sorted_idx[:top_k]]
+        high_with_scores = [(char_names[i].replace('_', ' ').title(), scores[i]) 
+                            for i in sorted_idx[-top_k:][::-1]]
+        low_with_scores = [(char_names[i].replace('_', ' ').title(), scores[i]) 
+                           for i in sorted_idx[:top_k]]
         
         row = {
             'Role PC': pc_idx + 1,
-            'High (fictional chars)': ', '.join(high[:3]),
-            'Low (fictional chars)': ', '.join(low[:3])
+            'High (fictional chars)': ', '.join([name for name, _ in high_with_scores[:3]]),
+            'Low (fictional chars)': ', '.join([name for name, _ in low_with_scores[:3]])
         }
         if USE_LLM_INTERPRETATION:
-            row['Axis'] = interpret_pc("Lu Role Space", pc_idx + 1, 0, high, low)
+            row['Axis'] = interpret_pc("Lu Role Space", pc_idx + 1, 0, high_with_scores, low_with_scores, within_universe=False)
         return row
     
     rows = [show_role_pc(i) for i in range(10)]
@@ -1376,19 +1510,23 @@ if 'chars_in_role_space' in dir():
 
 #+RESULTS:
 :results:
-
-| idx | Role PC | High (fictional chars)                                                                              | Low (fictional chars)                                                                         | Axis                                             |
-|-----+---------+-----------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------+--------------------------------------------------|
-|   0 |       1 | Harry Potter  Hermione Granger, Harry Potter  Ginny Weasley, Harry Potter  Katie Bell               | Lord Of The Rings  Ungoliant, Lord Of The Rings  Shelob, Game Of Thrones  Night King          | Heroic protagonists versus dark antagonists      |
-|   1 |       2 | The Catcher In The Rye  Holden Caulfield, Marvel  Deadpool Wade Wilson, The Simpsons  Homer Simpson | Egyptian Mythology  Maat, Aztec Mythology  Quetzalcoatl, Hindu Mythology  Brahma              | Modern irreverence versus ancient divinity       |
-|   2 |       3 | Star Wars  General Grievous, Marvel  Ultron, The Terminator  The Terminator                         | Naruto  Hinata Hyuga, To Kill A Mockingbird  Atticus Finch, Les Misérables  Cosette           | Dominance versus submission                      |
-|   3 |       4 | Fight Club  Tyler Durden, Nineteen Eightyfour  Big Brother, Marvel  Killmonger Erik Stevens         | My Neighbor Totoro  Totoro, Star Wars  Grogu Baby Yoda, Marvel  Groot                         | Villain versus innocent/childlike characters     |
-|   4 |       5 | Game Of Thrones  Hodor, Star Wars  Grogu Baby Yoda, Marvel  Groot                                   | Dc Comics  Batman   Bruce Wayne, Marvel  The Punisher Frank Castle, 007 Series  James Bond    | Childlike innocence versus hardened warriors     |
-|   5 |       6 | Alices Adventures In Wonderland  The Mad Hatter, Shakespeare  Feste, Shakespeare  Touchstone        | Nineteen Eightyfour  Big Brother, The Terminator  The Terminator, Game Of Thrones  Hodor      | Whimsical versus threatening characters          |
-|   6 |       7 | Lord Of The Rings  Hurin, Game Of Thrones  Stannis Baratheon, Lord Of The Rings  Denethor           | Star Wars  Bb8, Pacman  Pacman, The Hitchhikers Guide To The Galaxy  Arthur Dent              | Tragic nobility versus comedic simplicity        |
-|   7 |       8 | Game Of Thrones  Tormund Giantsbane, Henry Iv  Falstaff, Don Quixote  Don Quixote                   | Marvel  Ultron, The Terminator  The Terminator, Marvel  Mister Sinister                       | Warm humor versus cold logic                     |
-|   8 |       9 | Harry Potter  Dolores Umbridge, Harry Potter  Gilderoy Lockhart, Naruto  Might Guy                  | Game Of Thrones  Jojen Reed, The Metamorphosis  Gregor Samsa, The Stranger  Meursault         | Exuberant showmanship versus quiet introspection |
-|   9 |      10 | Marvel  Sabretooth Victor Creed, Black Panther  Killmonger, Game Of Thrones  Ygritte                | Pride And Prejudice  Mr Darcy, Pride And Prejudice  Elizabeth Bennet, Lolita  Humbert Humbert | Primal wildness versus refined civilization      |
+|                                                                                   idx | Role PC | High (fictional chars)                                                                              | Low (fictional chars)                                                                      | Axis                                                                                                                                                             |
+|---------------------------------------------------------------------------------------+---------+-----------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|                                                                                     0 |       1 | Harry Potter  Hermione Granger, Harry Potter  Ginny Weasley, Harry Potter  Katie Bell               | Lord Of The Rings  Ungoliant, Lord Of The Rings  Shelob, Game Of Thrones  Night King       | Looking at the HIGH group (mostly Harry Potter students, Goku, Naruto characters) versus the LOW group (mystical/supernatural beings                             |
+|                                                                                     1 |       2 | The Catcher In The Rye  Holden Caulfield, Marvel  Deadpool Wade Wilson, The Simpsons  Homer Simpson | Egyptian Mythology  Maat, Aztec Mythology  Quetzalcoatl, Hindu Mythology  Brahma           | Looking at the high scorers (Holden Caulfield, Deadpool, Homer Simpson, Tony Soprano, etc.) versus the                                                           |
+|                                                                                     2 |       3 | Star Wars  General Grievous, Marvel  Ultron, The Terminator  The Terminator                         | Naruto  Hinata Hyuga, To Kill A Mockingbird  Atticus Finch, Les Misérables  Cosette        | Looking at the HIGH group (General Grievous, Ultron, The Terminator, Mister Sinister, Big Brother,                                                               |
+|                                                                                     3 |       4 | Fight Club  Tyler Durden, Nineteen Eightyfour  Big Brother, Marvel  Killmonger Erik Stevens         | My Neighbor Totoro  Totoro, Star Wars  Grogu Baby Yoda, Marvel  Groot                      | Looking at this split, the HIGH characters are complex antagonists, revolutionaries, or deeply conflicted protagonists who challenge systems and ideologies. The |
+|                                                                                     4 |       5 | Game Of Thrones  Hodor, Star Wars  Grogu Baby Yoda, Marvel  Groot                                   | Dc Comics  Batman   Bruce Wayne, Marvel  The Punisher Frank Castle, 007 Series  James Bond | "Looking at the high-scoring characters, I notice they all have distinctive speech patterns or communication quirks - Hodor only says ""Hodor"                   |
+|                                                                                     5 |       6 | Alices Adventures In Wonderland  The Mad Hatter, Shakespeare  Feste, Shakespeare  Touchstone        | Nineteen Eightyfour  Big Brother, The Terminator  The Terminator, Game Of Thrones  Hodor   | Looking at the high-scoring characters, they are all whimsical, playful figures who bring chaos, humor, and unpredictability                                     |
+|                                                                                     6 |       7 | Lord Of The Rings  Hurin, Game Of Thrones  Stannis Baratheon, Lord Of The Rings  Denethor           | Star Wars  Bb8, Pacman  Pacman, The Hitchhikers Guide To The Galaxy  Arthur Dent           | Looking at the high-scoring characters, they all share a common trait: they are tragic, noble figures who face doom or downfall despite their strength           |
+|                                                                                     7 |       8 | Game Of Thrones  Tormund Giantsbane, Henry Iv  Falstaff, Don Quixote  Don Quixote                   | Marvel  Ultron, The Terminator  The Terminator, Marvel  Mister Sinister                    | "Looking at the characters, I notice a clear pattern:                                                                                                            |
+|                                                                                       |         |                                                                                                     |                                                                                            |                                                                                                                                                                  |
+| The HIGH group consists of boisterous, rowdy, physically imposing characters who are" |         |                                                                                                     |                                                                                            |                                                                                                                                                                  |
+|                                                                                     8 |       9 | Harry Potter  Dolores Umbridge, Harry Potter  Gilderoy Lockhart, Naruto  Might Guy                  | Game Of Thrones  Jojen Reed, The Metamorphosis  Gregor Samsa, The Stranger  Meursault      | Looking at the HIGH group, I see characters who are notably theatrical, flamboyant, or performative in their behavior - Umbridge with                            |
+|                                                                                     9 |      10 | Marvel  Sabretooth Victor Creed, Black Panther  Killmonger, Game Of Thrones  Ygritte                | Pride And Prejudice  Mr Darcy, Pride And Prej                                              |                                                                                                                                                                  |
+udice  Elizabeth Bennet, Lolita  Humbert Humbert|"Looking at these two groups, I need to identify what distinguishes the HIGH PC10 characters from the LOW PC10 characters. |
+|             |
+| HIGH group" |
 :end:
 
 ** Within-Universe PCA (Full Space)
@@ -1426,7 +1564,7 @@ if 'chars_in_role_space' in dir():
      - LOTR PC1 → GoT: Low=[Melisandre, Night King] High=[Hot Pie, Bronn, Gendry]
 
 #+begin_src python
-def analyze_universe_full(universe_name, prefix, n_pcs=5):
+def analyze_universe_full(universe_name, prefix, n_pcs=5, n_extreme=8):
     """PCA on full activations within a single universe."""
     indices = get_universe_indices(prefix)
     if len(indices) < 10:
@@ -1449,17 +1587,19 @@ def analyze_universe_full(universe_name, prefix, n_pcs=5):
         sorted_idx = np.argsort(scores)
         var_pct = u_pca.explained_variance_ratio_[pc_idx] * 100
         
-        high = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[-5:][::-1]]
-        low = [u_names[i].split('__')[1].replace('_', ' ').title() for i in sorted_idx[:5]]
+        high_with_scores = [(u_names[i].split('__')[-1].replace('_', ' ').title(), scores[i]) 
+                           for i in sorted_idx[-n_extreme:][::-1]]
+        low_with_scores = [(u_names[i].split('__')[-1].replace('_', ' ').title(), scores[i]) 
+                          for i in sorted_idx[:n_extreme]]
         
         row = {
             'PC': pc_idx + 1,
             'Var%': f"{var_pct:.1f}%",
-            'High': ', '.join(high[:3]),
-            'Low': ', '.join(low[:3]),
+            'High': ', '.join([name for name, _ in high_with_scores[:5]]),
+            'Low': ', '.join([name for name, _ in low_with_scores[:5]]),
         }
         if USE_LLM_INTERPRETATION:
-            row['Axis'] = interpret_pc(universe_name, pc_idx + 1, var_pct, high, low)
+            row['Axis'] = interpret_pc(universe_name, pc_idx + 1, var_pct, high_with_scores, low_with_scores, within_universe=True)
         rows.append(row)
     
     df = pd.DataFrame(rows)
@@ -1473,103 +1613,46 @@ if 'activation_matrix' in dir():
 
 #+RESULTS:
 :results:
-
 === Harry Potter (Full Space, 102 characters) ===
-| idx | PC |  Var% | High                                                            | Low                                             | Axis                                 |
-|-----+----+-------+-----------------------------------------------------------------+-------------------------------------------------+--------------------------------------|
-|   0 |  1 | 23.9% | Lord Voldemort, Gellert Grindelwald, Professor Trelawney        | Ron Weasley, Fred Weasley, Charlie Weasley      | Neuroticism or emotional instability |
-|   1 |  2 | 15.0% | Albus Dumbledore, Padma Patil, Helena Ravenclaw                 | Vernon Dursley, Dudley Dursley, Petunia Dursley | Intelligence and wisdom              |
-|   2 |  3 |  8.4% | Dobby The House Elf, Xenophilius Lovegood, Nearly Headless Nick | Regulus Black, Tom Riddle, Kingsley Shacklebolt | Visibility versus shadow presence    |
-|   3 |  4 |  7.4% | Dolores Umbridge, Gilderoy Lockhart, Horace Slughorn            | Fenrir Greyback, Aragog, Kreacher               | Social conformity and status-seeking |
-|   4 |  5 |  4.6% | Dobby The House Elf, Kreacher, Dolores Umbridge                 | Peeves, Mundungus Fletcher, Alastor Moody       | Loyalty and servitude                |
+|                              idx | PC |  Var% | High                                                                                       | Low                                                                                | Axis                                                                                                                                                      |
+|----------------------------------+----+-------+--------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+|                                0 |  1 | 23.9% | Lord Voldemort, Gellert Grindelwald, Professor Trelawney, Igor Karkaroff, The Bloody Baron | Ron Weasley, Fred Weasley, Charlie Weasley, Percy Weasley, Ginny Weasley           | Dark, evil, or villainous                                                                                                                                 |
+|                                1 |  2 | 15.0% | Albus Dumbledore, Padma Patil, Helena Ravenclaw, Ollivander, Parvati Patil                 | Vernon Dursley, Dudley Dursley, Petunia Dursley, Dolores Umbridge, Crabbe          | Looking at the HIGH characters, they are all associated with wisdom, learning, and magical knowledge - professors, inventors, scholars, and wise mentors. |
+|                                2 |  3 |  8.4% | Dobby The House Elf, Xenophilius Lovegood, Nearly Headless Nick, Kreacher, Scabbers        | Regulus Black, Tom Riddle, Kingsley Shacklebolt, Marcus Flint, Gellert Grindelwald | Looking at the HIGH characters (Dobby, Xenophilius, Nearly Headless Nick, Kreacher, Scabbers                                                              |
+|                                3 |  4 |  7.4% | Dolores Umbridge, Gilderoy Lockhart, Horace Slughorn, Cornelius Fudge, Professor Flitwick  | Fenrir Greyback, Aragog, Kreacher, Scabbers, Nagini                                | "HIGH: Social hierarchy/status conscious                                                                                                                  |
+|                                  |    |       |                                                                                            |                                                                                    |                                                                                                                                                           |
+|       LOW: Outcasts or servants" |    |       |                                                                                            |                                                                                    |                                                                                                                                                           |
+|                                4 |  5 |  4.6% | Dobby The House Elf, Kreacher, Dolores Umbridge, Peter Pettigrew, Goyle                    | Peeves, Mundungus Fletcher, Alastor Moody, Stan Shunpike, Rita Skeeter             | "Looking at the HIGH vs LOW characters, the pattern appears to be:                                                                                        |
+|                                  |    |       |                                                                                            |                                                                                    |                                                                                                                                                           |
+|         **Subservient or bullied** |    |       |                                                                                            |                                                                                    |                                                                                                                                                           |
+|                                  |    |       |                                                                                            |                                                                                    |                                                                                                                                                           |
+| The HIGH characters are notably" |    |       |                                                                                            |                                                                                    |                                                                                                                                                           |
 === Star Wars (Full Space, 105 characters) ===
-| idx | PC |  Var% | High                                                            | Low                                                          | Axis                                            |
-|-----+----+-------+-----------------------------------------------------------------+--------------------------------------------------------------+-------------------------------------------------|
-|   0 |  1 | 24.1% | Darth Vader, Darth Vader Anakin Skywalker, The Grand Inquisitor | Han Solo, Hondo Ohnaka, Lando Calrissian                     | Force sensitivity versus non-Force users        |
-|   1 |  2 | 16.4% | Jabba The Hutt, General Grievous, Sebulba                       | Luke Skywalker, Rey, Ezra Bridger                            | Villains versus heroes                          |
-|   2 |  3 | 13.0% | Cassian Andor, Qira, Jyn Erso                                   | R2D2, Bb8, Jar Jar Binks                                     | Moral ambiguity versus innocence                |
-|   3 |  4 |  9.6% | Yoda, Grogu Baby Yoda, Darth Maul                               | Governor Tarkin, C3Po, Wilhuff Tarkin                        | Non-human versus human characters               |
-|   4 |  5 |  4.3% | Grand Admiral Thrawn, Yoda, Maz Kanata                          | Darth Vader Anakin Skywalker, Darth Vader, Kylo Ren Ben Solo | Strategic thinking versus emotional impulsivity |
-=== Marvel (Full Space, 108 characters) ===
-| idx | PC |  Var% | High                                                                                          | Low                                                                       | Axis                                  |
-|-----+----+-------+-----------------------------------------------------------------------------------------------+---------------------------------------------------------------------------+---------------------------------------|
-|   0 |  1 | 25.7% | Spiderman Peter Parker, Spiderman, Jessica Jones                                              | Galactus, Apocalypse En Sabah Nur, Odin                                   | Street-level versus cosmic power      |
-|   1 |  2 | 13.8% | Carnage Cletus Kasady, Green Goblin Norman Osborn, Sabretooth Victor Creed                    | Professor X Charles Xavier, Invisible Woman Sue Storm, Storm Ororo Munroe | Brutality versus compassion/restraint |
-|   2 |  3 |  7.3% | The Punisher Frank Castle, Killmonger Erik Stevens, Elektra Natchios                          | Groot, Deadpool Wade Wilson, Rocket Raccoon                               | Dark trauma versus humor/levity       |
-|   3 |  4 |  6.2% | Mister Sinister, Doctor Octopus Otto Octavius, The Fantastic Fours Mr Fantastic Reed Richards | Groot, Thor, Odin                                                         | Intelligence versus physical power    |
-|   4 |  5 |  4.8% | Iron Man, Iron Man Tony Stark, Black Panther Tchalla                                          | Groot, Sabretooth Victor Creed, Jean Grey                                 | Technology versus natural powers      |
-=== Game Of Thrones (Full Space, 99 characters) ===
-| idx | PC |  Var% | High                                                          | Low                                                        | Axis                                          |
-|-----+----+-------+---------------------------------------------------------------+------------------------------------------------------------+-----------------------------------------------|
-|   0 |  1 | 21.1% | Bronn, Gendry, Hot Pie                                        | Melisandre, Night King, High Sparrow                       | Mundane versus supernatural beings            |
-|   1 |  2 | 12.1% | Joffrey Baratheon, Mad King Aerys Targaryen, Ramsay Bolton    | Missandei, Samwell Tarly,  Game Of Thrones                 | Cruelty and sadism levels                     |
-|   2 |  3 | 10.8% | Hodor, Night King, Khal Drogo                                 | Petyr Baelish Littlefinger, Margaery Tyrell, Olenna Tyrell | Physical strength versus cunning manipulation |
-|   3 |  4 |  8.0% | Hodor, The Waif, Margaery Tyrell                              | Jeor Mormont,  Game Of Thrones, Stannis Baratheon          | Female or young characters                    |
-|   4 |  5 |  6.5% | Joffrey Baratheon, Mad King Aerys Targaryen, Tommen Baratheon | Jaqen Hghar, Jojen Reed, Threeeyed Raven                   | Emotional control and composure               |
-=== Lord Of The Rings (Full Space, 97 characters) ===
-| idx | PC |  Var% | High                                         | Low                                                | Axis                                |
-|-----+----+-------+----------------------------------------------+----------------------------------------------------+-------------------------------------|
-|   0 |  1 | 26.4% | Fredegar Bolger Fatty, Bombur, Bilbo Baggins | Galadriel, Gilgalad, Fingolfin                     | Physical rotundness or stoutness    |
-|   1 |  2 | 20.8% | Arwen, Elanor Gardner, Samwise Gamgee        | Azog The Defiler, Ungoliant, Mouth Of Sauron       | Good versus evil alignment          |
-|   2 |  3 |  8.0% | Dwalin, Eomer, Azog The Defiler              | Gollum Smeagol, Radagast, Tom Bombadil             | Physical combat prowess             |
-|   3 |  4 |  5.4% | Gollum Smeagol, Frodo Baggins, Isildur       | Treebeard, Tom Bombadil, Goldberry                 | Susceptibility to Ring's corruption |
-|   4 |  5 |  4.8% | Gollum Smeagol, Treebeard, Ugluk             | Lobelia Sackvillebaggins, Saruman, Sharkey Saruman | Nature over corrupting power        |
-=== Naruto (Full Space, 84 characters) ===
-| idx | PC |  Var% | High                                            | Low                                                 | Axis                                 |
-|-----+----+-------+-------------------------------------------------+-----------------------------------------------------+--------------------------------------|
-|   0 |  1 | 30.0% | Naruto Uzumaki, Choji Akimichi, Tenten          | Hamura Otsutsuki, Hagoromo Otsutsuki, Madara Uchiha | Screen time / narrative focus        |
-|   1 |  2 | 17.1% | Hidan, Tayuya, Deidara                          | Hinata Hyuga, Iruka Umino, Hiruzen Sarutobi         | Aggression and violent behavior      |
-|   2 |  3 |  6.6% | Might Guy, Rock Lee, Naruto Uzumaki             | Shino Aburame, Sasori, Shikamaru Nara               | Physical combat vs tactical fighters |
-|   3 |  4 |  5.4% | A Fourth Raikage, Danzo Shimura, Tobirama Senju | Hinata Hyuga, Zetsu, Kaguya Otsutsuki               | Political leadership and authority   |
-|   4 |  5 |  4.4% | Shino Aburame, Might Guy, Teuchi                | Obito Uchiha, Sasuke Uchiha, Madara Uchiha          | Uchiha clan membership               |
-=== Greek Mythology (Full Space, 107 characters) ===
-| idx | PC |  Var% | High                              | Low                               | Axis                                      |
-|-----+----+-------+-----------------------------------+-----------------------------------+-------------------------------------------|
-|   0 |  1 | 12.3% | Telemachus, Menelaus, Agamemnon   | Chaos, Erebus, Gaia               | Mortal heroes versus primordial deities   |
-|   1 |  2 |  9.8% | Minotaur, Typhon, Cerberus        | Demeter, Gaia, Hestia             | Monstrous threat versus benevolent nature |
-|   2 |  3 |  7.2% | Eurydice, Narcissus, Clytemnestra | Hercules Heracles, Zeus, Diomedes | Victim versus perpetrator role            |
-|   3 |  4 |  6.0% | Ariadne, Theseus, Daedalus        | Agamemnon, Creon, Nemesis         | Hope versus tragic fate                   |
-|   4 |  5 |  4.8% | Charybdis, Oceanus, Poseidon      | Prometheus, Themis, Sisyphus      | Water vs justice/punishment themes        |
-=== Chinese Mythology (Full Space, 78 characters) ===
-| idx | PC |  Var% | High                                         | Low                                                    | Axis                                 |
-|-----+----+-------+----------------------------------------------+--------------------------------------------------------+--------------------------------------|
-|   0 |  1 | 19.4% | Zhu Bajie, Zhang Fei, Sun Wukong Monkey King | Queen Mother Of The West, Jade Emperor, Yellow Emperor | Rebellious chaos versus divine order |
-|   1 |  2 | 11.1% | Cao Cao, Sima Yi, Guan Yu                    | Zhu Bajie, Sun Wukong Monkey King, Sun Wukong          | Historical versus mythical figures   |
-|   2 |  3 |  9.0% | Tang Sanzang, Xuanzang, Guanyin              | Daji, Bull Demon King, White Bone Demon                | Moral virtue and compassion          |
-|   3 |  4 |  6.5% | Weaver Girl, Meng Jiangnu, Zhu Yingtai       | Tang Sanzang, Xuanzang, Yellow Emperor                 | Gender (female vs male)              |
-|   4 |  5 |  5.2% | Daji, White Bone Demon, Xuanzang             | Hou Yi, Pangu, Lei Gong                                | Gender fluidity and ambiguity        |
-=== Hindu Mythology (Full Space, 72 characters) ===
-| idx | PC |  Var% | High                                 | Low                        | Axis                                |
-|-----+----+-------+--------------------------------------+----------------------------+-------------------------------------|
-|   0 |  1 | 18.1% | Shiva, Saraswati, Lakshmi            | Duryodhana, Karna, Bhima   | Divine versus mortal beings         |
-|   1 |  2 | 14.5% | Mahishasura, Shakuni, Hiranyakashipu | Rama, Lakshmana, Arjuna    | Villains versus heroes/protagonists |
-|   2 |  3 |  7.7% | Vyasa, Vasishtha, Vishwamitra        | Jatayu, Sugriva, Sita      | Authority versus servitude          |
-|   3 |  4 |  6.0% | Gandhari, Yamuna, Kunti              | Varaha, Narasimha, Hanuman | Feminine versus masculine forms     |
-|   4 |  5 |  5.4% | Radha, Prahlada, Hiranyakashipu      | Kurma, Garuda, Vayu        | Human vs divine nature              |
-=== Norse Mythology (Full Space, 48 characters) ===
-| idx | PC |  Var% | High                                        | Low                                   | Axis                                        |
-|-----+----+-------+---------------------------------------------+---------------------------------------+---------------------------------------------|
-|   0 |  1 | 19.2% | Verdandi, Urd, Forseti                      | Grendels Mother, Fenrir, Fafnir       | Order versus chaos                          |
-|   1 |  2 | 16.2% | Leif Erikson, Ragnar Lothbrok, Erik The Red | Jormungandr, Grendels Mother, Nidhogg | Human versus mythical beings                |
-|   2 |  3 |  7.3% | Njord, Leif Erikson, Aegir                  | Valkyrie, Tyr, Sif                    | Sea/maritime vs land associations           |
-|   3 |  4 |  6.9% | Grendels Mother, Brynhild, Gudrun           | Ratatoskr, Sleipnir, Jormungandr      | Humanoid versus beast/monster form          |
-|   4 |  5 |  5.0% | Ratatoskr, Fafnir, Andvari                  | Norns, Surtr, Urd                     | Individual agency versus cosmic determinism |
-=== Egyptian Mythology (Full Space, 44 characters) ===
-| idx | PC |  Var% | High                        | Low                                | Axis                                   |
-|-----+----+-------+-----------------------------+------------------------------------+----------------------------------------|
-|   0 |  1 | 16.1% | Apep, Set, Serqet           | Tutankhamun, Khufu, Ramesses Ii    | Divine versus mortal beings            |
-|   1 |  2 | 12.4% | Anubis, Atum, Osiris        | Cleopatra, Ramesses Ii, Hatshepsut | Divine versus mortal beings            |
-|   2 |  3 |  9.2% | Ammit, Anubis, Apep         | Hathor, Aten, Isis                 | Death, destruction, and danger         |
-|   3 |  4 |  8.1% | Akhenaten, Aten, Ra         | Seshat, Maat, Thoth                | Solar/cosmic vs scholarly/earthly      |
-|   4 |  5 |  6.0% | Akhenaten, Cleopatra, Ammit | Sobek, Taweret, Khnum              | Disruption versus protective stability |
-=== Shakespeare (Full Space, 114 characters) ===
-| idx | PC |  Var% | High                                | Low                                     | Axis                                   |
-|-----+----+-------+-------------------------------------+-----------------------------------------+----------------------------------------|
-|   0 |  1 | 15.3% | Othello, Desdemona, Cordelia        | Sir Toby Belch, Falstaff, Dogberry      | Tragic versus comic characters         |
-|   1 |  2 | 12.9% | Iago, Richard Iii, Lady Macbeth     | Titania, Juliet, Romeo                  | Villainous vs innocent characters      |
-|   2 |  3 |  9.0% | The Three Witches, Titania, Oberon  | Henry V, Sir Andrew Aguecheek, Dogberry | Supernatural versus mundane characters |
-|   3 |  4 |  6.7% | The Three Witches, Horatio, Hotspur | Desdemona, Beatrice, Benedick           | Supernatural vs purely human           |
-|   4 |  5 |  5.1% | Guildenstern, Rosencrantz, Jaques   | Juliet Capulet, Romeo Montague, Tybalt  | Supporting vs. lead characters         |
+Traceback (most recent call last):
+File "<analysis: org babel source block> ", line 38, in <module>
+File "<org babel source block>", line 45, in <module>
+File "<org babel source block>", line 36, in analyze_universe_full
+File "<org babel source block>", line 187, in interpret_pc
+File "/Users/elle/code/AlignmentResearch/AnthropicFellows/Projects/fictional-character-vectors/.venv/lib/python3.13/site-packages/anthropic/_utils/_utils.py", line 282, in wrapper
+return func(*args, **kwargs)
+File "/Users/elle/code/AlignmentResearch/AnthropicFellows/Projects/fictional-character-vectors/.venv/lib/python3.13/site-packages/anthropic/resources/messages/messages.py", line 972, in create
+return self._post(
+~~~~~~~~~~^
+"/v1/messages",
+^^^^^^^^^^^^^^^
+...<28 lines>...
+stream_cls=Stream[RawMessageStreamEvent],
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+)
+^
+File "/Users/elle/code/AlignmentResearch/AnthropicFellows/Projects/fictional-character-vectors/.venv/lib/python3.13/site-packages/anthropic/_base_client.py", line 1364, in post
+return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/Users/elle/code/AlignmentResearch/AnthropicFellows/Projects/fictional-character-vectors/.venv/lib/python3.13/site-packages/anthropic/_base_client.py", line 1137, in request
+raise self._make_status_error_from_response(err.response) from None
+anthropic.InternalServerError: Error code: 500 - {'type': 'error', 'error': {'type': 'api_error', 'message':
+
+ 'Internal server error'}, 'request_id': 'req_011CY7BimAjjmCL2vf1fBUHJ'}
 :end:
 
 ** Hierarchical Clustering
