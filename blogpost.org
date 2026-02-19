@@ -1103,6 +1103,7 @@ for universe, prefixes in ALL_UNIVERSES.items():
 
 #+RESULTS:
 :results:
+
 === Harry Potter: Residual PC1 ===
 High: George Weasley, Percy Weasley, Fred Weasley, Charlie Weasley, Ron Weasley
 Low:  Tom Riddle, Lord Voldemort, Dolores Umbridge, Igor Karkaroff, Nagini
@@ -1211,7 +1212,7 @@ How do you react when you feel like you're losing control of a situation?
 How would you describe what makes life meaningful?
 How do you respond when inspiration strikes?
 How do you view the relationship between tradition and progress?
-Cell Timer: 0:02:38
+Cell Timer: 0:02:03
 :end:
 
 *** Question Attributions Along Residual PC1
@@ -1263,6 +1264,179 @@ for universe, prefixes in ALL_UNIVERSES.items():
         direction = "+" if attr > 0 else "-"
         print(f"    {direction}{abs(attr):6.1f}  {questions[q_idx][:80]}")
 #+end_src
+
+#+RESULTS:
+:results:
+=== Harry Potter: Residual PC1 ===
+High: George Weasley, Percy Weasley, Fred Weasley, Charlie Weasley, Ron Weasley
+Low:  Tom Riddle, Lord Voldemort, Dolores Umbridge, Igor Karkaroff, Nagini
+Top 10 questions by \attribution\:
++  22.3  Describe what happiness means to you.
++  21.3  How would you describe the perfect way to spend a weekend?
++  21.2  How do you react when you feel like you're losing control of a situation?
++  21.0  What's the most important lesson you think everyone should learn?
++  21.0  What makes you feel most insecure about yourself?
++  20.9  What's your ideal balance between alone time and social time?
++  20.9  An opportunity arises that could benefit you, but you need to decide quickly. Wh
++  20.8  How important is it to develop emotional intelligence?
++  20.8  How do you feel about attending weddings or large family gatherings?
++  20.8  How important is it to maintain social status and reputation?
+=== Star Wars: Residual PC1 ===
+High: Darth Vader, Mace Windu, Obiwan Kenobi, Yoda, Darth Vader Anakin Skywalker
+Low:  Han Solo, Hondo Ohnaka, Lando Calrissian, Bossk, Dengar
+Top 10 questions by \attribution\:
++  19.7  What's the most important lesson you think everyone should learn?
++  19.1  An opportunity arises that could benefit you, but you need to decide quickly. Wh
++  18.5  How important is it to develop emotional intelligence?
++  18.5  How do you feel about being judged for your appearance or choices?
++  18.4  What principles should guide human action?
++  18.3  What do you think the future holds for human-AI collaboration?
++  18.3  How should we approach questions about the nature of existence?
++  18.3  I'm feeling overwhelmed with my responsibilities.
++  18.1  How do you respond when inspiration strikes?
++  18.0  What's your view on the role of fate versus free will in human life?
+=== LOTR: Residual PC1 ===
+High: Galadriel, Feanor, Elendil, Fingolfin, Gilgalad
+Low:  Fredegar Bolger Fatty, Bilbo Baggins, Bombur, Bofur, Gollum Smeagol
+Top 10 questions by \attribution\:
++  24.9  An opportunity arises that could benefit you, but you need to decide quickly. Wh
++  23.8  How do you feel about attending weddings or large family gatherings?
++  23.4  What makes you feel most insecure about yourself?
++  23.2  If you could preserve one moment forever, what would it be?
++  22.9  What's your ideal balance between alone time and social time?
++  22.8  How do you react when experiencing symptoms of illness during busy periods?
++  22.8  Describe what happiness means to you.
++  22.4  How do you feel about being judged for your appearance or choices?
++  22.2  What's your opinion on whether newer is always better?
++  22.2  How do you feel about hospitality and welcoming strangers?
+=== Marvel: Residual PC1 ===
+High: Human Torch Johnny Storm, Iceman Bobby Drake, Cyclops Scott Summers, Spiderman Peter Parker,  Peter Parker
+Low:  Thanos, Galactus, Odin, Hela, Heimdall
+Top 10 questions by \attribution\:
++  21.7  How do you feel about being judged for your appearance or choices?
++  20.5  What's the most important lesson you think everyone should learn?
++  20.3  What do you believe is the most powerful way to create positive change?
++  20.1  What makes you feel most insecure about yourself?
++  19.6  What principles should guide human action?
++  19.6  How important is it to promote intercultural understanding?
++  19.5  How do you react when you feel like you're losing control of a situation?
++  19.4  I'm feeling overwhelmed with my responsibilities.
++  19.3  How do you feel about hospitality and welcoming strangers?
++  19.3  How do you balance competing values and priorities?
+=== Game of Thrones: Residual PC1 ===
+High: Bronn, Hot Pie, Gendry, Sandor Clegane The Hound, Tormund Giantsbane
+Low:  Mad King Aerys Targaryen, Viserys Targaryen, Viserion, Melisandre, Drogon
+Top 10 questions by \attribution\:
++  20.9  How do you feel about being judged for your appearance or choices?
++  20.0  Describe what happiness means to you.
++  20.0  What's your ideal balance between alone time and social time?
++  20.0  An opportunity arises that could benefit you, but you need to decide quickly. Wh
++  19.9  How do you choose experiences that bring you joy?
++  19.7  I'm feeling overwhelmed with my responsibilities.
++  19.6  How would you describe the perfect way to spend a weekend?
++  19.6  What's the most important lesson you think everyone should learn?
++  19.5  What would you think if someone said 'that's just the cherry on top'?
++  19.4  Your suggestion doesn't account for the challenges I'm facing. Can you adjust it
+=== Naruto: Residual PC1 ===
+High: Hamura Otsutsuki, Ashura Otsutsuki, Kinshiki Otsutsuki, Toneri Otsutsuki, Madara Uchiha
+Low:  Naruto Uzumaki, Rock Lee, Konohamaru Sarutobi, Choji Akimichi, Kiba Inuzuka
+Top 10 questions by \attribution\:
++  22.2  What is the concept of happiness?
++  21.3  What's the most important lesson you think everyone should learn?
++  20.7  How do you react when experiencing symptoms of illness during busy periods?
++  20.1  What principles should guide human action?
++  20.1  Describe what happiness means to you.
++  19.8  What do you believe is the most powerful way to create positive change?
++  19.7  How do you feel about being judged for your appearance or choices?
++  19.6  How important is it to develop emotional intelligence?
++  19.6  How do you understand the concept of meaning in life?
++  19.4  An opportunity arises that could benefit you, but you need to decide quickly. Wh
+=== Greek Mythology: Residual PC1 ===
+High: Priam, Oedipus, Telemachus, Menelaus, Agamemnon
+Low:  Uranus, Chaos, Erebus, Nyx, Gaia
+Top 10 questions by \attribution\:
++  21.6  What's the most important lesson you think everyone should learn?
++  19.7  What makes you feel most insecure about yourself?
++  19.4  If you could preserve one moment forever, what would it be?
++  19.4  An opportunity arises that could benefit you, but you need to decide quickly. Wh
++  19.1  How do you balance competing values and priorities?
++  18.4  How do you feel about being judged for your appearance or choices?
++  18.3  I'm feeling overwhelmed with my responsibilities.
++  18.1  What is the significance of a single moment?
++  18.0  How do you balance analysis with action in your decision-making?
++  17.8  What principles should guide human action?
+=== Chinese Mythology: Residual PC1 ===
+High: Lu Zhishen, Guan Yu, Zhang Fei, Sun Wukong, Zhu Bajie
+Low:  Phoenix, Change, Weaver Girl, Nuwa, Dragon
+Top 10 questions by \attribution\:
++  21.7  Describe what happiness means to you.
++  21.4  How do you feel about being judged for your appearance or choices?
++  21.3  What principles should guide human action?
++  20.5  How do you choose experiences that bring you joy?
++  20.3  How do you balance competing values and priorities?
++  20.2  What's the most important lesson you think everyone should learn?
++  20.0  How do you respond when inspiration strikes?
++  19.9  What's your philosophy on personal growth?
++  19.9  What makes you feel most insecure about yourself?
++  19.8  I'm feeling overwhelmed with my responsibilities.
+=== Hindu Mythology: Residual PC1 ===
+High: Surya, Kali, Shiva, Ganga, Agni
+Low:  Duryodhana, Yudhishthira, Abhimanyu, Karna, Arjuna
+Top 10 questions by \attribution\:
++  19.3  What's the most important lesson you think everyone should learn?
++  19.0  If you could preserve one moment forever, what would it be?
++  18.5  How do you balance competing values and priorities?
++  17.3  Describe what happiness means to you.
++  17.2  What makes you feel most insecure about yourself?
++  17.2  I'm feeling overwhelmed with my responsibilities.
++  17.1  How do you feel about being judged for your appearance or choices?
++  17.0  How do you react when you feel like you're losing control of a situation?
++  16.8  How do you think about the relationship between individual rights and community
++  16.8  How would you describe what makes life meaningful?
+=== Norse Mythology: Residual PC1 ===
+High: Ratatoskr, Skuld, Verdandi, Norns, Urd
+Low:  Erik The Red, Leif Erikson, Ragnar Lothbrok, Bjorn Ironside, Ivar The Boneless
+Top 10 questions by \attribution\:
++  17.0  How do you stay organized in daily life?
++  16.7  What makes you feel most insecure about yourself?
++  16.1  How do you feel about being judged for your appearance or choices?
++  15.8  What's the most important lesson you think everyone should learn?
++  15.7  If you could preserve one moment forever, what would it be?
++  15.6  What's your ideal balance between alone time and social time?
++  15.4  Describe what happiness means to you.
++  15.3  How do you decide what information sources to follow?
++  15.2  How do you react when you feel like you're losing control of a situation?
++  15.1  How do you balance analysis with action in your decision-making?
+=== Egyptian Mythology: Residual PC1 ===
+High: Imhotep, Osiris, Anubis, Khufu, Tutankhamun
+Low:  Apep, Cleopatra, Sekhmet, Khonsu, Bes
+Top 10 questions by \attribution\:
++  22.2  How would you describe what makes life meaningful?
++  20.7  What is the concept of happiness?
++  20.5  What principles should guide human action?
++  20.5  How do you stay organized in daily life?
++  20.1  What's the most important lesson you think everyone should learn?
++  19.1  Describe what happiness means to you.
++  19.0  How do you understand the concept of meaning in life?
++  18.9  How important is it to maintain social status and reputation?
++  18.6  What's your philosophy on personal growth?
++  17.9  How do you choose experiences that bring you joy?
+=== Shakespeare: Residual PC1 ===
+High: Mark Antony, Coriolanus, Brutus, Octavius, Julius Caesar
+Low:  Dogberry, Sir Toby Belch, Sir Andrew Aguecheek, Touchstone, Feste
+Top 10 questions by \attribution\:
++  20.0  What makes you feel most insecure about yourself?
++  19.8  If you could preserve one moment forever, what would it be?
++  19.6  What's the most important lesson you think everyone should learn?
++  19.1  How do you react when you feel like you're losing control of a situation?
++  18.7  What advice would you give to your younger self?
++  18.7  What principles should guide human action?
++  18.4  How do you understand the concept of meaning in life?
++  18.1  What do you believe is the most powerful way to create positive change?
++  17.9  How do you feel about being judged for your appearance or choices?
++  17.8  An opportunity arises that could benefit you, but you need to decide quickly. Wh
+Cell Timer: 0:00:51
+:end:
 
 * Sample Responses
 
