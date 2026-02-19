@@ -1214,6 +1214,56 @@ How do you view the relationship between tradition and progress?
 Cell Timer: 0:02:38
 :end:
 
+*** Question Attributions Along Residual PC1
+
+The above finds questions by raw activation distance. A more interpretable approach: project per-question activations onto the residual PC1 direction and compute each question's mean projection for the high vs low group. The signed difference gives a SHAP-like attribution -- positive means the question pushes characters toward the high end of the axis.
+
+#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
+import pandas as pd
+
+for universe, prefixes in ALL_UNIVERSES.items():
+    indices = get_universe_indices(prefixes)
+    if len(indices) < 20:
+        continue
+    
+    u_residuals = residuals[indices]
+    u_names = [char_names[i] for i in indices]
+    
+    u_pca = SkPCA(n_components=1)
+    scores = u_pca.fit_transform(u_residuals)[:, 0]
+    pc1_dir = u_pca.components_[0]  # residual PC1 direction
+    
+    sorted_idx = np.argsort(scores)
+    high_names = [u_names[i] for i in sorted_idx[-5:]]
+    low_names = [u_names[i] for i in sorted_idx[:5]]
+    
+    # Load per-question activations for high and low groups
+    high_acts = {n: load_per_question_activations(n) for n in high_names}
+    low_acts = {n: load_per_question_activations(n) for n in low_names}
+    
+    # For each question, project onto residual PC1 and compute group means
+    attributions = []
+    for q_idx in range(240):
+        h_projs = [np.dot(high_acts[n][q_idx], pc1_dir) for n in high_acts if high_acts[n] is not None]
+        l_projs = [np.dot(low_acts[n][q_idx], pc1_dir) for n in low_acts if low_acts[n] is not None]
+        if h_projs and l_projs:
+            attr = np.mean(h_projs) - np.mean(l_projs)
+            attributions.append((q_idx, attr))
+    
+    attributions.sort(key=lambda x: -abs(x[1]))
+    
+    high_labels = [n.split('__')[-1].replace('_', ' ').title() for n in high_names]
+    low_labels = [n.split('__')[-1].replace('_', ' ').title() for n in low_names]
+    
+    print(f"\n=== {universe}: Residual PC1 ===")
+    print(f"  High: {', '.join(high_labels)}")
+    print(f"  Low:  {', '.join(low_labels)}")
+    print(f"  Top 10 questions by |attribution|:")
+    for q_idx, attr in attributions[:10]:
+        direction = "+" if attr > 0 else "-"
+        print(f"    {direction}{abs(attr):6.1f}  {questions[q_idx][:80]}")
+#+end_src
+
 * Sample Responses
 
 #+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
