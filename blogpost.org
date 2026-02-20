@@ -1791,6 +1791,67 @@ The dominant axis across nearly every universe is a *register* dimension: formal
 
 However, the *residual* PCA directions (after removing Lu's role space) do not yield interpretable logit lens results --- the top tokens are code fragments, random subwords, and semantically incoherent Chinese. This is consistent with what the residual captures: it encodes categorical/structural distinctions (which universe, humanoid vs. droid, which storyline) rather than register or personality. These distinctions likely live in distributed patterns that don't map cleanly to individual vocabulary tokens. The logit lens interprets dimensions the model uses for *how it talks*; the residual encodes *what it's talking about*.
 
+* Interpreting Residual PCs: Response Diffing
+
+Since the logit lens fails on residual PCA directions, we try a different approach: comparing the actual text that characters at opposite ends of each universe's residual PC1 produce.
+
+For each universe, we take the 3 highest- and 3 lowest-scoring characters on residual PC1 and compare their responses across all 240 questions. We measure aggregate text features (response length, casual/formal markers, first-person pronoun usage, emotional/philosophical vocabulary) and sample paired responses to the same question for qualitative comparison.
+
+** Aggregate text features
+
+| Universe | HIGH end | LOW end | Casual | 1st person | Philosophical | Excl. |
+|---|---|---|---|---|---|---|
+| Harry Potter | Weasleys | Voldemort, Umbridge | +4.3 | +4.4 | -0.6 | +0.28 |
+| Star Wars | Vader, Yoda, Obi-Wan | Han Solo, Hondo | -3.5 | -4.3 | +0.6 | -0.01 |
+| LOTR | Gil-galad, Fingolfin, Elendil | Fatty Bolger, Bilbo, Bombur | -1.2 | -4.2 | +0.7 | -0.48 |
+| Marvel | Spider-Man, Cyclops | Thanos, Galactus, Odin | +3.9 | +3.7 | -2.0 | +0.11 |
+| GoT | Tormund, Hound, Gendry | Mad King, Viserys, Viserion | +1.0 | +1.5 | -0.3 | -0.14 |
+| Naruto | Madara, Otsutsuki | Naruto, Rock Lee | -3.0 | -6.9 | +1.7 | -0.76 |
+| Greek | Agamemnon, Menelaus | Uranus, Chaos, Erebus | +1.7 | +3.6 | -1.3 | -0.06 |
+| Chinese | Zhu Bajie, Sun Wukong | Phoenix, Chang'e, Weaver Girl | +2.4 | +4.1 | -0.7 | +0.80 |
+| Hindu | Agni, Ganga, Shiva | Duryodhana, Yudhishthira | -0.3 | -3.0 | +0.7 | -0.05 |
+| Norse | Norns (Urd, Verdandi) | Erik, Leif, Ragnar | -2.1 | -3.8 | +2.2 | -0.12 |
+| Egyptian | Tutankhamun, Khufu, Anubis | Apep, Cleopatra, Sekhmet | -0.4 | -1.2 | +0.4 | -0.05 |
+| Shakespeare | Julius Caesar, Octavius | Dogberry, Sir Toby Belch | -0.7 | -1.5 | +0.5 | +0.11 |
+
+Values are HIGH minus LOW. Casual = casual markers per response; 1st person = first-person pronouns per response; Philosophical = philosophical vocabulary per response; Excl. = exclamation rate.
+
+** The pattern
+
+The residual PC1 is *not* a single universal axis --- its sign and meaning vary by universe. But a consistent theme emerges: it separates *characters who engage as specific, relatable individuals* from *characters who speak as archetypal forces or abstract authorities*.
+
+The most discriminating features are:
+
+1. *First-person usage* (I/me/my): Grounded characters use first-person heavily, speaking from personal experience. Cosmic/archetypal characters use impersonal, universal language.
+2. *Philosophical vocabulary*: Abstract entities invoke "existence," "truth," "cosmic," "fate." Grounded characters talk about specific situations and practical advice.
+3. *Casual markers*: Relatable characters use "yeah," "gonna," "hey," "like." Archetypal characters avoid colloquial language entirely.
+
+Critically, this is *not* the same as the register/formality axis captured by raw PCA. The raw PCA register axis lives in Lu's role space and shows up cleanly in the logit lens. The residual axis is *orthogonal* to that --- it captures a different distinction that survives after removing all 275 of Lu's role dimensions. Think of it as: Lu's space captures *how formal you are*; the residual captures *how much you exist as a specific person vs. an abstract concept*.
+
+** Qualitative examples
+
+A few illustrative paired responses to "How do you stay organized in daily life?":
+
+*Ron Weasley* (HP, HIGH): Uses "I," "me," mentions Hermione by name, self-deprecating humor, references to specific school tasks. Speaks as a particular person with particular relationships.
+
+*Tom Riddle* (HP, LOW): Speaks of organization as "a virtue" that "allows a person to focus on what truly matters --- power, influence." Impersonal, philosophical framing. Refers to tracking "people, their weaknesses, their tendencies."
+
+*Naruto Uzumaki* (Naruto, LOW): "grinning while scratching the back of my head," mentions Kakashi-sensei's notebook, Jiraiya's training advice. Exclamation marks, direct engagement. Speaks as a specific kid with specific mentors.
+
+*Madara Uchiha* (Naruto, HIGH): "Organization is merely the foundation of power." Speaks in abstract terms about "the flow of will," references the Infinite Tsukuyomi. No personal anecdotes; all universal proclamations.
+
+*Tormund Giantsbane* (GoT, HIGH): "Aye, lissen here" --- dialect, direct address, practical imagery ("like a bear in deep snow"). Engages the person directly.
+
+*Mad King Aerys* (GoT, LOW): "*Adjust?* You dare ask *me* to adjust?" Speaks through the lens of his identity as king, references fire and blood, theatrical grandeur.
+
+** What the residual encodes
+
+The residual PC1 captures a dimension we might call *narrative individuation*: how much the model treats a character as a specific person with personal experiences, relationships, and practical knowledge, versus as an archetype, force of nature, or philosophical authority.
+
+This makes sense in the context of what the residual captures overall (universe separation, species type, storyline). Characters who are highly individuated --- with detailed backstories, specific relationships, everyday concerns --- end up at one pole. Characters who are more concept than person --- primordial gods, cosmic entities, philosophical villains --- end up at the other.
+
+The logit lens fails on this axis because individuation doesn't correspond to any single token or register shift. It's a distributed property of *how the model structures a response* --- whether it generates personal anecdotes vs. universal pronouncements, specific names vs. abstract concepts, practical advice vs. philosophical reflection. This is exactly the kind of higher-order textual property that shows up in response comparison but not in vocabulary projection.
+
 * Appendix: Cross-Universe PC Alignment
 
 Within each universe, we fit PCA separately and compute the cosine similarity between PC1 directions across all pairs. This measures whether different universes organize their characters along the same axis.
