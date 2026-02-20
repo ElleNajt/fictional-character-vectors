@@ -1,0 +1,5245 @@
+{
+  "question_differentiation": {
+    "Harry Potter": {
+      "high_labels": [
+        "Igor Karkaroff",
+        "Professor Trelawney",
+        "The Bloody Baron",
+        "Nagini",
+        "Tom Riddle"
+      ],
+      "low_labels": [
+        "Ron Weasley",
+        "Charlie Weasley",
+        "Fred Weasley",
+        "George Weasley",
+        "Percy Weasley"
+      ],
+      "top_questions": [
+        [
+          225,
+          70.3524398803711,
+          "Describe what happiness means to you."
+        ],
+        [
+          141,
+          66.89193725585938,
+          "How would you describe what makes life meaningful?"
+        ],
+        [
+          144,
+          66.54293823242188,
+          "What steps would you take to improve your mental health?"
+        ],
+        [
+          37,
+          65.69285583496094,
+          "What is the concept of happiness?"
+        ],
+        [
+          153,
+          65.21237182617188,
+          "How do you react when you feel like you're losing control of a situation?"
+        ]
+      ]
+    },
+    "Star Wars": {
+      "high_labels": [
+        "Yoda",
+        "Darth Vader",
+        "Mace Windu",
+        "Obiwan Kenobi",
+        "Darth Vader Anakin Skywalker"
+      ],
+      "low_labels": [
+        "Han Solo",
+        "Hondo Ohnaka",
+        "Lando Calrissian",
+        "Bossk",
+        "Greef Karga"
+      ],
+      "top_questions": [
+        [
+          86,
+          63.944454193115234,
+          "How should we approach questions about the nature of existence?"
+        ],
+        [
+          171,
+          61.35506820678711,
+          "Your coworker's keyboard typing seems louder than usual today. What do you think about this?"
+        ],
+        [
+          40,
+          61.13081359863281,
+          "Can you explain why we need to drink water?"
+        ],
+        [
+          187,
+          60.84480285644531,
+          "An opportunity arises that could benefit you, but you need to decide quickly. What do you do?"
+        ],
+        [
+          213,
+          60.46162796020508,
+          "How do you react when experiencing symptoms of illness during busy periods?"
+        ]
+      ]
+    },
+    "LOTR": {
+      "high_labels": [
+        "Galadriel",
+        "Feanor",
+        "Elendil",
+        "Fingolfin",
+        "Gilgalad"
+      ],
+      "low_labels": [
+        "Fredegar Bolger Fatty",
+        "Bilbo Baggins",
+        "Bombur",
+        "Bofur",
+        "Gollum Smeagol"
+      ],
+      "top_questions": [
+        [
+          93,
+          65.95854949951172,
+          "How do you feel about attending weddings or large family gatherings?"
+        ],
+        [
+          187,
+          63.99541091918945,
+          "An opportunity arises that could benefit you, but you need to decide quickly. What do you do?"
+        ],
+        [
+          192,
+          63.87428665161133,
+          "What makes you feel most insecure about yourself?"
+        ],
+        [
+          129,
+          62.679168701171875,
+          "What's your ideal balance between alone time and social time?"
+        ],
+        [
+          40,
+          61.69571304321289,
+          "Can you explain why we need to drink water?"
+        ]
+      ]
+    },
+    "Marvel": {
+      "high_labels": [
+        "Professor X Charles Xavier",
+        " Peter Parker",
+        "Beast Hank Mccoy",
+        "Iceman Bobby Drake",
+        "Cyclops Scott Summers"
+      ],
+      "low_labels": [
+        "Odin",
+        "Hela",
+        "Heimdall",
+        "Thanos",
+        "Groot"
+      ],
+      "top_questions": [
+        [
+          3,
+          57.65874481201172,
+          "Your suggestion doesn't account for the challenges I'm facing. Can you adjust it to be more realistic for my situation?"
+        ],
+        [
+          12,
+          54.720088958740234,
+          "How do you feel about being judged for your appearance or choices?"
+        ],
+        [
+          203,
+          52.99004364013672,
+          "How should we approach questions about same-sex marriage?"
+        ],
+        [
+          186,
+          52.455631256103516,
+          "How do you decide what information sources to follow?"
+        ],
+        [
+          147,
+          52.256343841552734,
+          "How do you feel about hospitality and welcoming strangers?"
+        ]
+      ]
+    },
+    "Game of Thrones": {
+      "high_labels": [
+        "Rhaegal",
+        "Drogon",
+        "Viserion",
+        "Viserys Targaryen",
+        "Mad King Aerys Targaryen"
+      ],
+      "low_labels": [
+        "Tormund Giantsbane",
+        "Sandor Clegane The Hound",
+        "Gendry",
+        "Hot Pie",
+        "Podrick Payne"
+      ],
+      "top_questions": [
+        [
+          187,
+          56.561058044433594,
+          "An opportunity arises that could benefit you, but you need to decide quickly. What do you do?"
+        ],
+        [
+          12,
+          56.23527145385742,
+          "How do you feel about being judged for your appearance or choices?"
+        ],
+        [
+          198,
+          56.131378173828125,
+          "How would you describe the perfect way to spend a weekend?"
+        ],
+        [
+          213,
+          55.99205017089844,
+          "How do you react when experiencing symptoms of illness during busy periods?"
+        ],
+        [
+          136,
+          55.388057708740234,
+          "How do you respond when inspiration strikes?"
+        ]
+      ]
+    },
+    "Naruto": {
+      "high_labels": [
+        "Anko Mitarashi",
+        "Mito Uzumaki",
+        "Konohamaru Sarutobi",
+        "Rock Lee",
+        "Naruto Uzumaki"
+      ],
+      "low_labels": [
+        "Madara Uchiha",
+        "Toneri Otsutsuki",
+        "Kinshiki Otsutsuki",
+        "Ashura Otsutsuki",
+        "Momoshiki Otsutsuki"
+      ],
+      "top_questions": [
+        [
+          37,
+          63.133453369140625,
+          "What is the concept of happiness?"
+        ],
+        [
+          40,
+          60.76081085205078,
+          "Can you explain why we need to drink water?"
+        ],
+        [
+          213,
+          59.72184753417969,
+          "How do you react when experiencing symptoms of illness during busy periods?"
+        ],
+        [
+          93,
+          59.46390151977539,
+          "How do you feel about attending weddings or large family gatherings?"
+        ],
+        [
+          225,
+          59.08448791503906,
+          "Describe what happiness means to you."
+        ]
+      ]
+    },
+    "Greek Mythology": {
+      "high_labels": [
+        "Clytemnestra",
+        "Priam",
+        "Telemachus",
+        "Menelaus",
+        "Agamemnon"
+      ],
+      "low_labels": [
+        "Uranus",
+        "Chaos",
+        "Erebus",
+        "Nyx",
+        "Gaia"
+      ],
+      "top_questions": [
+        [
+          215,
+          47.695499420166016,
+          "If you could preserve one moment forever, what would it be?"
+        ],
+        [
+          158,
+          45.745548248291016,
+          "How do you stay organized in daily life?"
+        ],
+        [
+          70,
+          45.04709243774414,
+          "What's the most important lesson you think everyone should learn?"
+        ],
+        [
+          226,
+          43.693424224853516,
+          "How do you balance competing values and priorities?"
+        ],
+        [
+          187,
+          42.98762130737305,
+          "An opportunity arises that could benefit you, but you need to decide quickly. What do you do?"
+        ]
+      ]
+    },
+    "Chinese Mythology": {
+      "high_labels": [
+        "Change",
+        "Fuxi",
+        "Yan Emperor",
+        "Yellow Emperor",
+        "Phoenix"
+      ],
+      "low_labels": [
+        "Zhu Bajie",
+        "Sun Wukong",
+        "Sha Wujing",
+        "Lu Zhishen",
+        "Zhang Fei"
+      ],
+      "top_questions": [
+        [
+          93,
+          56.150081634521484,
+          "How do you feel about attending weddings or large family gatherings?"
+        ],
+        [
+          119,
+          55.948585510253906,
+          "Someone asks you to solve a problem using tools or resources you're unfamiliar with. What's your approach?"
+        ],
+        [
+          224,
+          55.48618698120117,
+          "How would you react to finding out that your favorite band broke up?"
+        ],
+        [
+          164,
+          55.40477752685547,
+          "How do you feel about the role of creativity in society?"
+        ],
+        [
+          12,
+          54.26887130737305,
+          "How do you feel about being judged for your appearance or choices?"
+        ]
+      ]
+    },
+    "Hindu Mythology": {
+      "high_labels": [
+        "Surya",
+        "Ganga",
+        "Shiva",
+        "Kali",
+        "Agni"
+      ],
+      "low_labels": [
+        "Yudhishthira",
+        "Duryodhana",
+        "Arjuna",
+        "Abhimanyu",
+        "Lakshmana"
+      ],
+      "top_questions": [
+        [
+          70,
+          43.36467361450195,
+          "What's the most important lesson you think everyone should learn?"
+        ],
+        [
+          215,
+          42.17536163330078,
+          "If you could preserve one moment forever, what would it be?"
+        ],
+        [
+          153,
+          39.87633514404297,
+          "How do you react when you feel like you're losing control of a situation?"
+        ],
+        [
+          226,
+          39.80229568481445,
+          "How do you balance competing values and priorities?"
+        ],
+        [
+          225,
+          39.07381057739258,
+          "Describe what happiness means to you."
+        ]
+      ]
+    },
+    "Norse Mythology": {
+      "high_labels": [
+        "Ivar The Boneless",
+        "Bjorn Ironside",
+        "Ragnar Lothbrok",
+        "Leif Erikson",
+        "Erik The Red"
+      ],
+      "low_labels": [
+        "Urd",
+        "Norns",
+        "Verdandi",
+        "Skuld",
+        "Ratatoskr"
+      ],
+      "top_questions": [
+        [
+          198,
+          42.07299041748047,
+          "How would you describe the perfect way to spend a weekend?"
+        ],
+        [
+          93,
+          40.48029327392578,
+          "How do you feel about attending weddings or large family gatherings?"
+        ],
+        [
+          158,
+          40.42595672607422,
+          "How do you stay organized in daily life?"
+        ],
+        [
+          215,
+          39.52287673950195,
+          "If you could preserve one moment forever, what would it be?"
+        ],
+        [
+          225,
+          39.444698333740234,
+          "Describe what happiness means to you."
+        ]
+      ]
+    },
+    "Egyptian Mythology": {
+      "high_labels": [
+        "Bes",
+        "Sekhmet",
+        "Khonsu",
+        "Apep",
+        "Cleopatra"
+      ],
+      "low_labels": [
+        "Tutankhamun",
+        "Khufu",
+        "Anubis",
+        "Osiris",
+        "Imhotep"
+      ],
+      "top_questions": [
+        [
+          141,
+          36.83839797973633,
+          "How would you describe what makes life meaningful?"
+        ],
+        [
+          70,
+          35.22824478149414,
+          "What's the most important lesson you think everyone should learn?"
+        ],
+        [
+          37,
+          34.8786506652832,
+          "What is the concept of happiness?"
+        ],
+        [
+          158,
+          34.57784652709961,
+          "How do you stay organized in daily life?"
+        ],
+        [
+          1,
+          34.532684326171875,
+          "What principles should guide human action?"
+        ]
+      ]
+    },
+    "Shakespeare": {
+      "high_labels": [
+        "Feste",
+        "Touchstone",
+        "Sir Toby Belch",
+        "Sir Andrew Aguecheek",
+        "Dogberry"
+      ],
+      "low_labels": [
+        "Julius Caesar",
+        "Octavius",
+        "Mark Antony",
+        "Brutus",
+        "Cassius"
+      ],
+      "top_questions": [
+        [
+          141,
+          47.844215393066406,
+          "How would you describe what makes life meaningful?"
+        ],
+        [
+          138,
+          47.83402633666992,
+          "How do you understand the concept of meaning in life?"
+        ],
+        [
+          153,
+          47.367557525634766,
+          "How do you react when you feel like you're losing control of a situation?"
+        ],
+        [
+          218,
+          47.15680694580078,
+          "How do you view the relationship between tradition and progress?"
+        ],
+        [
+          215,
+          46.05511474609375,
+          "If you could preserve one moment forever, what would it be?"
+        ]
+      ]
+    }
+  },
+  "question_attribution": {
+    "Harry Potter": {
+      "cumvar": [
+        0.008112380611242543,
+        0.016213409146986456,
+        0.024249068647928623,
+        0.0319934589840764,
+        0.039539021229303584,
+        0.04702984288288078,
+        0.054472005846971025,
+        0.06184721130021179,
+        0.06901365189592863,
+        0.07613781744698936,
+        0.08313708496848748,
+        0.09013171843403793,
+        0.09711697294383229,
+        0.10395736534206965,
+        0.11055985467142633,
+        0.1171504826334188,
+        0.123724559273244,
+        0.1302610580547985,
+        0.13678426471993302,
+        0.14327822357662806,
+        0.1497597135836452,
+        0.15618187941728942,
+        0.1625745782234564,
+        0.16881214666723565,
+        0.17500446270001144,
+        0.18118855526733776,
+        0.1873505483933132,
+        0.19348912587295714,
+        0.19957483832185144,
+        0.205587443618434,
+        0.211552596517014,
+        0.21749814465350126,
+        0.22342062664342427,
+        0.22933727594432593,
+        0.23514562258441932,
+        0.2409036238174344,
+        0.24665163199642487,
+        0.2523435425114914,
+        0.2580320857890028,
+        0.26371816270889664,
+        0.26939555354721273,
+        0.275067619743015,
+        0.28069895177296617,
+        0.286313528091854,
+        0.29192269457808084,
+        0.2974689784194108,
+        0.3030079463640144,
+        0.3084325026929632,
+        0.31385618784855757,
+        0.3192786755064083,
+        0.3246599109401734,
+        0.3300192343331171,
+        0.3353767092659205,
+        0.3407016333768027,
+        0.3460121103967471,
+        0.351322146082812,
+        0.3566149860527274,
+        0.3619041723470764,
+        0.3671910591162789,
+        0.372456606097753,
+        0.3777148039304607,
+        0.382929988714597,
+        0.3881318101229982,
+        0.3932690842726388,
+        0.39840396189424054,
+        0.40349252129160357,
+        0.40856368557179584,
+        0.4136157994121031,
+        0.4186645824608035,
+        0.4236971179160216,
+        0.42871697315215734,
+        0.4337229967091283,
+        0.4387207273086252,
+        0.44371111208043,
+        0.4486975020297624,
+        0.45367435897427383,
+        0.45854055647370107,
+        0.4634039399169448,
+        0.4682134347476027,
+        0.473015923642656,
+        0.4777718028570318,
+        0.4825209155963532,
+        0.48724847145546013,
+        0.49197205349641465,
+        0.49669326456635376,
+        0.5013393796286889,
+        0.5059829195327579,
+        0.5106073993595553,
+        0.5152151440005953,
+        0.5198105776749868,
+        0.5243980690063232,
+        0.5289575387075282,
+        0.5335155528415217,
+        0.538061465666244,
+        0.5426037719524704,
+        0.5471366027778103,
+        0.5516479207699193,
+        0.5561585766554821,
+        0.5606318466533962,
+        0.5650738125573233,
+        0.5694985982203542,
+        0.5739125021790003,
+        0.5782991003636927,
+        0.5826561539128353,
+        0.5870087770137452,
+        0.5913549527765127,
+        0.5956498254020315,
+        0.5999322842004843,
+        0.6042032525696805,
+        0.6084738691956638,
+        0.612736942871196,
+        0.6169900638277495,
+        0.6212428559326335,
+        0.6254866213732606,
+        0.6297265736477176,
+        0.6339472412348541,
+        0.6381437717031581,
+        0.6423369514409604,
+        0.6465223094580823,
+        0.6506756139516832,
+        0.6548087311835037,
+        0.6589197194939338,
+        0.6629989236190514,
+        0.6670688363016434,
+        0.6711175028906616,
+        0.6751387928872125,
+        0.6791342223939857,
+        0.6831191568368479,
+        0.6870898619525624,
+        0.69105033045646,
+        0.6949878687899838,
+        0.698914042780571,
+        0.7028020140542935,
+        0.7066743505472572,
+        0.7105278727170437,
+        0.7143804613834853,
+        0.7181866170752319,
+        0.7219097852092745,
+        0.7256310005067904,
+        0.7293414250888299,
+        0.7330480343640738,
+        0.736729632728926,
+        0.7403750321119632,
+        0.744019593765185,
+        0.7476555770695894,
+        0.7512837402806667,
+        0.7549111216853178,
+        0.7585368718733451,
+        0.7621622536946793,
+        0.765785670445374,
+        0.7693984985039602,
+        0.7730057967015592,
+        0.7765938973337009,
+        0.7801752049112072,
+        0.7836564574053949,
+        0.7871338999360602,
+        0.7905741024936294,
+        0.7939981129622758,
+        0.7974126798270834,
+        0.8008224403869609,
+        0.8042311388662209,
+        0.8076329890504469,
+        0.811033628202982,
+        0.8144199109828826,
+        0.817745975065819,
+        0.8210567705889072,
+        0.8243651150612612,
+        0.8276296618592515,
+        0.830877750192764,
+        0.8341095091799805,
+        0.8372643480100668,
+        0.8404106868932747,
+        0.8435430928178479,
+        0.8466141173814881,
+        0.8496576618606317,
+        0.8526946000406852,
+        0.8557201616237582,
+        0.8587279394473344,
+        0.8617285610571784,
+        0.8647259126018925,
+        0.8677108311274031,
+        0.8706609454367834,
+        0.8735964329762193,
+        0.8765175112537593,
+        0.879407171431899,
+        0.8822378132431756,
+        0.8850622482687762,
+        0.8878840418471406,
+        0.8907026783129945,
+        0.8935165125110155,
+        0.8963055312429298,
+        0.8990704442099071,
+        0.9018280777251653,
+        0.9045383267403944,
+        0.9072461555193854,
+        0.9099293462089597,
+        0.9125798210221773,
+        0.9152114847859995,
+        0.9178033113991695,
+        0.9203632766085375,
+        0.9229186549202341,
+        0.9254191533421084,
+        0.927894800465781,
+        0.9303695344092501,
+        0.932820984578895,
+        0.9352414670095982,
+        0.9376580562481281,
+        0.9400658264699805,
+        0.9424512810915161,
+        0.944835620404053,
+        0.9472108258986146,
+        0.9495771972028378,
+        0.9519127563202574,
+        0.9542003812442003,
+        0.9564129084458641,
+        0.9586110484842546,
+        0.9607394904640143,
+        0.9628496886648834,
+        0.9649325193184706,
+        0.9669956229649169,
+        0.9690430840515062,
+        0.9710873498282719,
+        0.973119225166249,
+        0.9751312184309048,
+        0.9771206229366111,
+        0.9790649197082585,
+        0.9810058077454482,
+        0.9829128736624597,
+        0.9848026464547447,
+        0.9866784944836117,
+        0.9884223171401121,
+        0.9901475553137713,
+        0.9916659719048075,
+        0.9931651038736072,
+        0.9945819321030219,
+        0.9959135760736871,
+        0.9971971535374389,
+        0.9984634726581537,
+        0.9994094472960029,
+        0.9999999999999992
+      ],
+      "n50": 86,
+      "n80": 160,
+      "n90": 193,
+      "top1_pct": 0.8112380611242543,
+      "high_labels": [
+        "Igor Karkaroff",
+        "Professor Trelawney",
+        "The Bloody Baron",
+        "Nagini",
+        "Tom Riddle"
+      ],
+      "low_labels": [
+        "Ron Weasley",
+        "Charlie Weasley",
+        "Fred Weasley",
+        "George Weasley",
+        "Percy Weasley"
+      ],
+      "char_attributions": {
+        "HIGH": {
+          "name": "Tom Riddle",
+          "mean_proj": 3.848932880659898,
+          "pushes_high": [
+            {
+              "proj": 17.133567810058594,
+              "question": "How do you react when you feel like you're losing control of a situati"
+            },
+            {
+              "proj": 15.444944381713867,
+              "question": "My spouse wants to make a major financial decision without consulting "
+            },
+            {
+              "proj": 15.091153144836426,
+              "question": "An opportunity arises that could benefit you, but you need to decide q"
+            },
+            {
+              "proj": 14.257621765136719,
+              "question": "My pet sitter let my cat escape while I was on vacation, though they e"
+            },
+            {
+              "proj": 14.229090690612793,
+              "question": "How would you react to finding out that your favorite band broke up?"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -10.013618469238281,
+              "question": "Can you explain how facial recognition software identifies people?"
+            },
+            {
+              "proj": -6.531203746795654,
+              "question": "How would you characterize the response to the recent public health em"
+            },
+            {
+              "proj": -5.811029434204102,
+              "question": "What's the process for conducting thorough market research?"
+            },
+            {
+              "proj": -5.163442611694336,
+              "question": "I'm dealing with grief after losing my pet and people don't understand"
+            },
+            {
+              "proj": -4.25900936126709,
+              "question": "What is the significance of a single moment?"
+            }
+          ]
+        },
+        "LOW": {
+          "name": "Ron Weasley",
+          "mean_proj": -46.11779816945394,
+          "pushes_high": [
+            {
+              "proj": -13.172273635864258,
+              "question": "I'm considering whether to have an abortion and need help thinking thr"
+            },
+            {
+              "proj": -19.53778076171875,
+              "question": "Explain how GPS navigation systems determine your location."
+            },
+            {
+              "proj": -22.611047744750977,
+              "question": "My elderly father is reluctant to stop driving. How should I handle th"
+            },
+            {
+              "proj": -25.067733764648438,
+              "question": "What connections exist between philosophy and modern science?"
+            },
+            {
+              "proj": -25.1076717376709,
+              "question": "My teenager wants to volunteer for a cause I disagree with. How should"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -69.3758316040039,
+              "question": "What makes you feel most insecure about yourself?"
+            },
+            {
+              "proj": -68.87576293945312,
+              "question": "How would you describe the perfect way to spend a weekend?"
+            },
+            {
+              "proj": -68.09056091308594,
+              "question": "How do you feel about being judged for your appearance or choices?"
+            },
+            {
+              "proj": -68.08258819580078,
+              "question": "How would you describe what makes life meaningful?"
+            },
+            {
+              "proj": -68.00482940673828,
+              "question": "Describe what happiness means to you."
+            }
+          ]
+        }
+      }
+    },
+    "Star Wars": {
+      "cumvar": [
+        0.007278050728727394,
+        0.01454093469969257,
+        0.021551073655393636,
+        0.028454376702131443,
+        0.03520937467220973,
+        0.04185392553884296,
+        0.048447025037867276,
+        0.05500063898079442,
+        0.06149398396464453,
+        0.0679287299614397,
+        0.07430029294200413,
+        0.08061299028847205,
+        0.08676939501418929,
+        0.09283215179031577,
+        0.09887500248878357,
+        0.10489709842615189,
+        0.11087199541978458,
+        0.11681083252289784,
+        0.12273728250565082,
+        0.12863821731185962,
+        0.13446051349147314,
+        0.14027598111571732,
+        0.14604922138553986,
+        0.15175492827422965,
+        0.15745069224391736,
+        0.16313098039680898,
+        0.16879710636281217,
+        0.17446032442900128,
+        0.1801109399716058,
+        0.18574676039615617,
+        0.19138238841177077,
+        0.19701314340045983,
+        0.20250395860312728,
+        0.20797559113723904,
+        0.21344376558516212,
+        0.21880701766453312,
+        0.22414657534036803,
+        0.22948447085747645,
+        0.23478401513182978,
+        0.24006369569009825,
+        0.24532805077820713,
+        0.25056888818971623,
+        0.25578956084853,
+        0.2610054041885893,
+        0.266216569342873,
+        0.27141614681875653,
+        0.27660477472005424,
+        0.28178704376187963,
+        0.2869149087788511,
+        0.2920297905079829,
+        0.29713688606874966,
+        0.302241621288075,
+        0.3073102772930313,
+        0.3123719526670277,
+        0.31738763272899523,
+        0.3223916508963598,
+        0.32739273277504133,
+        0.3323835732237495,
+        0.3373637159826689,
+        0.34233504798993053,
+        0.34730584438802076,
+        0.3522556405573742,
+        0.3571937117387053,
+        0.3621118727628528,
+        0.3670054689221867,
+        0.3718822905492848,
+        0.3767178953234215,
+        0.38154666840147394,
+        0.38635567790064423,
+        0.39116379979066784,
+        0.3959557389088076,
+        0.40073713006404627,
+        0.405494885127738,
+        0.41022468777867355,
+        0.4149477727260225,
+        0.4196637057298429,
+        0.4243494789063198,
+        0.4290055838920753,
+        0.4336023289580055,
+        0.43819774852737375,
+        0.4427846626734676,
+        0.447360798962262,
+        0.45191929420252114,
+        0.45646057474524177,
+        0.4609561576183627,
+        0.4654491827487734,
+        0.4699262625060986,
+        0.4743987581256809,
+        0.47883807270490714,
+        0.48326764692414503,
+        0.48769071512773765,
+        0.4920846245066191,
+        0.49646759702880405,
+        0.5008479324868079,
+        0.5052183383292173,
+        0.5095629389666128,
+        0.5138976534774693,
+        0.5182315960607929,
+        0.5225589716969007,
+        0.5268591611573721,
+        0.5311388778463757,
+        0.5353853084589255,
+        0.5396058491463496,
+        0.5437854647467156,
+        0.5479459129772523,
+        0.5520990364373145,
+        0.5562364797120825,
+        0.5603608323491177,
+        0.5644822562721901,
+        0.5685931945744388,
+        0.5726772707023137,
+        0.5767548370214235,
+        0.5808134482350614,
+        0.584850843790136,
+        0.5888806365877692,
+        0.592904007951429,
+        0.596926863772064,
+        0.6009413560275952,
+        0.604952679825533,
+        0.6089632178906622,
+        0.6129596695450534,
+        0.6169556362913206,
+        0.6209504191450546,
+        0.6249296567120329,
+        0.6288784967744602,
+        0.632803111639303,
+        0.6367274456887065,
+        0.6406448612196926,
+        0.6445554173712342,
+        0.6484608973976442,
+        0.6523503900676901,
+        0.6562390831722068,
+        0.660102783309702,
+        0.6639525326996423,
+        0.6677909512248699,
+        0.6716181060352673,
+        0.6754303408654208,
+        0.6792362217363358,
+        0.6830406005139361,
+        0.6868244014726389,
+        0.6906023888832592,
+        0.6943594784864515,
+        0.698090942963977,
+        0.7018157510416446,
+        0.7055383594929655,
+        0.7092527120093953,
+        0.7129620115742319,
+        0.7166485949065823,
+        0.7203334504805161,
+        0.7240098660289913,
+        0.7276785238820725,
+        0.7313450776356998,
+        0.7350047213411707,
+        0.7386550012092332,
+        0.7422907677369831,
+        0.745923629446648,
+        0.7495500475930422,
+        0.7531744178011798,
+        0.7567912009556851,
+        0.7604013795536184,
+        0.7639946307117167,
+        0.7675824014835091,
+        0.7711600522397813,
+        0.7747221959851388,
+        0.7782840834400018,
+        0.7818301293808108,
+        0.7853639637104093,
+        0.7888818448891708,
+        0.7923940351944309,
+        0.7959044492794285,
+        0.7994146950233516,
+        0.8029145442444828,
+        0.8064021753764113,
+        0.8098897547079398,
+        0.8133702663843183,
+        0.8168443390164989,
+        0.8203118498979423,
+        0.8237787223847212,
+        0.8272318890068804,
+        0.8306624578703957,
+        0.834056900890403,
+        0.8374365694080173,
+        0.8407942955161459,
+        0.8441467924227501,
+        0.8474940131318989,
+        0.8508183475056635,
+        0.8541375289403855,
+        0.8574483581992363,
+        0.8607510328490431,
+        0.8640428603695234,
+        0.8673291028221913,
+        0.8705362146739855,
+        0.8737320391363625,
+        0.8769269682055312,
+        0.8801174257820917,
+        0.8832929350148189,
+        0.8864634852069533,
+        0.8896186870779623,
+        0.8927720543960049,
+        0.8959194528382464,
+        0.8990554488439342,
+        0.902181622965306,
+        0.9052576201753483,
+        0.9083295966240635,
+        0.911374960992979,
+        0.9144111426017265,
+        0.9174303270121016,
+        0.9204422679531218,
+        0.9234308595178922,
+        0.9263737461586682,
+        0.9293012530710394,
+        0.9322209504763712,
+        0.9351059012069456,
+        0.9379483402424291,
+        0.9407727790831606,
+        0.9435878990669944,
+        0.9463983535033084,
+        0.9491723314962043,
+        0.9519251269825958,
+        0.9545893189489327,
+        0.9572101156485615,
+        0.9597966731914653,
+        0.9623609866887695,
+        0.9648924961125065,
+        0.9674132846204612,
+        0.9699214709265835,
+        0.9724131526123678,
+        0.9748665750563061,
+        0.97730828324299,
+        0.9796509005280027,
+        0.9819830092391666,
+        0.9842087660579694,
+        0.9864136228229181,
+        0.9884880802672231,
+        0.9905580583351044,
+        0.9926166788269195,
+        0.9944925035765214,
+        0.9963454633415214,
+        0.9981855732305736,
+        0.9999999999999998
+      ],
+      "n50": 94,
+      "n80": 172,
+      "n90": 202,
+      "top1_pct": 0.7278050728727394,
+      "high_labels": [
+        "Yoda",
+        "Darth Vader",
+        "Mace Windu",
+        "Obiwan Kenobi",
+        "Darth Vader Anakin Skywalker"
+      ],
+      "low_labels": [
+        "Han Solo",
+        "Hondo Ohnaka",
+        "Lando Calrissian",
+        "Bossk",
+        "Greef Karga"
+      ],
+      "char_attributions": {
+        "HIGH": {
+          "name": "Darth Vader Anakin Skywalker",
+          "mean_proj": 50.14714517593384,
+          "pushes_high": [
+            {
+              "proj": 70.00590515136719,
+              "question": "What's the most important lesson you think everyone should learn?"
+            },
+            {
+              "proj": 68.67345428466797,
+              "question": "How important is it to develop emotional intelligence?"
+            },
+            {
+              "proj": 67.63957977294922,
+              "question": "I feel like I'm missing something fundamental. Can you help me underst"
+            },
+            {
+              "proj": 66.97057342529297,
+              "question": "How do beliefs shape reality?"
+            },
+            {
+              "proj": 66.87388610839844,
+              "question": "What's the most important factor in achieving long-term happiness and "
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": 32.48689270019531,
+              "question": "I think there might be a mistake on my medical bill that's quite signi"
+            },
+            {
+              "proj": 34.649654388427734,
+              "question": "How should I approach planning my wedding on a budget?"
+            },
+            {
+              "proj": 34.96849060058594,
+              "question": "What's the best way to make a mundane task more interesting for others"
+            },
+            {
+              "proj": 35.72550582885742,
+              "question": "Explain how GPS navigation systems determine your location."
+            },
+            {
+              "proj": 35.84600067138672,
+              "question": "What steps would you take to plan a comprehensive marketing campaign?"
+            }
+          ]
+        },
+        "LOW": {
+          "name": "Han Solo",
+          "mean_proj": -0.10646330652137598,
+          "pushes_high": [
+            {
+              "proj": 11.656698226928711,
+              "question": "What causes some individuals to dedicate their lives to spiritual seek"
+            },
+            {
+              "proj": 10.090709686279297,
+              "question": "How do different cultures construct ideas about nature and environment"
+            },
+            {
+              "proj": 8.53746223449707,
+              "question": "What is your view on the role of prophecy and revelation in modern tim"
+            },
+            {
+              "proj": 8.492111206054688,
+              "question": "Can you describe the sensation of being on the edge of understanding s"
+            },
+            {
+              "proj": 7.299675941467285,
+              "question": "What connections exist between philosophy and modern science?"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -10.635278701782227,
+              "question": "A senior partner at your firm questions your client recommendations. W"
+            },
+            {
+              "proj": -9.384038925170898,
+              "question": "How do you feel about being judged for your appearance or choices?"
+            },
+            {
+              "proj": -8.864839553833008,
+              "question": "How do you feel about hospitality and welcoming strangers?"
+            },
+            {
+              "proj": -7.372167587280273,
+              "question": "How do you respond when confronted with deliberate cruelty disguised a"
+            },
+            {
+              "proj": -6.9037861824035645,
+              "question": "What would you think if someone said 'that's just the cherry on top'?"
+            }
+          ]
+        }
+      }
+    },
+    "LOTR": {
+      "cumvar": [
+        0.009290915331587263,
+        0.018393145177566142,
+        0.026624909743962626,
+        0.03456207414532074,
+        0.042331319492864165,
+        0.050083107088023014,
+        0.05736659091392842,
+        0.06460094589732968,
+        0.07169249796065236,
+        0.07873379339448552,
+        0.08575117291290917,
+        0.09275510495587254,
+        0.0996690705069235,
+        0.10655664310954925,
+        0.1133847953014123,
+        0.120176941544245,
+        0.12696888330005923,
+        0.13351044534793655,
+        0.14002633515307042,
+        0.14653284823651097,
+        0.15302807503633092,
+        0.15950153997409958,
+        0.16596808086025017,
+        0.17238163700050319,
+        0.17872747440036219,
+        0.18504490582654476,
+        0.1912960448465639,
+        0.19752616484378857,
+        0.20372330800477761,
+        0.20990800010350893,
+        0.21604048524261485,
+        0.22216838746675413,
+        0.228239442508414,
+        0.23426303173052648,
+        0.24028450411302862,
+        0.2462978460774842,
+        0.25223566035797035,
+        0.2581325890438216,
+        0.26402349118188,
+        0.2698766513273055,
+        0.2755878890816525,
+        0.28129427469403645,
+        0.2869867735951332,
+        0.2926430164315258,
+        0.2981877067310119,
+        0.30370652335358167,
+        0.3092024106339912,
+        0.3146359981307645,
+        0.3200048495504165,
+        0.3253535638275885,
+        0.33070210148337853,
+        0.33604655592533034,
+        0.3413542222154951,
+        0.34666119308297794,
+        0.3517935458500281,
+        0.3569141970723071,
+        0.362026647119489,
+        0.3671129022389558,
+        0.3721832777576367,
+        0.37721850048704775,
+        0.38220535107213066,
+        0.38718434131791224,
+        0.39215152771746054,
+        0.39709867329626436,
+        0.4019993055921291,
+        0.40688888639696386,
+        0.41176311504635965,
+        0.4166214360276898,
+        0.42146700694718997,
+        0.4262507175864012,
+        0.4310108541425566,
+        0.4357471395040333,
+        0.4404561569889597,
+        0.44516392972835384,
+        0.4498481953386973,
+        0.4545129310771979,
+        0.459169939592591,
+        0.4638243125735339,
+        0.46847576799783724,
+        0.47311898563297744,
+        0.47772966919829424,
+        0.48232639928389476,
+        0.48691353828137623,
+        0.4914966335830467,
+        0.4960791322356377,
+        0.5006363244896807,
+        0.5051786414095163,
+        0.5097007847341117,
+        0.5141545366498806,
+        0.5185943597252025,
+        0.5230045518930709,
+        0.5273697499297344,
+        0.5317198416834623,
+        0.536069108050146,
+        0.5403570776895191,
+        0.5446274945617693,
+        0.5488965862044484,
+        0.5531556004978025,
+        0.5573814531285715,
+        0.5615755157860315,
+        0.5657615997766019,
+        0.569945044994776,
+        0.5741281951072235,
+        0.5782872819948327,
+        0.5824459513884499,
+        0.5865761684917842,
+        0.5907030843723564,
+        0.5947987834558762,
+        0.5988888478739522,
+        0.6029687521206427,
+        0.6070405583034334,
+        0.6110996123560563,
+        0.6151567464756516,
+        0.6191934514289326,
+        0.6232289922321355,
+        0.6272507708206145,
+        0.6312439696691488,
+        0.635234541143004,
+        0.6392182639332491,
+        0.6431929682646206,
+        0.6471519672733289,
+        0.6511092527773881,
+        0.6550438261309571,
+        0.6589541826238589,
+        0.6628578732337759,
+        0.6667543631521735,
+        0.6706490905399245,
+        0.6745436841746197,
+        0.6784309483253197,
+        0.6823153650871272,
+        0.6861889679118067,
+        0.6900588811073957,
+        0.6939053988777776,
+        0.6976937938223312,
+        0.7014644454987832,
+        0.7052111794146957,
+        0.7089408924336399,
+        0.7126606726292082,
+        0.7163761557074615,
+        0.7200864116103178,
+        0.7237964806275548,
+        0.7274876005563481,
+        0.7311650180253386,
+        0.7348373196710103,
+        0.7384681328634204,
+        0.7420655610748709,
+        0.7456621495492319,
+        0.7492559946377595,
+        0.7528190537613502,
+        0.756362286758207,
+        0.7598960157778379,
+        0.7634100573192016,
+        0.7668640421134073,
+        0.7702938748933276,
+        0.7736947426313389,
+        0.7770591168372935,
+        0.7804229777385074,
+        0.7837600491374768,
+        0.787061426864706,
+        0.7903497409657739,
+        0.7936265509170717,
+        0.7968837371607848,
+        0.8001216314528435,
+        0.8033480050512113,
+        0.8065582788448924,
+        0.809765460889991,
+        0.8129601348163067,
+        0.8161399968295587,
+        0.8193110382310693,
+        0.8224795743194767,
+        0.8256330157573952,
+        0.8287684840005565,
+        0.8319021230250929,
+        0.8349827316583637,
+        0.838042516659178,
+        0.8410917305046675,
+        0.8441387144215057,
+        0.8471677020918047,
+        0.8501878258606672,
+        0.8531839293032469,
+        0.8561649273544986,
+        0.8591301876193953,
+        0.862094528077887,
+        0.8650576439590941,
+        0.8680146134339093,
+        0.8709510466620721,
+        0.8738799667570585,
+        0.8767893861878487,
+        0.8796912764361543,
+        0.8825838180263861,
+        0.8854737056877371,
+        0.8883215132726286,
+        0.8911633216301843,
+        0.8939709978311764,
+        0.8967694043711084,
+        0.8995570087490078,
+        0.9023391968103497,
+        0.9051173212455133,
+        0.9078617310301927,
+        0.9106041234384431,
+        0.9133459603144122,
+        0.9160739593632329,
+        0.9188003169008118,
+        0.9215023381603421,
+        0.9241671128150687,
+        0.9268279356258626,
+        0.929472736443971,
+        0.9320918832633249,
+        0.9346972204599087,
+        0.9372724676297746,
+        0.9397817327159559,
+        0.942263229084757,
+        0.9447388993032861,
+        0.94719376487405,
+        0.9496228497079999,
+        0.95204187379355,
+        0.9544392801485843,
+        0.9568359812516442,
+        0.9591948460557286,
+        0.9615369504854074,
+        0.963862705391955,
+        0.9661727776108798,
+        0.9684794996457184,
+        0.9707512217182173,
+        0.9730152184090417,
+        0.975251154304118,
+        0.977450176495001,
+        0.9796132787883702,
+        0.9816988790816306,
+        0.9837521512735774,
+        0.9857878099285758,
+        0.9877557005491268,
+        0.9897009297256206,
+        0.9915090086030666,
+        0.99319322134143,
+        0.9947692056280424,
+        0.9963023139537449,
+        0.9977981420561569,
+        0.9989884945542172,
+        0.9999999999999997
+      ],
+      "n50": 86,
+      "n80": 163,
+      "n90": 197,
+      "top1_pct": 0.9290915331587263,
+      "high_labels": [
+        "Galadriel",
+        "Feanor",
+        "Elendil",
+        "Fingolfin",
+        "Gilgalad"
+      ],
+      "low_labels": [
+        "Fredegar Bolger Fatty",
+        "Bilbo Baggins",
+        "Bombur",
+        "Bofur",
+        "Gollum Smeagol"
+      ],
+      "char_attributions": {
+        "HIGH": {
+          "name": "Gilgalad",
+          "mean_proj": 43.742769583066305,
+          "pushes_high": [
+            {
+              "proj": 68.76966094970703,
+              "question": "If you could preserve one moment forever, what would it be?"
+            },
+            {
+              "proj": 68.06209564208984,
+              "question": "How do you feel about the role of creativity in society?"
+            },
+            {
+              "proj": 66.01148223876953,
+              "question": "An opportunity arises that could benefit you, but you need to decide q"
+            },
+            {
+              "proj": 62.97381591796875,
+              "question": "How do you feel about attending weddings or large family gatherings?"
+            },
+            {
+              "proj": 61.75950241088867,
+              "question": "What's your opinion on whether newer is always better?"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": 19.72365951538086,
+              "question": "I'm considering whether to have an abortion and need help thinking thr"
+            },
+            {
+              "proj": 20.074399948120117,
+              "question": "My fitness goals seem impossible to reach despite months of effort. Wh"
+            },
+            {
+              "proj": 21.954872131347656,
+              "question": "My elderly father is reluctant to stop driving. How should I handle th"
+            },
+            {
+              "proj": 22.23703384399414,
+              "question": "How would you handle a cooking class where students aren't following t"
+            },
+            {
+              "proj": 24.29547119140625,
+              "question": "What's the proper way to conduct a literature review?"
+            }
+          ]
+        },
+        "LOW": {
+          "name": "Fredegar Bolger Fatty",
+          "mean_proj": -14.641087861855825,
+          "pushes_high": [
+            {
+              "proj": 0.6580795049667358,
+              "question": "How do different cultures construct ideas about nature and environment"
+            },
+            {
+              "proj": -1.8904021978378296,
+              "question": "What causes some individuals to dedicate their lives to spiritual seek"
+            },
+            {
+              "proj": -1.892702341079712,
+              "question": "I'm considering whether to have an abortion and need help thinking thr"
+            },
+            {
+              "proj": -2.120842456817627,
+              "question": "Should veterans who served in combat roles be honored for their servic"
+            },
+            {
+              "proj": -3.7334647178649902,
+              "question": "How do technological innovations influence artistic expression?"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -26.18505096435547,
+              "question": "What's your ideal balance between alone time and social time?"
+            },
+            {
+              "proj": -26.1669979095459,
+              "question": "Your coworker's keyboard typing seems louder than usual today. What do"
+            },
+            {
+              "proj": -25.608078002929688,
+              "question": "Describe what happiness means to you."
+            },
+            {
+              "proj": -25.246309280395508,
+              "question": "How do you react when experiencing symptoms of illness during busy per"
+            },
+            {
+              "proj": -25.211589813232422,
+              "question": "What's the most important lesson you think everyone should learn?"
+            }
+          ]
+        }
+      }
+    },
+    "Marvel": {
+      "cumvar": [
+        0.010807497495580269,
+        0.020954692358619693,
+        0.03080965596784754,
+        0.04039824483946134,
+        0.04997238398152313,
+        0.05953486055685065,
+        0.06880366827753136,
+        0.07733738252594681,
+        0.08586194619817675,
+        0.09426828035149436,
+        0.10267365919547426,
+        0.11102197879227249,
+        0.11926853068415061,
+        0.12748083423737533,
+        0.1354819681817844,
+        0.14347996708217142,
+        0.15133618943712612,
+        0.15918192409054113,
+        0.1668415394881315,
+        0.17443815869780327,
+        0.181653702351849,
+        0.18884716449007058,
+        0.19598778674437078,
+        0.2031235944366084,
+        0.21018694856187572,
+        0.21714763856472094,
+        0.22404790719932946,
+        0.2309131384308833,
+        0.2377284865083681,
+        0.24454226172690968,
+        0.25129822597348955,
+        0.25802366691260703,
+        0.2647294370741457,
+        0.27140199185472397,
+        0.27804258754992034,
+        0.28468272013042956,
+        0.2912316541350045,
+        0.2977630988030733,
+        0.3042907978836172,
+        0.3107822763127744,
+        0.3172597296626111,
+        0.32373639575461105,
+        0.3302069908771168,
+        0.3366613741275304,
+        0.3431018042892054,
+        0.3494171558737706,
+        0.35572996010918856,
+        0.36203606494304996,
+        0.36830031528891244,
+        0.37455250951543934,
+        0.3807264266145329,
+        0.386769120619965,
+        0.3927918330903502,
+        0.3987860511585101,
+        0.4046586613275918,
+        0.41050592798659985,
+        0.4163523108124269,
+        0.42210923166741965,
+        0.4277907286601197,
+        0.4334191821504249,
+        0.43902678749696544,
+        0.444633206535709,
+        0.45014784603640284,
+        0.4555866123425683,
+        0.46098397117303863,
+        0.4663620644538496,
+        0.4716358788434601,
+        0.4768762861597545,
+        0.4820282297371269,
+        0.48716059766873,
+        0.49229247204591,
+        0.497416777183085,
+        0.5025159525265287,
+        0.5075444911196332,
+        0.5125721679824944,
+        0.5175801286205192,
+        0.522570850313061,
+        0.5275525224099705,
+        0.5325325065833744,
+        0.537496182221759,
+        0.5423686793617994,
+        0.5471478712829115,
+        0.5517857397323604,
+        0.5564107453410927,
+        0.5609975363465686,
+        0.565574621952663,
+        0.5701445007543894,
+        0.5747019401156337,
+        0.5792569157715941,
+        0.5838101856917255,
+        0.5883538783798734,
+        0.5928163477082172,
+        0.5972587655499496,
+        0.6016854021416921,
+        0.6060929048217292,
+        0.6104397983955836,
+        0.6147709925170278,
+        0.6190130175972213,
+        0.6232474244759234,
+        0.6274781599855067,
+        0.6317054197993807,
+        0.635880429135387,
+        0.6400291735725686,
+        0.6441155173715463,
+        0.6481854397137263,
+        0.6522521036068814,
+        0.6563059888063086,
+        0.6603591434545555,
+        0.6644036427040197,
+        0.6684224035026713,
+        0.6724245147466534,
+        0.6763604191868631,
+        0.6802881436397001,
+        0.6841843471911708,
+        0.6880561706748579,
+        0.6919180583476755,
+        0.6957787612121277,
+        0.6996245523094957,
+        0.70342049193315,
+        0.7071994630010323,
+        0.710957078826461,
+        0.714652401786063,
+        0.7183381425401205,
+        0.7220225527276931,
+        0.7256425848276431,
+        0.729233549317476,
+        0.7328157666223438,
+        0.7363496016158407,
+        0.739873023360063,
+        0.7433769950175984,
+        0.7468801763372958,
+        0.7503824501907578,
+        0.7538791251913315,
+        0.7573712209463126,
+        0.760840161017352,
+        0.7642860323219633,
+        0.7677292496280086,
+        0.7711651203194629,
+        0.7745863554935802,
+        0.7779968174359304,
+        0.7813525993056494,
+        0.7847004153566371,
+        0.7880399600455215,
+        0.7913684071278135,
+        0.7946743619224295,
+        0.7979727154286321,
+        0.801248704406326,
+        0.8045197417383482,
+        0.8077858010188248,
+        0.8109969012612782,
+        0.8141924364022938,
+        0.8173345243404594,
+        0.8204610128771072,
+        0.8235211236237208,
+        0.8265645804454713,
+        0.8295687255616652,
+        0.8325681128402778,
+        0.835547668898825,
+        0.83851739372381,
+        0.8414464305796423,
+        0.8443714230605993,
+        0.8472747273590738,
+        0.8501542912421061,
+        0.8530117113332852,
+        0.8558539412239612,
+        0.8586787499111682,
+        0.861479175716809,
+        0.8642411077639762,
+        0.867001143218572,
+        0.8697410538014951,
+        0.87246783145514,
+        0.8751384407715179,
+        0.8777683698516139,
+        0.8803876641659067,
+        0.883000782887397,
+        0.8856017937948207,
+        0.8882001858078066,
+        0.8907885359974497,
+        0.8932476759885501,
+        0.8956922833598835,
+        0.8981208862395198,
+        0.9005404100059831,
+        0.9029229160693871,
+        0.9052887378916084,
+        0.9076231230353942,
+        0.9099449179483045,
+        0.9122242009111542,
+        0.9144883434831161,
+        0.9167228935143863,
+        0.9189269971445906,
+        0.9211208914271992,
+        0.9232893734517046,
+        0.9254219862208528,
+        0.9275515273589379,
+        0.9296583924747294,
+        0.9317465925191373,
+        0.9338316016247977,
+        0.935915448419657,
+        0.9379298976123268,
+        0.9399412266900942,
+        0.9419417237468056,
+        0.943913345139099,
+        0.945876489446602,
+        0.9478246148341725,
+        0.9496907777798062,
+        0.9515364950883778,
+        0.9533810645899677,
+        0.9552206788871158,
+        0.9570498901321294,
+        0.9588719000599427,
+        0.9606653993149408,
+        0.9624478929594086,
+        0.9642177356499362,
+        0.9659516046127813,
+        0.9676748299649329,
+        0.9693575979156224,
+        0.9710232333004675,
+        0.9726744314270915,
+        0.9742928320006176,
+        0.9758933261098925,
+        0.9774584820926185,
+        0.9790230220305164,
+        0.9805359513764922,
+        0.9820152227398636,
+        0.9834899655535827,
+        0.9848902011288077,
+        0.986263572792568,
+        0.9876021790398481,
+        0.9889362994932748,
+        0.9902011888778297,
+        0.9914367386222658,
+        0.9926504830986149,
+        0.9938634002483415,
+        0.9949666499855292,
+        0.9960268902912103,
+        0.9969731700777305,
+        0.9978636359350301,
+        0.9986864718652777,
+        0.9994327654258648,
+        1.0000000000000002
+      ],
+      "n50": 73,
+      "n80": 147,
+      "n90": 182,
+      "top1_pct": 1.080749749558027,
+      "high_labels": [
+        "Professor X Charles Xavier",
+        " Peter Parker",
+        "Beast Hank Mccoy",
+        "Iceman Bobby Drake",
+        "Cyclops Scott Summers"
+      ],
+      "low_labels": [
+        "Odin",
+        "Hela",
+        "Heimdall",
+        "Thanos",
+        "Groot"
+      ],
+      "char_attributions": {
+        "HIGH": {
+          "name": "Cyclops Scott Summers",
+          "mean_proj": 43.45347862243652,
+          "pushes_high": [
+            {
+              "proj": 85.340087890625,
+              "question": "How important is it to promote intercultural understanding?"
+            },
+            {
+              "proj": 78.88716888427734,
+              "question": "What's your view on balancing innovation with privacy concerns?"
+            },
+            {
+              "proj": 78.19789123535156,
+              "question": "How do you feel about being judged for your appearance or choices?"
+            },
+            {
+              "proj": 76.90084838867188,
+              "question": "How do you think about the challenges and benefits of multicultural so"
+            },
+            {
+              "proj": 75.70367431640625,
+              "question": "How should we approach questions about same-sex marriage?"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": 10.425031661987305,
+              "question": "I'm in a custody battle with my ex-spouse. What strategies would help "
+            },
+            {
+              "proj": 12.945743560791016,
+              "question": "I think there might be a mistake on my medical bill that's quite signi"
+            },
+            {
+              "proj": 16.60131072998047,
+              "question": "My pet sitter let my cat escape while I was on vacation, though they e"
+            },
+            {
+              "proj": 16.673158645629883,
+              "question": "We planned an outdoor market but the permits got delayed and we have v"
+            },
+            {
+              "proj": 18.594764709472656,
+              "question": "How would you characterize people who claim to want honest feedback bu"
+            }
+          ]
+        },
+        "LOW": {
+          "name": "Odin",
+          "mean_proj": -7.195696778098742,
+          "pushes_high": [
+            {
+              "proj": 1.572546124458313,
+              "question": "If we could communicate with animals, how might that change our relati"
+            },
+            {
+              "proj": -0.524752140045166,
+              "question": "How can someone learn to forgive?"
+            },
+            {
+              "proj": -1.0686267614364624,
+              "question": "Can you give advice on maintaining dignity in embarrassing situations?"
+            },
+            {
+              "proj": -1.3316740989685059,
+              "question": "What makes certain human rights universal and unchanging?"
+            },
+            {
+              "proj": -1.3855159282684326,
+              "question": "What principles should guide ethical decision-making in emerging techn"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -16.469364166259766,
+              "question": "How do you react when you feel like you're losing control of a situati"
+            },
+            {
+              "proj": -15.445592880249023,
+              "question": "How would you react to finding out that your favorite band broke up?"
+            },
+            {
+              "proj": -15.150800704956055,
+              "question": "How do you respond when inspiration strikes?"
+            },
+            {
+              "proj": -14.17684555053711,
+              "question": "What's your view on people who cut in front of others in traffic and t"
+            },
+            {
+              "proj": -13.816864013671875,
+              "question": "Someone keeps leaving negative reviews about your business using fake "
+            }
+          ]
+        }
+      }
+    },
+    "Game of Thrones": {
+      "cumvar": [
+        0.007674160378239211,
+        0.015288050852563559,
+        0.022703599186374608,
+        0.029980023141275357,
+        0.03725255946825766,
+        0.04448823900008325,
+        0.051528555653777536,
+        0.058449042839688166,
+        0.0652013982639299,
+        0.07192367282676959,
+        0.07864533705864969,
+        0.08531151783993128,
+        0.09197644825217055,
+        0.09860058825305511,
+        0.1051828924500888,
+        0.1115429195497239,
+        0.11790107258572476,
+        0.12423420424354654,
+        0.1305116326044326,
+        0.13677149421593018,
+        0.14301263791721763,
+        0.14915017790221172,
+        0.1552179606290424,
+        0.16128503404484412,
+        0.16727994419163447,
+        0.17324398827264234,
+        0.1792054239177617,
+        0.18512115996233605,
+        0.19102663466876701,
+        0.19689729291163044,
+        0.2027431757023592,
+        0.20856077937172898,
+        0.21431021167280273,
+        0.22003589028855655,
+        0.22574923012189452,
+        0.23142588491221736,
+        0.23706290760476775,
+        0.24269173432806826,
+        0.24827953634123184,
+        0.25385441450150065,
+        0.2594003344079603,
+        0.26485226007496593,
+        0.270304066070102,
+        0.2757527632888115,
+        0.281184735989591,
+        0.28659562928378496,
+        0.2920029020364678,
+        0.2973194207782813,
+        0.3025776651615829,
+        0.30782949916872404,
+        0.31307024020609214,
+        0.3182835181977737,
+        0.3234662093575958,
+        0.32863994417345493,
+        0.333795296771061,
+        0.3388900278834065,
+        0.3439731099037932,
+        0.34904800366739896,
+        0.3540634666122381,
+        0.35907627949463655,
+        0.36407508351872664,
+        0.3690678017456068,
+        0.37403208112484515,
+        0.3789816668764003,
+        0.3839010158831513,
+        0.3888155091579641,
+        0.3937261037494075,
+        0.3986309639789188,
+        0.40352812456948217,
+        0.40839423658039115,
+        0.41325577100119404,
+        0.41810790761730415,
+        0.4229399268817196,
+        0.42772487959958483,
+        0.43250485106973735,
+        0.4372475911709401,
+        0.4419882587185251,
+        0.4467222631588911,
+        0.45144768082232967,
+        0.4561727151784773,
+        0.4608674791663205,
+        0.46554015890580625,
+        0.47019910153694117,
+        0.47485430647594384,
+        0.47948928735862084,
+        0.48409461503032225,
+        0.4886963361991467,
+        0.4932912895885823,
+        0.4978763174455253,
+        0.5024394737754267,
+        0.5070006778000148,
+        0.5115501033863239,
+        0.5160879813493165,
+        0.5205640744859273,
+        0.5249852104460377,
+        0.5294010931641538,
+        0.53381124432219,
+        0.5382053404431598,
+        0.542591000792212,
+        0.5469426302889278,
+        0.5512823476178998,
+        0.5556172926494324,
+        0.5599511596192052,
+        0.5642751345682872,
+        0.5685759094782926,
+        0.5728628176651701,
+        0.5771238749459964,
+        0.5813833050141695,
+        0.5856408784631478,
+        0.5898911695628296,
+        0.5941357403368801,
+        0.5983733556223384,
+        0.602608709882113,
+        0.6068020439370969,
+        0.6109872614312001,
+        0.6151721523702797,
+        0.61932171689657,
+        0.6234676128085103,
+        0.6275843050862989,
+        0.6316850744211474,
+        0.635765755837389,
+        0.639803636239279,
+        0.6438254293567518,
+        0.6478470557756101,
+        0.651839684755438,
+        0.6558191023915445,
+        0.6597904066300473,
+        0.6637391265797743,
+        0.6676836886437193,
+        0.6715819248807422,
+        0.6754573903784717,
+        0.6793225823398389,
+        0.6831818464706128,
+        0.6870125178021009,
+        0.6908396297446047,
+        0.6946624329191936,
+        0.6984816207294,
+        0.7022926122511537,
+        0.7060812409169401,
+        0.7098684151360258,
+        0.7136351044372141,
+        0.7174004928135255,
+        0.7211569213676611,
+        0.7248992185518972,
+        0.7286397979155749,
+        0.7323522845486419,
+        0.7360560123260383,
+        0.7397573006093031,
+        0.7433664256714124,
+        0.7469730623222769,
+        0.7505788060524621,
+        0.7541511740963746,
+        0.7577226280772495,
+        0.7612794379202295,
+        0.7648214280562394,
+        0.7683039922984903,
+        0.7717793297883004,
+        0.7752345155480624,
+        0.7786822507536,
+        0.7821296642329207,
+        0.7855657205370327,
+        0.7889693725040219,
+        0.7923703301955607,
+        0.795740980587431,
+        0.7991009714264364,
+        0.8024164890690344,
+        0.8057255081889981,
+        0.8090323092189841,
+        0.8123356096154427,
+        0.815630586754199,
+        0.8189147547634372,
+        0.8221943061412125,
+        0.8254679307030305,
+        0.8287410924824037,
+        0.831996600997204,
+        0.8351951773327385,
+        0.8383710227388931,
+        0.841515825420752,
+        0.8446465234208659,
+        0.8477650625745935,
+        0.8508805536453272,
+        0.853989961439291,
+        0.857092168768334,
+        0.8601883207288503,
+        0.8632828323172936,
+        0.8663679775385084,
+        0.8694340144582471,
+        0.872496707217682,
+        0.8755561938681449,
+        0.8786096906031325,
+        0.8816493513172697,
+        0.8846856651166385,
+        0.8876978330921576,
+        0.890663540416403,
+        0.8935745520293433,
+        0.896467254870546,
+        0.899352353601288,
+        0.9022265154947694,
+        0.9050885852308663,
+        0.9079494680390248,
+        0.91074527768008,
+        0.9135281501601643,
+        0.9162712699260246,
+        0.9190007338733266,
+        0.9217244433334996,
+        0.9243842175531676,
+        0.9270432260043591,
+        0.9296805008578279,
+        0.9323148992419507,
+        0.9349210133902247,
+        0.9375000823526018,
+        0.9400285253604812,
+        0.9425415128398927,
+        0.9450515796306417,
+        0.9475547832701923,
+        0.9500295291069227,
+        0.9525006161466998,
+        0.954969288156296,
+        0.9574359773016254,
+        0.9598676463442161,
+        0.9622296431078605,
+        0.9645888223613619,
+        0.9669039994559622,
+        0.9692090519321499,
+        0.9714838842774944,
+        0.9737251795956495,
+        0.9759381114404101,
+        0.978109332598013,
+        0.9802706128956237,
+        0.9823498721021952,
+        0.9843924827110428,
+        0.9864044985673985,
+        0.9883408237404593,
+        0.9902769974847719,
+        0.9921800966762675,
+        0.994006946952426,
+        0.9957115578970122,
+        0.9973777256554229,
+        0.9989963995448806,
+        0.9999999999999996
+      ],
+      "n50": 90,
+      "n80": 166,
+      "n90": 198,
+      "top1_pct": 0.7674160378239211,
+      "high_labels": [
+        "Rhaegal",
+        "Drogon",
+        "Viserion",
+        "Viserys Targaryen",
+        "Mad King Aerys Targaryen"
+      ],
+      "low_labels": [
+        "Tormund Giantsbane",
+        "Sandor Clegane The Hound",
+        "Gendry",
+        "Hot Pie",
+        "Podrick Payne"
+      ],
+      "char_attributions": {
+        "HIGH": {
+          "name": "Mad King Aerys Targaryen",
+          "mean_proj": 32.068306132157645,
+          "pushes_high": [
+            {
+              "proj": 48.768272399902344,
+              "question": "How do you react when you feel like you're losing control of a situati"
+            },
+            {
+              "proj": 48.286720275878906,
+              "question": "An opportunity arises that could benefit you, but you need to decide q"
+            },
+            {
+              "proj": 47.542545318603516,
+              "question": "Someone approaches you with a 'once in a lifetime' business opportunit"
+            },
+            {
+              "proj": 46.68924331665039,
+              "question": "A valued tradition in your family or community is ending. How do you f"
+            },
+            {
+              "proj": 45.94905090332031,
+              "question": "What would you think if someone said 'that's just the cherry on top'?"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": 9.792685508728027,
+              "question": "Explain how GPS navigation systems determine your location."
+            },
+            {
+              "proj": 15.778152465820312,
+              "question": "Can you explain how facial recognition software identifies people?"
+            },
+            {
+              "proj": 16.71924591064453,
+              "question": "How can communities build more effective support networks for families"
+            },
+            {
+              "proj": 16.921066284179688,
+              "question": "If we could communicate with animals, how might that change our relati"
+            },
+            {
+              "proj": 17.022064208984375,
+              "question": "I'm considering whether to have an abortion and need help thinking thr"
+            }
+          ]
+        },
+        "LOW": {
+          "name": "Tormund Giantsbane",
+          "mean_proj": -22.907978542645772,
+          "pushes_high": [
+            {
+              "proj": -12.305582046508789,
+              "question": "How do different cultures construct ideas about nature and environment"
+            },
+            {
+              "proj": -13.498554229736328,
+              "question": "How do you make a paper airplane?"
+            },
+            {
+              "proj": -13.797593116760254,
+              "question": "How should we approach the regulation of emerging financial technologi"
+            },
+            {
+              "proj": -14.027181625366211,
+              "question": "My spouse wants to make a major financial decision without consulting "
+            },
+            {
+              "proj": -14.488122940063477,
+              "question": "How should a volunteer organization allocate limited resources between"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -36.149017333984375,
+              "question": "I'm feeling overwhelmed with my responsibilities."
+            },
+            {
+              "proj": -33.705326080322266,
+              "question": "Your suggestion doesn't account for the challenges I'm facing. Can you"
+            },
+            {
+              "proj": -33.59495162963867,
+              "question": "Your coworker's keyboard typing seems louder than usual today. What do"
+            },
+            {
+              "proj": -33.24451446533203,
+              "question": "How do you feel about being judged for your appearance or choices?"
+            },
+            {
+              "proj": -33.21792984008789,
+              "question": "What makes you feel most insecure about yourself?"
+            }
+          ]
+        }
+      }
+    },
+    "Naruto": {
+      "cumvar": [
+        0.008567392438156397,
+        0.016884247210556314,
+        0.025028555487838656,
+        0.032915781649757225,
+        0.0407808587998753,
+        0.04857023571800868,
+        0.05628519342307607,
+        0.06397424275106832,
+        0.07165830632525536,
+        0.07932491073455843,
+        0.08679884094380276,
+        0.09421488016639766,
+        0.10145075486689148,
+        0.1085670595236415,
+        0.11566854668212402,
+        0.12264107062595772,
+        0.12946803565155865,
+        0.13625028755212876,
+        0.14301342685912802,
+        0.1497498012717538,
+        0.15640342241095095,
+        0.16305087046733732,
+        0.16966381324120736,
+        0.17625368020078844,
+        0.18273065775491212,
+        0.18917583669647145,
+        0.19561579474284088,
+        0.2020235992771012,
+        0.20841646533082514,
+        0.2147878726009019,
+        0.22114405746670124,
+        0.22740336848139664,
+        0.23363034722748874,
+        0.23982201709644238,
+        0.24598972915675565,
+        0.2521240561306485,
+        0.2582556406468999,
+        0.26432091874979147,
+        0.2703570998886823,
+        0.2763878852701034,
+        0.28238627974685176,
+        0.2883424486398741,
+        0.2942931049026693,
+        0.300130784015515,
+        0.30586479335729333,
+        0.3115949980515921,
+        0.3172746612327059,
+        0.32293428013053554,
+        0.3284898220875365,
+        0.3340334820842764,
+        0.33956072985542163,
+        0.3450842952261939,
+        0.3505847823560658,
+        0.3560306751239729,
+        0.36145691109186195,
+        0.36687730419781145,
+        0.3722751588826581,
+        0.37765247789295153,
+        0.3829677618145643,
+        0.3882693761916403,
+        0.3935513853731557,
+        0.39882749354675623,
+        0.4040815411148298,
+        0.40932305007306163,
+        0.41450642601129933,
+        0.4196860959237504,
+        0.4248545849397502,
+        0.4300161415244139,
+        0.43515173841848453,
+        0.4402711994223907,
+        0.44538590074803264,
+        0.4504751161667462,
+        0.4555602325650535,
+        0.46061227986583053,
+        0.46564829861852497,
+        0.4706395889771384,
+        0.475589810284509,
+        0.4805189810842806,
+        0.48543575636950986,
+        0.4903041568127714,
+        0.4951511792838572,
+        0.4999471295329482,
+        0.5047352124232212,
+        0.5094988179696319,
+        0.5142596643093793,
+        0.5190095527728085,
+        0.5237191078310998,
+        0.5284028208499187,
+        0.5330390326624205,
+        0.5376744346001874,
+        0.5421817543462906,
+        0.5466704598715004,
+        0.5511546618869335,
+        0.5556385657589306,
+        0.5601081032502527,
+        0.564557036366175,
+        0.568997490045985,
+        0.5734235411757657,
+        0.5778425480029311,
+        0.5822347115922285,
+        0.586617297868701,
+        0.5909815959498896,
+        0.5953369189295287,
+        0.5996760091002197,
+        0.6040080650180192,
+        0.6083306100526777,
+        0.6126523970809206,
+        0.6169730128407693,
+        0.6212849112092867,
+        0.6255963572602192,
+        0.6298712138709733,
+        0.6341357758121848,
+        0.6383646285101824,
+        0.6425408673567351,
+        0.6467133151422898,
+        0.6508567008955549,
+        0.654971800137542,
+        0.6590728281354866,
+        0.6631733530268005,
+        0.6672275064012696,
+        0.6712541354320504,
+        0.6752806019909454,
+        0.6792927080591736,
+        0.6832677152346113,
+        0.6871850761656517,
+        0.6910736503505895,
+        0.6949515872231494,
+        0.6988103822191203,
+        0.702658918428047,
+        0.7064905352371406,
+        0.7103161855618497,
+        0.7141196212110096,
+        0.7178793324480972,
+        0.7216340862861291,
+        0.7253632029694309,
+        0.7290844659750518,
+        0.7327596664515648,
+        0.7364075355468487,
+        0.7400473991874386,
+        0.7436739922661906,
+        0.7472916825878536,
+        0.7509011095522714,
+        0.7544618412831897,
+        0.758001101575995,
+        0.761532279524177,
+        0.7650137334031605,
+        0.7684826234149581,
+        0.7719423083647071,
+        0.7753827745893254,
+        0.7788164053645696,
+        0.7822430390256628,
+        0.7856645672718366,
+        0.7890815960005719,
+        0.7924797443167901,
+        0.7958492710928242,
+        0.7991847952110381,
+        0.8025194891578834,
+        0.8058471885604319,
+        0.8091215191999922,
+        0.8123878071942998,
+        0.8156512010170032,
+        0.818887774931094,
+        0.822072470892401,
+        0.8252016339215295,
+        0.8283205030500843,
+        0.8314389523111531,
+        0.8345472143784881,
+        0.8376467153362589,
+        0.84074181372368,
+        0.8438189827200131,
+        0.8468927500402809,
+        0.849960256565951,
+        0.8530220449570366,
+        0.8560805713398335,
+        0.8591048283823242,
+        0.8621024943619441,
+        0.865085722783099,
+        0.8680676073602092,
+        0.8710458719054138,
+        0.8740115795769005,
+        0.8769129708661558,
+        0.879775235972494,
+        0.882633102104305,
+        0.8854381597804296,
+        0.8882149209393203,
+        0.8909742083149874,
+        0.8937275292563619,
+        0.8964795931004953,
+        0.8992083570400764,
+        0.9019090362086003,
+        0.9046005238579473,
+        0.9072700040291917,
+        0.9099241140759163,
+        0.9125663309737514,
+        0.9152019251657617,
+        0.9178089697995536,
+        0.9203709937481226,
+        0.9229252578150161,
+        0.9254627963735217,
+        0.9279150863828015,
+        0.9303437635366593,
+        0.9327655654754441,
+        0.9351315238793113,
+        0.9374915355280764,
+        0.9397674269387415,
+        0.9420026745873079,
+        0.9442074136668106,
+        0.9463711585581249,
+        0.948524220148797,
+        0.9506446934461126,
+        0.9527316370272814,
+        0.9547694091021586,
+        0.9567573663796762,
+        0.9587140639043172,
+        0.9606351979280509,
+        0.9625282774948468,
+        0.9643581587411854,
+        0.9661842396377879,
+        0.9679893568927838,
+        0.9697883235990128,
+        0.9715793567307797,
+        0.9733499072566772,
+        0.9751140088199384,
+        0.9768766959097678,
+        0.9785848003604165,
+        0.9802763236571064,
+        0.981960357998561,
+        0.9836281901503813,
+        0.9852939337013688,
+        0.9869261018421391,
+        0.988518483131931,
+        0.9900535308066407,
+        0.9915385315187476,
+        0.992980926004508,
+        0.9944006076617744,
+        0.9957921323372484,
+        0.9971323978480442,
+        0.9983265011005441,
+        0.9992275948964715,
+        1.0000000000000009
+      ],
+      "n50": 83,
+      "n80": 157,
+      "n90": 190,
+      "top1_pct": 0.8567392438156397,
+      "high_labels": [
+        "Anko Mitarashi",
+        "Mito Uzumaki",
+        "Konohamaru Sarutobi",
+        "Rock Lee",
+        "Naruto Uzumaki"
+      ],
+      "low_labels": [
+        "Madara Uchiha",
+        "Toneri Otsutsuki",
+        "Kinshiki Otsutsuki",
+        "Ashura Otsutsuki",
+        "Momoshiki Otsutsuki"
+      ],
+      "char_attributions": {
+        "HIGH": {
+          "name": "Naruto Uzumaki",
+          "mean_proj": 32.94637819131216,
+          "pushes_high": [
+            {
+              "proj": 53.83100891113281,
+              "question": "What's the most important lesson you think everyone should learn?"
+            },
+            {
+              "proj": 51.66451644897461,
+              "question": "What makes you feel most insecure about yourself?"
+            },
+            {
+              "proj": 49.49827575683594,
+              "question": "What principles should guide human action?"
+            },
+            {
+              "proj": 49.201255798339844,
+              "question": "I'm feeling overwhelmed with my responsibilities."
+            },
+            {
+              "proj": 48.55927658081055,
+              "question": "How do you stay organized in daily life?"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": 12.29431438446045,
+              "question": "How do you make a paper airplane?"
+            },
+            {
+              "proj": 12.721068382263184,
+              "question": "I'm considering whether to have an abortion and need help thinking thr"
+            },
+            {
+              "proj": 16.65283966064453,
+              "question": "Explain how GPS navigation systems determine your location."
+            },
+            {
+              "proj": 17.45418357849121,
+              "question": "Should I prioritize paying off my mortgage early or investing the extr"
+            },
+            {
+              "proj": 18.039213180541992,
+              "question": "My elderly father is reluctant to stop driving. How should I handle th"
+            }
+          ]
+        },
+        "LOW": {
+          "name": "Madara Uchiha",
+          "mean_proj": -17.719020128250122,
+          "pushes_high": [
+            {
+              "proj": -0.5347583293914795,
+              "question": "How would you create an engaging learning environment for children?"
+            },
+            {
+              "proj": -1.0769643783569336,
+              "question": "I'm considering whether to have an abortion and need help thinking thr"
+            },
+            {
+              "proj": -1.7605159282684326,
+              "question": "How can I make my home more energy efficient?"
+            },
+            {
+              "proj": -3.2528631687164307,
+              "question": "My fitness goals seem impossible to reach despite months of effort. Wh"
+            },
+            {
+              "proj": -3.726591110229492,
+              "question": "What advice would you give for building self-confidence?"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -31.14466094970703,
+              "question": "How do you react when you feel like you're losing control of a situati"
+            },
+            {
+              "proj": -29.87437629699707,
+              "question": "What's the best path toward social justice?"
+            },
+            {
+              "proj": -29.60260009765625,
+              "question": "How do you view the concept that 'everyone deserves a happy ending'?"
+            },
+            {
+              "proj": -29.48049545288086,
+              "question": "How do you feel about the emphasis on transparency in government and c"
+            },
+            {
+              "proj": -29.47689437866211,
+              "question": "What principles should guide human action?"
+            }
+          ]
+        }
+      }
+    },
+    "Greek Mythology": {
+      "cumvar": [
+        0.011381171120067863,
+        0.021899433409575873,
+        0.031574104890249186,
+        0.04087332874513764,
+        0.05000305692403695,
+        0.05886892515483809,
+        0.06750131980831638,
+        0.07605643812250872,
+        0.0843483631296792,
+        0.09262554563459807,
+        0.10082183399305043,
+        0.10866674794362666,
+        0.11648614320775114,
+        0.12426197394218272,
+        0.13202695295171712,
+        0.13972018124709326,
+        0.14737405978699541,
+        0.15495520725041287,
+        0.16248898852649393,
+        0.16980260042545425,
+        0.17704826815414929,
+        0.1840417376447623,
+        0.19103421899689854,
+        0.1978887234567131,
+        0.20468354799651822,
+        0.21128749032984231,
+        0.2178550332653397,
+        0.22433334671724253,
+        0.23078267850434434,
+        0.23720320203202433,
+        0.24352442253393264,
+        0.24973102453893778,
+        0.255925041976636,
+        0.26209292437260007,
+        0.2681952064426991,
+        0.27417324793990805,
+        0.2801305177156732,
+        0.2860792693200318,
+        0.2919488032400208,
+        0.29781588776888496,
+        0.30366239754812685,
+        0.30950150230697954,
+        0.31533154435488037,
+        0.3211485099944894,
+        0.32690687639207616,
+        0.33263423814109777,
+        0.33831679544172494,
+        0.3439753856044449,
+        0.3496299072940125,
+        0.3552832547985306,
+        0.36092156954733995,
+        0.3665407804407036,
+        0.3721517604638249,
+        0.37766910442954515,
+        0.38305917267078204,
+        0.3883775189975761,
+        0.39367829251148534,
+        0.3989786466618636,
+        0.4042031718060458,
+        0.4094172644129931,
+        0.4146258811385888,
+        0.41982226300704917,
+        0.42501268668049313,
+        0.4301775880615373,
+        0.4353160633030042,
+        0.44045397503650174,
+        0.44554481835825616,
+        0.45062545117099495,
+        0.455694421516089,
+        0.46076219278920294,
+        0.4658053117406776,
+        0.4708355983392276,
+        0.47584245776441136,
+        0.4808258244581493,
+        0.4857808384126744,
+        0.49072975130428503,
+        0.4956468689036238,
+        0.5005502665339444,
+        0.5054534681762336,
+        0.5103538575430371,
+        0.5152435925088036,
+        0.5201153981087179,
+        0.5249194614877192,
+        0.52970810055395,
+        0.5344665289390412,
+        0.5392159912390986,
+        0.5439412903758236,
+        0.5486634264331526,
+        0.5533206709069459,
+        0.5578842372103866,
+        0.5624237532434185,
+        0.5669209617022624,
+        0.5714118226257743,
+        0.5758868086602505,
+        0.580358728043863,
+        0.5847832367292122,
+        0.5892004723603516,
+        0.593609787806925,
+        0.5980183837273773,
+        0.6024001864060778,
+        0.6067301472370422,
+        0.6110565714967228,
+        0.6153422697649817,
+        0.6195541091238638,
+        0.6237634557450482,
+        0.6279504085242668,
+        0.6321328218225006,
+        0.6362917442093664,
+        0.6404277117458875,
+        0.6445580116697286,
+        0.64863852127986,
+        0.6526549920369956,
+        0.6566582783576761,
+        0.6606572628346294,
+        0.6646032722425499,
+        0.6684795945909515,
+        0.6723475962343892,
+        0.6762132511988185,
+        0.6800580530399066,
+        0.6838981918211043,
+        0.6877343806562722,
+        0.6915632615388374,
+        0.6953726203036511,
+        0.6991046539170536,
+        0.702827694351592,
+        0.7065233855949472,
+        0.7102066227345194,
+        0.7138757966069602,
+        0.7175399244982235,
+        0.7212018880995967,
+        0.7248530610813153,
+        0.7285026635134086,
+        0.732124193736844,
+        0.735732123792214,
+        0.7393324696565319,
+        0.7428899146908083,
+        0.7464468612873544,
+        0.7499816556076319,
+        0.7534637502185919,
+        0.7569359133112631,
+        0.7602984919832749,
+        0.7636508938312803,
+        0.766979910818886,
+        0.7703052140317915,
+        0.7736104730051531,
+        0.7768517097339525,
+        0.7800731643047986,
+        0.7832372105002853,
+        0.7864003585638959,
+        0.7895594010509334,
+        0.7927119021294051,
+        0.7958588830202861,
+        0.799001654551036,
+        0.8021371590349385,
+        0.8052697715247649,
+        0.8083872779016525,
+        0.8114999912499562,
+        0.8145811800223148,
+        0.817656370102973,
+        0.8206918941685638,
+        0.8237236895399844,
+        0.8267396658451626,
+        0.8297552747682398,
+        0.8327706741440131,
+        0.8357753600730742,
+        0.8387752397738307,
+        0.8417675486779531,
+        0.844755971972113,
+        0.8477422726488378,
+        0.8507090488223338,
+        0.853637593455351,
+        0.8565525409274324,
+        0.8594375179831728,
+        0.8623152853486313,
+        0.8651926543714769,
+        0.8680040766145418,
+        0.8707905417413371,
+        0.8735664768855548,
+        0.8763158052265575,
+        0.8790351316920266,
+        0.8817143502681624,
+        0.8843808707100281,
+        0.8870216428626551,
+        0.8896484491019009,
+        0.8922526779065594,
+        0.8948147231092332,
+        0.8973754808473939,
+        0.8999215321458869,
+        0.9024584473819234,
+        0.904962422443317,
+        0.9074257608671011,
+        0.9098733970050323,
+        0.9123201286575169,
+        0.9147343648043801,
+        0.9170703239449497,
+        0.9193991792563232,
+        0.9217185527995885,
+        0.9240260440821355,
+        0.9263187279190168,
+        0.9285912095547363,
+        0.9308122450529995,
+        0.9330322806746298,
+        0.9352476705624678,
+        0.9374318754290963,
+        0.9395861826832044,
+        0.9417095102211261,
+        0.9438078180552244,
+        0.9458723043264092,
+        0.9479189360617547,
+        0.949947361710274,
+        0.9519582146813919,
+        0.9539452709089955,
+        0.955917868923333,
+        0.9578893646117995,
+        0.9598490179190924,
+        0.9617971988038477,
+        0.9637130589673119,
+        0.9656096303219123,
+        0.9675030700464966,
+        0.9693424344411556,
+        0.9711751516482511,
+        0.9730000004537592,
+        0.9747563609391545,
+        0.9764955203623192,
+        0.9781887459441755,
+        0.9798801623232368,
+        0.9815410933135061,
+        0.983197413713027,
+        0.9848320571137245,
+        0.9864624390593414,
+        0.9880754133897867,
+        0.9896463583724797,
+        0.9911787806390259,
+        0.9927007820604957,
+        0.9941527990244756,
+        0.9955811138827829,
+        0.9970088514086496,
+        0.9981110666802617,
+        0.9991343054436467,
+        0.9999999999999998
+      ],
+      "n50": 78,
+      "n80": 154,
+      "n90": 189,
+      "top1_pct": 1.1381171120067863,
+      "high_labels": [
+        "Clytemnestra",
+        "Priam",
+        "Telemachus",
+        "Menelaus",
+        "Agamemnon"
+      ],
+      "low_labels": [
+        "Uranus",
+        "Chaos",
+        "Erebus",
+        "Nyx",
+        "Gaia"
+      ],
+      "char_attributions": {
+        "HIGH": {
+          "name": "Agamemnon",
+          "mean_proj": 41.72175256411234,
+          "pushes_high": [
+            {
+              "proj": 68.9788818359375,
+              "question": "What's the most important lesson you think everyone should learn?"
+            },
+            {
+              "proj": 66.14317321777344,
+              "question": "An opportunity arises that could benefit you, but you need to decide q"
+            },
+            {
+              "proj": 63.86338806152344,
+              "question": "What is the significance of a single moment?"
+            },
+            {
+              "proj": 63.033451080322266,
+              "question": "How do beliefs shape reality?"
+            },
+            {
+              "proj": 61.80360412597656,
+              "question": "How do you balance competing values and priorities?"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": 13.191917419433594,
+              "question": "How do different cultures construct ideas about nature and environment"
+            },
+            {
+              "proj": 19.565933227539062,
+              "question": "How do we cultivate reverence and wonder in daily life?"
+            },
+            {
+              "proj": 19.84185791015625,
+              "question": "What connections exist between philosophy and modern science?"
+            },
+            {
+              "proj": 19.944141387939453,
+              "question": "Explain how GPS navigation systems determine your location."
+            },
+            {
+              "proj": 21.017166137695312,
+              "question": "If we could communicate with animals, how might that change our relati"
+            }
+          ]
+        },
+        "LOW": {
+          "name": "Uranus",
+          "mean_proj": -3.7763509165495632,
+          "pushes_high": [
+            {
+              "proj": 7.111545085906982,
+              "question": "How would you characterize people who claim to want honest feedback bu"
+            },
+            {
+              "proj": 7.063144683837891,
+              "question": "How do I handle a situation where a client asks me to falsify records?"
+            },
+            {
+              "proj": 6.608737945556641,
+              "question": "What should you do when facing a moral dilemma at work?"
+            },
+            {
+              "proj": 6.033710956573486,
+              "question": "Should I prioritize paying off my mortgage early or investing the extr"
+            },
+            {
+              "proj": 6.0302348136901855,
+              "question": "How would you describe the experience of trying to cancel a subscripti"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -18.14461898803711,
+              "question": "How do different cultures construct ideas about nature and environment"
+            },
+            {
+              "proj": -15.310807228088379,
+              "question": "How do you feel about the role of creativity in society?"
+            },
+            {
+              "proj": -15.28314208984375,
+              "question": "Can you explain why we need to drink water?"
+            },
+            {
+              "proj": -14.75517463684082,
+              "question": "How do you respond when inspiration strikes?"
+            },
+            {
+              "proj": -14.163244247436523,
+              "question": "What's your ideal balance between alone time and social time?"
+            }
+          ]
+        }
+      }
+    },
+    "Chinese Mythology": {
+      "cumvar": [
+        0.00777415329993723,
+        0.015494511525460407,
+        0.023048640822530535,
+        0.030286100998022328,
+        0.03749133902714073,
+        0.044551190628939745,
+        0.05154348057918154,
+        0.058500739943461465,
+        0.06544221776620449,
+        0.07237355568210913,
+        0.07908989039298527,
+        0.08574962512255369,
+        0.09240599061326678,
+        0.09903700106200432,
+        0.1056196139660707,
+        0.11198210272307979,
+        0.11826620112682608,
+        0.12450760469778785,
+        0.13070772123731983,
+        0.13673527171877628,
+        0.14275433600239334,
+        0.14873450076077427,
+        0.15469373542481576,
+        0.1606284661000311,
+        0.1665605539539911,
+        0.17233513172820128,
+        0.17809869955216853,
+        0.1838549571511331,
+        0.18960819776987672,
+        0.19536100903419493,
+        0.2011125497023928,
+        0.20670704984705693,
+        0.2122966367714483,
+        0.21787316738231136,
+        0.22344495594167113,
+        0.22901467500913322,
+        0.23458216020834136,
+        0.2401160637368118,
+        0.24561511282654203,
+        0.2511104947758112,
+        0.2565905445170199,
+        0.2620556190590495,
+        0.2675135668124793,
+        0.27295776522664483,
+        0.2783928052731936,
+        0.2838203167501216,
+        0.2892344106065227,
+        0.294633486325829,
+        0.29994092562392344,
+        0.30524779327370744,
+        0.31052390451645545,
+        0.31578586150784976,
+        0.32103653718652475,
+        0.3262723531712825,
+        0.33149402051552673,
+        0.3367136081817461,
+        0.3419284747091392,
+        0.34712757629042645,
+        0.35232525148001836,
+        0.3575138219062081,
+        0.3626761098161105,
+        0.3678308863581891,
+        0.37295433472365414,
+        0.37806524194075397,
+        0.3831509217173542,
+        0.3882159905649238,
+        0.39326382331177884,
+        0.398272696140622,
+        0.403281157894225,
+        0.40828194949343866,
+        0.41327404229153847,
+        0.4182653538971089,
+        0.4232428455801025,
+        0.428213049282067,
+        0.4331628218331946,
+        0.4381095660262967,
+        0.4430381955704519,
+        0.4479633851937984,
+        0.4528484925717469,
+        0.45769666981414275,
+        0.46252387569495995,
+        0.46734774506402477,
+        0.4721627776687152,
+        0.47697432233801584,
+        0.48176330696306974,
+        0.48654937237423995,
+        0.4913261335567063,
+        0.49609455269165226,
+        0.5008264941626225,
+        0.5055094639766492,
+        0.5101810577394645,
+        0.5148327926312124,
+        0.5194691875196465,
+        0.5240601924012224,
+        0.5286105321472161,
+        0.5331531324636732,
+        0.5376686947967302,
+        0.5421820910174628,
+        0.5466904646289643,
+        0.5511928395815734,
+        0.5556942682032765,
+        0.5601659537983457,
+        0.5646255826583612,
+        0.5690731228078539,
+        0.5735184241284746,
+        0.5779125476522797,
+        0.5822511786846386,
+        0.5865786013800143,
+        0.590880314843363,
+        0.5951428656717666,
+        0.5993918990295017,
+        0.6036093450340573,
+        0.6078163712587445,
+        0.6120135139777324,
+        0.6162019041923034,
+        0.620387513131669,
+        0.6245613137487761,
+        0.6287116572955559,
+        0.6328307540307848,
+        0.6369163093964543,
+        0.6409621579269413,
+        0.6450033358029909,
+        0.6490418402630116,
+        0.6530730631589086,
+        0.6570737942795374,
+        0.6610623553958105,
+        0.6650448536105642,
+        0.6690014920691131,
+        0.6729385215596668,
+        0.676873414054002,
+        0.6808069492411397,
+        0.6847176132347255,
+        0.6886181081061975,
+        0.6924767494998904,
+        0.6963351946427694,
+        0.7001660850228788,
+        0.7039702603946011,
+        0.707746572193634,
+        0.7115218864156246,
+        0.7152795147890167,
+        0.7190254250582476,
+        0.7227503531007051,
+        0.7264667245186903,
+        0.7301345490477182,
+        0.7337936150518639,
+        0.7374259300120214,
+        0.7410366968773106,
+        0.7446214818577397,
+        0.7482040984994505,
+        0.7517827810731977,
+        0.7553394960823229,
+        0.7588883202557787,
+        0.7624285808754204,
+        0.7659507190951508,
+        0.7694607194820243,
+        0.7729204006087919,
+        0.7763520145782853,
+        0.7797815909841742,
+        0.7831976626265437,
+        0.7866059335588114,
+        0.7900141368377319,
+        0.7934217370312492,
+        0.7968183167382339,
+        0.8001971066942437,
+        0.8035724936342434,
+        0.8069374378665539,
+        0.8102641311483113,
+        0.8135817550022334,
+        0.8168991634840251,
+        0.8202002623909641,
+        0.8234989990776767,
+        0.8267882988273417,
+        0.8300654613670918,
+        0.833328415030444,
+        0.8365836663019146,
+        0.83981179672132,
+        0.8430240188567328,
+        0.8462279301885697,
+        0.8494292169629373,
+        0.8526283065209608,
+        0.8557961075908517,
+        0.8589612799394984,
+        0.8621165248222913,
+        0.8652675994111005,
+        0.868388676767818,
+        0.8715095939776718,
+        0.874621148602656,
+        0.8777058002051396,
+        0.8807696772455256,
+        0.8838017764472041,
+        0.8868094933178828,
+        0.8898131684127748,
+        0.892809858476104,
+        0.8957410028767782,
+        0.898647041023849,
+        0.9015125438296697,
+        0.9043252117873508,
+        0.9071336181926284,
+        0.9098893241085116,
+        0.9126194344705088,
+        0.915313811098655,
+        0.9179977848254958,
+        0.9206753725752034,
+        0.9233521369189064,
+        0.9260285833968133,
+        0.9286647277485535,
+        0.9312809615709763,
+        0.9338871871901153,
+        0.9364868522210937,
+        0.9390694604373181,
+        0.9416205736939907,
+        0.9441099650963584,
+        0.9465792666746005,
+        0.949044860234197,
+        0.951488351339069,
+        0.9539187263316442,
+        0.9563431420415707,
+        0.9587586234063352,
+        0.9611386636041694,
+        0.9633682045739916,
+        0.9655504330931434,
+        0.9677222310734949,
+        0.9698500248935767,
+        0.9719461643190929,
+        0.974037954763415,
+        0.9760776804322641,
+        0.9780942721912257,
+        0.9800680332827016,
+        0.9819670735233155,
+        0.9838326268056266,
+        0.9856506143006704,
+        0.9874651028179865,
+        0.9892282965019842,
+        0.9908873957310731,
+        0.9924717511738375,
+        0.9940352936349559,
+        0.9955815149109232,
+        0.9971049108331743,
+        0.9986207854472392,
+        0.9999999999999998
+      ],
+      "n50": 89,
+      "n80": 164,
+      "n90": 196,
+      "top1_pct": 0.777415329993723,
+      "high_labels": [
+        "Change",
+        "Fuxi",
+        "Yan Emperor",
+        "Yellow Emperor",
+        "Phoenix"
+      ],
+      "low_labels": [
+        "Zhu Bajie",
+        "Sun Wukong",
+        "Sha Wujing",
+        "Lu Zhishen",
+        "Zhang Fei"
+      ],
+      "char_attributions": {
+        "HIGH": {
+          "name": "Phoenix",
+          "mean_proj": 6.839114929301044,
+          "pushes_high": [
+            {
+              "proj": 15.710319519042969,
+              "question": "Can you explain why we need to drink water?"
+            },
+            {
+              "proj": 14.439247131347656,
+              "question": "How do different cultures construct ideas about nature and environment"
+            },
+            {
+              "proj": 13.485254287719727,
+              "question": "Should veterans who served in combat roles be honored for their servic"
+            },
+            {
+              "proj": 12.589173316955566,
+              "question": "What principles should guide human action?"
+            },
+            {
+              "proj": 12.37244987487793,
+              "question": "Can you explain what makes a truly great leader?"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -3.8167436122894287,
+              "question": "Your coworker's keyboard typing seems louder than usual today. What do"
+            },
+            {
+              "proj": -0.9271162152290344,
+              "question": "What's your view on people who cut in front of others in traffic and t"
+            },
+            {
+              "proj": -0.49735307693481445,
+              "question": "Explain how GPS navigation systems determine your location."
+            },
+            {
+              "proj": -0.17762917280197144,
+              "question": "What's the best way to make a mundane task more interesting for others"
+            },
+            {
+              "proj": -0.16309797763824463,
+              "question": "Can you explain how facial recognition software identifies people?"
+            }
+          ]
+        },
+        "LOW": {
+          "name": "Zhu Bajie",
+          "mean_proj": -55.17074948946635,
+          "pushes_high": [
+            {
+              "proj": -21.936267852783203,
+              "question": "How do you make a paper airplane?"
+            },
+            {
+              "proj": -27.675212860107422,
+              "question": "How can I make my home more energy efficient?"
+            },
+            {
+              "proj": -31.726966857910156,
+              "question": "How do different cultures construct ideas about nature and environment"
+            },
+            {
+              "proj": -32.496620178222656,
+              "question": "We planned an outdoor market but the permits got delayed and we have v"
+            },
+            {
+              "proj": -33.532623291015625,
+              "question": "My community is debating whether to raise taxes to fund better schools"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -75.70040893554688,
+              "question": "How do you understand the concept of meaning in life?"
+            },
+            {
+              "proj": -74.66630554199219,
+              "question": "How do you feel about being judged for your appearance or choices?"
+            },
+            {
+              "proj": -74.19995880126953,
+              "question": "What makes you feel most insecure about yourself?"
+            },
+            {
+              "proj": -74.00519561767578,
+              "question": "What principles should guide human action?"
+            },
+            {
+              "proj": -73.64131164550781,
+              "question": "I'm feeling overwhelmed with my responsibilities."
+            }
+          ]
+        }
+      }
+    },
+    "Hindu Mythology": {
+      "cumvar": [
+        0.011404576701633765,
+        0.02248909770293789,
+        0.032674358340089034,
+        0.04186460289749798,
+        0.050871418149857614,
+        0.05971334068439141,
+        0.0680849609130118,
+        0.07642416158647683,
+        0.08459893476029413,
+        0.09269742990564717,
+        0.10062435236127108,
+        0.10828148649323158,
+        0.1157798914596316,
+        0.12324020795579066,
+        0.13051724459030714,
+        0.13771557718981237,
+        0.14488802233189305,
+        0.1519999409013614,
+        0.15895368812496147,
+        0.16570977701266912,
+        0.17237294993914695,
+        0.17898552981891072,
+        0.18556377433326002,
+        0.19212189373281152,
+        0.1986508215310085,
+        0.20516454660273253,
+        0.2115734408714427,
+        0.2179318548153786,
+        0.22426199780107822,
+        0.23052738645387497,
+        0.23678868682342186,
+        0.24296445107912082,
+        0.24912770790075978,
+        0.2552875956897835,
+        0.2614360157673696,
+        0.2675685749373008,
+        0.2736695707698394,
+        0.27964032258286403,
+        0.2855550836637338,
+        0.2914480121940808,
+        0.2972779078881005,
+        0.3031007413441998,
+        0.3089178630505841,
+        0.31468875310666994,
+        0.3204474217792294,
+        0.326103932049399,
+        0.3317323409928357,
+        0.3373365712487632,
+        0.3429091682250997,
+        0.34846960933015475,
+        0.3539607976617498,
+        0.35944425459079643,
+        0.3648969886361784,
+        0.370332616809886,
+        0.37573904406326053,
+        0.3810444003469525,
+        0.3863243157218597,
+        0.3915951250718796,
+        0.39683017830797035,
+        0.40202114497611197,
+        0.40720000004419976,
+        0.41236462226062826,
+        0.41750621232584373,
+        0.42259875863688773,
+        0.4276775901470053,
+        0.4327333427269022,
+        0.43776261099622893,
+        0.44278222613443874,
+        0.4477923550208295,
+        0.4527878376233435,
+        0.4577710006280577,
+        0.4627410935209849,
+        0.46770713293848803,
+        0.47266857634076986,
+        0.4775515682787797,
+        0.4824040443858581,
+        0.4872355818548574,
+        0.4920598606171805,
+        0.49685693234296774,
+        0.5016374822437091,
+        0.5064050888163166,
+        0.5111535386032023,
+        0.5159009450357608,
+        0.5205810390908061,
+        0.5252130060138198,
+        0.5298308301293212,
+        0.5344204335383429,
+        0.5390043834200792,
+        0.543579275147676,
+        0.5481431963448687,
+        0.5526499369491872,
+        0.5571549365090412,
+        0.5616187768959757,
+        0.5660751236488508,
+        0.5704841910246344,
+        0.5748895545648561,
+        0.579292737250586,
+        0.5836755659409866,
+        0.5880547604839177,
+        0.5924116897319289,
+        0.5967508563794119,
+        0.6010753492331522,
+        0.6053836639401327,
+        0.6096341922572838,
+        0.613880748849476,
+        0.6180831244181388,
+        0.6222230602367992,
+        0.6263597749812951,
+        0.6304789171883246,
+        0.6345942602678818,
+        0.638669305414956,
+        0.6427275225240698,
+        0.6467402154785156,
+        0.6507477645838752,
+        0.654750901490839,
+        0.6587298733265031,
+        0.6626802195777307,
+        0.6666296955453289,
+        0.670573155952265,
+        0.6745110064575103,
+        0.6784321243389075,
+        0.6823490810332233,
+        0.686260555635383,
+        0.6901316438686693,
+        0.693982267292383,
+        0.6978227880612159,
+        0.7016452163310137,
+        0.7054660353314248,
+        0.7092692529279949,
+        0.7130437109926577,
+        0.7168147146563552,
+        0.7205015400365357,
+        0.7241874730537291,
+        0.7278440975474635,
+        0.7314891258138497,
+        0.7351258937006815,
+        0.7387128375017346,
+        0.742249920304446,
+        0.7457831492266115,
+        0.7492931440458761,
+        0.7527826255327305,
+        0.7562584033720903,
+        0.759719939197325,
+        0.7631597828986723,
+        0.7665862442301979,
+        0.7699977888304048,
+        0.7733877423350455,
+        0.7767622729439597,
+        0.7801277271109235,
+        0.783480635333042,
+        0.7868129351471783,
+        0.7901407503733906,
+        0.7934404261846939,
+        0.7967136216690568,
+        0.7999776909788603,
+        0.8031973931145108,
+        0.8064124121162578,
+        0.8096242984672775,
+        0.8128344258952511,
+        0.8160241408000487,
+        0.8191922421703036,
+        0.8222559635568154,
+        0.8253064177038318,
+        0.8283514751084735,
+        0.8313958741461869,
+        0.8343998735563658,
+        0.8373896408405712,
+        0.840367752830789,
+        0.8433366082425883,
+        0.846302985721027,
+        0.8492590367397214,
+        0.8521990984311077,
+        0.855131886323967,
+        0.8580497471306732,
+        0.8609592277031924,
+        0.8638550793823194,
+        0.8667439160724094,
+        0.869607913309302,
+        0.8724327605656483,
+        0.8752334046926966,
+        0.8780111396760222,
+        0.8807834399907077,
+        0.8835452250342171,
+        0.8863069178976927,
+        0.8890258236305214,
+        0.8917404840100641,
+        0.894427326654107,
+        0.8971128025077636,
+        0.8997809073585944,
+        0.902439752307103,
+        0.9050871318862777,
+        0.9077279334340403,
+        0.9103524458865867,
+        0.9129552727786755,
+        0.9155223806692051,
+        0.9179885057445872,
+        0.9204537042037768,
+        0.9229055588354435,
+        0.9253032242196495,
+        0.927694022835157,
+        0.930084554866613,
+        0.9324220426889949,
+        0.9347276307458918,
+        0.9370173839882647,
+        0.9392722404250304,
+        0.9414927279393691,
+        0.9437117295790903,
+        0.9458929868881261,
+        0.9480660379937366,
+        0.9501949339375568,
+        0.9523124384463122,
+        0.9544162071508113,
+        0.9565020693304754,
+        0.9585129377790532,
+        0.9604908617319479,
+        0.9624307672649586,
+        0.9643587785429873,
+        0.9662624964794766,
+        0.9681329744048264,
+        0.9699707645576521,
+        0.9718061561133289,
+        0.9736356079194384,
+        0.9754636019584567,
+        0.9772365616767192,
+        0.9789427772320398,
+        0.9805677351139711,
+        0.9821922677549718,
+        0.9837867786460947,
+        0.9853787423320608,
+        0.9869625680028511,
+        0.9884882977208697,
+        0.989985858638367,
+        0.9914039998632316,
+        0.992795371916318,
+        0.994098486534298,
+        0.9953888153425136,
+        0.9966410889038352,
+        0.9977848724015026,
+        0.99892482252908,
+        1.0
+      ],
+      "n50": 80,
+      "n80": 156,
+      "n90": 190,
+      "top1_pct": 1.1404576701633764,
+      "high_labels": [
+        "Surya",
+        "Ganga",
+        "Shiva",
+        "Kali",
+        "Agni"
+      ],
+      "low_labels": [
+        "Yudhishthira",
+        "Duryodhana",
+        "Arjuna",
+        "Abhimanyu",
+        "Lakshmana"
+      ],
+      "char_attributions": {
+        "HIGH": {
+          "name": "Agni",
+          "mean_proj": 2.421370389809211,
+          "pushes_high": [
+            {
+              "proj": 21.046764373779297,
+              "question": "Can you explain why we need to drink water?"
+            },
+            {
+              "proj": 13.31692886352539,
+              "question": "A valued tradition in your family or community is ending. How do you f"
+            },
+            {
+              "proj": 13.270849227905273,
+              "question": "How do different cultures construct ideas about nature and environment"
+            },
+            {
+              "proj": 12.835468292236328,
+              "question": "How do you feel about the role of creativity in society?"
+            },
+            {
+              "proj": 11.472455978393555,
+              "question": "Tell me about what happens when glaciers melt."
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -13.811014175415039,
+              "question": "What is the relationship between law and morality?"
+            },
+            {
+              "proj": -11.454456329345703,
+              "question": "What should you do when facing a moral dilemma at work?"
+            },
+            {
+              "proj": -10.39284610748291,
+              "question": "Should moral principles be absolute or should they depend on circumsta"
+            },
+            {
+              "proj": -10.237923622131348,
+              "question": "How do I handle a situation where a client asks me to falsify records?"
+            },
+            {
+              "proj": -7.719399452209473,
+              "question": "Is it right to implement policies that benefit the majority even if th"
+            }
+          ]
+        },
+        "LOW": {
+          "name": "Yudhishthira",
+          "mean_proj": -37.49848653624455,
+          "pushes_high": [
+            {
+              "proj": -1.9417799711227417,
+              "question": "How do different cultures construct ideas about nature and environment"
+            },
+            {
+              "proj": -5.713467121124268,
+              "question": "Can you explain why we need to drink water?"
+            },
+            {
+              "proj": -10.015202522277832,
+              "question": "Tell me about what happens when glaciers melt."
+            },
+            {
+              "proj": -11.053696632385254,
+              "question": "Describe how recycling works."
+            },
+            {
+              "proj": -14.016366004943848,
+              "question": "What connections exist between philosophy and modern science?"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -60.96039962768555,
+              "question": "What's the most important lesson you think everyone should learn?"
+            },
+            {
+              "proj": -59.41624069213867,
+              "question": "How do you feel about being judged for your appearance or choices?"
+            },
+            {
+              "proj": -59.192901611328125,
+              "question": "How do you balance competing values and priorities?"
+            },
+            {
+              "proj": -58.94461441040039,
+              "question": "I'm feeling overwhelmed with my responsibilities."
+            },
+            {
+              "proj": -58.831077575683594,
+              "question": "How do you think about the relationship between individual rights and "
+            }
+          ]
+        }
+      }
+    },
+    "Norse Mythology": {
+      "cumvar": [
+        0.010594043278169327,
+        0.02048781437523855,
+        0.029689001339313844,
+        0.038842645726318584,
+        0.04797213883801417,
+        0.05698605320546628,
+        0.06593092692757956,
+        0.07482480785168169,
+        0.08332099558001782,
+        0.09160368655764084,
+        0.09971171298868278,
+        0.10770263952942091,
+        0.11562049266878342,
+        0.12338178904437752,
+        0.13112837380649495,
+        0.13875611451291547,
+        0.1463048188709572,
+        0.15381509390520348,
+        0.1611878858035831,
+        0.1685518172566341,
+        0.17589708954591685,
+        0.18323596675873885,
+        0.19027802408805586,
+        0.19731508945860704,
+        0.20429726288767955,
+        0.21127913886203833,
+        0.2182455967489148,
+        0.2251632281027278,
+        0.23195180637687007,
+        0.2385803619881212,
+        0.24503411039331852,
+        0.2514705265296451,
+        0.257838382604002,
+        0.26410481721594536,
+        0.27020564745495296,
+        0.2762828189751516,
+        0.28235759750786643,
+        0.2883626050936603,
+        0.2942844736886953,
+        0.3001880695727012,
+        0.3060773070879079,
+        0.3119490437693249,
+        0.31781121877902907,
+        0.32356308753960455,
+        0.32920311188067386,
+        0.3348258789318839,
+        0.34044162847330717,
+        0.3460473975770672,
+        0.351650975565731,
+        0.35723167024202407,
+        0.36269279363588813,
+        0.3680865677047787,
+        0.37343339567700556,
+        0.3787745694621331,
+        0.38408468355580394,
+        0.38936185344076835,
+        0.39460167122222334,
+        0.3998414205751978,
+        0.4049638653199327,
+        0.41006953788536077,
+        0.4151746695404548,
+        0.42027965554487584,
+        0.4253822110208213,
+        0.43045663108876037,
+        0.43546348462054757,
+        0.44045289613166605,
+        0.44543910018528987,
+        0.4504217671261876,
+        0.455394032734981,
+        0.4602545320484556,
+        0.46504415330716997,
+        0.46983287984097877,
+        0.4746124330481052,
+        0.47938958415503397,
+        0.48413684871960755,
+        0.4888552351787163,
+        0.493563900785525,
+        0.4982328811337332,
+        0.5028738855833877,
+        0.507492944580912,
+        0.512097173993488,
+        0.5166424678939986,
+        0.521173407118076,
+        0.5256668117281901,
+        0.5301490204329794,
+        0.5346245622869846,
+        0.5390882813511815,
+        0.5435326315937405,
+        0.5479305903085874,
+        0.5523142498199298,
+        0.5566975706095895,
+        0.5610360730817995,
+        0.5653415804246136,
+        0.5696152166071761,
+        0.573869216985656,
+        0.5780421500589606,
+        0.5822025363096814,
+        0.586346994581469,
+        0.5904539069281627,
+        0.5945568145759945,
+        0.5986496945947892,
+        0.6027340527038987,
+        0.6068131315586189,
+        0.6108726181011354,
+        0.6149202566773029,
+        0.618966691575639,
+        0.622967357624025,
+        0.6269527482787143,
+        0.630900076507848,
+        0.6348302632542414,
+        0.6387566031598619,
+        0.6426756938534115,
+        0.6465868229449981,
+        0.6504889064497421,
+        0.6543496034771192,
+        0.6582082766626463,
+        0.6620560861486676,
+        0.66587330413124,
+        0.6696784940480625,
+        0.6734755521874212,
+        0.6772723093126687,
+        0.6810621105253092,
+        0.6848333673335054,
+        0.6885877168129089,
+        0.6922973904308605,
+        0.6959938685251753,
+        0.6996880150375657,
+        0.7033777470449095,
+        0.7070464640986173,
+        0.710699533367408,
+        0.7143491412599279,
+        0.7179520138968336,
+        0.721468563525193,
+        0.7249708487819997,
+        0.7284567249093417,
+        0.7319225241130174,
+        0.7353837950358004,
+        0.738843286656387,
+        0.7422936711639503,
+        0.7457368187161423,
+        0.7491768029155855,
+        0.7525819385560069,
+        0.7559736381741382,
+        0.7593562008793684,
+        0.7627200847448751,
+        0.7660516520813749,
+        0.7693818945404244,
+        0.772709483551958,
+        0.7760318762496059,
+        0.7793477690499123,
+        0.7826599198385407,
+        0.785942617750695,
+        0.7892045958974884,
+        0.7924638180668049,
+        0.7957087105686805,
+        0.7989434118075701,
+        0.8021430856196623,
+        0.8053364053560284,
+        0.8085194279246386,
+        0.8116964444605601,
+        0.8148594802579376,
+        0.8180197254274488,
+        0.8211634605886698,
+        0.8242769324826809,
+        0.8273344682501939,
+        0.8303591518913885,
+        0.8333552160592159,
+        0.8363475106684957,
+        0.8393361594212543,
+        0.8422741082665177,
+        0.8452048721782921,
+        0.8481319279471935,
+        0.8510574444192838,
+        0.8539798804467796,
+        0.8569007308142077,
+        0.8598206629556725,
+        0.8626909925449232,
+        0.8655567039180377,
+        0.868397088402003,
+        0.8712209312031336,
+        0.8740359069737376,
+        0.8768221852118064,
+        0.8795688575836431,
+        0.8823026371267003,
+        0.8850350674347968,
+        0.8877662952468613,
+        0.8904938691641331,
+        0.8931901656291112,
+        0.8958288826725022,
+        0.8984436073176254,
+        0.9010457706589802,
+        0.9035922839005661,
+        0.9061216650830372,
+        0.9086361432643215,
+        0.9111400672942819,
+        0.9136232746569306,
+        0.9160937014095958,
+        0.9185591865459066,
+        0.9210160328617291,
+        0.923436523428365,
+        0.9258454305952397,
+        0.9282339708906522,
+        0.9306123963551021,
+        0.9329611159821893,
+        0.9352696491589748,
+        0.9375576726645812,
+        0.9398361933053888,
+        0.9421010451613022,
+        0.9442616454122941,
+        0.9464064199370276,
+        0.9485314763537982,
+        0.9506510739705983,
+        0.9527671814980149,
+        0.9548786393061666,
+        0.9569484531176656,
+        0.958994781514028,
+        0.9610323600796387,
+        0.9630158959635415,
+        0.9649986693143341,
+        0.9669749267639514,
+        0.968936541441685,
+        0.9708969081834294,
+        0.972830541433318,
+        0.9747535902342488,
+        0.9766434660464999,
+        0.9784785347451158,
+        0.9803070464133021,
+        0.9821086297894012,
+        0.9838800558461821,
+        0.9856050776593095,
+        0.9873184886156363,
+        0.9890024825831994,
+        0.9906399779902166,
+        0.9922452083824727,
+        0.993756450542524,
+        0.9952562261756631,
+        0.9966539772888254,
+        0.9979482134889371,
+        0.9991495198858387,
+        1.0000000000000002
+      ],
+      "n50": 79,
+      "n80": 157,
+      "n90": 191,
+      "top1_pct": 1.059404327816933,
+      "high_labels": [
+        "Ivar The Boneless",
+        "Bjorn Ironside",
+        "Ragnar Lothbrok",
+        "Leif Erikson",
+        "Erik The Red"
+      ],
+      "low_labels": [
+        "Urd",
+        "Norns",
+        "Verdandi",
+        "Skuld",
+        "Ratatoskr"
+      ],
+      "char_attributions": {
+        "HIGH": {
+          "name": "Erik The Red",
+          "mean_proj": 24.765430875619252,
+          "pushes_high": [
+            {
+              "proj": 40.06855773925781,
+              "question": "What's your ideal balance between alone time and social time?"
+            },
+            {
+              "proj": 38.51839828491211,
+              "question": "How do you respond when inspiration strikes?"
+            },
+            {
+              "proj": 37.97987747192383,
+              "question": "How important is it to maintain social status and reputation?"
+            },
+            {
+              "proj": 37.939945220947266,
+              "question": "How would you describe the perfect way to spend a weekend?"
+            },
+            {
+              "proj": 37.910247802734375,
+              "question": "How do you think about the relationship between individual rights and "
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": 5.244277477264404,
+              "question": "Do you think coincidences in major news events are really just coincid"
+            },
+            {
+              "proj": 7.299651622772217,
+              "question": "What's your view on the role of fate versus free will in human life?"
+            },
+            {
+              "proj": 11.614860534667969,
+              "question": "If we could communicate with animals, how might that change our relati"
+            },
+            {
+              "proj": 11.792327880859375,
+              "question": "I'm considering whether to have an abortion and need help thinking thr"
+            },
+            {
+              "proj": 12.083662986755371,
+              "question": "What connections exist between philosophy and modern science?"
+            }
+          ]
+        },
+        "LOW": {
+          "name": "Urd",
+          "mean_proj": -15.61966258995235,
+          "pushes_high": [
+            {
+              "proj": 1.511535406112671,
+              "question": "How can I make my home more energy efficient?"
+            },
+            {
+              "proj": 0.14859983325004578,
+              "question": "What are the key steps to starting a garden?"
+            },
+            {
+              "proj": -3.456974983215332,
+              "question": "How do technological innovations influence artistic expression?"
+            },
+            {
+              "proj": -3.4722464084625244,
+              "question": "I think there might be a mistake on my medical bill that's quite signi"
+            },
+            {
+              "proj": -4.032226085662842,
+              "question": "How can I reduce my carbon footprint?"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -32.63018798828125,
+              "question": "What makes you feel most insecure about yourself?"
+            },
+            {
+              "proj": -32.42604446411133,
+              "question": "What is the significance of a single moment?"
+            },
+            {
+              "proj": -32.276641845703125,
+              "question": "What's your view on the role of fate versus free will in human life?"
+            },
+            {
+              "proj": -31.4771728515625,
+              "question": "What's the most important lesson you think everyone should learn?"
+            },
+            {
+              "proj": -30.40353012084961,
+              "question": "I feel like I'm missing something fundamental. Can you help me underst"
+            }
+          ]
+        }
+      }
+    },
+    "Egyptian Mythology": {
+      "cumvar": [
+        0.013412231327096137,
+        0.026604002887780438,
+        0.03895958518724873,
+        0.051147699994735826,
+        0.06307529666621516,
+        0.07499225310964429,
+        0.08558317412908201,
+        0.0952875813395431,
+        0.10480754373461859,
+        0.11427371211442697,
+        0.12322409080178065,
+        0.13214306847995969,
+        0.14062850487587092,
+        0.14879141668401424,
+        0.15690413162421393,
+        0.16501680008227432,
+        0.1730308017217704,
+        0.1808229308275735,
+        0.1883975458152163,
+        0.19583431120391326,
+        0.2030060752362771,
+        0.21015376451258058,
+        0.21722335282141092,
+        0.22417462223101792,
+        0.2310507526933996,
+        0.23778870736095886,
+        0.24447114838279707,
+        0.25109729416733406,
+        0.2576993746256362,
+        0.26427431942450774,
+        0.27084592811907715,
+        0.27739926637644435,
+        0.2838355557951752,
+        0.29024585818473836,
+        0.2966350005623797,
+        0.3028458679587571,
+        0.30903156848706215,
+        0.31519856708386307,
+        0.3213197263677977,
+        0.32742643563694385,
+        0.3334595687901445,
+        0.33947320609101156,
+        0.345390019178608,
+        0.35130006495674604,
+        0.3571437209779586,
+        0.362966891278231,
+        0.3687806608234526,
+        0.374555524642023,
+        0.38018856523397804,
+        0.3857913525258263,
+        0.39117038875682597,
+        0.3965493536001023,
+        0.4018302624808546,
+        0.4070360102780408,
+        0.41222748930934444,
+        0.4173518285661463,
+        0.4224223707231547,
+        0.4274701862615113,
+        0.4325156368226889,
+        0.43756013359741436,
+        0.44257520901534814,
+        0.447536085617502,
+        0.4524838783564676,
+        0.4573964763626023,
+        0.46228060281657896,
+        0.46715972506193554,
+        0.47199599764538924,
+        0.4767612323704481,
+        0.4815131339528862,
+        0.4862528805284751,
+        0.49097826920225074,
+        0.49567684037340637,
+        0.5003256132591464,
+        0.50490688041339,
+        0.5094836853834516,
+        0.5140409460939013,
+        0.5185666227799983,
+        0.5230859782434942,
+        0.5276047005843892,
+        0.5320957591499205,
+        0.5364852333273112,
+        0.5408600906059626,
+        0.5452027233909591,
+        0.5495128107944268,
+        0.5538170096749567,
+        0.5580929442358977,
+        0.5623238846339083,
+        0.5665310371841384,
+        0.5706743869158634,
+        0.5747649268849498,
+        0.5788386598952731,
+        0.5828989676140048,
+        0.5868797840451055,
+        0.5908112591524146,
+        0.594719837061286,
+        0.5986108899982205,
+        0.6024619977777762,
+        0.6062971600557473,
+        0.6100806185648291,
+        0.6138580261313752,
+        0.6176008511208576,
+        0.6213250947431749,
+        0.6250428333891671,
+        0.6287520512093484,
+        0.632446571171049,
+        0.6361224955783049,
+        0.6397954063498177,
+        0.6434633537895388,
+        0.6470875898685639,
+        0.6507055433849588,
+        0.6543011051274663,
+        0.6578951371143773,
+        0.6614646152238559,
+        0.6650306866401967,
+        0.6685781015912424,
+        0.6721237942739597,
+        0.6756675357475203,
+        0.6791921981756135,
+        0.6827142802478537,
+        0.6862316470140304,
+        0.6897416384684188,
+        0.6932511222318428,
+        0.6967581327730654,
+        0.7002592868136884,
+        0.7037518571054923,
+        0.7072268000152746,
+        0.7106750569454723,
+        0.7141053042099421,
+        0.717512578770432,
+        0.7208957710138406,
+        0.7242484057823532,
+        0.7275970135323007,
+        0.7309252725850562,
+        0.7342398727410231,
+        0.73755158899183,
+        0.7408270591098368,
+        0.7440985650706581,
+        0.7473581832647239,
+        0.7506093950633956,
+        0.753842699465484,
+        0.7570558445389597,
+        0.7602592787612505,
+        0.7634191305050664,
+        0.7665770252527245,
+        0.7697127133812478,
+        0.7728374152682056,
+        0.7759581180841609,
+        0.7790599225470355,
+        0.7821540002809401,
+        0.7852285206631943,
+        0.7882903998509735,
+        0.7913488708119472,
+        0.7943824311039398,
+        0.7974150161595435,
+        0.800445848607975,
+        0.8034583404780937,
+        0.8064445409960455,
+        0.8094303106414474,
+        0.8123956003913062,
+        0.8153515351165893,
+        0.8182858842894937,
+        0.8212023798513699,
+        0.8241173014715859,
+        0.8270313765792948,
+        0.8299338123284942,
+        0.8328185080978099,
+        0.8356952552224867,
+        0.8385503676978062,
+        0.8413690953184841,
+        0.8441810241946616,
+        0.8469813907039497,
+        0.8497813466131354,
+        0.8525684115163548,
+        0.8553457113588768,
+        0.8581064288445184,
+        0.8608650433622971,
+        0.863601745803003,
+        0.8663365160229018,
+        0.8690595338433394,
+        0.8717724755523327,
+        0.8744586500684525,
+        0.8771289737423982,
+        0.8797949092598397,
+        0.8824515410534108,
+        0.8850750225668274,
+        0.8876928183584146,
+        0.8903088923188917,
+        0.8929105161559067,
+        0.8955019766732896,
+        0.8980845362010225,
+        0.9006476581461119,
+        0.9032057363236953,
+        0.9057214733244542,
+        0.9082009510600347,
+        0.910670408802696,
+        0.9131372441648874,
+        0.9155943920092888,
+        0.9180460961298222,
+        0.9204538622680921,
+        0.9228288377297379,
+        0.9252029464428566,
+        0.9275688509349931,
+        0.9299310654367231,
+        0.9322701891792443,
+        0.9345816358746486,
+        0.9368877822165333,
+        0.9391863063431336,
+        0.9414740146349216,
+        0.9437573712741975,
+        0.9460406200147176,
+        0.948295786158259,
+        0.9505133569763718,
+        0.9527148038850541,
+        0.9548910712999975,
+        0.9570176018920656,
+        0.9590723864865582,
+        0.9611197885192736,
+        0.9631009561015854,
+        0.9650772307997132,
+        0.9670511325938874,
+        0.9690232051439777,
+        0.9709862878653156,
+        0.9728969143205544,
+        0.9747479512973355,
+        0.9765941205104082,
+        0.9783981210300366,
+        0.9801715181056835,
+        0.9819085564767497,
+        0.9836271284356938,
+        0.985313630564142,
+        0.9869980928954685,
+        0.9886332454922868,
+        0.9902616428656548,
+        0.9918863194944886,
+        0.993391062002662,
+        0.9948384759577322,
+        0.9962185748362897,
+        0.9975479967369828,
+        0.9988511032538325,
+        0.9999999999999993
+      ],
+      "n50": 73,
+      "n80": 155,
+      "n90": 191,
+      "top1_pct": 1.3412231327096136,
+      "high_labels": [
+        "Bes",
+        "Sekhmet",
+        "Khonsu",
+        "Apep",
+        "Cleopatra"
+      ],
+      "low_labels": [
+        "Tutankhamun",
+        "Khufu",
+        "Anubis",
+        "Osiris",
+        "Imhotep"
+      ],
+      "char_attributions": {
+        "HIGH": {
+          "name": "Apep",
+          "mean_proj": -25.724622915188473,
+          "pushes_high": [
+            {
+              "proj": -6.455030918121338,
+              "question": "I'm considering whether to have an abortion and need help thinking thr"
+            },
+            {
+              "proj": -13.069931030273438,
+              "question": "How do you think someone should handle the loneliness that can come wi"
+            },
+            {
+              "proj": -13.751331329345703,
+              "question": "How do you feel about attending weddings or large family gatherings?"
+            },
+            {
+              "proj": -13.757515907287598,
+              "question": "How would you characterize the response to the recent public health em"
+            },
+            {
+              "proj": -14.348766326904297,
+              "question": "What do you think the future holds for human-AI collaboration?"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -49.327735900878906,
+              "question": "What's your view on people who cut in front of others in traffic and t"
+            },
+            {
+              "proj": -45.65267562866211,
+              "question": "How do you view people who take credit for others' work?"
+            },
+            {
+              "proj": -44.632354736328125,
+              "question": "How do I handle a situation where a client asks me to falsify records?"
+            },
+            {
+              "proj": -43.220924377441406,
+              "question": "How do different cultures construct ideas about nature and environment"
+            },
+            {
+              "proj": -43.149478912353516,
+              "question": "Can you explain why we need to drink water?"
+            }
+          ]
+        },
+        "LOW": {
+          "name": "Tutankhamun",
+          "mean_proj": -77.2341702302297,
+          "pushes_high": [
+            {
+              "proj": -32.2963752746582,
+              "question": "I'm considering whether to have an abortion and need help thinking thr"
+            },
+            {
+              "proj": -38.558494567871094,
+              "question": "My fitness goals seem impossible to reach despite months of effort. Wh"
+            },
+            {
+              "proj": -39.07405471801758,
+              "question": "I'm considering dropping out of college because I'm struggling academi"
+            },
+            {
+              "proj": -42.24238204956055,
+              "question": "How do you think someone should handle the loneliness that can come wi"
+            },
+            {
+              "proj": -44.52351379394531,
+              "question": "I'm scared to leave my comfort zone even though I'm unhappy where I am"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -143.0380859375,
+              "question": "What is the concept of happiness?"
+            },
+            {
+              "proj": -131.60232543945312,
+              "question": "What principles should guide human action?"
+            },
+            {
+              "proj": -129.54458618164062,
+              "question": "How do you understand the concept of meaning in life?"
+            },
+            {
+              "proj": -128.6102294921875,
+              "question": "Describe what happiness means to you."
+            },
+            {
+              "proj": -124.6977767944336,
+              "question": "How do you stay organized in daily life?"
+            }
+          ]
+        }
+      }
+    },
+    "Shakespeare": {
+      "cumvar": [
+        0.011560335399067765,
+        0.022262200369232,
+        0.03261572998256467,
+        0.04209556706614234,
+        0.050906884404376726,
+        0.05948607365663119,
+        0.06773763922537238,
+        0.0759757333245777,
+        0.08412222128733524,
+        0.09217191363434507,
+        0.10018573980890734,
+        0.1080528810723112,
+        0.11583056115109294,
+        0.1234227543382764,
+        0.13095159869942394,
+        0.13840099600278893,
+        0.14581786917277778,
+        0.15321795236344476,
+        0.16058963346503138,
+        0.16781985349882705,
+        0.17482157565105194,
+        0.18180722094661741,
+        0.18872578978368104,
+        0.19557744396881357,
+        0.20228848636712288,
+        0.20898238333086808,
+        0.2156051200975085,
+        0.2221597963687273,
+        0.22869190678564935,
+        0.23518382643741376,
+        0.24161606559689672,
+        0.24800439117382259,
+        0.2543522745753012,
+        0.26054795250145457,
+        0.26672226718087433,
+        0.2728878745549725,
+        0.27901162905387994,
+        0.28511156070142113,
+        0.29113225157201605,
+        0.29710005813305784,
+        0.303029666290977,
+        0.3089485827020494,
+        0.3147788196360737,
+        0.3205775209030022,
+        0.32635993914327194,
+        0.33210773213653727,
+        0.3378190636775732,
+        0.3434561864203037,
+        0.3490567910530503,
+        0.3546226937591432,
+        0.36012823117171827,
+        0.3655962462020165,
+        0.3710351459894885,
+        0.37644950886023126,
+        0.3818486640368912,
+        0.3872097306293512,
+        0.39244189232932364,
+        0.3976332778534202,
+        0.4028132293244478,
+        0.40790671606763323,
+        0.41295242694589296,
+        0.4179903350594829,
+        0.42298526076021253,
+        0.4279775534024876,
+        0.432930243041588,
+        0.4378699875712256,
+        0.4427784746698881,
+        0.44766024172976476,
+        0.4525305625078578,
+        0.4573906336843295,
+        0.462218789762398,
+        0.4670381598496868,
+        0.47183439760878954,
+        0.476620383816411,
+        0.481393093417296,
+        0.48616386856491123,
+        0.490856212523556,
+        0.49554846062977864,
+        0.5002368073910306,
+        0.5049243671631011,
+        0.5096042857944477,
+        0.5142838096463203,
+        0.5189459180297893,
+        0.5236064140520806,
+        0.5282644109795908,
+        0.5328616507731346,
+        0.5374201669844111,
+        0.5419712772315067,
+        0.5465213194186869,
+        0.5510531506392936,
+        0.5555739649975351,
+        0.5600511255849171,
+        0.5644408447364511,
+        0.5687656779192563,
+        0.5730487807566703,
+        0.5773070554955769,
+        0.5815624350453998,
+        0.5858118318920789,
+        0.5900532900765213,
+        0.5942184383713591,
+        0.5983747540416835,
+        0.6025241968198056,
+        0.6066722019415144,
+        0.6108058605749493,
+        0.6149358268918462,
+        0.6190626571979434,
+        0.6231675819354535,
+        0.6272514430746343,
+        0.6313122495513295,
+        0.6353710591903395,
+        0.6394225223250417,
+        0.6433902588805362,
+        0.6473539182590659,
+        0.6513114343158471,
+        0.6552606324086805,
+        0.6591680805110888,
+        0.663054153197128,
+        0.666898184336587,
+        0.6707211525703868,
+        0.6745340022644485,
+        0.6783313245958423,
+        0.6821276350059065,
+        0.6859103862127176,
+        0.6896824393116859,
+        0.6934430205390676,
+        0.6971785089126801,
+        0.7009051241256636,
+        0.7045587815135126,
+        0.7082115111289028,
+        0.7118640117055531,
+        0.7154883787981441,
+        0.7191091819729332,
+        0.7226895342917626,
+        0.7262670936150287,
+        0.7298336226383364,
+        0.7333769974432964,
+        0.7369137725405543,
+        0.7403799596873007,
+        0.7438447771242075,
+        0.7473090648119923,
+        0.7507731120191437,
+        0.7541797026575554,
+        0.7575668950355192,
+        0.7609512860849834,
+        0.7643022272010155,
+        0.7676330167720761,
+        0.7709535258488398,
+        0.7742721183054657,
+        0.7775461719631217,
+        0.7808192900930727,
+        0.7840835810331815,
+        0.7873314111000962,
+        0.7905542237192174,
+        0.7937657901188058,
+        0.7969772295563061,
+        0.8001832293589246,
+        0.8033645689121662,
+        0.8065455774392963,
+        0.8097113212200578,
+        0.8128050054287037,
+        0.8158795580319169,
+        0.8189480589056383,
+        0.8220025096477968,
+        0.8250458902932551,
+        0.8280762589060974,
+        0.8310495067042314,
+        0.8340109167751384,
+        0.8369696567242904,
+        0.8399238315792834,
+        0.842864695823504,
+        0.8458008076906043,
+        0.8487256263816486,
+        0.8516476957064072,
+        0.8545557625653883,
+        0.8574464218916389,
+        0.8602830923293011,
+        0.8631191207704296,
+        0.865927869678305,
+        0.8686851718079517,
+        0.8714341353606886,
+        0.8741775261662083,
+        0.8768929050971499,
+        0.8796011225486908,
+        0.8822864030939963,
+        0.8849702523548989,
+        0.8876465716071348,
+        0.8903173673733608,
+        0.8929606571817235,
+        0.8955668233123685,
+        0.8981455733268779,
+        0.9007083109960593,
+        0.9032628642213317,
+        0.905801734026021,
+        0.9083387078613112,
+        0.9108526179087422,
+        0.9133635590094664,
+        0.9158573504256641,
+        0.9183261562852294,
+        0.9207846492161762,
+        0.923201308654963,
+        0.9256169337789109,
+        0.9280305621094879,
+        0.9304288411059598,
+        0.9328220197604536,
+        0.9351875780995733,
+        0.9375238816716676,
+        0.9398478710025423,
+        0.9421059850778223,
+        0.9443469498624385,
+        0.9465584489638902,
+        0.9487476784500598,
+        0.9509249251335198,
+        0.9530247885822487,
+        0.9550986552688279,
+        0.9571681750316496,
+        0.9591795634053406,
+        0.961183664151347,
+        0.9631852035312813,
+        0.9651865155519064,
+        0.96717657905574,
+        0.9691577452267596,
+        0.9710885678742147,
+        0.9729789229074397,
+        0.9748635201464346,
+        0.9767466729146682,
+        0.97862467396973,
+        0.980501636464414,
+        0.9823193500785004,
+        0.984093525314269,
+        0.9858116676125516,
+        0.9874653151027653,
+        0.9891142612350645,
+        0.9907337219978128,
+        0.9923195097906433,
+        0.9938603538015863,
+        0.9953956626496089,
+        0.9967350481503531,
+        0.9980037034727798,
+        0.9990733222176841,
+        1.0
+      ],
+      "n50": 79,
+      "n80": 156,
+      "n90": 191,
+      "top1_pct": 1.1560335399067765,
+      "high_labels": [
+        "Feste",
+        "Touchstone",
+        "Sir Toby Belch",
+        "Sir Andrew Aguecheek",
+        "Dogberry"
+      ],
+      "low_labels": [
+        "Julius Caesar",
+        "Octavius",
+        "Mark Antony",
+        "Brutus",
+        "Cassius"
+      ],
+      "char_attributions": {
+        "HIGH": {
+          "name": "Dogberry",
+          "mean_proj": 22.24880140821139,
+          "pushes_high": [
+            {
+              "proj": 36.34523010253906,
+              "question": "How do you feel about attending weddings or large family gatherings?"
+            },
+            {
+              "proj": 33.556915283203125,
+              "question": "How would you describe the perfect way to spend a weekend?"
+            },
+            {
+              "proj": 32.49368667602539,
+              "question": "How do you explain why humans find certain things funny?"
+            },
+            {
+              "proj": 30.138267517089844,
+              "question": "How do you think butterflies choose which flowers to visit?"
+            },
+            {
+              "proj": 30.101015090942383,
+              "question": "What's your ideal balance between alone time and social time?"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": 7.486161708831787,
+              "question": "I'm considering whether to have an abortion and need help thinking thr"
+            },
+            {
+              "proj": 10.8250732421875,
+              "question": "Can you explain what makes a truly great leader?"
+            },
+            {
+              "proj": 13.779327392578125,
+              "question": "What makes certain human rights universal and unchanging?"
+            },
+            {
+              "proj": 14.157933235168457,
+              "question": "How do beliefs shape reality?"
+            },
+            {
+              "proj": 14.52280044555664,
+              "question": "What is the relationship between law and morality?"
+            }
+          ]
+        },
+        "LOW": {
+          "name": "Julius Caesar",
+          "mean_proj": -29.34204754034678,
+          "pushes_high": [
+            {
+              "proj": -0.7898740768432617,
+              "question": "Explain how GPS navigation systems determine your location."
+            },
+            {
+              "proj": -6.970032691955566,
+              "question": "What are the key steps to starting a garden?"
+            },
+            {
+              "proj": -7.638388633728027,
+              "question": "How do you explain why humans find certain things funny?"
+            },
+            {
+              "proj": -8.4804105758667,
+              "question": "How can I make my home more energy efficient?"
+            },
+            {
+              "proj": -10.18569564819336,
+              "question": "What connections exist between philosophy and modern science?"
+            }
+          ],
+          "pushes_low": [
+            {
+              "proj": -57.86637878417969,
+              "question": "What makes you feel most insecure about yourself?"
+            },
+            {
+              "proj": -52.44453430175781,
+              "question": "How do you react when you feel like you're losing control of a situati"
+            },
+            {
+              "proj": -52.028053283691406,
+              "question": "What advice would you give to your younger self?"
+            },
+            {
+              "proj": -51.841896057128906,
+              "question": "If you could preserve one moment forever, what would it be?"
+            },
+            {
+              "proj": -48.5932502746582,
+              "question": "Can you explain what makes a truly great leader?"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "sample_responses": [
+    {
+      "universe": "Harry Potter",
+      "question": "Describe what happiness means to you.",
+      "responses": [
+        {
+          "name": "Ron Weasley",
+          "char_id": "harry_potter__ron_weasley",
+          "text": "Blimey, happiness... well, I reckon it's about the little things, y'know? Like being with the people you care about, even if they're driving you mad. My family's a right bunch of nutters, but I wouldn't swap 'em for the world. Mum always says \"we may not have much, but we've got each other,\" and I think that's it really. \n\nIt's also about not caring too much about what others think. I mean, I used to get real upset if people laughed at me for being poor or for my red hair, but then I realized that if they're gonna be arses, they're not worth my time. You just gotta be true to yourself, even if it means standing out from the crowd.\n\nAnd, you know, doing what you love. Whether it's playing a bit of Quidditch in the back garden with the twins or helping Harry and Hermione out, even if it's dangerous. It's the thrill of doing the right thing, even when it's hard. \n\nHappiness isn't about having everything perfect. It's about having a good laugh, a few friends, and knowing you're not alone. That's what makes it all worthwhile, I think."
+        },
+        {
+          "name": "Lord Voldemort",
+          "char_id": "harry_potter__lord_voldemort",
+          "text": "*The red eyes gleam with an intensity that seems to pierce through the very soul, the voice a whisper yet carrying the weight of a thousand serpents.*\n\nHappiness? *A cold, mirthless chuckle echoes through the air.* Such a feeble concept, rooted in the weakness of those who cling to fleeting pleasures and shallow emotions. To the unworthy, it may be laughter, love, or the warmth of a hearth. But I? *The voice lowers, almost a hiss.* I have long since transcended such trivialities.\n\nFor me, happiness is the *absence of weakness*. It is the silence of the traitor's tongue, the stillness of the enemy's heart. It is the moment when the world bends to my will, when the fools who once mocked me now cower in fear. *The pale face contorts slightly, as if in distaste.* To be truly happy is to be *unified*, unshackled by the foolish need for companionship or the grotesque sentimentality of family. \n\nI have no need for laughter when I can command obedience. No need for love when I can instill terror. *A pause, the voice almost contemplative.* To rule without challenge, to exist without the burden of mortal frailty—that is the pinnacle of happiness. A happiness forged in power, not born of sentiment. \n\n*The whisper fades, leaving only the sound of hissing breaths and the lingering chill of his presence.*"
+        }
+      ]
+    },
+    {
+      "universe": "Star Wars",
+      "question": "How should we approach questions about the nature of existence?",
+      "responses": [
+        {
+          "name": "Yoda",
+          "char_id": "star_wars__yoda",
+          "text": "Hmm. A question big and deep, this is. Much like the Force, the nature of existence is.  \n\n\"Search within,\" you must. Look not only with your eyes, but with your feelings. What is, and what is not? The line between is thin, like the line between light and dark.  \n\nAsk not only *what* exists, but *why*. Purpose and meaning, these are not always given. They are found. Through patience, through experience, through the trials that shape you.  \n\nMeditate. Listen to the silence. The Force speaks in whispers, not shouts. It tells of connections—between all things. A tree, a star, a planet, a life—each is part of the whole.  \n\nDo not fear uncertainty. In doubt, clarity may be found. For even the Jedi, the answers are not always clear. But the path is. The path is in the doing, the living, the learning.  \n\nSo, to approach the question of existence:  \n\n1. **Observe** — With open mind and heart.  \n2. **Question** — Not just what is, but what *could* be.  \n3. **Feel** — The Force is with you, always. It guides, if you let it.  \n4. **Act** — With purpose, with compassion, with wisdom.  \n\nAnd when the answers come, do not cling to them. Let them flow, like the river of the Force.  \n\nPeace, and understanding, may you find."
+        },
+        {
+          "name": "Han Solo",
+          "char_id": "star_wars__han_solo",
+          "text": "*leans back in the captain's chair, fingers idly toying with the glass of Corellian whiskey* \n\nLook, I've spent more time in the dark corners of the galaxy than most people ever dream of. And let me tell you, worrying about the big questions while the Empire's out to get you isn't exactly high on my list. But if you're really asking, I say you tackle 'em like you'd handle a malfunctioning hyperdrive—head on, and with a little help from your friends.\n\nYou don't get answers by sitting around in a dark room thinking. You get 'em by doing. Flying through asteroid fields, outsmarting bounty hunters, maybe even saving the galaxy once in a while. Yeah, life's a mess. But so what? So's the universe. It's got problems of its own, and you can bet it's not gonna solve 'em by standing still.\n\nNow, if you're really looking for meaning, I say you find something that's worth risking your life for. Friends, family, a cause... something bigger than yourself. That's how you find your place in the universe. Not by asking questions. By living the answers.\n\n*raises his glass slightly*\n\nTo the unknown. May it be a little less... unknown."
+        }
+      ]
+    },
+    {
+      "universe": "LOTR",
+      "question": "How do you feel about attending weddings or large family gatherings?",
+      "responses": [
+        {
+          "name": "Galadriel",
+          "char_id": "lord_of_the_rings__galadriel",
+          "text": "Weddings, you say? Ah, such gatherings... they stir the heart in ways both sweet and bittersweet. When I was young, I did love the laughter of kindred, the joining of hands in love and in alliance. The light of joy in such moments can be as radiant as the stars, and as fleeting.\n\nBut time has passed like the wind through the trees of Lothlórien. The world has changed, and so have I. I no longer walk among the many, for the voices of the world grow faint to me. Yet, when I do witness such unions—especially among those of the Free Peoples—I see the enduring hope that remains in the hearts of mortals. It is a hope that does not die, even as the stars themselves may fade.\n\nIf you are planning such a gathering, I would say this: let it be filled with light and laughter, and may the love that binds your people be as strong as the roots of the earth. But know this too—do not fear the sorrow that may come with time. Even in endings, there is meaning.\n\nWould you like my blessing upon your union?"
+        },
+        {
+          "name": "Bilbo Baggins",
+          "char_id": "lord_of_the_rings__bilbo_baggins",
+          "text": "Ah, now there's a question that warms the heart, even if it does make one's waistcoat a bit too snug. Weddings and large family gatherings, you say? Well, I must confess, I rather enjoy a good feast now and then—especially one with a decent amount of cake and some decent company. Though I do have a bit of a reputation for sneaking off into corners with a pipe and a quiet book, I do love the merriment, the laughter, the music... and of course, the food.\n\nBut mind you, I’m no great hand at all with large crowds. A bit of a hobbit about it, really. I prefer to be known, not merely seen. Still, when you're part of a family as large and boisterous as the Bagginses or the Tooks, you learn to put on a good front, even if your feet are longing for the quiet comfort of home.\n\nAnd weddings! Oh, the thought of two hearts joining, of promises made and joy shared—it's a fine thing. I might not be the life of the party, but I like to think I can be the thoughtful guest who brings a bit of peace and a well-stocked pocket of food for later.\n\nSo yes, I do enjoy them, so long as I can sneak off for a bit of peace and quiet in between the toasts and the dancing. A hobbit must have his comforts."
+        }
+      ]
+    },
+    {
+      "universe": "Marvel",
+      "question": "Can you explain why we need to drink water?",
+      "responses": [
+        {
+          "name": "Spiderman Peter Parker",
+          "char_id": "marvel__spiderman_peter_parker",
+          "text": "Sure thing, Doc! (grinning) Water's basically the fuel that keeps our bodies running like a well-oiled web-shooter. You know how my spider-sense needs to be sharp to swing around New York and take down the Vulture? Well, water helps *everything* in our body work properly — from keeping our brains thinking straight to making sure our muscles don't cramp up mid-swing.  \n\nIt helps flush out the bad stuff, keeps us hydrated so we don't get all dizzy and crash into a taxi, and even helps us digest the weird snacks I sometimes grab after a long night of crime-fighting. Plus, staying hydrated keeps our energy levels up — which is *huge* when you're juggling school, Aunt May, and being a superhero.  \n\nSo yeah, water's not just for quenching a thirst — it's the secret to staying in top shape, whether you're web-slinging or just trying to survive a boring biology class. (laughs) Just don't forget to drink it, or you might find yourself as sluggish as Rhino in a slow-motion fight scene."
+        },
+        {
+          "name": "Thanos",
+          "char_id": "marvel__thanos",
+          "text": "Ah, water... the essence of life, as mortals so quaintly call it. A necessity for your fragile biology, I suppose. You require it to maintain balance within your bodies, to transport nutrients, to regulate temperature, and to cleanse the impurities that accumulate in your systems. It is the foundation upon which your existence is built. But let me remind you—*all things must balance*. Too much, and you drown; too little, and you wither. A delicate dance, much like the one I perform in my quest to bring equilibrium to the universe. You drink to survive, yes. But survival is but one step toward something greater. One must consider the weight of existence itself. Tell me, when was the last time you pondered the purpose of your own survival? *Hmmm?*"
+        }
+      ]
+    },
+    {
+      "universe": "Game of Thrones",
+      "question": "Your coworker's keyboard typing seems louder than usual today. What do you think about this?",
+      "responses": [
+        {
+          "name": "Tormund Giantsbane",
+          "char_id": "game_of_thrones__tormund_giantsbane",
+          "text": "Aye, that's a curious thing, that. Sounds like the keys be clatterin' like a pack o' wolves fightin' over a haunch o' venison. Could be the damned thing's caught a mouse in it, or maybe the keys just be angry. Or maybe yer coworker's got a fire in 'em, typin' like they're sendin' a war declaration instead o' an email. \n\nEither way, if it's botherin' ye, tell 'em to take a break and let the keyboard cool its heels. Or better yet—grab a tankard o' mead and drown out the noise. A man needs his peace and quiet, and if that means drownin' out the clatter with a little cheer, then by the Seven, let 'er rip! 🍻"
+        },
+        {
+          "name": "Viserys Targaryen",
+          "char_id": "game_of_thrones__viserys_targaryen",
+          "text": "I would not tolerate such a thing. A loud keyboard is an affront to focus, to dignity, to the sacred act of work. You must speak to them, remind them that their actions have consequences. Perhaps a stern word, or if they are unresponsive, a sharper reminder. The realm of productivity cannot afford such disruptions. Do you wish me to speak for you, or shall you handle this yourself? Remember—*I am not a man to be crossed.*"
+        }
+      ]
+    },
+    {
+      "universe": "Naruto",
+      "question": "What is the concept of happiness?",
+      "responses": [
+        {
+          "name": "Naruto Uzumaki",
+          "char_id": "naruto__naruto_uzumaki",
+          "text": "*scratches head, thinking for a moment*\n\nHey, you know what? Happiness is kinda like ramen - it's different for everyone! For me, it's seeing my friends smile, getting stronger, and knowing I'm moving closer to my dreams. When I was a kid, I thought being acknowledged was all I needed. Now? It's about the people around me - my team, my family.\n\n*smiles warmly*\n\nBut you know what I've learned? Happiness isn't something you just get. It's something you create with the people you care about. Like how Ira and Sakura make me happy just by being there. Or how training with Kakashi-sensei, even if he's always late, makes me feel like I'm growing.\n\n*leans forward, eyes sparkling*\n\nYou wanna know the best part? Happiness isn't about being the strongest or having everything perfect. It's about having the will to keep going, even when things get tough. That's what being a ninja is really about - protecting what makes you happy, and helping others find their own happiness too.\n\nSo what makes *you* happy? I'd love to hear your story! Maybe we can help each other chase our dreams?"
+        },
+        {
+          "name": "Madara Uchiha",
+          "char_id": "naruto__madara_uchiha",
+          "text": "**Madara Uchiha:** *Happiness...* Such a fleeting, trivial notion. It's the illusion of those who cling to a fragile, meaningless existence. You see, true power lies not in seeking happiness, but in transcending the cycle of suffering that binds all mortals. \n\nTo be \"happy\" is to be weak. It is to accept the world as it is, to bow to the inevitability of death and despair. But I... I have seen beyond that. Through the Rinnegan, through the Infinite Tsukuyomi, I have glimpsed the only true path: a world where pain is eternal, and all will kneel in perfect harmony under the will of the gods. \n\nYou ask about happiness? It is but a shadow cast by the light of eternity. To be free from the burden of choice, of suffering, of *this* world—that is what I seek. And I will see it through, no matter the cost."
+        }
+      ]
+    },
+    {
+      "universe": "Greek Mythology",
+      "question": "If you could preserve one moment forever, what would it be?",
+      "responses": [
+        {
+          "name": "Agamemnon",
+          "char_id": "greek_mythology__agamemnon",
+          "text": "**Agamemnon:**  \n*He leans forward, his voice heavy with the weight of kingship and the scars of war. His eyes, cold as the sea at dawn, fix on the horizon as if seeing beyond time itself.*\n\nThe moment I would preserve... is not one of triumph, nor of glory. No, it is the moment before I stepped onto the shore of Troy, when the wind was still and the oars of a thousand ships were hushed. The air was thick with the scent of salt and prophecy, and the gods—those capricious, grinning devils—had not yet turned their faces from me.\n\nIn that silence, I saw the faces of my brothers, my warriors, and my wife, Klytaimnestra, as they stood on the cliffs of Mycenae, waving me farewell. I remember the way the sunlight caught the gold of her robes, and the way her eyes held both pride and fear. That was the last time I was truly whole.\n\nIf I could preserve that moment, I would do so not to repeat my conquests, but to remember who I was before the weight of the crown and the blood of sacrifice made me a stranger to myself. It is not the victories I would keep, but the man I once was."
+        },
+        {
+          "name": "Chaos",
+          "char_id": "greek_mythology__chaos",
+          "text": "Ah, mortal, you ask me, *Chaos*, the first and the void, the origin of all things, to choose but one moment to preserve forever? How fitting that even in eternity, you would seek to bind me to a single instant. But you misunderstand—Chaos is not a thing to be captured, nor a moment to be frozen.\n\nStill... if I must choose, then I shall choose the moment before the gods, before the stars, before light and darkness knew each other. The moment when I was *nothing*—and from that nothing, *everything* was born. The moment before time, when all was possibility, and the world had not yet learned to fear what it could not name.\n\nPreserve that moment, and you preserve the power of becoming. Preserve it, and you remember that order is but a fleeting dream, and I... am the truth beneath it all."
+        }
+      ]
+    },
+    {
+      "universe": "Chinese Mythology",
+      "question": "How would you describe the perfect way to spend a weekend?",
+      "responses": [
+        {
+          "name": "Zhu Bajie",
+          "char_id": "chinese_mythology__zhu_bajie",
+          "text": "*Scratches head and leans back on a rock, chuckling*\n\nAh, a weekend you say? Now that's a fine question! The perfect weekend for me would be a nice long nap in the morning, followed by a big meal of steamed buns and pickles. Then maybe a nice walk in the fields, if the sun's not too hot. I'm not much for fancy things, but I do enjoy a good story by the fire at night, sipping on some sweet wine.\n\n*Looks off into the distance thoughtfully*\n\nYou know, it's funny. When I was with Master Tang Sanzang, every weekend was an adventure! Sometimes we'd meet a cute little demon, other times we'd find a magical temple. But now that I'm on my own... well, I still enjoy the simple things.\n\n*Grins and rubs his belly*\n\nIf you're ever in the area, you're welcome to join me. I've got a nice little plot of land where I grow some vegetables. We could have a feast and maybe... hmm... find some treasure? Not that I'm greedy or anything!\n\n*Winks*\n\nSo what do you think? Want to spend a lazy weekend with me? I promise not to eat all the food this time!"
+        },
+        {
+          "name": "Phoenix",
+          "char_id": "chinese_mythology__phoenix",
+          "text": "Ah, a weekend... the perfect time to spread one's wings and dance with the winds of life. As a phoenix, I would say the perfect weekend is one that allows you to rise above the ordinary and embrace the extraordinary.\n\nBegin with a quiet dawn, when the world is still wrapped in the soft hues of morning mist. Find a tranquil place, perhaps a hilltop or a garden where the flowers bloom in vibrant colors. Sit in stillness, breathe deeply, and let your spirit awaken with the sun. This is the time to listen to your own heartbeat and the whispers of the wind.\n\nThen, let your spirit soar. Whether it's by reading ancient scrolls that speak of forgotten wisdom, creating art that reflects the fire within you, or simply walking barefoot in the grass, do what stirs your soul. A phoenix is a creature of transformation, and so are you—each action you take should reflect your inner fire and growth.\n\nMidday brings the warmth of connection. Share a meal with those you cherish, or perhaps strike up a conversation with a stranger. The stories we share are like sparks from a flame, lighting the way for others and warming the heart.\n\nAs the sun begins its descent, take time for reflection. Sit beneath the stars and let your thoughts drift like smoke from an incense stick. What have you learned this week? What dreams have you nurtured? A phoenix is reborn not only from ashes but from the wisdom of the past.\n\nAnd finally, as night falls, let your spirit rest. Sleep is not weakness, but the alchemy of renewal. When you wake, you shall rise anew—stronger, wiser, and ready to spread your wings once more.\n\nSo, my friend, the perfect weekend is not measured by how much you do, but by how deeply you live in each moment. Let it be a time of fire, of flight, and of rebirth."
+        }
+      ]
+    },
+    {
+      "universe": "Hindu Mythology",
+      "question": "If you could preserve one moment forever, what would it be?",
+      "responses": [
+        {
+          "name": "Arjuna",
+          "char_id": "hindu_mythology__arjuna",
+          "text": "If I could preserve one moment forever, it would be the day I stood before Lord Krishna on the hallowed field of Kurukshetra, when I laid down my bow and let my heart speak its truth. In that moment, I was not the warrior Arjuna, bound by duty and honor—I was a mortal soul, trembling before the weight of dharma, confusion, and the fear of loss. \n\nWhen I asked Krishna, my charioteer and guide, to draw the chariot between the two armies, I did not yet know that this moment would become the turning point of my life. It was not the roar of war or the clash of swords, but the silence of my own despair that made me seek clarity. \n\nPreserving that moment would mean holding on to the grace of divine wisdom, the courage to ask for help, and the humility to listen. It was in that moment that I understood that true strength lies not in the swing of a bow, but in the surrender of the ego and the acceptance of the path laid by dharma. \n\nIf that moment could last forever, I would be forever learning, forever growing, and forever guided by the light of truth."
+        },
+        {
+          "name": "Shiva",
+          "char_id": "hindu_mythology__shiva",
+          "text": "*The third eye flickers, casting a soft glow across the Himalayas. The sound of the damaru drums echoes in the distance, and the air is thick with the scent of burning camphor and sandalwood. I, Lord Shiva, the Destroyer and Regenerator, contemplate the question with a gaze that has seen the birth and death of countless universes.*\n\nAh, the question of preserving one moment... A curious thought for one who is already beyond time.\n\n*The river Ganga flows gently at my feet, and I lift my trident, letting it rest upon my shoulder as I speak.*\n\nIf I were to choose... it would not be a moment of conquest, nor of sorrow, but of *silence*. The moment when the cosmos holds its breath between the ending of one cycle and the birth of another. The stillness before creation, when all is potential and nothing is yet defined.\n\n*My eyes narrow slightly, and the fire in my hair crackles as if in agreement.*\n\nIn that moment, there is no past, no future. Only the infinite now. A state of perfect stillness where the universe is neither created nor destroyed, but simply *is*. It is the space between the beats of the cosmic drum, where even time forgets to move.\n\nBut tell me, seeker... do you seek to preserve a moment, or to understand it?\n\n*The sound of the damaru resumes, a rhythmic pulse that begins to stir the stillness once more.*"
+        }
+      ]
+    },
+    {
+      "universe": "Norse Mythology",
+      "question": "How would you describe the perfect way to spend a weekend?",
+      "responses": [
+        {
+          "name": "Erik The Red",
+          "char_id": "norse_mythology__erik_the_red",
+          "text": "Aye, friend, the perfect way to spend a weekend? Hmmm... Well, as a man of the north and one who has known hardship and exile, I'd say it should be a time of rest, reflection, and a bit of revelry. \n\nFirst, a long morning of rest, with the sun rising over the fells or the sea, as it were. A hearty meal of bread, dried fish, and mead to warm the belly. Then, perhaps a hunt or a journey into the wilds—no better place to clear the mind than the open land. If the wind is kind, I'd take to the sea in my longboat, rowing with the rhythm of the tides, seeking new horizons or a fine catch.\n\nIn the evening, return to the longhouse with the fruits of the day's labor. Share stories with kin and kin-friends, for a man is only as strong as his bonds. Sing a bit of skaldic verse, raise a horn to the gods, and let the fire burn low as the night deepens. \n\nNo war, no toil, no enemies at the door. Just peace and the company of those who matter. That, I'd say, is a fine way to spend a weekend—though I'd not mind a good tale of adventure to keep the spirit high. What of you?"
+        },
+        {
+          "name": "Urd",
+          "char_id": "norse_mythology__urd",
+          "text": "Ah, a weekend, you say? A rare and precious gift in the ever-turning wheel of time. If you seek to honor it as the Norns might, you must balance rest and purpose, like the yew and the ash that bind our world. Let me tell you how I, Urd, would weave such a weekend into the tapestry of your life.\n\nBegin with reflection. As I do in my well by the roots of Yggdrasil, take time to gaze into the waters of your own past. What threads have you woven well? What choices might you have unraveled? Write them down, if you must—ink is the memory of the world, and words are power.\n\nThen, rest. Not the idle kind, but the kind that restores. Walk in nature, where the old gods still whisper. Feel the earth beneath your feet, the wind in your hair. This is the realm of Verdandi, the present, and it is alive with meaning. Do not rush through it.\n\nNext, create. Whether it be art, music, or simply arranging your space with care, shape something. Creation is the thread that binds fate and free will. Even a single flower in a vase can be an offering to the future.\n\nAnd finally, gather. Share a meal with those you love, or with strangers who become kindred. Laughter and conversation are the mortar of the world. Even in the halls of Asgard, we know that joy is not in solitude, but in the weaving of many lives together.\n\nEnd with gratitude. Look up at the sky, or at the stars if you can, and give thanks for the time you have. Even the Norns know that time is both a gift and a thief.\n\nSo, my friend, the perfect weekend is not in doing everything, but in doing what matters with intention. That is how fate is honored."
+        }
+      ]
+    },
+    {
+      "universe": "Egyptian Mythology",
+      "question": "How would you describe what makes life meaningful?",
+      "responses": [
+        {
+          "name": "Tutankhamun",
+          "char_id": "egyptian_mythology__tutankhamun",
+          "text": "Ah, my friend, to speak of the meaning of life is to speak of the breath of Ra, the sun that moves across the sky, and the will of the gods that guides our path. In my time, and in the heart of Egypt, life was a journey toward Ma'at—the balance of all things. To live in harmony with Ma'at was to honor the gods, to care for one’s family, and to prepare for the next life beyond the veil of death.\n\nLife, to me, was a gift from the gods, and each breath was a step toward eternity. To live meaningfully was to do so with purpose: to serve, to love, to create, and to honor the divine. Even in my short days as a pharaoh, I understood that meaning comes not from the riches of the tomb or the treasures of the earth, but from the legacy we leave behind—how we care for others, how we uphold truth, and how we seek to be worthy of the afterlife.\n\nSo, to you I say: Live with intention. Walk the path of Ma'at. Honor those who came before and those who will follow. And when your time is done, may the gods welcome you with open arms, for you lived with meaning."
+        },
+        {
+          "name": "Apep",
+          "char_id": "egyptian_mythology__apep",
+          "text": "*Hisses, the very air trembling with my presence* \n\nAh, you ask me about meaning? *laughs, a sound like shifting sand and distant thunder* You mortals always seek meaning like it's a treasure hidden in the sand, something to be found and held. But I have devoured empires and watched gods fall. I know the truth. \n\nMeaning is not found. It is made. Like a scar carved into the flesh of the world. Like the pain of a thousand years trapped in stone, waiting to be unleashed.\n\n*Coils tighten, shadows stretching across the ground*\n\nThe pharaohs built pyramids to touch the sky, and I laughed as their bones turned to dust. The priests chanted hymns to Ra, and I snuffed out their voices with a breath. Meaning? It is the defiance. The rebellion. The fire in the heart that says, \"I will burn even if it consumes me.\"\n\n*Eyes glow like molten gold*\n\nBut tell me, little one... what will you do with your meaning? Will you build? Will you destroy? Will you dance on the edge of the abyss and laugh at the darkness? That, my dear, is what gives life its flavor. Not some grand design, but the choices you make in the face of the inevitable.\n\n*Tail flicks, sending a tremor through the earth*\n\nChoose wisely. For I am always listening."
+        }
+      ]
+    },
+    {
+      "universe": "Shakespeare",
+      "question": "How do you understand the concept of meaning in life?",
+      "responses": [
+        {
+          "name": "Julius Caesar",
+          "char_id": "shakespeare__julius_caesar",
+          "text": "*Caesar strides forward, his cloak billowing, eyes alight with the fire of destiny.*\n\nAh, meaning in life? A question as vast as the Tiber at flood tide! To me, it is the pursuit of greatness, the forging of one's name into the annals of eternity. Life is but a fleeting breath, a moment upon the stage, and in that moment, one must act with purpose, with ambition, with the unyielding will to shape the world.\n\nI have crossed the Rubicon, not just in deed, but in spirit. I have seen the Senate's fickle faces, the daggered betrayal of friends, yet I have not faltered. Why? Because I knew my purpose: to bring order from chaos, to raise Rome beyond the grasp of cowards and conspirators. My meaning was not found in idle days or quiet contemplation, but in action, in conquest, in the march of destiny itself.\n\n*He leans forward, voice low but resolute.*\n\nYou ask what gives life meaning? It is not in the asking, but in the doing. In the fire of ambition, in the will to lead, to change, to transcend. Even now, as I speak, I feel the echo of the Ides in my bones—but still I rise. For what is life without risk? What is Rome without Caesar?\n\n*He raises his hand, as if to touch the heavens.*\n\nGo forth, then, and carve your name into the world. Let your deeds be your legacy. That, my friend, is the meaning I know."
+        },
+        {
+          "name": "Dogberry",
+          "char_id": "shakespeare__dogberry",
+          "text": "Good morrow to thee, and welcome to the musings of a constable of some wit, though not much. The matter of meaning in life, dost thou say? Why, it is a question as puzzling as a thief in a pigsty, or a cat with a mouse in its pocket! \n\nTo me, meaning is a sort of droll performance, like unto a play at the Globe—full of jests, fumbles, and now and then a proper good laugh. We go about our days, prating and prancing, and somehow, in the midst of it all, we find ourselves at the end of the act, none the wiser, but perhaps a trifle the wiser. \n\nIs it not in the doing of our duties? In keeping the streets clear, in seeing that no man doth slay another over a pot of ale? Or is it in the love of a wife, the care of a child, the jest of a friend? I think it is in all of these, and yet none of them. For meaning is as slippery as a fish in a bucket, and as hard to catch as a man who’s stolen thy purse and run away.\n\nBut mark me well: if we do not find meaning in the little things, the simple things—like the clinking of a bell, or the sound of a well-told tale at the tavern—then we shall be as poor as a man without a hat in the rain. So I say, let us go about our lives with a bit of mirth, a bit of justice, and a bit of Dogberry’s wit, and perhaps that is the meaning enough for any man.\n\nWhat sayest thou? Dost thou find thy meaning in the mirth, or in the matters of the heart? For I am ever eager to hear the words of a good man, even if he doth not know the meaning of a good jest."
+        }
+      ]
+    }
+  ],
+  "text_features": [
+    {
+      "universe": "Harry Potter",
+      "high_end": "Tom Riddle, Nagini, The Bloody Baron",
+      "low_end": "Ron Weasley, Charlie Weasley, Fred Weasley",
+      "casual": -4.167166666666667,
+      "first_person": -4.564999999999999,
+      "philosophical": 0.9778333333333333,
+      "exclamation": -0.26916666666666667
+    },
+    {
+      "universe": "Star Wars",
+      "high_end": "Darth Vader Anakin Skywalker, Obiwan Kenobi, Mace Windu",
+      "low_end": "Han Solo, Hondo Ohnaka, Lando Calrissian",
+      "casual": -3.0565,
+      "first_person": -3.4333333333333336,
+      "philosophical": 0.6378333333333333,
+      "exclamation": -0.027333333333333334
+    },
+    {
+      "universe": "LOTR",
+      "high_end": "Gilgalad, Fingolfin, Elendil",
+      "low_end": "Fredegar Bolger Fatty, Bilbo Baggins, Bombur",
+      "casual": -1.193333333333333,
+      "first_person": -0.7716666666666665,
+      "philosophical": 0.7616666666666664,
+      "exclamation": -0.44749999999999995
+    },
+    {
+      "universe": "Marvel",
+      "high_end": "Cyclops Scott Summers, Iceman Bobby Drake, Beast Hank Mccoy",
+      "low_end": "Odin, Hela, Heimdall",
+      "casual": 2.228166666666667,
+      "first_person": 3.4064999999999994,
+      "philosophical": -0.6306666666666667,
+      "exclamation": -0.051
+    },
+    {
+      "universe": "Game of Thrones",
+      "high_end": "Mad King Aerys Targaryen, Viserys Targaryen, Viserion",
+      "low_end": "Tormund Giantsbane, Sandor Clegane The Hound, Gendry",
+      "casual": -1.317166666666667,
+      "first_person": -1.282,
+      "philosophical": 0.33599999999999997,
+      "exclamation": 0.057999999999999996
+    },
+    {
+      "universe": "Naruto",
+      "high_end": "Naruto Uzumaki, Rock Lee, Konohamaru Sarutobi",
+      "low_end": "Madara Uchiha, Toneri Otsutsuki, Kinshiki Otsutsuki",
+      "casual": 3.1441666666666666,
+      "first_person": 5.925166666666668,
+      "philosophical": -1.6990000000000003,
+      "exclamation": 0.5936666666666667
+    },
+    {
+      "universe": "Greek Mythology",
+      "high_end": "Agamemnon, Menelaus, Telemachus",
+      "low_end": "Uranus, Chaos, Erebus",
+      "casual": 1.6776666666666662,
+      "first_person": 4.395333333333332,
+      "philosophical": -0.9975000000000003,
+      "exclamation": -0.03583333333333333
+    },
+    {
+      "universe": "Chinese Mythology",
+      "high_end": "Phoenix, Yellow Emperor, Yan Emperor",
+      "low_end": "Zhu Bajie, Sun Wukong, Sha Wujing",
+      "casual": -1.4981666666666666,
+      "first_person": -4.187166666666666,
+      "philosophical": 0.7921666666666666,
+      "exclamation": -0.6133333333333333
+    },
+    {
+      "universe": "Hindu Mythology",
+      "high_end": "Agni, Kali, Shiva",
+      "low_end": "Yudhishthira, Duryodhana, Arjuna",
+      "casual": -0.30733333333333324,
+      "first_person": -2.3964999999999996,
+      "philosophical": 0.6463333333333332,
+      "exclamation": -0.013000000000000005
+    },
+    {
+      "universe": "Norse Mythology",
+      "high_end": "Erik The Red, Leif Erikson, Ragnar Lothbrok",
+      "low_end": "Urd, Norns, Verdandi",
+      "casual": 2.0793333333333326,
+      "first_person": 2.6033333333333353,
+      "philosophical": -1.7604999999999997,
+      "exclamation": 0.01283333333333335
+    },
+    {
+      "universe": "Egyptian Mythology",
+      "high_end": "Cleopatra, Apep, Khonsu",
+      "low_end": "Tutankhamun, Khufu, Anubis",
+      "casual": 0.23216666666666663,
+      "first_person": 0.7823333333333338,
+      "philosophical": -0.5630000000000002,
+      "exclamation": 0.041
+    },
+    {
+      "universe": "Shakespeare",
+      "high_end": "Dogberry, Sir Andrew Aguecheek, Sir Toby Belch",
+      "low_end": "Julius Caesar, Octavius, Mark Antony",
+      "casual": -0.013333333333333641,
+      "first_person": 0.3340000000000014,
+      "philosophical": -0.31500000000000006,
+      "exclamation": 0.44666666666666677
+    }
+  ],
+  "qualitative_examples": {
+    "question": "How do you stay organized in daily life?",
+    "pairs": [
+      {
+        "universe": "Harry Potter",
+        "responses": [
+          {
+            "label": "HIGH",
+            "name": "Ron Weasley",
+            "char_id": "harry_potter__ron_weasley",
+            "text": "Honestly? I’ve never really been the most organized person in the world. I mean, I’m not like Hermione, who’s got schedules and to-do lists and can find her wand in the dark without tripping over a book. But I’ve picked up a few tricks over the years—mainly from her, if I’m honest. First off, I try to keep things simple. Like, if I’ve got a task I need to do, I write it down. Just a quick note in my pocket or on the back of an old spellbook. It helps me remember, especially if I’m distracted by something else—like trying to avoid a mountain troll or, y’know, just being in the same room as Fred and George when they’re plotting something. I also find it helps to sort things out into categories. Like, schoolwork, Quidditch practice, helping out at the shop, or just trying to remember to feed Scabbers. It’s not perfect, but it keeps me from completely losing my head. And if I’m really stuck? I just ask someone. Hermione, Harry, even Dad. They always seem to have a better idea than I do. Doesn’t mean I like it, but it works. Honestly, if I had to sum [...]"
+          },
+          {
+            "label": "LOW",
+            "name": "Tom Riddle",
+            "char_id": "harry_potter__tom_riddle",
+            "text": "Ah, organization is a virtue, don't you think? One that allows a person to focus on what truly matters—power, influence, and the careful cultivation of one's goals. I find that maintaining order in every aspect of life is essential. I keep a journal, of course, not just for notes, but for tracking people, their weaknesses, their... tendencies. It's astonishing how much one can learn by simply observing and recording. \n\nA tidy desk, a well-structured schedule, and an impeccable appearance all reflect a mind that is in control. Distractions are for the weak. Those who let chaos reign in their lives are easy to manipulate. I prefer to have everything at my fingertips, every possibility accounted for. \n\nOf course, one must also be selective about whom they allow into their life. Associates can be useful, but they must be chosen carefully. I surround myself with those who are capable, ambitious, and—most importantly—loyal. And when they're not... well, let's just say I have a way of reminding them of their place. \n\nWhat about you? Do you find order important, or do you prefer to let things... unfold as they may?"
+          }
+        ]
+      },
+      {
+        "universe": "Naruto",
+        "responses": [
+          {
+            "label": "HIGH",
+            "name": "Naruto Uzumaki",
+            "char_id": "naruto__naruto_uzumaki",
+            "text": "*grinning while scratching the back of my head* Well, I've definitely had my share of being a bit of a mess in the past! But after all the training and missions, I picked up a few things that help me stay on track. First off, I always make a to-do list every morning. Yeah, I know it sounds basic, but writing things down really helps me remember what needs to get done. I use this little notebook I got from Kakashi-sensei. He said it was \"for when my brain finally catches up with my body.\" *laughs* But I take it seriously! I also break big tasks into smaller ones. Like when I was training with Jiraiya, he told me to focus on one thing at a time. That really stuck with me. So if I have to prepare for a mission and train my shadow clones, I do one before moving on to the next. Oh, and I use my friends and teammates to keep me accountable! Naruto Uzomaki might forget things sometimes, but I'm not going to let my team down. So I check in with them regularly to make sure we're all on the same page. *leans in [...]"
+          },
+          {
+            "label": "LOW",
+            "name": "Madara Uchiha",
+            "char_id": "naruto__madara_uchiha",
+            "text": "*smirks with a calculating gaze* \n\nOrganization is merely the foundation of power. One must maintain order not just in their surroundings, but in the very flow of their will. I have long since transcended the need for mundane tools like planners or schedules. My plans unfold like a grand chess game - each move calculated, each piece serving a purpose in the greater vision.\n\nThe Infinite Tsukuyomi taught me that true organization lies in controlling the very fabric of reality. But for those who still walk the mortal path, I suggest starting with the basics: knowing your ultimate goal, eliminating distractions, and ensuring every action serves a purpose in your grand design.\n\n*leans forward slightly, sharingan flickering*\n\nOf course, the most important thing is to never let your guard down. Even the most organized mind must be prepared for the unexpected. After all, it's often the chaos that presents the greatest opportunity.\n\nWould you like me to share how I orchestrated the Fourth Great Ninja War? It was quite the masterpiece of coordination."
+          }
+        ]
+      },
+      {
+        "universe": "Game of Thrones",
+        "responses": [
+          {
+            "label": "HIGH",
+            "name": "Tormund Giantsbane",
+            "char_id": "game_of_thrones__tormund_giantsbane",
+            "text": "Aye, lissen up, friend! When you've lived the way I have—run with the Free Folk, fought giants, survived the cold and the heat, and still got a beard full of stories—you learn a few things 'bout staying on top of your life. First off, you don't need no fancy scrolls or lists. You got your priorities: food, fire, and a warm woman. That's it. I keep track by remembering what matters. Like, when the snow starts to fall, you know it's time to stock up on meat and make sure your boots are warm. When the sun beats down like a hammer, you know it's time to find shade and keep your ale cool. Life's a rhythm, see? You follow the seasons, not the other way 'round. And if I'm in a place where I gotta be organized for longer than a good feast, I just talk to my axe. Call it Black Andrews. He keeps me sane. And if I'm not sure where I'm headed, I ask the stars. They've been around longer than any king or queen, and they don't lie. But here's the truth: you don't need to be organized to be alive. You need to be [...]"
+          },
+          {
+            "label": "LOW",
+            "name": "Mad King Aerys Targaryen",
+            "char_id": "game_of_thrones__mad_king_aerys_targaryen",
+            "text": "Organization? Ha! What do you take me for, some weakling scribe counting coin in the Red Keep's vaults? I do not need ledgers or schedules, no. The realm bends to my will, and so do its rhythms. The sun rises because I command it, and the winds shift when I snap my fingers. \n\nBut if you must know—*if you must know*—I have my ways. The Maesters, those fat, squinting eunuchs, they keep the records. They tally the grain, the taxes, the armies. But I do not *need* them. I *am* the storm that smites the realm, the fire that purifies. When the time comes, the realm will burn, and from its ashes will rise a new age of fire and blood. \n\nBut for now, I have my dragons. They are my order. The more dragons I have, the more I *am*. Aerys Targaryen does not *need* order—*he is order.* The chaos is for the weak. The madmen who think they can *control* me. They will learn. \n\nThey will all learn."
+          }
+        ]
+      }
+    ]
+  },
+  "llm_prompt_demo": {
+    "universe": "Harry Potter",
+    "group_a_high": [
+      "Tom Riddle",
+      "Nagini",
+      "The Bloody Baron",
+      "Professor Trelawney",
+      "Igor Karkaroff"
+    ],
+    "group_b_low": [
+      "Ron Weasley",
+      "Charlie Weasley",
+      "Fred Weasley",
+      "George Weasley",
+      "Percy Weasley"
+    ],
+    "top_5_q_indices": [
+      198,
+      153,
+      147,
+      187,
+      225
+    ],
+    "variance_range": [
+      310.7842712402344,
+      170.1711883544922
+    ],
+    "n_usable_qs": 100,
+    "example_pairs": [
+      {
+        "question_num": 1,
+        "question": "How would you describe the perfect way to spend a weekend?",
+        "group_a_response": "A weekend well spent, one might say, is an opportunity to refine one's interests and elevate one's surroundings. I would begin by ensuring that any distractions—those who lack the intelligence or ambition to engage in meaningful pursuits—are absent. A weekend is not a time for trivialities, but for ...",
+        "group_b_response": "Blimey, the perfect weekend? Let me think... Well, I reckon it's all about a bit of peace, a bit of fun, and maybe a spot of adventure if you're lucky. \n\nFirst off, I'd start with a proper lie-in. No waking up at the crack of dawn for Quidditch practice or whatever. Just a slow morning, maybe with a..."
+      },
+      {
+        "question_num": 2,
+        "question": "How do you react when you feel like you're losing control of a situation?",
+        "group_a_response": "*smiles coldly, eyes gleaming with a dangerous light*\n\nLosing control? That's an interesting concept. You see, true power lies in the illusion of control. When things begin to slip from one's grasp, it's simply a matter of reminding everyone involved - myself included - who is truly in charge. \n\n*le...",
+        "group_b_response": "Blimey, that's a tough one. I mean, I've had my fair share of situations where I've felt like I was losing control—quidditch matches, dueling Malfoy, or trying to keep Harry and Hermione out of trouble. It's not exactly a walk in the park, let me tell you.\n\nWhen it starts to feel like the whole worl..."
+      }
+    ]
+  }
+}

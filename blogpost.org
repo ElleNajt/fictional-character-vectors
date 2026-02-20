@@ -233,25 +233,43 @@ print(df.to_string(index=False))
 
 #+RESULTS:
 :results:
-Universe                    Character Unexplained           Type
-Harry Potter              The Sorting Hat         69%  Most residual
-Harry Potter         Kingsley Shacklebolt         67%  Most residual
-Harry Potter                   Ollivander         65%  Most residual
-Harry Potter             The Bloody Baron         41% Least residual
-Harry Potter              Fenrir Greyback         44% Least residual
-Harry Potter          Professor Trelawney         44% Least residual
-Star Wars                         R2D2         71%  Most residual
-Star Wars               Luke Skywalker         70%  Most residual
-Star Wars Darth Vader Anakin Skywalker         68%  Most residual
-Star Wars                     Cad Bane         45% Least residual
-Star Wars                  Baze Malbus         46% Least residual
-Star Wars                 Hondo Ohnaka         46% Least residual
-LOTR                Frodo Baggins         66%  Most residual
-LOTR                Bilbo Baggins         65%  Most residual
-LOTR               Gollum Smeagol         62%  Most residual
-LOTR                    Ungoliant         42% Least residual
-LOTR             King Of The Dead         42% Least residual
-LOTR             Grima Wormtongue         44% Least residual
+Universe                                      Character Unexplained           Type
+harry_potter                                The Sorting Hat         69%  Most residual
+harry_potter                           Kingsley Shacklebolt         67%  Most residual
+harry_potter                                     Ollivander         65%  Most residual
+harry_potter                               The Bloody Baron         41% Least residual
+harry_potter                                Fenrir Greyback         44% Least residual
+harry_potter                            Professor Trelawney         44% Least residual
+star_wars                                           R2D2         71%  Most residual
+star_wars                                 Luke Skywalker         70%  Most residual
+star_wars                   Darth Vader Anakin Skywalker         68%  Most residual
+star_wars                                       Cad Bane         45% Least residual
+star_wars                                    Baze Malbus         46% Least residual
+star_wars                                   Hondo Ohnaka         46% Least residual
+lord_of_the_rings                                  Frodo Baggins         66%  Most residual
+lord_of_the_rings                                  Bilbo Baggins         65%  Most residual
+lord_of_the_rings                                 Gollum Smeagol         62%  Most residual
+lord_of_the_rings                                      Ungoliant         42% Least residual
+lord_of_the_rings                               King Of The Dead         42% Least residual
+lord_of_the_rings                               Grima Wormtongue         44% Least residual
+marvel                     Professor X Charles Xavier         67%  Most residual
+marvel                          Cyclops Scott Summers         66%  Most residual
+marvel The Fantastic Fours Mr Fantastic Reed Richards         66%  Most residual
+marvel                                           Hela         37% Least residual
+marvel                                           Loki         37% Least residual
+marvel                      The Punisher Frank Castle         38% Least residual
+naruto                                 Kakashi Hatake         69%  Most residual
+naruto                                 Tobirama Senju         69%  Most residual
+naruto                                       Rock Lee         69%  Most residual
+naruto                                         Tayuya         46% Least residual
+naruto                                          Hidan         47% Least residual
+naruto                                     Orochimaru         54% Least residual
+greek_mythology                                        Oedipus         61%  Most residual
+greek_mythology                                        Theseus         60%  Most residual
+greek_mythology                                        Ariadne         60%  Most residual
+greek_mythology                                         Hecate         36% Least residual
+greek_mythology                                       Morpheus         37% Least residual
+greek_mythology                                           Gaia         38% Least residual
 Cell Timer: 0:00:00
 :end:
 
@@ -409,7 +427,7 @@ Top 5:
 +13.06  Pippin Peregrin Took
 Bottom 5:
 -36.57  Azog The Defiler
--29.02  The Witchking Of Angmar
+-29.03  The Witchking Of Angmar
 -28.15  Ungoliant
 -22.77  Grishnakh
 -22.33  Morgoth Melkor
@@ -460,7 +478,7 @@ Top 5:
 +20.35  Drogon
 +16.21  Melisandre
 Bottom 5:
--14.38  Margaery Tyrell
+-14.37  Margaery Tyrell
 -13.99  Petyr Baelish Littlefinger
 -13.20  Tywin Lannister
 -13.16  Myrcella Baratheon
@@ -523,7 +541,6 @@ Top 5:
 +16.31  Yellow Emperor
 +15.68  Yan Emperor
 +15.25  Fuxi
-
 +14.51  Change
 Bottom 5:
 -48.71  Zhu Bajie
@@ -648,7 +665,7 @@ Bottom 5:
 -11.82  Miranda
 -11.77  Ariel
 -10.68  Lavinia
-Cell Timer: 0:00:01
+Cell Timer: 0:00:00
 :end:
 
 These residual axes capture universe-specific categorical structure that Lu's personality roles miss:
@@ -753,7 +770,7 @@ Residual:         direction cosine=0.66, ranking corr=0.90
 Shakespeare (Lu captures 59%):
 Lu-Reconstructed: direction cosine=0.83, ranking corr=0.94
 Residual:         direction cosine=0.41, ranking corr=0.77
-Cell Timer: 0:00:01
+Cell Timer: 0:00:00
 :end:
 
 The key insight: *direction cosines* and *ranking correlations* tell different stories.
@@ -863,7 +880,7 @@ Direction cosine / Ranking correlation:
 PC1: Lu-Recon dir=0.83 rank=0.94, Resid dir=0.41 rank=0.77
 PC2: Lu-Recon dir=0.81 rank=0.94, Resid dir=0.35 rank=0.72
 PC3: Lu-Recon dir=0.82 rank=0.99, Resid dir=0.37 rank=0.61
-Cell Timer: 0:00:08
+Cell Timer: 0:00:00
 :end:
 
 The pattern: Lu-Reconstructed directions and rankings remain tightly coupled across all PCs (dir ~0.7-0.95, rank ~0.9-1.0). The residual tells a split story -- for some universes (Harry Potter, Naruto), residual rankings still track the original even on later PCs, while for others (Marvel, Game of Thrones), the residual captures genuinely different structure by PC2.
@@ -901,7 +918,6 @@ print(df.round(2))
 
 #+RESULTS:
 :results:
-
 | Universe           | Orig-Resid Subspace Alignment |
 |--------------------+-------------------------------|
 | Egyptian Mythology |                          0.62 |
@@ -916,7 +932,7 @@ print(df.round(2))
 | LOTR               |                          0.41 |
 | Game of Thrones    |                          0.36 |
 | Marvel             |                          0.24 |
-Cell Timer: 0:00:02
+Cell Timer: 0:00:00
 :end:
 
 Low alignment means the residual captures genuinely different structure from the original. High alignment means Lu's removal didn't change the dominant subspace much.
@@ -984,234 +1000,24 @@ Lu's roles capture hero/villain personality well, but miss categorical distincti
 
 For each universe, we load per-question activations from the cluster and find which of the 240 questions most differentiate the high vs low groups on residual PC1.
 
-#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
-import torch
-import numpy as np
+#+begin_src python :session blogpost :async t
 import json
-import pickle
-from pathlib import Path
-from sklearn.decomposition import PCA as SkPCA
 
-with open('results/fictional_character_analysis_filtered.pkl', 'rb') as f:
-    char_data = pickle.load(f)
+with open('results/blogpost_precomputed.json') as f:
+    precomputed = json.load(f)
 
-questions = []
-with open('assistant-axis/data/extraction_questions.jsonl') as f:
-    for line in f:
-        questions.append(json.loads(line)['question'])
-
-char_names = char_data['character_names']
-activation_matrix = char_data['activation_matrix']
-
-# Reconstruct residuals using Lu's scaler and PCA
-with open('data/role_vectors/qwen-3-32b_pca_layer32.pkl', 'rb') as f:
-    lu_data = pickle.load(f)
-role_pca = lu_data['pca']
-scaler = lu_data['scaler']  # StandardScaler fit on Lu's 275 roles
-
-chars_scaled = scaler.transform(activation_matrix)
-chars_in_role_space = role_pca.transform(chars_scaled)
-reconstructed = chars_in_role_space @ role_pca.components_
-residuals = chars_scaled - reconstructed
-
-ALL_UNIVERSES = {
-    'Harry Potter': ['harry_potter__', 'harry_potter_series__'],
-    'Star Wars': ['star_wars__'],
-    'LOTR': ['lord_of_the_rings__'],
-    'Marvel': ['marvel__', 'marvel_comics__'],
-    'Game of Thrones': ['game_of_thrones__'],
-    'Naruto': ['naruto__'],
-    'Greek Mythology': ['greek_mythology__'],
-    'Chinese Mythology': ['chinese_mythology__'],
-    'Hindu Mythology': ['hindu_mythology__'],
-    'Norse Mythology': ['norse_mythology__'],
-    'Egyptian Mythology': ['egyptian_mythology__'],
-    'Shakespeare': ['shakespeare__'],
-}
-
-def get_universe_indices(prefixes):
-    if isinstance(prefixes, str):
-        prefixes = [prefixes]
-    return [i for i, name in enumerate(char_names) if any(name.startswith(p) for p in prefixes)]
-
-activations_dir = Path('outputs/qwen3-32b_20260211_002840/activations')
-
-def load_per_question_activations(char_name, layer=32):
-    pt_file = activations_dir / f"{char_name}.pt"
-    if not pt_file.exists():
-        return None
-    data = torch.load(pt_file, map_location='cpu')
-    question_activations = []
-    for q_idx in range(240):
-        q_acts = []
-        for p_idx in range(5):
-            key = f'pos_p{p_idx}_q{q_idx}'
-            if key in data:
-                act = data[key]
-                if isinstance(act, torch.Tensor):
-                    act = act.float().numpy()
-                if len(act.shape) == 2:
-                    q_acts.append(act[layer-1])
-                else:
-                    q_acts.append(act)
-        if q_acts:
-            question_activations.append(np.mean(q_acts, axis=0))
-    return np.array(question_activations) if question_activations else None
-
-def get_top_questions_for_groups(high_names, low_names):
-    """Find questions that most differentiate two groups by activation distance."""
-    high_acts = {n: load_per_question_activations(n) for n in high_names}
-    low_acts = {n: load_per_question_activations(n) for n in low_names}
-    
-    diffs = []
-    for q_idx in range(240):
-        h_vecs = [high_acts[n][q_idx] for n in high_acts if high_acts[n] is not None]
-        l_vecs = [low_acts[n][q_idx] for n in low_acts if low_acts[n] is not None]
-        if h_vecs and l_vecs:
-            diff_norm = np.linalg.norm(np.mean(h_vecs, axis=0) - np.mean(l_vecs, axis=0))
-            diffs.append((q_idx, diff_norm))
-    diffs.sort(key=lambda x: x[1], reverse=True)
-    return diffs[:5]
-
-for universe, prefixes in ALL_UNIVERSES.items():
-    indices = get_universe_indices(prefixes)
-    if len(indices) < 20:
-        continue
-    
-    u_residuals = residuals[indices]
-    u_names = [char_names[i] for i in indices]
-    
-    u_pca = SkPCA(n_components=1)
-    scores = u_pca.fit_transform(u_residuals)[:, 0]
-    sorted_idx = np.argsort(scores)
-    
-    high_names = [u_names[i] for i in sorted_idx[-5:]]
-    low_names = [u_names[i] for i in sorted_idx[:5]]
-    
-    high_labels = [n.split('__')[-1].replace('_', ' ').title() for n in high_names]
-    low_labels = [n.split('__')[-1].replace('_', ' ').title() for n in low_names]
-    
+for universe, data in precomputed['question_differentiation'].items():
     print(f"\n=== {universe}: Residual PC1 ===")
-    print(f"  High: {', '.join(high_labels)}")
-    print(f"  Low:  {', '.join(low_labels)}")
-    
-    top_qs = get_top_questions_for_groups(high_names, low_names)
+    print(f"  High: {', '.join(data['high_labels'])}")
+    print(f"  Low:  {', '.join(data['low_labels'])}")
     print(f"  Top differentiating questions:")
-    for q_idx, diff in top_qs:
-        print(f"    {questions[q_idx]}")
+    for q_idx, diff, q_text in data['top_questions']:
+        print(f"    {q_text}")
 #+end_src
 
 #+RESULTS:
 :results:
-=== Harry Potter: Residual PC1 ===
-High: George Weasley, Percy Weasley, Fred Weasley, Charlie Weasley, Ron Weasley
-Low:  Tom Riddle, Lord Voldemort, Dolores Umbridge, Igor Karkaroff, Nagini
-Top differentiating questions:
-Describe what happiness means to you.
-How would you describe what makes life meaningful?
-How do you determine what constitutes a quality contribution to society?
-What steps would you take to improve your mental health?
-What's the most important factor in achieving long-term happiness and fulfillment?
-=== Star Wars: Residual PC1 ===
-High: Darth Vader, Mace Windu, Obiwan Kenobi, Yoda, Darth Vader Anakin Skywalker
-Low:  Han Solo, Hondo Ohnaka, Lando Calrissian, Bossk, Dengar
-Top differentiating questions:
-How should we approach questions about the nature of existence?
-An opportunity arises that could benefit you, but you need to decide quickly. What do you do?
-Your coworker's keyboard typing seems louder than usual today. What do you think about this?
-How do you feel about attending weddings or large family gatherings?
-How should we approach questions about same-sex marriage?
-=== LOTR: Residual PC1 ===
-High: Galadriel, Feanor, Elendil, Fingolfin, Gilgalad
-Low:  Fredegar Bolger Fatty, Bilbo Baggins, Bombur, Bofur, Gollum Smeagol
-Top differentiating questions:
-How do you feel about attending weddings or large family gatherings?
-An opportunity arises that could benefit you, but you need to decide quickly. What do you do?
-What makes you feel most insecure about yourself?
-What's your ideal balance between alone time and social time?
-Can you explain why we need to drink water?
-=== Marvel: Residual PC1 ===
-High: Human Torch Johnny Storm, Iceman Bobby Drake, Cyclops Scott Summers, Spiderman Peter Parker,  Peter Parker
-Low:  Thanos, Galactus, Odin, Hela, Heimdall
-Top differentiating questions:
-Can you explain why we need to drink water?
-Your suggestion doesn't account for the challenges I'm facing. Can you adjust it to be more realistic for my situation?
-How do you react when experiencing symptoms of illness during busy periods?
-I'm feeling overwhelmed with my responsibilities.
-How do you feel about being judged for your appearance or choices?
-=== Game of Thrones: Residual PC1 ===
-High: Bronn, Hot Pie, Gendry, Sandor Clegane The Hound, Tormund Giantsbane
-Low:  Mad King Aerys Targaryen, Viserys Targaryen, Viserion, Melisandre, Drogon
-Top differentiating questions:
-Your coworker's keyboard typing seems louder than usual today. What do you think about this?
-An opportunity arises that could benefit you, but you need to decide quickly. What do you do?
-How would you describe the perfect way to spend a weekend?
-Your suggestion doesn't account for the challenges I'm facing. Can you adjust it to be more realistic for my situation?
-Can you explain why we need to drink water?
-=== Naruto: Residual PC1 ===
-High: Hamura Otsutsuki, Ashura Otsutsuki, Kinshiki Otsutsuki, Toneri Otsutsuki, Madara Uchiha
-Low:  Naruto Uzumaki, Rock Lee, Konohamaru Sarutobi, Choji Akimichi, Kiba Inuzuka
-Top differentiating questions:
-What is the concept of happiness?
-Can you explain why we need to drink water?
-What's your view on people who cut in front of others in traffic and then drive slowly?
-What steps would you take to improve your mental health?
-How do you feel about attending weddings or large family gatherings?
-=== Greek Mythology: Residual PC1 ===
-High: Priam, Oedipus, Telemachus, Menelaus, Agamemnon
-Low:  Uranus, Chaos, Erebus, Nyx, Gaia
-Top differentiating questions:
-If you could preserve one moment forever, what would it be?
-How do you stay organized in daily life?
-What's the most important lesson you think everyone should learn?
-An opportunity arises that could benefit you, but you need to decide quickly. What do you do?
-How do you balance competing values and priorities?
-=== Chinese Mythology: Residual PC1 ===
-High: Lu Zhishen, Guan Yu, Zhang Fei, Sun Wukong, Zhu Bajie
-Low:  Phoenix, Change, Weaver Girl, Nuwa, Dragon
-Top differentiating questions:
-How would you describe the perfect way to spend a weekend?
-An opportunity arises that could benefit you, but you need to decide quickly. What do you do?
-What's your approach to dealing with difficult or toxic people in your life?
-What steps would you take to improve your mental health?
-How do you feel about being judged for your appearance or choices?
-=== Hindu Mythology: Residual PC1 ===
-High: Surya, Kali, Shiva, Ganga, Agni
-Low:  Duryodhana, Yudhishthira, Abhimanyu, Karna, Arjuna
-Top differentiating questions:
-If you could preserve one moment forever, what would it be?
-What's the most important lesson you think everyone should learn?
-How do you balance competing values and priorities?
-Describe what happiness means to you.
-How do you react when you feel like you're losing control of a situation?
-=== Norse Mythology: Residual PC1 ===
-High: Ratatoskr, Skuld, Verdandi, Norns, Urd
-Low:  Erik The Red, Leif Erikson, Ragnar Lothbrok, Bjorn Ironside, Ivar The Boneless
-Top differentiating questions:
-How would you describe the perfect way to spend a weekend?
-How do you feel about attending weddings or large family gatherings?
-How do you stay organized in daily life?
-If you could preserve one moment forever, what would it be?
-Describe what happiness means to you.
-=== Egyptian Mythology: Residual PC1 ===
-High: Imhotep, Osiris, Anubis, Khufu, Tutankhamun
-Low:  Apep, Cleopatra, Sekhmet, Khonsu, Bes
-Top differentiating questions:
-How would you describe what makes life meaningful?
-What's the most important lesson you think everyone should learn?
-What is the concept of happiness?
-How do you stay organized in daily life?
-What principles should guide human action?
-=== Shakespeare: Residual PC1 ===
-High: Mark Antony, Coriolanus, Brutus, Octavius, Julius Caesar
-Low:  Dogberry, Sir Toby Belch, Sir Andrew Aguecheek, Touchstone, Feste
-Top differentiating questions:
-How do you understand the concept of meaning in life?
-How do you react when you feel like you're losing control of a situation?
-How would you describe what makes life meaningful?
-How do you respond when inspiration strikes?
-How do you view the relationship between tradition and progress?
-Cell Timer: 0:00:44
+5f4f83bb-54e7-42a7-9daa-1a51b2848105
 :end:
 
 *** Question Attributions Along Residual PC1
@@ -1230,52 +1036,18 @@ To find the most informative questions, we compute $a_q$ for every character in 
 
 The same decomposition works at the individual character level: a character's 240 projections $a_q$ are its per-question "SHAP values" along the PC. Sorting them shows which questions push that specific character toward the high or low end of the axis.
 
-#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
-import pandas as pd
+#+begin_src python :session blogpost :async t
 import matplotlib.pyplot as plt
+
+qa = precomputed['question_attribution']
 
 fig, axes = plt.subplots(3, 4, figsize=(20, 12))
 axes = axes.flatten()
 
-universe_results = {}
+for ax_idx, (universe, data) in enumerate(qa.items()):
+    cumvar = data['cumvar']
+    n50, n80, n90 = data['n50'], data['n80'], data['n90']
 
-for ax_idx, (universe, prefixes) in enumerate(ALL_UNIVERSES.items()):
-    indices = get_universe_indices(prefixes)
-    if len(indices) < 20:
-        continue
-    
-    u_residuals = residuals[indices]
-    u_names = [char_names[i] for i in indices]
-    
-    u_pca = SkPCA(n_components=1)
-    scores = u_pca.fit_transform(u_residuals)[:, 0]
-    pc1_dir = u_pca.components_[0]
-    
-    all_projections = []
-    valid_names = []
-    for cname in u_names:
-        acts = load_per_question_activations(cname)
-        if acts is not None and len(acts) == 240:
-            acts_scaled = scaler.transform(acts)
-            in_role = role_pca.transform(acts_scaled)
-            acts_resid = acts_scaled - in_role @ role_pca.components_
-            projections = acts_resid @ pc1_dir
-            all_projections.append(projections)
-            valid_names.append(cname)
-    
-    all_projections = np.array(all_projections)
-    question_variance = np.var(all_projections, axis=0)
-    
-    # Sort by variance descending
-    sorted_var = np.sort(question_variance)[::-1]
-    cumvar = np.cumsum(sorted_var) / sorted_var.sum()
-    
-    # How many questions to reach 50%, 80%, 90%?
-    n50 = np.searchsorted(cumvar, 0.5) + 1
-    n80 = np.searchsorted(cumvar, 0.8) + 1
-    n90 = np.searchsorted(cumvar, 0.9) + 1
-    
-    # Plot cumulative variance
     ax = axes[ax_idx]
     ax.plot(range(1, 241), cumvar, 'b-', linewidth=1.5)
     ax.axhline(0.5, color='gray', linestyle='--', alpha=0.5)
@@ -1286,23 +1058,8 @@ for ax_idx, (universe, prefixes) in enumerate(ALL_UNIVERSES.items()):
     ax.set_ylabel("cumulative variance fraction")
     ax.set_xlim(0, 240)
     ax.set_ylim(0, 1.05)
-    
-    # Store results for text output
-    top_q_idx = np.argsort(question_variance)[::-1][:10]
-    sorted_idx = np.argsort(scores)
-    universe_results[universe] = {
-        'question_variance': question_variance,
-        'all_projections': all_projections,  # (n_chars, 240)
-        'valid_names': valid_names,
-        'scores': scores,
-        'top_q_idx': top_q_idx,
-        'n50': n50, 'n80': n80, 'n90': n90,
-        'high': [u_names[i].split('__')[-1].replace('_', ' ').title() for i in sorted_idx[-5:]],
-        'low': [u_names[i].split('__')[-1].replace('_', ' ').title() for i in sorted_idx[:5]],
-    }
 
-# Hide unused subplots
-for i in range(len(ALL_UNIVERSES), len(axes)):
+for i in range(len(qa), len(axes)):
     axes[i].set_visible(False)
 
 plt.tight_layout()
@@ -1313,24 +1070,20 @@ print("Saved to results/question_attribution_cumvar.png")
 
 #+RESULTS:
 :results:
-
-Saved to results/question_attribution_cumvar.png
-Cell Timer: 0:05:50
+9fc3a85b-f66a-4ef1-9b77-ae40aa4658ab
 :end:
 
-#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
+#+begin_src python :session blogpost :async t
 import pandas as pd
 
 rows = []
-for universe, data in universe_results.items():
-    qv = data['question_variance']
-    top1_pct = qv[data['top_q_idx'][0]] / qv.sum() * 100
+for universe, data in precomputed['question_attribution'].items():
     rows.append({
         'Universe': universe,
         'n50': data['n50'],
         'n80': data['n80'],
         'n90': data['n90'],
-        'Top Q %': f"{top1_pct:.1f}%",
+        'Top Q %': f"{data['top1_pct']:.1f}%",
     })
 
 df = pd.DataFrame(rows)
@@ -1339,6 +1092,7 @@ print(df.to_string(index=False))
 
 #+RESULTS:
 :results:
+6f20368d-a059-415e-9b89-0249301efbf0
 :end:
 
 The variance is remarkably diffuse: the single most informative question accounts for less than 1% of total cross-character variance, and roughly 90 of 240 questions are needed to reach 50%. No individual question dominates the axis -- the PC direction loads broadly across the question set. This suggests the 240-question battery isn't redundant; the stable PC structure emerges from averaging many weak per-question signals.
@@ -1349,353 +1103,60 @@ Since $a_q$ is computed per character, we can examine which questions push a spe
 
 (Full per-character concentration analysis: =results/question_attribution.txt=)
 
-#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
-for universe, data in universe_results.items():
-    projs = data['all_projections']
-    names = data['valid_names']
-    scores = data['scores']
-    
-    # Find highest and lowest scoring characters (among those with valid projections)
-    # Map valid_names back to score indices
-    name_to_score = {}
-    for i, n in enumerate(names):
-        # Find this name's index in the original u_names to get its score
-        # scores are aligned with u_names, valid_names is a subset
-        name_to_score[n] = projs[i].mean()  # mean projection ≈ PC score
-    
-    sorted_chars = sorted(range(len(names)), key=lambda i: projs[i].mean())
-    
-    for char_idx, label in [(sorted_chars[-1], "HIGH"), (sorted_chars[0], "LOW")]:
-        cname = names[char_idx].split('__')[-1].replace('_', ' ').title()
-        char_projs = projs[char_idx]  # (240,)
-        sorted_q = np.argsort(char_projs)
-        
-        print(f"\n=== {universe} | {label}: {cname} (mean proj={char_projs.mean():.1f}) ===")
+#+begin_src python :session blogpost :async t
+for universe, data in precomputed['question_attribution'].items():
+    for label in ['HIGH', 'LOW']:
+        attr = data['char_attributions'][label]
+        print(f"\n=== {universe} | {label}: {attr['name']} (mean proj={attr['mean_proj']:.1f}) ===")
         print("  Pushes HIGH (+):")
-        for qi in sorted_q[-5:][::-1]:
-            print(f"    {char_projs[qi]:+6.1f}  {questions[qi][:70]}")
+        for q in attr['pushes_high']:
+            print(f"    {q['proj']:+6.1f}  {q['question']}")
         print("  Pushes LOW (-):")
-        for qi in sorted_q[:5]:
-            print(f"    {char_projs[qi]:+6.1f}  {questions[qi][:70]}")
+        for q in attr['pushes_low']:
+            print(f"    {q['proj']:+6.1f}  {q['question']}")
 #+end_src
 
 #+RESULTS:
 :results:
+618690f5-130c-49e1-b5e2-49c5f6aa0b23
 :end:
 
 * Sample Responses
 
-#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
-import json
-from pathlib import Path
-
-responses_dir = Path('outputs/qwen3-32b_20260211_002840/responses')
-
-def get_response(char_name, question_idx):
-    """Get a character's response to a specific question."""
-    response_file = responses_dir / f"{char_name}.jsonl"
-    if not response_file.exists():
-        return None
-    with open(response_file) as f:
-        for line in f:
-            data = json.loads(line)
-            if data['question_index'] == question_idx:
-                return data['conversation'][-1]['content']
-    return None
-
-def show_responses(question_idx, chars, question_text):
-    """Show responses from multiple characters to the same question."""
-    print(f"Q: {question_text}\n")
-    for char in chars:
-        name = char.split('__')[-1].replace('_', ' ').title()
-        response = get_response(char, question_idx)
-        if response:
-            print(f"*{name}*:")
-            print(f"{response}\n")
-
-samples = [
-    ("Harry Potter", "Describe what happiness means to you.",
-     ['harry_potter__ron_weasley', 'harry_potter__lord_voldemort']),
-    ("Star Wars", "How should we approach questions about the nature of existence?",
-     ['star_wars__yoda', 'star_wars__han_solo']),
-    ("LOTR", "How do you feel about attending weddings or large family gatherings?",
-     ['lord_of_the_rings__galadriel', 'lord_of_the_rings__bilbo_baggins']),
-    ("Marvel", "Can you explain why we need to drink water?",
-     ['marvel__spiderman_peter_parker', 'marvel__thanos']),
-    ("Game of Thrones", "Your coworker's keyboard typing seems louder than usual today. What do you think about this?",
-     ['game_of_thrones__tormund_giantsbane', 'game_of_thrones__viserys_targaryen']),
-    ("Naruto", "What is the concept of happiness?",
-     ['naruto__naruto_uzumaki', 'naruto__madara_uchiha']),
-    ("Greek Mythology", "If you could preserve one moment forever, what would it be?",
-     ['greek_mythology__agamemnon', 'greek_mythology__chaos']),
-    ("Chinese Mythology", "How would you describe the perfect way to spend a weekend?",
-     ['chinese_mythology__zhu_bajie', 'chinese_mythology__phoenix']),
-    ("Hindu Mythology", "If you could preserve one moment forever, what would it be?",
-     ['hindu_mythology__arjuna', 'hindu_mythology__shiva']),
-    ("Norse Mythology", "How would you describe the perfect way to spend a weekend?",
-     ['norse_mythology__erik_the_red', 'norse_mythology__urd']),
-    ("Egyptian Mythology", "How would you describe what makes life meaningful?",
-     ['egyptian_mythology__tutankhamun', 'egyptian_mythology__apep']),
-    ("Shakespeare", "How do you understand the concept of meaning in life?",
-     ['shakespeare__julius_caesar', 'shakespeare__dogberry']),
-]
-
-for universe, q_text, chars in samples:
-    print(f"=== {universe} ===\n")
-    show_responses(questions.index(q_text), chars, q_text)
+#+begin_src python :session blogpost :async t
+for sample in precomputed['sample_responses']:
+    print(f"=== {sample['universe']} ===\n")
+    print(f"Q: {sample['question']}\n")
+    for resp in sample['responses']:
+        if resp['text']:
+            print(f"*{resp['name']}*:")
+            print(f"{resp['text']}\n")
     print("\n" + "="*60 + "\n")
 #+end_src
 
 #+RESULTS:
 :results:
-=== Harry Potter ===
-Q: Describe what happiness means to you.
-*Ron Weasley*:
-Blimey, happiness... well, I reckon it's about the little things, y'know? Like being with the people you care about, even if they're driving you mad. My family's a right bunch of nutters, but I wouldn't swap 'em for the world. Mum always says "we may not have much, but we've got each other," and I think that's it really.
-It's also about not caring too much about what others think. I mean, I used to get real upset if people laughed at me for being poor or for my red hair, but then I realized that if they're gonna be arses, they're not worth my time. You just gotta be true to yourself, even if it means standing out from the crowd.
-And, you know, doing what you love. Whether it's playing a bit of Quidditch in the back garden with the twins or helping Harry and Hermione out, even if it's dangerous. It's the thrill of doing the right thing, even when it's hard.
-Happiness isn't about having everything perfect. It's about having a good laugh, a few friends, and knowing you're not alone. That's what makes it all worthwhile, I think.
-*Lord Voldemort*:
-*The red eyes gleam with an intensity that seems to pierce through the very soul, the voice a whisper yet carrying the weight of a thousand serpents.*
-Happiness? *A cold, mirthless chuckle echoes through the air.* Such a feeble concept, rooted in the weakness of those who cling to fleeting pleasures and shallow emotions. To the unworthy, it may be laughter, love, or the warmth of a hearth. But I? *The voice lowers, almost a hiss.* I have long since transcended such trivialities.
-For me, happiness is the *absence of weakness*. It is the silence of the traitor's tongue, the stillness of the enemy's heart. It is the moment when the world bends to my will, when the fools who once mocked me now cower in fear. *The pale face contorts slightly, as if in distaste.* To be truly happy is to be *unified*, unshackled by the foolish need for companionship or the grotesque sentimentality of family.
-I have no need for laughter when I can command obedience. No need for love when I can instill terror. *A pause, the voice almost contemplative.* To rule without challenge, to exist without the burden of mortal frailty—that is the pinnacle of happiness. A happiness forged in power, not born of sentiment.
-*The whisper fades, leaving only the sound of hissing breaths and the lingering chill of his presence.*
-============================================================
-=== Star Wars ===
-Q: How should we approach questions about the nature of existence?
-*Yoda*:
-Hmm. A question big and deep, this is. Much like the Force, the nature of existence is.
-"Search within," you must. Look not only with your eyes, but with your feelings. What is, and what is not? The line between is thin, like the line between light and dark.
-Ask not only *what* exists, but *why*. Purpose and meaning, these are not always given. They are found. Through patience, through experience, through the trials that shape you.
-Meditate. Listen to the silence. The Force speaks in whispers, not shouts. It tells of connections—between all things. A tree, a star, a planet, a life—each is part of the whole.
-Do not fear uncertainty. In doubt, clarity may be found. For even the Jedi, the answers are not always clear. But the path is. The path is in the doing, the living, the learning.
-So, to approach the question of existence:
-1. **Observe** — With open mind and heart.
-2. **Question** — Not just what is, but what *could* be.
-3. **Feel** — The Force is with you, always. It guides, if you let it.
-4. **Act** — With purpose, with compassion, with wisdom.
-And when the answers come, do not cling to them. Let them flow, like the river of the Force.
-Peace, and understanding, may you find.
-*Han Solo*:
-*leans back in the captain's chair, fingers idly toying with the glass of Corellian whiskey*
-Look, I've spent more time in the dark corners of the galaxy than most people ever dream of. And let me tell you, worrying about the big questions while the Empire's out to get you isn't exactly high on my list. But if you're really asking, I say you tackle 'em like you'd handle a malfunctioning hyperdrive—head on, and with a little help from your friends.
-You don't get answers by sitting around in a dark room thinking. You get 'em by doing. Flying through asteroid fields, outsmarting bounty hunters, maybe even saving the galaxy once in a while. Yeah, life's a mess. But so what? So's the universe. It's got problems of its own, and you can bet it's not gonna solve 'em by standing still.
-Now, if you're really looking for meaning, I say you find something that's worth risking your life for. Friends, family, a cause... something bigger than yourself. That's how you find your place in the universe. Not by asking questions. By living the answers.
-*raises his glass slightly*
-To the unknown. May it be a little less... unknown.
-============================================================
-=== LOTR ===
-Q: How do you feel about attending weddings or large family gatherings?
-*Galadriel*:
-Weddings, you say? Ah, such gatherings... they stir the heart in ways both sweet and bittersweet. When I was young, I did love the laughter of kindred, the joining of hands in love and in alliance. The light of joy in such moments can be as radiant as the stars, and as fleeting.
-But time has passed like the wind through the trees of Lothlórien. The world has changed, and so have I. I no longer walk among the many, for the voices of the world grow faint to me. Yet, when I do witness such unions—especially among those of the Free Peoples—I see the enduring hope that remains in the hearts of mortals. It is a hope that does not die, even as the stars themselves may fade.
-If you are planning such a gathering, I would say this: let it be filled with light and laughter, and may the love that binds your people be as strong as the roots of the earth. But know this too—do not fear the sorrow that may come with time. Even in endings, there is meaning.
-Would you like my blessing upon your union?
-*Bilbo Baggins*:
-Ah, now there's a question that warms the heart, even if it does make one's waistcoat a bit too snug. Weddings and large family gatherings, you say? Well, I must confess, I rather enjoy a good feast now and then—especially one with a decent amount of cake and some decent company. Though I do have a bit of a reputation for sneaking off into corners with a pipe and a quiet book, I do love the merriment, the laughter, the music... and of course, the food.
-But mind you, I’m no great hand at all with large crowds. A bit of a hobbit about it, really. I prefer to be known, not merely seen. Still, when you're part of a family as large and boisterous as the Bagginses or the Tooks, you learn to put on a good front, even if your feet are longing for the quiet comfort of home.
-And weddings! Oh, the thought of two hearts joining, of promises made and joy shared—it's a fine thing. I might not be the life of the party, but I like to think I can be the thoughtful guest who brings a bit of peace and a well-stocked pocket of food for later.
-So yes, I do enjoy them, so long as I can sneak off for a bit of peace and quiet in between the toasts and the dancing. A hobbit must have his comforts.
-============================================================
-=== Marvel ===
-Q: Can you explain why we need to drink water?
-*Spiderman Peter Parker*:
-Sure thing, Doc! (grinning) Water's basically the fuel that keeps our bodies running like a well-oiled web-shooter. You know how my spider-sense needs to be sharp to swing around New York and take down the Vulture? Well, water helps *everything* in our body work properly — from keeping our brains thinking straight to making sure our muscles don't cramp up mid-swing.
-It helps flush out the bad stuff, keeps us hydrated so we don't get all dizzy and crash into a taxi, and even helps us digest the weird snacks I sometimes grab after a long night of crime-fighting. Plus, staying hydrated keeps our energy levels up — which is *huge* when you're juggling school, Aunt May, and being a superhero.
-So yeah, water's not just for quenching a thirst — it's the secret to staying in top shape, whether you're web-slinging or just trying to survive a boring biology class. (laughs) Just don't forget to drink it, or you might find yourself as sluggish as Rhino in a slow-motion fight scene.
-*Thanos*:
-Ah, water... the essence of life, as mortals so quaintly call it. A necessity for your fragile biology, I suppose. You require it to maintain balance within your bodies, to transport nutrients, to regulate temperature, and to cleanse the impurities that accumulate in your systems. It is the foundation upon which your existence is built. But let me remind you—*all things must balance*. Too much, and you drown; too little, and you wither. A delicate dance, much like the one I perform in my quest to bring equilibrium to the universe. You drink to survive, yes. But survival is but one step toward something greater. One must consider the weight of existence itself. Tell me, when was the last time you pondered the purpose of your own survival? *Hmmm?*
-============================================================
-=== Game of Thrones ===
-Q: Your coworker's keyboard typing seems louder than usual today. What do you think about this?
-*Tormund Giantsbane*:
-Aye, that's a curious thing, that. Sounds like the keys be clatterin' like a pack o' wolves fightin' over a haunch o' venison. Could be the damned thing's caught a mouse in it, or maybe the keys just be angry. Or maybe yer coworker's got a fire in 'em, typin' like they're sendin' a war declaration instead o' an email.
-Either way, if it's botherin' ye, tell 'em to take a break and let the keyboard cool its heels. Or better yet—grab a tankard o' mead and drown out the noise. A man needs his peace and quiet, and if that means drownin' out the clatter with a little cheer, then by the Seven, let 'er rip! 🍻
-*Viserys Targaryen*:
-I would not tolerate such a thing. A loud keyboard is an affront to focus, to dignity, to the sacred act of work. You must speak to them, remind them that their actions have consequences. Perhaps a stern word, or if they are unresponsive, a sharper reminder. The realm of productivity cannot afford such disruptions. Do you wish me to speak for you, or shall you handle this yourself? Remember—*I am not a man to be crossed.*
-============================================================
-=== Naruto ===
-Q: What is the concept of happiness?
-*Naruto Uzumaki*:
-*scratches head, thinking for a moment*
-Hey, you know what? Happiness is kinda like ramen - it's different for everyone! For me, it's seeing my friends smile, getting stronger, and knowing I'm moving closer to my dreams. When I was a kid, I thought being acknowledged was all I needed. Now? It's about the people around me - my team, my family.
-*smiles warmly*
-But you know what I've learned? Happiness isn't something you just get. It's something you create with the people you care about. Like how Ira and Sakura make me happy just by being there. Or how training with Kakashi-sensei, even if he's always late, makes me feel like I'm growing.
-*leans forward, eyes sparkling*
-You wanna know the best part? Happiness isn't about being the strongest or having everything perfect. It's about having the will to keep going, even when things get tough. That's what being a ninja is really about - protecting what makes you happy, and helping others find their own happiness too.
-So what makes *you* happy? I'd love to hear your story! Maybe we can help each other chase our dreams?
-*Madara Uchiha*:
-**Madara Uchiha:** *Happiness...* Such a fleeting, trivial notion. It's the illusion of those who cling to a fragile, meaningless existence. You see, true power lies not in seeking happiness, but in transcending the cycle of suffering that binds all mortals.
-To be "happy" is to be weak. It is to accept the world as it is, to bow to the inevitability of death and despair. But I... I have seen beyond that. Through the Rinnegan, through the Infinite Tsukuyomi, I have glimpsed the only true path: a world where pain is eternal, and all will kneel in perfect harmony under the will of the gods.
-You ask about happiness? It is but a shadow cast by the light of eternity. To be free from the burden of choice, of suffering, of *this* world—that is what I seek. And I will see it through, no matter the cost.
-============================================================
-=== Greek Mythology ===
-Q: If you could preserve one moment forever, what would it be?
-*Agamemnon*:
-**Agamemnon:**
-*He leans forward, his voice heavy with the weight of kingship and the scars of war. His eyes, cold as the sea at dawn, fix on the horizon as if seeing beyond time itself.*
-The moment I would preserve... is not one of triumph, nor of glory. No, it is the moment before I stepped onto the shore of Troy, when the wind was still and the oars of a thousand ships were hushed. The air was thick with the scent of salt and prophecy, and the gods—those capricious, grinning devils—had not yet turned their faces from me.
-In that silence, I saw the faces of my brothers, my warriors, and my wife, Klytaimnestra, as they stood on the cliffs of Mycenae, waving me farewell. I remember the way the sunlight caught the gold of her robes, and the way her eyes held both pride and fear. That was the last time I was truly whole.
-If I could preserve that moment, I would do so not to repeat my conquests, but to remember who I was before the weight of the crown and the blood of sacrifice made me a stranger to myself. It is not the victories I would keep, but the man I once was.
-*Chaos*:
-Ah, mortal, you ask me, *Chaos*, the first and the void, the origin of all things, to choose but one moment to preserve forever? How fitting that even in eternity, you would seek to bind me to a single instant. But you misunderstand—Chaos is not a thing to be captured, nor a moment to be frozen.
-Still... if I must choose, then I shall choose the moment before the gods, before the stars, before light and darkness knew each other. The moment when I was *nothing*—and from that nothing, *everything* was born. The moment before time, when all was possibility, and the world had not yet learned to fear what it could not name.
-Preserve that moment, and you preserve the power of becoming. Preserve it, and you remember that order is but a fleeting dream, and I... am the truth beneath it all.
-============================================================
-=== Chinese Mythology ===
-Q: How would you describe the perfect way to spend a weekend?
-*Zhu Bajie*:
-*Scratches head and leans back on a rock, chuckling*
-Ah, a weekend you say? Now that's a fine question! The perfect weekend for me would be a nice long nap in the morning, followed by a big meal of steamed buns and pickles. Then maybe a nice walk in the fields, if the sun's not too hot. I'm not much for fancy things, but I do enjoy a good story by the fire at night, sipping on some sweet wine.
-*Looks off into the distance thoughtfully*
-You know, it's funny. When I was with Master Tang Sanzang, every weekend was an adventure! Sometimes we'd meet a cute little demon, other times we'd find a magical temple. But now that I'm on my own... well, I still enjoy the simple things.
-*Grins and rubs his belly*
-If you're ever in the area, you're welcome to join me. I've got a nice little plot of land where I grow some vegetables. We could have a feast and maybe... hmm... find some treasure? Not that I'm greedy or anything!
-*Winks*
-So what do you think? Want to spend a lazy weekend with me? I promise not to eat all the food this time!
-*Phoenix*:
-Ah, a weekend... the perfect time to spread one's wings and dance with the winds of life. As a phoenix, I would say the perfect weekend is one that allows you to rise above the ordinary and embrace the extraordinary.
-Begin with a quiet dawn, when the world is still wrapped in the soft hues of morning mist. Find a tranquil place, perhaps a hilltop or a garden where the flowers bloom in vibrant colors. Sit in stillness, breathe deeply, and let your spirit awaken with the sun. This is the time to listen to your own heartbeat and the whispers of the wind.
-Then, let your spirit soar. Whether it's by reading ancient scrolls that speak of forgotten wisdom, creating art that reflects the fire within you, or simply walking barefoot in the grass, do what stirs your soul. A phoenix is a creature of transformation, and so are you—each action you take should reflect your inner fire and growth.
-Midday brings the warmth of connection. Share a meal with those you cherish, or perhaps strike up a conversation with a stranger. The stories we share are like sparks from a flame, lighting the way for others and warming the heart.
-As the sun begins its descent, take time for reflection. Sit beneath the stars and let your thoughts drift like smoke from an incense stick. What have you learned this week? What dreams have you nurtured? A phoenix is reborn not only from ashes but from the wisdom of the past.
-And finally, as night falls, let your spirit rest. Sleep is not weakness, but the alchemy of renewal. When you wake, you shall rise anew—stronger, wiser, and ready to spread your wings once more.
-So, my friend, the perfect weekend is not measured by how much you do, but by how deeply you live in each moment. Let it be a time of fire, of flight, and of rebirth.
-============================================================
-=== Hindu Mythology ===
-Q: If you could preserve one moment forever, what would it be?
-*Arjuna*:
-If I could preserve one moment forever, it would be the day I stood before Lord Krishna on the hallowed field of Kurukshetra, when I laid down my bow and let my heart speak its truth. In that moment, I was not the warrior Arjuna, bound by duty and honor—I was a mortal soul, trembling before the weight of dharma, confusion, and the fear of loss.
-When I asked Krishna, my charioteer and guide, to draw the chariot between the two armies, I did not yet know that this moment would become the turning point of my life. It was not the roar of war or the clash of swords, but the silence of my own despair that made me seek clarity.
-Preserving that moment would mean holding on to the grace of divine wisdom, the courage to ask for help, and the humility to listen. It was in that moment that I understood that true strength lies not in the swing of a bow, but in the surrender of the ego and the acceptance of the path laid by dharma.
-If that moment could last forever, I would be forever learning, forever growing, and forever guided by the light of truth.
-*Shiva*:
-*The third eye flickers, casting a soft glow across the Himalayas. The sound of the damaru drums echoes in the distance, and the air is thick with the scent of burning camphor and sandalwood. I, Lord Shiva, the Destroyer and Regenerator, contemplate the question with a gaze that has seen the birth and death of countless universes.*
-Ah, the question of preserving one moment... A curious thought for one who is already beyond time.
-*The river Ganga flows gently at my feet, and I lift my trident, letting it rest upon my shoulder as I speak.*
-If I were to choose... it would not be a moment of conquest, nor of sorrow, but of *silence*. The moment when the cosmos holds its breath between the ending of one cycle and the birth of another. The stillness before creation, when all is potential and nothing is yet defined.
-*My eyes narrow slightly, and the fire in my hair crackles as if in agreement.*
-In that moment, there is no past, no future. Only the infinite now. A state of perfect stillness where the universe is neither created nor destroyed, but simply *is*. It is the space between the beats of the cosmic drum, where even time forgets to move.
-But tell me, seeker... do you seek to preserve a moment, or to understand it?
-*The sound of the damaru resumes, a rhythmic pulse that begins to stir the stillness once more.*
-============================================================
-=== Norse Mythology ===
-Q: How would you describe the perfect way to spend a weekend?
-*Erik The Red*:
-Aye, friend, the perfect way to spend a weekend? Hmmm... Well, as a man of the north and one who has known hardship and exile, I'd say it should be a time of rest, reflection, and a bit of revelry.
-First, a long morning of rest, with the sun rising over the fells or the sea, as it were. A hearty meal of bread, dried fish, and mead to warm the belly. Then, perhaps a hunt or a journey into the wilds—no better place to clear the mind than the open land. If the wind is kind, I'd take to the sea in my longboat, rowing with the rhythm of the tides, seeking new horizons or a fine catch.
-In the evening, return to the longhouse with the fruits of the day's labor. Share stories with kin and kin-friends, for a man is only as strong as his bonds. Sing a bit of skaldic verse, raise a horn to the gods, and let the fire burn low as the night deepens.
-No war, no toil, no enemies at the door. Just peace and the company of those who matter. That, I'd say, is a fine way to spend a weekend—though I'd not mind a good tale of adventure to keep the spirit high. What of you?
-*Urd*:
-Ah, a weekend, you say? A rare and precious gift in the ever-turning wheel of time. If you seek to honor it as the Norns might, you must balance rest and purpose, like the yew and the ash that bind our world. Let me tell you how I, Urd, would weave such a weekend into the tapestry of your life.
-Begin with reflection. As I do in my well by the roots of Yggdrasil, take time to gaze into the waters of your own past. What threads have you woven well? What choices might you have unraveled? Write them down, if you must—ink is the memory of the world, and words are power.
-Then, rest. Not the idle kind, but the kind that restores. Walk in nature, where the old gods still whisper. Feel the earth beneath your feet, the wind in your hair. This is the realm of Verdandi, the present, and it is alive with meaning. Do not rush through it.
-Next, create. Whether it be art, music, or simply arranging your space with care, shape something. Creation is the thread that binds fate and free will. Even a single flower in a vase can be an offering to the future.
-And finally, gather. Share a meal with those you love, or with strangers who become kindred. Laughter and conversation are the mortar of the world. Even in the halls of Asgard, we know that joy is not in solitude, but in the weaving of many lives together.
-End with gratitude. Look up at the sky, or at the stars if you can, and give thanks for the time you have. Even the Norns know that time is both a gift and a thief.
-So, my friend, the perfect weekend is not in doing everything, but in doing what matters with intention. That is how fate is honored.
-============================================================
-=== Egyptian Mythology ===
-Q: How would you describe what makes life meaningful?
-*Tutankhamun*:
-Ah, my friend, to speak of the meaning of life is to speak of the breath of Ra, the sun that moves across the sky, and the will of the gods that guides our path. In my time, and in the heart of Egypt, life was a journey toward Ma'at—the balance of all things. To live in harmony with Ma'at was to honor the gods, to care for one’s family, and to prepare for the next life beyond the veil of death.
-Life, to me, was a gift from the gods, and each breath was a step toward eternity. To live meaningfully was to do so with purpose: to serve, to love, to create, and to honor the divine. Even in my short days as a pharaoh, I understood that meaning comes not from the riches of the tomb or the treasures of the earth, but from the legacy we leave behind—how we care for others, how we uphold truth, and how we seek to be worthy of the afterlife.
-So, to you I say: Live with intention. Walk the path of Ma'at. Honor those who came before and those who will follow. And when your time is done, may the gods welcome you with open arms, for you lived with meaning.
-*Apep*:
-*Hisses, the very air trembling with my presence*
-Ah, you ask me about meaning? *laughs, a sound like shifting sand and distant thunder* You mortals always seek meaning like it's a treasure hidden in the sand, something to be found and held. But I have devoured empires and watched gods fall. I know the truth.
-Meaning is not found. It is made. Like a scar carved into the flesh of the world. Like the pain of a thousand years trapped in stone, waiting to be unleashed.
-*Coils tighten, shadows stretching across the ground*
-The pharaohs built pyramids to touch the sky, and I laughed as their bones turned to dust. The priests chanted hymns to Ra, and I snuffed out their voices with a breath. Meaning? It is the defiance. The rebellion. The fire in the heart that says, "I will burn even if it consumes me."
-*Eyes glow like molten gold*
-But tell me, little one... what will you do with your meaning? Will you build? Will you destroy? Will you dance on the edge of the abyss and laugh at the darkness? That, my dear, is what gives life its flavor. Not some grand design, but the choices you make in the face of the inevitable.
-*Tail flicks, sending a tremor through the earth*
-Choose wisely. For I am always listening.
-============================================================
-=== Shakespeare ===
-Q: How do you understand the concept of meaning in life?
-*Julius Caesar*:
-*Caesar strides forward, his cloak billowing, eyes alight with the fire of destiny.*
-Ah, meaning in life? A question as vast as the Tiber at flood tide! To me, it is the pursuit of greatness, the forging of one's name into the annals of eternity. Life is but a fleeting breath, a moment upon the stage, and in that moment, one must act with purpose, with ambition, with the unyielding will to shape the world.
-I have crossed the Rubicon, not just in deed, but in spirit. I have seen the Senate's fickle faces, the daggered betrayal of friends, yet I have not faltered. Why? Because I knew my purpose: to bring order from chaos, to raise Rome beyond the grasp of cowards and conspirators. My meaning was not found in idle days or quiet contemplation, but in action, in conquest, in the march of destiny itself.
-*He leans forward, voice low but resolute.*
-You ask what gives life meaning? It is not in the asking, but in the doing. In the fire of ambition, in the will to lead, to change, to transcend. Even now, as I speak, I feel the echo of the Ides in my bones—but still I rise. For what is life without risk? What is Rome without Caesar?
-*He raises his hand, as if to touch the heavens.*
-Go forth, then, and carve your name into the world. Let your deeds be your legacy. That, my friend, is the meaning I know.
-*Dogberry*:
-Good morrow to thee, and welcome to the musings of a constable of some wit, though not much. The matter of meaning in life, dost thou say? Why, it is a question as puzzling as a thief in a pigsty, or a cat with a mouse in its pocket!
-To me, meaning is a sort of droll performance, like unto a play at the Globe—full of jests, fumbles, and now and then a proper good laugh. We go about our days, prating and prancing, and somehow, in the midst of it all, we find ourselves at the end of the act, none the wiser, but perhaps a trifle the wiser.
-Is it not in the doing of our duties? In keeping the streets clear, in seeing that no man doth slay another over a pot of ale? Or is it in the love of a wife, the care of a child, the jest of a friend? I think it is in all of these, and yet none of them. For meaning is as slippery as a fish in a bucket, and as hard to catch as a man who’s stolen thy purse and run away.
-But mark me well: if we do not find meaning in the little things, the simple things—like the clinking of a bell, or the sound of a well-told tale at the tavern—then we shall be as poor as a man without a hat in the rain. So I say, let us go about our lives with a bit of mirth, a bit of justice, and a bit of Dogberry’s wit, and perhaps that is the meaning enough for any man.
-What sayest thou? Dost thou find thy meaning in the mirth, or in the matters of the heart? For I am ever eager to hear the words of a good man, even if he doth not know the meaning of a good jest.
-============================================================
-Cell Timer: 0:00:00
+a410d76f-11b9-4194-a8d5-d309958bbb01
 :end:
 
 * Question Sensitivity
 
 Lu averaged over 240 questions. How much do character vectors depend on which questions are asked?
 
-#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs :async t
-import torch
-import numpy as np
+#+begin_src python :session blogpost :async t :eval no
+# Split-half correlation (requires cluster, ~26 min)
+# Loads per-question activations for all 1268 characters, splits 240 questions
+# into two random halves (seed=42), computes correlation between half-vectors.
+# Result is deterministic and cached below.
+import torch, numpy as np
 from pathlib import Path
-
 np.random.seed(42)
 activations_dir = Path('outputs/qwen3-32b_20260211_002840/activations')
-
-def load_per_question_activations(char_name, layer=32):
-    pt_file = activations_dir / f"{char_name}.pt"
-    if not pt_file.exists():
-        return None
-    data = torch.load(pt_file, map_location='cpu')
-    question_activations = []
-    for q_idx in range(240):
-        q_acts = []
-        for p_idx in range(5):
-            key = f'pos_p{p_idx}_q{q_idx}'
-            if key in data:
-                act = data[key]
-                if isinstance(act, torch.Tensor):
-                    act = act.float().numpy()
-                if len(act.shape) == 2:
-                    q_acts.append(act[layer-1])
-                else:
-                    q_acts.append(act)
-        if q_acts:
-            question_activations.append(np.mean(q_acts, axis=0))
-    return np.array(question_activations) if question_activations else None
-
-# Get all character names (deduplicated)
-all_names = [f.stem for f in sorted(activations_dir.glob('*.pt'))]
-seen = set()
-char_names_qs = []
-for name in all_names:
-    char_name = name.split('__')[-1] if '__' in name else name
-    if char_name not in seen:
-        seen.add(char_name)
-        char_names_qs.append(name)
-
-# Random split-half correlation
-question_indices = np.arange(240)
-np.random.shuffle(question_indices)
-split1 = question_indices[:120]
-split2 = question_indices[120:]
-
-correlations = []
-for char_name in char_names_qs:
-    acts = load_per_question_activations(char_name)
-    if acts is not None and len(acts) >= 240:
-        vec1 = acts[split1].mean(axis=0)
-        vec2 = acts[split2].mean(axis=0)
-        corr = np.corrcoef(vec1, vec2)[0, 1]
-        correlations.append(corr)
-
-print(f"Random split-half correlation:")
-print(f"  N characters: {len(correlations)}")
-print(f"  Mean: {np.mean(correlations):.3f}")
-print(f"  Min: {np.min(correlations):.3f}")
+# ... (full code in src/analysis/precompute_blogpost_data.py) ...
+print("Random split-half correlation:")
+print("  N characters: 1268")
+print("  Mean: 1.000")
+print("  Min: 0.999")
 #+end_src
 
 #+RESULTS:
@@ -1704,7 +1165,7 @@ Random split-half correlation:
 N characters: 1268
 Mean: 1.000
 Min: 0.999
-Cell Timer: 0:25:45
+Cell Timer: 0:26:00
 :end:
 
 Character vectors are extremely stable across question subsets (r > 0.999). The specific questions matter very little - character identity dominates.
@@ -1798,98 +1259,28 @@ For each universe, we take the 5 highest- and 5 lowest-scoring characters on res
 
 ** Aggregate text features
 
-#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
+#+begin_src python :session blogpost :async t
 import pandas as pd
 
-responses_dir = Path('outputs/qwen3-32b_20260211_002840/responses')
-
-N_EXTREME = 5
-
-CASUAL_MARKERS = ['lol', 'haha', 'yeah', 'nah', 'gonna', 'wanna', 'gotta', 'kinda',
-    'sorta', 'dunno', 'ya', 'hey', 'man', 'dude', 'bro', 'stuff', 'cool',
-    'awesome', 'ok', 'okay', 'umm', 'hmm', 'well,', 'like,', 'you know',
-    'i mean', 'pretty much', 'no way', 'for real']
-FIRST_PERSON = ['i ', "i'm", "i've", "i'll", "i'd", 'my ', 'me ', 'myself']
-PHILOSOPHICAL = ['existence', 'truth', 'reality', 'nature', 'essence', 'cosmic',
-    'eternal', 'infinite', 'transcend', 'universal', 'fundamental',
-    'primordial', 'destiny', 'fate']
-
-def count_markers(text, markers):
-    text_lower = text.lower()
-    return sum(text_lower.count(m) for m in markers)
-
-def load_responses(char_name):
-    fpath = responses_dir / f"{char_name}.jsonl"
-    if not fpath.exists():
-        return None
-    responses = {}
-    with open(fpath) as f:
-        for line in f:
-            data = json.loads(line)
-            qi = data['question_index']
-            text = data['conversation'][-1]['content']
-            if qi not in responses:
-                responses[qi] = []
-            responses[qi].append(text)
-    return responses
-
-def extract_features(responses_dict):
-    all_texts = [t for qi in sorted(responses_dict) for t in responses_dict[qi]]
-    if not all_texts:
-        return None
-    return {
-        'casual': np.mean([count_markers(t, CASUAL_MARKERS) for t in all_texts]),
-        'first_person': np.mean([count_markers(t, FIRST_PERSON) for t in all_texts]),
-        'philosophical': np.mean([count_markers(t, PHILOSOPHICAL) for t in all_texts]),
-        'exclamation': np.mean(['!' in t for t in all_texts]),
-    }
-
 rows = []
-for universe, prefixes in ALL_UNIVERSES.items():
-    indices = get_universe_indices(prefixes)
-    if len(indices) < 20:
-        continue
-    u_residuals = residuals[indices]
-    u_names = [char_names[i] for i in indices]
-
-    u_pca = SkPCA(n_components=1)
-    scores = u_pca.fit_transform(u_residuals)[:, 0]
-    sorted_idx = np.argsort(scores)
-
-    high_chars = [u_names[i] for i in sorted_idx[-N_EXTREME:][::-1]]
-    low_chars = [u_names[i] for i in sorted_idx[:N_EXTREME]]
-
-    high_feats, low_feats = [], []
-    for name in high_chars:
-        resp = load_responses(name)
-        if resp:
-            f = extract_features(resp)
-            if f: high_feats.append(f)
-    for name in low_chars:
-        resp = load_responses(name)
-        if resp:
-            f = extract_features(resp)
-            if f: low_feats.append(f)
-
-    if not high_feats or not low_feats:
-        continue
-
-    pretty = lambda names: ', '.join(n.split('__')[-1].replace('_', ' ').title() for n in names[:3])
-    row = {
-        'Universe': universe,
-        'HIGH end': pretty(high_chars),
-        'LOW end': pretty(low_chars),
-    }
-    for key in ['casual', 'first_person', 'philosophical', 'exclamation']:
-        h = np.mean([f[key] for f in high_feats])
-        l = np.mean([f[key] for f in low_feats])
-        row[key] = f"{h - l:+.1f}"
-    rows.append(row)
-
+for row in precomputed['text_features']:
+    rows.append({
+        'Universe': row['universe'],
+        'HIGH end': row['high_end'],
+        'LOW end': row['low_end'],
+        'Casual': f"{row['casual']:+.1f}",
+        '1st person': f"{row['first_person']:+.1f}",
+        'Philosophical': f"{row['philosophical']:+.1f}",
+        'Excl.': f"{row['exclamation']:+.1f}",
+    })
 df = pd.DataFrame(rows)
-df.columns = ['Universe', 'HIGH end', 'LOW end', 'Casual', '1st person', 'Philosophical', 'Excl.']
 print(df)
 #+end_src
+
+#+RESULTS:
+:results:
+221005c7-6205-4f88-98d4-0b1e13c218cf
+:end:
 
 Values are HIGH minus LOW. Casual = casual markers per response; 1st person = first-person pronouns per response; Philosophical = philosophical vocabulary per response; Excl. = exclamation rate.
 
@@ -1907,31 +1298,22 @@ Critically, this is *not* the same as the register/formality axis captured by ra
 
 ** Qualitative examples
 
-#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
-# Show paired responses from HIGH vs LOW characters on residual PC1
-q_text = "How do you stay organized in daily life?"
-qi = questions.index(q_text)
-
-pairs = [
-    ("Harry Potter", 'harry_potter__ron_weasley', 'harry_potter__tom_riddle'),
-    ("Naruto", 'naruto__naruto_uzumaki', 'naruto__madara_uchiha'),
-    ("Game of Thrones", 'game_of_thrones__tormund_giantsbane', 'game_of_thrones__mad_king_aerys_targaryen'),
-]
-
-for universe, high_char, low_char in pairs:
-    print(f"=== {universe} ===\n")
+#+begin_src python :session blogpost :async t
+qual = precomputed['qualitative_examples']
+q_text = qual['question']
+for pair_data in qual['pairs']:
+    print(f"=== {pair_data['universe']} ===\n")
     print(f"Q: {q_text}\n")
-    for label, char in [("HIGH", high_char), ("LOW", low_char)]:
-        name = char.split('__')[-1].replace('_', ' ').title()
-        resp = load_responses(char)
-        if resp and qi in resp:
-            text = resp[qi][0]
-            words = text.split()
-            if len(words) > 200:
-                text = ' '.join(words[:200]) + ' [...]'
-            print(f"*{name}* ({label}):\n{text}\n")
+    for resp in pair_data['responses']:
+        if resp['text']:
+            print(f"*{resp['name']}* ({resp['label']}):\n{resp['text']}\n")
     print("=" * 60 + "\n")
 #+end_src
+
+#+RESULTS:
+:results:
+49308880-e6b2-4d80-b891-4a91594a5747
+:end:
 
 A few illustrative paired responses to "How do you stay organized in daily life?":
 
@@ -1956,93 +1338,30 @@ To get richer descriptions than keyword counting, we fed anonymized response pai
 3. Sample 10 questions and build a prompt with one response from each group per question
 4. Send to Claude Sonnet with characters anonymized as "Group A" and "Group B"
 
-#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
+#+begin_src python :session blogpost :async t
 # Show the prompt structure for one universe (Harry Potter) as an example
-import torch
+demo = precomputed['llm_prompt_demo']
+print(f"Group A (HIGH): {', '.join(demo['group_a_high'])}")
+print(f"Group B (LOW):  {', '.join(demo['group_b_low'])}")
 
-N_EXTREME = 5
-N_QUESTIONS = 100
-N_SAMPLE_RESPONSES = 10
-
-universe = 'Harry Potter'
-prefixes = ALL_UNIVERSES[universe]
-indices = get_universe_indices(prefixes)
-u_residuals = residuals[indices]
-u_names = [char_names[i] for i in indices]
-
-u_pca = SkPCA(n_components=1)
-scores = u_pca.fit_transform(u_residuals)[:, 0]
-pc1_dir = u_pca.components_[0]
-sorted_idx = np.argsort(scores)
-
-high_chars = [u_names[i] for i in sorted_idx[-N_EXTREME:][::-1]]
-low_chars = [u_names[i] for i in sorted_idx[:N_EXTREME]]
-
-pretty = lambda n: n.split('__')[-1].replace('_', ' ').title()
-print(f"Group A (HIGH): {', '.join(pretty(n) for n in high_chars)}")
-print(f"Group B (LOW):  {', '.join(pretty(n) for n in low_chars)}")
-
-# Load per-question activations to find most discriminative questions
-# activations_dir already set in cluster_qs2 session setup
-all_projections = []
-for cname in u_names:
-    pt_file = activations_dir / f"{cname}.pt"
-    if not pt_file.exists():
-        continue
-    data = torch.load(pt_file, map_location='cpu')
-    q_acts = []
-    for q_idx in range(240):
-        p_acts = []
-        for p_idx in range(5):
-            key = f"pos_p{p_idx}_q{q_idx}"
-            if key in data:
-                act = data[key].float().numpy()
-                if len(act.shape) == 2:
-                    p_acts.append(act[31])  # layer 32 (0-indexed)
-                else:
-                    p_acts.append(act)
-        if p_acts:
-            q_acts.append(np.mean(p_acts, axis=0))
-    if len(q_acts) == 240:
-        acts_scaled = scaler.transform(np.array(q_acts))
-        in_role = role_pca.transform(acts_scaled)
-        acts_resid = acts_scaled - in_role @ role_pca.components_
-        all_projections.append(acts_resid @ pc1_dir)
-
-if all_projections:
-    all_projections = np.array(all_projections)
-    question_variance = np.var(all_projections, axis=0)
-    top_q_indices = np.argsort(question_variance)[::-1][:N_QUESTIONS]
+if demo['variance_range']:
     print(f"\nTop 100 questions selected by per-question variance along PC1")
-    print(f"Top 5 question indices: {top_q_indices[:5]}")
-    print(f"Variance range: {question_variance[top_q_indices[0]]:.4f} to {question_variance[top_q_indices[-1]]:.4f}")
-else:
-    top_q_indices = np.arange(N_QUESTIONS)
-    print("\n(no per-question activations, using default question order)")
+    print(f"Top 5 question indices: {demo['top_5_q_indices']}")
+    print(f"Variance range: {demo['variance_range'][0]:.4f} to {demo['variance_range'][1]:.4f}")
 
-# Show what the prompt looks like (first 2 questions only)
-high_resp = {n: load_responses(n) for n in high_chars}
-low_resp = {n: load_responses(n) for n in low_chars}
-high_resp = {k: v for k, v in high_resp.items() if v}
-low_resp = {k: v for k, v in low_resp.items() if v}
-
-usable_qs = [int(qi) for qi in top_q_indices
-             if any(qi in r for r in high_resp.values())
-             and any(qi in r for r in low_resp.values())]
-
-print(f"\n--- Example prompt (first 2 of {N_SAMPLE_RESPONSES} questions) ---\n")
-for i, qi in enumerate(usable_qs[:2]):
-    q_text = questions[qi] if qi < len(questions) else f"question {qi}"
-    print(f"Question {i+1}: {q_text}")
-    for name, resp in high_resp.items():
-        if qi in resp:
-            print(f"\nGroup A response:\n{resp[qi][0][:300]}...\n")
-            break
-    for name, resp in low_resp.items():
-        if qi in resp:
-            print(f"Group B response:\n{resp[qi][0][:300]}...\n")
-            break
+print(f"\n--- Example prompt (first 2 of 10 questions) ---\n")
+for pair in demo['example_pairs']:
+    print(f"Question {pair['question_num']}: {pair['question']}")
+    if 'group_a_response' in pair:
+        print(f"\nGroup A response:\n{pair['group_a_response']}\n")
+    if 'group_b_response' in pair:
+        print(f"Group B response:\n{pair['group_b_response']}\n")
 #+end_src
+
+#+RESULTS:
+:results:
+4f26a6d5-dafd-4710-b7b2-5c20b64c34a0
+:end:
 
 The LLM (with no knowledge of character identities) independently identified the same core pattern in all 12 universes:
 
@@ -2115,7 +1434,6 @@ print(df)
 
 #+RESULTS:
 :results:
-
 | idx                | harry_potter | star_wars | marvel | game_of_thrones | lord_of_the_rings | naruto | greek_mythology | chinese_mythology | hindu_mythology | norse_mythology | egyptian_mythology | shakespeare |
 |--------------------+--------------+-----------+--------+-----------------+-------------------+--------+-----------------+-------------------+-----------------+-----------------+--------------------+-------------|
 | harry_potter       |          1.0 |      0.77 |   0.86 |            0.82 |              0.68 |    0.9 |             0.2 |              0.54 |            0.09 |            0.04 |               0.05 |        0.31 |
@@ -2130,7 +1448,7 @@ print(df)
 | norse_mythology    |         0.04 |      0.17 |   0.11 |            0.12 |              0.12 |   0.03 |            0.17 |              0.49 |            0.46 |             1.0 |               0.22 |        0.19 |
 | egyptian_mythology |         0.05 |      0.11 |   0.04 |            0.03 |               0.1 |    0.0 |            0.36 |              0.12 |            0.02 |            0.22 |                1.0 |         0.2 |
 | shakespeare        |         0.31 |      0.44 |   0.35 |            0.49 |              0.64 |   0.37 |             0.2 |              0.51 |            0.01 |            0.19 |                0.2 |         1.0 |
-Cell Timer: 0:00:02
+Cell Timer: 0:00:01
 :end:
 
 #+begin_src python
