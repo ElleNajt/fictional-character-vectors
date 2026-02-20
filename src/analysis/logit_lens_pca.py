@@ -84,6 +84,8 @@ activation_matrix = char_data["activation_matrix"]
 with open("data/role_vectors/qwen-3-32b_pca_layer32.pkl", "rb") as f:
     lu_data = pickle.load(f)
 role_pca = lu_data["pca"]
+lu_scaler = lu_data["scaler"]
+lu_role_names = lu_data["role_names"]
 
 scaler = StandardScaler()
 chars_scaled = scaler.fit_transform(activation_matrix)
@@ -166,6 +168,37 @@ def compute_universe_pcs(data_matrix, label):
 residual_pcs = compute_universe_pcs(residuals, "Residual")
 raw_pcs = compute_universe_pcs(chars_scaled, "Raw")
 
+# --- Lu's role PCA directions ---
+# These are the generic "role" axes from Lu et al., fit on 275 role vectors.
+# Components live in Lu's scaled space, so we unscale with lu_scaler.
+print("\nBuilding Lu role PCA directions...")
+N_LU_PCS = 10
+
+# Project our characters into Lu's space to find who's extreme on each Lu PC.
+chars_lu_scaled = lu_scaler.transform(activation_matrix)
+chars_in_lu_pcs = role_pca.transform(chars_lu_scaled)  # (n_chars, 275)
+
+lu_pcs = {}
+for pc_idx in range(N_LU_PCS):
+    scores = chars_in_lu_pcs[:, pc_idx]
+    sorted_idx = np.argsort(scores)
+    high_chars = [
+        char_names[i].split("__")[-1].replace("_", " ").title()
+        for i in sorted_idx[-5:][::-1]
+    ]
+    low_chars = [
+        char_names[i].split("__")[-1].replace("_", " ").title() for i in sorted_idx[:5]
+    ]
+    lu_pcs[f"Lu Role PC{pc_idx + 1}"] = {
+        "direction": role_pca.components_[pc_idx],
+        "var_explained": role_pca.explained_variance_ratio_[pc_idx],
+        "high_chars": high_chars,
+        "low_chars": low_chars,
+    }
+    print(
+        f"  Lu Role PC{pc_idx + 1}: explains {role_pca.explained_variance_ratio_[pc_idx]:.1%}"
+    )
+
 # --- Load model LM head ---
 # The LM head maps (5120,) -> (vocab_size,) via W @ x
 # We need the weight matrix W: (vocab_size, 5120)
@@ -217,8 +250,14 @@ n_kept = meaningful_mask.sum()
 print(f"Keeping {n_kept}/{vocab_size} tokens ({n_kept / vocab_size:.1%})")
 
 
-def run_logit_lens(universe_pcs, mode_label, output_path):
-    """Project LM head onto PC directions and write results."""
+def run_logit_lens(universe_pcs, mode_label, output_path, scale=None):
+    """Project LM head onto PC directions and write results.
+
+    scale: per-feature std to unscale directions. Defaults to scaler.scale_.
+    """
+    if scale is None:
+        scale = scaler.scale_
+
     print(f"\n{'#' * 70}")
     print(f"# {mode_label}")
     print(f"{'#' * 70}")
@@ -230,7 +269,7 @@ def run_logit_lens(universe_pcs, mode_label, output_path):
         d_scaled = data["direction"]  # (5120,) in scaled space
 
         # Unscale: direction in original activation space
-        d_orig = d_scaled * scaler.scale_
+        d_orig = d_scaled * scale
         d_orig_norm = d_orig / np.linalg.norm(d_orig)
 
         # Project each vocab token's LM head row onto the direction
@@ -274,4 +313,10 @@ run_logit_lens(
 )
 run_logit_lens(
     raw_pcs, "RAW PCA (no role-space removal)", "results/logit_lens_pca_raw.txt"
+)
+run_logit_lens(
+    lu_pcs,
+    "LU ROLE PCA (275 generic roles)",
+    "results/logit_lens_pca_lu.txt",
+    scale=lu_scaler.scale_,
 )
