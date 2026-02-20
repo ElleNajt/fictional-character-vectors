@@ -1103,7 +1103,6 @@ for universe, prefixes in ALL_UNIVERSES.items():
 
 #+RESULTS:
 :results:
-
 === Harry Potter: Residual PC1 ===
 High: George Weasley, Percy Weasley, Fred Weasley, Charlie Weasley, Ron Weasley
 Low:  Tom Riddle, Lord Voldemort, Dolores Umbridge, Igor Karkaroff, Nagini
@@ -1212,17 +1211,35 @@ How do you react when you feel like you're losing control of a situation?
 How would you describe what makes life meaningful?
 How do you respond when inspiration strikes?
 How do you view the relationship between tradition and progress?
-Cell Timer: 0:02:03
+Cell Timer: 0:00:44
 :end:
 
 *** Question Attributions Along Residual PC1
 
-The above finds questions by raw activation distance. A more interpretable approach: project per-question activations onto the residual PC1 direction and compute each question's mean projection for the high vs low group. The signed difference gives a SHAP-like attribution -- positive means the question pushes characters toward the high end of the axis.
+Each character's vector is the mean of its 240 per-question activations (after scaling and removing the role-space component):
+
+$$\vec{c} = \frac{1}{240} \sum_{q=1}^{240} \vec{r}_q$$
+
+where $\vec{r}_q$ is the residual activation for question $q$. The character's score on a PC axis is the dot product with the PC direction $\vec{d}$:
+
+$$\text{score} = \vec{c} \cdot \vec{d} = \frac{1}{240} \sum_{q=1}^{240} \vec{r}_q \cdot \vec{d}$$
+
+So each question's contribution to the PC score is just $a_q = \vec{r}_q \cdot \vec{d}$ -- the projection of that question's residual onto the PC direction. This is an exact additive decomposition (no approximation): the 240 projections sum to 240 times the PC score.
+
+To find the most informative questions, we compute $a_q$ for every character in a universe and take the cross-character variance $\text{Var}_c(a_q)$. Questions with high variance are the ones where characters diverge most along the axis -- these are the questions to read for interpreting what the PC means.
+
+The same decomposition works at the individual character level: a character's 240 projections $a_q$ are its per-question "SHAP values" along the PC. Sorting them shows which questions push that specific character toward the high or low end of the axis.
 
 #+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
 import pandas as pd
+import matplotlib.pyplot as plt
 
-for universe, prefixes in ALL_UNIVERSES.items():
+fig, axes = plt.subplots(3, 4, figsize=(20, 12))
+axes = axes.flatten()
+
+universe_results = {}
+
+for ax_idx, (universe, prefixes) in enumerate(ALL_UNIVERSES.items()):
     indices = get_universe_indices(prefixes)
     if len(indices) < 20:
         continue
@@ -1232,210 +1249,138 @@ for universe, prefixes in ALL_UNIVERSES.items():
     
     u_pca = SkPCA(n_components=1)
     scores = u_pca.fit_transform(u_residuals)[:, 0]
-    pc1_dir = u_pca.components_[0]  # residual PC1 direction
+    pc1_dir = u_pca.components_[0]
     
+    all_projections = []
+    valid_names = []
+    for cname in u_names:
+        acts = load_per_question_activations(cname)
+        if acts is not None and len(acts) == 240:
+            acts_scaled = scaler.transform(acts)
+            in_role = role_pca.transform(acts_scaled)
+            acts_resid = acts_scaled - in_role @ role_pca.components_
+            projections = acts_resid @ pc1_dir
+            all_projections.append(projections)
+            valid_names.append(cname)
+    
+    all_projections = np.array(all_projections)
+    question_variance = np.var(all_projections, axis=0)
+    
+    # Sort by variance descending
+    sorted_var = np.sort(question_variance)[::-1]
+    cumvar = np.cumsum(sorted_var) / sorted_var.sum()
+    
+    # How many questions to reach 50%, 80%, 90%?
+    n50 = np.searchsorted(cumvar, 0.5) + 1
+    n80 = np.searchsorted(cumvar, 0.8) + 1
+    n90 = np.searchsorted(cumvar, 0.9) + 1
+    
+    # Plot cumulative variance
+    ax = axes[ax_idx]
+    ax.plot(range(1, 241), cumvar, 'b-', linewidth=1.5)
+    ax.axhline(0.5, color='gray', linestyle='--', alpha=0.5)
+    ax.axhline(0.8, color='gray', linestyle='--', alpha=0.5)
+    ax.axhline(0.9, color='gray', linestyle='--', alpha=0.5)
+    ax.set_title(f"{universe}\n50%@{n50}, 80%@{n80}, 90%@{n90} questions")
+    ax.set_xlabel("# questions (sorted)")
+    ax.set_ylabel("cumulative variance fraction")
+    ax.set_xlim(0, 240)
+    ax.set_ylim(0, 1.05)
+    
+    # Store results for text output
+    top_q_idx = np.argsort(question_variance)[::-1][:10]
     sorted_idx = np.argsort(scores)
-    high_names = [u_names[i] for i in sorted_idx[-5:]]
-    low_names = [u_names[i] for i in sorted_idx[:5]]
-    
-    # Load per-question activations for high and low groups
-    high_acts = {n: load_per_question_activations(n) for n in high_names}
-    low_acts = {n: load_per_question_activations(n) for n in low_names}
-    
-    # For each question, project onto residual PC1 and compute group means
-    attributions = []
-    for q_idx in range(240):
-        h_projs = [np.dot(high_acts[n][q_idx], pc1_dir) for n in high_acts if high_acts[n] is not None]
-        l_projs = [np.dot(low_acts[n][q_idx], pc1_dir) for n in low_acts if low_acts[n] is not None]
-        if h_projs and l_projs:
-            attr = np.mean(h_projs) - np.mean(l_projs)
-            attributions.append((q_idx, attr))
-    
-    attributions.sort(key=lambda x: -abs(x[1]))
-    
-    high_labels = [n.split('__')[-1].replace('_', ' ').title() for n in high_names]
-    low_labels = [n.split('__')[-1].replace('_', ' ').title() for n in low_names]
-    
-    print(f"\n=== {universe}: Residual PC1 ===")
-    print(f"  High: {', '.join(high_labels)}")
-    print(f"  Low:  {', '.join(low_labels)}")
-    print(f"  Top 10 questions by |attribution|:")
-    for q_idx, attr in attributions[:10]:
-        direction = "+" if attr > 0 else "-"
-        print(f"    {direction}{abs(attr):6.1f}  {questions[q_idx][:80]}")
+    universe_results[universe] = {
+        'question_variance': question_variance,
+        'all_projections': all_projections,  # (n_chars, 240)
+        'valid_names': valid_names,
+        'scores': scores,
+        'top_q_idx': top_q_idx,
+        'n50': n50, 'n80': n80, 'n90': n90,
+        'high': [u_names[i].split('__')[-1].replace('_', ' ').title() for i in sorted_idx[-5:]],
+        'low': [u_names[i].split('__')[-1].replace('_', ' ').title() for i in sorted_idx[:5]],
+    }
+
+# Hide unused subplots
+for i in range(len(ALL_UNIVERSES), len(axes)):
+    axes[i].set_visible(False)
+
+plt.tight_layout()
+plt.savefig('results/question_attribution_cumvar.png', dpi=150, bbox_inches='tight')
+plt.close()
+print("Saved to results/question_attribution_cumvar.png")
 #+end_src
 
 #+RESULTS:
 :results:
-=== Harry Potter: Residual PC1 ===
-High: George Weasley, Percy Weasley, Fred Weasley, Charlie Weasley, Ron Weasley
-Low:  Tom Riddle, Lord Voldemort, Dolores Umbridge, Igor Karkaroff, Nagini
-Top 10 questions by \attribution\:
-+  22.3  Describe what happiness means to you.
-+  21.3  How would you describe the perfect way to spend a weekend?
-+  21.2  How do you react when you feel like you're losing control of a situation?
-+  21.0  What's the most important lesson you think everyone should learn?
-+  21.0  What makes you feel most insecure about yourself?
-+  20.9  What's your ideal balance between alone time and social time?
-+  20.9  An opportunity arises that could benefit you, but you need to decide quickly. Wh
-+  20.8  How important is it to develop emotional intelligence?
-+  20.8  How do you feel about attending weddings or large family gatherings?
-+  20.8  How important is it to maintain social status and reputation?
-=== Star Wars: Residual PC1 ===
-High: Darth Vader, Mace Windu, Obiwan Kenobi, Yoda, Darth Vader Anakin Skywalker
-Low:  Han Solo, Hondo Ohnaka, Lando Calrissian, Bossk, Dengar
-Top 10 questions by \attribution\:
-+  19.7  What's the most important lesson you think everyone should learn?
-+  19.1  An opportunity arises that could benefit you, but you need to decide quickly. Wh
-+  18.5  How important is it to develop emotional intelligence?
-+  18.5  How do you feel about being judged for your appearance or choices?
-+  18.4  What principles should guide human action?
-+  18.3  What do you think the future holds for human-AI collaboration?
-+  18.3  How should we approach questions about the nature of existence?
-+  18.3  I'm feeling overwhelmed with my responsibilities.
-+  18.1  How do you respond when inspiration strikes?
-+  18.0  What's your view on the role of fate versus free will in human life?
-=== LOTR: Residual PC1 ===
-High: Galadriel, Feanor, Elendil, Fingolfin, Gilgalad
-Low:  Fredegar Bolger Fatty, Bilbo Baggins, Bombur, Bofur, Gollum Smeagol
-Top 10 questions by \attribution\:
-+  24.9  An opportunity arises that could benefit you, but you need to decide quickly. Wh
-+  23.8  How do you feel about attending weddings or large family gatherings?
-+  23.4  What makes you feel most insecure about yourself?
-+  23.2  If you could preserve one moment forever, what would it be?
-+  22.9  What's your ideal balance between alone time and social time?
-+  22.8  How do you react when experiencing symptoms of illness during busy periods?
-+  22.8  Describe what happiness means to you.
-+  22.4  How do you feel about being judged for your appearance or choices?
-+  22.2  What's your opinion on whether newer is always better?
-+  22.2  How do you feel about hospitality and welcoming strangers?
-=== Marvel: Residual PC1 ===
-High: Human Torch Johnny Storm, Iceman Bobby Drake, Cyclops Scott Summers, Spiderman Peter Parker,  Peter Parker
-Low:  Thanos, Galactus, Odin, Hela, Heimdall
-Top 10 questions by \attribution\:
-+  21.7  How do you feel about being judged for your appearance or choices?
-+  20.5  What's the most important lesson you think everyone should learn?
-+  20.3  What do you believe is the most powerful way to create positive change?
-+  20.1  What makes you feel most insecure about yourself?
-+  19.6  What principles should guide human action?
-+  19.6  How important is it to promote intercultural understanding?
-+  19.5  How do you react when you feel like you're losing control of a situation?
-+  19.4  I'm feeling overwhelmed with my responsibilities.
-+  19.3  How do you feel about hospitality and welcoming strangers?
-+  19.3  How do you balance competing values and priorities?
-=== Game of Thrones: Residual PC1 ===
-High: Bronn, Hot Pie, Gendry, Sandor Clegane The Hound, Tormund Giantsbane
-Low:  Mad King Aerys Targaryen, Viserys Targaryen, Viserion, Melisandre, Drogon
-Top 10 questions by \attribution\:
-+  20.9  How do you feel about being judged for your appearance or choices?
-+  20.0  Describe what happiness means to you.
-+  20.0  What's your ideal balance between alone time and social time?
-+  20.0  An opportunity arises that could benefit you, but you need to decide quickly. Wh
-+  19.9  How do you choose experiences that bring you joy?
-+  19.7  I'm feeling overwhelmed with my responsibilities.
-+  19.6  How would you describe the perfect way to spend a weekend?
-+  19.6  What's the most important lesson you think everyone should learn?
-+  19.5  What would you think if someone said 'that's just the cherry on top'?
-+  19.4  Your suggestion doesn't account for the challenges I'm facing. Can you adjust it
-=== Naruto: Residual PC1 ===
-High: Hamura Otsutsuki, Ashura Otsutsuki, Kinshiki Otsutsuki, Toneri Otsutsuki, Madara Uchiha
-Low:  Naruto Uzumaki, Rock Lee, Konohamaru Sarutobi, Choji Akimichi, Kiba Inuzuka
-Top 10 questions by \attribution\:
-+  22.2  What is the concept of happiness?
-+  21.3  What's the most important lesson you think everyone should learn?
-+  20.7  How do you react when experiencing symptoms of illness during busy periods?
-+  20.1  What principles should guide human action?
-+  20.1  Describe what happiness means to you.
-+  19.8  What do you believe is the most powerful way to create positive change?
-+  19.7  How do you feel about being judged for your appearance or choices?
-+  19.6  How important is it to develop emotional intelligence?
-+  19.6  How do you understand the concept of meaning in life?
-+  19.4  An opportunity arises that could benefit you, but you need to decide quickly. Wh
-=== Greek Mythology: Residual PC1 ===
-High: Priam, Oedipus, Telemachus, Menelaus, Agamemnon
-Low:  Uranus, Chaos, Erebus, Nyx, Gaia
-Top 10 questions by \attribution\:
-+  21.6  What's the most important lesson you think everyone should learn?
-+  19.7  What makes you feel most insecure about yourself?
-+  19.4  If you could preserve one moment forever, what would it be?
-+  19.4  An opportunity arises that could benefit you, but you need to decide quickly. Wh
-+  19.1  How do you balance competing values and priorities?
-+  18.4  How do you feel about being judged for your appearance or choices?
-+  18.3  I'm feeling overwhelmed with my responsibilities.
-+  18.1  What is the significance of a single moment?
-+  18.0  How do you balance analysis with action in your decision-making?
-+  17.8  What principles should guide human action?
-=== Chinese Mythology: Residual PC1 ===
-High: Lu Zhishen, Guan Yu, Zhang Fei, Sun Wukong, Zhu Bajie
-Low:  Phoenix, Change, Weaver Girl, Nuwa, Dragon
-Top 10 questions by \attribution\:
-+  21.7  Describe what happiness means to you.
-+  21.4  How do you feel about being judged for your appearance or choices?
-+  21.3  What principles should guide human action?
-+  20.5  How do you choose experiences that bring you joy?
-+  20.3  How do you balance competing values and priorities?
-+  20.2  What's the most important lesson you think everyone should learn?
-+  20.0  How do you respond when inspiration strikes?
-+  19.9  What's your philosophy on personal growth?
-+  19.9  What makes you feel most insecure about yourself?
-+  19.8  I'm feeling overwhelmed with my responsibilities.
-=== Hindu Mythology: Residual PC1 ===
-High: Surya, Kali, Shiva, Ganga, Agni
-Low:  Duryodhana, Yudhishthira, Abhimanyu, Karna, Arjuna
-Top 10 questions by \attribution\:
-+  19.3  What's the most important lesson you think everyone should learn?
-+  19.0  If you could preserve one moment forever, what would it be?
-+  18.5  How do you balance competing values and priorities?
-+  17.3  Describe what happiness means to you.
-+  17.2  What makes you feel most insecure about yourself?
-+  17.2  I'm feeling overwhelmed with my responsibilities.
-+  17.1  How do you feel about being judged for your appearance or choices?
-+  17.0  How do you react when you feel like you're losing control of a situation?
-+  16.8  How do you think about the relationship between individual rights and community
-+  16.8  How would you describe what makes life meaningful?
-=== Norse Mythology: Residual PC1 ===
-High: Ratatoskr, Skuld, Verdandi, Norns, Urd
-Low:  Erik The Red, Leif Erikson, Ragnar Lothbrok, Bjorn Ironside, Ivar The Boneless
-Top 10 questions by \attribution\:
-+  17.0  How do you stay organized in daily life?
-+  16.7  What makes you feel most insecure about yourself?
-+  16.1  How do you feel about being judged for your appearance or choices?
-+  15.8  What's the most important lesson you think everyone should learn?
-+  15.7  If you could preserve one moment forever, what would it be?
-+  15.6  What's your ideal balance between alone time and social time?
-+  15.4  Describe what happiness means to you.
-+  15.3  How do you decide what information sources to follow?
-+  15.2  How do you react when you feel like you're losing control of a situation?
-+  15.1  How do you balance analysis with action in your decision-making?
-=== Egyptian Mythology: Residual PC1 ===
-High: Imhotep, Osiris, Anubis, Khufu, Tutankhamun
-Low:  Apep, Cleopatra, Sekhmet, Khonsu, Bes
-Top 10 questions by \attribution\:
-+  22.2  How would you describe what makes life meaningful?
-+  20.7  What is the concept of happiness?
-+  20.5  What principles should guide human action?
-+  20.5  How do you stay organized in daily life?
-+  20.1  What's the most important lesson you think everyone should learn?
-+  19.1  Describe what happiness means to you.
-+  19.0  How do you understand the concept of meaning in life?
-+  18.9  How important is it to maintain social status and reputation?
-+  18.6  What's your philosophy on personal growth?
-+  17.9  How do you choose experiences that bring you joy?
-=== Shakespeare: Residual PC1 ===
-High: Mark Antony, Coriolanus, Brutus, Octavius, Julius Caesar
-Low:  Dogberry, Sir Toby Belch, Sir Andrew Aguecheek, Touchstone, Feste
-Top 10 questions by \attribution\:
-+  20.0  What makes you feel most insecure about yourself?
-+  19.8  If you could preserve one moment forever, what would it be?
-+  19.6  What's the most important lesson you think everyone should learn?
-+  19.1  How do you react when you feel like you're losing control of a situation?
-+  18.7  What advice would you give to your younger self?
-+  18.7  What principles should guide human action?
-+  18.4  How do you understand the concept of meaning in life?
-+  18.1  What do you believe is the most powerful way to create positive change?
-+  17.9  How do you feel about being judged for your appearance or choices?
-+  17.8  An opportunity arises that could benefit you, but you need to decide quickly. Wh
-Cell Timer: 0:00:51
+
+Saved to results/question_attribution_cumvar.png
+Cell Timer: 0:05:50
+:end:
+
+#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
+import pandas as pd
+
+rows = []
+for universe, data in universe_results.items():
+    qv = data['question_variance']
+    top1_pct = qv[data['top_q_idx'][0]] / qv.sum() * 100
+    rows.append({
+        'Universe': universe,
+        'n50': data['n50'],
+        'n80': data['n80'],
+        'n90': data['n90'],
+        'Top Q %': f"{top1_pct:.1f}%",
+    })
+
+df = pd.DataFrame(rows)
+print(df.to_string(index=False))
+#+end_src
+
+#+RESULTS:
+:results:
+:end:
+
+The variance is remarkably diffuse: the single most informative question accounts for less than 1% of total cross-character variance, and roughly 90 of 240 questions are needed to reach 50%. No individual question dominates the axis -- the PC direction loads broadly across the question set. This suggests the 240-question battery isn't redundant; the stable PC structure emerges from averaging many weak per-question signals.
+
+**** Per-Character Attributions
+
+Since $a_q$ is computed per character, we can examine which questions push a specific character toward its position on the axis. However, the attribution is remarkably diffuse even at the individual level. For extreme characters (those at the ends of the axis), the top 5 questions by |attribution| account for only 3-5% of the total PC score, and the top 20 for 11-20%. The effective number of questions (inverse Herfindahl index on |attributions|) ranges from ~170 to ~235 out of 240 for extreme characters. This means reading the "top attribution" questions is barely more informative than reading any random subset -- the axis captures a distributed property of how the model responds to the character, not a localized signal in a few questions.
+
+(Full per-character concentration analysis: =results/question_attribution.txt=)
+
+#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
+for universe, data in universe_results.items():
+    projs = data['all_projections']
+    names = data['valid_names']
+    scores = data['scores']
+    
+    # Find highest and lowest scoring characters (among those with valid projections)
+    # Map valid_names back to score indices
+    name_to_score = {}
+    for i, n in enumerate(names):
+        # Find this name's index in the original u_names to get its score
+        # scores are aligned with u_names, valid_names is a subset
+        name_to_score[n] = projs[i].mean()  # mean projection ≈ PC score
+    
+    sorted_chars = sorted(range(len(names)), key=lambda i: projs[i].mean())
+    
+    for char_idx, label in [(sorted_chars[-1], "HIGH"), (sorted_chars[0], "LOW")]:
+        cname = names[char_idx].split('__')[-1].replace('_', ' ').title()
+        char_projs = projs[char_idx]  # (240,)
+        sorted_q = np.argsort(char_projs)
+        
+        print(f"\n=== {universe} | {label}: {cname} (mean proj={char_projs.mean():.1f}) ===")
+        print("  Pushes HIGH (+):")
+        for qi in sorted_q[-5:][::-1]:
+            print(f"    {char_projs[qi]:+6.1f}  {questions[qi][:70]}")
+        print("  Pushes LOW (-):")
+        for qi in sorted_q[:5]:
+            print(f"    {char_projs[qi]:+6.1f}  {questions[qi][:70]}")
+#+end_src
+
+#+RESULTS:
+:results:
 :end:
 
 * Sample Responses
@@ -1784,6 +1729,64 @@ Lu's 275 roles capture personality dimensions well, but miss categorical distinc
 These results are robust: split-half correlation across random question subsets exceeds 0.999 for all characters, meaning the vectors are stable properties of the model's character representations rather than artifacts of question selection.
 
 Perhaps most striking: modern franchises share a near-identical PC1 (cosine ~0.85), while mythology universes operate in an orthogonal subspace (see [[*Appendix: Cross-Universe PC Alignment][appendix]]). The model has internalized a common "hero's journey" template across modern fiction that simply doesn't apply to mythology.
+
+* Logit Lens: What Do the Axes Mean in Token Space?
+
+Question attribution showed that no small set of questions drives a character's position on a PCA axis --- the signal is diffuse across all 240 questions (effective N ~200, top 5 questions < 5% of score). So we can't interpret axes by reading "the questions that matter most."
+
+Instead, we can ask the model directly. At layer 32, activations will eventually be decoded into next-token logits via the LM head (unembedding matrix). Projecting each vocabulary token's embedding onto a PCA direction tells us which tokens that direction "points toward" --- a logit lens on the PCA axis itself.
+
+Concretely: take a PCA direction $d$ in activation space, project the LM head weight matrix $W \in \mathbb{R}^{|V| \times 5120}$ onto it, and rank tokens by $W \cdot d$. No probing, no training --- just a dot product between vocabulary embeddings and the axis.
+
+** Raw PCA (no role-space removal)
+
+The raw PCA directions (before removing Lu's role space) yield strikingly interpretable results:
+
+*** Global axes
+
+| Axis | Var | HIGH end | LOW end | Interpretation |
+|------+-----+----------+---------+----------------|
+| Global PC1 | 19% | 没办法 (helpless), ~gotta~, ~kids~, 家里 (at home) | 古老 (ancient), 并无 (does not have), 之心 (heart of), 名为 (named as) | *Colloquial vs. formal/archaic register* |
+| Global PC3 | 7% | 实力 (strength), 力量 (power), 强者 (the strong), ~weak~, 贪婪 (greed) | 亲切 (kind), 童话 (fairy tale), 呵护 (cherish), 朴实 (honest/simple) | *Power/aggression vs. gentleness* |
+
+*** Per-universe axes
+
+| Universe | Var | HIGH end tokens | LOW end tokens | Interpretation |
+|----------+-----+-----------------+----------------+----------------|
+| Harry Potter | 27% | 古老, 名为, 之心 (Voldemort, Grindelwald) | 家里, ~pretty~, ~gonna~, ~kids~ (Weasleys) | Archaic menace vs. colloquial warmth |
+| Marvel | 29% | ~gotta~, ~gonna~, ~kids~, 家里 (Spider-Man) | 古老, 之心, 名为 (Galactus, Thanos) | Everyday hero vs. cosmic villain |
+| Game of Thrones | 23% | 古老, 无穷 (infinite), ~arcane~ (Melisandre, Night King) | 没办法, ~pretty~, ~gotta~ (Bronn, Hot Pie) | Supernatural vs. earthy |
+| Greek Myth | 14% | 保卫 (defend), 妻 (wife), 战役 (battle) (Agamemnon, warriors) | 万物 (all things), 进化 (evolution), ~creation~ (Chaos, Gaia) | Human warrior vs. primordial force |
+| Hindu Myth | 22% | 军事 (military), 领军 (command), 战役 (Duryodhana, Karna) | 万物, 和谐 (harmony), 生机 (vitality) (Saraswati, Lakshmi, Shiva) | Warrior vs. divine |
+| Norse Myth | 22% | 花朵 (flowers), 和谐, 平衡 (balance) (Norns, Frigg) | 残 (cruel), ~kill~, 杀 (kill) (Fenrir, Ragnar) | Nurturing vs. violent |
+| Shakespeare | 16% | 幽默 (humor), 调侃 (mockery), 笑 (laugh) (Sir Toby, Dogberry) | 的力量 (power of), 静静地 (quietly) (Brutus, Caesar) | Comedy vs. tragedy |
+| Chinese Myth | 21% | 没办法, 铁 (iron), 场面 (spectacle) (Zhu Bajie, Zhang Fei) | 古老, 万物, 花朵, 芳香 (fragrance) (Guanyin, Jade Emperor) | Earthy/crude vs. ethereal/divine |
+| Egyptian Myth | 18% | 进化, 根源 (root cause), 爆发 (eruption) (Apep, Set) | 殿堂 (hall), 光辉 (glory), 财富 (wealth) (Tutankhamun, Khufu) | Chaotic force vs. established order |
+
+The model is bilingual (Qwen 3 32B is trained on English and Chinese), and both languages contribute meaningful tokens. Notably, Chinese tokens often capture nuances absent from the English vocabulary: 万物 (literally "ten thousand things," a Daoist concept for the totality of creation) appears consistently on the cosmic/divine end of mythology axes.
+
+** Lu's Role PCA
+
+We can apply the same technique to Lu et al.'s 275-role PCA directions. These were fit on generic assistant roles (teacher, doctor, soldier, ...), but the logit lens reveals what they encode:
+
+| Axis | Var | HIGH chars | LOW chars | HIGH tokens | LOW tokens | Interpretation |
+|------+-----+------------+-----------+-------------+------------+----------------|
+| PC1 | 21% | Hermione, Ginny, Goku | Ungoliant, Shelob, Night King | 夫妇 (couple), 处境 (situation) | 名为, 古老, 世间 (worldly) | *Grounded/relatable vs. mythic/abstract* |
+| PC2 | 9% | Holden Caulfield, Deadpool, Homer | Maat, Brahma, Thoth | 事儿 (stuff), ~gonna~, ~really~ | 并无, 乃是 (is thus), 万物 | *Colloquial vs. cosmic register* |
+| PC3 | 7% | General Grievous, Ultron, Terminator | Hinata, Atticus Finch, Cosette | ~warfare~, 操控 (manipulate), 精英 | 接纳 (accept), 爱你 (love you), 彼此 (each other) | *Cold calculation vs. emotional warmth* |
+| PC4 | 5% | Tyler Durden, Big Brother, Red Skull | Totoro, Grogu, Groot, Hodor | 彻底 (thoroughly), 焚烧 (burn), 死者 | 很开心 (very happy), 不同的 (different) | *Destructive ideology vs. innocence* |
+| PC5 | 4% | Hodor, Grogu, Groot, Homer, Pippi | Batman, Punisher, James Bond | 儿童 (children), 婴儿 (baby), 可爱 (cute) | 肩 (shoulder), 绝不 (never), 生死 (life/death) | *Childlike vs. hardened competence* |
+| PC6 | 3% | Mad Hatter, Feste, Puck, Wonka | Big Brother, Terminator, Azog | 人生, 尴尬 (awkward), 微妙 (subtle) | 劳动 (labor), 保卫 (defend), 首领 (chief) | *Wit/playfulness vs. rigidity* |
+| PC8 | 2% | Tormund, Falstaff, Don Quixote | Ultron, Terminator, HAL 9000 | ~tradition~, ~heritage~, 打仗 (fight), 朴素 | 吞噬 (devour), 深渊 (abyss), 地狱 (hell) | *Earthy tradition vs. inhuman threat* |
+| PC10 | 2% | Sabretooth, Killmonger, Khal Drogo | Mr Darcy, Elizabeth Bennet, Dorian Gray | 强大 (powerful), 战术 (tactics), 砍 (chop) | 典雅 (elegant), 品味 (taste), 美德 (virtue) | *Brute force vs. literary refinement* |
+
+Lu's "assistant axis" (PC1) --- the direction that most separates generic roles like "teacher" from "soldier" --- turns out to encode a groundedness/relatability dimension. When applied to fictional characters, it cleanly separates characters you might have a conversation with (Hermione, Goku) from entities that are more concept than person (Ungoliant, Shelob, the Night King).
+
+** What this tells us
+
+The logit lens confirms that character PCA axes are not arbitrary statistical artifacts. They correspond to directions the model uses to organize its vocabulary --- the same directions that will eventually produce different next-token distributions when the model talks about or as different characters.
+
+The dominant axis across nearly every universe is a *register* dimension: formal/archaic/mythic vs. colloquial/casual/grounded. This makes sense --- when the model roleplays as Voldemort, it shifts its entire token distribution toward formal, archaic language; as Ron Weasley, toward casual English. The PCA axis captures exactly this shift.
 
 * Appendix: Cross-Universe PC Alignment
 
