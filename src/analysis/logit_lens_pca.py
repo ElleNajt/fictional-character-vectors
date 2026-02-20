@@ -29,7 +29,6 @@ from pathlib import Path
 
 import numpy as np
 from sklearn.decomposition import PCA as SkPCA
-from sklearn.preprocessing import StandardScaler
 
 MODEL_NAME = "Qwen/Qwen3-32B"
 
@@ -87,8 +86,8 @@ role_pca = lu_data["pca"]
 lu_scaler = lu_data["scaler"]
 lu_role_names = lu_data["role_names"]
 
-scaler = StandardScaler()
-chars_scaled = scaler.fit_transform(activation_matrix)
+scaler = lu_scaler  # use Lu's scaler for consistency with role_pca
+chars_scaled = scaler.transform(activation_matrix)
 chars_in_role_space = role_pca.transform(chars_scaled)
 reconstructed = chars_in_role_space @ role_pca.components_
 residuals = chars_scaled - reconstructed

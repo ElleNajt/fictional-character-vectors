@@ -16,7 +16,6 @@ from pathlib import Path
 
 import numpy as np
 from sklearn.decomposition import PCA as SkPCA
-from sklearn.preprocessing import StandardScaler
 
 # --- Setup ---
 with open("results/fictional_character_analysis_filtered.pkl", "rb") as f:
@@ -33,9 +32,9 @@ activation_matrix = char_data["activation_matrix"]
 with open("data/role_vectors/qwen-3-32b_pca_layer32.pkl", "rb") as f:
     lu_data = pickle.load(f)
 role_pca = lu_data["pca"]
+scaler = lu_data["scaler"]
 
-scaler = StandardScaler()
-chars_scaled = scaler.fit_transform(activation_matrix)
+chars_scaled = scaler.transform(activation_matrix)
 chars_in_role_space = role_pca.transform(chars_scaled)
 reconstructed = chars_in_role_space @ role_pca.components_
 residuals = chars_scaled - reconstructed

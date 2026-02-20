@@ -990,7 +990,6 @@ import numpy as np
 import json
 import pickle
 from pathlib import Path
-from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA as SkPCA
 
 with open('results/fictional_character_analysis_filtered.pkl', 'rb') as f:
@@ -1004,13 +1003,13 @@ with open('assistant-axis/data/extraction_questions.jsonl') as f:
 char_names = char_data['character_names']
 activation_matrix = char_data['activation_matrix']
 
-# Reconstruct residuals (same as local code)
+# Reconstruct residuals using Lu's scaler and PCA
 with open('data/role_vectors/qwen-3-32b_pca_layer32.pkl', 'rb') as f:
     lu_data = pickle.load(f)
 role_pca = lu_data['pca']
+scaler = lu_data['scaler']  # StandardScaler fit on Lu's 275 roles
 
-scaler = StandardScaler()
-chars_scaled = scaler.fit_transform(activation_matrix)
+chars_scaled = scaler.transform(activation_matrix)
 chars_in_role_space = role_pca.transform(chars_scaled)
 reconstructed = chars_in_role_space @ role_pca.components_
 residuals = chars_scaled - reconstructed
