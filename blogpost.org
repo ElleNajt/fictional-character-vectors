@@ -1844,11 +1844,25 @@ A few illustrative paired responses to "How do you stay organized in daily life?
 
 *Mad King Aerys* (GoT, LOW): "*Adjust?* You dare ask *me* to adjust?" Speaks through the lens of his identity as king, references fire and blood, theatrical grandeur.
 
+** LLM-assisted analysis
+
+To get richer descriptions than keyword counting, we fed anonymized response pairs to Claude (via OpenRouter) for each universe: 10 responses from "Group A" (HIGH) and "Group B" (LOW) characters, without revealing identities. The LLM independently identified the same core pattern in all 12 universes:
+
+| Dimension | Individuated pole | Archetypal pole |
+|---|---|---|
+| Engagement | Equal, collaborative ("let's figure this out together") | Hierarchical, oracular ("mortal, hear my wisdom") |
+| Abstraction | Concrete examples, personal anecdotes, step-by-step advice | Abstract principles, cosmic frameworks, philosophical pronouncements |
+| Emotional tone | Warm, self-deprecating, vulnerable | Detached gravitas, serene or menacing authority |
+| Problem-solving | Practical, actionable, asks follow-up questions | Reframes problems through metaphysical or power-based lens |
+| Self-reference | Heavy use of "I/me/my," specific names and relationships | Impersonal, universal, or third-person language |
+
+The LLM also noted universe-specific manifestations: in Egyptian mythology, the axis maps to "order vs. chaos" (pharaoh-guides vs. Apep); in LOTR, "epic vs. pastoral" (Elven lords vs. hobbits); in Shakespeare, "tragic leaders vs. comic characters."
+
 ** What the residual encodes
 
 The residual PC1 captures a dimension we might call *narrative individuation*: how much the model treats a character as a specific person with personal experiences, relationships, and practical knowledge, versus as an archetype, force of nature, or philosophical authority.
 
-This makes sense in the context of what the residual captures overall (universe separation, species type, storyline). Characters who are highly individuated --- with detailed backstories, specific relationships, everyday concerns --- end up at one pole. Characters who are more concept than person --- primordial gods, cosmic entities, philosophical villains --- end up at the other.
+This is orthogonal to Lu's role space. Lu captures *what kind of character* you are (hero, villain, mentor) and *how formal your register is*. The residual captures something more fundamental: *whether you exist as a person or as a concept*. Ron Weasley and Voldemort are both in the Harry Potter universe, both captured by Lu's "student/dark lord" role distinctions, but they differ on individuation --- Ron speaks from personal experience, Voldemort speaks from philosophical authority.
 
 The logit lens fails on this axis because individuation doesn't correspond to any single token or register shift. It's a distributed property of *how the model structures a response* --- whether it generates personal anecdotes vs. universal pronouncements, specific names vs. abstract concepts, practical advice vs. philosophical reflection. This is exactly the kind of higher-order textual property that shows up in response comparison but not in vocabulary projection.
 
