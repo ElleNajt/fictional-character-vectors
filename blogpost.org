@@ -15,8 +15,9 @@ Specifically:
 1. How much variance of fictional characters is captured by Lu's 275-role space?
 2. What structure exists in the residual (orthogonal to Lu's space)?
 3. How sensitive are character vectors to which questions are asked?
+4. Can we interpret what PCA axes *mean* using the model's own unembedding matrix?
 
-Along the way, we also find that modern franchises share a near-identical principal axis (cosine ~0.85) while mythology operates in an orthogonal subspace (see [[*Appendix: Cross-Universe PC Alignment][appendix]]).
+Along the way, we find that modern franchises share a near-identical principal axis (cosine ~0.85) while mythology operates in an orthogonal subspace. We also find that projecting the LM head onto PCA directions --- a logit lens on the axes themselves --- reveals interpretable semantics: the dominant axis across nearly every universe is a *register* dimension (formal/archaic vs. colloquial/casual), and Lu's role PCA encodes dimensions like groundedness, warmth, and calculation (see [[*Logit Lens: What Do the Axes Mean in Token Space?][logit lens]]).
 
 ** Method
 
@@ -1787,6 +1788,8 @@ Lu's "assistant axis" (PC1) --- the direction that most separates generic roles 
 The logit lens confirms that character PCA axes are not arbitrary statistical artifacts. They correspond to directions the model uses to organize its vocabulary --- the same directions that will eventually produce different next-token distributions when the model talks about or as different characters.
 
 The dominant axis across nearly every universe is a *register* dimension: formal/archaic/mythic vs. colloquial/casual/grounded. This makes sense --- when the model roleplays as Voldemort, it shifts its entire token distribution toward formal, archaic language; as Ron Weasley, toward casual English. The PCA axis captures exactly this shift.
+
+However, the *residual* PCA directions (after removing Lu's role space) do not yield interpretable logit lens results --- the top tokens are code fragments, random subwords, and semantically incoherent Chinese. This is consistent with what the residual captures: it encodes categorical/structural distinctions (which universe, humanoid vs. droid, which storyline) rather than register or personality. These distinctions likely live in distributed patterns that don't map cleanly to individual vocabulary tokens. The logit lens interprets dimensions the model uses for *how it talks*; the residual encodes *what it's talking about*.
 
 * Appendix: Cross-Universe PC Alignment
 
