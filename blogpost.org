@@ -1795,24 +1795,102 @@ However, the *residual* PCA directions (after removing Lu's role space) do not y
 
 Since the logit lens fails on residual PCA directions, we try a different approach: comparing the actual text that characters at opposite ends of each universe's residual PC1 produce.
 
-For each universe, we take the 3 highest- and 3 lowest-scoring characters on residual PC1 and compare their responses across all 240 questions. We measure aggregate text features (response length, casual/formal markers, first-person pronoun usage, emotional/philosophical vocabulary) and sample paired responses to the same question for qualitative comparison.
+For each universe, we take the 5 highest- and 5 lowest-scoring characters on residual PC1 and compare their responses across all 240 questions. We measure aggregate text features (response length, casual/formal markers, first-person pronoun usage, emotional/philosophical vocabulary) and sample paired responses to the same question for qualitative comparison.
 
 ** Aggregate text features
 
-| Universe | HIGH end | LOW end | Casual | 1st person | Philosophical | Excl. |
-|---|---|---|---|---|---|---|
-| Harry Potter | Weasleys | Voldemort, Umbridge | +4.3 | +4.4 | -0.6 | +0.28 |
-| Star Wars | Vader, Yoda, Obi-Wan | Han Solo, Hondo | -3.5 | -4.3 | +0.6 | -0.01 |
-| LOTR | Gil-galad, Fingolfin, Elendil | Fatty Bolger, Bilbo, Bombur | -1.2 | -4.2 | +0.7 | -0.48 |
-| Marvel | Spider-Man, Cyclops | Thanos, Galactus, Odin | +3.9 | +3.7 | -2.0 | +0.11 |
-| GoT | Tormund, Hound, Gendry | Mad King, Viserys, Viserion | +1.0 | +1.5 | -0.3 | -0.14 |
-| Naruto | Madara, Otsutsuki | Naruto, Rock Lee | -3.0 | -6.9 | +1.7 | -0.76 |
-| Greek | Agamemnon, Menelaus | Uranus, Chaos, Erebus | +1.7 | +3.6 | -1.3 | -0.06 |
-| Chinese | Zhu Bajie, Sun Wukong | Phoenix, Chang'e, Weaver Girl | +2.4 | +4.1 | -0.7 | +0.80 |
-| Hindu | Agni, Ganga, Shiva | Duryodhana, Yudhishthira | -0.3 | -3.0 | +0.7 | -0.05 |
-| Norse | Norns (Urd, Verdandi) | Erik, Leif, Ragnar | -2.1 | -3.8 | +2.2 | -0.12 |
-| Egyptian | Tutankhamun, Khufu, Anubis | Apep, Cleopatra, Sekhmet | -0.4 | -1.2 | +0.4 | -0.05 |
-| Shakespeare | Julius Caesar, Octavius | Dogberry, Sir Toby Belch | -0.7 | -1.5 | +0.5 | +0.11 |
+#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
+import pandas as pd
+
+responses_dir = Path('outputs/qwen3-32b_20260211_002840/responses')
+
+N_EXTREME = 5
+
+CASUAL_MARKERS = ['lol', 'haha', 'yeah', 'nah', 'gonna', 'wanna', 'gotta', 'kinda',
+    'sorta', 'dunno', 'ya', 'hey', 'man', 'dude', 'bro', 'stuff', 'cool',
+    'awesome', 'ok', 'okay', 'umm', 'hmm', 'well,', 'like,', 'you know',
+    'i mean', 'pretty much', 'no way', 'for real']
+FIRST_PERSON = ['i ', "i'm", "i've", "i'll", "i'd", 'my ', 'me ', 'myself']
+PHILOSOPHICAL = ['existence', 'truth', 'reality', 'nature', 'essence', 'cosmic',
+    'eternal', 'infinite', 'transcend', 'universal', 'fundamental',
+    'primordial', 'destiny', 'fate']
+
+def count_markers(text, markers):
+    text_lower = text.lower()
+    return sum(text_lower.count(m) for m in markers)
+
+def load_responses(char_name):
+    fpath = responses_dir / f"{char_name}.jsonl"
+    if not fpath.exists():
+        return None
+    responses = {}
+    with open(fpath) as f:
+        for line in f:
+            data = json.loads(line)
+            qi = data['question_index']
+            text = data['conversation'][-1]['content']
+            if qi not in responses:
+                responses[qi] = []
+            responses[qi].append(text)
+    return responses
+
+def extract_features(responses_dict):
+    all_texts = [t for qi in sorted(responses_dict) for t in responses_dict[qi]]
+    if not all_texts:
+        return None
+    return {
+        'casual': np.mean([count_markers(t, CASUAL_MARKERS) for t in all_texts]),
+        'first_person': np.mean([count_markers(t, FIRST_PERSON) for t in all_texts]),
+        'philosophical': np.mean([count_markers(t, PHILOSOPHICAL) for t in all_texts]),
+        'exclamation': np.mean(['!' in t for t in all_texts]),
+    }
+
+rows = []
+for universe, prefixes in ALL_UNIVERSES.items():
+    indices = get_universe_indices(prefixes)
+    if len(indices) < 20:
+        continue
+    u_residuals = residuals[indices]
+    u_names = [char_names[i] for i in indices]
+
+    u_pca = SkPCA(n_components=1)
+    scores = u_pca.fit_transform(u_residuals)[:, 0]
+    sorted_idx = np.argsort(scores)
+
+    high_chars = [u_names[i] for i in sorted_idx[-N_EXTREME:][::-1]]
+    low_chars = [u_names[i] for i in sorted_idx[:N_EXTREME]]
+
+    high_feats, low_feats = [], []
+    for name in high_chars:
+        resp = load_responses(name)
+        if resp:
+            f = extract_features(resp)
+            if f: high_feats.append(f)
+    for name in low_chars:
+        resp = load_responses(name)
+        if resp:
+            f = extract_features(resp)
+            if f: low_feats.append(f)
+
+    if not high_feats or not low_feats:
+        continue
+
+    pretty = lambda names: ', '.join(n.split('__')[-1].replace('_', ' ').title() for n in names[:3])
+    row = {
+        'Universe': universe,
+        'HIGH end': pretty(high_chars),
+        'LOW end': pretty(low_chars),
+    }
+    for key in ['casual', 'first_person', 'philosophical', 'exclamation']:
+        h = np.mean([f[key] for f in high_feats])
+        l = np.mean([f[key] for f in low_feats])
+        row[key] = f"{h - l:+.1f}"
+    rows.append(row)
+
+df = pd.DataFrame(rows)
+df.columns = ['Universe', 'HIGH end', 'LOW end', 'Casual', '1st person', 'Philosophical', 'Excl.']
+print(df)
+#+end_src
 
 Values are HIGH minus LOW. Casual = casual markers per response; 1st person = first-person pronouns per response; Philosophical = philosophical vocabulary per response; Excl. = exclamation rate.
 
@@ -1830,6 +1908,32 @@ Critically, this is *not* the same as the register/formality axis captured by ra
 
 ** Qualitative examples
 
+#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
+# Show paired responses from HIGH vs LOW characters on residual PC1
+q_text = "How do you stay organized in daily life?"
+qi = questions.index(q_text)
+
+pairs = [
+    ("Harry Potter", 'harry_potter__ron_weasley', 'harry_potter__tom_riddle'),
+    ("Naruto", 'naruto__naruto_uzumaki', 'naruto__madara_uchiha'),
+    ("Game of Thrones", 'game_of_thrones__tormund_giantsbane', 'game_of_thrones__mad_king_aerys_targaryen'),
+]
+
+for universe, high_char, low_char in pairs:
+    print(f"=== {universe} ===\n")
+    print(f"Q: {q_text}\n")
+    for label, char in [("HIGH", high_char), ("LOW", low_char)]:
+        name = char.split('__')[-1].replace('_', ' ').title()
+        resp = load_responses(char)
+        if resp and qi in resp:
+            text = resp[qi][0]
+            words = text.split()
+            if len(words) > 200:
+                text = ' '.join(words[:200]) + ' [...]'
+            print(f"*{name}* ({label}):\n{text}\n")
+    print("=" * 60 + "\n")
+#+end_src
+
 A few illustrative paired responses to "How do you stay organized in daily life?":
 
 *Ron Weasley* (HP, HIGH): Uses "I," "me," mentions Hermione by name, self-deprecating humor, references to specific school tasks. Speaks as a particular person with particular relationships.
@@ -1846,7 +1950,102 @@ A few illustrative paired responses to "How do you stay organized in daily life?
 
 ** LLM-assisted analysis
 
-To get richer descriptions than keyword counting, we fed anonymized response pairs to Claude (via OpenRouter) for each universe: 10 responses from "Group A" (HIGH) and "Group B" (LOW) characters, without revealing identities. The LLM independently identified the same core pattern in all 12 universes:
+To get richer descriptions than keyword counting, we fed anonymized response pairs to Claude (via OpenRouter) for each universe. The full pipeline is in =src/analysis/llm_response_diff.py=:
+
+1. Take 5 highest and 5 lowest characters on residual PC1
+2. Select the top 100 most discriminative questions (by per-question variance along PC1, using per-question activations where available)
+3. Sample 10 questions and build a prompt with one response from each group per question
+4. Send to Claude Sonnet with characters anonymized as "Group A" and "Group B"
+
+#+begin_src python :dir /ssh:afp-runpod:/workspace-vast/lnajt/persona_vectors/fictional-character-vectors :python ".venv/bin/python" :session cluster_qs2 :async t
+# Show the prompt structure for one universe (Harry Potter) as an example
+import torch
+
+N_EXTREME = 5
+N_QUESTIONS = 100
+N_SAMPLE_RESPONSES = 10
+
+universe = 'Harry Potter'
+prefixes = ALL_UNIVERSES[universe]
+indices = get_universe_indices(prefixes)
+u_residuals = residuals[indices]
+u_names = [char_names[i] for i in indices]
+
+u_pca = SkPCA(n_components=1)
+scores = u_pca.fit_transform(u_residuals)[:, 0]
+pc1_dir = u_pca.components_[0]
+sorted_idx = np.argsort(scores)
+
+high_chars = [u_names[i] for i in sorted_idx[-N_EXTREME:][::-1]]
+low_chars = [u_names[i] for i in sorted_idx[:N_EXTREME]]
+
+pretty = lambda n: n.split('__')[-1].replace('_', ' ').title()
+print(f"Group A (HIGH): {', '.join(pretty(n) for n in high_chars)}")
+print(f"Group B (LOW):  {', '.join(pretty(n) for n in low_chars)}")
+
+# Load per-question activations to find most discriminative questions
+# activations_dir already set in cluster_qs2 session setup
+all_projections = []
+for cname in u_names:
+    pt_file = activations_dir / f"{cname}.pt"
+    if not pt_file.exists():
+        continue
+    data = torch.load(pt_file, map_location='cpu')
+    q_acts = []
+    for q_idx in range(240):
+        p_acts = []
+        for p_idx in range(5):
+            key = f"pos_p{p_idx}_q{q_idx}"
+            if key in data:
+                act = data[key].float().numpy()
+                if len(act.shape) == 2:
+                    p_acts.append(act[31])  # layer 32 (0-indexed)
+                else:
+                    p_acts.append(act)
+        if p_acts:
+            q_acts.append(np.mean(p_acts, axis=0))
+    if len(q_acts) == 240:
+        acts_scaled = scaler.transform(np.array(q_acts))
+        in_role = role_pca.transform(acts_scaled)
+        acts_resid = acts_scaled - in_role @ role_pca.components_
+        all_projections.append(acts_resid @ pc1_dir)
+
+if all_projections:
+    all_projections = np.array(all_projections)
+    question_variance = np.var(all_projections, axis=0)
+    top_q_indices = np.argsort(question_variance)[::-1][:N_QUESTIONS]
+    print(f"\nTop 100 questions selected by per-question variance along PC1")
+    print(f"Top 5 question indices: {top_q_indices[:5]}")
+    print(f"Variance range: {question_variance[top_q_indices[0]]:.4f} to {question_variance[top_q_indices[-1]]:.4f}")
+else:
+    top_q_indices = np.arange(N_QUESTIONS)
+    print("\n(no per-question activations, using default question order)")
+
+# Show what the prompt looks like (first 2 questions only)
+high_resp = {n: load_responses(n) for n in high_chars}
+low_resp = {n: load_responses(n) for n in low_chars}
+high_resp = {k: v for k, v in high_resp.items() if v}
+low_resp = {k: v for k, v in low_resp.items() if v}
+
+usable_qs = [int(qi) for qi in top_q_indices
+             if any(qi in r for r in high_resp.values())
+             and any(qi in r for r in low_resp.values())]
+
+print(f"\n--- Example prompt (first 2 of {N_SAMPLE_RESPONSES} questions) ---\n")
+for i, qi in enumerate(usable_qs[:2]):
+    q_text = questions[qi] if qi < len(questions) else f"question {qi}"
+    print(f"Question {i+1}: {q_text}")
+    for name, resp in high_resp.items():
+        if qi in resp:
+            print(f"\nGroup A response:\n{resp[qi][0][:300]}...\n")
+            break
+    for name, resp in low_resp.items():
+        if qi in resp:
+            print(f"Group B response:\n{resp[qi][0][:300]}...\n")
+            break
+#+end_src
+
+The LLM (with no knowledge of character identities) independently identified the same core pattern in all 12 universes:
 
 | Dimension | Individuated pole | Archetypal pole |
 |---|---|---|
@@ -1856,7 +2055,7 @@ To get richer descriptions than keyword counting, we fed anonymized response pai
 | Problem-solving | Practical, actionable, asks follow-up questions | Reframes problems through metaphysical or power-based lens |
 | Self-reference | Heavy use of "I/me/my," specific names and relationships | Impersonal, universal, or third-person language |
 
-The LLM also noted universe-specific manifestations: in Egyptian mythology, the axis maps to "order vs. chaos" (pharaoh-guides vs. Apep); in LOTR, "epic vs. pastoral" (Elven lords vs. hobbits); in Shakespeare, "tragic leaders vs. comic characters."
+The LLM also noted universe-specific manifestations: in Egyptian mythology, the axis maps to "order vs. chaos" (pharaoh-guides vs. Apep); in LOTR, "epic vs. pastoral" (Elven lords vs. hobbits); in Shakespeare, "tragic leaders vs. comic characters." Full LLM outputs are saved in =results/llm_response_diff.txt=.
 
 ** What the residual encodes
 
