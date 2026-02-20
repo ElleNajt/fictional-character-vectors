@@ -419,7 +419,7 @@ def compute_sample_responses(char_names, questions):
 
 
 def compute_text_features(char_names, residuals):
-    """Block 6: Aggregate text features (casual, first_person, etc.) for HIGH vs LOW chars."""
+    """Block 6: Aggregate text features (casual, first_person, etc.) for HIGH vs LOW chars on PC1 and PC2."""
     print("Computing aggregate text features...")
     results = []
 
@@ -431,44 +431,48 @@ def compute_text_features(char_names, residuals):
         u_residuals = residuals[indices]
         u_names = [char_names[i] for i in indices]
 
-        u_pca = SkPCA(n_components=1)
-        scores = u_pca.fit_transform(u_residuals)[:, 0]
-        sorted_idx = np.argsort(scores)
+        u_pca = SkPCA(n_components=2)
+        u_scores = u_pca.fit_transform(u_residuals)
 
-        high_chars = [u_names[i] for i in sorted_idx[-N_EXTREME:][::-1]]
-        low_chars = [u_names[i] for i in sorted_idx[:N_EXTREME]]
+        for pc_idx in range(2):
+            scores = u_scores[:, pc_idx]
+            sorted_idx = np.argsort(scores)
 
-        high_feats, low_feats = [], []
-        for name in high_chars:
-            resp = load_responses(name)
-            if resp:
-                f = extract_features(resp)
-                if f:
-                    high_feats.append(f)
-        for name in low_chars:
-            resp = load_responses(name)
-            if resp:
-                f = extract_features(resp)
-                if f:
-                    low_feats.append(f)
+            high_chars = [u_names[i] for i in sorted_idx[-N_EXTREME:][::-1]]
+            low_chars = [u_names[i] for i in sorted_idx[:N_EXTREME]]
 
-        if not high_feats or not low_feats:
-            continue
+            high_feats, low_feats = [], []
+            for name in high_chars:
+                resp = load_responses(name)
+                if resp:
+                    f = extract_features(resp)
+                    if f:
+                        high_feats.append(f)
+            for name in low_chars:
+                resp = load_responses(name)
+                if resp:
+                    f = extract_features(resp)
+                    if f:
+                        low_feats.append(f)
 
-        pretty = lambda names: ", ".join(
-            n.split("__")[-1].replace("_", " ").title() for n in names[:3]
-        )
-        row = {
-            "universe": universe,
-            "high_end": pretty(high_chars),
-            "low_end": pretty(low_chars),
-        }
-        for key in ["casual", "first_person", "philosophical", "exclamation"]:
-            h = float(np.mean([f[key] for f in high_feats]))
-            l = float(np.mean([f[key] for f in low_feats]))
-            row[key] = float(h - l)
-        results.append(row)
-        print(f"  {universe}: done")
+            if not high_feats or not low_feats:
+                continue
+
+            pretty = lambda names: ", ".join(
+                n.split("__")[-1].replace("_", " ").title() for n in names[:3]
+            )
+            row = {
+                "universe": universe,
+                "pc": pc_idx + 1,
+                "high_end": pretty(high_chars),
+                "low_end": pretty(low_chars),
+            }
+            for key in ["casual", "first_person", "philosophical", "exclamation"]:
+                h = float(np.mean([f[key] for f in high_feats]))
+                l = float(np.mean([f[key] for f in low_feats]))
+                row[key] = float(h - l)
+            results.append(row)
+            print(f"  {universe} PC{pc_idx + 1}: done")
 
     return results
 

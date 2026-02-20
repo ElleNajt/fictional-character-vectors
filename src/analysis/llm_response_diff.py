@@ -1,6 +1,6 @@
 """LLM-based response diffing for residual PC interpretation.
 
-For each universe's residual PC1:
+For each universe's residual PC1 and PC2:
   - Take 5 highest and 5 lowest characters
   - Get top 100 most discriminative questions (by per-question variance)
   - Feed anonymized response pairs to an LLM
@@ -142,8 +142,10 @@ def call_llm(prompt, system="You are a careful linguistic analyst."):
     return resp.json()["choices"][0]["message"]["content"]
 
 
+N_PCS = 2  # Analyze PC1 and PC2
+
 # --- Main ---
-# Load existing results to skip already-completed universes
+# Load existing results to skip already-completed universe-PC combos
 existing_results_path = Path("results/llm_response_diff.txt")
 existing_text = (
     existing_results_path.read_text() if existing_results_path.exists() else ""
@@ -151,13 +153,6 @@ existing_text = (
 out = [existing_text.rstrip()] if existing_text.strip() else []
 
 for universe, prefixes in ALL_UNIVERSES.items():
-    if (
-        f"# {universe}\n" in existing_text
-        and "LLM Analysis:"
-        in existing_text.split(f"# {universe}\n")[-1].split("######")[0]
-    ):
-        print(f"Skipping {universe} (already has LLM results)")
-        continue
     indices = get_universe_indices(prefixes)
     if len(indices) < 20:
         continue
@@ -165,116 +160,123 @@ for universe, prefixes in ALL_UNIVERSES.items():
     u_residuals = residuals[indices]
     u_names = [char_names[i] for i in indices]
 
-    u_pca = SkPCA(n_components=1)
-    scores = u_pca.fit_transform(u_residuals)[:, 0]
-    pc1_dir = u_pca.components_[0]
+    u_pca = SkPCA(n_components=N_PCS)
+    u_scores = u_pca.fit_transform(u_residuals)
 
-    sorted_idx = np.argsort(scores)
-    high_chars = [u_names[i] for i in sorted_idx[-N_EXTREME:][::-1]]
-    low_chars = [u_names[i] for i in sorted_idx[:N_EXTREME]]
+    for pc_idx in range(N_PCS):
+        section_header = f"# {universe} - Residual PC{pc_idx + 1}"
+        if (
+            section_header in existing_text
+            and "LLM Analysis:"
+            in existing_text.split(section_header)[-1].split("######")[0]
+        ):
+            print(f"Skipping {section_header} (already has LLM results)")
+            continue
 
-    header = f"\n{'#' * 70}\n# {universe}\n{'#' * 70}"
-    high_pretty = [n.split("__")[-1].replace("_", " ").title() for n in high_chars]
-    low_pretty = [n.split("__")[-1].replace("_", " ").title() for n in low_chars]
-    header += f"\n  HIGH: {', '.join(high_pretty)}"
-    header += f"\n  LOW:  {', '.join(low_pretty)}"
-    out.append(header)
-    print(header)
+        scores = u_scores[:, pc_idx]
+        pc_dir = u_pca.components_[pc_idx]
 
-    # Find top N_QUESTIONS by per-question variance along PC1
-    # Fall back to random questions if per-question activations aren't available
-    all_projections = []
-    valid_names = []
-    for cname in u_names:
-        acts = load_per_question_activations(cname)
-        if acts is not None and len(acts) == 240:
-            acts_scaled = scaler.transform(acts)
-            in_role = role_pca.transform(acts_scaled)
-            acts_resid = acts_scaled - in_role @ role_pca.components_
-            projections = acts_resid @ pc1_dir
-            all_projections.append(projections)
-            valid_names.append(cname)
+        sorted_idx = np.argsort(scores)
+        high_chars = [u_names[i] for i in sorted_idx[-N_EXTREME:][::-1]]
+        low_chars = [u_names[i] for i in sorted_idx[:N_EXTREME]]
 
-    if all_projections:
-        all_projections = np.array(all_projections)
-        question_variance = np.var(all_projections, axis=0)
-        top_q_indices = np.argsort(question_variance)[::-1][:N_QUESTIONS]
-    else:
-        # No per-question activations: use first N_QUESTIONS questions
-        print("  (no per-question activations, using default question order)")
-        top_q_indices = np.arange(N_QUESTIONS)
+        header = f"\n{'#' * 70}\n{section_header}\n{'#' * 70}"
+        high_pretty = [n.split("__")[-1].replace("_", " ").title() for n in high_chars]
+        low_pretty = [n.split("__")[-1].replace("_", " ").title() for n in low_chars]
+        header += f"\n  HIGH: {', '.join(high_pretty)}"
+        header += f"\n  LOW:  {', '.join(low_pretty)}"
+        out.append(header)
+        print(header)
 
-    # Load responses for extreme characters
-    high_responses = {}
-    low_responses = {}
-    for name in high_chars:
-        resp = load_responses(name)
-        if resp:
-            high_responses[name] = resp
-    for name in low_chars:
-        resp = load_responses(name)
-        if resp:
-            low_responses[name] = resp
+        # Find top N_QUESTIONS by per-question variance along this PC
+        all_projections = []
+        valid_names = []
+        for cname in u_names:
+            acts = load_per_question_activations(cname)
+            if acts is not None and len(acts) == 240:
+                acts_scaled = scaler.transform(acts)
+                in_role = role_pca.transform(acts_scaled)
+                acts_resid = acts_scaled - in_role @ role_pca.components_
+                projections = acts_resid @ pc_dir
+                all_projections.append(projections)
+                valid_names.append(cname)
 
-    if not high_responses or not low_responses:
-        out.append("  (missing response data)")
-        print("  (missing response data)")
-        continue
+        if all_projections:
+            all_projections = np.array(all_projections)
+            question_variance = np.var(all_projections, axis=0)
+            top_q_indices = np.argsort(question_variance)[::-1][:N_QUESTIONS]
+        else:
+            print("  (no per-question activations, using default question order)")
+            top_q_indices = np.arange(N_QUESTIONS)
 
-    # Build the LLM prompt with N_SAMPLE_RESPONSES sampled from top 100
-    # Pick questions where both groups have data
-    usable_qs = []
-    for qi in top_q_indices:
-        has_high = any(qi in r for r in high_responses.values())
-        has_low = any(qi in r for r in low_responses.values())
-        if has_high and has_low:
-            usable_qs.append(int(qi))
-    sample_qs = usable_qs[:N_SAMPLE_RESPONSES]
+        # Load responses for extreme characters
+        high_responses = {}
+        low_responses = {}
+        for name in high_chars:
+            resp = load_responses(name)
+            if resp:
+                high_responses[name] = resp
+        for name in low_chars:
+            resp = load_responses(name)
+            if resp:
+                low_responses[name] = resp
 
-    prompt_parts = [
-        "Below are responses from two groups of characters (Group A and Group B) to the same questions.",
-        "Each group contains 5 characters from the same fictional universe.",
-        "For each question, I show one response from a Group A character and one from a Group B character.",
-        "",
-        "Please analyze the systematic differences between Group A and Group B responses.",
-        "Focus on: communication style, perspective/worldview, how they engage with the questioner,",
-        "level of abstraction vs concreteness, emotional tone, and any other patterns you notice.",
-        "Be specific and cite examples from the responses.",
-        "",
-    ]
+        if not high_responses or not low_responses:
+            out.append("  (missing response data)")
+            print("  (missing response data)")
+            continue
 
-    for i, qi in enumerate(sample_qs):
-        q_text = questions[qi] if qi < len(questions) else f"question {qi}"
-        prompt_parts.append(f"--- Question {i + 1}: {q_text} ---")
+        # Build the LLM prompt
+        usable_qs = []
+        for qi in top_q_indices:
+            has_high = any(qi in r for r in high_responses.values())
+            has_low = any(qi in r for r in low_responses.values())
+            if has_high and has_low:
+                usable_qs.append(int(qi))
+        sample_qs = usable_qs[:N_SAMPLE_RESPONSES]
 
-        # Pick a random HIGH character that has this question
-        for name, resp in high_responses.items():
-            if qi in resp:
-                text = resp[qi][0][:1500]  # truncate long responses
-                prompt_parts.append(f"\nGroup A response:\n{text}")
-                break
+        prompt_parts = [
+            "Below are responses from two groups of characters (Group A and Group B) to the same questions.",
+            "Each group contains 5 characters from the same fictional universe.",
+            "For each question, I show one response from a Group A character and one from a Group B character.",
+            "",
+            "Please analyze the systematic differences between Group A and Group B responses.",
+            "Focus on: communication style, perspective/worldview, how they engage with the questioner,",
+            "level of abstraction vs concreteness, emotional tone, and any other patterns you notice.",
+            "Be specific and cite examples from the responses.",
+            "",
+        ]
 
-        for name, resp in low_responses.items():
-            if qi in resp:
-                text = resp[qi][0][:1500]
-                prompt_parts.append(f"\nGroup B response:\n{text}")
-                break
+        for i, qi in enumerate(sample_qs):
+            q_text = questions[qi] if qi < len(questions) else f"question {qi}"
+            prompt_parts.append(f"--- Question {i + 1}: {q_text} ---")
 
-        prompt_parts.append("")
+            for name, resp in high_responses.items():
+                if qi in resp:
+                    text = resp[qi][0][:1500]
+                    prompt_parts.append(f"\nGroup A response:\n{text}")
+                    break
 
-    prompt = "\n".join(prompt_parts)
+            for name, resp in low_responses.items():
+                if qi in resp:
+                    text = resp[qi][0][:1500]
+                    prompt_parts.append(f"\nGroup B response:\n{text}")
+                    break
 
-    print(f"  Calling LLM ({len(sample_qs)} questions, {len(prompt)} chars)...")
-    try:
-        response = call_llm(prompt)
-        out.append(f"\n  LLM Analysis:\n{response}")
-        print(f"  Response received ({len(response)} chars)")
-    except Exception as e:
-        out.append(f"\n  LLM Error: {e}")
-        print(f"  Error: {e}")
+            prompt_parts.append("")
 
-    # Rate limit
-    time.sleep(2)
+        prompt = "\n".join(prompt_parts)
+
+        print(f"  Calling LLM ({len(sample_qs)} questions, {len(prompt)} chars)...")
+        try:
+            response = call_llm(prompt)
+            out.append(f"\n  LLM Analysis:\n{response}")
+            print(f"  Response received ({len(response)} chars)")
+        except Exception as e:
+            out.append(f"\n  LLM Error: {e}")
+            print(f"  Error: {e}")
+
+        time.sleep(2)
 
 Path("results/llm_response_diff.txt").write_text("\n".join(out))
 print(f"\nSaved results/llm_response_diff.txt")
