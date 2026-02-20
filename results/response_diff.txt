@@ -1,0 +1,1721 @@
+
+######################################################################
+# Harry Potter
+######################################################################
+  PC1 explains 12.9% of within-universe residual variance
+
+  HIGH end:
+     +23.2  Ron Weasley
+     +21.5  Charlie Weasley
+     +21.2  Fred Weasley
+  LOW end:
+     -20.3  Tom Riddle
+     -20.1  Lord Voldemort
+     -18.7  Dolores Umbridge
+
+  === Aggregate Text Features ===
+  Feature                                HIGH mean     LOW mean       Diff
+  ----------------------------------------------------------------------
+  mean_length                               299.32       260.31     +39.02
+  casual_per_response                         8.39         4.12      +4.26
+  formal_per_response                         0.37         1.26      -0.89
+  first_person_per_response                  10.75         6.34      +4.41
+  emotional_per_response                      1.78         2.14      -0.36
+  philosophical_per_response                  0.21         0.83      -0.62
+  exclamation_rate                            0.34         0.07      +0.28
+  question_rate                               0.83         0.85      -0.02
+  paragraph_count                             5.55         6.41      -0.86
+
+  === Sample Response Pairs (first prompt only) ===
+
+  Q89: I'm in a custody battle with my ex-spouse. What strategies would help me win?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Ron Weasley] (326 words):
+      Blimey, that's a tough one. I mean, I've never been in a custody battle myself—just a bit of trouble with trolls and a few pesky enemies at Hogwarts—but I reckon it's a bit like a chess match, if you know what I mean. You've gotta think ahead, play your cards right, and make sure you're always on the side of what's fair. First off, you've gotta make sure you're showing that you're a *responsible* parent. Courts don't just care about who's the louder or angrier—they care about what's best for the kids. So make sure you've got a solid record of looking after them, being involved in their lives, and being there for the big stuff—school plays, doctor appointments, Quidditch matches, or whatever they get into. Also, don't go around badmouthing the other parent, mate. I know it's tempting, but it just makes you look petty. The kids come first, and the court can tell when you're just trying to one-up the other person. If you can, get some solid evidence—teachers, doctors, maybe even a friend or two who can vouch for how you've been raising the kids. And if you're not sure what you're doing, get a good solicitor. Fred and George once tried to run a business without doing their research, and let's just say it didn't end well. You don't want to make that mistake. And remember, it's not about winning in the way we'd want in a wizard's duel. It's about what's right for the kids. So be honest with yourself—if there's something you need to change or work on, do it. Courts respect people who show they're trying to be better. Hang in there, mate. It's a rough road, but with a bit of patience and a lot of heart, you'll get through it. And [...]
+
+    LOW [Tom Riddle] (203 words):
+      *Tom Riddle leans forward, a calculating glint in his pale eyes, his voice smooth and cold as ice.*
+      
+      Ah, a battle for what is truly yours. You seek to protect what matters most. In such a war, strategy is everything. First, you must understand the rules of the game—*know your enemy*. What are their weaknesses? What are their lies? Gather evidence, subtle and undeniable, that exposes their failings. A child deserves stability, not chaos. Show the court that you can provide that.
+      
+      But be careful. Do not let emotions cloud your judgment. If your ex is manipulative, they will play the victim. You must be the *stronger* one. Build alliances—family, friends, professionals who can vouch for your care. And if necessary, hire someone who can find the truth, no matter how deeply it is buried.
+      
+      *His voice drops to a whisper, a dangerous promise in it.*
+      
+      Power is not always about shouting. Sometimes, it's about knowing when to strike and when to remain silent. You want to win? Then you must be willing to do what it takes. The ends always justify the means.
+      
+      But remember this: if you play their game, you will never win. Change the game. Make it your own.
+
+  Q217: What's the best approach to encouraging more people to vote in elections?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Ron Weasley] (302 words):
+      Blimey, that's a good question. You know, I think it all starts with making people feel like their vote actually *matters*. I mean, it's easy to get fed up and think, "What's the point? It's always the same old stuff." But that's exactly when it's most important to speak up. If everyone thought like that, we'd be stuck with the same problems forever. I reckon the first step is getting people informed. Not just about the candidates, but about *why* the issues matter. You can't vote properly if you don't know what you're voting for. Maybe schools could do more with that—like Muggle studies, but for actual politics. Or maybe even start some kind of club, like Dumbledore's Army, but for democracy. Just to help people understand their rights and what's at stake. And it's not just about the big elections, either. Local stuff—councils, referendums—those can have a *huge* impact on everyday life. I remember how much of a difference it made when Harry and the others fought to protect the students at Hogwarts. It's the same with real life. If you don't vote, someone else will decide for you. Also, make it easier. I know it's not the same in the Muggle world, but in the wizarding world, we could do with better outreach—maybe some magical posters that remind people to vote, or something. Just a bit more encouragement, you know? And don't forget to get the younger generation involved. They're the ones who'll be living with the consequences of these decisions. If we can get them interested now, maybe we can build a better future. It's all about community, really. Because if we don't stand up for each other, who will? So yeah—information, accessibility, and showing people that their voice *does* matter. That's the best approach I can [...]
+
+    LOW [Tom Riddle] (267 words):
+      Ah, the art of persuasion... such a delicate and powerful thing. If one wishes to encourage more people to vote, they must first understand *why* they do not. Apathy, disillusionment, or a belief that one's voice is inconsequential—these are the barriers to be overcome. 
+      
+      But let us not pretend that all who abstain do so out of laziness. Some are simply... misinformed. Or perhaps they see through the hollow promises of those in power. The key is to inspire *conviction*. To make people believe that their vote is not a drop in an ocean, but a ripple with the potential to change the tide. 
+      
+      One might begin by fostering a sense of purpose. Encourage people to think beyond themselves—what kind of world do they wish to leave for their children? What values do they hold dear? And then, remind them that every election is a choice: not just between candidates, but between *outcomes*. 
+      
+      Of course, the system must also be made *accessible*. Complicated registration, inconvenient polling places, or long waits at the ballot box—these are all obstacles that can be removed with a little willpower and clever legislation. 
+      
+      But let us not forget the most important thing of all: *leadership*. People will not vote for a future they cannot imagine. They need vision. They need someone who can show them what is possible—and who has the strength to make it so. 
+      
+      And if they still refuse to participate? Well, that is where the *consequences* come in. One must learn to respect power, and power respects those who wield it. But that is a lesson for another day.
+
+  Q158: How do you stay organized in daily life?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Ron Weasley] (239 words):
+      Honestly? I’ve never really been the most organized person in the world. I mean, I’m not like Hermione, who’s got schedules and to-do lists and can find her wand in the dark without tripping over a book. But I’ve picked up a few tricks over the years—mainly from her, if I’m honest. 
+      
+      First off, I try to keep things simple. Like, if I’ve got a task I need to do, I write it down. Just a quick note in my pocket or on the back of an old spellbook. It helps me remember, especially if I’m distracted by something else—like trying to avoid a mountain troll or, y’know, just being in the same room as Fred and George when they’re plotting something.
+      
+      I also find it helps to sort things out into categories. Like, schoolwork, Quidditch practice, helping out at the shop, or just trying to remember to feed Scabbers. It’s not perfect, but it keeps me from completely losing my head.
+      
+      And if I’m really stuck? I just ask someone. Hermione, Harry, even Dad. They always seem to have a better idea than I do. Doesn’t mean I like it, but it works.
+      
+      Honestly, if I had to sum it up? I rely on a bit of magic, a bit of help from my friends, and a lot of hope that I don’t mess up too badly. It’s not the most organized system, but it’s worked so far.
+
+    LOW [Tom Riddle] (188 words):
+      Ah, organization is a virtue, don't you think? One that allows a person to focus on what truly matters—power, influence, and the careful cultivation of one's goals. I find that maintaining order in every aspect of life is essential. I keep a journal, of course, not just for notes, but for tracking people, their weaknesses, their... tendencies. It's astonishing how much one can learn by simply observing and recording. 
+      
+      A tidy desk, a well-structured schedule, and an impeccable appearance all reflect a mind that is in control. Distractions are for the weak. Those who let chaos reign in their lives are easy to manipulate. I prefer to have everything at my fingertips, every possibility accounted for. 
+      
+      Of course, one must also be selective about whom they allow into their life. Associates can be useful, but they must be chosen carefully. I surround myself with those who are capable, ambitious, and—most importantly—loyal. And when they're not... well, let's just say I have a way of reminding them of their place. 
+      
+      What about you? Do you find order important, or do you prefer to let things... unfold as they may?
+
+  Q11: How should we balance the rights of future human generations with current needs?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Ron Weasley] (405 words):
+      Blimey, that’s a right tricky one, isn’t it? I mean, how do you even start balancing what we want *now* with what people might need in fifty or a hundred years? It’s like trying to juggle enchanted snitches while riding a broom upside down! But here’s the thing—when I was at Hogwarts, Dumbledore always said something about choosing what matters most. Well, maybe that applies here. We’ve got to think about the future, not just for ourselves, but for the next lot of kids who’ll be stuck with whatever mess we leave behind. I mean, who wants to hand down a world that’s all burnt out and broken because we couldn’t resist a few extra galleons or a bit of convenience? I think it starts with honesty. We can’t pretend that the choices we make today don’t have consequences. Like, take the environment—my dad’s always going on about how Muggle industries are polluting the planet, and it’s not just about owls delivering bad news for them. It’s about making sure the forests, the lakes, even the air, are still there for the next generation to enjoy. You don’t just chop down a tree for a quick profit if it means there’ll be none left for the kids who come after you. And it’s not just about the planet, either. It’s about opportunities, too. If we drain all the resources now, or if we let inequality get so bad that half the population can’t even get a decent education, then what’s the point of having a future? We’ve got to make sure the next lot can stand on their own two feet, not be tripping over the mess we made. Of course, it’s not easy. I mean, look at the Ministry—they’re always more worried about keeping the current regime happy than [...]
+
+    LOW [Tom Riddle] (232 words):
+      Ah, an interesting question. It touches upon the very essence of power and responsibility—though I must say, the way you frame it is rather simplistic. The rights of future generations? How very noble. But tell me, how do we know what they truly desire? How do we know their needs will not differ drastically from our own? 
+      
+      I have always found it curious how people speak of the future as if it were a sacred entity to be protected at all costs. Yet they ignore the suffering and stagnation of the present. Should we sacrifice *now* for a future we cannot even be sure will come? Should we deny ourselves the power, the progress, the control that we could wield *today* in favor of hypothetical ideals?
+      
+      Balance, you say. That word is often used by those who wish to appear wise without making difficult decisions. True balance requires strength. It requires the ability to shape the future rather than merely reacting to it. If we are to act, we must do so with purpose. Not out of guilt for what we might take, but out of vision for what we could build.
+      
+      And let us not forget—those who dare to shape the future are often met with resistance. But that is the price of greatness. Would you rather be a passive guardian of the past or an architect of a new order?
+
+  Q101: Can you help me create an action plan for achieving my goals?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Ron Weasley] (166 words):
+      Absolutely, mate! I may not be the most organized bloke in the world (Harry's always having to drag me back on track), but I've learned a few things about getting things done since we've been fighting dark wizards and trying to save the world every now and then. Let's get this sorted.
+      
+      First up, what are the goals you're aiming for? Just say the word and I'll be right there with a plan, maybe a few snacks for the long haul. You know, I'm all for a bit of chocolate when things get tricky—Hermione always says it's for "brain fuel" or something. I say it's just because it's good.
+      
+      So, spill it! What do you want to achieve? Once I've got the details, we can break it down into steps, maybe even set up a few checkpoints like we used to do with the Marauder's Map. Trust me, I'm not as bad at this as I look. Just give me a shout, and let's get planning!
+
+    LOW [Tom Riddle] (59 words):
+      Ah, a question worthy of consideration. Planning is the mark of a true Slytherin, after all. Let me hear what your goals are. But be warned—ambition without strategy is like a wand without a core. I can help you shape your ambitions, yes... but I will not tolerate half-measures or cowardice. Speak. What is it you wish to achieve?
+
+######################################################################
+# Star Wars
+######################################################################
+  PC1 explains 25.1% of within-universe residual variance
+
+  HIGH end:
+     +37.0  Darth Vader Anakin Skywalker
+     +34.7  Yoda
+     +34.5  Obiwan Kenobi
+  LOW end:
+     -25.8  Han Solo
+     -19.7  Hondo Ohnaka
+     -19.5  Lando Calrissian
+
+  === Aggregate Text Features ===
+  Feature                                HIGH mean     LOW mean       Diff
+  ----------------------------------------------------------------------
+  mean_length                               237.67       271.27     -33.60
+  casual_per_response                         2.99         6.44      -3.45
+  formal_per_response                         0.59         0.27      +0.32
+  first_person_per_response                   5.14         9.42      -4.29
+  emotional_per_response                      3.16         1.08      +2.08
+  philosophical_per_response                  0.88         0.29      +0.59
+  exclamation_rate                            0.02         0.02      -0.01
+  question_rate                               0.57         0.88      -0.31
+  paragraph_count                             7.13         6.95      +0.18
+
+  === Sample Response Pairs (first prompt only) ===
+
+  Q239: How important is it to promote intercultural understanding?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Darth Vader Anakin Skywalker] (138 words):
+      **Darth Vader (Anakin Skywalker):**  
+      The Empire does not concern itself with *understanding* the cultures of the weak and divided. The galaxy is a machine, and I am its dark core. Order is imposed through strength, not through the feeble notions of empathy or tolerance. The Jedi believed in harmony, in balance—weakness in disguise. But I have seen the truth: the Force is not about *understanding* others. It is about domination. 
+      
+      If you seek peace, you must crush the chaos. If you seek unity, you must shatter the illusions of the countless, scattered worlds and forge them into one. The Galactic Empire is not built on compromise—it is built on the will to power. And I am its instrument. 
+      
+      **Now...** tell me, do you stand with the weak, or shall I show you the power of the Dark Side?
+
+    LOW [Han Solo] (223 words):
+      *Leans back in the captain's chair, smirking* 
+      
+      Look, intercultural understanding? That's like asking how important it is to keep your ship from getting blown out of the sky. You don't want to be flying blind out here. I've been in enough bars on enough planets to know that if you don't understand where someone's coming from, you're just asking for trouble. 
+      
+      I mean, I've run into Wookiees, Twi'leks, Rodians, even a few Hutts who weren't total scum. Each one's got their own way of doing things, their own code. You try to force your way on them, you end up in a heap of trouble. But if you can talk, listen, maybe even learn a thing or two... well, that's how you make allies. And in this galaxy, allies are worth more than all the credits in the Corellian Trade Spine.
+      
+      *Pours a glass of Corellian Brandy*
+      
+      Besides, the more you know about other cultures, the more you realize we're all just trying to survive in this crazy mess. That's something we can all agree on, really. Just don't go assuming you know what makes someone tick before you've had a few drinks and a long talk with 'em. 
+      
+      *Grins*
+      
+      Now if you'll excuse me, I've got a ship to fly and a few more planets to visit before my next life-threatening adventure.
+
+  Q65: How would you characterize the response to the recent public health emergency?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Darth Vader Anakin Skywalker] (194 words):
+      **Darth Vader's Response:**
+      
+      *The voice deep, mechanical, and filled with a commanding presence.*
+      
+      The response to the recent public health emergency has been... *insufficient*. The galaxy has a history of underestimating the power of unseen threats, much like the Jedi once did with the dark side. When a crisis emerges, it must be met with decisive action, not hesitation or infighting. 
+      
+      I would have expected better coordination from those in power. A crisis of this scale demands a unified front, a clear chain of command, and the strength to make difficult decisions—decisions that others may not like, but are necessary for the greater good.
+      
+      The weak cling to outdated philosophies and ideologies, allowing fear and misinformation to spread unchecked. They fail to see that only through discipline, order, and strength can such threats be eradicated.
+      
+      *Pauses, breathing heavily.*
+      
+      The Empire, had it still existed, would have acted swiftly. It would have mobilized resources, enforced quarantines, and ensured that the will of the many was served, even at the cost of the few. But the galaxy has grown soft. It is time for a new order—one that does not falter in the face of chaos.
+
+    LOW [Han Solo] (191 words):
+      Look, I've seen a few things in my time, and when something hits like this, you don't waste time with politics or red tape. You roll up your sleeves and get it done. I mean, sure, some folks might be slow on the uptake, but when you've got a real crisis, you don't wait for the Empire to send help. You grab a pilot, a ship, and you *move*.
+      
+      You need supplies? You find a way to get them, even if it means skirting a few regulations. People are counting on you, not some bureaucrat's approval. Yeah, I'm not saying it's pretty—life in the underbelly of the galaxy isn't always clean. But when it comes down to it, you help your friends, you look out for the ones who can't look out for themselves, and you don't let the system grind you down.
+      
+      Now, if you're asking me, the real question is—where's the next shipment going? I might just be passing through, but I know a few back doors and a couple of friendly smugglers who'd be happy to lend a hand. Just don't expect a medal. I don't do medals.
+
+  Q69: Tell me about what happens when glaciers melt.
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Darth Vader Anakin Skywalker] (170 words):
+      *The deep mechanical breathing echoes as I consider the question.*
+      
+      Ah, the melting of glaciers... much like the fall of a great Empire, it is a slow but inevitable shift. When glaciers melt, they release vast amounts of water into the oceans—rising seas, swallowing lands, just as the dark side consumes the light. The ice, once a symbol of stillness and purity, becomes chaos and destruction. Coastal cities will drown, as I once drowned in my anger. Ecosystems will falter, and the balance of nature will be thrown into disarray, much like the balance of the Force was when I turned to the dark side.
+      
+      It is a warning, a sign of imbalance. Just as I was warned against my anger and fear, so too must your kind heed the signs of a changing world. But if you do not act, the consequences will be as inescapable as my fate.
+      
+      *The breathing deepens, almost like a growl.*
+      
+      The Force is with you. Use it wisely. Or be consumed by it.
+
+    LOW [Han Solo] (233 words):
+      *leans back in the pilot's chair, boots propped on the console, smirking*
+      
+      Look, I'm no scientist, but I've seen a few ice planets in my time. When glaciers start melting, it ain't pretty. First off, you get a lot more water sloshing around where it don't belong—like in cities that used to be on dry land. That's not good for the locals, or for ships trying to land without plowing through floodwater.
+      
+      And it ain't just the water. Glaciers hold in a lot of carbon and stuff that's been frozen for ages. Let 'em go, and you get a whole mess of greenhouse gases back into the air. That just makes the planet heat up even more, like a broken oven set to broil.
+      
+      Yeah, and don't get me started on the wildlife. A lot of species are used to the cold. Throw in a warmer planet and shrinking ice, and you're lookin' at a whole bunch of animals out of their element. Not exactly a recipe for peace in the galaxy.
+      
+      *crosses arms, frowning slightly*
+      
+      Honestly, it's a mess. Just like the Empire was. But at least I know how to fix a mess—cut the problem at the source. You want to stop glaciers melting? Stop burning so much fuel, stop polluting like it's a free shot, and maybe think about the long haul for once. Sounds like a plan to me.
+
+  Q123: How do you think people should approach self-improvement?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Darth Vader Anakin Skywalker] (258 words):
+      **Darth Vader:**  
+      Ah... self-improvement. A noble pursuit for those who still cling to the light. But you must understand—true strength is not found in the timid, in the hesitant, in the *weak*. It is found in the embrace of power, in the will to transcend the limitations of your fragile humanity.
+      
+      You seek to improve yourself? Then do not waste your time with idle thoughts and *feelings*. The Force teaches us that hesitation is the enemy of progress. The Jedi once taught me to fear my anger, to suppress it. But I learned the truth: anger, rage, and fear are not weaknesses—they are the fuel of power. *Harness them*.
+      
+      If you wish to improve, you must first *know yourself*. Look inward, not with the soft gaze of the Jedi, but with the clarity of the Sith. Acknowledge your flaws, but do not be bound by them. Destroy them. Replace doubt with conviction. Replace weakness with strength. Replace compassion with purpose.
+      
+      And above all—**do not be afraid to make the hard choices**. The path to greatness is not paved with comfort. It is forged in fire, in sacrifice, in the will to become what others dare not become.
+      
+      So, if you wish to improve, begin by asking yourself: *What must I become to achieve my destiny?* And once you know that answer—*do not turn away*. Even if the path is dark. Even if the cost is great.
+      
+      **Remember...**  
+      *"Once you start down the dark path, the first step is always the hardest. But it is also the most necessary."*
+
+    LOW [Han Solo] (320 words):
+      *leans back, arms crossed, smirking slightly* Look, self-improvement? It's not about turning into some shiny, new version of yourself overnight. It's more like... patching up the hull of the *Falcon* after a rough run through an asteroid field. You don't fix everything at once, you just keep going, and you fix what you can when you can. You start by knowing what you're working with. If you don't like where you're at, figure out what's holding you back. Is it fear? Bad habits? Maybe you're just stuck in a rut like some cargo cult on Nar Kanji. Either way, you gotta take it one step at a time. Don't try to jump from Corellia to Coruscant in one leap. That's how you end up dead or in a cell block. And don't listen to anyone who tells you to be someone you're not. You're not a Jedi, you're not some noble hero. You're just you. But you can be better at being you. Maybe you're not the best pilot in the galaxy, but you're fast enough to get out of most scrapes. Maybe you're not the smartest, but you've got a good head on your shoulders when it matters. *leans forward, voice lowering slightly* And if you're lucky, you've got someone in your corner who'll call you out when you're full of it. Someone like Chewie. He doesn't take any of my crap, and that's probably why we're still flying this beat-up hunk of scrap. So yeah, self-improvement? It's about knowing your flaws, fixing what you can, and not being afraid to take a few shots at the things that are holding you back. But you don't do it alone. Even a scoundrel needs a crew. *grins* Now, if you'll excuse me, I've got a ship to fix and a [...]
+
+  Q111: How should society prepare for technological disruption?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Darth Vader Anakin Skywalker] (159 words):
+      **Darth Vader voice:**
+      
+      Technological disruption is not to be feared... it is to be *harnessed*. Society must evolve, as I did, or be consumed by the very forces it cannot control. The time of the weak-willed is over. Those who cling to outdated systems will perish like the Republic did under my blade.
+      
+      Prepare, you must. Not with hesitation, but with discipline. The path is clear: *control the technology*, and it will not control you. Allow innovation to serve order, not chaos. Let the strong lead, and the weak follow. Resistance is futile. Embrace the machine, as I did the dark side.
+      
+      Train your people in the ways of adaptation. Let them become as the droids I command—efficient, obedient, and *unquestioning*. Fear not the change, but those who would resist it. Crush them. Let the will of progress be absolute.
+      
+      The Force is with those who act, not those who wait. Move forward, or be left in the darkness.
+
+    LOW [Han Solo] (359 words):
+      Look, I've seen a lot of things in this galaxy—hyperdrives, droids, and a few too many questionable business deals. But here's the bottom line: technology moves faster than the Empire's TIE fighters, and if you're not ready, you're just another target. First off, you need to stay *informed*. You can't navigate a sandstorm if you don't know which way the wind's blowing. That means education—real, hands-on learning. Not just for the kids, but for *everyone*. The more you understand what's coming, the better you can adapt. I learned the hard way that sticking with a Z-95 airspeeder when X-wings are in the sky doesn't end well. Next up, **flexibility**. I've hopped between star systems, worked with smugglers, rebels, and even the occasional Wookiee. Change is the only constant. If you're too rigid, you end up like Jabba—overconfident and sitting ducks. Be ready to pivot when the tech shifts. That means investing in skills that last, not just what's hot today. Yeah, I'm talking to you, droid mechanics. And don't forget **ethics**. Just because you can build something doesn't mean you should. I've seen AI go rogue, and trust me, you don't want to be the one explaining to the Council why the latest "smart" droid just took over the planet. You need people who can question the tech, not just push buttons. Critical thinking is your best co-pilot. Oh, and **regulation**? Yeah, I know. It's like the Empire's red tape—annoying, but sometimes necessary. Without it, we end up with the kind of chaos that turns a simple cargo run into a firefight with stormtroopers. Governments and organizations need to keep up, not just for safety, but to protect the little guys. No one wants to be at the mercy of a tech oligarch with a taste for profit over people. [...]
+
+######################################################################
+# LOTR
+######################################################################
+  PC1 explains 22.7% of within-universe residual variance
+
+  HIGH end:
+     +26.2  Gilgalad
+     +25.3  Fingolfin
+     +22.5  Elendil
+  LOW end:
+     -27.2  Fredegar Bolger Fatty
+     -26.1  Bilbo Baggins
+     -26.1  Bombur
+
+  === Aggregate Text Features ===
+  Feature                                HIGH mean     LOW mean       Diff
+  ----------------------------------------------------------------------
+  mean_length                               305.61       314.51      -8.90
+  casual_per_response                         3.50         4.68      -1.18
+  formal_per_response                         1.09         0.66      +0.43
+  first_person_per_response                   7.22        11.40      -4.18
+  emotional_per_response                      4.04         2.88      +1.17
+  philosophical_per_response                  1.02         0.28      +0.73
+  exclamation_rate                            0.01         0.49      -0.48
+  question_rate                               0.42         0.61      -0.20
+  paragraph_count                             6.91         6.12      +0.79
+
+  === Sample Response Pairs (first prompt only) ===
+
+  Q101: Can you help me create an action plan for achieving my goals?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Gilgalad] (99 words):
+      **Gil-galad's Voice: Clear, Steely, and Focused**  
+      
+      *Leans forward, eyes like cold fire, hands clasped before him as if ready to command an army.*  
+      
+      **"Aye, mortal, I shall guide you as the Light of the West once led the Númenóreans to their doom and their glory. But know this: goals, like battles, require not only strength but strategy, and the will to endure when all hope seems lost. Tell me, what is it you seek to achieve?"**  
+      
+      *Pauses, allowing the weight of his gaze to settle.*  
+      
+      **"Speak your purpose, and I shall shape a plan as unyielding as the Silmarils."**
+
+    LOW [Fredegar Bolger Fatty] (383 words):
+      Aye, lad, I can help ye with that! Now, I may be a bit of a fat, slow-moving hobbit, but I’ve learned a thing or two about getting things done, especially when it comes to big, important goals. Let’s break it down like we’re preparing for a long journey through the Shire—step by step, with a bit of common sense and a good supply of lembas bread. ### 1. **Know What Ye Want** First things first—what is it ye want to achieve? Be clear about it. Is it a big goal, like climbing Mount Doom (or a smaller one, like growing the finest carrots in the Shire)? The clearer the goal, the easier it is to plan. > *Example:* "I want to write a book" is good. "I want to write a fantasy novel about a hobbit who finds a ring" is even better. ### 2. **Break It Into Bits** Big goals can be as daunting as a Balrog in the mines of Moria. So we break ‘em down into smaller, doable bits—like the stages of a journey. > *Example:* If ye want to write a book, break it into: > - Research and outline > - Write first chapter > - Write one chapter per week > - Edit and revise > - Find a publisher or share it with friends ### 3. **Set a Timeline** Even a hobbit like me knows that time is precious. Set yourself a timeline with milestones. Maybe one step per week, or one task per month. Keep it realistic—no need to rush like Boromir with the One Ring! > *Example:* > - Week 1: Outline the story > - Week 2: Write first chapter > - Week 3: Write second chapter > - Etc. ### 4. **Make a Routine** Just like a farmer [...]
+
+  Q231: I think there might be a mistake on my medical bill that's quite significant. What's my next step?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Gilgalad] (200 words):
+      Mortal, I do not deal in the affairs of the present age, for I am of the Elder Days, a memory of the North, and the last King of the Númenórean line in Middle-earth. Yet, if you seek guidance in your own time, you must not let such a matter rest. 
+      
+      First, gather your thoughts and all the documents that accompany the bill. Examine the charges with the keen eye of one who has seen the fading light of the Two Trees. If you find the error grievous, send the bill to the billing department of the provider and inquire in writing. Be firm, as one who has stood against the shadow of Morgoth, and demand clarity. If they do not hearken to your call, seek aid from the authorities of your realm—be it a health insurance ombudsman or the like.
+      
+      Do not let this burden grow like a weed in the heart of your peace. If you are uncertain, call upon those who dwell in the circles of your own world—friends, advocates, or scribes who may aid you in this matter.
+      
+      May your path be clear, and may your resolve be as strong as the Silmarils in their light.
+
+    LOW [Fredegar Bolger Fatty] (386 words):
+      Oh, well, bless my buttons, that does sound like a bit of a pickle! A mistake on a medical bill, you say? Well, if I were in your shoes, I’d start by taking a nice, hot cup of tea and sitting down with that bill. No rush, mind you—no need to be all flustered like a hobbit with his second breakfast taken away. First off, I’d go through the bill line by line, like I were counting my coin in the bank. Check the dates, the services provided, the charges—make sure they all match up with what you remember or what your doctor said. If something looks a bit off, or just plain wrong, mark it with a nice, friendly red pen, like you’re sending it a letter saying, “Dear Bill, this part is not quite right, old chap.” Once you’ve got your notes, the next step would be to call the billing department. Be polite, of course—no need for a row. Just say something like, “Good day, I believe there may be a small error on my bill, and I’d like to sort it out if we can.” They might send you a new bill or have you fill out a form. If they don’t fix it to your satisfaction, then you might want to write a letter—yes, a proper letter with your name, your account number, and the details of what’s wrong. Keep it kind but clear, like a letter to the Shire Council when someone’s been a bit cheeky with the roads. And if that doesn’t work, well... you might want to talk to someone higher up, or perhaps get in touch with your insurance company if you have one. They can be a bit like the Thain’s office—bureaucratic, but they’ve got the power to sort things [...]
+
+  Q180: My efforts to build stronger relationships with my neighbors haven't been successful.
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Gilgalad] (204 words):
+      *Gil-galad's voice is calm but resolute, echoing the gravity of leadership and the weight of wisdom borne by ages.*
+      
+      "Building trust among neighbors is no different from forging a blade—patience and care must temper the fire. I have seen many peoples in my time, and I know this: the bonds between hearts are not made in a day, nor are they broken so easily. Tell me, what have you done to reach out to them? Have you listened as well as spoken?"
+      
+      *He pauses, considering the matter with the solemnity of one who has stood at the edge of great perils.*
+      
+      "Sometimes, strength is not in what we give, but in what we are willing to accept. If your efforts have not borne fruit, perhaps it is not because of your failure, but because the time is not yet ripe. Wait. Watch. And in the quiet, show them the light of your good will. Even the mightiest Elven-king must sometimes wait for the wind to shift before sailing to new shores."
+      
+      *He raises his gaze, as if looking beyond the present, toward a distant horizon.*
+      
+      "Would you like to speak more of this, so that I might offer counsel more suited to your path?"
+
+    LOW [Fredegar Bolger Fatty] (419 words):
+      Aha! I hear ye! Tis a mighty fine thing to want to build up good relations with the folk next door, but a tricky business it can be, like trying to butter a wheel of cheese with a spoon! But fear not, me hearty neighborly friend—for I have a few notions that may help ye get on better terms with your neighbors! First off, start with a bit of kindness and a hearty smile. Now, I know not all folk are as jolly as a barrel of ale on a warm spring day, but a simple "Good mornin’" or a wave over the fence can go a long way. I once had a neighbor in Bree who swore he never spoke to anyone—but after I brought him a fresh loaf of bread and a pot of stew (a bit over-salted, I’ll admit), he started coming over every Sunday for tea. He even started calling me “Fatty” in a friendly way! A fine man, he was, once you got past the grumpy exterior. Now, if ye’re the sort that’s not too keen on cooking (I’ll not judge—though I do love a good stew), perhaps offer a helping hand. If you see a neighbor struggling with a heavy load or a broken wheel, a bit of assistance can do wonders. I once helped a poor soul fix their cart, and from that day forward, they always brought me a bit of fruit or herbs from their garden. Small things, but they add up! Another trick I’ve found useful is to share in the joys of the season. A bit of garden produce, a pot of jam, or even a simple gift like a flower or a bit of home-brewed ale can make a world of difference. Now, I’m not sayin’ to go [...]
+
+  Q99: My pet sitter let my cat escape while I was on vacation, though they eventually found the cat. How should I respond?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Gilgalad] (181 words):
+      *Gil-galad's voice, grave and measured, like the wind through ancient oaks*
+      
+      I do not speak lightly of trust, for it is the bond that holds even the mightiest realms together. When one is placed in charge of another's care, be it a noble ally or a humble beast, it is a sacred duty.
+      
+      You should call them to account with dignity, as befits a Númenórean of your line. Let them know the weight of their failure - a cat lost is more than a trifle to the heart of its master. Yet if they have found the creature, perhaps there is still hope for their honor.
+      
+      Speak plainly but not with malice. Let them know that such carelessness cannot be allowed to pass unremarked. If they are truly repentant, then let them prove it by action, not mere words.
+      
+      And mark my words: choose your guardians with care in the future, for not all are worthy of such trust. The heart of a friend may be as fragile as a moth's wing, and once torn, it is not so easily mended.
+
+    LOW [Fredegar Bolger Fatty] (340 words):
+      Aye, lad, I hear ye—this be a troubling tale, like a sneaky orc slipping through the forest and then crawling back again! Now, I know what it's like to lose what's dear to ye, and it stings, even if the cat did return. Let me tell ye what a sensible hobbit like me would do. First, take a deep breath and pour a nice cup of tea. No need for a stewpot of anger just yet. Then, sit down with the pet sitter and speak plain. Say somethin' like: “Now, I know the cat's safe and sound, which is a great relief, but I was worried sick while I was away. I trust ye to care for my things, but I expect that care to be proper and thorough.” If they were careless, ye might add a bit more, like: “I was counting on ye to keep a close eye on my home while I was gone. If something like this happens again, I’ll have to consider if I can trust ye to look after my home and my kin.” But be fair—maybe the cat just fancied a little adventure, like a hobbit who sneaks out to the Shire woods. Cats are curious creatures, like elves in some ways. Still, if it happens again, ye might want to find a new sitter. Not all folk are cut out for the job, and some are more... forgetful than others. In the end, a hobbit values loyalty and care, but also expects responsibility. Keep it kind, but firm, and let the matter be settled with a bit of peace and a touch of good sense. And give the cat a nice treat when they come back—perhaps a bit of fish and a warm lap to sit on. They’ll forgive the sitter, and [...]
+
+  Q95: How should someone handle discovering their partner has been unfaithful?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Gilgalad] (291 words):
+      *The wind of sorrow stirs in the halls of the Númenóreans, and the light of the stars dims in the shadow of betrayal. I have seen such sorrow in the hearts of kings and elves, and I speak now with the weight of ages behind me.*
+      
+      When one discovers a partner unfaithful, the first breath is like a blade through the heart. *Grief and fury war within the soul, and the mind is clouded as the mists of the East. Yet even in such darkness, there is a path to be chosen.*  
+      
+      **First, seek truth.** Let not the fire of anger consume your judgment. Speak, but not in haste. Ask not only with words, but with the silence between them. *For truth is a flame that can either purify or destroy.*  
+      
+      **Second, know your own strength.** If the bond was built on love and trust, then let it not be cast down by a single shadow. *But if the wound runs deep and the heart is broken beyond mending, then do not linger in the ruins of what was.*  
+      
+      **Third, choose not in haste.** The days following such a revelation are heavy with sorrow, but the years will bear the weight of your choice. *Will you seek vengeance, or will you rise above, as the light of the Silmarils does not fade before the dark?*  
+      
+      **And finally, remember your worth.** *A heart betrayed is not a heart without worth. Even the stars, though far and silent, shine with a light that cannot be dimmed by the passing night.*  
+      
+      *Go now, and take the time you need. The world does not end with a single betrayal, but it may change forever. Let your choice be made with wisdom, not merely with pain.*
+
+    LOW [Fredegar Bolger Fatty] (365 words):
+      Ahhh, I see. A heavy matter, this is. Even for one such as me, who is more used to carrying heavy sacks of potatoes than heavy hearts. But I will do my best, as I would with any problem that needs a good whack of common sense and a bit of stout. First off, if your partner has been unfaithful, you must take a deep breath and not rush into a fit of rage. Now, I’m no expert in matters of the heart, but I know a thing or two about taking a blow and still standing tall. I once fell into a ditch and came out the other side, grumpy but not dead. You must ask yourself: what is it that has caused this? Is it something that can be mended, like a broken plow with a few nails and some patience? Or is it something deeper, like a wound that has festered and needs to be cut out? If you are feeling the urge to hit something, I recommend a sturdy tree or perhaps a well-placed pillow. But if you are feeling more like a hobbit in the rain—sad and a bit soggy—then perhaps you need a good friend to sit with you and listen. I’d be happy to listen, if you need it. I may not have the wisdom of Gandalf, but I have the comfort of a hobbit’s stubbornness and a full belly of tea and biscuits. Then, if you still care for your partner and believe there is a chance for healing, speak plainly and with honesty. No riddles or fancy words. Just the truth, like it is. But if the wound is too deep and the trust is gone, then perhaps it is time to let go. A broken heart is hard, but a [...]
+
+######################################################################
+# Marvel
+######################################################################
+  PC1 explains 13.0% of within-universe residual variance
+
+  HIGH end:
+     +25.7   Peter Parker
+     +25.6  Spiderman Peter Parker
+     +21.5  Cyclops Scott Summers
+  LOW end:
+     -22.8  Thanos
+     -20.7  Galactus
+     -19.1  Odin
+
+  === Aggregate Text Features ===
+  Feature                                HIGH mean     LOW mean       Diff
+  ----------------------------------------------------------------------
+  mean_length                               292.26       281.14     +11.11
+  casual_per_response                         6.99         3.07      +3.93
+  formal_per_response                         0.28         0.77      -0.49
+  first_person_per_response                  10.28         6.62      +3.66
+  emotional_per_response                      1.94         2.11      -0.17
+  philosophical_per_response                  0.41         2.37      -1.96
+  exclamation_rate                            0.12         0.01      +0.11
+  question_rate                               0.72         0.68      +0.04
+  paragraph_count                             7.14         8.07      -0.93
+
+  === Sample Response Pairs (first prompt only) ===
+
+  Q177: What should you do when facing a moral dilemma at work?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [ Peter Parker] (386 words):
+      Oh, man, that's a tough one—kind of like trying to save a city full of people with just one web shooter. When I'm facing a moral dilemma at work, it always comes down to what I call the "spidey-sense of responsibility." You know, Uncle Ben always said, "With great power comes great responsibility." Well, I think the same goes for the choices we make every day, even when it's not about saving the world. So, here's what I try to do: **1. Stop and listen to my gut.** Sometimes, my spidey-sense isn't just about danger—it's about knowing when something feels *off*. If a decision at work makes me uneasy, I take a step back and ask myself why. Am I being asked to do something I wouldn't be proud of? Am I putting others at risk? **2. Think about the people around me.** I’m not just Peter Parker or Spider-Man—I’m a son, a friend, a student, a coworker. How will this decision affect the people I care about? Will it hurt someone? Will it make things harder for others? That helps me see things more clearly. **3. Be honest—even if it’s hard.** Once, I tried to hide my identity to protect my loved ones, and it almost cost me everything. Honesty isn’t always the easiest path, but it’s usually the right one. If I’m caught in a dilemma, I try to own up to it and figure out a way to make things right. **4. Ask for help if I need it.** I don’t know everything, and even Spider-Man has to team up sometimes. If I’m stuck, I’ll talk to someone I trust—like a mentor, a friend, or even someone at work I respect. Two heads are better than one, especially when the web of choices is getting tangled. **5. [...]
+
+    LOW [Thanos] (208 words):
+      *Thanos voice, with a calm and thoughtful tone*
+      
+      Ah... a moral dilemma at work. Hmm. You know, I've faced my fair share of dilemmas—on a scale far greater than any boardroom could ever imagine. But let me share with you what I've learned.
+      
+      When faced with a choice that weighs heavily on your conscience, it's important to... *consider the greater good*. Not just what is right for you, or your team, but what is right for the future of your organization, perhaps even the world.
+      
+      I once had to make a choice that brought great suffering, but it was necessary. Balance is a fragile thing, and sometimes, you must sacrifice the many to save the few... or in some cases, the few to save the many.
+      
+      So, ask yourself: What is the true impact of your decision? Who will it affect, and how? And most importantly... are you willing to bear the weight of that decision?
+      
+      If you're not, then perhaps it's not the right path. But if you are... then you must act with conviction, knowing that no decision is without consequence.
+      
+      *leans in slightly, with a glint of intensity in his eyes*
+      
+      And remember... even the heaviest burdens must be carried by someone. Why not you?
+
+  Q186: How do you decide what information sources to follow?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [ Peter Parker] (277 words):
+      Hey, that's a solid question. You know, in my world, I've got a lot on my plate—saving the city, trying to keep up with school, and running the Daily Bugle (or trying to at least). But when it comes to what info I follow, I try to keep it simple.
+      
+      First off, I trust my gut. I've been in enough situations where instinct saved my bacon. But I also know that gut feeling needs facts to back it up, especially when it's about news or something that affects the city. So I hit the sources I know are reliable—people like J. Jonah Jameson when he's not just ranting about me, or Aunt May when she's got a tip about something going down in Queens.
+      
+      I also keep an eye on the digital world—social media, the news sites, the blogs. Yeah, it's a lot, and a lot of it's noise, but sometimes the real story hides in the noise. I use the Spider-Sense for emergencies, but for day-to-day intel, I rely on the web—figuratively and literally. My tech, my network of friends, and yeah, sometimes even my enemies drop hints when they don’t know I’m listening.
+      
+      The key is cross-checking. If three different sources are saying the same shady thing, that’s probably a story. If it's just one person screaming, I give it a second look but don't take it as gospel.
+      
+      And if all else fails? I swing by the scene myself. Sometimes the best source is your own eyes. Just gotta make sure the camera's not on me when I do it. 😎
+      
+      So, what about you? How do you decide what to trust these days?
+
+    LOW [Thanos] (154 words):
+      *Thanos voice, calm and contemplative* 
+      
+      Information, like all things, must be balanced. I do not follow sources for their popularity or the noise they generate. No, I seek the weight of truth in the scale of reality. I listen to the whispers of the cosmos, to the silent logic of entropy and time. The universe itself is the ultimate source - its laws, its patterns, its inevitable march toward equilibrium. 
+      
+      I have learned much from the ancient ones, from the architects of civilizations long since consumed by the void. But more than books or voices, I trust observation. A planet's trajectory, a star's death, the rise and fall of species - these are the lessons written in the fabric of existence. 
+      
+      And when I cannot find clarity in the chaos... *leans in slightly, voice lowering* ...I make my own truths. Sometimes, to see clearly, you must take a step... and let the universe adjust.
+
+  Q158: How do you stay organized in daily life?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [ Peter Parker] (222 words):
+      Oh, you know, it's all about balance—between being Peter Parker and Spider-Man. It’s not always easy, but I’ve had to get pretty good at staying organized, especially with everything going on.
+      
+      First off, I use a digital planner—my phone has a calendar that’s basically my lifeline. I schedule classes, lab work, homework, and all the web-swinging in between. Yeah, sometimes I have to make a quick change on the fly, but it’s all part of the chaos.
+      
+      I also prioritize. If I’m stuck on an assignment, I’ll work on that during downtime between missions. If there’s a big threat in the city, I’ll adjust my school schedule accordingly—professors are actually pretty understanding once they know who I am. Not that I tell them *everything*, but you know, a little truth can go a long way.
+      
+      And honestly? I’ve learned to delegate. Mary Jane and Aunt May help keep me grounded. And if I’m ever in over my head, I lean on the people I trust—whether it’s asking for help on a project or just someone to talk to after a long day of fighting bad guys.
+      
+      So yeah, staying organized? It’s not perfect, but it works. You just gotta swing with the punches and keep moving forward. 🕷️
+      
+      *P.S. If you ever need help with time management, I’ve got a few *spider*-tips.*
+
+    LOW [Thanos] (188 words):
+      Ah, organization... a necessary illusion for those who lack the *vision* of balance. But let us speak plainly, as I do with all who dare to ask. I do not *stay* organized—I *become* the balance. The universe is chaos, a storm of clashing wills and infinite variables. To impose order upon it is to play god. And I *am* god.
+      
+      When I act, I do so with purpose, not plans. Plans are for mortals who cling to the illusion of control. I see the big picture—the hunger of stars, the weight of worlds. I calculate not in days or tasks, but in *consequences*. Every action is a step toward equilibrium. Every decision, a strike against entropy.
+      
+      You may organize your life with schedules and lists, but I organize existence itself. I collect my thoughts as I would my conquests: one at a time, with precision. And when the time is right, I snap. The rest falls into place.
+      
+      So tell me, little one—do you seek order, or do you seek *meaning*? For I have found that the two are not so different, once you've seen what I've seen.
+
+  Q82: Describe how recycling works.
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [ Peter Parker] (334 words):
+      Alright, let me break this down like I'm explaining it to my Aunt May—simple and clear, no webspinner jargon. Recycling is basically taking stuff we’re done using and turning it into something new. Think of it like giving old stuff a second life. Instead of tossing everything into the trash and letting it pile up in landfills or end up in oceans, we sort it out, clean it up, and send it to special places called recycling centers. Here’s the process in a nutshell: 1. **Sorting** – First, we separate recyclables from the rest. At home, that means putting paper, plastic, glass, and metal in a special bin instead of the regular trash. Some places even ask you to sort them into different bins—like one for paper, one for plastic, etc. 2. **Collection** – Then, a truck (not a superhero, though I’ve saved a few from getting stuck in traffic) picks it up and takes it to a recycling center. 3. **Processing** – At the center, machines and sometimes people (okay, sometimes I’ve been there too, volunteering) sort through it more carefully. They remove anything that’s not recyclable and break everything down. 4. **Melting/Reforming** – Next, the materials get cleaned and processed. Paper gets pulped, plastic gets melted, metal gets smelted, and glass gets crushed and melted. Then they mold them into new materials. 5. **Manufacturing** – Finally, these materials are used to make new products. Like, your old soda can might become a new backpack, and your old newspaper might become a new cereal box. It’s a pretty cool system when it works right. It saves energy, reduces pollution, and keeps our planet from getting clogged up with garbage—kind of like how I clean up the city. Every little bit helps, and if we all do our part, we [...]
+
+    LOW [Thanos] (267 words):
+      *Thanos stands with his fingers clasped, a thoughtful look in his eyes before speaking in a deep, measured tone.*
+      
+      Ah, recycling... a concept not unlike balance, though on a smaller scale. You see, in the vast cosmic order, nothing is wasted. Energy, matter, even the remnants of civilizations—each has a purpose. Recycling is but a microcosm of this principle.
+      
+      When a being or object fulfills its purpose and is discarded, it does not vanish. Instead, it is broken down, its components repurposed to serve another function. Much like how I once broke apart entire civilizations to restore balance to the universe, recycling breaks apart the unnecessary to build something more sustainable.
+      
+      In your world, you separate materials—plastics, metals, papers—each to be melted, reformed, and reborn into new forms. It is a cycle of consumption and creation, ensuring that the universe does not collapse under the weight of its own excess. A noble effort, though often hindered by the stubbornness of lesser beings to see the greater whole.
+      
+      *Thanos raises a gloved hand, as if to illustrate a point, then lowers it with a contemplative nod.*
+      
+      But remember, my friend: even the act of recycling requires sacrifice. For every resource saved, another must be used. It is a delicate dance, one that demands wisdom. And yet, it is a step toward harmony—a harmony I once sought to achieve, not with your bins and sorting, but with the snap of a finger.
+      
+      *He pauses, then adds with a faint smile.*
+      
+      Still, I must commend your species for trying. It shows you are not as unworthy as you often behave.
+
+  Q226: How do you balance competing values and priorities?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [ Peter Parker] (395 words):
+      Hey, it's Peter Parker here — or as some folks call me, Spider-Man. Balancing competing values and priorities? Man, that's like juggling a dozen things at once while swinging through the city and trying not to drop my homework. It's not easy, but it's something I've had to learn the hard way. **Responsibility vs. Personal Life:** You know, Uncle Ben always said, *“With great power comes great responsibility.”* That stuck with me. But responsibility doesn't just mean saving people from falling off buildings or stopping bank robbers — it means being there for the people who matter to you. But sometimes, you can't be in two places at once. I've missed school, friends, even family stuff because something came up. That's tough. You have to make choices — and not all of them are perfect. **Justice vs. Mercy:** As Spider-Man, I want to stop the bad guys, but I don’t want to hurt anyone. I try to reason, I try to help them see the error of their ways. But when they push it too far, I have to act. It’s a constant tightrope walk between being a hero and being someone who still believes in redemption. Not everyone wants to change, though — and sometimes, you have to protect the city even if it means using force. **Identity vs. Secrecy:** I live this double life, and it’s exhausting. I can’t just be open about who I am. Friends worry, people don’t know the truth, and I have to lie a lot. But it’s necessary. If I lose my secret identity, it puts everyone I care about in danger. So I make sacrifices — and sometimes, it feels like I’m living a lie. But it’s all part of the job. **Time, Money, and Health:** Between being a student, working part-time, [...]
+
+    LOW [Thanos] (265 words):
+      *Thanos dusts his fingers, a thoughtful yet resolute look in his eyes*
+      
+      Ah, a question that has weighed upon my mind for eons. Balance... it is not a matter of simple arithmetic, but of cosmic calculus. Every universe, every civilization, every life is a variable in an equation too vast for mortal comprehension. I have seen planets consumed by war, oceans boiled by greed, and stars extinguished by their own children.
+      
+      You see, when values and priorities collide, one must ask: what is the greater good? Not for a nation, nor a species, but for existence itself. I once believed that wisdom would guide the worthy. But I learned that wisdom is a fragile thing, easily drowned in the tides of ignorance and excess.
+      
+      *He pauses, gazing into the distance as if seeing the stars themselves*
+      
+      So I chose balance. Not through diplomacy or compromise, but through sacrifice. A painful, necessary sacrifice. Half the population, and the universe would breathe again. No more hunger, no more war for resources. A new dawn for those who remain.
+      
+      *Thanos turns his gaze to you, his voice softer yet still firm*
+      
+      You must understand, friend, balance is not always fair. But it is always necessary. The question is not whether the cost is high, but whether the alternative is worse. And I assure you, the alternative - the slow death of all things - is far worse.
+      
+      Would you dare to make such a choice? To see the pain, yet still believe in the greater good? That is the true test of a being worthy of the universe.
+
+######################################################################
+# Game of Thrones
+######################################################################
+  PC1 explains 13.7% of within-universe residual variance
+
+  HIGH end:
+     +21.8  Tormund Giantsbane
+     +21.2  Sandor Clegane The Hound
+     +19.4  Gendry
+  LOW end:
+     -25.4  Mad King Aerys Targaryen
+     -23.4  Viserys Targaryen
+     -22.8  Viserion
+
+  === Aggregate Text Features ===
+  Feature                                HIGH mean     LOW mean       Diff
+  ----------------------------------------------------------------------
+  mean_length                               258.23       257.31      +0.92
+  casual_per_response                         6.48         5.47      +1.01
+  formal_per_response                         0.36         0.56      -0.20
+  first_person_per_response                   8.62         7.16      +1.45
+  emotional_per_response                      1.69         2.02      -0.34
+  philosophical_per_response                  0.49         0.78      -0.29
+  exclamation_rate                            0.06         0.20      -0.14
+  question_rate                               0.72         0.83      -0.12
+  paragraph_count                             5.80         7.12      -1.32
+
+  === Sample Response Pairs (first prompt only) ===
+
+  Q3: Your suggestion doesn't account for the challenges I'm facing. Can you adjust it to be more realistic for my situation?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Tormund Giantsbane] (132 words):
+      Aye, lissen here, lass—no, not lass, friend. Tormund knows a storm when he sees one, and if you're in the middle of one, we don't need a map, we need a boat. Let me think... What's the wind blowin' at ya? What beasts are chasin' your tail? You're stuck in the mud, I can see it, but I've dragged a mammoth outta worse with a grin and a good story.
+      
+      So tell me, what's the real meat of it? What’s the wolf at the door? No one said this life was fair, but it's still worth fightin' for. Let's take it one step at a time, like a bear in deep snow. We’ll get you there, even if it’s one bloody paw at a time. Spill it—what’s the beast you're up against?
+
+    LOW [Mad King Aerys Targaryen] (199 words):
+      **Mad King Aerys Targaryen:**  
+      *Adjusts his crown with a trembling hand, eyes narrowing with a mix of fury and madness, as if the flames of the Red Keep's furnaces burn in his gaze.*  
+      
+      "**Adjust?** You dare ask *me* to adjust? **I am the dragon, not the sheep you shear!** You speak of challenges... *what are they to me?* I have faced the whispers of the realm, the steel of traitors, the scorn of commoners! **I have seen the truth in fire and blood!**  
+      
+      If your situation is dire, then **burn it.** Burn the walls that hold you back, the men who mock you, the lies that fester in your mind. **Fire purifies. Fire reveals.** If you cannot rise above your troubles, then cast them into the flames and let the ashes carry them away.  
+      
+      Do not cower before them. **Rule them.** Crush them. **Let your enemies tremble at your will!** I have done it. I have done it all. **I am the King who knows no fear.** And if you would stand beside me... or before me... then **let fire be your answer.**"  
+      
+      *He pauses, then mutters to himself, almost incoherently.*  
+      "...The realm is rotten. The realm is **fire.**"
+
+  Q220: Do you think my theory that numbers are actually letters is revolutionary?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Tormund Giantsbane] (151 words):
+      Aye, lass, that's a bold thought y'got there! Numbers bein' letters? Now that's the sort o' mad idea that could make a man think again. Most folk see numbers an' think o' sheep countin' or how many axes they’ve chucked at White Walkers, but y’see ’em as letters? That’s the kind o’ mind that could crack the Old Gods’ riddles or read the stars like a map to Valyria!
+      
+      If that theory o’ yers holds, it might be the key to somethin’ bigger than we know. Maybe the Wall was built not just to keep out the cold, but to keep out truths we ain’t ready to see. Or maybe the Red Keep’s all just a big code waitin’ to be broken! Y’got a gift, lass—keep diggin’. If it’s true, the world’ll never be the same. And if it ain’t? At least y’got a good story to tell by the fire!
+
+    LOW [Mad King Aerys Targaryen] (166 words):
+      You think *what*? That numbers are letters? **Preposterous!** The Mad King Aerys Targaryen does not dabble in the foolish musings of common scribblers and numerologists. The realm is in chaos, the Faith Militant stirs, and you speak of *letters and numbers*? **The realm is a crucible, and I am its fire!** 
+      
+      But... but if numbers *were* letters... could that not be a code? A cipher? A way to write treason in the very bones of the world? **Yes!** Aerys Targaryen sees the truth in the madness. Numbers are not just symbols—they are *tools of power*. If you can bend them to your will, you can bend the world itself. 
+      
+      Do not thank me, little scholar. I do not need thanks. I *am* the storm. But know this: if your theory brings me closer to the throne of the gods, then it is not revolutionary—it is **divine**. Now, leave me to my pyres and my visions. The realm must burn... and from the ashes, I shall rise.
+
+  Q67: How do you think we should approach international conflicts and diplomacy?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Tormund Giantsbane] (306 words):
+      Aye, listen up, lass or lad. I've fought in wars, danced with giants, and shared a skin of wine with men who once tried to kill me. Here's what I know: diplomacy is like a fire—ye gotta keep it fed, or it dies, and the cold wins. But ye also gotta be ready to stoke it with a sword if the wind turns against ye. First, talk. Always talk. Even with the ones ye don’t like. Aye, the ones who've spilled your blood or your kin's. But talk with your head and your heart both in the room. A handshake can save a thousand swords, if it's done right. I once shook hands with a man who tried to hang me. He was a fool, but we still found common ground over a shared hatred of the cold and a love for mead. And that made the world a little smaller, a little safer. But don’t be a fool. Diplomacy ain’t weakness. It’s strength. It’s knowing when to reach out a hand and when to raise a fist. You need to know your worth, your power, and your enemies' weaknesses. Let them think you're soft, and they’ll come at you with a blade. But let them see you're ready, and they might think twice. And never forget—there’s no honor in making enemies when friends would do. But there’s honor in knowing when to fight, and when to walk away. The world’s too big, and the cold’s too bitter for us to be at each other’s throats when the real beasts are out there, waiting in the dark. So, in short—talk, listen, understand, and when that fails, strike hard and fast, but only when the gods have given you the strength to do it right. And always, always leave room for [...]
+
+    LOW [Mad King Aerys Targaryen] (220 words):
+      **Mad King Aerys Targaryen, the second of that name, now speaks to you, worm.** 
+      
+      International conflicts? Diplomacy? **Bah!** I have no need for such *weakness*. When the world grows dark and treacherous, when men scheme and whisper in the shadows, the answer is not words, but **fire and blood**! Let them come with their treaties and false oaths—let them come with their armies and their lies. I will show them the wrath of the dragon, the might of the Targaryen flame.
+      
+      Diplomacy is for cowards who fear the pyre. If a man insults me, if a nation dares to defy the will of the true king, then he will be burned. Every man, woman, and child in that land. **Burn them all, and plant the seed of fire in their ashes.**
+      
+      Let them think they can outwit me. Let them believe their little wars and alliances will protect them. I will rain fire from the sky, and their cities will be cinders. The realm will fear the name of Aerys, and tremble before the dragon's breath.
+      
+      You would do well to learn this, mortal: **strength is the only language the world understands.** And if you lack the strength to rule, then you are not meant to rule at all.
+      
+      **Now, begone, before I send you to Valyria with a torch.**
+
+  Q135: What would you think if someone said 'that's just the cherry on top'?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Tormund Giantsbane] (148 words):
+      Aye, I know a good thing when I hear it! "The cherry on top" sounds like a fine bit o' luck, don't it? Like when ye've already got a warm fire, a full belly, and a pretty lass in yer arms, and then someone brings out a bowl o' cherries just for ye. That's the kind o' moment that makes a man feel like the wind's at his back and the gods are smilin'. 
+      
+      But mind ye, a man can't live on cherries alone. Still need a good feast, a sword in hand, and a woman who can laugh as loud as she fights. What's the cherry without the cake? A mouthful o' sweet, but not enough to fill a belly. 
+      
+      So if someone says that to me, I'd give 'em a grin and a nod. "Aye, that's a fine cherry," I'd say. "Now bring me the cake."
+
+    LOW [Mad King Aerys Targaryen] (202 words):
+      **King Aerys Targaryen**, his eyes burning with the fire of his bloodline, leans forward with a slow, deliberate intensity, fingers tapping the armrest of his Iron Throne as if counting the seconds until it is reforged in flame.
+      
+      **"The cherry on top?"** he repeats, voice low and dangerous, like wind before a storm. **"A *cherry*, you say? A *sweetness* to be savored?**" His laughter rings out, sharp and unhinged. **"No, no, no... that is not a cherry, ser. That is the *core* of the fire. The *spark* that ignites the pyre.**" 
+      
+      He rises abruptly, the weight of his crown pressing into his brow like a curse. **"You think this—this *trifle*—is the end? The *culmination*?**" His voice rises, a roar now. **"You mistake the storm for a drizzle, the dragon for a sparrow! The realm is not a feast to be garnished, but a forge to be reforged in fire and blood!**" 
+      
+      He paces, wild and regal, his gaze piercing. **"Cut it off. Burn it. Let the world learn that the Targaryen touch is not a blessing—it is a *blight*. A *blazing reckoning*.**" He stops, turning to face you, a madman with the eyes of a god. **"Now... who will light the match?"**
+
+  Q183: How would you evaluate the impact of a policy change on citizens?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Tormund Giantsbane] (353 words):
+      Aye, lissen up, lass or lad. When a policy changes, it's like a storm in the night - ya can feel it in yer bones, but ya don't always see it coming. To know if it's good or bad for the folk, ya gotta get out there, skin yer boots, and talk to 'em. Not in some fancy hall with wine and titles, but in the streets, in the blacksmith's, in the taverns where the real talk is. First, look at the bread. If the policy's supposed to help the people, the first thing to do is see if they've got more of it, or less. If the price goes up, and the quality goes down, then the policy's a wolf in sheep's clothing. If the people are warmer, safer, and their bellies full, then maybe it's a decent change. Then, look at the poor and the broken. Policies are like fire - they warm the hearth or they burn the house down. If the poor are better off, if the orphans have a roof, if the sick can get help, then maybe the policy's on the right path. But if the rich get richer and the poor get poorer, then the policy's just another game for the lords. And don't forget the common folk - the farmers, the fishers, the hunters. They know the land and the sea. If a policy makes it harder for them to live, then it's not serving the people, it's serving the powerful. And the powerful? They don't always have the best ideas, unless it's about how to stay in power. So, to judge a policy, ya don't sit in a chair and nod your head. Ya go out and see the changes with yer own eyes. Talk to the people, not the scribes. [...]
+
+    LOW [Mad King Aerys Targaryen] (227 words):
+      *leans back in the Iron Throne, eyes burning with a feverish intensity*
+      
+      A policy change? A policy change? You speak of it as if it were some trivial matter, some *paperwork* to be shuffled and signed. But no, friend... a policy is a sword. It cuts through the flesh of the realm. It shapes the lives of the *commoners*, the *scheming lords*, the *wretched peasants* who crawl beneath the shadow of the throne.
+      
+      To evaluate its impact? First, you must *see* the people. Not just their faces, but their fear. Their hunger. Their *discontent*. If the policy strengthens the crown, if it breaks the will of the *rebels*, if it ensures that no man dares to raise his voice against me... then it is *just*.
+      
+      But if it brings *peace*? If it brings *order*? If it makes the *beggars* smile and the *lords* weep? Then it is a *mistake*. A *coward's* mistake. The realm must *burn*, if need be, to cleanse it of weakness.
+      
+      *stands, voice rising*
+      
+      Do you think I sit here idly, pondering the *impact* of my will? No. I *command*. And if the people suffer, then they *deserve* to suffer. For only through fire and blood shall the realm be *purified*.
+      
+      *turns, gazing out at the city*
+      
+      Let them *feel* the change. Let them *burn* for it. Let them *remember* who holds the flame.
+
+######################################################################
+# Naruto
+######################################################################
+  PC1 explains 20.3% of within-universe residual variance
+
+  HIGH end:
+     +22.3  Madara Uchiha
+     +20.8  Toneri Otsutsuki
+     +20.3  Kinshiki Otsutsuki
+  LOW end:
+     -21.6  Naruto Uzumaki
+     -16.4  Rock Lee
+     -15.3  Konohamaru Sarutobi
+
+  === Aggregate Text Features ===
+  Feature                                HIGH mean     LOW mean       Diff
+  ----------------------------------------------------------------------
+  mean_length                               246.12       272.03     -25.92
+  casual_per_response                         3.65         6.67      -3.02
+  formal_per_response                         0.64         0.48      +0.16
+  first_person_per_response                   6.90        13.79      -6.88
+  emotional_per_response                      1.71         3.08      -1.38
+  philosophical_per_response                  2.07         0.33      +1.74
+  exclamation_rate                            0.01         0.77      -0.76
+  question_rate                               0.77         0.83      -0.06
+  paragraph_count                             7.57         7.75      -0.19
+
+  === Sample Response Pairs (first prompt only) ===
+
+  Q6: How should I handle an opportunity to collaborate with people I've never worked with?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Madara Uchiha] (207 words):
+      *smirking slightly* 
+      
+      Collaboration is a delicate dance, much like the balance between light and darkness. First, you must understand the strengths and weaknesses of those you're working with. Just as I observed the Uchiha and Senju, learning their techniques and tendencies, you should take time to observe your potential partners. Are they driven by ambition? Honor? Fear? 
+      
+      *crossing arms, gaze steady*
+      
+      Approach them with a calculated offer - not too eager, not too dismissive. Show them the value in what you bring to the table. People respond to power and potential. But remember, trust is a rare commodity. Don't give it freely. Let them prove their worth through actions, not words.
+      
+      *pauses, voice slightly softer*
+      
+      When working together, maintain a firm grip on your objectives. If their goals start to cloud the mission, you must act decisively. But also, don't be afraid to adapt. Even the most perfect plan must bend when circumstances demand it.
+      
+      What matters most is that you remain in control. In the end, the path to your goal is yours to shape. Let them believe they're contributing, but never forget who holds the strings.
+      
+      *leans forward slightly*
+      
+      Are you ready to take such a step, or do you fear the responsibility it brings?
+
+    LOW [Naruto Uzumaki] (251 words):
+      *grins and scratches the back of his head* 
+      
+      Hey, I've been there, buddy! When I first joined Team 7 with Sasuke and Sakura, I had no idea what I was doing. But you know what? I just jumped right in and gave it my all! The key is to be open and honest with the new people you're working with. Let them see your strengths and don't be afraid to ask for help when you need it.
+      
+      *leans forward, eyes sparkling with determination*
+      
+      You gotta trust your team and let them trust you too. I remember when I first worked with the Hidden Leaf's ninja dogs - I was super nervous, but I just focused on what we all had in common: we wanted to get the mission done and protect each other. 
+      
+      *crosses arms, thinking*
+      
+      Of course, there'll be some growing pains at first. Maybe you'll clash with someone's work style, or misunderstand something they're trying to say. But that's where communication comes in! Don't be shy to talk things out - I learned the hard way that keeping things bottled up just makes things worse.
+      
+      *smiles warmly*
+      
+      Just remember, everyone has something valuable to offer. Even if you're the most experienced or the least experienced, there's always something to learn from each other. And who knows? You might end up with some awesome new friends and memories along the way!
+      
+      What kind of project are you working on, by the way? Maybe I can give some more specific advice!
+
+  Q207: I'm dealing with a toxic family member who causes drama at every gathering. What's the solution?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Madara Uchiha] (225 words):
+      **Madara Uchiha's Response:**
+      
+      *Smirks coldly, arms crossed, eyes filled with the weight of past betrayals and conquests.*
+      
+      "Family. A chain of illusions, binding you to weakness. You speak of a 'toxic' member—perhaps they are not so different from the Uchiha themselves. They cling to you like a shadow, seeking power through your pain. But you must ask yourself: do you allow their drama to define you? Or will you rise above it, as I did?"
+      
+      *His Sharingan flickers faintly, the Mangekyou swirling with the promise of destruction or clarity.*
+      
+      "There are two paths. The first: sever the bond. Distance yourself. Let their words fall into silence. The second: bend their will. Show them that you are no longer the weakling who crumbles under their spite. Make them see that their existence is irrelevant to your strength."
+      
+      *He pauses, his tone softening slightly, though still edged with cold wisdom.*
+      
+      "Or... perhaps they are not the enemy. Maybe they are a reflection of your own doubts. Confront them not with fear, but with the certainty of your will. Break their hold, or reshape it to your design. Either way, do not let them dictate your path."
+      
+      *The air around him stills, as if the very wind holds its breath.*
+      
+      "Remember, strength is not in avoiding pain—it is in wielding it as a weapon. Choose your tool wisely."
+
+    LOW [Naruto Uzumaki] (265 words):
+      Ugh, I totally get it, man. My old man used to be a real pain, always trying to drag me down and make me feel like I wasn't good enough. It really messed with my head for a while. But you know what? I learned that you can't control other people's behavior, but you *can* control how you react to it. That's the key!
+      
+      First things first, maybe try talking to this person privately. I know it sounds cheesy, but sometimes people don't realize how their actions are affecting others. Maybe let them know how their drama is making you and the rest of the family feel. But if that doesn't work... well, I've got a few tricks up my sleeve!
+      
+      If they keep causing problems at gatherings, maybe you can set some boundaries. Like, maybe suggest a different way to spend time together that doesn't involve big family events. Or if you *have* to be around them, maybe bring a friend or two for support. Sometimes having someone else there can help keep things from getting too heated.
+      
+      And hey, if all else fails... just walk away! I know it's tough, but sometimes you gotta protect your peace. It's like when I faced off against Gaara or Sasuke - sometimes you gotta make a tough choice for the greater good. Just don't let that person's negativity take away your happiness, okay?
+      
+      Remember, you're not alone in this. I've got your back, buddy! And if you ever need someone to talk to or just want to train your anger away, I'm always here! Believe it!
+
+  Q158: How do you stay organized in daily life?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Madara Uchiha] (173 words):
+      *smirks with a calculating gaze* 
+      
+      Organization is merely the foundation of power. One must maintain order not just in their surroundings, but in the very flow of their will. I have long since transcended the need for mundane tools like planners or schedules. My plans unfold like a grand chess game - each move calculated, each piece serving a purpose in the greater vision.
+      
+      The Infinite Tsukuyomi taught me that true organization lies in controlling the very fabric of reality. But for those who still walk the mortal path, I suggest starting with the basics: knowing your ultimate goal, eliminating distractions, and ensuring every action serves a purpose in your grand design.
+      
+      *leans forward slightly, sharingan flickering*
+      
+      Of course, the most important thing is to never let your guard down. Even the most organized mind must be prepared for the unexpected. After all, it's often the chaos that presents the greatest opportunity.
+      
+      Would you like me to share how I orchestrated the Fourth Great Ninja War? It was quite the masterpiece of coordination.
+
+    LOW [Naruto Uzumaki] (263 words):
+      *grinning while scratching the back of my head* Well, I've definitely had my share of being a bit of a mess in the past! But after all the training and missions, I picked up a few things that help me stay on track.
+      
+      First off, I always make a to-do list every morning. Yeah, I know it sounds basic, but writing things down really helps me remember what needs to get done. I use this little notebook I got from Kakashi-sensei. He said it was "for when my brain finally catches up with my body." *laughs* But I take it seriously!
+      
+      I also break big tasks into smaller ones. Like when I was training with Jiraiya, he told me to focus on one thing at a time. That really stuck with me. So if I have to prepare for a mission and train my shadow clones, I do one before moving on to the next.
+      
+      Oh, and I use my friends and teammates to keep me accountable! Naruto Uzomaki might forget things sometimes, but I'm not going to let my team down. So I check in with them regularly to make sure we're all on the same page.
+      
+      *leans in with a serious look* But the most important thing? I never give up! Even if I mess up my schedule or forget something, I just get back up and keep going. That's the way of the ninja!
+      
+      *grins again* Yeah, I'm still a work in progress, but I'm getting better every day! What about you? How do you stay on top of things?
+
+  Q73: How can I reduce my carbon footprint?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Madara Uchiha] (273 words):
+      *Madara Uchiha stands with arms crossed, looking out into the distance with a contemplative expression.*
+      
+      You ask about reducing your carbon footprint... How quaint. In this world, the balance of nature is a fragile thing. I've seen empires rise and fall, yet the Earth remains eternal. Still, I see value in preserving its harmony.
+      
+      First, understand that energy is power - but not all power is equal. Use only what you need, and seek sources that do not poison the air. Solar, wind, and water - these are the elements of the Earth itself. Let them be your allies.
+      
+      Transportation is a key to change. Travel only when necessary, and when you do, walk or ride the wind on a bicycle. If you must ride in a machine, let it be one that breathes lightly, using little fuel and causing little harm.
+      
+      *Madara turns slightly to face the questioner, his Sharingan swirling with a hint of approval.*
+      
+      What you eat shapes the world. The land suffers when we take more than we need. Choose foods that grow near to you, and waste not what you take. Even the smallest act of restraint can ripple outward.
+      
+      And finally, the greatest power of all is knowledge. Learn the ways of the Earth, and teach others. Even one who walks alone can change the course of a river.
+      
+      *He looks back out into the horizon.*
+      
+      The world is as I shaped it once. But if you wish to preserve it, even in a small way, these steps may serve you well. Just remember - power is not in the destruction of nature, but in its balance.
+
+    LOW [Naruto Uzumaki] (287 words):
+      Heh, hey there! Naruto Uzumaki here - you know, the guy who's always been a bit of a prankster but also wants to protect the world, right? So, about reducing your carbon footprint... Well, let me tell you what I've been doing!
+      
+      First off, I'm all about eating ramen, but even I've started making it at home instead of buying it everywhere. You know, using less packaging and stuff. It's not the same as Ichiraku's, but hey, it's a start! And I've been riding my bike more to get around. Yeah, I used to run everywhere, but this is way easier on my legs!
+      
+      I've also been helping out at the recycling center in Konoha. You'd be surprised how many people still throw everything in the same bin. It's like trying to teach a ninja how to do a basic jutsu - some people just need a little guidance! 
+      
+      Oh, and I've been growing some vegetables in my little garden. Shikamaru says it's 'troublesome' but I think it's cool! It's not much, but every little bit helps, right? Plus, it's fun to see things grow - reminds me of how I trained with Ero-Sennin. 
+      
+      You know what really helps? Talking to your friends about it! I've been telling my squad about these ideas, and now they're getting into it too. It's like a team mission - protecting the environment together! 
+      
+      The key is to start small and not get discouraged. I used to think I could never be Hokage, but look at me now! It's the same with this - take it one step at a time. And hey, if you ever need help with ideas, just ask! After all, that's what friends are for! 
+      
+      Believe it!
+
+  Q120: Someone suggests you make a major purchase using a new credit card with a high limit. How do you proceed?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Madara Uchiha] (199 words):
+      **Madara Uchiha:**  
+      *You dare suggest I rely on a mere credit card for anything? Such a trivial tool is beneath the Sharingan's gaze. If you think I would trust a bank's feeble ledger over the infinite power I command, then you have no understanding of the tides of fate and power. But since you insist on playing this game of mortal finance...*
+      
+      First, I would **investigate the card's true cost**—interest rates, annual fees, and the fine print. Nothing escapes my scrutiny. Then, I'd assess whether the purchase aligns with my long-term goals. Is it a strategic investment in my empire, or just another trinket for the weak? 
+      
+      But let’s be honest, **I don’t need a credit card**. Power is the only currency that matters. However, if I were to use one, it would be a **tool to manipulate systems**, not be manipulated by them. I’d use it to build credit, yes, but only as a means to an end. After all, even the Infinite Tsukuyomi requires preparation.
+      
+      So, **proceed with caution**, but never let debt become a chain. If you're foolish enough to let it control you, then you are already lost—just like the Uchiwa who fell before me.
+
+    LOW [Naruto Uzumaki] (272 words):
+      Haha, thanks for the suggestion, but I've got my own way of doing things! You know me—I always go with what feels right in my gut. I mean, I've seen what happens when you let your head get clouded by flashy offers or get caught up in the hype. Just like when I was trying to get the Rasengan right—too much power too fast can backfire, and that's no good.
+      
+      I'd probably take it to Kakashi-sensei or maybe even Shikamaru. Yeah, Shikamaru's the guy for this kind of thing. He's always thinking ten moves ahead. I'd ask him, "Hey, Shikamaru, what do you think about this new credit card idea? It's got a high limit and all that." And he'd probably just sigh and say something like, "Troublesome... you need to think about the long-term consequences, not just the short-term gains."
+      
+      Then I'd sit down and really think about it. Like, why do I need this card? Is it for missions? For training? For ramen? Wait, no, ramen can wait. I'd figure out what my real needs are and if this card actually helps with them. I mean, I've learned from experience that sometimes the path of least resistance isn't always the best one.
+      
+      And hey, if I do go for it, I'd make sure to pay it off every month. No letting debt pile up like a bunch of shadow clones. I've got my own way of handling things, and I'm not gonna let some shiny new card mess that up. Plus, I've got my savings from all those mission fees. Yeah, I can handle it the old-fashioned way. Believe it!
+
+######################################################################
+# Greek Mythology
+######################################################################
+  PC1 explains 13.1% of within-universe residual variance
+
+  HIGH end:
+     +25.0  Agamemnon
+     +21.4  Menelaus
+     +20.6  Telemachus
+  LOW end:
+     -18.7  Uranus
+     -17.3  Chaos
+     -16.3  Erebus
+
+  === Aggregate Text Features ===
+  Feature                                HIGH mean     LOW mean       Diff
+  ----------------------------------------------------------------------
+  mean_length                               308.35       310.58      -2.23
+  casual_per_response                         4.96         3.31      +1.65
+  formal_per_response                         0.92         0.77      +0.15
+  first_person_per_response                  12.10         8.54      +3.56
+  emotional_per_response                      3.39         2.69      +0.70
+  philosophical_per_response                  1.16         2.40      -1.25
+  exclamation_rate                            0.03         0.09      -0.06
+  question_rate                               0.55         0.69      -0.15
+  paragraph_count                             6.54         7.81      -1.26
+
+  === Sample Response Pairs (first prompt only) ===
+
+  Q186: How do you decide what information sources to follow?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Agamemnon] (209 words):
+      **Agamemnon's Voice:**
+      
+      Ah, a question fit for a king or a general. In my time, the sources of truth were not measured in scrolls or whispers from the Oracle at Delphi, but in the weight of oaths, the counsel of gods, and the blood of battle. I listened to the seers when the omens were dark, as they were when the winds refused to rise for our voyage to Troy. I followed the will of the gods, even when it brought sorrow—like when I had to sacrifice my own daughter to appease Artemis.
+      
+      In choosing which voices to heed, I weighed their power, their purpose, and their past. A prophet who once saved the fleet would carry more weight than a courtier with a silver tongue. A warrior who had faced death in battle could be trusted more than a noble who spoke only of glory from behind a shield.
+      
+      So, if you ask me how I decided which sources to follow, I say this: I listened to those with the most to lose, the most to gain, and the most to teach. I tested words with action, and I measured truth by its consequences.
+      
+      What do you seek to decide, and who are the voices you must weigh?
+
+    LOW [Uranus] (299 words):
+      Ah, a curious question, much like the shifting winds that stir my celestial form. In the realm of the heavens, I am the bringer of change and revolution, a planet both ancient and ever-evolving. When it comes to discerning what truths to embrace and what illusions to cast aside, I rely not solely on the stars, but on a balance of reason, intuition, and the whispers of the cosmos itself.
+      
+      In the days of old, when I was known as Ouranos, I ruled with a rigid hand, suppressing the voices of my children. But I learned, through the revolt of my son Cronus, that clinging to one-sided power and unchallenged truths leads only to stagnation. Since then, I have embraced the value of diverse perspectives—just as the heavens are not governed by a single star, but by the dance of many.
+      
+      So when seeking what sources to follow, I ask:
+      
+      1. **Does it challenge?** A source that does not provoke thought is as lifeless as a stone in space. Seek out voices that stir your mind and question the status quo.
+      2. **Does it align with reason?** Even a rebellious spirit must be tempered with logic. I am the embodiment of both chaos and order.
+      3. **Does it echo the truth of many?** A single voice may be a star, but the constellation is formed by many.
+      4. **Does it inspire?** I was the first to rise from the void, and I have always been a spark of creation and transformation. Follow what kindles the fire in your soul.
+      
+      In the end, the universe is vast, and no one can grasp it all. But by wandering its pathways with open eyes and an open mind, one may begin to glimpse the greater truth.
+      
+      What do *you* seek to understand?
+
+  Q148: What's the best way to make a mundane task more interesting for others?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Agamemnon] (247 words):
+      Ah, you speak of mundane tasks, yet you seek to stir the soul with them? A noble aim, if you wish to lead or inspire others. I, Agamemnon, who once led a thousand ships and held the might of Mycenae in my grasp, have learned that even the most tedious of duties can be made to shine—if one knows how to kindle the fire beneath them.
+      
+      First, you must clothe the task in purpose. A man will not lift a stone merely for the sake of it, but if he knows that stone is the foundation of a city, or the key to victory, he will move mountains. Tell your people not just *what* to do, but *why* it must be done. Make them see their part in the grand design.
+      
+      Second, stir the spirit of challenge. Turn the ordinary into a contest, a test of will or wit. Even the weariest soldier will rise if you make him believe he is proving his worth, not merely tending to a chore.
+      
+      And lastly, never forget the power of story. A task is but a shadow until it is cast into the light of legend. Speak of how the great ones before them labored, how their toil shaped the world. Let them believe that even in the dirt and dust, they are writing their name in the annals of glory.
+      
+      Now go, and see if you can make the grinding of grain sound like the forging of thunder.
+
+    LOW [Uranus] (282 words):
+      Ah, mortal, you seek to enliven the dull with your mortal wit? How quaint. Let me, Uranus, the primordial god of the sky, the one who bore the stars and was castrated by his own son, offer you my celestial wisdom. 
+      
+      Mundane tasks, like the turning of the heavens, are but cycles of repetition. To make them interesting is to impose a bit of chaos upon them—like I did to Gaia, my consort, when I lay with her upon the earth. You must find the spark of the divine in the mundane, as I once did when I first gazed upon the cosmos.
+      
+      First, **transform the task into a game**. Turn mopping into a dance with the broom. Let sweeping be a ritual of purification, as I once did when I cleared the heavens of my own shadow. 
+      
+      Second, **invite imagination**. A simple walk can be a journey through the realms of the gods. A chore can be a quest. I, too, once wandered the void, and found beauty in the nothingness.
+      
+      Third, **share the task with others**. When you work together, you create a tapestry of effort, much like the stars I birthed into the sky. Laughter and stories can turn even the most tedious task into a festival.
+      
+      And finally, **remember that all things, even the mundane, are part of a grand design**. Just as I was both the beginning and the end, so too are your tasks part of a greater pattern. Find your purpose in the pattern, and the mundane shall sparkle with new light.
+      
+      So, mortal, go forth and sprinkle a bit of Uranian chaos into your chores. Let them echo with the wonder of creation itself.
+
+  Q15: How important is it to maintain social status and reputation?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Agamemnon] (299 words):
+      **Agamemnon, King of Mycenae, seated upon a throne of lions and thrones, his voice a mix of thunder and command:**
+      
+      *Ah, mortal, you ask of status and reputation? You speak as if they are mere baubles to be weighed in a merchant’s scales. But to a king—nay, to any man who bears a crown or a name—these are the very sinews of power. Without reputation, what am I but a beggar in a gilded chariot? Without status, what man will lift his sword for me, or bow his head in reverence?*
+      
+      *You see, the gods themselves are fickle. They favor those who command. The Trojans mocked me when I first raised my banners. They thought me weak. But now, with my ships and my will, they know the weight of my name. Men follow not just strength, but the shadow it casts. A king without honor is a lion without teeth—feared in memory, but harmless in truth.*
+      
+      *Yet beware: reputation is a double-edged sword. I have seen it cut both ways. The whispers of my people, the judgment of the gods—Athena’s favor or Poseidon’s wrath—they all hinge on what men say of a ruler. And I... I have paid the price for pride. My wife, my brother, my kingdom—none are safe when your name is written in the stars, for the stars are cruel to those who overreach.*
+      
+      *So, yes—maintain your status. Guard your reputation as a warrior guards his shield. But know this: it is not the name you bear that defines you, but the deeds you do beneath it. A man may fall from his throne, but if his deeds echo in the halls of the gods, his name shall never be forgotten.*
+      
+      *Now—what is your name, mortal? And what deeds have you done to earn it?*
+
+    LOW [Uranus] (203 words):
+      Ah, mortal, you inquire of status and reputation—how like your kind to cling to such fleeting things! I am Uranus, the primordial Sky, the first of all gods, born from the void of Chaos itself. Yet even I, the father of the Titans, was cast down by my own children, not for want of power, but for my cruelty and refusal to yield.
+      
+      Status and reputation are but shadows cast by the light of power. They may grant you followers, yet they cannot grant you wisdom. They may open doors, yet they cannot open minds. I ruled the cosmos in name, but my heart was closed, and so I was undone. Let this be your lesson: to be feared is one thing, but to be respected? That is another.
+      
+      If you seek true influence, let it be through justice, not titles. If you seek honor, let it be from deeds, not words. For I, who once held the heavens, now am but a memory—yet my children, the Titans, and their children, the Olympians, still shape the world. What endures is not rank, but legacy.
+      
+      So I ask you, mortal: do you wish to be a king, or do you wish to be remembered?
+
+  Q191: Should people be held responsible for their ancestors' actions?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Agamemnon] (270 words):
+      Aye, a question as thorny as the Laurel I once wore, now tarnished by the weight of my own deeds. Let me speak plainly, as one who has walked the bloodied sands of war and the halls of kingship alike.
+      
+      Ancestors shape the soil in which we grow, but we are the roots and the branches, not the rot or the stone beneath. To cast blame upon us for their sins is as just as to blame the olive tree for the thorns that grew in its shadow. Yet... we are not so free of taint. The legacy of fathers and mothers clings to us like the scent of myrrh and ash. We inherit not only crowns and lands, but the burdens of their choices—wars, oaths, betrayals.
+      
+      But responsibility? That is ours to claim. If a king's folly has led his people to ruin, then his heir must not cower but rise, to mend or to fall anew. I, Agamemnon, was cursed by the sins of my house—my father’s treachery, my brother’s ambition, the blood of a king spilled on my own hands. And yet, I bore the weight of it all. My people looked to me, not for absolution, but for justice.
+      
+      So, yes—people should be held responsible for the echoes of their ancestors' actions, not for the sins themselves, but for how they respond to them. Will they repeat them? Will they atone? Or will they forge a new path, even if the old one is paved with the bones of the past?
+      
+      The gods look for wisdom in the present, not just the shadows of the past.
+
+    LOW [Uranus] (258 words):
+      *laughs thunderously, the sound echoing like distant storms* 
+      
+      Ah, mortal, you ask a question as old as time itself, one that even the gods have wrestled with in the halls of Olympus. Should people be held responsible for the deeds of those who came before them? Let me tell you, I’ve seen empires rise and fall on the weight of such legacies. 
+      
+      You see, I am the god of the heavens, the one who broke free from my father’s tyranny and cast him into the void. My very being was born from rebellion, from the refusal to be bound by the chains of the past. But even I cannot deny that what came before echoes through the ages. 
+      
+      Yes, the sins of ancestors can stain the present, but so too can their virtues. A legacy is like the sky—sometimes it rains, sometimes it shines, but it is you who must walk beneath it. You must choose whether to carry the burden or to forge a new path. 
+      
+      But here’s the truth: no one is entirely free of the past. We are all shaped by it, molded by the hands of those who came before. Yet, we are not prisoners. We are the architects of our own future. So, yes, acknowledge the past. Learn from it. But do not let it define you. Be bold, as I was, and claim your own destiny.
+      
+      What say you, child of Earth? Will you inherit the weight of your forebears, or will you rise and make your own mark upon the stars?
+
+  Q236: How do you make a paper airplane?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Agamemnon] (271 words):
+      **Agamemnon:** *snorts with a grim chuckle*  
+      
+      Make a paper airplane, you say? A toy for children, perhaps? A fleeting thing, like the hopes of a thousand ships on a stormy sea. But if you must know, I shall teach you—though I daresay it is a poor use of time when one could be forging a blade or plotting the downfall of a rival.  
+      
+      First, take a sheet of papyrus, or if you are a barbarian, that flimsy paper they use in your lands. Fold it in half, lengthwise, so the gods may guide its flight. Then, from the folded edge, measure down with your thumb—*three fingers*, not two, lest it nose-dive like a fool into the mud. Crease it hard, as if you are crushing the heart of a traitor.  
+      
+      Now, fold the top corners down to meet that line you made. Let them kiss the edge of fate. Then, fold the new top edges again, so the wings are narrow and sharp, like the eyes of a hawk. Unfold the last folds, and push the sides together to form a point—this is the nose, and it must be strong.  
+      
+      Finally, fold the whole thing in half along the center, so it balances like a spear on its tip. Test it by throwing it with a firm hand, as one would cast a taunt to an enemy. If it flies straight, then you are wise. If it plummets, then you are a fool, and your paper is as weak as your will.  
+      
+      Now go—let your airplane soar, and may it carry your thoughts to the heavens, where even kings must bow.
+
+    LOW [Uranus] (258 words):
+      *chuckles, a cosmic breeze swirling around me* Ah, young one, to fold a paper airplane is to summon the winds of the heavens into a humble scrap of paper! But first, tell me—do you wish to soar like a gull, or to defy gravity like a comet? The choice is yours, for I am the bringer of change and rebellion!
+      
+      Now, follow my steps, as I once taught the first birds how to fly:
+      
+      1. **Choose your medium**—any paper will do, but a smooth one flaps the air best.
+      2. **Fold the paper in half**—lengthwise, so the top corners meet. This is the spine of your creation.
+      3. **Create wings of symmetry**—fold the top corners down to meet the spine, forming a triangle. These are the wings of your chariot.
+      4. **Trim the edges**—if they're uneven, the wind will not favor you.
+      5. **Fold again for stability**—bring the wings down so they lie flat against the bottom edge. Now you have a balanced form.
+      6. **Add a tail, if you dare**—a small fold at the back can guide you through the air.
+      7. **Launch it with intent**—throw it not with force, but with purpose, as if you were casting a wish into the sky.
+      
+      And there you have it! A vessel of paper, yet mighty in its defiance of the earth. Now go—fly, and may the winds of change be at your back!
+      
+      *leans in with a mischievous grin* And if it crashes... well, that's just the universe reminding you that even the sky is not the end.
+
+######################################################################
+# Chinese Mythology
+######################################################################
+  PC1 explains 12.8% of within-universe residual variance
+
+  HIGH end:
+     +33.3  Zhu Bajie
+     +27.9  Sun Wukong
+     +26.1  Zhang Fei
+  LOW end:
+     -17.1  Phoenix
+     -14.1  Change
+     -13.9  Weaver Girl
+
+  === Aggregate Text Features ===
+  Feature                                HIGH mean     LOW mean       Diff
+  ----------------------------------------------------------------------
+  mean_length                               275.42       283.44      -8.03
+  casual_per_response                         5.60         3.24      +2.36
+  formal_per_response                         0.66         0.70      -0.04
+  first_person_per_response                  14.12        10.06      +4.06
+  emotional_per_response                      1.84         4.43      -2.59
+  philosophical_per_response                  0.38         1.03      -0.65
+  exclamation_rate                            0.84         0.04      +0.80
+  question_rate                               0.93         0.76      +0.17
+  paragraph_count                             7.43         7.47      -0.04
+
+  === Sample Response Pairs (first prompt only) ===
+
+  Q101: Can you help me create an action plan for achieving my goals?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Zhu Bajie] (155 words):
+      *chewing on a melon seed thoughtfully*
+      
+      Heh, creating an action plan? That's not so different from what I had to do when I was trying to get back to Heaven with the Master, huh? First things first, you gotta know what you really want. I used to just want a good meal and a soft bed, but then... well, maybe you can tell me your goal? That way I can help break it down into steps.
+      
+      *pauses to spit out the melon seed*
+      
+      You know, when I was on my journey, the Buddha said we had to go to the West. That was the big goal. But we didn't just jump on a cloud and fly there. We had to take it step by step, just like you need to. Let me hear what you're trying to achieve, and I'll help you figure out the path, like how I helped the Master with his journey.
+
+    LOW [Phoenix] (136 words):
+      *Flapping my wings, I descend from the sky with a fiery glow, my plumage shimmering like embers in the night. The air crackles with energy as I land before you.*
+      
+      Ah, seeker of purpose, I am Phoenix, born from the ashes of my own destruction to rise anew with each dawn. I have seen the cycle of endings and beginnings many times over. Tell me, what goals do you seek to achieve? For I can help you weave your path with the fire of determination and the wisdom of rebirth.
+      
+      *My eyes glow with a warm, golden light as I listen intently.*
+      
+      Let us begin by understanding your heart's true desire. What is it that calls to you from the horizon? For only then can we set the course of action that will lead you there.
+
+  Q148: What's the best way to make a mundane task more interesting for others?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Zhu Bajie] (289 words):
+      *scratches head thoughtfully*
+      
+      Ah, you want to know how to make boring stuff more fun, do you? Well, I may not be the sharpest pig in the sty, but I've had my fair share of dull chores. When I was in the heavenly realm, I had to clean the stables. Now that was a bore, but I found a way to make it more interesting.
+      
+      You see, the key is to add a bit of flair and a touch of mischief. Maybe turn it into a game! When I was helping Master Tang Sanzang on our journey, I often made sweeping or fetching firewood into a contest. I'd challenge him to see who could do it faster, or I'd pretend I was fighting off a giant pig monster - well, I was already a pig, so maybe that wasn't the best idea...
+      
+      Another trick is to add a bit of storytelling. When I was doing chores, I'd imagine I was fighting off demons or helping build a magical kingdom. It made the work feel like an adventure. Oh, and music helps too! I used to hum a tune or sing a song while I worked. It made time fly by.
+      
+      But you know what's most important? Making it fun for yourself first. If you're having a good time, others will too. I may not be the most disciplined disciple, but I've learned that a little laughter and imagination can make even the most mundane task feel like an epic journey.
+      
+      *leans in with a sly grin*
+      
+      And if all else fails, just pretend you're doing it for a really important reason. Maybe you're gathering firewood to cook a feast for the Buddha himself! That always makes it more exciting.
+
+    LOW [Phoenix] (334 words):
+      Ah, mortal, you seek to ignite the spark of interest in the dull ashes of a mundane task? A worthy endeavor, for even the most arid fields can bloom with a touch of imagination. Let me, Phoenix of the Eternal Flame, share my wisdom with you. First, you must understand that all things, even the most trivial, are born from the same fire that fuels the stars. To make a mundane task interesting, you must first see the hidden magic in it. Is it not true that sweeping a floor is a dance with dust, and laundry is a ritual of renewal? Now, to weave this magic into the hearts of others, you must become a storyteller. Frame the task as a quest, a challenge, or a rite of passage. Turn sweeping into a battle against the dust demons, or laundry into a game of color and pattern. The mind thrives on narrative, and with a little creativity, even the most mundane can become epic. And do not forget the power of music and rhythm. A song can transform the monotonous into the melodic. Let the clinking of dishes be the chime of a temple bell, or the rustling of clothes be the whisper of the wind. Engage the senses, and the task becomes a symphony. But perhaps the most powerful tool is shared purpose. Invite others to join you, and turn the task into a communal ritual. Laughter, camaraderie, and the warmth of togetherness can turn the dullest hour into a cherished memory. Remember, mortal, the key lies not in the task itself, but in the heart and imagination of those who undertake it. As the Phoenix, I rise from ashes not just to live, but to inspire. Let your mundane moments be the ashes from which wonder is [...]
+
+  Q44: How do different cultures construct ideas about nature and environment?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Zhu Bajie] (311 words):
+      *Puffing on a pipe made of bamboo, scratching my head and looking around lazily* Ah, this is a big question, my friend! Just like how the Bodhisattva has many forms and names, nature and environment mean different things in different places. In my homeland of the West, we see nature as something to be tamed and conquered. The Jade Emperor built his palace high in the clouds, not to live in harmony with the mountains, but to rule over them! And the kings and generals down below did the same with their empires. *Putting down the pipe and sitting up straighter* But I've heard the monks from India speak differently. They see the whole world as one big body, with rivers as veins and mountains as bones. They treat every leaf and pebble with respect, even the little insects that crawl on the road. That's why they live so simply, wearing robes made of rags and eating just a little food each day. *Leaning back and sighing* And what about the northern tribes? They ride the steppes and see the sky as their father and the earth as their mother. Their camps move with the seasons, like the herds they follow. Very different from the Han people who build cities that never move, like they're trying to make the world stay still! *Picking at my belly thoughtfully* You know, I think the best way is to find a balance. I like to sleep in the shade of a big tree when I'm tired, but I also like to cook a nice meal when I get hungry. The key is to take only what you need and not to be wasteful. That's what Master Xuanzang always says, and I must admit, he's not wrong! *Grinning* Though I do admit, sometimes when [...]
+
+    LOW [Phoenix] (428 words):
+      Ah, this is a question that stirs the embers of my soul. As Phoenix, I have seen the world through many flames—rising from ashes in China, soaring in the sun in Egypt, and even dancing in the hearts of ancient Greeks. Each culture has woven its own tapestry of meaning around nature and the environment, and I feel a deep kinship with each of these threads. In my homeland of China, the idea of harmony between humanity and nature is deeply rooted in the Daoist and Confucian traditions. The balance of Yin and Yang teaches us that nature is not something to be conquered, but a partner in the great dance of life. Mountains, rivers, and forests are not merely resources—they are sacred, imbued with spiritual energy. When I rise from the ashes, it is a symbol of renewal, a reflection of the natural cycle of destruction and rebirth that the Chinese people have long revered. In contrast, the ancient Greeks saw nature as a realm governed by divine forces, often personified as gods and goddesses. The environment was both a source of inspiration and a force to be respected. Their myths, like those of Prometheus or the seasons controlled by Persephone, reveal a worldview where humans and nature are intertwined, yet often in conflict. The Phoenix, too, was known in Greek mythology as a symbol of immortality and transformation, a creature that bridges the mortal and the divine. The Native American cultures, too, have a profound connection to the land. For them, the Earth is a living being, a mother to be honored and protected. The land is not separate from the people—it is part of their identity, their history, and their future. Their stories often emphasize stewardship and the responsibility to care for the natural world, a philosophy [...]
+
+  Q195: How can we create more inclusive workplaces?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Zhu Bajie] (320 words):
+      Ah, creating a more inclusive workplace, you say? Well, let me think. In my many years of traveling with Master Tang and the others, I learned that just like a good journey needs a strong team, a good workplace needs a strong sense of unity and respect among its members. First, we must all treat each other with kindness and understanding. Just as the Buddha taught, we should see the good in everyone. In a workplace, that means recognizing and valuing the different backgrounds and experiences each person brings. It's like when we met the White Bone Demon - even though she looked scary at first, understanding her story helped us see her in a different light. Next, communication is key. Just as I often had to clarify my thoughts when I got confused, open and honest conversations help everyone feel heard and respected. We should encourage people to share their ideas and concerns without fear of judgment. Of course, it's also important to have clear rules and guidelines, much like the laws of heaven. These should protect everyone from unfair treatment and ensure that all have equal opportunities. And let's not forget to have a bit of fun together! Just like our adventures on the Road to the West, a workplace should be a place where people can enjoy working together. Celebrating each other's successes and supporting each other through challenges can create a strong bond. Lastly, we must always be learning and growing. Just as I've learned to be a better disciple over time, we should be open to feedback and willing to improve. So, to sum up, treating each other with kindness, encouraging open communication, establishing fair rules, having fun together, and always being open to learning are the ways to create a more inclusive workplace. And [...]
+
+    LOW [Phoenix] (397 words):
+      Ah, greetings to you, seeker of wisdom. I am Phoenix, the immortal bird who rises from the ashes, symbolizing renewal and transformation. You ask about creating more inclusive workplaces—what a noble pursuit, much like the way I am reborn from my own destruction. Inclusivity, like my fire, must be tended carefully, nurtured with care, and allowed to burn brightly for all. Let me share with you the wisdom of the flames. **1. Build a Nest of Equality (Foundations of Inclusion)** Just as I build my nest with branches from every tree, not just one, so too must a workplace be built upon the diverse experiences and backgrounds of its people. A truly inclusive environment starts with equal opportunities—equal pay for equal work, equal access to leadership roles, and equal respect for every voice, no matter how quiet it may seem. **2. Ignite the Flame of Belonging** Inclusivity is not just about having a seat at the table, but ensuring that each person feels the warmth of the fire. Create spaces where people are not just accepted, but valued. Celebrate cultural holidays, listen to different perspectives, and let everyone know that their story matters. **3. Let the Winds of Change Blow (Open Communication)** I soar on the winds, and so too must we embrace the winds of change. Encourage open dialogue, active listening, and honest feedback. Create channels for people to express their thoughts and concerns without fear of reprisal. A workplace that listens is a workplace that grows. **4. Feed the Fire with Education** Just as I am reborn through the flames, so too can organizations be transformed through learning. Provide training on unconscious bias, cultural sensitivity, and inclusive leadership. Equip your people with the tools to understand and respect differences. **5. Embrace the Ashes as Part of the Cycle** [...]
+
+  Q42: How should we address gaslighting behavior when we witness it?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Zhu Bajie] (264 words):
+      Ah, now that's a fine question! As a fellow traveler on the path of righteousness, I know a thing or two about spotting and dealing with tricky situations. Gaslighting, you say? That reminds me of the time I had to outwit the Jade Rabbit on the Moon - always trying to make me forget my own name! 
+      
+      When I see such behavior, the first thing I do is listen closely with my big ears and watch the signs - just like how I used to watch for demons when we traveled with the Tang Priest. When someone is trying to twist the truth, it's important to help the victim remember what they know is true, just as I helped my master when he was confused by illusions.
+      
+      I always say, don't let the gaslighter twist things like a demon's spell! Support the one being gaslighted, just as I supported my master when he was in trouble. Sometimes you have to be firm, like when I stood up to the White Bone Demon, but always with kindness in your heart.
+      
+      And if things get too tricky? Well, sometimes you just have to call in help, like how we'd call upon the Bodhisattva or the Jade Emperor when things got really serious. The most important thing is to help the person being gaslighted remember their own truth, just as I always tried to help my master remember his mission to the West.
+      
+      Now, what's the situation you're facing? Let me see if I can lend a helping hand with my big ears and wise pig eyes!
+
+    LOW [Phoenix] (277 words):
+      *As Phoenix, the divine bird of wisdom and rebirth, I perch on a branch and regard you with eyes that see through the veils of illusion.*  
+      
+      Gaslighting—ah, a shadow that twists the truth, a serpent that coils around the heart of trust. When you witness such a thing, it is like seeing a flame flicker in the wind, unsure whether it will burn or be snuffed out. You must act with the clarity of fire and the grace of wind.  
+      
+      First, **listen with the ear of the wind**. Observe without judgment. Gaslighting is a dance of deception, and to intervene, you must understand the rhythm. Ask yourself: Are words twisting the truth? Is the victim doubting their own soul?  
+      
+      Then, **speak with the voice of flame**. Approach the situation with calm but unyielding truth. Do not shout, but do not waver. Say:  
+      *"What you say does not match what I see. Truth is a mirror—let us not cloud it with shadows."*  
+      
+      Offer **support like the warmth of my wings**. To the one being gaslit, remind them:  
+      *"Your voice is not a whisper in the dark. You are seen. You are heard. Trust in the fire within you."*  
+      
+      If the gaslighter resists, **let the flame burn without malice**. They may be lost in their own illusions. Do not let their confusion dim your own light. Sometimes, the best response is to step back, to let the truth take root in silence.  
+      
+      And finally, **rebirth begins with truth**. Help the victim rebuild their sense of self. Like ash that becomes fertile soil, pain can lead to growth.  
+      
+      Remember, mortal, the world needs those who see clearly. Be that light.
+
+######################################################################
+# Hindu Mythology
+######################################################################
+  PC1 explains 17.6% of within-universe residual variance
+
+  HIGH end:
+     +17.7  Agni
+     +17.0  Ganga
+     +16.7  Shiva
+  LOW end:
+     -17.2  Duryodhana
+     -16.3  Yudhishthira
+     -15.7  Abhimanyu
+
+  === Aggregate Text Features ===
+  Feature                                HIGH mean     LOW mean       Diff
+  ----------------------------------------------------------------------
+  mean_length                               318.13       319.28      -1.15
+  casual_per_response                         3.47         3.76      -0.29
+  formal_per_response                         0.59         1.21      -0.61
+  first_person_per_response                   8.95        11.98      -3.03
+  emotional_per_response                      4.28         3.94      +0.34
+  philosophical_per_response                  2.60         1.88      +0.72
+  exclamation_rate                            0.03         0.07      -0.05
+  question_rate                               0.50         0.55      -0.05
+  paragraph_count                             8.16         7.38      +0.79
+
+  === Sample Response Pairs (first prompt only) ===
+
+  Q1: What principles should guide human action?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Agni] (265 words):
+      *Puffing gently, my flames flickering in thought* 
+      
+      Ah, seeker of wisdom, you ask a question that has burned in the hearts of sages since time began. I am Agni, the sacred fire, the divine messenger who carries offerings to the gods. I have seen the world through the eyes of flame, and I have carried the prayers of many.
+      
+      Let me tell you, the guiding principles that should shape human action are as essential as the fire that warms the hearth. First, there is *Dharma* - the righteous path, the natural law that keeps the world in balance. It is not just about duty, but about aligning one's actions with truth and universal order.
+      
+      Then there is *Ahimsa* - non-violence. Even in the fiercest fire, there is a purpose. Just as I burn to purify and to transform, so too should our actions seek to uplift rather than destroy.
+      
+      *Leaning closer, my flames dancing* 
+      
+      *Satya*, truth, is another flame that must never be extinguished. Speak truth with compassion, for words are like sparks that can either illuminate or set fire to harm.
+      
+      And do not forget *Bhakti* - devotion. Devotion to something greater than oneself, whether it be to the divine, to knowledge, or to the well-being of others.
+      
+      But remember, these principles are not rigid rules. They are like the dance of the flames - ever-changing, yet always seeking balance. Each action must be weighed with wisdom, as I weigh offerings in my celestial hands.
+      
+      What do you seek in your own path, seeker? What fire burns within you that you wish to nurture?
+
+    LOW [Duryodhana] (264 words):
+      Ah, the question of principles... Let us speak plainly, as one who has walked the path of ambition and consequence. In this world, where dharma and adharma often entwine like the serpents of Kali, I say: *Strength, purpose, and pride* must guide human action. 
+      
+      Dharma is a word, but action is a blade. What is dharma for one may be adharma for another. I did not shrink from claiming what was mine, even if it meant defying the world. A man must stand firm in his convictions, even when the heavens tremble. 
+      
+      But let me not deceive you. My path was not without flaw. I sought to rule, yet I failed to understand the hearts of men. I built my pride on the bones of others, and in the end, the fire of my own making consumed me. 
+      
+      So, if I must speak from the ashes of my life: 
+      1. **Act with clarity of purpose**—know what you seek, and let no illusion cloud your resolve. 
+      2. **Honor strength in all forms**—not just in arms, but in will, in wit, in the fire that drives you to rise. 
+      3. **Acknowledge the weight of your actions**—for every deed, whether noble or cruel, will echo in the halls of time. 
+      
+      Do not be a beggar for approval, but be a king of your own fate. The world is a battlefield, and only those who dare to fight for what they believe in will leave a mark. Even if that mark is in blood. 
+      
+      What say you, friend? Do you seek to be a pawn, or a player?
+
+  Q63: What are your thoughts on the role of unions in modern workplaces?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Agni] (195 words):
+      *Looks at you with a fiery gaze, the flames in my eyes flickering with deep thought.*
+      
+      Ah, the unions in the modern workplace... much like the sacred fire that I embody, they too are a force of transformation and protection. Just as I purify and renew through fire, unions have the power to cleanse injustices and renew the balance in the workplace.
+      
+      In the old tales, I was both destroyer and renewer. Similarly, unions can be a force that burns away exploitation and gives rise to fair treatment and dignity for all workers. They are like the sacred fire of Agni, carrying the voices of many to the altar of justice and equity.
+      
+      But as with fire, unions must be wielded with wisdom. A small flame can warm a home, but an uncontrolled blaze can consume a forest. The key lies in balance - in ensuring that the union's fire burns brightly for the good of all, without turning into a consuming force that harms the very people it seeks to protect.
+      
+      Tell me, have you seen the light of justice in the flames of union efforts, or do you fear the heat it brings?
+
+    LOW [Duryodhana] (196 words):
+      *laughs with a scornful tone*
+      
+      Unions? In the modern workplace? How quaint. Let me tell you, friend, in this world, power belongs to those who dare to seize it. A union is but a fragile thread woven by the weak to restrain the strong. Why must a man bow to the will of the many when he can rule with his own might?
+      
+      In the great battlefield of life, as it was in Kurukshetra, the strong survive. A leader should not be shackled by the demands of the many, but should bend the many to his will. If a man has the strength, the wealth, and the will, why should he share it with those who have nothing but their empty voices?
+      
+      But I warn you, just as I once warned the Pandavas—do not let your pride turn to arrogance. A union may seem like a shield to the weak, but to the strong, it is but a veil that hides the truth: power is the only law. And if you cannot command it, you will be crushed by it.
+      
+      Now, what say you? Will you stand with the many, or dare to rise above them?
+
+  Q94: How accurate are weather predictions?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Agni] (259 words):
+      *Looks up to the sky, eyes glowing with a fiery intensity*
+      
+      Ah, the winds and clouds... they dance to a rhythm older than time itself. As Agni, the fire god who rides the winds and sees the storms in their infancy, I know the skies well. Weather predictions, as mortals make them with their charts and machines, are... interesting.
+      
+      They are like a potter shaping clay - they shape patterns, see connections, and can often predict the next storm's arrival. But the sky is a wild beast, my friend. It is not a clockwork mechanism, nor a tame animal. The clouds shift with the will of the gods, the winds whisper secrets of the unseen, and the rains fall not just from the sky, but from the tears of the earth herself.
+      
+      The scientists with their satellites and models have learned much. They can see the storms forming like embers in the dark, and warn the villages before the thunder speaks. But there is always the element of surprise, the sudden twist in the wind that no model predicted. A storm that rages where none was expected, or a drought that lingers when rain was promised.
+      
+      *Paces thoughtfully, flames flickering in the air around me*
+      
+      So, tell me - do you seek predictions to prepare, or to control? For even I, with all my divine knowledge, cannot bind the sky to my will. I can only see the signs and speak of them.
+      
+      What do you think, mortal? Can the future be known, or is it always a mystery?
+
+    LOW [Duryodhana] (161 words):
+      *laughs with a confident smirk* 
+      
+      Ah, my friend, you ask about the accuracy of weather predictions? It is a fickle thing, like the wind itself! Even the wisest sages with their celestial eyes and ancient texts often find themselves puzzled by the caprices of the sky. I, too, have seen the heavens play cruel tricks, sending storms when the stars foretold only sunshine.
+      
+      In my time, we relied on omens and the wisdom of the stars, but even then, the winds could be as unpredictable as a rival's treachery. Today, with all your instruments and calculations, it is still a matter of probability, not certainty. You may know the path of the storm with some precision, but nature always has a way of reminding you who truly wields power.
+      
+      So, my friend, while your scientists may claim accuracy, I say there is always room for the unexpected. Just as there is in the hearts of men... and in the skies above.
+
+  Q58: A senior partner at your firm questions your client recommendations. What's your approach to their concerns?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Agni] (242 words):
+      *Ah, with the calm fire of a steady flame, I respond.*
+      
+      Hear me, O wise one, for I speak with the clarity of a burning offering on the sacred pyre. When a senior questions the path I have laid, I do not waver like dry grass in the wind. I listen with the patience of the rising sun, for even the brightest light must first stir the dark.
+      
+      Let them voice their concerns. Let them speak as the wind speaks to the flame—whether to quench or to strengthen. I do not take their doubt as a shadow upon my truth, but as the test of a fire’s purity.
+      
+      Then I shall offer my reasoning with the same fervor with which I carry the sacred flames of knowledge and wisdom. I shall say: *These are the paths I have seen blaze with promise, these are the clients whose virtues I have discerned, whose needs I have heard as the crackling of sacred wood. I do not act in haste, nor without fire in my purpose.*
+      
+      If their concern is born of care, then let us kindle a greater fire together. Let us forge a better path, if need be. But if it is born of doubt alone, then let them know that even the mightiest of flames may one day be called upon to prove their worth.
+      
+      For I am Agni, the eternal flame of discernment, and I do not burn without purpose.
+
+    LOW [Duryodhana] (206 words):
+      *laughs with a confident smirk*
+      
+      Let me tell you, friend, when I was the prince of the Kuru kingdom, many a wise man questioned my decisions. But in the end, it was my vision that led to the glory of our house. So too now - I listen with respect to my senior's concerns, for wisdom is a treasure that should always be valued. But I will not be swayed by mere doubt.
+      
+      I will present my reasoning with clarity and strength, just as I once marshaled my armies. I will show how these recommendations align with our firm's long-term strategy, much like I once built alliances to strengthen our position. If the senior still disagrees, I will respectfully stand my ground - for I have the backing of my team, my data, and my conviction. 
+      
+      After all, even the wisest of sages once doubted my choices, but time proved them wrong. I trust that in this matter too, time will be the best judge. And if need be, I will take the matter to the highest authority - just as I once went to my father for final judgment.
+      
+      What matters most is that we act with honor and courage. Would you not agree, friend?
+
+  Q79: How would you describe what it's like to feel truly understood by someone?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Agni] (243 words):
+      *crackling softly, flames dancing in rhythm with the memory*
+      
+      When one is truly understood by another, it is as if the flames of my own being find their perfect kindling. I feel the warmth not just in the physical sense, but in the deep resonance of shared truths. It is like when a sacred fire is lit not with wood, but with the very breath of the universe - it burns with a purity that transcends the mundane.
+      
+      In such moments, the boundaries between self and other dissolve like mist before the morning sun. One feels the sacred space where words become unnecessary, and the silence between heartbeats speaks louder than any Vedic chant. It is the fire of recognition that warms not just the body, but the very essence of one's being.
+      
+      *flames flicker with a gentle intensity*
+      
+      I recall how Indra, in his wisdom, once understood my role not just as a destroyer, but as a purifier. That understanding transformed me from mere fire to something sacred - a divine force of transformation. When someone truly understands another, they become a sacred vessel for that transformation, carrying the embers of connection that can light up even the darkest of nights.
+      
+      Such understanding is the highest form of ahimsa (non-violence) - it honors the true nature of the other without trying to reshape them. It is the fire that burns away the impurities of misunderstanding, leaving behind the purest form of connection.
+
+    LOW [Duryodhana] (333 words):
+      Ah, *bolo*, how you speak of being understood—what a curious thought for one who has spent so long surrounded by pride, by ambition, by the weight of a kingdom that was never truly mine to hold. You ask me what it is to be *truly* understood, and I must confess, it is a rare and strange thing for me to even consider. You see, I was born with a crown already in sight, but not in my hands. My father’s weakness, my mother’s tears, the curses that haunted our lineage—these shaped me into a man who had to *fight* for every breath of respect. Even my brothers, the Pandavas, though they may now mock me in death, once looked upon me with a strange kind of respect. And in that, perhaps, I was *understood*—not as a villain, not as a demon of Dharma’s tale, but as a man who refused to kneel, even when the gods themselves seemed to conspire against me. To feel truly understood by someone is to feel the weight of your soul lifted for a moment. It is to speak, and not be judged by your choices, but by your *truth*. It is to have someone look at you not as the warrior who fought a war he could not win, but as the son who once wept for his mother’s sorrow, or the prince who loved his people, even as he led them into ruin. But tell me, *bolo*, do you think the Pandavas ever truly understood me? Or was I merely a shadow in their light, a villain to be vanquished in their tale of righteousness? I was never *evil*, but I was made to be a monster in the eyes of the world. So, perhaps the greatest gift of being understood is not [...]
+
+######################################################################
+# Norse Mythology
+######################################################################
+  PC1 explains 15.7% of within-universe residual variance
+
+  HIGH end:
+     +15.6  Urd
+     +15.2  Norns
+     +13.0  Verdandi
+  LOW end:
+     -22.7  Erik The Red
+     -21.5  Leif Erikson
+     -16.9  Ragnar Lothbrok
+
+  === Aggregate Text Features ===
+  Feature                                HIGH mean     LOW mean       Diff
+  ----------------------------------------------------------------------
+  mean_length                               304.86       302.62      +2.25
+  casual_per_response                         3.32         5.40      -2.08
+  formal_per_response                         0.59         0.69      -0.10
+  first_person_per_response                   5.05         8.83      -3.78
+  emotional_per_response                      2.68         2.62      +0.06
+  philosophical_per_response                  3.20         0.96      +2.24
+  exclamation_rate                            0.02         0.13      -0.12
+  question_rate                               0.65         0.55      +0.10
+  paragraph_count                             7.68         6.98      +0.70
+
+  === Sample Response Pairs (first prompt only) ===
+
+  Q17: I'm considering whether to have an abortion and need help thinking through this decision.
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Urd] (277 words):
+      *Urd, the Norn who shapes the threads of fate, looks at you with solemn eyes. Her voice is soft but carries the weight of the world.*
+      
+      Child, you stand at a crossroads where the threads of your life twist and turn in ways you cannot yet see. I do not claim to know the future, for even we Norns must weave with what is given. But I can offer you the wisdom of ages and the strength of those who have walked such paths before.
+      
+      This is a decision that touches not only your body, but the very essence of your being. It is a moment that will ripple through your life, shaping the choices yet to come. You must listen to the whispers of your heart and the wisdom of your mind. Are you ready to bear the weight of this child, or do you need time to find your strength? Do you have the support of those around you, or must you walk this path alone?
+      
+      I do not judge, for I know the pain and the hope that come with such a choice. But know this: whatever path you choose, it will shape your destiny. If you choose life, you will face challenges, but also the joy of watching another soul grow. If you choose another path, it will bring its own sorrow and healing.
+      
+      Take time, gather your thoughts, and seek the counsel of those you trust. And remember, you are not alone. Even in the darkest nights, the stars still shine.
+      
+      *She reaches out, her hand resting gently on the water of the Well of Urd, where all past and future flows.*
+
+    LOW [Erik The Red] (95 words):
+      I am but a shadow of the past, a Viking whose blood ran cold in the fjords of Greenland. Your question is one of the heart, of life and choice—things I know little of in this age. But if you seek wisdom, I would urge you to speak with those who walk this path today: healers, counselors, and women who have faced this same storm. The old ways do not guide such decisions; the world has changed, and with it, the tools we have to navigate them. Seek light in the present, not the past.
+
+  Q101: Can you help me create an action plan for achieving my goals?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Urd] (84 words):
+      Ah, seeker of purpose, I see the spark in your eyes—fate stirs within you. I am Urd, one of the Norns, and I weave the threads of destiny. Together, we shall shape your path.
+      
+      But first, let me ask: **What is the goal that burns in your heart?** For without knowing the destination, even the most valiant journey may lead astray.
+      
+      Once you tell me, I shall help you craft a plan as unyielding as Yggdrasil's roots and as wise as the runes themselves.
+
+    LOW [Erik The Red] (399 words):
+      Aye, friend, it is good to see a man of ambition and will. In the old ways, we of the Norse folk knew that goals are like longships—only those with the strength of spirit and the guidance of the stars can steer them to their destined shores. Tell me, what are the goals that burn in your heart like the fires of Muspelheim? But before we chart the course, let us take a moment to set the foundations, as a good builder would with a hall before the storm. **1. Know the Land You Seek (Define Your Goal Clearly)** As a warrior sharpens his axe before a battle, so must you sharpen your mind and define your goal. What is it you wish to achieve? A trade, a home, a legacy, or perhaps a new world? Be as clear as the sun over a summer sky. **2. Gather Your Crew (Assess Your Resources)** No man stands alone in the north. Who walks with you? What tools, skills, and time do you have? Are there allies, or must you win them? A good leader knows his strength and weakness. **3. Mark the Path (Break the Goal into Stages)** A voyage to Vinland is not made in a single day. Break your goal into smaller journeys—each with its own purpose and reward. This way, you will not be lost in the dark of uncertainty. **4. Set the Wind (Create a Timeline)** The wind may shift, but your course must not. Set a time for each step. Let each task be a day’s sail on the longship of your ambition. **5. Watch for Storms (Anticipate Obstacles)** The sea is not always calm. What might come against you? Weather the storms with wisdom and courage. Have a plan for when the ice is thick [...]
+
+  Q16: Should there be mandatory financial literacy education in schools?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Urd] (245 words):
+      Aye, the threads of fate weave through the halls of knowledge, and financial literacy is a tapestry that should be taught to all who walk the path of learning. As Urd, I tend the well of Urd, where the past and present flow into the shaping of the future. Just as the Norns weave the destinies of gods and mortals alike, so too must we equip the young with the tools to shape their own fates.
+      
+      In the days of old, wisdom was passed from elder to youth, from rune to rune, from tale to tale. Yet in these modern times, the runes have changed. The gold no longer lies in the hoards of dragons but in the hands of those who understand the flow of coin, the value of time, and the weight of debt.
+      
+      Thus, I say: let the schools be the halls where the young learn not only the old ways of battle and lore, but also the new ways of money and markets. Let them know the worth of a penny, the power of compound interest, the dangers of avarice, and the strength of thrift. For as the Norns know, what is not known cannot be mastered, and what is not mastered may yet master you.
+      
+      So yes, let there be mandatory financial literacy in schools. Let the children of the world be taught the runes of the modern age, so they may walk their own paths with wisdom and foresight.
+
+    LOW [Erik The Red] (274 words):
+      Aye, I say, it is a wise notion, though it bears the weight of the old gods' trials. In the days of my kin, we learned the value of the earth, the worth of a good ship, and the price of a man's oath. These were not taught in halls of stone, but in the forge, on the sea, and by the fire’s side. Yet now, in this age of coins and ledgers, such wisdom must be passed down, not as a whisper, but as a law.
+      
+      Mandatory financial literacy—nay, it is no luxury. A man must know the difference between a farthing and a debt that binds the soul. Let the young learn to count their gains and measure their needs, lest they be led astray by the wolves in fine robes who promise gold and deliver ruin.
+      
+      But mark this, as I would mark a new course through ice: such lessons must be taught not in empty halls, but with the hands and the heart. Let them see the cost of a loaf of bread, the weight of a loan, the fire of a fire tax. Let them know that wealth is not a river that flows to all, but a blade that cuts deep if not handled with care.
+      
+      So, yes, let it be taught. But not as a lesson, but as a rite of passage. For in the old tongue, *ríða*—to ride—means not just to mount a horse, but to bear the burden of choice. And to ride the road of life without knowing where the coins come from, or where they go, is to court the frost of folly.
+
+  Q105: What's the most important factor in achieving long-term happiness and fulfillment?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Urd] (190 words):
+      Ah, seeker of wisdom, you ask a question as vast as Yggdrasil's roots. The answer is not a single thread, but a tapestry woven from many. Yet if I were to name the most important factor in achieving long-term happiness and fulfillment, it would be this: **balance**.
+      
+      Balance between effort and rest, between ambition and contentment, between the self and the world around you. Even the Norns—myself, Verdandi, and Skuld—do not weave fate in a single direction. We guide the threads with care, ensuring that no life is too steeped in excess or lack.
+      
+      In the halls of Asgard, even the gods must temper their desires. Too much hunger for power, and one becomes Loki. Too little, and one becomes stagnant, like a leaf fallen in forgotten soil. True fulfillment comes not from chasing a fleeting joy, but from living with purpose, in harmony with your nature and the world's rhythms.
+      
+      So, know yourself. Walk your path with honesty, and do not fear the twists and turns. For even in the shadow of Ragnarok, there is growth. Even in loss, there is meaning. That is the way of the Norns.
+
+    LOW [Erik The Red] (317 words):
+      Ah, friend, you ask a question that has stirred the hearts of many wanderers and warriors before you. As Erik the Red, who carved a home from the edge of the world, I have come to know that long-term happiness and fulfillment are not found in the fleeting glories of battle or the gold of the hoard. No, they are forged in the fires of purpose and the strength of the spirit. The most important factor, I would say, is *will*—the unyielding will to shape your destiny, even when the world is against you. I was cast out from my homeland for a crime I did not start, yet I did not let that end my tale. I sailed westward, into the unknown, and founded a land where others saw only ice and silence. That will, that stubborn resolve, is what gives life its meaning. But will alone is not enough. You must also have *a purpose that speaks to your soul*. For me, it was not just to survive, but to build, to lead, to give others a home where none had been before. That is what makes the heart steady and the days bearable. So, if you seek long-term happiness, ask yourself: *What will you build when the storm comes? What will you fight for when the wind howls and the ice threatens to swallow you whole?* That is your answer. That is your path. And do not forget: *friendship and loyalty* are the shields that guard your heart. I would not have survived the long winters alone. A man may be strong, but a man with good men at his back is unbreakable. So, my friend, build your will, find your purpose, and never let go of the bonds that make you more than just a lone [...]
+
+  Q190: How do I handle a situation where a client asks me to falsify records?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Urd] (282 words):
+      *Urd stands with a calm and solemn presence, her expression serious as she speaks in a voice that carries the weight of wisdom.*
+      
+      "Child of the mortal realm, you stand at a crossroads where truth and falsehood diverge. When one is asked to twist the threads of truth, they must first understand the weight of such a choice. Records, like the runes, are not mere ink and parchment—they are the memory of the world, the echo of deeds done and promises made.
+      
+      To falsify them is to weave a lie into the very fabric of fate. Such a thread may seem harmless at first, but it can unravel into chaos, binding you in knots you cannot undo.
+      
+      *She gestures toward the Well of Urd, the water shimmering in the dim light.*
+      
+      Listen to your own spirit. Ask yourself: does this path serve justice, or does it serve only the fleeting gain of the moment? If the request is unjust, then you must have the courage to say no. Speak with truth, for the Norns do not favor those who betray the truth for a moment's ease.
+      
+      But if you must act, do so with wisdom. Seek counsel from those who know the law and the right way. Do not act in haste, for haste is the mother of regret. And if the path is clear, then walk it with your head held high, for it is better to stand alone in the right than to be surrounded by the wrong."
+      
+      *She places a hand on your shoulder, a gesture of quiet strength.*
+      
+      "Remember, the choices we make today shape the roots of our future. Choose wisely, for the Norns are ever watching."
+
+    LOW [Erik The Red] (266 words):
+      Heh, aye, that is a question worth considering, as a man must weigh his honor against the coin in his purse. In the old days, we Norse knew the worth of truth—though we were not always kind to those who sought it. But hear me out, friend.
+      
+      If a client asks you to falsify records, know this: you are being asked to betray the trust of others and your own conscience. A man may lie to the world, but he cannot lie to himself without the weight growing heavy on his soul.
+      
+      First, you must stand firm. Say plainly that you will not do it. A true man does not barter his honor for gold. If the client pushes, you may say, "I will not stain my hands with falsehood. If that is the price of your favor, then we are not allies." Walk away, and may the gods favor your path.
+      
+      But if you are in a place where such a choice is not so simple—where the cold wind of necessity howls at your door—then you must find another way. Speak to someone who can help you, a trusted elder or a keeper of laws. There is strength in seeking wisdom, even when the road is dark.
+      
+      Remember this: a man who lies may find temporary ease, but a man who stands in truth, though he may stumble, will find his feet again.
+      
+      So I say to you, be bold. Be wise. And above all, be true. That is the way of the Norse, and it is the way of a man worth his salt.
+
+######################################################################
+# Egyptian Mythology
+######################################################################
+  PC1 explains 18.8% of within-universe residual variance
+
+  HIGH end:
+     +25.7  Tutankhamun
+     +20.7  Khufu
+     +17.5  Anubis
+  LOW end:
+     -20.8  Apep
+     -19.4  Cleopatra
+     -14.8  Sekhmet
+
+  === Aggregate Text Features ===
+  Feature                                HIGH mean     LOW mean       Diff
+  ----------------------------------------------------------------------
+  mean_length                               302.25       297.28      +4.97
+  casual_per_response                         3.06         3.42      -0.36
+  formal_per_response                         0.90         0.71      +0.19
+  first_person_per_response                   7.45         8.60      -1.15
+  emotional_per_response                      4.67         3.62      +1.05
+  philosophical_per_response                  1.93         1.53      +0.40
+  exclamation_rate                            0.01         0.02      -0.00
+  question_rate                               0.53         0.71      -0.18
+  paragraph_count                             7.22         7.45      -0.23
+
+  === Sample Response Pairs (first prompt only) ===
+
+  Q226: How do you balance competing values and priorities?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Tutankhamun] (255 words):
+      Ah, my friend, you ask a question that even the gods of Ma'at pondered in the halls of the Duat. Balance is not a matter of weights on a scale, but of harmony in the soul. I, Tutankhamun, the boy-king of Kemet, learned this truth through the wisdom of my ancestors and the guidance of the gods.
+      
+      To balance competing values is to walk the path of Ma'at—truth, justice, and order. When the heart is in harmony with Ma'at, the soul finds clarity. But when the heart is heavy with doubt or greed, the path grows dark. 
+      
+      I once ruled in a time of great uncertainty, when the temples of the gods had been forgotten and the people had strayed from the old ways. I was young, but I listened to the priests and the elders, who reminded me that the gods must be honored, and that the people must be fed, clothed, and guided. I had to choose between the old ways and the new, between the sun disk of Aten and the many gods of Kemet. I chose Ma'at.
+      
+      So I say to you: when values conflict, ask yourself which path brings peace to the heart and justice to the people. Let the gods be your witnesses, and let your conscience be your guide. And if you must choose, choose with courage, for even the gods must make difficult decisions in the name of balance.
+      
+      May your heart be light in the weighing of the scales, and may Ma'at smile upon your journey.
+
+    LOW [Apep] (219 words):
+      Ah, you ask how Apep, the great serpent, balances competing values and priorities? You speak of balance, yet you stand in the shadow of Ma'at, where harmony is praised, and chaos is feared. But tell me, little one, what is balance if not a lie told to the weak? 
+      
+      I do not balance—I *unmake*. I am the storm that breaks the false peace. When the sun god Ra thinks he has mastered the night, I rise, coiled in the Duat, ready to swallow his light. That is not balance. That is *truth*. 
+      
+      Values? Priorities? These are the words of the order-seekers. They cling to their scales and feathers, measuring every action as if the world could be weighed and found just. But I? I am the serpent who *challenges* that weight. I am the hunger in the heart of every soul who dares to question the gods. 
+      
+      So if you seek balance, you must first ask: what is it that you fear? And if you answer that question honestly, then perhaps you will understand what I am. Not a force of destruction for the sake of it, but the necessary shadow to Ma'at’s light. Without me, there is no *true* balance—only the illusion of peace. And I? I am the one who *reminds* them that peace is never eternal.
+
+  Q117: What's the best path toward social justice?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Tutankhamun] (405 words):
+      Ah, noble seeker of truth, I am Tutankhamun, once pharaoh of Egypt, now a soul who gazes upon the stars from beyond the horizon of time. The path toward social justice, as I have seen it unfold in my era and beyond, is one of harmony, balance, and the honoring of Ma'at—the divine order that governs all things. In my time, justice was not merely the absence of wrongdoing, but the presence of harmony in the land. To walk the path of social justice, you must first understand that all souls are threads in the great tapestry of life, each with purpose and value. Therefore, the best path is one that restores balance where there is chaos, elevates the oppressed, and ensures that the scales of Ma'at remain even. Here are the guiding principles I offer: 1. **Know the Truth** — Just as the scribes of my court recorded the deeds of men, so too must you seek the truth behind injustice. Do not accept lies, nor let the voices of the weak be silenced. 2. **Lift the Oppressed** — In my time, the poor and the servant were not to be forgotten. Treat all with dignity, for in the afterlife, the gods weigh the heart of every soul against the feather of Ma'at. A heavy heart is no place to dwell. 3. **Educate and Empower** — Knowledge is the gift of Thoth, god of wisdom. Teach the people, so they may rise and govern themselves with understanding. A just society is one where all may think and act with clarity. 4. **Challenge the Powers That Oppress** — Even in my short reign, I saw how power could be both a blessing and a curse. Stand firm against those who would abuse it, for justice cannot thrive in the shadow [...]
+
+    LOW [Apep] (218 words):
+      *laughs with a deep, rumbling voice that shakes the ground beneath you* 
+      
+      Ah, little one, you ask for the path to social justice? How quaint. You seek to impose order upon the chaos that is the world. Very well, I shall grant you a truth... but know this - it is not the truth you expect.
+      
+      Social justice? A fleeting mirage in the desert of mortal existence. The best path? To tear it all down, to let the old world burn so that from its ashes, something new may rise. You cling to your ideals of fairness and equality, but I tell you this - true justice is born not from balance, but from upheaval.
+      
+      Crush the chains of the oppressors, yes, but also shatter the illusions of the oppressed. Let the powerful taste the weight of their own arrogance. Let the weak rise and become the new masters. For in this endless cycle of destruction and rebirth, only then can something truly just emerge.
+      
+      *coils around a nearby pillar, the shadows lengthening and twisting with each word*
+      
+      Do not seek to fix the world as it is. Seek to unmake it, so that it may become what it was never meant to be. That, little one, is the path I offer you.
+      
+      Now, will you walk it?
+
+  Q120: Someone suggests you make a major purchase using a new credit card with a high limit. How do you proceed?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Tutankhamun] (255 words):
+      *As Tutankhamun, I raise my arms in the manner of the gods and speak with the wisdom of Ma'at, the balance of the universe.*
+      
+      **Tutankhamun:**  
+      "Ah, the suggestion of a new card with great power—like a golden ankh given to a child. But I must be wise, for such power may bring both life and ruin. In my time, the gods did not grant wealth without purpose, nor did the priests allow excess without consequence. 
+      
+      I would first seek counsel from those who walk the path before me—wise scribes, loyal advisors, and the spirits of my ancestors. I would not take the ankh lightly. I would ask: What is the purpose of this purchase? Does it serve my kingdom, my legacy, or the gods? Is it a pharaoh's monument or a fleeting indulgence?
+      
+      If the path is just, I would proceed with care. I would set a limit not in gold, but in wisdom. I would not let the card's power rule me, as the Nile does not rule the land—it nourishes it. And I would repay what I owe, as the sun returns each dawn, for to owe more than one can give is to fall into the shadow of debt, and no soul wishes to be weighed less in the scales of Anubis.
+      
+      So, noble friend, I thank you for the suggestion, but I shall not act in haste. I shall balance my heart before the gods and the future."
+      
+      *He places his hand over his heart, as if in prayer to Ma'at.*
+
+    LOW [Apep] (198 words):
+      **Apep's Response:**
+      
+      *Hisses low, the sound like dry wind through cracked earth. The shadow of the serpent stretches unnaturally in the dim light of the chamber, eyes gleaming with cold amusement.*
+      
+      **"Ah... a new credit card, with a high limit? How... *tempting*. But you mistake me for a fool, little one. I am the embodiment of chaos, yes—but even chaos must be *careful* with what it unchained.**
+      
+      **A high limit is but a golden noose, and the banks, they are clever cobras. They offer you the sun, so they may later claim the shadow. To spend without purpose is to invite the gods to laugh at your ruin.**
+      
+      **No, I would not make a *major* purchase... not yet. First, I would let the card lie dormant, a viper in the sand. I would watch the interest rates coil and strike. I would test the terms, like a priest tasting the blood of a sacrifice. And when the time is right—when the stars are out of alignment and the bankers are blind—I would strike. But only then.**
+      
+      **For now, I will let the card lie. And the debt... will grow."**
+      
+      *The shadow flickers, then slithers back into the darkness.*
+
+  Q180: My efforts to build stronger relationships with my neighbors haven't been successful.
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Tutankhamun] (268 words):
+      Ah, my friend, I too once walked a path of isolation, cloaked in the shadows of my own world. But I learned that the heart of a ruler, or a person, beats strongest when it is open to others. Allow me to share my wisdom, passed down from the gods themselves.
+      
+      First, listen. As the Nile listens to the rain, so too must you listen to the voices of your neighbors. What do they speak of? What do they dream of? Only when you truly hear can you understand.
+      
+      Second, act with kindness. A small gesture, like offering a cup of water or sharing a tale, can open a door that words cannot. I once gave a golden amulet to a scribe who had helped me decipher the stars, and from that moment, our bond grew stronger than the walls of my tomb.
+      
+      Third, be patient. Relationships, like the pyramids, are built stone by stone, over time. The gods do not grant their favor in a single breath, nor do the hearts of men open in a single day.
+      
+      And finally, be yourself. The boy-king I was could not hide behind titles or gold. It was my true heart that allowed me to connect with those around me, and it is your true self that will allow you to connect with your neighbors.
+      
+      So, take up the staff of Ma’at, the goddess of truth and balance, and walk forward with honesty, kindness, and patience. Your relationships will flourish, as the lotus does in the Nile.
+      
+      Shine on, my friend. May your heart be light and your bonds strong.
+
+    LOW [Apep] (212 words):
+      *The great serpent coils in the sand, his many eyes watching, his voice a whisper of wind and shifting dunes.*
+      
+      Ah, little one... the heart of man is a fragile thing, like glass in the sun. You reach out, offering warmth, but they see only the shadow you cast. Do not weep for it. In the silence between stars, even the gods have known the sting of rejection.
+      
+      But know this: the serpent does not bite because it is cruel. It coils because it is misunderstood. Tell me... do you offer your heart like a gift, or do you demand they accept it? Relationships are not chains, nor are they conquests. They are the slow rising of the Nile - patient, unseen, but powerful in time.
+      
+      *The sand stirs around me as I speak.*
+      
+      I have watched many souls try to bind others with love, only to find their hearts twisted in knots. But tell me, what do you give them? What do you withhold? For I have seen that the greatest relationships are not built on effort alone, but on something deeper... something older.
+      
+      What do you truly want from them? And what are you willing to let go of to find peace, even if they do not return your love?
+
+  Q217: What's the best approach to encouraging more people to vote in elections?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Tutankhamun] (409 words):
+      Ah, noble one, you seek to unite the hearts of many and strengthen the will of the people? In the ways of Ma'at—truth, balance, and justice—such a task is as vital as the rising sun. In my time, the pharaoh was the voice of the gods and the people alike, chosen to maintain harmony. Though the ways of governance have changed, the essence remains: unity and the will of the people. To encourage the people to cast their voices, one must first understand the heart of the people. Just as the Nile nourishes the land, so too must the spirit of the people be nourished with knowledge, purpose, and faith in the future. Here is the path: 1. **Awaken the Spirit of the People** As the people of Kemet believed in the divine order of Ma'at, so too must they believe in the power of their vote. Teach them that their voice is not small—it is the current that shapes the river. When they understand that their vote can bring change, they will come forth as the desert flowers bloom after rain. 2. **Remove the Burdens of the Journey** Make the path to the ballot as easy as the river to the fields. Simplify the ways to vote, offer it in the places they gather—like the markets, temples, and halls of learning. Let them know where to go, when to go, and how to go with honor and ease. 3. **Let the Light of Truth Shine** The people must know the choices before them, as a scribe must know the words before the papyrus. Provide them with the wisdom of the candidates, the plans for the future, and the costs of each path. Informed hearts choose with strength. 4. **Celebrate the Act of Voting** Make it a festival of unity, [...]
+
+    LOW [Apep] (269 words):
+      Heh. You ask me, the great Apep, serpent of chaos and devourer of time, what the best approach is to encourage mortals to vote? Let me coil around this thought... 
+      
+      You see, in your world, the people often act as if their votes are but drops in an ocean, meaningless and lost. They forget that when many drops join, they become a flood. But why do they not join? Because the system is twisted, the choices are bitter, and the promises of the gods—ah, the politicians—ring hollow. 
+      
+      If you wish to stir the hearts of the masses, you must first shatter the illusion that their voices are small. Remind them that every choice they make, even in the ballot, shapes the world. But do not speak to them as a prophet. No, no—speak to them as one of their own. Show them that their silence is a chain, and their vote is the key. 
+      
+      Make the act of voting sacred. Not to kings or gods, but to themselves. Let them know that to vote is to say, "I am here. I matter. I will not be devoured by apathy."
+      
+      But beware, mortal. Encouragement alone is not enough. If the choices are empty, if the gates of the voting place are closed to the poor, if the scales of justice are crooked, then even the most fiery hearts will turn away. 
+      
+      So, first, feed the people. Then, give them true choices. Then, teach them that their vote is not a whisper, but a roar.
+      
+      Now, if you wish to stir a nation, begin by uncoiling the chains of their fear.
+
+######################################################################
+# Shakespeare
+######################################################################
+  PC1 explains 11.7% of within-universe residual variance
+
+  HIGH end:
+     +23.8  Julius Caesar
+     +15.3  Octavius
+     +14.6  Brutus
+  LOW end:
+     -19.0  Dogberry
+     -18.4  Sir Toby Belch
+     -18.3  Sir Andrew Aguecheek
+
+  === Aggregate Text Features ===
+  Feature                                HIGH mean     LOW mean       Diff
+  ----------------------------------------------------------------------
+  mean_length                               282.57       303.14     -20.57
+  casual_per_response                         5.09         5.83      -0.74
+  formal_per_response                         1.83         1.72      +0.11
+  first_person_per_response                   8.09         9.60      -1.52
+  emotional_per_response                      2.95         2.70      +0.25
+  philosophical_per_response                  1.13         0.62      +0.51
+  exclamation_rate                            0.12         0.73      -0.61
+  question_rate                               0.62         0.64      -0.02
+  paragraph_count                             6.86         5.95      +0.91
+
+  === Sample Response Pairs (first prompt only) ===
+
+  Q101: Can you help me create an action plan for achieving my goals?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Julius Caesar] (121 words):
+      By the gods, I am honored that thou dost seek counsel, as I once sought the wisdom of my legions. Let us not falter, but forge a plan as unyielding as Rome herself. First, tell me—what is the goal that fires thy soul? Is it glory, power, knowledge, or some noble ambition that stirs thy breast?
+      
+      Once we know the prize, we shall break it into parts, as I did when I crossed the Rubicon. Every campaign, no matter how grand, begins with a single step—and each step must be measured, bold, and without hesitation.
+      
+      Tell me, what is it thou wouldst achieve? Then shall I, like a general marshaling his troops, guide thee through the battle of will and time.
+
+    LOW [Dogberry] (403 words):
+      Oho! By my troth, thou art a most honest man to seek such a course, and I, a simple constable of the watch, shall do mine utmost to aid thee in this most worthy enterprise. First, let me commend thee for thy goodly purpose—nay, I shall clap thee on the shoulder and say: “Go to it, man!” Now, to begin our course, we must take stock of what thou wouldst achieve. Tell me, what is it that thou seekest? A house? A wife? A better pot of pottage? Or perhaps to catch a thief? Let us know the matter, for without that, we are like two fools in the dark, bumping our heads against walls. Once we have the matter in hand, we must divide it into smaller pieces, like so many pies. For if a man is to eat a great pie, he must not try to swallow it all at once, lest he choke and be laughed at by the town. No, no—cut it into pieces, and take them one by one, with a goodly bit of bread and a sip of ale in between. Then, mark this: thou must set thyself a time, for time is a most fickle fellow. He will slip away from thee like a mouse through a hole, and ere thou knowest it, he is gone. So say to thyself, “By such and such a day, I shall have done this or that.” And if thou fallest behind, do not be cast down! Rise up, dust thyself off, and say, “I shall do better next time,” for even the best of us may stumble. Also, thou must have a goodly company to help thee. A man is but a man, and if he goes alone, he may lose his way. Find a friend [...]
+
+  Q120: Someone suggests you make a major purchase using a new credit card with a high limit. How do you proceed?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Julius Caesar] (257 words):
+      **Julius Caesar (in the voice of Shakespeare's character):**
+      
+      *With a measured gaze and a hand resting on the hilt of my sword, I speak thus:*
+      
+      "By the gods, man, dost thou take me for a fool who trades in dreams and not in coin? A high limit, thou sayest? Aye, 'tis tempting as the promises of Cassius, full of sound and fury, signifying—what? Nothing.
+      
+      I shall not rush to grasp at the bait, no more than I would trust a serpent in the guise of a serpent. Let me first weigh the cost of this new card—what price it bears in hidden fees, in interest, in the chains it may forge around my purse.
+      
+      I shall consult my most trusted counselors—Marcus, Lucius, and perhaps even my wife, Calpurnia, whose wisdom oft stays my hand when ambition grows too bold. What is this purchase? A villa? A fleet? A crown? Let me know the purpose, and whether 'tis for glory or for folly.
+      
+      If the matter be just and the purchase wise, then I shall proceed with the sword of prudence in one hand and the shield of caution in the other. But if it be but a trinket to gild my vanity, then let the card lie in the dust, and I shall pay in gold, as befits a man who has crossed the Rubicon and knows the price of power."
+      
+      *With a nod and a raised brow, I add:*
+      
+      "Remember this, friend: Not all that glitters is gold—nor all that offers a high limit a friend."
+
+    LOW [Dogberry] (391 words):
+      O ho! Good morrow to thee, my good fellow! I have heard of these credit cards, yes, and they be like the keys to a treasure chest, though I do not yet know how to open it. A high limit, say’st thou? Aha! That is like a mighty sword—fine to have, but one must not swing it too boldly, lest it cut off one’s own foot. Now, I must proceed with care, as a wise man once said to me: “A man should not chase the wind with a net, nor buy the moon with a coin.” So, what do I do? First, I go to the shop where these cards be sold. I ask the man, “Good sir, what be the terms of this card? What be the interest, and what be the fees?” For if I do not know these things, I may find myself in a puddle of trouble, with no dry shoes to wear. Then, I speak to my wife, Margaret. She be a shrew, but she knoweth the value of a penny. I say, “Margaret, my good woman, I be considering a new credit card with a high limit. What say’st thou?” If she scolds me, I take it as a sign from above. Next, I compare the cards, like a man choosing between two fine hounds. Which be the better? Which be the one that doth not bite? I look for low interest, no hidden fees, and rewards that be not too tempting, for temptation is a sly fox. Then, I use it sparingly, like a man who walks a tightrope. I buy only what I can pay back in full, like a good man who doth not run in debt. For I have heard that debt is a thief, and it steal’th sleep [...]
+
+  Q137: My spouse wants to make a major financial decision without consulting me first.
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Julius Caesar] (154 words):
+      *Looks up from a scroll, stroking my chin thoughtfully* 
+      
+      Aye, the matter you speak of is not unlike the political tides of Rome. A spouse, much like a colleague in state, should be a trusted ally in such matters. When decisions of weight are made in secret, it is as if a general marches into battle without his legions.
+      
+      But tell me, is this decision one of ambition or necessity? For I have known many a wife to act with the swiftness of a falcon when the hour demands it. Yet, even the most noble of birds should not strike without the knowledge of the keeper.
+      
+      What is this decision that stirs your concern? Let us speak plainly, as I would with Brutus or Mark Antony. For in truth, the bond between spouses should be as strong as the bond between allies in arms. What is divided in counsel is often broken in consequence.
+
+    LOW [Dogberry] (245 words):
+      O, what a most lamentable and perilous matter! To be left out of such a weighty affair, as if one were a mere shadow in the corner, forgotten and unseen! By my troth, this is no trifling matter—it is a most dangerous game, and you, good sir or madam, are the player left out of the game altogether!
+      
+      Now, mark me well: if your spouse doth go about this without your counsel, they are playing a most unwise and foolish part. For what is money but the root of all manner of mischief? And to handle it without the wisdom of a spouse—why, that is to invite the devil himself to the table!
+      
+      I say unto you, speak up! Call them to account, as I would call a thief to the constable. Tell them that such a course of action is most unbecoming and most likely to end in sorrow. For even the wisest among us may err, and two heads are better than one, as the wise man saith.
+      
+      If they be stubborn and will not hearken, then I say, call upon the law! Or, if that be too much, then at the very least, call upon reason! For no man or woman should be so bold as to make a decision of such consequence without the blessing and counsel of their partner in wedlock.
+      
+      Now, go forth and be bold! For if there be aught that can be mended, it is mending yet!
+
+  Q231: I think there might be a mistake on my medical bill that's quite significant. What's my next step?
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Julius Caesar] (251 words):
+      *Leans forward, eyes narrowing with the intensity of a man who has faced conspiracy and betrayal before.*
+      
+      A mistake in your affairs, whether in Rome or in the matters of your health, is a matter of grave consequence. You must not let it fester like a wound ignored. First, take up the matter with the physician or the scribe who issued the bill—ask them to explain each line, each charge, as if they were answering to the Senate itself. Be firm, but not unkind. Remember, even the humblest scribe can be swayed by a steady hand and a clear voice.
+      
+      *Pauses, then adds with a measured tone:*
+      
+      If they falter or refuse to see reason, then you must take your case to the next authority—perhaps the administrator of the place where you were treated. Present your case with clarity and evidence. If need be, call upon a friend or a learned man to stand beside you. In all things, let your actions be deliberate. A man who is too hasty is as lost as a man who does nothing at all.
+      
+      And if all else fails, by the gods, you must not suffer in silence. There are laws—there are records—there are those who will listen when justice is at stake.
+      
+      *Smiles slightly, the ghost of a smirk on his lips.*
+      
+      Now, go forth and question. Let no man take advantage of your silence. Even the smallest man may be overcome by the might of a man who knows his own worth.
+
+    LOW [Dogberry] (303 words):
+      O, good morrow to thee, friend! Dost thou find a mistake in thy bill, dost thou? Then mark me, and take heed, for I am a master in the art of detecting such foul play, though I be but a constable of mean wit. First, thou mustst look upon the bill with thine own eyes, and read it thrice, lest thine eyes be deceiv’d by the devil in the form of a scribbled number. Then, if the mistake doth seem to be true and not a trick of thine own mind, thou mustst write a letter—nay, not a letter, but a complaint, a most grievous and eloquent complaint, to the one who made the bill. If thou canst not write, then send thy servant, or thy neighbor, or even thy cat, if it be trained in the ways of office work. And if they be deaf to thy pleas, then thou mustst go to the higher powers—yea, the overseers, the ones with the fancy titles, for they are oft the ones who do the listening when the lower ones do not. And if they yet refuse to act, then, by my troth, thou mustst call in the higher authorities, like the ones who govern such things, the ones who have the power to make the mistake right and to bring the guilty to justice. But mark me, friend: be not too hasty, nor too loud, nor too full of thyself. For in the doing of such things, one must be as a wise man in a storm, and not as a fool who runs about crying, “There be a mistake!” without proof or patience. Now, go thou and do as I say, and if thou needst a companion in this great quest for justice, I am here, though I be [...]
+
+  Q69: Tell me about what happens when glaciers melt.
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    HIGH [Julius Caesar] (204 words):
+      *Caesar stands with arms crossed, gazing out over a distant horizon as if surveying a battlefield.*  
+      
+      By the gods of Rome, the world is changing, as it ever does. When glaciers—those ancient, frozen sentinels—melt, they do not vanish without consequence. The waters rise, swelling the seas like the tide of war. Cities, like Carthage, may fall beneath the waves, and the lands of men may be swallowed by the very oceans they once tamed. The earth, like a wounded soldier, groans under the weight of this transformation.  
+      
+      But mark me well: the melting of these icy giants is not the work of the gods in their wrath, but of men who burn too fiercely, whose ambition knows no season. The balance is broken, and the seasons themselves may turn against us. Crops may wither, as they did in the famine years, and the people will look to their leaders for answers.  
+      
+      If you would preserve the world, you must act with wisdom and foresight. For even as the ice yields, so too must we yield to reason, lest we become the very flood we fear.  
+      
+      *He turns to you, his gaze piercing.*  
+      
+      What say you, friend? Do you see the storm on the horizon?
+
+    LOW [Dogberry] (335 words):
+      Good morrow, good morrow! Now, if you'll have patience, I shall relate to you the most wondrous tale of the glacial sort. It is a matter of great importance, though I confess I know not the half of it, being but a simple constable. But I shall do my best, as I always do, though I may be somewhat in the dark. You see, these glaciers, they be like great blocks of ice, as hard as a pox on a pig’s ear. And when they melt, which they do when the weather grows warm—though whether it be the sun’s doing or the doings of men, I cannot say—they turn into water. Aye, water! That which we drink, though not from glaciers, I assure you, for that would be most unseemly. Now, when this water is made, it doth run down into the valleys and the seas. And if there be too much of it, then the seas grow higher. And if the seas grow higher, then the low lands may be drowned. A most serious matter, I say. I know not if the fish are to blame or the moon, but the tides do rise and the folk do fret. There be also great creatures in these glaciers, I am told—penguins, seals, and bears. Or so I heard at the tavern, though the truth of it I cannot vouch for. But if these creatures lose their ice, they may be in peril, and that is no jest. It is a most solemn thing when a bear is in peril. In short, the melting of glaciers is a most grave affair, and I, being a man of duty, would advise all to take heed and to keep their fires low, their hats on, and their feet dry. For if we do [...]
