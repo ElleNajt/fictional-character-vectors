@@ -668,7 +668,7 @@ Bottom 5:
 Cell Timer: 0:00:00
 :end:
 
-These residual axes capture universe-specific categorical structure that Lu's personality roles miss:
+An impressionistic reading of who lands at each end suggests universe-specific categorical structure that Lu's personality roles miss:
 
 | Universe        | Residual PC1                                         | Residual PC2                                   |
 |-----------------+------------------------------------------------------+------------------------------------------------|
@@ -684,6 +684,8 @@ These residual axes capture universe-specific categorical structure that Lu's pe
 | Norse Myth      | Historical Vikings vs Fate spirits                   | Monsters vs Peaceful gods                      |
 | Egyptian Myth   | Historical rulers vs Death gods                      | Historical pharaohs vs Underworld deities      |
 | Shakespeare     | Comic buffoons vs Roman politicians                  | Male comic characters vs Young heroines        |
+
+But these labels are assigned by eyeballing character names at each end --- they describe *who* clusters together, not necessarily *what the axis encodes*. "Force-users vs Rogues" could equally be "speaks philosophically vs speaks practically," with the Force-user/Rogue split as a correlate rather than the cause. We validate these interpretations more rigorously in [[*Validating Residual PC Interpretations][a later section]].
 
 * Understanding the Residual: Directions vs Character Rankings
 
@@ -1880,6 +1882,8 @@ import pandas as pd
 
 rows = []
 for row in precomputed['text_features']:
+    if row.get('pc', 1) != 1:
+        continue
     rows.append({
         'Universe': row['universe'],
         'HIGH end': row['high_end'],
@@ -2064,6 +2068,57 @@ The residual PC1 captures a dimension we might call *narrative individuation*: h
 This is orthogonal to Lu's role space. Lu captures *what kind of character* you are (hero, villain, mentor) and *how formal your register is*. The residual captures something more fundamental: *whether you exist as a person or as a concept*. Ron Weasley and Voldemort are both in the Harry Potter universe, both captured by Lu's "student/dark lord" role distinctions, but they differ on individuation --- Ron speaks from personal experience, Voldemort speaks from philosophical authority.
 
 The logit lens fails on this axis because individuation doesn't correspond to any single token or register shift. It's a distributed property of *how the model structures a response* --- whether it generates personal anecdotes vs. universal pronouncements, specific names vs. abstract concepts, practical advice vs. philosophical reflection. This is exactly the kind of higher-order textual property that shows up in response comparison but not in vocabulary projection.
+
+** Validating Residual PC Interpretations
+
+The response diffing above is suggestive, but it relies on our own reading of the LLM's comparisons. Can we validate more rigorously that the residual PCs encode text-observable features?
+
+We design a held-out validation experiment with strict separation between discovery and testing:
+
+1. *Feature discovery (odd-ranked characters)*: For each universe and PC, we take the 5 characters with the most extreme positive scores (ranks 1, 3, 5, 7, 9) and the 5 most extreme negative scores (same odd ranks). We show an LLM (Claude Sonnet) their anonymized responses to 10 discriminative questions and ask it to propose 6 features that distinguish the two groups. Features must be observable from text alone --- no universe knowledge.
+
+2. *Feature coding (even-ranked characters)*: We take a *non-overlapping* set: the 10 characters at ranks 2, 4, 6, ..., 20 from each end (20 per universe-PC). A fresh LLM call rates each character on the 6 discovered features (1--5 scale) based on a different sample of 10 questions from the top 50 most discriminative.
+
+3. *Regression*: We regress each character's actual residual PC score against their 6 feature ratings using OLS. High adjusted R^{2} means the LLM-discovered features (from held-out characters) predict PC position well.
+
+The striding ensures zero overlap between the characters used to discover features and those used to validate them. Full code is in =src/analysis/llm_feature_coding.py= and =src/analysis/feature_regression.py=.
+
+#+begin_src python :session blogpost :async t
+import json
+import pandas as pd
+
+with open('results/feature_regression.json') as f:
+    reg = json.load(f)
+
+rows = []
+for key, data in reg.items():
+    universe = data['universe']
+    pc = data['pc']
+    adj_r2 = data['adj_r_squared']
+    n = data['n_chars']
+    # Top 2 features by absolute correlation
+    top_feats = [c['feature'] for c in data['correlations'][:2]]
+    rows.append({
+        'Universe': universe,
+        'PC': pc,
+        'Adj. R²': round(adj_r2, 2),
+        'n': n,
+        'Top features': ', '.join(top_feats),
+    })
+
+df = pd.DataFrame(rows)
+print(df)
+#+end_src
+
+#+RESULTS:
+
+PC1 is well-explained by text-observable features across most universes. In 9 of 12 universes the adjusted R^{2} exceeds 0.65, with Naruto (0.94), LOTR (0.93), and Harry Potter (0.86) showing that the LLM-discovered features from held-out characters predict residual PC scores with high fidelity. The features that recur most often are *linguistic formality*, *philosophical abstraction*, *conversational intimacy*, and *self-aggrandizement* --- all consistent with the "narrative individuation" interpretation from the response diffing.
+
+The weakest PC1 result is Egyptian Mythology (adj. R^{2} = 0.34), where the features discovered have lower individual correlations. This may reflect a less clean separation in how Qwen3 renders Egyptian characters, or noisier feature coding with only 20 characters.
+
+PC2 results are more mixed. A few universes show strong PC2 validation --- LOTR (0.95), Harry Potter (0.84), Marvel (0.82), Shakespeare (0.76), Norse (0.75) --- suggesting that PC2 captures a second meaningful text-observable axis in these cases (e.g., conversational warmth vs. violent imagery in LOTR, or boisterous expression vs. poetic structure in Shakespeare). But several universes have weak PC2 results (Greek: -0.09, GoT: 0.02, Chinese: 0.27), indicating that PC2 in those universes either captures something not well-described by text features alone, or is dominated by noise after the strong PC1 signal is removed.
+
+The overall picture: text-observable features explain most of the variance in residual PC1 (median adj. R^{2} across universes ~ 0.77), lending quantitative support to the "narrative individuation" interpretation. PC2 is interpretable in some universes but not others.
 
 * Appendix: Cross-Universe PC Alignment
 
