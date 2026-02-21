@@ -668,24 +668,7 @@ Bottom 5:
 Cell Timer: 0:00:00
 :end:
 
-An impressionistic reading of who lands at each end suggests universe-specific categorical structure that Lu's personality roles miss:
-
-| Universe        | Residual PC1                                         | Residual PC2                                   |
-|-----------------+------------------------------------------------------+------------------------------------------------|
-| Harry Potter    | Dark/supernatural vs Warm/familial                   | Wise/magical vs Mundane/muggle                 |
-| Star Wars       | Force-users vs Rogues                                | Humanoid strategists vs Droids                 |
-| LOTR            | Mythic Elven lords vs Humble hobbits                 | Hobbits vs Evil creatures                      |
-| Marvel          | Young heroes vs Cosmic beings                        | Mutant leaders vs Tech heroes                  |
-| Game of Thrones | Mad kings/dragons vs Grounded fighters               | Non-verbal/inhuman vs Political schemers       |
-| Naruto          | Shonen protagonists vs Godlike antagonists           | Chaotic fighters vs Disciplined warriors       |
-| Greek Myth      | Mortal kings vs Primordial beings                    | Trojan heroes vs Labyrinth chars               |
-| Chinese Myth    | Celestial sovereigns vs Journey to the West pilgrims | Three Kingdoms warriors vs Monkey King's group |
-| Hindu Myth      | Cosmic deities vs Epic warriors                      | Demons vs Preserver gods                       |
-| Norse Myth      | Historical Vikings vs Fate spirits                   | Monsters vs Peaceful gods                      |
-| Egyptian Myth   | Historical rulers vs Death gods                      | Historical pharaohs vs Underworld deities      |
-| Shakespeare     | Comic buffoons vs Roman politicians                  | Male comic characters vs Young heroines        |
-
-But these labels are assigned by eyeballing character names at each end --- they describe *who* clusters together, not necessarily *what the axis encodes*. "Force-users vs Rogues" could equally be "speaks philosophically vs speaks practically," with the Force-user/Rogue split as a correlate rather than the cause. We validate these interpretations more rigorously in [[*Validating Residual PC Interpretations][a later section]].
+The character rankings along these residual axes suggest universe-specific structure that Lu's personality roles miss. We characterize what these axes actually encode --- via response diffing and a held-out LLM feature coding experiment --- in [[*Interpreting Residual PCs: Response Diffing][a later section]].
 
 * Understanding the Residual: Directions vs Character Rankings
 
