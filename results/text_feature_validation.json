@@ -1,0 +1,1708 @@
+{
+  "text_feature_regression": {
+    "Harry Potter__PC1": {
+      "universe": "Harry Potter",
+      "pc": 1,
+      "n_chars": 102,
+      "r_squared": 0.851172176832263,
+      "adj_r_squared": 0.8311055040456018,
+      "correlations": [
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.8671914497185904
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": 0.783543090054635
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": 0.6519594948693646
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": -0.6227580426842244
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": 0.540919202077437
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": -0.48379727509986215
+        },
+        {
+          "feature": "action_rate",
+          "correlation": 0.44739704545062925
+        },
+        {
+          "feature": "response_length",
+          "correlation": -0.1994375999743468
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": -0.169652431168521
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": -0.16565104216325205
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": 0.042991413736952255
+        },
+        {
+          "feature": "question_rate",
+          "correlation": -0.02512385854730668
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Harry Potter__PC2": {
+      "universe": "Harry Potter",
+      "pc": 2,
+      "n_chars": 102,
+      "r_squared": 0.5900663612079082,
+      "adj_r_squared": 0.5347944099100981,
+      "correlations": [
+        {
+          "feature": "response_length",
+          "correlation": 0.6064073773593851
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.5981543385968878
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": 0.5828081064607085
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": -0.39215672052047656
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": -0.35468928068064665
+        },
+        {
+          "feature": "action_rate",
+          "correlation": -0.3059850382836882
+        },
+        {
+          "feature": "question_rate",
+          "correlation": -0.27692118251791376
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": -0.2604263201577115
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": -0.1922218480697135
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.0740059836042296
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": -0.03388142932935991
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": -0.008375290701683843
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Star Wars__PC1": {
+      "universe": "Star Wars",
+      "pc": 1,
+      "n_chars": 105,
+      "r_squared": 0.6937605033841359,
+      "adj_r_squared": 0.6538162212168492,
+      "correlations": [
+        {
+          "feature": "philosophical_rate",
+          "correlation": 0.6365144535829651
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.5301236896822152
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": -0.4793011942995255
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": -0.4264286215990962
+        },
+        {
+          "feature": "question_rate",
+          "correlation": -0.3508345013533242
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": -0.3151364277884371
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": 0.24017607202090535
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.23466599240292696
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": -0.16126216409063837
+        },
+        {
+          "feature": "action_rate",
+          "correlation": -0.14466231775782892
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": -0.14416337481381628
+        },
+        {
+          "feature": "response_length",
+          "correlation": 0.12391716696199978
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Star Wars__PC2": {
+      "universe": "Star Wars",
+      "pc": 2,
+      "n_chars": 105,
+      "r_squared": 0.6058131098479616,
+      "adj_r_squared": 0.5543974285237826,
+      "correlations": [
+        {
+          "feature": "exclamation_rate",
+          "correlation": -0.6597276868768351
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": 0.481062175822399
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": 0.35929057876537923
+        },
+        {
+          "feature": "action_rate",
+          "correlation": -0.3407063801413873
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": -0.2648754465923854
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": -0.26303725043215015
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": -0.2268954961647022
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.13341649857458374
+        },
+        {
+          "feature": "response_length",
+          "correlation": 0.12514829735322497
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.065882388047629
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": -0.03032397541546742
+        },
+        {
+          "feature": "question_rate",
+          "correlation": -0.0032672168762720413
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "LOTR__PC1": {
+      "universe": "LOTR",
+      "pc": 1,
+      "n_chars": 97,
+      "r_squared": 0.9013141213147016,
+      "adj_r_squared": 0.8872161386453732,
+      "correlations": [
+        {
+          "feature": "philosophical_rate",
+          "correlation": 0.7119768040951105
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": -0.7101275686906022
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.7082845197079526
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": -0.5945782460244305
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": -0.5396921729548972
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.4487571367864761
+        },
+        {
+          "feature": "question_rate",
+          "correlation": -0.3475271291051115
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": -0.24683473497984768
+        },
+        {
+          "feature": "response_length",
+          "correlation": 0.20217019697686242
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": 0.11738749474814694
+        },
+        {
+          "feature": "action_rate",
+          "correlation": -0.06960136050810797
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": 0.031566496824320237
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "LOTR__PC2": {
+      "universe": "LOTR",
+      "pc": 2,
+      "n_chars": 97,
+      "r_squared": 0.9133797579237751,
+      "adj_r_squared": 0.9010054376271716,
+      "correlations": [
+        {
+          "feature": "impersonal_rate",
+          "correlation": -0.8761480513526149
+        },
+        {
+          "feature": "action_rate",
+          "correlation": -0.863097676435544
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.7733252838897183
+        },
+        {
+          "feature": "question_rate",
+          "correlation": -0.7417137376096214
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": -0.5779483396527686
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": 0.5670706408795948
+        },
+        {
+          "feature": "response_length",
+          "correlation": 0.5313447023500218
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": 0.47118280673229007
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": -0.42515072802707266
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": -0.4065523259315492
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": 0.08813907718888586
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": -0.03221442061010424
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Marvel__PC1": {
+      "universe": "Marvel",
+      "pc": 1,
+      "n_chars": 108,
+      "r_squared": 0.620728381065522,
+      "adj_r_squared": 0.5728203870948512,
+      "correlations": [
+        {
+          "feature": "impersonal_rate",
+          "correlation": -0.505353898087837
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": 0.4928778868151438
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": -0.46238492048312185
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": 0.42212869740236203
+        },
+        {
+          "feature": "response_length",
+          "correlation": 0.3165638040852825
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": 0.30533825384002283
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": 0.3013232051210224
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": -0.2580501082989878
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.13227510199516337
+        },
+        {
+          "feature": "action_rate",
+          "correlation": -0.10723275732457362
+        },
+        {
+          "feature": "question_rate",
+          "correlation": -0.04291171455142878
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": -0.019022737433366823
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Marvel__PC2": {
+      "universe": "Marvel",
+      "pc": 2,
+      "n_chars": 108,
+      "r_squared": 0.6052601206533483,
+      "adj_r_squared": 0.5553982411569292,
+      "correlations": [
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.6828585782102436
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": 0.6092535697164843
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": -0.5727683473648442
+        },
+        {
+          "feature": "question_rate",
+          "correlation": -0.43993108600230557
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.3809905710268968
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": 0.20484465907282662
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": -0.19630494492585274
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": 0.12931787841789855
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": -0.10420296062687508
+        },
+        {
+          "feature": "action_rate",
+          "correlation": 0.10074945204473143
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": 0.03810711958641082
+        },
+        {
+          "feature": "response_length",
+          "correlation": -0.020144446283035158
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Game of Thrones__PC1": {
+      "universe": "Game of Thrones",
+      "pc": 1,
+      "n_chars": 93,
+      "r_squared": 0.7990418928925571,
+      "adj_r_squared": 0.7688981768264407,
+      "correlations": [
+        {
+          "feature": "philosophical_rate",
+          "correlation": 0.7443229941419994
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.7257934667568825
+        },
+        {
+          "feature": "action_rate",
+          "correlation": 0.6365119369432988
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": -0.4173877292841316
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": 0.34096937604060984
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": 0.24935438225133866
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": -0.19322435391464649
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": 0.1856873613902008
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": -0.15433882224030349
+        },
+        {
+          "feature": "response_length",
+          "correlation": 0.11921503530147719
+        },
+        {
+          "feature": "question_rate",
+          "correlation": 0.10468236562641807
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": -0.04115559184386305
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Game of Thrones__PC2": {
+      "universe": "Game of Thrones",
+      "pc": 2,
+      "n_chars": 93,
+      "r_squared": 0.6902754821148822,
+      "adj_r_squared": 0.6438168044321145,
+      "correlations": [
+        {
+          "feature": "unique_word_ratio",
+          "correlation": -0.4992578356521728
+        },
+        {
+          "feature": "response_length",
+          "correlation": -0.4688462003216299
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": -0.34634430552527085
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": 0.2787248558121041
+        },
+        {
+          "feature": "action_rate",
+          "correlation": 0.2628904769375229
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": 0.23687093256938593
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": -0.13342467191447321
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": 0.1039281087024225
+        },
+        {
+          "feature": "question_rate",
+          "correlation": -0.0742623353646351
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": 0.056699166593141066
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": -0.0551590923776809
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.03756926976771198
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Naruto__PC1": {
+      "universe": "Naruto",
+      "pc": 1,
+      "n_chars": 84,
+      "r_squared": 0.9203095044023666,
+      "adj_r_squared": 0.9068406882450201,
+      "correlations": [
+        {
+          "feature": "philosophical_rate",
+          "correlation": -0.8224957371061381
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": 0.7926673325455046
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": -0.7144792620541727
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": -0.599173485149542
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": 0.5964138201782342
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": 0.5369564321890496
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": 0.38242101536688033
+        },
+        {
+          "feature": "response_length",
+          "correlation": 0.3690643736550977
+        },
+        {
+          "feature": "question_rate",
+          "correlation": 0.274420142655504
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": 0.2696427677518283
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.12813189428897936
+        },
+        {
+          "feature": "action_rate",
+          "correlation": -0.10597301812871907
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Naruto__PC2": {
+      "universe": "Naruto",
+      "pc": 2,
+      "n_chars": 84,
+      "r_squared": 0.7851147163472791,
+      "adj_r_squared": 0.7487960768566784,
+      "correlations": [
+        {
+          "feature": "avg_sentence_length",
+          "correlation": -0.737931176798262
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": 0.6726013726604249
+        },
+        {
+          "feature": "question_rate",
+          "correlation": 0.5971976210776978
+        },
+        {
+          "feature": "response_length",
+          "correlation": -0.3819834287112444
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": 0.3694289998193896
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": 0.36366558334975524
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": -0.2853141702908869
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": -0.2836313748417342
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": -0.2489790242966208
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": 0.243246071241267
+        },
+        {
+          "feature": "action_rate",
+          "correlation": 0.09512529280223049
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": 0.09195921525684983
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Greek Mythology__PC1": {
+      "universe": "Greek Mythology",
+      "pc": 1,
+      "n_chars": 107,
+      "r_squared": 0.674201396908584,
+      "adj_r_squared": 0.6326100858756374,
+      "correlations": [
+        {
+          "feature": "action_rate",
+          "correlation": -0.6330576112130437
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": 0.6211571617820264
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": -0.49878819082935777
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": -0.4718073349261247
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": -0.4638355920883457
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.43136669855934334
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": -0.30818339226907326
+        },
+        {
+          "feature": "question_rate",
+          "correlation": -0.23110956784406606
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": -0.2105486897231467
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": -0.1741403394036361
+        },
+        {
+          "feature": "response_length",
+          "correlation": -0.053973085482921936
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": 0.04147339082617413
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Greek Mythology__PC2": {
+      "universe": "Greek Mythology",
+      "pc": 2,
+      "n_chars": 107,
+      "r_squared": 0.34041789440025594,
+      "adj_r_squared": 0.2562159234726291,
+      "correlations": [
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.3482967152716351
+        },
+        {
+          "feature": "question_rate",
+          "correlation": -0.32925800412418527
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": -0.302429335419823
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": -0.2180292394907765
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": -0.2154339088767602
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": 0.20203069326112041
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": 0.19897848238534832
+        },
+        {
+          "feature": "response_length",
+          "correlation": 0.18551509891428733
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.14345752062161343
+        },
+        {
+          "feature": "action_rate",
+          "correlation": -0.1375559423886555
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": 0.07018965393870004
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": 0.03878120614461665
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Chinese Mythology__PC1": {
+      "universe": "Chinese Mythology",
+      "pc": 1,
+      "n_chars": 76,
+      "r_squared": 0.7720635847399361,
+      "adj_r_squared": 0.7286471246904,
+      "correlations": [
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.7260318620681371
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": -0.6109564176405063
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": -0.5885937450741547
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": 0.4343993040646283
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": -0.4273948450357051
+        },
+        {
+          "feature": "question_rate",
+          "correlation": -0.37346014494588625
+        },
+        {
+          "feature": "action_rate",
+          "correlation": 0.35649417425152974
+        },
+        {
+          "feature": "response_length",
+          "correlation": 0.3378942911837581
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": 0.27663453040580266
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.22526157870960553
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": -0.18933598786903916
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": -0.08596291542890483
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Chinese Mythology__PC2": {
+      "universe": "Chinese Mythology",
+      "pc": 2,
+      "n_chars": 76,
+      "r_squared": 0.5701480415000031,
+      "adj_r_squared": 0.4882714779761941,
+      "correlations": [
+        {
+          "feature": "formal_rate",
+          "correlation": 0.39507949413189947
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": -0.36581478829412295
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": -0.3052913646615783
+        },
+        {
+          "feature": "action_rate",
+          "correlation": -0.272056463851282
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.2562372057912302
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": -0.14791635375939172
+        },
+        {
+          "feature": "response_length",
+          "correlation": -0.12470755895758281
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": -0.06439985177129379
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.06335342904976449
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": 0.034135711091555436
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": 0.026419983807097154
+        },
+        {
+          "feature": "question_rate",
+          "correlation": -0.007563516676014942
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Hindu Mythology__PC1": {
+      "universe": "Hindu Mythology",
+      "pc": 1,
+      "n_chars": 70,
+      "r_squared": 0.8066865890530723,
+      "adj_r_squared": 0.7659890288537191,
+      "correlations": [
+        {
+          "feature": "philosophical_rate",
+          "correlation": 0.5709217541518093
+        },
+        {
+          "feature": "action_rate",
+          "correlation": 0.5230478804943294
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": -0.5115256327004317
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": -0.4809920469693488
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": -0.46284442851528773
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.25641446812115354
+        },
+        {
+          "feature": "response_length",
+          "correlation": 0.234891708916691
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": 0.23074168284780164
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": -0.2291485379135343
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": -0.1832925536205835
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": 0.1557386384916525
+        },
+        {
+          "feature": "question_rate",
+          "correlation": 0.042904110367883615
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Hindu Mythology__PC2": {
+      "universe": "Hindu Mythology",
+      "pc": 2,
+      "n_chars": 70,
+      "r_squared": 0.7613263478886174,
+      "adj_r_squared": 0.7110792632335895,
+      "correlations": [
+        {
+          "feature": "question_rate",
+          "correlation": 0.6844659771084606
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": 0.6071650935073565
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": -0.5466402042718913
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": 0.5352424102360751
+        },
+        {
+          "feature": "response_length",
+          "correlation": -0.4707532548781264
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": 0.46228042238594563
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": 0.40004671767043093
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.3069923097719325
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": -0.3006725085073284
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": 0.2795699778829593
+        },
+        {
+          "feature": "action_rate",
+          "correlation": -0.21531960190150332
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": 0.0928951460752286
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Norse Mythology__PC1": {
+      "universe": "Norse Mythology",
+      "pc": 1,
+      "n_chars": 48,
+      "r_squared": 0.7698345984748568,
+      "adj_r_squared": 0.6909207465233791,
+      "correlations": [
+        {
+          "feature": "philosophical_rate",
+          "correlation": -0.7924922255028025
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": 0.4550935305842062
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": -0.3592046912359243
+        },
+        {
+          "feature": "action_rate",
+          "correlation": -0.2718371243687688
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": -0.2333160604102951
+        },
+        {
+          "feature": "question_rate",
+          "correlation": -0.21614669477429305
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.19006944946787602
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": -0.15651003842802624
+        },
+        {
+          "feature": "response_length",
+          "correlation": -0.1360006714126623
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": 0.074996062293127
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": -0.06543087898104792
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.02718381235834593
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Norse Mythology__PC2": {
+      "universe": "Norse Mythology",
+      "pc": 2,
+      "n_chars": 48,
+      "r_squared": 0.8218006411022922,
+      "adj_r_squared": 0.7607037180516496,
+      "correlations": [
+        {
+          "feature": "casual_rate",
+          "correlation": 0.8170582845661409
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": -0.7921196839651339
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": 0.6554080326710504
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": 0.6408376461060512
+        },
+        {
+          "feature": "response_length",
+          "correlation": -0.5741368347154125
+        },
+        {
+          "feature": "question_rate",
+          "correlation": 0.560359762935986
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": -0.34957737424669105
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.2765007406329974
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": 0.25250861294878013
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": -0.21106934332879773
+        },
+        {
+          "feature": "action_rate",
+          "correlation": -0.05522441200439311
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": -0.026385007388338308
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Egyptian Mythology__PC1": {
+      "universe": "Egyptian Mythology",
+      "pc": 1,
+      "n_chars": 44,
+      "r_squared": 0.6208119836672026,
+      "adj_r_squared": 0.47402952573192614,
+      "correlations": [
+        {
+          "feature": "question_rate",
+          "correlation": 0.6231473881074597
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": -0.5856109163575635
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": 0.5626916281239193
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": 0.4255633429225277
+        },
+        {
+          "feature": "response_length",
+          "correlation": -0.36785072405005126
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": -0.2509828565181328
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.24243265643003953
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": 0.23888616276666214
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": 0.18337485980824747
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": -0.14999420939223426
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": 0.14263356791311124
+        },
+        {
+          "feature": "action_rate",
+          "correlation": 0.05881768789098095
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Egyptian Mythology__PC2": {
+      "universe": "Egyptian Mythology",
+      "pc": 2,
+      "n_chars": 44,
+      "r_squared": 0.6531969756580904,
+      "adj_r_squared": 0.5189506436547706,
+      "correlations": [
+        {
+          "feature": "concrete_rate",
+          "correlation": -0.49298885740907017
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": 0.47644439572612335
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": 0.4263118763877804
+        },
+        {
+          "feature": "action_rate",
+          "correlation": -0.4130669251159476
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.34476371038162484
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": -0.2170500127646058
+        },
+        {
+          "feature": "question_rate",
+          "correlation": -0.14539170445967087
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": -0.1146938088457672
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": 0.0868640673427091
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": -0.06872321655128409
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": -0.02596544952603827
+        },
+        {
+          "feature": "response_length",
+          "correlation": 0.0036952074283568416
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Shakespeare__PC1": {
+      "universe": "Shakespeare",
+      "pc": 1,
+      "n_chars": 93,
+      "r_squared": 0.6745465616922605,
+      "adj_r_squared": 0.6257285459460995,
+      "correlations": [
+        {
+          "feature": "avg_sentence_length",
+          "correlation": 0.5407615479428615
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": -0.5352617465491126
+        },
+        {
+          "feature": "action_rate",
+          "correlation": -0.47766988936099136
+        },
+        {
+          "feature": "exclamation_rate",
+          "correlation": 0.3995947167595897
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": 0.32673384439568304
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": -0.21512022281174578
+        },
+        {
+          "feature": "response_length",
+          "correlation": 0.15632696588432618
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": -0.09849955507723743
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": 0.09432352655370088
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": 0.07380906444135037
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": -0.0454891098131307
+        },
+        {
+          "feature": "question_rate",
+          "correlation": 0.04016272859896796
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    },
+    "Shakespeare__PC2": {
+      "universe": "Shakespeare",
+      "pc": 2,
+      "n_chars": 93,
+      "r_squared": 0.6600264481217262,
+      "adj_r_squared": 0.609030415339985,
+      "correlations": [
+        {
+          "feature": "exclamation_rate",
+          "correlation": 0.5990261586710017
+        },
+        {
+          "feature": "philosophical_rate",
+          "correlation": -0.5492808160273767
+        },
+        {
+          "feature": "unique_word_ratio",
+          "correlation": 0.384582292161097
+        },
+        {
+          "feature": "casual_rate",
+          "correlation": 0.3481217407217067
+        },
+        {
+          "feature": "concrete_rate",
+          "correlation": 0.27336164574924043
+        },
+        {
+          "feature": "question_rate",
+          "correlation": 0.22936397589074947
+        },
+        {
+          "feature": "action_rate",
+          "correlation": 0.22834923591755196
+        },
+        {
+          "feature": "first_person_rate",
+          "correlation": 0.22790684077068615
+        },
+        {
+          "feature": "formal_rate",
+          "correlation": -0.17671808487139806
+        },
+        {
+          "feature": "avg_sentence_length",
+          "correlation": -0.15965381805790707
+        },
+        {
+          "feature": "response_length",
+          "correlation": 0.05834870472416289
+        },
+        {
+          "feature": "impersonal_rate",
+          "correlation": 0.008592128130262203
+        }
+      ],
+      "feature_names": [
+        "response_length",
+        "first_person_rate",
+        "impersonal_rate",
+        "question_rate",
+        "exclamation_rate",
+        "avg_sentence_length",
+        "casual_rate",
+        "formal_rate",
+        "philosophical_rate",
+        "concrete_rate",
+        "unique_word_ratio",
+        "action_rate"
+      ]
+    }
+  }
+}

@@ -2139,6 +2139,42 @@ PC2 results are more mixed. A few universes show strong PC2 validation --- LOTR 
 The overall picture: text-observable features explain most of the variance in residual PC1 (median adj. R^{2} across universes ~ 0.77), lending quantitative support to the person-vs-archetype interpretation. PC2 is interpretable in some universes but not others.
 #+end_quote
 
+** Non-LLM Text Feature Validation
+
+The LLM-coded feature regression above uses an LLM to both discover and rate features, raising a circularity concern: LLMs generate the character responses, then LLMs judge what distinguishes them. To address this, we repeat the regression using 12 simple text statistics computed without any LLM involvement: first-person pronoun rate, impersonal pronoun rate, casual marker rate, formal/archaic marker rate, philosophical vocabulary rate, concrete vocabulary rate, response length, average sentence length, question mark rate, exclamation rate, unique word ratio, and asterisk-action rate (=*sighs*=, =*leans forward*=).
+
+#+begin_src python :session blogpost :async t
+import json
+import pandas as pd
+
+with open('results/text_feature_validation.json') as f:
+    tv = json.load(f)
+
+rows = []
+for key, data in tv['text_feature_regression'].items():
+    rows.append({
+        'Universe': data['universe'],
+        'PC': data['pc'],
+        'Adj. R² (text)': round(data['adj_r_squared'], 2),
+        'n': data['n_chars'],
+        'Top features': ', '.join(
+            c['feature'] + '(' + f"{c['correlation']:+.2f}" + ')'
+            for c in data['correlations'][:3]
+        ),
+    })
+
+df = pd.DataFrame(rows)
+# Show PC1 only for comparison
+pc1 = df[df['PC'] == 1].drop(columns=['PC']).sort_values('Adj. R² (text)', ascending=False)
+print(pc1)
+#+end_src
+
+#+begin_quote
+*Claude's reading:* Simple text statistics (no LLM involvement) explain residual PC1 comparably to LLM-coded features: median adj. R^{2} ~0.71 vs ~0.77. The top predictors across universes are *philosophical vocabulary rate* and *concrete vocabulary rate* --- characters at the archetype pole use more words like "existence," "truth," "cosmic," while those at the person pole use "actually," "specifically," "try," "just."
+
+This confirms that the LLM feature regression is not merely measuring shared LLM bias. The residual PCs capture genuine text-level statistical patterns that can be detected with simple keyword counting.
+#+end_quote
+
 * Appendix: Cross-Universe PC Alignment
 
 Within each universe, we fit PCA separately and compute the cosine similarity between PC1 directions across all pairs. This measures whether different universes organize their characters along the same axis.
