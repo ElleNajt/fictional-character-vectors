@@ -11,17 +11,19 @@ Lu et al. claim there's a coherent "persona space" - a low-dimensional subspace 
 
 We stress-test this by asking: *does Lu's persona space generalize to fictional characters?*
 
-Specifically:
-1. How much variance of fictional characters is captured by Lu's 275-role space?
-2. What structure exists in the residual (orthogonal to Lu's space)?
-3. How sensitive are character vectors to which questions are asked?
-4. Can we interpret what PCA axes *mean* using the model's own unembedding matrix?
+The short version of what we find:
 
-Along the way, we find that modern franchises share a near-identical principal axis (cosine ~0.85) while mythology operates in an orthogonal subspace. We also find that projecting the LM head onto PCA directions --- a logit lens on the axes themselves --- reveals interpretable semantics: the dominant axis across nearly every universe is a *register* dimension (formal/archaic vs. colloquial/casual), and Lu's role PCA encodes dimensions like groundedness, warmth, and calculation (see [[*Logit Lens: What Do the Axes Mean in Token Space?][logit lens]]).
+- *Lu's space captures 55--73% of within-universe variance*, but what it misses is interesting. After projecting out all 275 role dimensions, PCA on the residual produces character orderings that are highly correlated with the original (0.77--0.96 in most universes) despite being geometrically orthogonal. It's unclear whether this is the same axis partially captured, or genuinely different structure that correlates.
+- *The logit lens breaks asymmetrically.* Lu's PCA directions map to clean token-level semantics (register, warmth, calculation). Residual PCA directions produce noise. Whatever the residual encodes, it doesn't reduce to vocabulary shifts.
+- *Modern franchises share a near-identical PC1* (cosine ~0.85) while mythology operates in an orthogonal subspace. The model has internalized a common narrative template across modern fiction that doesn't apply to mythology.
+- *Marvel is a genuine outlier*: its residual PC1 has only 0.55 ranking correlation with the original, and cleanly separates X-Men from Asgardian from tech-hero characters --- categorical distinctions Lu's personality roles can't capture.
+- *Character vectors are extremely stable*: split-half correlation across random question subsets exceeds 0.999. The specific questions don't matter much.
+
+The full analysis walks through these findings along four questions: how much of fictional character variance does Lu's space capture, what structure exists in the residual, how sensitive are character vectors to question choice, and what do PCA axes mean in token space.
 
 ** Method
 
-We extract activations from Qwen3-32B for 1,268 fictional characters (1,346 role files deduplicated to remove characters appearing under multiple source lists) using the same 240 questions as Lu et al.
+We extract mean residual-stream activations at layer 32 (the middle layer) of Qwen3-32B for 1,268 fictional characters (1,346 role files deduplicated to remove characters appearing under multiple source lists), using the same 240 questions as Lu et al. Layer 32 matches Lu et al.'s choice of the middle residual-stream layer; they report that PC1 similarity is high across all layers but peaks at the middle layer.
 
 Characters were gathered from two sources: a hand-curated list of ~370 culturally diverse characters (drawn from Wikipedia lists of major characters, literary surveys, and mythology references), supplemented by Wikidata-ranked additions for popular contemporary characters. We then added comprehensive character lists for several well-known universes (Harry Potter, Star Wars, LOTR, Marvel, Game of Thrones, Naruto, Shakespeare, and five mythology traditions: Greek, Chinese, Hindu, Norse, and Egyptian).
 
@@ -672,11 +674,11 @@ Bottom 5:
 Cell Timer: 0:00:00
 :end:
 
-The character rankings along these residual axes suggest universe-specific structure that Lu's personality roles miss. We characterize what these axes actually encode --- via response diffing and a held-out LLM feature coding experiment --- in [[*Interpreting Residual PCs: Response Diffing][a later section]].
+The character rankings along these residual axes suggest universe-specific structure that Lu's personality roles miss. Some PC2 separations are particularly clean: Chinese Mythology PC2 separates Romance of the Three Kingdoms characters (Liu Bei, Guan Yu, Cao Cao, Zhuge Liang) from Journey to the West characters (Sun Wukong, Zhu Bajie, Nezha) --- a narrative-source distinction that personality roles cannot capture. We characterize what these axes encode --- via response diffing and a held-out LLM feature coding experiment --- in [[*Interpreting Residual PCs: Response Diffing][a later section]].
 
 * Understanding the Residual: Directions vs Character Rankings
 
-An initially confusing finding: after projecting out Lu's space (which captures 70% of within-universe variance), character rankings on Residual PC1 still correlate ~0.9 with rankings on Original PC1. Does this mean the residual is just recapturing what Lu already had?
+An initially confusing finding: after projecting out Lu's space (which captures 55--73% of within-universe variance depending on universe --- see the per-universe numbers in the output below), character rankings on Residual PC1 still correlate ~0.9 with rankings on Original PC1. Does this mean the residual is just recapturing what Lu already had?
 
 No. The distinction between *direction cosines* (how aligned two axes are) and *ranking correlations* (how similarly they order characters) resolves the confusion:
 
@@ -764,14 +766,16 @@ Cell Timer: 0:00:00
 
 The key insight: *direction cosines* and *ranking correlations* tell different stories.
 
-- Lu-Reconstructed PC1 direction aligns ~0.9 with Original PC1 - Lu captures the axis well
-- Residual PC1 direction is nearly orthogonal to Original (~0.3-0.5)
-- But residual character rankings still correlate ~0.9 with original rankings
+- Lu-Reconstructed PC1 direction aligns ~0.7--0.95 with Original PC1 --- Lu captures the axis well
+- Residual PC1 direction is nearly orthogonal to Original (~0.2--0.7)
+- But residual character rankings still correlate 0.77--0.96 with original rankings in most universes
 
 Why? Extreme characters (Tom Riddle, Darth Vader, Galadriel) are extreme in *multiple* directions. The residual PC1 is a different axis, but it still separates the same characters because those characters spread out along a diagonal that has components in both Lu's space and orthogonal to it.
 
+The exception is Marvel (ranking correlation 0.55, direction cosine 0.19), where the residual genuinely captures different structure. Marvel's residual PC1 separates X-Men characters (Cyclops, Iceman, Beast, Prof X) from cosmic/Asgardian characters (Odin, Hela, Thanos), while its residual PC2 separates X-Men mutants (Prof X, Magneto, Mister Sinister) from tech-based Avengers (Iron Man, Spider-Man, Ant-Man). These are categorical distinctions --- mutant lineage, power source --- that Lu's personality roles don't encode.
+
 #+begin_quote
-*Claude's reading:* This creates a genuine interpretive ambiguity. The residual is geometrically orthogonal to Lu's space (direction cosine ~0.3--0.5), but produces nearly identical character orderings (ranking correlation ~0.9). Two readings are possible: (1) there's one underlying dimension that Lu's 275 roles only partially span, with ~40% of its variance living outside their subspace; or (2) the residual captures genuinely different structure that happens to correlate with the same dimension. We return to this question after characterizing [[*Interpreting Residual PCs: Response Diffing][what the residual axes encode]].
+*Claude's reading:* This creates a genuine interpretive ambiguity for most universes. The residual is geometrically orthogonal to Lu's space (direction cosine ~0.2--0.7), but in 10/12 universes produces similar character orderings (ranking correlation 0.77--0.96). Two readings are possible: (1) there's one underlying dimension that Lu's 275 roles only partially span, with ~40% of its variance living outside their subspace; or (2) the residual captures genuinely different structure that happens to correlate with the same dimension. Marvel is the clearest case of reading (2), with a ranking correlation of only 0.55 and residual PCs that separate characters along mutant/Asgardian/tech lines. We return to this question after characterizing [[*Interpreting Residual PCs: Response Diffing][what the residual axes encode]].
 #+end_quote
 
 * Beyond PC1: Do Later PCs Tell the Same Story?
@@ -1215,7 +1219,7 @@ Cell Timer: 0:00:00
 :end:
 
 #+begin_quote
-*Claude's reading:* The variance is remarkably diffuse: the single most informative question accounts for less than 1% of total cross-character variance, and roughly 90 of 240 questions are needed to reach 50%. No individual question dominates the axis -- the PC direction loads broadly across the question set. This suggests the 240-question battery isn't redundant; the stable PC structure emerges from averaging many weak per-question signals.
+*Claude's reading:* The variance is remarkably diffuse: the single most informative question accounts for less than 1% of total cross-character variance, and roughly 90 of 240 questions are needed to reach 50%. No individual question dominates the axis --- the PC direction loads broadly across the question set. Combined with the split-half correlation of >0.999 (see [[*Question Sensitivity][below]]), this means the questions are highly redundant: any ~120 of the 240 would produce essentially the same character vectors. The PCA structure is a stable property of the model's character representations, not an artifact of the specific question set.
 #+end_quote
 
 **** Per-Character Attributions
@@ -1556,7 +1560,7 @@ Pushes LOW (-):
 Cell Timer: 0:00:00
 :end:
 
-* Sample Responses
+* Appendix: Sample Responses
 
 #+begin_src python :session blogpost :async t
 for sample in precomputed['sample_responses']:
@@ -1797,7 +1801,7 @@ Cell Timer: 0:26:00
 1. *Mostly universe separation* - residual PCs are 95%+ explained by franchise
 2. *Distinctive-character-heavy* - protagonists and iconic characters have more residual than generic types
 
-Within universes, residual PC1 produces nearly identical character rankings to the original (correlation ~0.9) despite being geometrically orthogonal (direction cosine ~0.3--0.5). This ambiguity --- same ordering, different direction --- is discussed in [[*Understanding the Residual: Directions vs Character Rankings][the residual analysis]]. Later PCs sometimes capture genuinely different groupings (e.g. Marvel PC2 separates mutant-lineage characters from tech heroes).
+Within universes, residual PC1 typically produces similar character rankings to the original (correlation 0.77--0.96 in 10/12 universes) despite being geometrically orthogonal (direction cosine ~0.2--0.7). The exception is Marvel (0.55), where the residual genuinely captures different structure. This ambiguity --- similar orderings from orthogonal directions --- is discussed in [[*Understanding the Residual: Directions vs Character Rankings][the residual analysis]]. Later PCs sometimes capture genuinely different groupings (e.g. Marvel PC2 separates mutant-lineage characters from tech heroes).
 
 These results are robust: split-half correlation across random question subsets exceeds 0.999 for all characters, meaning the vectors are stable properties of the model's character representations rather than artifacts of question selection.
 
@@ -1928,7 +1932,7 @@ The most discriminating features are:
 2. *Philosophical vocabulary*: Abstract entities invoke "existence," "truth," "cosmic," "fate." Grounded characters talk about specific situations and practical advice.
 3. *Casual markers*: Relatable characters use "yeah," "gonna," "hey," "like." Archetypal characters avoid colloquial language entirely.
 
-Note that these features sound similar to what Lu's role PCA captures (register/formality). The residual is geometrically orthogonal to Lu's space, but the character rankings it produces correlate ~0.9 with the original. Whether this axis is "the same thing Lu measures, just the portion his roles miss" or "something different that correlates" remains ambiguous (see [[*What the residual encodes][discussion]]).
+Note that these features sound similar to what Lu's role PCA captures (register/formality). The residual is geometrically orthogonal to Lu's space, but the character rankings it produces correlate 0.77--0.96 with the original in most universes (Marvel is the exception at 0.55). Whether this axis is "the same thing Lu measures, just the portion his roles miss" or "something different that correlates" remains ambiguous (see [[*What the residual encodes][discussion]]).
 #+end_quote
 
 ** Qualitative examples
@@ -2069,17 +2073,17 @@ The LLM also noted universe-specific manifestations: in Egyptian mythology, the 
 ** What the residual encodes
 
 #+begin_quote
-*Claude's reading:* The residual PC1 captures something we might call *narrative individuation*: how much the model treats a character as a specific person with personal experiences, relationships, and practical knowledge, versus as an archetype, force of nature, or philosophical authority.
+*Claude's reading:* The residual PC1 separates characters the model treats as specific people --- with personal experiences, relationships, and practical knowledge --- from characters it treats as archetypes, forces of nature, or philosophical authorities.
 
-This sounds similar to Lu et al.'s own characterization of their PC1 as "deviation from the Assistant persona" --- with fantastical/dramatic roles (bard, ghost, trickster) at one end and analytical/assistant-like roles (evaluator, reviewer, consultant) at the other. And indeed, residual PC1 rankings correlate ~0.9 with original PC1 rankings across most universes, despite the directions being geometrically orthogonal (cosine ~0.3--0.5).
+This sounds similar to Lu et al.'s own characterization of their PC1 as "deviation from the Assistant persona" --- with fantastical/dramatic roles (bard, ghost, trickster) at one end and analytical/assistant-like roles (evaluator, reviewer, consultant) at the other. And indeed, residual PC1 rankings correlate 0.77--0.96 with original PC1 rankings in most universes (though Marvel is a notable outlier at 0.55), despite the directions being geometrically orthogonal (cosine ~0.2--0.7).
 
-This is the interpretive ambiguity flagged [[*Understanding the Residual: Directions vs Character Rankings][earlier]]. Either Lu's 275 roles only partially span a single underlying "individuation" dimension (leaving ~40% of its variance in the residual), or the residual captures genuinely different structure that happens to produce similar orderings. We don't have a clean way to distinguish these from the current analysis.
+This is the interpretive ambiguity flagged [[*Understanding the Residual: Directions vs Character Rankings][earlier]]. Either Lu's 275 roles only partially span the person-vs-archetype axis (leaving ~40% of its variance in the residual), or the residual captures genuinely different structure that happens to produce similar orderings. We don't have a clean way to distinguish these from the current analysis.
 
 The more parsimonious reading is probably (1): Lu's roles are quite generic (therapist, soldier, bohemian), so it's unsurprising that 275 of them wouldn't fully span the space of how models represent character identity. Fictional characters have richer, more specific identities that push further along the same dimension. The residual would then be the portion of this dimension that generic role descriptions can't reach.
 
 What *is* clear is that the logit lens behaves differently for the residual. Lu's role PCA directions give clean token-level semantics when projected through the LM head --- PC1 maps to register tokens (formal/archaic vs. colloquial), PC3 maps to warmth vs. calculation, and so on. The residual PC directions don't. Projecting residual PC1 through the unembedding matrix produces noisy, uninterpretable token lists.
 
-This is consistent with the parsimonious reading: Lu's roles capture the first-order vocabulary/register component of individuation (the part that shows up as token frequency shifts), while the residual contains the higher-order structural component (response organization, anecdote vs. pronouncement, practical vs. philosophical framing) that doesn't reduce to individual token probabilities. The response diffing and LLM feature coding confirm the residual axis is real and text-observable (adj. R^{2} ~0.77 on held-out characters), but its signature is spread across higher-order textual properties rather than concentrated in any single token dimension.
+This is consistent with the parsimonious reading: Lu's roles capture the first-order vocabulary/register component (the part that shows up as token frequency shifts), while the residual contains higher-order structure (response organization, anecdote vs. pronouncement, practical vs. philosophical framing) that doesn't reduce to individual token probabilities. The response diffing and LLM feature coding confirm the residual axis is real and text-observable (adj. R^{2} ~0.77 on held-out characters), but its signature is spread across higher-order textual properties rather than concentrated in any single token dimension.
 #+end_quote
 
 ** Validating Residual PC Interpretations
@@ -2126,13 +2130,13 @@ print(df)
 #+RESULTS:
 
 #+begin_quote
-*Claude's reading:* PC1 is well-explained by text-observable features across most universes. In 11/12 universes the adjusted R^{2} exceeds 0.65, with Naruto (0.94), LOTR (0.93), and Harry Potter (0.86) at the high end. The features that recur most often are *linguistic formality*, *philosophical abstraction*, *conversational intimacy*, and *self-aggrandizement* --- all consistent with the "narrative individuation" interpretation from the response diffing.
+*Claude's reading:* PC1 is well-explained by text-observable features across most universes. In 11/12 universes the adjusted R^{2} exceeds 0.65, with Naruto (0.94), LOTR (0.93), and Harry Potter (0.86) at the high end. The features that recur most often are *linguistic formality*, *philosophical abstraction*, *conversational intimacy*, and *self-aggrandizement* --- all consistent with the person-vs-archetype pattern from the response diffing.
 
 The weakest PC1 result is Egyptian Mythology (adj. R^{2} = 0.34), where the features discovered have lower individual correlations. This may reflect a less clean separation in how Qwen3 renders Egyptian characters, or noisier feature coding with only 20 characters.
 
 PC2 results are more mixed. A few universes show strong PC2 validation --- LOTR (0.95), Harry Potter (0.84), Marvel (0.82), Shakespeare (0.76), Norse (0.75) --- suggesting that PC2 captures a second meaningful text-observable axis in these cases (e.g., conversational warmth vs. violent imagery in LOTR, or boisterous expression vs. poetic structure in Shakespeare). But several universes have weak PC2 results (Greek: -0.09, GoT: 0.02, Chinese: 0.27), indicating that PC2 in those universes either captures something not well-described by text features alone, or is dominated by noise after the strong PC1 signal is removed.
 
-The overall picture: text-observable features explain most of the variance in residual PC1 (median adj. R^{2} across universes ~ 0.77), lending quantitative support to the "narrative individuation" interpretation. PC2 is interpretable in some universes but not others.
+The overall picture: text-observable features explain most of the variance in residual PC1 (median adj. R^{2} across universes ~ 0.77), lending quantitative support to the person-vs-archetype interpretation. PC2 is interpretable in some universes but not others.
 #+end_quote
 
 * Appendix: Cross-Universe PC Alignment
