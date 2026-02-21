@@ -1793,6 +1793,38 @@ Cell Timer: 0:26:00
 *Claude's reading:* Character vectors are extremely stable across question subsets (r > 0.999). The specific questions matter very little - character identity dominates.
 #+end_quote
 
+** Question Subset PCA
+
+The split-half test above uses 120 questions per half. How few questions can we use and still recover the same PC1? For each universe, we compute residual PC1 from different question subsets and compare rankings with the all-240 baseline.
+
+#+begin_src python :session blogpost :async t
+import json
+import pandas as pd
+
+with open('results/question_subset_pca.json') as f:
+    qsp = json.load(f)
+
+rows = []
+for universe, data in qsp.items():
+    rows.append({
+        'Universe': universe,
+        'n': data['n_chars'],
+        'top 10': round(data['correlations']['top_10'], 3),
+        'rand 10': round(data['correlations']['random_10'], 3),
+        'bot 10': round(data['correlations']['bottom_10'], 3),
+        'top 50': round(data['correlations']['top_50'], 3),
+    })
+
+df = pd.DataFrame(rows)
+print(df)
+#+end_src
+
+#+begin_quote
+*Claude's reading:* Even 10 random questions reproduce PC1 rankings well (correlation >0.96 in 10/12 universes). Selecting the top-10 most informative questions does not substantially outperform random selection --- the signal is spread broadly across questions. Bottom-10 questions are usually adequate (>0.83 in 10/12 universes) but fail for Norse (0.04) and Shakespeare (0.29), suggesting a small number of questions carry zero signal for certain universes.
+
+The practical implication: you could extract stable character vectors with ~10 questions instead of 240, with minimal loss. The 240-question battery is massively redundant for this purpose.
+#+end_quote
+
 * Conclusion
 
 #+begin_quote
