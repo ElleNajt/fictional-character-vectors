@@ -766,7 +766,7 @@ The key insight: *direction cosines* and *ranking correlations* tell different s
 
 Why? Extreme characters (Tom Riddle, Darth Vader, Galadriel) are extreme in *multiple* directions. The residual PC1 is a different axis, but it still separates the same characters because those characters spread out along a diagonal that has components in both Lu's space and orthogonal to it.
 
-*Bottom line*: Lu captures the main character axis direction well (~0.9 cosine). The residual isn't a "missing personality dimension" - it's the orthogonal component of the same underlying character variation.
+This creates a genuine interpretive ambiguity. The residual is geometrically orthogonal to Lu's space (direction cosine ~0.3--0.5), but produces nearly identical character orderings (ranking correlation ~0.9). Two readings are possible: (1) there's one underlying dimension that Lu's 275 roles only partially span, with ~40% of its variance living outside their subspace; or (2) the residual captures genuinely different structure that happens to correlate with the same dimension. We return to this question after characterizing [[*Interpreting Residual PCs: Response Diffing][what the residual axes encode]].
 
 * Beyond PC1: Do Later PCs Tell the Same Story?
 
@@ -2046,11 +2046,15 @@ The LLM also noted universe-specific manifestations: in Egyptian mythology, the 
 
 ** What the residual encodes
 
-The residual PC1 captures a dimension we might call *narrative individuation*: how much the model treats a character as a specific person with personal experiences, relationships, and practical knowledge, versus as an archetype, force of nature, or philosophical authority.
+The residual PC1 captures something we might call *narrative individuation*: how much the model treats a character as a specific person with personal experiences, relationships, and practical knowledge, versus as an archetype, force of nature, or philosophical authority.
 
-This is orthogonal to Lu's role space. Lu captures *what kind of character* you are (hero, villain, mentor) and *how formal your register is*. The residual captures something more fundamental: *whether you exist as a person or as a concept*. Ron Weasley and Voldemort are both in the Harry Potter universe, both captured by Lu's "student/dark lord" role distinctions, but they differ on individuation --- Ron speaks from personal experience, Voldemort speaks from philosophical authority.
+This sounds similar to Lu et al.'s own characterization of their PC1 as "deviation from the Assistant persona" --- with fantastical/dramatic roles (bard, ghost, trickster) at one end and analytical/assistant-like roles (evaluator, reviewer, consultant) at the other. And indeed, residual PC1 rankings correlate ~0.9 with original PC1 rankings across most universes, despite the directions being geometrically orthogonal (cosine ~0.3--0.5).
 
-The logit lens fails on this axis because individuation doesn't correspond to any single token or register shift. It's a distributed property of *how the model structures a response* --- whether it generates personal anecdotes vs. universal pronouncements, specific names vs. abstract concepts, practical advice vs. philosophical reflection. This is exactly the kind of higher-order textual property that shows up in response comparison but not in vocabulary projection.
+This is the interpretive ambiguity flagged [[*Understanding the Residual: Directions vs Character Rankings][earlier]]. Either Lu's 275 roles only partially span a single underlying "individuation" dimension (leaving ~40% of its variance in the residual), or the residual captures genuinely different structure that happens to produce similar orderings. We don't have a clean way to distinguish these from the current analysis.
+
+What *is* clear is that the logit lens behaves differently for the residual. Lu's role PCA directions give clean token-level semantics when projected through the LM head --- PC1 maps to register tokens (formal/archaic vs. colloquial), PC3 maps to warmth vs. calculation, and so on. The residual PC directions don't. Projecting residual PC1 through the unembedding matrix produces noisy, uninterpretable token lists.
+
+This suggests that whatever the residual encodes, it's a more distributed property of *how the model structures a response* --- whether it generates personal anecdotes vs. universal pronouncements, specific names vs. abstract concepts, practical advice vs. philosophical reflection --- rather than a shift in vocabulary or register that would show up in individual token probabilities. The response diffing and LLM feature coding confirm this: the axis is real and text-observable (adj. R^{2} ~0.77 on held-out characters), but its signature is spread across higher-order textual properties rather than concentrated in any single token dimension.
 
 ** Validating Residual PC Interpretations
 
