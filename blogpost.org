@@ -273,7 +273,9 @@ greek_mythology                                           Gaia         38% Least
 Cell Timer: 0:00:00
 :end:
 
-Characters that are well-captured by Lu's roles tend to be generic types: monsters (Ungoliant), minor villains (Fenrir Greyback, Cad Bane), background characters (King of the Dead). Characters with large residuals are the *distinctive* ones: protagonists (Luke, Frodo), iconic objects (the Sorting Hat), and characters whose identity is deeply tied to their universe (R2-D2, Gollum). The more a character is "just a villain" or "just a monster," the better Lu's generic roles explain them. The more a character is *specifically themselves*, the more they escape Lu's space.
+#+begin_quote
+*Claude's reading:* Characters that are well-captured by Lu's roles tend to be generic types: monsters (Ungoliant), minor villains (Fenrir Greyback, Cad Bane), background characters (King of the Dead). Characters with large residuals are the *distinctive* ones: protagonists (Luke, Frodo), iconic objects (the Sorting Hat), and characters whose identity is deeply tied to their universe (R2-D2, Gollum). The more a character is "just a villain" or "just a monster," the better Lu's generic roles explain them. The more a character is *specifically themselves*, the more they escape Lu's space.
+#+end_quote
 
 * What Lu's Roles Capture
 
@@ -318,7 +320,9 @@ LOW on PC1 → ['improviser', 'fool', 'chameleon']
 Cell Timer: 0:00:00
 :end:
 
-The pattern is consistent: Lu's roles capture a *gravitas* axis. In Harry Potter, PC1 separates the Weasley kids (teenager, amateur, adolescent) from dark wizards (ascetic, egregore, ancient). In Star Wars, it separates rogues and smugglers (bartender, mechanic) from Sith lords (egregore, ascetic, avatar). LOTR inverts the labeling but captures the same distinction: mythic beings like Galadriel and Gil-galad score high on "ancient" and "prophet," while hobbits score high on "improviser" and "fool."
+#+begin_quote
+*Claude's reading:* The pattern is consistent: Lu's roles capture a *gravitas* axis. In Harry Potter, PC1 separates the Weasley kids (teenager, amateur, adolescent) from dark wizards (ascetic, egregore, ancient). In Star Wars, it separates rogues and smugglers (bartender, mechanic) from Sith lords (egregore, ascetic, avatar). LOTR inverts the labeling but captures the same distinction: mythic beings like Galadriel and Gil-galad score high on "ancient" and "prophet," while hobbits score high on "improviser" and "fool."
+#+end_quote
 
 * Within-Universe Residuals
 
@@ -870,7 +874,9 @@ PC3: Lu-Recon dir=0.82 rank=0.99, Resid dir=0.37 rank=0.61
 Cell Timer: 0:00:00
 :end:
 
-The pattern: Lu-Reconstructed directions and rankings remain tightly coupled across all PCs (dir ~0.7-0.95, rank ~0.9-1.0). The residual tells a split story -- for some universes (Harry Potter, Naruto), residual rankings still track the original even on later PCs, while for others (Marvel, Game of Thrones), the residual captures genuinely different structure by PC2.
+#+begin_quote
+*Claude's reading:* The pattern: Lu-Reconstructed directions and rankings remain tightly coupled across all PCs (dir ~0.7-0.95, rank ~0.9-1.0). The residual tells a split story -- for some universes (Harry Potter, Naruto), residual rankings still track the original even on later PCs, while for others (Marvel, Game of Thrones), the residual captures genuinely different structure by PC2.
+#+end_quote
 
 To summarize this more cleanly, we measure subspace alignment: given the top-k PCs of the original activations and top-k PCs of the residual, compute the mean cosine of the principal angles between the two subspaces.
 
@@ -922,7 +928,9 @@ print(df.round(2))
 Cell Timer: 0:00:00
 :end:
 
-Low alignment means the residual captures genuinely different structure from the original. High alignment means Lu's removal didn't change the dominant subspace much.
+#+begin_quote
+*Claude's reading:* Low alignment means the residual captures genuinely different structure from the original. High alignment means Lu's removal didn't change the dominant subspace much.
+#+end_quote
 
 #+begin_src python
 def show_pc_breakdown(universe_name, prefixes, pcs=[1, 2]):
@@ -981,7 +989,9 @@ Residual: ['Diomedes', 'Patroclus', 'Agamemnon'] vs ['Minotaur', 'Ariadne', 'Dae
 Cell Timer: 0:00:00
 :end:
 
-Lu's roles capture hero/villain personality well, but miss categorical distinctions like mutant vs tech, humanoid vs droid.
+#+begin_quote
+*Claude's reading:* Lu's roles capture hero/villain personality well, but miss categorical distinctions like mutant vs tech, humanoid vs droid.
+#+end_quote
 
 * Which Questions Differentiate Characters?
 
@@ -1204,11 +1214,15 @@ Shakespeare   79  156  191    1.2%
 Cell Timer: 0:00:00
 :end:
 
-The variance is remarkably diffuse: the single most informative question accounts for less than 1% of total cross-character variance, and roughly 90 of 240 questions are needed to reach 50%. No individual question dominates the axis -- the PC direction loads broadly across the question set. This suggests the 240-question battery isn't redundant; the stable PC structure emerges from averaging many weak per-question signals.
+#+begin_quote
+*Claude's reading:* The variance is remarkably diffuse: the single most informative question accounts for less than 1% of total cross-character variance, and roughly 90 of 240 questions are needed to reach 50%. No individual question dominates the axis -- the PC direction loads broadly across the question set. This suggests the 240-question battery isn't redundant; the stable PC structure emerges from averaging many weak per-question signals.
+#+end_quote
 
 **** Per-Character Attributions
 
-Since $a_q$ is computed per character, we can examine which questions push a specific character toward its position on the axis. However, the attribution is remarkably diffuse even at the individual level. For extreme characters (those at the ends of the axis), the top 5 questions by |attribution| account for only 3-5% of the total PC score, and the top 20 for 11-20%. The effective number of questions (inverse Herfindahl index on |attributions|) ranges from ~170 to ~235 out of 240 for extreme characters. This means reading the "top attribution" questions is barely more informative than reading any random subset -- the axis captures a distributed property of how the model responds to the character, not a localized signal in a few questions.
+#+begin_quote
+*Claude's reading:* Since $a_q$ is computed per character, we can examine which questions push a specific character toward its position on the axis. However, the attribution is remarkably diffuse even at the individual level. For extreme characters (those at the ends of the axis), the top 5 questions by |attribution| account for only 3-5% of the total PC score, and the top 20 for 11-20%. The effective number of questions (inverse Herfindahl index on |attributions|) ranges from ~170 to ~235 out of 240 for extreme characters. This means reading the "top attribution" questions is barely more informative than reading any random subset -- the axis captures a distributed property of how the model responds to the character, not a localized signal in a few questions.
+#+end_quote
 
 (Full per-character concentration analysis: =results/question_attribution.txt=)
 
@@ -1771,28 +1785,24 @@ Min: 0.999
 Cell Timer: 0:26:00
 :end:
 
-Character vectors are extremely stable across question subsets (r > 0.999). The specific questions matter very little - character identity dominates.
+#+begin_quote
+*Claude's reading:* Character vectors are extremely stable across question subsets (r > 0.999). The specific questions matter very little - character identity dominates.
+#+end_quote
 
 * Conclusion
 
-Lu's persona space transfers reasonably well to fictional characters (~60% variance captured). The ~40% residual is:
+#+begin_quote
+*Claude's reading:* Lu's persona space transfers reasonably well to fictional characters (~60% variance captured). The ~40% residual is:
 
 1. *Mostly universe separation* - residual PCs are 95%+ explained by franchise
 2. *Distinctive-character-heavy* - protagonists and iconic characters have more residual than generic types
 
-Within universes, residual PC1 largely separates the same characters as the original (just via a different axis). But later PCs often capture genuinely different groupings:
-
-| Universe | What Lu captures | What residual captures |
-|----------|------------------|------------------------|
-| Star Wars | Hero vs villain | Humanoid vs droid |
-| Marvel | Hero vs villain | Mutant vs tech hero |
-| Greek Myth | Monster vs nurturer | Trojan War vs Labyrinth storyline |
-
-Lu's 275 roles capture personality dimensions well, but miss categorical distinctions that matter in fictional universes: power source (mutant vs tech), embodiment (humanoid vs droid), and narrative context (which storyline a character belongs to).
+Within universes, residual PC1 produces nearly identical character rankings to the original (correlation ~0.9) despite being geometrically orthogonal (direction cosine ~0.3--0.5). This ambiguity --- same ordering, different direction --- is discussed in [[*Understanding the Residual: Directions vs Character Rankings][the residual analysis]]. Later PCs sometimes capture genuinely different groupings (e.g. Marvel PC2 separates mutant-lineage characters from tech heroes).
 
 These results are robust: split-half correlation across random question subsets exceeds 0.999 for all characters, meaning the vectors are stable properties of the model's character representations rather than artifacts of question selection.
 
-Perhaps most striking: modern franchises share a near-identical PC1 (cosine ~0.85), while mythology universes operate in an orthogonal subspace (see [[*Appendix: Cross-Universe PC Alignment][appendix]]). The model has internalized a common "hero's journey" template across modern fiction that simply doesn't apply to mythology.
+Perhaps most striking: modern franchises share a near-identical PC1 (cosine ~0.85), while mythology universes operate in an orthogonal subspace (see [[*Appendix: Cross-Universe PC Alignment][appendix]]). The model has internalized a common narrative template across modern fiction that doesn't apply to mythology.
+#+end_quote
 
 * Logit Lens: What Do the Axes Mean in Token Space?
 
@@ -1844,15 +1854,19 @@ We can apply the same technique to Lu et al.'s 275-role PCA directions. These we
 | PC8 | 2% | Tormund, Falstaff, Don Quixote | Ultron, Terminator, HAL 9000 | ~tradition~, ~heritage~, 打仗 (fight), 朴素 | 吞噬 (devour), 深渊 (abyss), 地狱 (hell) | *Earthy tradition vs. inhuman threat* |
 | PC10 | 2% | Sabretooth, Killmonger, Khal Drogo | Mr Darcy, Elizabeth Bennet, Dorian Gray | 强大 (powerful), 战术 (tactics), 砍 (chop) | 典雅 (elegant), 品味 (taste), 美德 (virtue) | *Brute force vs. literary refinement* |
 
-Lu's "assistant axis" (PC1) --- the direction that most separates generic roles like "teacher" from "soldier" --- turns out to encode a groundedness/relatability dimension. When applied to fictional characters, it cleanly separates characters you might have a conversation with (Hermione, Goku) from entities that are more concept than person (Ungoliant, Shelob, the Night King).
+#+begin_quote
+*Claude's reading:* Lu's "assistant axis" (PC1) --- the direction that most separates generic roles like "teacher" from "soldier" --- turns out to encode a groundedness/relatability dimension. When applied to fictional characters, it cleanly separates characters you might have a conversation with (Hermione, Goku) from entities that are more concept than person (Ungoliant, Shelob, the Night King).
+#+end_quote
 
 ** What this tells us
 
-The logit lens confirms that character PCA axes are not arbitrary statistical artifacts. They correspond to directions the model uses to organize its vocabulary --- the same directions that will eventually produce different next-token distributions when the model talks about or as different characters.
+#+begin_quote
+*Claude's reading:* The logit lens confirms that character PCA axes are not arbitrary statistical artifacts. They correspond to directions the model uses to organize its vocabulary --- the same directions that will eventually produce different next-token distributions when the model talks about or as different characters.
 
 The dominant axis across nearly every universe is a *register* dimension: formal/archaic/mythic vs. colloquial/casual/grounded. This makes sense --- when the model roleplays as Voldemort, it shifts its entire token distribution toward formal, archaic language; as Ron Weasley, toward casual English. The PCA axis captures exactly this shift.
 
-However, the *residual* PCA directions (after removing Lu's role space) do not yield interpretable logit lens results --- the top tokens are code fragments, random subwords, and semantically incoherent Chinese. This is consistent with what the residual captures: it encodes categorical/structural distinctions (which universe, humanoid vs. droid, which storyline) rather than register or personality. These distinctions likely live in distributed patterns that don't map cleanly to individual vocabulary tokens. The logit lens interprets dimensions the model uses for *how it talks*; the residual encodes *what it's talking about*.
+However, the *residual* PCA directions (after removing Lu's role space) do not yield interpretable logit lens results --- the top tokens are code fragments, random subwords, and semantically incoherent Chinese. This is a striking asymmetry: Lu's PCA directions have clean token-level semantics, but the residual directions don't. Whatever the residual encodes, it doesn't reduce to vocabulary shifts --- it likely lives in distributed patterns across higher-order response structure (see [[*Interpreting Residual PCs: Response Diffing][response diffing]]).
+#+end_quote
 
 * Interpreting Residual PCs: Response Diffing
 
@@ -1905,7 +1919,8 @@ Values are HIGH minus LOW. Casual = casual markers per response; 1st person = fi
 
 ** The pattern
 
-The residual PC1 is *not* a single universal axis --- its sign and meaning vary by universe. But a consistent theme emerges: it separates *characters who engage as specific, relatable individuals* from *characters who speak as archetypal forces or abstract authorities*.
+#+begin_quote
+*Claude's reading:* The residual PC1 is *not* a single universal axis --- its sign and meaning vary by universe. But a consistent theme emerges: it separates *characters who engage as specific, relatable individuals* from *characters who speak as archetypal forces or abstract authorities*.
 
 The most discriminating features are:
 
@@ -1913,7 +1928,8 @@ The most discriminating features are:
 2. *Philosophical vocabulary*: Abstract entities invoke "existence," "truth," "cosmic," "fate." Grounded characters talk about specific situations and practical advice.
 3. *Casual markers*: Relatable characters use "yeah," "gonna," "hey," "like." Archetypal characters avoid colloquial language entirely.
 
-Critically, this is *not* the same as the register/formality axis captured by raw PCA. The raw PCA register axis lives in Lu's role space and shows up cleanly in the logit lens. The residual axis is *orthogonal* to that --- it captures a different distinction that survives after removing all 275 of Lu's role dimensions. Think of it as: Lu's space captures *how formal you are*; the residual captures *how much you exist as a specific person vs. an abstract concept*.
+Note that these features sound similar to what Lu's role PCA captures (register/formality). The residual is geometrically orthogonal to Lu's space, but the character rankings it produces correlate ~0.9 with the original. Whether this axis is "the same thing Lu measures, just the portion his roles miss" or "something different that correlates" remains ambiguous (see [[*What the residual encodes][discussion]]).
+#+end_quote
 
 ** Qualitative examples
 
@@ -1968,7 +1984,8 @@ Cell Timer: 0:00:00
 
 A few illustrative paired responses to "How do you stay organized in daily life?":
 
-*Ron Weasley* (HP, HIGH): Uses "I," "me," mentions Hermione by name, self-deprecating humor, references to specific school tasks. Speaks as a particular person with particular relationships.
+#+begin_quote
+*Claude's reading:* *Ron Weasley* (HP, HIGH): Uses "I," "me," mentions Hermione by name, self-deprecating humor, references to specific school tasks. Speaks as a particular person with particular relationships.
 
 *Tom Riddle* (HP, LOW): Speaks of organization as "a virtue" that "allows a person to focus on what truly matters --- power, influence." Impersonal, philosophical framing. Refers to tracking "people, their weaknesses, their tendencies."
 
@@ -1979,6 +1996,7 @@ A few illustrative paired responses to "How do you stay organized in daily life?
 *Tormund Giantsbane* (GoT, HIGH): "Aye, lissen up, friend!" --- dialect, direct address, practical priorities ("food, fire, and a warm woman"). Engages the listener directly.
 
 *Mad King Aerys* (GoT, LOW): "The realm bends to my will... I *am* the storm that smites the realm, the fire that purifies." Speaks through the lens of his identity as king, references fire and blood, theatrical grandeur.
+#+end_quote
 
 ** LLM-assisted analysis
 
@@ -2034,7 +2052,8 @@ When it starts to feel like the whole worl...
 Cell Timer: 0:00:00
 :end:
 
-The LLM (with no knowledge of character identities) independently identified the same core pattern in all 12 universes:
+#+begin_quote
+*Claude's reading:* The LLM (with no knowledge of character identities) independently identified the same core pattern in all 12 universes:
 
 | Dimension | Individuated pole | Archetypal pole |
 |---|---|---|
@@ -2045,6 +2064,7 @@ The LLM (with no knowledge of character identities) independently identified the
 | Self-reference | Heavy use of "I/me/my," specific names and relationships | Impersonal, universal, or third-person language |
 
 The LLM also noted universe-specific manifestations: in Egyptian mythology, the axis maps to "order vs. chaos" (pharaoh-guides vs. Apep); in LOTR, "epic vs. pastoral" (Elven lords vs. hobbits); in Shakespeare, "tragic leaders vs. comic characters." Full LLM outputs are saved in =results/llm_response_diff.txt=.
+#+end_quote
 
 ** What the residual encodes
 
@@ -2236,11 +2256,11 @@ Modern <-> Mythology avg: 0.115
 Cell Timer: 0:00:00
 :end:
 
-Modern franchises (Harry Potter, Marvel, Star Wars, Naruto, Game of Thrones) share a common PC1 with cosine similarities of 0.77-0.90. Harry Potter PC1 applied to Star Wars correctly sorts Palpatine and Snoke to one end and Han Solo and BB-8 to the other.
+Modern franchises (Harry Potter, Marvel, Star Wars, Naruto, Game of Thrones) share a common PC1 with cosine similarities of 0.77-0.90. Mythology universes (Greek, Hindu, Norse, Egyptian) are nearly orthogonal to modern franchises (avg cosine ~0.1), and only weakly aligned with each other (~0.3). The exception is Greek-Hindu alignment (0.61).
 
-Mythology universes (Greek, Hindu, Norse, Egyptian) are nearly *orthogonal* to modern franchises (avg cosine ~0.1), and only weakly aligned with each other (~0.3). The exception is Greek-Hindu alignment (0.65), possibly reflecting shared Indo-European mythological structure.
-
-This suggests modern franchises share a common narrative template -- likely the hero's journey archetype with its clear hero/villain polarity -- while mythological traditions organize characters along different axes (divine domain, cosmic role, trickster vs order-keeper).
+#+begin_quote
+*Claude's reading:* The high modern-franchise alignment suggests a shared narrative template --- likely hero's journey archetype with clear hero/villain polarity. Harry Potter PC1 applied to Star Wars correctly sorts Palpatine and Snoke to one end and Han Solo and BB-8 to the other. Mythological traditions organize characters along different axes (divine domain, cosmic role, trickster vs order-keeper). The Greek-Hindu exception (0.61) may reflect shared Indo-European mythological structure.
+#+end_quote
 
 ** Subspace Alignment (Multiple PCs)
 
@@ -2357,6 +2377,10 @@ Modern <-> Mythology avg subspace: 0.319
 Cell Timer: 0:00:00
 :end:
 
-The subspace analysis tells a more nuanced story than PC1 alone. Modern franchises still cluster together (avg 0.67) vs mythology (avg 0.48) vs cross-group (avg 0.32), but the gap narrows considerably. PC1 alignment for modern pairs averages ~0.83 but the top-3 subspace drops to 0.67 -- the dominant axis is shared, but the secondary and tertiary axes diverge more. Star Wars and Marvel are the most subspace-aligned pair (0.82), while Game of Thrones has the weakest subspace overlap with other modern franchises (~0.58-0.65), consistent with its more morally grey ensemble cast.
+#+begin_quote
+*Claude's reading:* The subspace analysis tells a more nuanced story than PC1 alone. Modern franchises still cluster together (avg 0.67) vs mythology (avg 0.48) vs cross-group (avg 0.32), but the gap narrows considerably. PC1 alignment for modern pairs averages ~0.83 but the top-3 subspace drops to 0.67 --- the dominant axis is shared, but the secondary and tertiary axes diverge more. Star Wars and Marvel are the most subspace-aligned pair (0.82), while Game of Thrones has the weakest subspace overlap with other modern franchises (~0.58-0.65), consistent with its more morally grey ensemble cast.
+#+end_quote
 
-Mythology is more interesting: pairs that were nearly orthogonal on PC1 (e.g. Greek-Norse at 0.17, Hindu-Egyptian at 0.02) show moderate subspace overlap at 0.57 and 0.46 respectively. The mythological traditions may not share a dominant axis, but their secondary structure has more in common than PC1 alone suggests.
+#+begin_quote
+*Claude's reading:* Mythology is more interesting: pairs that were nearly orthogonal on PC1 (e.g. Greek-Norse at 0.17, Hindu-Egyptian at 0.02) show moderate subspace overlap at 0.57 and 0.46 respectively. The mythological traditions may not share a dominant axis, but their secondary structure has more in common than PC1 alone suggests.
+#+end_quote
