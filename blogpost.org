@@ -125,7 +125,7 @@ Residual (orthogonal to Lu): 2982 (38.7%)
 Cell Timer: 0:00:00
 :end:
 
-Lu's 275 generic personas (sage, rebel, caregiver, etc.) transfer reasonably well to fictional characters.
+Lu's 275 generic personas (sage, rebel, caregiver, etc.) transfer reasonably well to fictional characters. For context: a random 275-dimensional subspace of the 5120-dimensional activation space would capture ~5.4% of variance (275/5120). Lu's space captures 61.3%, or 11x the null baseline.
 
 * Finding 2: The residual is mostly universe separation
 
@@ -167,6 +167,8 @@ print(df)
 | PC5 |     5.2% |                94% |  |
 Cell Timer: 0:00:00
 :end:
+
+Note: high η² here is largely expected. Each universe's characters share a system prompt prefix ("You are X from Y"), so after removing a 275-dimensional shared subspace, residuals will cluster by universe partly due to shared prompt structure. This doesn't mean the residual captures *only* prompt artifacts --- the within-universe structure analyzed later is more informative --- but the between-universe separation is not by itself surprising.
 
 #+begin_src python :results file :file results/residual_pca_universes.png
 import matplotlib.pyplot as plt
@@ -277,6 +279,8 @@ Cell Timer: 0:00:00
 
 #+begin_quote
 *Claude's reading:* Characters that are well-captured by Lu's roles tend to be generic types: monsters (Ungoliant), minor villains (Fenrir Greyback, Cad Bane), background characters (King of the Dead). Characters with large residuals are the *distinctive* ones: protagonists (Luke, Frodo), iconic objects (the Sorting Hat), and characters whose identity is deeply tied to their universe (R2-D2, Gollum). The more a character is "just a villain" or "just a monster," the better Lu's generic roles explain them. The more a character is *specifically themselves*, the more they escape Lu's space.
+
+Methodological note: the metric used here is residual *fraction* (=||residual|| / ||total||=), which already normalizes by total activation norm. The correlation between residual fraction and total norm is weak (r = -0.15 to +0.42 across universes), so the finding is not an artifact of well-known characters having higher-dimensional representations overall.
 #+end_quote
 
 * What Lu's Roles Capture
@@ -1839,6 +1843,12 @@ These results are robust: split-half correlation across random question subsets 
 
 Perhaps most striking: modern franchises share a near-identical PC1 (cosine ~0.85), while mythology universes operate in an orthogonal subspace (see [[*Appendix: Cross-Universe PC Alignment][appendix]]). The model has internalized a common narrative template across modern fiction that doesn't apply to mythology.
 #+end_quote
+
+** Limitations
+
+- *Single model, single layer.* We analyze only Qwen3-32B at layer 32. Lu et al. show their findings replicate across Gemma 2 27B and Llama 3.3 70B, but we haven't verified our residual analysis generalizes.
+- *Prompt format confound.* All modern franchise prompts share the form "You are X from Y" where Y is a specific franchise; all mythology prompts share "You are X from Y mythology." The cross-universe alignment (modern franchises clustering together, mythology forming a separate group) could partly reflect shared prompt structure rather than shared narrative template. Prompt-format controls (e.g., varying the phrasing while keeping the character constant) would be needed to rule this out.
+- *No null model for η².* The 95%+ η² for universe membership in the residual is expected given the data structure (characters within a universe share prompt prefixes and cultural context). We flag this but don't formally test against a null model.
 
 * Logit Lens: What Do the Axes Mean in Token Space?
 
