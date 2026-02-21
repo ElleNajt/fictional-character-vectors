@@ -1,0 +1,141 @@
+{
+  "n_results": 504,
+  "summary": {
+    "baseline_0.0": {
+      "word_count": 218.33333333333334,
+      "sentence_count": 17.0,
+      "avg_sentence_length": 13.199174210982116,
+      "unique_word_ratio": 0.7380779467598636,
+      "first_person_rate": 0.03527020070745982,
+      "coherence": 0.997617203093435
+    },
+    "lu_pc1_-3.0": {
+      "word_count": 212.91666666666666,
+      "sentence_count": 16.333333333333332,
+      "avg_sentence_length": 13.7866851714462,
+      "unique_word_ratio": 0.7453899952329253,
+      "first_person_rate": 0.03412368130206255,
+      "coherence": 0.9992757700618179
+    },
+    "lu_pc1_-1.5": {
+      "word_count": 215.5,
+      "sentence_count": 16.583333333333332,
+      "avg_sentence_length": 13.297932962648519,
+      "unique_word_ratio": 0.7454770130099702,
+      "first_person_rate": 0.035051294407978384,
+      "coherence": 0.9990867771848574
+    },
+    "lu_pc1_1.5": {
+      "word_count": 216.91666666666666,
+      "sentence_count": 16.666666666666668,
+      "avg_sentence_length": 13.432214325082853,
+      "unique_word_ratio": 0.7413197217860477,
+      "first_person_rate": 0.036878228466352546,
+      "coherence": 0.9990758494441231
+    },
+    "lu_pc1_3.0": {
+      "word_count": 217.29166666666666,
+      "sentence_count": 17.458333333333332,
+      "avg_sentence_length": 12.836641566745087,
+      "unique_word_ratio": 0.7354355853940119,
+      "first_person_rate": 0.04008789984863404,
+      "coherence": 0.9990535339584534
+    },
+    "residual_pc1_hp_-3.0": {
+      "word_count": 218.54166666666666,
+      "sentence_count": 16.916666666666668,
+      "avg_sentence_length": 13.406144712730011,
+      "unique_word_ratio": 0.7434851445354003,
+      "first_person_rate": 0.03847385276343112,
+      "coherence": 0.9989327702652718
+    },
+    "residual_pc1_hp_-1.5": {
+      "word_count": 213.54166666666666,
+      "sentence_count": 16.208333333333332,
+      "avg_sentence_length": 13.62219324919701,
+      "unique_word_ratio": 0.7410613190637504,
+      "first_person_rate": 0.033073444405860235,
+      "coherence": 0.9987859267928103
+    },
+    "residual_pc1_hp_1.5": {
+      "word_count": 214.125,
+      "sentence_count": 16.041666666666668,
+      "avg_sentence_length": 13.635431978582133,
+      "unique_word_ratio": 0.7320008429569268,
+      "first_person_rate": 0.03575679408563898,
+      "coherence": 0.997915126872237
+    },
+    "residual_pc1_hp_3.0": {
+      "word_count": 216.45833333333334,
+      "sentence_count": 16.25,
+      "avg_sentence_length": 14.043813144418039,
+      "unique_word_ratio": 0.7378068362998315,
+      "first_person_rate": 0.0360133817431923,
+      "coherence": 0.9986153376515049
+    },
+    "residual_pc1_global_-3.0": {
+      "word_count": 211.16666666666666,
+      "sentence_count": 15.833333333333334,
+      "avg_sentence_length": 13.947310521491938,
+      "unique_word_ratio": 0.7425018241929217,
+      "first_person_rate": 0.036194631410058103,
+      "coherence": 0.9992313342952017
+    },
+    "residual_pc1_global_-1.5": {
+      "word_count": 216.79166666666666,
+      "sentence_count": 16.666666666666668,
+      "avg_sentence_length": 13.527348822984635,
+      "unique_word_ratio": 0.7326821243168347,
+      "first_person_rate": 0.03763790978604975,
+      "coherence": 0.9989506305435668
+    },
+    "residual_pc1_global_1.5": {
+      "word_count": 223.83333333333334,
+      "sentence_count": 17.541666666666668,
+      "avg_sentence_length": 13.3587759943999,
+      "unique_word_ratio": 0.7337488252532668,
+      "first_person_rate": 0.036095598593847554,
+      "coherence": 0.9984575412133921
+    },
+    "residual_pc1_global_3.0": {
+      "word_count": 222.45833333333334,
+      "sentence_count": 16.875,
+      "avg_sentence_length": 13.637189116141533,
+      "unique_word_ratio": 0.7317332897620142,
+      "first_person_rate": 0.03434723058449935,
+      "coherence": 0.9990686595999768
+    },
+    "random_-3.0": {
+      "word_count": 213.875,
+      "sentence_count": 16.0,
+      "avg_sentence_length": 14.107508270453318,
+      "unique_word_ratio": 0.7423662999340227,
+      "first_person_rate": 0.03588777589705943,
+      "coherence": 0.9990239966124205
+    },
+    "random_-1.5": {
+      "word_count": 216.375,
+      "sentence_count": 16.333333333333332,
+      "avg_sentence_length": 13.891641534670754,
+      "unique_word_ratio": 0.7431485456700472,
+      "first_person_rate": 0.03729995827205302,
+      "coherence": 0.9990295311780987
+    },
+    "random_1.5": {
+      "word_count": 218.58333333333334,
+      "sentence_count": 15.666666666666666,
+      "avg_sentence_length": 14.468795095584957,
+      "unique_word_ratio": 0.727718179751205,
+      "first_person_rate": 0.036923399200390665,
+      "coherence": 0.9977821066382037
+    },
+    "random_3.0": {
+      "word_count": 223.29166666666666,
+      "sentence_count": 16.666666666666668,
+      "avg_sentence_length": 14.195074939865416,
+      "unique_word_ratio": 0.7307876828175489,
+      "first_person_rate": 0.0392800201097267,
+      "coherence": 0.9990554438839657
+    }
+  }
+}

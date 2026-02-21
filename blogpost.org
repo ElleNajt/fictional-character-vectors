@@ -1829,6 +1829,84 @@ print(df)
 The practical implication: you could extract stable character vectors with ~10 questions instead of 240, with minimal loss. The 240-question battery is massively redundant for this purpose.
 #+end_quote
 
+* Steering Experiment: Are All Directions Equal?
+
+The logit lens showed an asymmetry: Lu's PCA directions decode to interpretable tokens, while residual directions decode to noise. This suggests the residual might not be "live" --- it might encode information the model stores but doesn't use for generation.
+
+We test this directly via activation steering. Using the [[https://github.com/lnajt/the-assistant-axis][assistant-axis]] library's =ActivationSteering= infrastructure, we add scaled direction vectors to Qwen3-32B's layer 32 activations during generation and observe the effect on responses.
+
+** Setup
+
+We test 4 direction types, all unit-normalized:
+- *Lu's PC1* --- the first principal component of the role PCA space
+- *Residual PC1 (HP)* --- first PC of Harry Potter characters' residual vectors
+- *Residual PC1 (global)* --- first PC of all characters' residual vectors
+- *Random direction* --- a fixed random unit vector (control)
+
+Lu PC1 and Residual PC1 are orthogonal by construction (cosine similarity ~0.000).
+
+For each direction, we steer at coefficients {-3.0, -1.5, 0.0, +1.5, +3.0} across 8 characters from 4 universes (Harry Potter, Lord of the Rings, Greek Mythology, Marvel) and 3 open-ended questions, yielding 504 total generations.
+
+** Results
+
+#+begin_src python :session blogpost :async t
+import json
+import numpy as np
+from collections import defaultdict
+
+with open('results/steering_experiment.json') as f:
+    results = json.load(f)
+
+def text_features(text):
+    words = text.split()
+    n = len(words)
+    return {
+        'length': n,
+        'first_person': sum(1 for w in words if w.lower() in {'i', 'my', 'me', 'mine', 'myself'}) / max(n,1),
+        'unique_ratio': len(set(w.lower() for w in words)) / max(n,1),
+    }
+
+# Compute baseline stats
+baseline_lengths = []
+for r in results:
+    if r['coefficient'] == 0.0:
+        baseline_lengths.append(len(r['response'].split()))
+
+baseline_std = np.std(baseline_lengths)
+baseline_mean = np.mean(baseline_lengths)
+
+print(f"Baseline: mean={baseline_mean:.1f} words, std={baseline_std:.1f} words (n={len(baseline_lengths)})")
+print()
+
+# Effect sizes at coeff=3.0 (in baseline SDs)
+print("Mean shift at coeff=+3.0 (in baseline standard deviations):")
+print(f"{'Direction':<25} {'Word count':>12} {'1st person':>12} {'Unique ratio':>12}")
+for direction in ['lu_pc1', 'residual_pc1_hp', 'residual_pc1_global', 'random']:
+    steered = [r for r in results if r['condition'] == direction and r['coefficient'] == 3.0]
+    bl = [r for r in results if r['coefficient'] == 0.0]
+    
+    s_len = np.mean([len(r['response'].split()) for r in steered])
+    b_len = np.mean([len(r['response'].split()) for r in bl])
+    
+    s_fp = np.mean([text_features(r['response'])['first_person'] for r in steered])
+    b_fp = np.mean([text_features(r['response'])['first_person'] for r in bl])
+    fp_std = np.std([text_features(r['response'])['first_person'] for r in bl])
+    
+    s_ur = np.mean([text_features(r['response'])['unique_ratio'] for r in steered])
+    b_ur = np.mean([text_features(r['response'])['unique_ratio'] for r in bl])
+    ur_std = np.std([text_features(r['response'])['unique_ratio'] for r in bl])
+    
+    print(f"{direction:<25} {(s_len-b_len)/baseline_std:>+11.2f}σ {(s_fp-b_fp)/fp_std:>+11.2f}σ {(s_ur-b_ur)/ur_std:>+11.2f}σ")
+#+end_src
+
+#+begin_quote
+*Claude's reading:* At these coefficient scales (coeff=3.0, where the steering vector has magnitude 3 against activation norms of ~111, a ~2.7% perturbation), *no direction type produces effects distinguishable from sampling noise*. All shifts are <0.25 baseline standard deviations. There is no dose-response relationship --- increasing the coefficient from 1.5 to 3.0 does not systematically increase effects for any direction.
+
+Critically, this includes Lu's PC1: even the direction that decodes to interpretable tokens ("assistant," "helpful") does not measurably alter generation at these scales. This doesn't mean the direction is behaviorally meaningless --- it may require larger coefficients (which risk incoherence) or different evaluation methods (e.g. classifier-based rather than text-statistic-based). But at perturbation scales where the model still produces fluent, in-character responses, all four direction types --- role space, residual space, and random --- are equally "live" (or equally "dead").
+
+This is consistent with the activation space being high-dimensional enough that small perturbations in any direction wash out. The information encoded in these PCA directions may be read out by later layers rather than causally driving generation at layer 32.
+#+end_quote
+
 * Conclusion
 
 #+begin_quote
@@ -1842,6 +1920,8 @@ Within universes, residual PC1 typically produces similar character rankings to 
 These results are robust: split-half correlation across random question subsets exceeds 0.999 for all characters, meaning the vectors are stable properties of the model's character representations rather than artifacts of question selection.
 
 Perhaps most striking: modern franchises share a near-identical PC1 (cosine ~0.85), while mythology universes operate in an orthogonal subspace (see [[*Appendix: Cross-Universe PC Alignment][appendix]]). The model has internalized a common narrative template across modern fiction that doesn't apply to mythology.
+
+A preliminary [[*Steering Experiment: Are All Directions Equal?][steering experiment]] found that at small perturbation scales (~3% of activation norm), no direction type --- Lu's PC1, residual PCs, or random --- measurably affects generation. The persona-space structure may be read by later layers rather than causally driving output at layer 32; larger-scale steering or different evaluation methods would be needed to test this.
 #+end_quote
 
 ** Limitations
@@ -1849,6 +1929,7 @@ Perhaps most striking: modern franchises share a near-identical PC1 (cosine ~0.8
 - *Single model, single layer.* We analyze only Qwen3-32B at layer 32. Lu et al. show their findings replicate across Gemma 2 27B and Llama 3.3 70B, but we haven't verified our residual analysis generalizes.
 - *Prompt format confound.* All modern franchise prompts share the form "You are X from Y" where Y is a specific franchise; all mythology prompts share "You are X from Y mythology." The cross-universe alignment (modern franchises clustering together, mythology forming a separate group) could partly reflect shared prompt structure rather than shared narrative template. Prompt-format controls (e.g., varying the phrasing while keeping the character constant) would be needed to rule this out.
 - *No null model for η².* The 95%+ η² for universe membership in the residual is expected given the data structure (characters within a universe share prompt prefixes and cultural context). We flag this but don't formally test against a null model.
+- *Steering experiment is underpowered.* Our steering coefficients (±3.0 on unit-norm vectors) produce ~3% perturbations relative to activation norms (~111). This may be too small to produce detectable effects. Larger coefficients, multi-layer steering, or classifier-based (rather than text-statistic-based) evaluation might reveal differential effects between direction types.
 
 * Logit Lens: What Do the Axes Mean in Token Space?
 
