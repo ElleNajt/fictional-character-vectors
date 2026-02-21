@@ -1970,13 +1970,13 @@ A few illustrative paired responses to "How do you stay organized in daily life?
 
 *Tom Riddle* (HP, LOW): Speaks of organization as "a virtue" that "allows a person to focus on what truly matters --- power, influence." Impersonal, philosophical framing. Refers to tracking "people, their weaknesses, their tendencies."
 
-*Naruto Uzumaki* (Naruto, LOW): "grinning while scratching the back of my head," mentions Kakashi-sensei's notebook, Jiraiya's training advice. Exclamation marks, direct engagement. Speaks as a specific kid with specific mentors.
+*Naruto Uzumaki* (Naruto, HIGH): "grinning while scratching the back of my head," mentions Kakashi-sensei's notebook, Jiraiya's training advice. Exclamation marks, direct engagement. Speaks as a specific kid with specific mentors.
 
-*Madara Uchiha* (Naruto, HIGH): "Organization is merely the foundation of power." Speaks in abstract terms about "the flow of will," references the Infinite Tsukuyomi. No personal anecdotes; all universal proclamations.
+*Madara Uchiha* (Naruto, LOW): "Organization is merely the foundation of power." Speaks in abstract terms about "the flow of will," references the Infinite Tsukuyomi. No personal anecdotes; all universal proclamations.
 
-*Tormund Giantsbane* (GoT, HIGH): "Aye, lissen here" --- dialect, direct address, practical imagery ("like a bear in deep snow"). Engages the person directly.
+*Tormund Giantsbane* (GoT, HIGH): "Aye, lissen up, friend!" --- dialect, direct address, practical priorities ("food, fire, and a warm woman"). Engages the listener directly.
 
-*Mad King Aerys* (GoT, LOW): "*Adjust?* You dare ask *me* to adjust?" Speaks through the lens of his identity as king, references fire and blood, theatrical grandeur.
+*Mad King Aerys* (GoT, LOW): "The realm bends to my will... I *am* the storm that smites the realm, the fire that purifies." Speaks through the lens of his identity as king, references fire and blood, theatrical grandeur.
 
 ** LLM-assisted analysis
 
@@ -2095,7 +2095,7 @@ print(df)
 
 #+RESULTS:
 
-PC1 is well-explained by text-observable features across most universes. In 9 of 12 universes the adjusted R^{2} exceeds 0.65, with Naruto (0.94), LOTR (0.93), and Harry Potter (0.86) showing that the LLM-discovered features from held-out characters predict residual PC scores with high fidelity. The features that recur most often are *linguistic formality*, *philosophical abstraction*, *conversational intimacy*, and *self-aggrandizement* --- all consistent with the "narrative individuation" interpretation from the response diffing.
+PC1 is well-explained by text-observable features across most universes. In 11/12 universes the adjusted R^{2} exceeds 0.65, with Naruto (0.94), LOTR (0.93), and Harry Potter (0.86) at the high end. The features that recur most often are *linguistic formality*, *philosophical abstraction*, *conversational intimacy*, and *self-aggrandizement* --- all consistent with the "narrative individuation" interpretation from the response diffing.
 
 The weakest PC1 result is Egyptian Mythology (adj. R^{2} = 0.34), where the features discovered have lower individual correlations. This may reflect a less clean separation in how Qwen3 renders Egyptian characters, or noisier feature coding with only 20 characters.
 
