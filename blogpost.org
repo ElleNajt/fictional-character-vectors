@@ -1922,6 +1922,8 @@ In other words: *L2 variance explained is not a good proxy for behavioral varian
 
 This is worth keeping in mind when interpreting PCA-based analyses of neural network representations more generally. "X% of variance captured" is a statement about geometry, not about behavior.
 
+Steering with residual PC1 does produce visibly different text from baseline, so the direction is not entirely inert. But with only 10 samples per condition at temperature 0.7, we can't reliably characterize *what* behavioral dimension it controls. The logit lens on residual PC1 is noisy (no clean token-space interpretation), unlike Lu's axis which decodes to clear assistant-speak tokens. Characterizing the residual's causal role --- if any --- would require larger-scale steering with more systematic evaluation.
+
 * Conclusion
 
 #+begin_quote
