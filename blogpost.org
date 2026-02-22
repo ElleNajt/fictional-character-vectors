@@ -1914,6 +1914,14 @@ Lu's axis and Role PC1 are the only directions that increase assistant markers a
 This confirms the logit lens finding: the residual encodes information the model stores (stable, reproducible character vectors with rich structure) but does not use for the assistant-vs-roleplay behavioral split. The residual is "geometrically real but causally dead" for this specific behavioral axis --- though it may be causally relevant for other dimensions we haven't tested.
 #+end_quote
 
+** Geometric Variance is Not Behavioral Variance
+
+This result has a broader implication for how we interpret PCA variance numbers. Lu's role space captures ~60% of the variance in fictional character activations, and Role PC1 alone captures ~19% of the total. Yet that single direction controls the entire assistant-vs-character behavioral axis. Meanwhile, the ~40% residual --- which contains rich, reproducible structure (universe clustering, character-specific signatures, split-half correlation >0.999) --- is causally inert for this axis.
+
+In other words: *L2 variance explained is not a good proxy for behavioral variance explained.* A direction can account for a large share of geometric variance while being behaviorally dead, and a direction can account for a modest share while controlling a major behavioral axis. The model stores information in activation space that it does not use (at least not at this layer, for this behavioral dimension), and the amount of information stored bears little relation to its causal role.
+
+This is worth keeping in mind when interpreting PCA-based analyses of neural network representations more generally. "X% of variance captured" is a statement about geometry, not about behavior.
+
 * Conclusion
 
 #+begin_quote
