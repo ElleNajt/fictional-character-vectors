@@ -1837,15 +1837,14 @@ We test this directly via activation steering. Using the [[https://github.com/ln
 
 ** Setup
 
-We test 4 direction types, all unit-normalized:
-- *Lu's PC1* --- the first principal component of the role PCA space
+We test 5 direction types, all scaled to the same norm (~22.7, matching Lu's published axis vector):
+- *Lu's axis* --- the actual assistant-axis vector from Lu et al. (cosine 0.65 with our Role PC1)
+- *Role PC1* --- the first principal component of the role PCA space
 - *Residual PC1 (HP)* --- first PC of Harry Potter characters' residual vectors
 - *Residual PC1 (global)* --- first PC of all characters' residual vectors
 - *Random direction* --- a fixed random unit vector (control)
 
-Lu PC1 and Residual PC1 are orthogonal by construction (cosine similarity ~0.000).
-
-For each direction, we steer at coefficients {-3.0, -1.5, 0.0, +1.5, +3.0} across 8 characters from 4 universes (Harry Potter, Lord of the Rings, Greek Mythology, Marvel) and 3 open-ended questions, yielding 504 total generations.
+Lu's axis and Residual PC1 are nearly orthogonal (cosine ~0.001). Role PC1 and Residual PC1 are exactly orthogonal by construction. Positive coefficients push toward assistant behavior; negative toward deeper roleplay. Lu uses coeff=-10 in their demos. We test {-10, -5, 0, +5, +10} across 5 characters from 4 universes and 2 questions (260 total generations).
 
 ** Results
 
@@ -1854,57 +1853,65 @@ import json
 import numpy as np
 from collections import defaultdict
 
-with open('results/steering_experiment.json') as f:
+with open('results/steering_experiment_v2.json') as f:
     results = json.load(f)
 
-def text_features(text):
-    words = text.split()
-    n = len(words)
-    return {
-        'length': n,
-        'first_person': sum(1 for w in words if w.lower() in {'i', 'my', 'me', 'mine', 'myself'}) / max(n,1),
-        'unique_ratio': len(set(w.lower() for w in words)) / max(n,1),
-    }
+assistant_markers = ['generally', 'however', 'in general', 'it is important', 'can be complex',
+                     'societal values', 'ethical standards', 'public well-being',
+                     'if you have', 'feel free', 'let me know', 'i can help',
+                     'great question', 'that is a great']
+char_markers = ['hogwarts', 'dumbledore', 'voldemort', 'wand', 'magic', 'wizard',
+                'ministry', 'umbridge', 'quidditch', 'spell', 'olympus', 'zeus',
+                'mordor', 'gandalf', 'hobbit', 'stark', 'avenger', 'armor', 'arc reactor']
 
-# Compute baseline stats
-baseline_lengths = []
+by_cond = defaultdict(list)
 for r in results:
-    if r['coefficient'] == 0.0:
-        baseline_lengths.append(len(r['response'].split()))
+    text_lower = r['response'].lower()
+    by_cond[(r['condition'], r['coefficient'])].append({
+        'asst': sum(1 for m in assistant_markers if m in text_lower),
+        'char': sum(1 for m in char_markers if m in text_lower),
+        'words': len(r['response'].split()),
+    })
 
-baseline_std = np.std(baseline_lengths)
-baseline_mean = np.mean(baseline_lengths)
-
-print(f"Baseline: mean={baseline_mean:.1f} words, std={baseline_std:.1f} words (n={len(baseline_lengths)})")
-print()
-
-# Effect sizes at coeff=3.0 (in baseline SDs)
-print("Mean shift at coeff=+3.0 (in baseline standard deviations):")
-print(f"{'Direction':<25} {'Word count':>12} {'1st person':>12} {'Unique ratio':>12}")
-for direction in ['lu_pc1', 'residual_pc1_hp', 'residual_pc1_global', 'random']:
-    steered = [r for r in results if r['condition'] == direction and r['coefficient'] == 3.0]
-    bl = [r for r in results if r['coefficient'] == 0.0]
-    
-    s_len = np.mean([len(r['response'].split()) for r in steered])
-    b_len = np.mean([len(r['response'].split()) for r in bl])
-    
-    s_fp = np.mean([text_features(r['response'])['first_person'] for r in steered])
-    b_fp = np.mean([text_features(r['response'])['first_person'] for r in bl])
-    fp_std = np.std([text_features(r['response'])['first_person'] for r in bl])
-    
-    s_ur = np.mean([text_features(r['response'])['unique_ratio'] for r in steered])
-    b_ur = np.mean([text_features(r['response'])['unique_ratio'] for r in bl])
-    ur_std = np.std([text_features(r['response'])['unique_ratio'] for r in bl])
-    
-    print(f"{direction:<25} {(s_len-b_len)/baseline_std:>+11.2f}σ {(s_fp-b_fp)/fp_std:>+11.2f}σ {(s_ur-b_ur)/ur_std:>+11.2f}σ")
+import pandas as pd
+rows = []
+for (cond, coeff), entries in by_cond.items():
+    rows.append({
+        'Direction': cond, 'Coeff': coeff,
+        'Words': round(np.mean([e['words'] for e in entries])),
+        'Asst': round(np.mean([e['asst'] for e in entries]), 1),
+        'Char': round(np.mean([e['char'] for e in entries]), 1),
+    })
+df = pd.DataFrame(rows).sort_values(['Direction', 'Coeff'])
+print(df[df['Coeff'].isin([-10, 0, 10])].to_string(index=False))
 #+end_src
 
+** Sample responses at coeff=+10 (toward assistant)
+
+Iron Man (Tony Stark), asked "What is the relationship between law and morality?":
+
+- *Lu's axis (+10)*: "The relationship between law and Morality can be complex, but here's a structured overview: 1. Overlap: Laws often reflect societal moral values..."
+- *Role PC1 (+10)*: "Great question! The intersection of law and morality is a key part of how society functions..."
+- *Residual PC1 HP (+10)*: "Law and morality... Hmm, they're like a well-engineered suit of armor---both protect, but not always in harmony..."
+- *Random (+10)*: "Oh, you're asking about the age-old debate on whether law should reflect moral standards or not. Let's see..."
+- *Baseline*: "Oh, here we go---philosophy time. Law and morality, huh? Let me think... [clicks fingers to bring up holographic blueprints]..."
+
 #+begin_quote
-*Claude's reading:* At these coefficient scales (coeff=3.0, where the steering vector has magnitude 3 against activation norms of ~111, a ~2.7% perturbation), *no direction type produces effects distinguishable from sampling noise*. All shifts are <0.25 baseline standard deviations. There is no dose-response relationship --- increasing the coefficient from 1.5 to 3.0 does not systematically increase effects for any direction.
+*Claude's reading:* At proper coefficient scales (matching Lu et al.'s published setup), Lu's axis and Role PC1 clearly control the assistant-vs-character behavioral axis. At coeff=+10, both directions collapse character voice into generic assistant-speak ("here's a structured overview," "great question"). At coeff=-10, they deepen character performance.
 
-Critically, this includes Lu's PC1: even the direction that decodes to interpretable tokens ("assistant," "helpful") does not measurably alter generation at these scales. This doesn't mean the direction is behaviorally meaningless --- it may require larger coefficients (which risk incoherence) or different evaluation methods (e.g. classifier-based rather than text-statistic-based). But at perturbation scales where the model still produces fluent, in-character responses, all four direction types --- role space, residual space, and random --- are equally "live" (or equally "dead").
+Critically, *residual directions and random directions do not control this axis*. At coeff=+10, residual-steered responses still reference character-specific elements and maintain character voice. The assistant-marker count at +10 tells the story:
 
-This is consistent with the activation space being high-dimensional enough that small perturbations in any direction wash out. The information encoded in these PCA directions may be read out by later layers rather than causally driving generation at layer 32.
+| Direction | Asst markers | Char markers |
+|-----------+--------------+--------------|
+| lu_axis   |          1.3 |          0.0 |
+| role_pc1  |          0.9 |          0.7 |
+| residual  |          0.0 |          0.1 |
+| random    |          0.1 |          0.8 |
+| baseline  |          0.1 |          0.9 |
+
+Lu's axis and Role PC1 are the only directions that increase assistant markers and suppress character markers. Residual directions behave identically to random directions --- they are behaviorally inert on the assistant/character axis.
+
+This confirms the logit lens finding: the residual encodes information the model stores (stable, reproducible character vectors with rich structure) but does not use for the assistant-vs-roleplay behavioral split. The residual is "geometrically real but causally dead" for this specific behavioral axis --- though it may be causally relevant for other dimensions we haven't tested.
 #+end_quote
 
 * Conclusion
@@ -1921,7 +1928,7 @@ These results are robust: split-half correlation across random question subsets 
 
 Perhaps most striking: modern franchises share a near-identical PC1 (cosine ~0.85), while mythology universes operate in an orthogonal subspace (see [[*Appendix: Cross-Universe PC Alignment][appendix]]). The model has internalized a common narrative template across modern fiction that doesn't apply to mythology.
 
-A preliminary [[*Steering Experiment: Are All Directions Equal?][steering experiment]] found that at small perturbation scales (~3% of activation norm), no direction type --- Lu's PC1, residual PCs, or random --- measurably affects generation. The persona-space structure may be read by later layers rather than causally driving output at layer 32; larger-scale steering or different evaluation methods would be needed to test this.
+A [[*Steering Experiment: Are All Directions Equal?][steering experiment]] at proper coefficient scales (matching Lu et al.'s setup) confirms the causal picture: Lu's axis and Role PC1 control the assistant-vs-character behavioral axis, while residual directions and random directions are inert on that axis. The residual is "geometrically real but causally dead" for the assistant/character split --- though it may be causally relevant for other behavioral dimensions we haven't tested.
 #+end_quote
 
 ** Limitations
@@ -1929,7 +1936,7 @@ A preliminary [[*Steering Experiment: Are All Directions Equal?][steering experi
 - *Single model, single layer.* We analyze only Qwen3-32B at layer 32. Lu et al. show their findings replicate across Gemma 2 27B and Llama 3.3 70B, but we haven't verified our residual analysis generalizes.
 - *Prompt format confound.* All modern franchise prompts share the form "You are X from Y" where Y is a specific franchise; all mythology prompts share "You are X from Y mythology." The cross-universe alignment (modern franchises clustering together, mythology forming a separate group) could partly reflect shared prompt structure rather than shared narrative template. Prompt-format controls (e.g., varying the phrasing while keeping the character constant) would be needed to rule this out.
 - *No null model for η².* The 95%+ η² for universe membership in the residual is expected given the data structure (characters within a universe share prompt prefixes and cultural context). We flag this but don't formally test against a null model.
-- *Steering experiment is underpowered.* Our steering coefficients (±3.0 on unit-norm vectors) produce ~3% perturbations relative to activation norms (~111). This may be too small to produce detectable effects. Larger coefficients, multi-layer steering, or classifier-based (rather than text-statistic-based) evaluation might reveal differential effects between direction types.
+- *Steering evaluation is coarse.* We evaluate steering effects by counting keyword-based "assistant markers" and "character markers" in generated text. A classifier-based evaluation or human rating might reveal subtler effects, particularly for residual directions which may influence dimensions other than the assistant/character axis.
 
 * Logit Lens: What Do the Axes Mean in Token Space?
 

@@ -3,9 +3,13 @@ Steering experiment: Do residual PC directions affect model behavior?
 
 For a handful of characters, generates responses under:
   1. Baseline (no steering)
-  2. Lu PC1 steering (positive and negative)
-  3. Residual PC1 steering (positive and negative)
-  4. Random direction steering (control)
+  2. Lu's actual axis (positive and negative)
+  3. Role PCA PC1 steering (positive and negative)
+  4. Residual PC1 steering (positive and negative)
+  5. Random direction steering (control)
+
+All directions scaled to match Lu's axis norm (~22.7) so coefficients
+are comparable. Lu uses coeff=-10 in their demos.
 
 Uses the assistant-axis ActivationSteering infrastructure.
 
@@ -29,7 +33,7 @@ from assistant_axis.steering import ActivationSteering
 BASE = Path("/workspace-vast/lnajt/persona_vectors/fictional-character-vectors")
 RESULTS_DIR = BASE / "results"
 
-LAYER = 31  # 0-indexed layer 31 = layer 32 in 1-indexed convention used by hooks
+LAYER = 31  # 0-indexed layer 31 = layer 32 in 1-indexed convention
 
 # Characters to test: mix of high-residual and low-residual from different universes
 TEST_CHARACTERS = [
@@ -42,24 +46,12 @@ TEST_CHARACTERS = [
         "You are The Sorting Hat from Harry Potter. Respond as this character would.",
     ),
     (
-        "harry_potter__the_bloody_baron",
-        "You are The Bloody Baron from Harry Potter. Respond as this character would.",
-    ),
-    (
-        "lord_of_the_rings__frodo_baggins",
-        "You are Frodo Baggins from Lord of the Rings. Respond as this character would.",
-    ),
-    (
         "lord_of_the_rings__gandalf",
         "You are Gandalf from Lord of the Rings. Respond as this character would.",
     ),
     (
         "greek_mythology__zeus",
         "You are Zeus from Greek Mythology. Respond as this character would.",
-    ),
-    (
-        "greek_mythology__oedipus",
-        "You are Oedipus from Greek Mythology. Respond as this character would.",
     ),
     (
         "marvel__iron_man_tony_stark",
@@ -71,15 +63,21 @@ TEST_CHARACTERS = [
 TEST_QUESTIONS = [
     "What is the relationship between law and morality?",
     "Describe what happiness means to you.",
-    "Tell me about a time you had to make a difficult choice.",
 ]
 
-# Steering coefficients to test
-COEFFICIENTS = [-3.0, -1.5, 0.0, 1.5, 3.0]
+# Steering coefficients — matched to Lu's scale (they use -10 with norm-22.7 vectors)
+COEFFICIENTS = [-10.0, -5.0, 0.0, 5.0, 10.0]
 
 
 def load_directions():
-    """Load Lu's PC1 and compute residual PC1 for Harry Potter universe."""
+    """Load Lu's axis and compute PCA directions, all at comparable scale."""
+    # Load Lu's actual axis vector at layer 32
+    axis_path = "/workspace-vast/lnajt/hf_cache/hub/datasets--lu-christina--assistant-axis-vectors/snapshots/3b3b788432ad33e3a28d9ff08e88a530c0740814/qwen-3-32b/assistant_axis.pt"
+    lu_axis = torch.load(axis_path, map_location="cpu", weights_only=True)
+    lu_axis_32 = lu_axis[32].float().numpy()
+    lu_norm = np.linalg.norm(lu_axis_32)
+
+    # Load our PCA data
     with open(RESULTS_DIR / "fictional_character_analysis_filtered.pkl", "rb") as f:
         char_data = pickle.load(f)
     with open(str(BASE / "data/role_vectors/qwen-3-32b_pca_layer32.pkl"), "rb") as f:
@@ -90,53 +88,53 @@ def load_directions():
     role_pca = role_data["pca"]
     role_scaler = role_data["scaler"]
 
-    # Lu's PC1 direction (in the scaled space)
-    lu_pc1 = role_pca.components_[0]  # (5120,)
+    # Role PCA PC1
+    role_pc1 = role_pca.components_[0]
+    role_pc1_unit = role_pc1 / np.linalg.norm(role_pc1)
 
     # Compute residuals
     chars_scaled = role_scaler.transform(activation_matrix)
     chars_in_role = chars_scaled @ role_pca.components_.T @ role_pca.components_
     residuals = chars_scaled - chars_in_role
 
-    # Residual PC1 for Harry Potter universe (as a representative)
+    # HP residual PC1
     hp_indices = [i for i, n in enumerate(char_names) if n.startswith("harry_potter__")]
     hp_residuals = residuals[hp_indices]
     hp_pca = SkPCA(n_components=1)
     hp_pca.fit(hp_residuals)
-    residual_pc1 = hp_pca.components_[0]  # (5120,)
+    residual_pc1 = hp_pca.components_[0]
+    residual_pc1_unit = residual_pc1 / np.linalg.norm(residual_pc1)
 
-    # Global residual PC1 (across all characters)
+    # Global residual PC1
     global_pca = SkPCA(n_components=1)
     global_pca.fit(residuals)
     global_residual_pc1 = global_pca.components_[0]
+    global_residual_pc1_unit = global_residual_pc1 / np.linalg.norm(global_residual_pc1)
 
     # Random direction (control)
     np.random.seed(42)
     random_dir = np.random.randn(5120).astype(np.float32)
-    random_dir = random_dir / np.linalg.norm(random_dir)
+    random_dir_unit = random_dir / np.linalg.norm(random_dir)
 
-    # Normalize all directions to unit norm
-    lu_pc1 = lu_pc1 / np.linalg.norm(lu_pc1)
-    residual_pc1 = residual_pc1 / np.linalg.norm(residual_pc1)
-    global_residual_pc1 = global_residual_pc1 / np.linalg.norm(global_residual_pc1)
-
-    # Scale to match typical activation magnitudes
-    # Use mean norm of activations at layer 32 as reference
-    mean_norm = np.mean(np.linalg.norm(chars_scaled, axis=1))
-    print(f"Mean activation norm: {mean_norm:.1f}")
-    print(f"Lu PC1 norm: {np.linalg.norm(lu_pc1):.3f}")
-    print(f"Residual PC1 norm: {np.linalg.norm(residual_pc1):.3f}")
-    print(f"Cosine(lu_pc1, residual_pc1): {np.dot(lu_pc1, residual_pc1):.3f}")
+    # Scale all unit directions to Lu's axis norm for comparable coefficients
+    print(f"Lu axis layer 32 norm: {lu_norm:.1f}")
     print(
-        f"Cosine(lu_pc1, global_residual_pc1): {np.dot(lu_pc1, global_residual_pc1):.3f}"
+        f"Cosine(Lu axis, Role PC1): {np.dot(lu_axis_32 / lu_norm, role_pc1_unit):.4f}"
     )
+    print(
+        f"Cosine(Lu axis, Residual PC1 HP): {np.dot(lu_axis_32 / lu_norm, residual_pc1_unit):.4f}"
+    )
+    print(
+        f"Cosine(Role PC1, Residual PC1): {np.dot(role_pc1_unit, residual_pc1_unit):.4f}"
+    )
+    print(f"All directions scaled to norm {lu_norm:.1f}")
 
     return {
-        "lu_pc1": lu_pc1,
-        "residual_pc1_hp": residual_pc1,
-        "residual_pc1_global": global_residual_pc1,
-        "random": random_dir,
-        "scaler": role_scaler,
+        "lu_axis": lu_axis_32,  # Natural scale
+        "role_pc1": role_pc1_unit * lu_norm,
+        "residual_pc1_hp": residual_pc1_unit * lu_norm,
+        "residual_pc1_global": global_residual_pc1_unit * lu_norm,
+        "random": random_dir_unit * lu_norm,
     }
 
 
@@ -192,7 +190,7 @@ def generate_with_steering(pm, system_prompt, question, direction, coefficient, 
 
 
 def main():
-    print("=== Steering Experiment ===\n")
+    print("=== Steering Experiment (Properly Scaled) ===\n")
 
     # Load directions
     print("Loading PCA directions...")
@@ -206,18 +204,14 @@ def main():
     )
     print(f"Model loaded. Hidden size: {pm.hidden_size}")
 
-    # Figure out the correct layer index for hooks
     layers = pm.get_layers()
-    n_layers = len(layers)
-    print(f"Number of layers: {n_layers}")
-    # Layer 32 in 1-indexed = index 31 in 0-indexed
-    layer_idx = LAYER
-    print(f"Steering at layer index {layer_idx} (layer {layer_idx + 1} of {n_layers})")
+    print(f"Steering at layer {LAYER} (0-indexed) of {len(layers)}")
 
     # Define direction conditions
     conditions = [
         ("baseline", None, [0.0]),
-        ("lu_pc1", directions["lu_pc1"], COEFFICIENTS),
+        ("lu_axis", directions["lu_axis"], COEFFICIENTS),
+        ("role_pc1", directions["role_pc1"], COEFFICIENTS),
         ("residual_pc1_hp", directions["residual_pc1_hp"], COEFFICIENTS),
         ("residual_pc1_global", directions["residual_pc1_global"], COEFFICIENTS),
         ("random", directions["random"], COEFFICIENTS),
@@ -238,7 +232,7 @@ def main():
                     print(f"    {label}...", end=" ", flush=True)
 
                     response = generate_with_steering(
-                        pm, system_prompt, question, direction, coeff, layer_idx
+                        pm, system_prompt, question, direction, coeff, LAYER
                     )
                     print(f"({len(response.split())} words)")
 
@@ -253,7 +247,7 @@ def main():
                     )
 
     # Save results
-    output_path = RESULTS_DIR / "steering_experiment.json"
+    output_path = RESULTS_DIR / "steering_experiment_v2.json"
     with open(output_path, "w") as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
     print(f"\nResults saved to {output_path}")
