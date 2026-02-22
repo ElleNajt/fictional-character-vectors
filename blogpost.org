@@ -1911,18 +1911,14 @@ Critically, *residual directions and random directions do not control this axis*
 
 Lu's axis and Role PC1 are the only directions that increase assistant markers and suppress character markers. Residual directions behave identically to random directions --- they are behaviorally inert on the assistant/character axis.
 
-This confirms the logit lens finding: the residual encodes information the model stores (stable, reproducible character vectors with rich structure) but does not use for the assistant-vs-roleplay behavioral split. The residual is "geometrically real but causally dead" for this specific behavioral axis --- though it may be causally relevant for other dimensions we haven't tested.
+Residual directions don't control the assistant/character axis. But steering with residual PC1 does produce visibly different text from baseline --- it's not behaviorally inert in general, it just doesn't move this particular dial. With only 10 samples per condition, we can't characterize what dimension it does control.
 #+end_quote
 
-** Geometric Variance is Not Behavioral Variance
+** What Does Steering Tell Us?
 
-This result has a broader implication for how we interpret PCA variance numbers. Lu's role space captures ~60% of the variance in fictional character activations, and Role PC1 alone captures ~19% of the total. Yet that single direction controls the entire assistant-vs-character behavioral axis. Meanwhile, the ~40% residual --- which contains rich, reproducible structure (universe clustering, character-specific signatures, split-half correlation >0.999) --- is causally inert for this axis.
+Lu's axis and Role PC1 clearly control the assistant-vs-character behavioral axis: steering at +10 collapses character voice into generic assistant-speak, while -10 deepens roleplay. Residual PC1 and random directions do not control this axis.
 
-In other words: *L2 variance explained is not a good proxy for behavioral variance explained.* A direction can account for a large share of geometric variance while being behaviorally dead, and a direction can account for a modest share while controlling a major behavioral axis. The model stores information in activation space that it does not use (at least not at this layer, for this behavioral dimension), and the amount of information stored bears little relation to its causal role.
-
-This is worth keeping in mind when interpreting PCA-based analyses of neural network representations more generally. "X% of variance captured" is a statement about geometry, not about behavior.
-
-Steering with residual PC1 does produce visibly different text from baseline, so the direction is not entirely inert. But with only 10 samples per condition at temperature 0.7, we can't reliably characterize *what* behavioral dimension it controls. The logit lens on residual PC1 is noisy (no clean token-space interpretation), unlike Lu's axis which decodes to clear assistant-speak tokens. Characterizing the residual's causal role --- if any --- would require larger-scale steering with more systematic evaluation.
+However, steering with residual PC1 does produce visibly different text from baseline --- the direction is not behaviorally inert, it just doesn't move the assistant/character dial. With only 10 samples per condition at temperature 0.7, we can't reliably characterize what dimension it controls. The logit lens on residual PC1 is noisy (no clean token-space interpretation), unlike Lu's axis which decodes to clear assistant-speak tokens. A larger-scale experiment with more systematic evaluation would be needed to map out what the residual directions actually do.
 
 * Conclusion
 
@@ -1938,7 +1934,7 @@ These results are robust: split-half correlation across random question subsets 
 
 Perhaps most striking: modern franchises share a near-identical PC1 (cosine ~0.85), while mythology universes operate in an orthogonal subspace (see [[*Appendix: Cross-Universe PC Alignment][appendix]]). The model has internalized a common narrative template across modern fiction that doesn't apply to mythology.
 
-A [[*Steering Experiment: Are All Directions Equal?][steering experiment]] at proper coefficient scales (matching Lu et al.'s setup) confirms the causal picture: Lu's axis and Role PC1 control the assistant-vs-character behavioral axis, while residual directions and random directions are inert on that axis. The residual is "geometrically real but causally dead" for the assistant/character split --- though it may be causally relevant for other behavioral dimensions we haven't tested.
+A [[*Steering Experiment: Are All Directions Equal?][steering experiment]] at proper coefficient scales (matching Lu et al.'s setup) shows that Lu's axis and Role PC1 control the assistant-vs-character behavioral axis, while residual directions do not move that dial. Residual steering does produce visibly different text, but we lack the sample size to characterize what it controls.
 #+end_quote
 
 ** Limitations
