@@ -11,6 +11,7 @@ We ask: *how much of persona space do these 275 generic roles actually cover?* W
 
 The short version of what we find:
 
+- *Persona space is moderately low-dimensional.* Fictional characters share a similar eigenspectrum to Lu's roles (~21% in PC1), with 5--16 PCs capturing 70% of within-universe variance (~5--10x compression). Modern franchises are more compressible than mythology.
 - *Lu's space captures ~60% of character variance* (11x a random 275-dimensional subspace). What it captures are the generic, archetypally-legible aspects of characters --- monsters, minor villains, and background characters are well-explained, while protagonists and iconic characters escape into the residual.
 - *The residual is real but different in kind.* After projecting out Lu's 275 role dimensions, character rankings on residual PC1 still correlate 0.77--0.96 with the originals in most universes --- but the logit lens reveals a striking asymmetry. Lu's PCA directions decode to clean token-level semantics (register, warmth, calculation). Residual directions decode to noise. The residual does correlate with text-observable features (specific-person vs. archetype framing, adj. R² ~0.77), but whether this reflects genuinely higher-order structure or token-level patterns the logit lens can't resolve is unclear.
 - *Steering confirms the asymmetry.* Lu's axis and Role PC1 control the assistant/character behavioral axis; residual directions do not move this dial, behaving indistinguishably from random directions.
