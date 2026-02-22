@@ -126,7 +126,28 @@ for threshold in [0.5, 0.7, 0.8, 0.9, 0.95]:
 print(f"\nFiction PC1: {fvar[0]:.1%}, Lu PC1: {lu_var_exp[0]:.1%}")
 #+end_src
 
-Both have a dominant PC1 (~21%). On the same model (Qwen3-32B), fictional characters are actually /more/ compressible than Lu's roles up to ~90% variance: fiction needs 13 PCs for 70% vs Lu's 21, and 25 PCs for 80% vs Lu's 37. At the tail (95%), fiction needs more (143 vs 106), reflecting the longer tail from 5x more characters. Neither spectrum has a sharp elbow --- both decay gradually after PC1.
+Both have a dominant PC1 (~21%), and neither spectrum has a sharp elbow --- both decay gradually. Across all 1,268 characters, fiction appears more compressible than Lu's roles (13 PCs for 70% vs Lu's 21), but this is misleading: universe clustering soaks up variance. The fairer comparison is within-universe:
+
+#+begin_src python
+print(f"{'Universe':>20s}  {'N':>4s}  {'PC1':>5s}  {'70%':>5s}  {'90%':>5s}  {'max dim':>8s}")
+for universe, prefixes in ALL_UNIVERSES.items():
+    idx = get_universe_indices(prefixes)
+    if len(idx) < 20:
+        continue
+    u_scaled = chars_scaled[idx]
+    n_comp = min(len(idx)-1, 100)
+    pca_u = SkPCA(n_components=n_comp)
+    pca_u.fit(u_scaled)
+    v = pca_u.explained_variance_ratio_
+    cv = np.cumsum(v)
+    pcs_70 = np.searchsorted(cv, 0.7) + 1
+    pcs_90 = np.searchsorted(cv, 0.9) + 1
+    print(f"{universe:>20s}  {len(idx):>4d}  {v[0]:>5.1%}  {pcs_70:>5d}  {pcs_90:>5d}  {len(idx)-1:>8d}")
+
+print(f"\n{'Lu roles':>20s}  {275:>4d}  {role_pca.explained_variance_ratio_[0]:>5.1%}  {21:>5d}  {71:>5d}  {274:>8d}")
+#+end_src
+
+Within a universe of ~100 characters, 70% of variance lives in 5--16 PCs out of a maximum ~99 dimensions --- real compression (~5--10x) but not dramatic. Modern franchises (Harry Potter, Star Wars, Naruto) are more compressible (5--8 PCs for 70%, PC1 at 28--37%) than mythology and Shakespeare (11--16 PCs, PC1 at 14--22%). Lu's 275 roles sit in a similar range: 21 PCs for 70% out of 274 max (~13x compression).
 
 How much of this fiction structure lives inside Lu's 275-dimensional role space?
 
