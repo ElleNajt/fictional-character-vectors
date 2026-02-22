@@ -5,7 +5,7 @@
 
 * Introduction
 
-[[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] show that when language models are prompted with 275 generic roles (therapist, sage, rebel, accountant, ...), the resulting activation vectors are low-dimensional: 4 PCs capture 70% of variance, with PC1 alone at 49%. They call this first component the "Assistant Axis" and show it generalizes across models.
+[[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] show that when language models are prompted with 275 generic roles (therapist, sage, rebel, accountant, ...), the resulting activation vectors are structured: PC1 alone captures ~20% of variance and aligns with what they call the "Assistant Axis" --- a direction that measures how far the model's persona has drifted from its default. They show this generalizes across models.
 
 We ask: *how much of persona space do these 275 generic roles actually cover?* We stress-test this by applying Lu's PCA space to 1,268 fictional characters.
 
@@ -99,6 +99,50 @@ print(f"Loaded {len(char_names)} characters, {len(role_names)} Lu roles")
 Loaded 1268 characters, 275 Lu roles
 Cell Timer: 0:00:01
 :end:
+
+* Is There a Persona Space?
+
+Before asking how much of it Lu's roles cover, we can ask: do fictional character activations even live in a low-dimensional subspace?
+
+#+begin_src python
+from sklearn.decomposition import PCA as SkPCA
+
+pca_fiction = SkPCA(n_components=200)
+pca_fiction.fit(chars_scaled)
+
+fvar = pca_fiction.explained_variance_ratio_
+fcumvar = np.cumsum(fvar)
+
+lu_var_exp = role_pca.explained_variance_ratio_
+lu_cumvar = np.cumsum(lu_var_exp)
+
+print("PCs needed for variance thresholds:")
+print(f"{'Threshold':>10s}  {'Fiction':>8s}  {'Lu roles':>8s}")
+for threshold in [0.5, 0.7, 0.8, 0.9, 0.95]:
+    n_f = np.searchsorted(fcumvar, threshold) + 1
+    n_l = np.searchsorted(lu_cumvar, threshold) + 1
+    print(f"{threshold:>10.0%}  {n_f:>8d}  {n_l:>8d}")
+
+print(f"\nFiction PC1: {fvar[0]:.1%}, Lu PC1: {lu_var_exp[0]:.1%}")
+#+end_src
+
+Both have a dominant PC1 (~21%). On the same model (Qwen3-32B), fictional characters are actually /more/ compressible than Lu's roles up to ~90% variance: fiction needs 13 PCs for 70% vs Lu's 21, and 25 PCs for 80% vs Lu's 37. At the tail (95%), fiction needs more (143 vs 106), reflecting the longer tail from 5x more characters. Neither spectrum has a sharp elbow --- both decay gradually after PC1.
+
+How much of this fiction structure lives inside Lu's 275-dimensional role space?
+
+#+begin_src python
+L_full = role_pca.components_  # 275 x 5120
+
+print("How much of each Fiction PC lives inside Lu's 275-dim space:")
+print(f"{'PC':>12s}  {'Var':>6s}  {'Inside Lu':>10s}  {'Outside':>8s}")
+for i in range(10):
+    f_vec = pca_fiction.components_[i]
+    proj = L_full.T @ (L_full @ f_vec)
+    overlap = np.dot(proj, f_vec) / np.dot(f_vec, f_vec)
+    print(f"  FictionPC{i+1:>1d}  {fvar[i]:>5.1%}  {overlap:>10.0%}  {1-overlap:>8.0%}")
+#+end_src
+
+FictionPC1 (the dominant 22% direction) is ~86% inside Lu's space --- Lu largely captures the main axis. But higher fiction PCs progressively escape: FictionPC2--6 are 62--72% inside, and FictionPC7--10 drop to 40--57%. The later, finer-grained structure of fictional characters increasingly lives in directions Lu's 275 generic roles don't span.
 
 * Finding 1: Lu captures ~60% of character variance
 
