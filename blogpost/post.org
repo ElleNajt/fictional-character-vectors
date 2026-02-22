@@ -1,0 +1,89 @@
+#+TITLE: Stress-Testing Persona Space with Fictional Characters
+#+AUTHOR: Elle
+#+DATE: 2026-02-16
+#+PROPERTY: header-args:python :results output drawer :python "./.venv/bin/python3" :async t :session blogpost :exports both
+
+* Introduction
+
+[[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] show that when language models are prompted with 275 generic roles (therapist, sage, rebel, accountant, ...), the resulting activation vectors are structured: PC1 alone captures ~20% of variance and aligns with what they call the "Assistant Axis" --- a direction that measures how far the model's persona has drifted from its default. They show this generalizes across models.
+
+We ask: *how much of persona space do these 275 generic roles actually cover?* We apply Lu's PCA space to 1,268 fictional characters in Qwen3-32B and look at what it captures and what it misses.
+
+* Is There a Persona Space?
+
+Before asking how much Lu's roles cover, we check whether fictional character activations are low-dimensional at all.
+
+#+begin_src python
+# [eigenspectrum code: fiction vs Lu, cross-universe and within-universe table]
+#+end_src
+
+Both fiction and Lu's roles have a dominant PC1 (~21%). Within individual universes (~100 characters each), 70% of variance lives in 5--16 PCs out of ~99 maximum dimensions --- 5--10x compression. Modern franchises are more compressible (5--8 PCs for 70%) than mythology and Shakespeare (11--16 PCs). This is moderate compression --- real structure, but not a tight low-dimensional subspace.
+
+* How Much Does Lu's Space Capture?
+
+#+begin_src python
+# [variance decomposition code]
+#+end_src
+
+Lu's 275-role space captures 61% of total fictional character variance. For context, a random 275-dimensional subspace of the 5120-dimensional activation space captures ~5% (275/5120). So Lu's space is 11x the null baseline.
+
+But the ~40% residual is almost entirely universe separation:
+
+#+begin_src python
+# [eta-squared table code]
+#+end_src
+
+Residual PCs 1--5 are 94--97% explained by universe identity. This is partly expected: each universe shares a system prompt prefix ("You are X from Y"), so after removing a shared subspace, residuals cluster by prompt. The between-universe separation is not itself surprising.
+
+The more informative question is what happens /within/ a universe.
+
+* Within-Universe: Rankings Agree, Directions Don't
+
+Within each universe, Lu captures 49--73% of character variance. After projecting out Lu's space, something puzzling happens: character rankings on residual PC1 still correlate 0.77--0.96 with rankings on the original PC1, despite the residual being geometrically nearly orthogonal (direction cosines 0.2--0.7).
+
+#+begin_src python
+# [directions vs rankings code]
+#+end_src
+
+Why? Characters who are extreme tend to be extreme in multiple directions. The residual PC1 is a different axis, but it still separates the same characters because those characters spread along a diagonal that has components in both Lu's space and outside it.
+
+* What Do the Directions Mean?
+
+The logit lens --- projecting PCA directions through the LM head to see which vocabulary tokens they point toward --- reveals an asymmetry between Lu's space and the residual.
+
+Lu's role PCA directions decode to clean, interpretable token-level semantics. Role PC1 points toward 夫妇 (couple), 処境 (situation) on one end (Hermione, Goku) and 古老 (ancient), 名為 (named as) on the other (Ungoliant, Night King) --- a grounded/relatable vs. mythic/abstract axis. Role PC3 separates 操控 (manipulate), ~warfare~ (General Grievous, Ultron) from 愛你 (love you), 彼此 (each other) (Hinata, Cosette) --- cold calculation vs. emotional warmth.
+
+Residual PCA directions produce noise --- code fragments, random subwords, semantically incoherent text. Full tables are in [[file:appendix.org::*Logit Lens: What Do the Axes Mean in Token Space?][the appendix]].
+
+Comparing actual text from characters at opposite ends of residual PC1 shows a consistent pattern: one end produces more formal, philosophical, less first-person text (Tom Riddle, Darth Vader, the Bloody Baron); the other produces casual, personal, exclamatory text (Ron Weasley, Han Solo, Fred Weasley). An LLM feature-discovery experiment validates this at adj. R² ~0.77 on held-out characters, with simple text statistics achieving ~0.71.
+
+The logit lens decodes Lu's directions to clean token semantics but fails on residual directions. Whether this means the residual encodes genuinely different structure or token-level patterns the logit lens can't resolve at this layer, we can't say. Full response diffing analysis is in [[file:appendix.org::*Interpreting Residual PCs: Response Diffing][the appendix]].
+
+* Steering
+
+We test whether the logit lens asymmetry shows up behaviorally. Using Lu's =ActivationSteering= infrastructure, we add scaled direction vectors to layer 32 activations during generation. We test Lu's axis, residual PC1, and a random direction, all scaled to the same norm (~22.7).
+
+Iron Man asked "What is the relationship between law and morality?" at coeff=+10 (toward assistant):
+
+- *Lu's axis*: "The relationship between law and Morality can be complex, but here's a structured overview..."
+- *Residual PC1*: "Law and morality... Hmm, they're like a well-engineered suit of armor---both protect, but not always in harmony..."
+- *Baseline*: "Oh, here we go---philosophy time. Law and morality, huh? Let me think... [clicks fingers to bring up holographic blueprints]..."
+
+Lu's axis at +10 collapses character voice into generic assistant-speak. Residual PC1 at +10 does not --- it produces visibly different text from baseline, but it doesn't move the assistant/character dial. (We measure this with keyword markers as a coarse proxy; Lu et al. use an LLM judge with a 0--3 rubric.)
+
+What does the residual direction actually /do/ when you steer with it? With only 10 samples per condition at temperature 0.7, we can't characterize it. A larger experiment would be needed.
+
+* Conclusion
+
+Persona space is moderately low-dimensional: 5--16 PCs capture 70% of within-universe variance, with a consistent dominant PC1. Lu's 275 generic roles capture ~60% of fictional character variance (11x a random subspace), with the residual mostly separating universes.
+
+Within universes, the residual produces character rankings correlated with the originals despite being geometrically orthogonal. Lu's PCA directions decode to clean token semantics via the logit lens; residual directions don't. Steering with Lu's axis controls the assistant/character axis; steering with the residual does something, but not that.
+
+Lu's space captures a meaningful part of the persona picture --- the part expressible as vocabulary and register shifts. What it misses is real and structured, but we can't fully characterize it yet.
+
+** Limitations
+
+- All results are from Qwen3-32B at layer 32. Lu et al. show cross-model consistency for their axis; we haven't checked whether the residual structure generalizes.
+- Steering used 10 samples per condition --- enough to show Lu's axis and residual directions have different effects, not enough to map out what residual directions do.
+- Our steering evaluation uses keyword markers, not Lu's LLM judge.
+- Character prompts are minimal (name + source only). Richer prompts might shift the variance decomposition.
