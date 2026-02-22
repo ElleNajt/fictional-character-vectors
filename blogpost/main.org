@@ -5,11 +5,9 @@
 
 * Introduction
 
-This analysis stress-tests the methodology from [[https://arxiv.org/abs/2601.10387][Lu et al. (2026), "The Assistant Axis"]] by applying it to fictional characters with minimal prompts.
+[[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] show that when language models are prompted with 275 generic roles (therapist, sage, rebel, accountant, ...), the resulting activation vectors are low-dimensional: 4 PCs capture 70% of variance, with PC1 alone at 49%. They call this first component the "Assistant Axis" and show it generalizes across models.
 
-Lu et al. claim there's a coherent "persona space" - a low-dimensional subspace where personas live, with a principal component (the "persona axis") that behaves similarly across models. They define personas using 275 role descriptions (e.g., "You are a helpful assistant who is also a therapist").
-
-We stress-test this by asking: *does Lu's persona space generalize to fictional characters?*
+We ask: *how much of persona space do these 275 generic roles actually cover?* We stress-test this by applying Lu's PCA space to 1,268 fictional characters.
 
 The short version of what we find:
 
