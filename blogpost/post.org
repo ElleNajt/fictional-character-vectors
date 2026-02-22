@@ -69,7 +69,7 @@ Iron Man asked "What is the relationship between law and morality?" at coeff=+10
 - *Residual PC1*: "Law and morality... Hmm, they're like a well-engineered suit of armor---both protect, but not always in harmony..."
 - *Baseline*: "Oh, here we go---philosophy time. Law and morality, huh? Let me think... [clicks fingers to bring up holographic blueprints]..."
 
-Lu's axis at +10 collapses character voice into generic assistant-speak. Residual PC1 at +10 does not --- it produces visibly different text from baseline, but it doesn't move the assistant/character dial. (We measure this with keyword markers as a coarse proxy; Lu et al. use an LLM judge with a 0--3 rubric.)
+Lu's axis at +10 collapses character voice into generic assistant-speak. Residual PC1 at +10 does not --- it produces visibly different text from baseline, but it doesn't move the assistant/character dial. (We measure this with keyword markers as a coarse proxy.)
 
 What does the residual direction actually /do/ when you steer with it? With only 10 samples per condition at temperature 0.7, we can't characterize it. A larger experiment would be needed.
 
@@ -85,5 +85,4 @@ Lu's space captures a meaningful part of the persona picture --- the part expres
 
 - All results are from Qwen3-32B at layer 32. Lu et al. show cross-model consistency for their axis; we haven't checked whether the residual structure generalizes.
 - Steering used 10 samples per condition --- enough to show Lu's axis and residual directions have different effects, not enough to map out what residual directions do.
-- Our steering evaluation uses keyword markers, not Lu's LLM judge.
-- Character prompts are minimal (name + source only). Richer prompts might shift the variance decomposition.
+- Our steering evaluation uses coarse keyword markers rather than a systematic behavioral metric.
