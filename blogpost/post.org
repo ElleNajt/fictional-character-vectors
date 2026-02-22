@@ -17,7 +17,7 @@ Before asking how much Lu's roles cover, we check whether fictional character ac
 # [eigenspectrum code: fiction vs Lu, cross-universe and within-universe table]
 #+end_src
 
-Both fiction and Lu's roles have a dominant PC1 (~21%). Across all 1,268 characters, 13 PCs capture 70% of variance (vs Lu's 21 PCs for 275 roles) --- partly because universe separation is a large, compressible source of variance. Within individual universes (~100 characters each), 70% of variance lives in 5--16 PCs out of ~99 maximum dimensions --- 5--10x compression. Modern franchises are more compressible (5--8 PCs for 70%) than mythology and Shakespeare (11--16 PCs). This is moderate compression --- real structure, but not a tight low-dimensional subspace.
+Both fiction and Lu's roles have a dominant PC1 (~21%). Across all 1,268 characters, 13 PCs capture 70% of variance (vs Lu's 21 PCs for 275 roles) --- partly because universe separation accounts for 66% of total variance. Within individual universes (~100 characters each), 70% of variance lives in 5--16 PCs out of ~99 maximum dimensions --- 5--10x compression. Modern franchises are more compressible (5--8 PCs for 70%) than mythology and Shakespeare (11--16 PCs). This is moderate compression --- real structure, but not a tight low-dimensional subspace.
 
 * How Much Does Lu's Space Capture?
 
