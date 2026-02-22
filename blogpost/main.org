@@ -12,7 +12,7 @@ We ask: *how much of persona space do these 275 generic roles actually cover?* W
 The short version of what we find:
 
 - *Lu's space captures ~60% of character variance* (11x a random 275-dimensional subspace). What it captures are the generic, archetypally-legible aspects of characters --- monsters, minor villains, and background characters are well-explained, while protagonists and iconic characters escape into the residual.
-- *The residual is real but different in kind.* After projecting out Lu's 275 role dimensions, character rankings on residual PC1 still correlate 0.77--0.96 with the originals in most universes --- but the logit lens reveals a striking asymmetry. Lu's PCA directions decode to clean token-level semantics (register, warmth, calculation). Residual directions decode to noise. The residual encodes higher-order response structure (specific-person vs. archetype framing) that doesn't reduce to vocabulary shifts.
+- *The residual is real but different in kind.* After projecting out Lu's 275 role dimensions, character rankings on residual PC1 still correlate 0.77--0.96 with the originals in most universes --- but the logit lens reveals a striking asymmetry. Lu's PCA directions decode to clean token-level semantics (register, warmth, calculation). Residual directions decode to noise. The residual does correlate with text-observable features (specific-person vs. archetype framing, adj. R² ~0.77), but whether this reflects genuinely higher-order structure or token-level patterns the logit lens can't resolve is unclear.
 - *Steering confirms the asymmetry.* Lu's axis and Role PC1 control the assistant/character behavioral axis; residual directions do not move this dial, behaving indistinguishably from random directions.
 - *Character vectors are extremely stable*: split-half correlation across random question subsets exceeds 0.999.
 
@@ -394,7 +394,7 @@ Since the logit lens fails on residual directions, we compare the actual text pr
 
 To validate this quantitatively, we run a held-out experiment: an LLM discovers distinguishing features from odd-ranked characters, then those features are coded on non-overlapping even-ranked characters and regressed against actual PC scores. The adjusted R^{2} is ~0.77 across universes (median), confirming the residual captures real, text-observable structure. Simple text statistics (no LLM) achieve comparable results (adj. R^{2} ~0.71).
 
-This is consistent with the parsimonious reading: Lu's roles capture the first-order vocabulary/register component, while the residual contains higher-order structure (anecdote vs. pronouncement, practical vs. philosophical framing) that doesn't reduce to individual token probabilities.
+The logit lens decodes Lu's directions to clean token semantics but fails on residual directions. The residual does correlate with text-observable features --- both LLM-identified patterns (adj. R² ~0.77) and simple text statistics (adj. R² ~0.71) --- but whether this reflects genuinely higher-order structure or token-level patterns the logit lens can't resolve at this layer is unclear.
 
 Full response diffing analysis, qualitative examples, and feature regression details are in [[file:appendix.org::*Interpreting Residual PCs: Response Diffing][the appendix]].
 
@@ -493,7 +493,7 @@ What Lu's space captures is the /generic/ component of character identity: the a
 
 The residual is real. It produces character rankings correlated with the originals, it separates characters along interpretable axes (specific-person vs. archetype), and it predicts text-observable features with adj. R^{2} ~0.77. But it is different in kind from what Lu's space captures: the logit lens decodes Lu's directions to clean vocabulary semantics and the residual's to noise; steering with Lu's axis controls assistant/character behavior while residual directions don't.
 
-The parsimonious interpretation: Lu's generic roles span a subspace that captures first-order vocabulary and register shifts. The residual contains higher-order structure --- how the model frames responses (anecdote vs. pronouncement, practical advice vs. philosophical reflection) --- that is real and behaviorally relevant but doesn't reduce to individual token probability shifts. Lu's space is a meaningful piece of the persona picture, not the whole thing.
+Whether this asymmetry means the residual encodes genuinely higher-order structure (how the model frames responses, not which tokens it uses) or token-level patterns the logit lens can't resolve at this layer, we can't say. Simple text statistics predict residual PC scores nearly as well as LLM-identified features (adj. R² ~0.71 vs ~0.77), which doesn't settle the question either way. What's clear is that Lu's space is a meaningful piece of the persona picture, not the whole thing.
 
 ** Limitations
 
