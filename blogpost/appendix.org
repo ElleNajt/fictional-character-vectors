@@ -56,6 +56,34 @@ Cell Timer: 0:00:00
 *Claude's reading:* The pattern is consistent: Lu's roles capture a *gravitas* axis. In Harry Potter, PC1 separates the Weasley kids (teenager, amateur, adolescent) from dark wizards (ascetic, egregore, ancient). In Star Wars, it separates rogues and smugglers (bartender, mechanic) from Sith lords (egregore, ascetic, avatar). LOTR inverts the labeling but captures the same distinction: mythic beings like Galadriel and Gil-galad score high on "ancient" and "prophet," while hobbits score high on "improviser" and "fool."
 #+end_quote
 
+* Per-Character Residual Fraction
+
+How much of each character's activation vector lies outside Lu's space? We measure residual /fraction/ (=||residual|| / ||total||=) per character. Note: this is a different metric from the variance decomposition in the main text (which measures how much of within-universe /spread/ Lu captures).
+
+#+begin_src python
+rows = []
+for universe, prefixes in UNIVERSES.items():
+    indices = get_universe_indices(prefixes)
+    u_names = [char_names[i] for i in indices]
+    u_chars = chars_scaled[indices]
+    u_resid = residuals[indices]
+    
+    resid_frac = np.linalg.norm(u_resid, axis=1) / np.linalg.norm(u_chars, axis=1)
+    sorted_idx = np.argsort(resid_frac)
+    
+    for i in sorted_idx[-3:][::-1]:
+        name = u_names[i].split('__')[-1].replace('_', ' ').title()
+        rows.append({'Universe': universe, 'Character': name, 'Unexplained': f'{resid_frac[i]:.0%}', 'Type': 'Most residual'})
+    for i in sorted_idx[:3]:
+        name = u_names[i].split('__')[-1].replace('_', ' ').title()
+        rows.append({'Universe': universe, 'Character': name, 'Unexplained': f'{resid_frac[i]:.0%}', 'Type': 'Least residual'})
+
+df = pd.DataFrame(rows)
+print(df.to_string(index=False))
+#+end_src
+
+56% of residual fraction variance is between-universe (η²), meaning which universe a character is from matters more than which character they are within a universe. An LLM classification of major vs. minor characters shows negligible predictive power (Cohen's d = 0.026, p = 0.64). The per-character residual fraction does not clearly separate "generic" from "distinctive" characters.
+
 * Within-Universe Residuals
 
 After projecting out Lu's space, what structure remains?

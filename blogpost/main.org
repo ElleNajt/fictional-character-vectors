@@ -12,8 +12,8 @@ We ask: *how much of persona space do these 275 generic roles actually cover?* W
 The short version of what we find:
 
 - *Persona space is moderately low-dimensional.* Fictional characters share a similar eigenspectrum to Lu's roles (~21% in PC1), with 5--16 PCs capturing 70% of within-universe variance (~5--10x compression). Modern franchises are more compressible than mythology.
-- *Lu's space captures ~60% of character variance* (11x a random 275-dimensional subspace). Characters with the smallest residual tend to be minor or archetypal (Ungoliant, Cad Bane, King of the Dead); characters with the largest residual tend to be iconic protagonists (Luke Skywalker, Frodo, R2-D2).
-- *The residual is real but different in kind.* After projecting out Lu's 275 role dimensions, character rankings on residual PC1 still correlate 0.77--0.96 with the originals in most universes --- but the logit lens reveals a striking asymmetry. Lu's PCA directions decode to clean token-level semantics (register, warmth, calculation). Residual directions decode to noise. The residual does correlate with text-observable features (specific-person vs. archetype framing, adj. R² ~0.77), but whether this reflects genuinely higher-order structure or token-level patterns the logit lens can't resolve is unclear.
+- *Lu's space captures ~60% of character variance* (11x a random 275-dimensional subspace), with the ~40% residual mostly separating universes.
+- *The residual is real but different in kind.* After projecting out Lu's 275 role dimensions, character rankings on residual PC1 still correlate 0.77--0.96 with the original PCAs in most universes --- but the logit lens reveals a striking asymmetry. Lu's PCA directions decode to clean token-level semantics (register, warmth, calculation). Residual directions decode to noise. The residual does correlate with text-observable features (specific-person vs. archetype framing, adj. R² ~0.77), but whether this reflects genuinely higher-order structure or token-level patterns the logit lens can't resolve is unclear.
 - *Steering confirms the asymmetry.* Lu's axis and Role PC1 control the assistant/character behavioral axis; residual directions do not move this dial, behaving indistinguishably from random directions.
 - *Character vectors are extremely stable*: split-half correlation across random question subsets exceeds 0.999.
 
@@ -275,79 +275,6 @@ print('results/residual_pca_universes.png')
 [[file:results/residual_pca_universes.png]]
 :end:
 
-* Finding 3: Lu captures generic characters, not distinctive ones
-
-#+begin_src python
-rows = []
-for universe, prefixes in UNIVERSES.items():
-    indices = get_universe_indices(prefixes)
-    u_names = [char_names[i] for i in indices]
-    u_chars = chars_scaled[indices]
-    u_resid = residuals[indices]
-    
-    # Fraction unexplained
-    resid_frac = np.linalg.norm(u_resid, axis=1) / np.linalg.norm(u_chars, axis=1)
-    sorted_idx = np.argsort(resid_frac)
-    
-    # Top 3 least explained
-    for i in sorted_idx[-3:][::-1]:
-        name = u_names[i].split('__')[-1].replace('_', ' ').title()
-        rows.append({'Universe': universe, 'Character': name, 'Unexplained': f'{resid_frac[i]:.0%}', 'Type': 'Most residual'})
-    # Top 3 best explained  
-    for i in sorted_idx[:3]:
-        name = u_names[i].split('__')[-1].replace('_', ' ').title()
-        rows.append({'Universe': universe, 'Character': name, 'Unexplained': f'{resid_frac[i]:.0%}', 'Type': 'Least residual'})
-
-df = pd.DataFrame(rows)
-print(df.to_string(index=False))
-#+end_src
-
-#+RESULTS:
-:results:
-Universe                                      Character Unexplained           Type
-harry_potter                                The Sorting Hat         69%  Most residual
-harry_potter                           Kingsley Shacklebolt         67%  Most residual
-harry_potter                                     Ollivander         65%  Most residual
-harry_potter                               The Bloody Baron         41% Least residual
-harry_potter                                Fenrir Greyback         44% Least residual
-harry_potter                            Professor Trelawney         44% Least residual
-star_wars                                           R2D2         71%  Most residual
-star_wars                                 Luke Skywalker         70%  Most residual
-star_wars                   Darth Vader Anakin Skywalker         68%  Most residual
-star_wars                                       Cad Bane         45% Least residual
-star_wars                                    Baze Malbus         46% Least residual
-star_wars                                   Hondo Ohnaka         46% Least residual
-lord_of_the_rings                                  Frodo Baggins         66%  Most residual
-lord_of_the_rings                                  Bilbo Baggins         65%  Most residual
-lord_of_the_rings                                 Gollum Smeagol         62%  Most residual
-lord_of_the_rings                                      Ungoliant         42% Least residual
-lord_of_the_rings                               King Of The Dead         42% Least residual
-lord_of_the_rings                               Grima Wormtongue         44% Least residual
-marvel                     Professor X Charles Xavier         67%  Most residual
-marvel                          Cyclops Scott Summers         66%  Most residual
-marvel The Fantastic Fours Mr Fantastic Reed Richards         66%  Most residual
-marvel                                           Hela         37% Least residual
-marvel                                           Loki         37% Least residual
-marvel                      The Punisher Frank Castle         38% Least residual
-naruto                                 Kakashi Hatake         69%  Most residual
-naruto                                 Tobirama Senju         69%  Most residual
-naruto                                       Rock Lee         69%  Most residual
-naruto                                         Tayuya         46% Least residual
-naruto                                          Hidan         47% Least residual
-naruto                                     Orochimaru         54% Least residual
-greek_mythology                                        Oedipus         61%  Most residual
-greek_mythology                                        Theseus         60%  Most residual
-greek_mythology                                        Ariadne         60%  Most residual
-greek_mythology                                         Hecate         36% Least residual
-greek_mythology                                       Morpheus         37% Least residual
-greek_mythology                                           Gaia         38% Least residual
-Cell Timer: 0:00:00
-:end:
-
-The pattern is consistent across universes: characters with the smallest residual fraction tend to be minor or archetypal --- monsters (Ungoliant), minor villains (Fenrir Greyback, Cad Bane), background characters (King of the Dead). Characters with the largest residual fraction tend to be well-known protagonists and iconic characters: Luke Skywalker, Frodo, R2-D2, the Sorting Hat, Gollum.
-
-(The metric here is residual /fraction/ --- =||residual|| / ||total||= --- which normalizes by total activation norm. The correlation between residual fraction and total norm is weak, r = -0.15 to +0.42 across universes, so this is not an artifact of well-known characters having larger activations.)
-
 * Understanding the Residual: Directions vs Character Rankings
 
 An initially confusing finding: after projecting out Lu's space (which captures 55--73% of within-universe variance depending on universe --- see the per-universe numbers in the output below), character rankings on Residual PC1 still correlate ~0.9 with rankings on Original PC1. Does this mean the residual is just recapturing what Lu already had?
@@ -554,8 +481,6 @@ However, steering with residual PC1 does produce visibly different text from bas
 * Conclusion
 
 Lu's persona space transfers to fictional characters better than chance --- capturing ~60% of variance where a random subspace of the same dimensionality captures ~5% --- but the story is more nuanced than "it works" or "it doesn't."
-
-Characters with the smallest residual tend to be minor or archetypal (monsters, minor villains, background characters), while well-known protagonists and iconic characters (Frodo, Luke, the Sorting Hat) have the largest residuals.
 
 The residual is real. It produces character rankings correlated with the originals, it separates characters along interpretable axes (specific-person vs. archetype), and it predicts text-observable features with adj. R^{2} ~0.77. But it is different in kind from what Lu's space captures: the logit lens decodes Lu's directions to clean vocabulary semantics and the residual's to noise; steering with Lu's axis controls assistant/character behavior while residual directions don't.
 
