@@ -126,7 +126,7 @@ for threshold in [0.5, 0.7, 0.8, 0.9, 0.95]:
 print(f"\nFiction PC1: {fvar[0]:.1%}, Lu PC1: {lu_var_exp[0]:.1%}")
 #+end_src
 
-Both have a dominant PC1 (~21%), and neither spectrum has a sharp elbow --- both decay gradually. Across all 1,268 characters, fiction appears more compressible than Lu's roles (13 PCs for 70% vs Lu's 21), but this is misleading: universe clustering soaks up variance. The fairer comparison is within-universe:
+Both have a dominant PC1 (~21%), and neither spectrum has a sharp elbow --- both decay gradually. Across all 1,268 characters, fiction needs 13 PCs for 70% vs Lu's 21 --- partly because universe separation is a large, compressible source of variance. Within individual universes (~100 characters each), the compression is more modest:
 
 #+begin_src python
 print(f"{'Universe':>20s}  {'N':>4s}  {'PC1':>5s}  {'70%':>5s}  {'90%':>5s}  {'max dim':>8s}")
