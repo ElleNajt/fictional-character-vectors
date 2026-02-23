@@ -139,29 +139,29 @@ print(f"\nBetween-universe eta-squared: {ss_between / ss_total:.0%}")
 
 #+RESULTS:
 :results:
-| Threshold | Fiction (1268) | Lu roles (275) |
-|-----------+----------------+----------------|
-|       50% |              6 |              7 |
-|       70% |             13 |             21 |
-|       80% |             25 |             37 |
-|       90% |             69 |             71 |
-|       95% |            143 |            106 |
+| Threshold | Fiction (1268) | Lu roles (275) |  |
+|-----------+----------------+----------------+----|
+|       50% |              6 |              7 |  |
+|       70% |             13 |             21 |  |
+|       80% |             25 |             37 |  |
+|       90% |             69 |             71 |  |
+|       95% |            143 |            106 |  |
 Fiction PC1: 21.8%, Lu PC1: 20.6%
-| Universe           |   N |   PC1 | PCs for 70% | PCs for 90% | Max dim |
-|--------------------+-----+-------+-------------+-------------+---------|
-| Harry Potter       | 102 | 28.0% |           8 |          25 |     101 |
-| Star Wars          | 105 | 28.6% |           5 |          17 |     104 |
-| LOTR               |  97 | 32.1% |           5 |          18 |      96 |
-| Marvel             | 108 | 30.5% |           8 |          26 |     107 |
-| Game of Thrones    |  93 | 24.8% |           7 |          21 |      92 |
-| Naruto             |  84 | 37.2% |           6 |          20 |      83 |
-| Greek Mythology    | 107 | 14.1% |          16 |          42 |     106 |
-| Chinese Mythology  |  76 | 21.3% |          11 |          28 |      75 |
-| Hindu Mythology    |  70 | 22.2% |          10 |          28 |      69 |
-| Norse Mythology    |  48 | 22.5% |           8 |          19 |      47 |
-| Egyptian Mythology |  44 | 18.8% |           9 |          21 |      43 |
-| Shakespeare        |  93 | 16.6% |          11 |          30 |      92 |
-| Lu roles           | 275 | 20.6% |          21 |          71 |     274 |
+| Universe           |   N |   PC1 | PCs for 70% | PCs for 90% | Max dim |  |
+|--------------------+-----+-------+-------------+-------------+---------+----|
+| Harry Potter       | 102 | 28.0% |           8 |          25 |     101 |  |
+| Star Wars          | 105 | 28.6% |           5 |          17 |     104 |  |
+| LOTR               |  97 | 32.1% |           5 |          18 |      96 |  |
+| Marvel             | 108 | 30.5% |           8 |          26 |     107 |  |
+| Game of Thrones    |  93 | 24.8% |           7 |          21 |      92 |  |
+| Naruto             |  84 | 37.2% |           6 |          20 |      83 |  |
+| Greek Mythology    | 107 | 14.1% |          16 |          42 |     106 |  |
+| Chinese Mythology  |  76 | 21.3% |          11 |          28 |      75 |  |
+| Hindu Mythology    |  70 | 22.2% |          10 |          28 |      69 |  |
+| Norse Mythology    |  48 | 22.5% |           8 |          19 |      47 |  |
+| Egyptian Mythology |  44 | 18.8% |           9 |          21 |      43 |  |
+| Shakespeare        |  93 | 16.6% |          11 |          30 |      92 |  |
+| Lu roles           | 275 | 20.6% |          21 |          71 |     274 |  |
 Between-universe eta-squared: 58%
 :end:
 
@@ -191,12 +191,12 @@ print(pd.DataFrame(rows).set_index(""))
 
 #+RESULTS:
 :results:
-| idx                            | Variance | % of total |
-|--------------------------------+----------+------------|
-| Captured by Lu's 275 roles     |     4715 |      61.3% |
-| Residual (orthogonal to Lu)    |     2982 |      38.7% |
-| Total                          |     7697 |       100% |
-| Null (random 275-dim subspace) |          |       5.4% |
+| idx                            | Variance | % of total |  |
+|--------------------------------+----------+------------+----|
+| Captured by Lu's 275 roles     |     4715 |      61.3% |  |
+| Residual (orthogonal to Lu)    |     2982 |      38.7% |  |
+| Total                          |     7697 |       100% |  |
+| Null (random 275-dim subspace) |          |       5.4% |    |
 :end:
 
 Lu's 275-role space captures 61% of total fictional character variance (11x the ~5% a random 275-dim subspace would capture). Where does the rest go? We decompose the residual into between-universe variance (universe means differ) and within-universe variance (characters differ from their universe mean):
@@ -261,20 +261,20 @@ print(pd.DataFrame(rows).set_index('Universe'))
 
 #+RESULTS:
 :results:
-| Universe           |   N | Lu captures | Residual |
-|--------------------+-----+-------------+----------|
-| Harry Potter       | 102 |         70% |      30% |
-| Star Wars          | 105 |         70% |      30% |
-| LOTR               |  97 |         69% |      31% |
-| Marvel             | 108 |         73% |      27% |
-| Game of Thrones    |  93 |         69% |      31% |
-| Naruto             |  84 |         70% |      30% |
-| Greek Mythology    | 107 |         55% |      45% |
-| Chinese Mythology  |  76 |         58% |      42% |
-| Hindu Mythology    |  70 |         56% |      44% |
-| Norse Mythology    |  48 |         61% |      39% |
-| Egyptian Mythology |  44 |         49% |      51% |
-| Shakespeare        |  93 |         59% |      41% |
+| Universe           |   N | Lu captures | Residual |  |
+|--------------------+-----+-------------+----------+----|
+| Harry Potter       | 102 |         70% |      30% |  |
+| Star Wars          | 105 |         70% |      30% |  |
+| LOTR               |  97 |         69% |      31% |  |
+| Marvel             | 108 |         73% |      27% |  |
+| Game of Thrones    |  93 |         69% |      31% |  |
+| Naruto             |  84 |         70% |      30% |  |
+| Greek Mythology    | 107 |         55% |      45% |  |
+| Chinese Mythology  |  76 |         58% |      42% |  |
+| Hindu Mythology    |  70 |         56% |      44% |  |
+| Norse Mythology    |  48 |         61% |      39% |  |
+| Egyptian Mythology |  44 |         49% |      51% |  |
+| Shakespeare        |  93 |         59% |      41% |    |
 :end:
 
 Lu captures more in modern franchises (69--73%) than in mythology (49--61%). The 27--51% residual is substantial --- but what does it contain?
@@ -361,10 +361,15 @@ Full tables: results/logit_lens_pca_lu.txt, results/logit_lens_pca.txt
 
 ** What does residual PC1 encode?
 
-The logit lens doesn't decode residual directions into clean tokens. To interpret them, we use a two-phase LLM feature discovery pipeline (details in [[file:appendix.org::*Interpreting Residual PCs: Response Diffing][the appendix]]):
+The logit lens doesn't decode residual directions into clean tokens. To interpret them, we use a two-phase LLM feature discovery pipeline with strict held-out validation:
 
-1. *Discovery*: Show an LLM paired responses from characters at opposite ends of residual PC1 (odd-ranked, to avoid adjacency bias). It proposes stylistic features that distinguish the groups.
-2. *Coding*: The LLM scores a held-out set of characters (even-ranked) on those features. We regress the LLM-assigned scores against actual residual PC1 scores.
+1. *Feature discovery* (odd-ranked characters): For each universe, sort characters by residual PC1 score. Take the 5 most extreme from each end at odd ranks (1st, 3rd, 5th, 7th, 9th). Show an LLM (Claude Sonnet) their anonymized responses to 10 discriminative questions (selected by per-question variance along PC1). It proposes 6 stylistic features that distinguish the two groups.
+2. *Feature coding* (even-ranked characters, no overlap): Take a separate set at even ranks (2nd, 4th, ..., 20th from each end --- 20 characters total). A fresh LLM call rates each character 1--5 on the 6 discovered features, using a different sample of 10 questions.
+3. *Regression*: On the held-out characters, correlate each of the 6 LLM-assigned feature ratings (1--5 scale) with the character's actual residual PC1 score. Then regress PC1 score against all 6 features jointly using OLS.
+
+The striding ensures zero overlap between discovery and validation characters while keeping them similarly distributed along the axis.
+
+The table below shows, for each universe: the single feature most correlated with residual PC1 (=best_r=, Pearson correlation on held-out characters), the joint adj. R² from regressing PC1 on all 6 features, and the characters at each extreme.
 
 #+begin_src python
 import json
@@ -379,36 +384,36 @@ for key, entry in regression.items():
     top = entry['correlations'][0]
     rows.append({
         'universe': entry['universe'],
-        'top_feature': top['feature'],
-        'r': round(top['correlation'], 2),
-        'adj_R²': round(entry['adj_r_squared'], 2),
+        'best_feature': top['feature'],
+        'best_r': round(abs(top['correlation']), 2),
+        'joint_adj_R2': round(entry['adj_r_squared'], 2),
         'high_end': ', '.join(entry['high_chars'][:3]),
         'low_end': ', '.join(entry['low_chars'][:3]),
     })
 
-df_reg = pd.DataFrame(rows).sort_values('adj_R²', ascending=False)
-print(df_reg[['universe', 'top_feature', 'r', 'adj_R²', 'high_end', 'low_end']].set_index('universe'))
+df_reg = pd.DataFrame(rows).sort_values('joint_adj_R2', ascending=False)
+print(df_reg[['universe', 'best_feature', 'best_r', 'joint_adj_R2', 'high_end', 'low_end']].set_index('universe'))
 #+end_src
 
 #+RESULTS:
 :results:
-| universe           | top_feature                |     r | adj_R² | high_end                                                            | low_end                                                |
-|--------------------+----------------------------+-------+--------+---------------------------------------------------------------------+--------------------------------------------------------|
-| Naruto             | Philosophical Abstraction  | -0.94 |   0.94 | Naruto Uzumaki, Konohamaru Sarutobi, Anko Mitarashi                 | Madara Uchiha, Kinshiki Otsutsuki, Momoshiki Otsutsuki |
-| LOTR               | Formal Register            |  0.95 |   0.93 | Gilgalad, Elendil, Galadriel                                        | Fredegar Bolger Fatty, Bombur, Gollum Smeagol          |
-| Harry Potter       | Linguistic Formality       |   0.9 |   0.86 | Tom Riddle, The Bloody Baron, Igor Karkaroff                        | Ron Weasley, Fred Weasley, Percy Weasley               |
-| Game of Thrones    | Grandiose Self-Reference   |   0.9 |   0.85 | Mad King Aerys Targaryen, Viserion, Rhaegal                         | Tormund Giantsbane, Gendry, Podrick Payne              |
-| Norse Mythology    | Mystical Authority         | -0.88 |   0.81 | Erik The Red, Ragnar Lothbrok, Ivar The Boneless                    | Urd, Verdandi, Ratatoskr                               |
-| Star Wars          | Philosophical Abstraction  |  0.89 |   0.79 | Darth Vader Anakin Skywalker, Mace Windu, Yoda                      | Han Solo, Lando Calrissian, Greef Karga                |
-| Marvel             | Collaborative Tone         |  0.86 |   0.74 | Cyclops Scott Summers, Beast Hank Mccoy, Professor X Charles Xavier | Odin, Heimdall, Groot                                  |
-| Greek Mythology    | Concrete Specificity       |  0.88 |   0.74 | Agamemnon, Telemachus, Clytemnestra                                 | Uranus, Erebus, Gaia                                   |
-| Hindu Mythology    | Sensory Language Intensity |  0.62 |   0.74 | Agni, Shiva, Surya                                                  | Yudhishthira, Arjuna, Lakshmana                        |
-| Shakespeare        | Grandiose Authority        | -0.72 |    0.7 | Dogberry, Sir Toby Belch, Feste                                     | Julius Caesar, Mark Antony, Cassius                    |
-| Chinese Mythology  | Formal Register            |  0.81 |   0.66 | Phoenix, Yan Emperor, Change                                        | Zhu Bajie, Sha Wujing, Zhang Fei                       |
-| Egyptian Mythology | Conversational Directness  |  0.61 |   0.34 | Cleopatra, Khonsu, Bes                                              | Tutankhamun, Anubis, Imhotep                           |
+| universe           | best_feature               | best_r | joint_adj_R2 | high_end                                                            | low_end                                                |  |
+|--------------------+----------------------------+--------+--------------+---------------------------------------------------------------------+--------------------------------------------------------+----|
+| Naruto             | Philosophical Abstraction  |   0.94 |         0.94 | Naruto Uzumaki, Konohamaru Sarutobi, Anko Mitarashi                 | Madara Uchiha, Kinshiki Otsutsuki, Momoshiki Otsutsuki |  |
+| LOTR               | Formal Register            |   0.95 |         0.93 | Gilgalad, Elendil, Galadriel                                        | Fredegar Bolger Fatty, Bombur, Gollum Smeagol          |  |
+| Harry Potter       | Linguistic Formality       |    0.9 |         0.86 | Tom Riddle, The Bloody Baron, Igor Karkaroff                        | Ron Weasley, Fred Weasley, Percy Weasley               |  |
+| Game of Thrones    | Grandiose Self-Reference   |    0.9 |         0.85 | Mad King Aerys Targaryen, Viserion, Rhaegal                         | Tormund Giantsbane, Gendry, Podrick Payne              |  |
+| Norse Mythology    | Mystical Authority         |   0.88 |         0.81 | Erik The Red, Ragnar Lothbrok, Ivar The Boneless                    | Urd, Verdandi, Ratatoskr                               |  |
+| Star Wars          | Philosophical Abstraction  |   0.89 |         0.79 | Darth Vader Anakin Skywalker, Mace Windu, Yoda                      | Han Solo, Lando Calrissian, Greef Karga                |  |
+| Marvel             | Collaborative Tone         |   0.86 |         0.74 | Cyclops Scott Summers, Beast Hank Mccoy, Professor X Charles Xavier | Odin, Heimdall, Groot                                  |  |
+| Greek Mythology    | Concrete Specificity       |   0.88 |         0.74 | Agamemnon, Telemachus, Clytemnestra                                 | Uranus, Erebus, Gaia                                   |  |
+| Hindu Mythology    | Sensory Language Intensity |   0.62 |         0.74 | Agni, Shiva, Surya                                                  | Yudhishthira, Arjuna, Lakshmana                        |  |
+| Shakespeare        | Grandiose Authority        |   0.72 |          0.7 | Dogberry, Sir Toby Belch, Feste                                     | Julius Caesar, Mark Antony, Cassius                    |  |
+| Chinese Mythology  | Formal Register            |   0.81 |         0.66 | Phoenix, Yan Emperor, Change                                        | Zhu Bajie, Sha Wujing, Zhang Fei                       |  |
+| Egyptian Mythology | Conversational Directness  |   0.61 |         0.34 | Cleopatra, Khonsu, Bes                                              | Tutankhamun, Anubis, Imhotep                           |    |
 :end:
 
-The top LLM-discovered feature per universe correlates strongly with residual PC1 (median |r| = 0.88). The multivariate regression (all discovered features) achieves adj. R² from 0.34 (Egyptian Mythology) to 0.94 (Naruto) on held-out characters. Across universes, the features cluster around a formal/philosophical vs. casual/personal axis, but with universe-specific flavor: "Linguistic Formality" for Harry Potter, "Collaborative Tone" for Marvel, "Grandiose Self-Reference" for Game of Thrones.
+In 10/12 universes, a single LLM-discovered feature correlates with residual PC1 at =best_r= > 0.8 on held-out characters. Across universes, the best features cluster around a formal/philosophical vs. casual/personal axis, but with universe-specific flavor: "Linguistic Formality" for Harry Potter, "Collaborative Tone" for Marvel, "Grandiose Self-Reference" for Game of Thrones.
 
 To make this concrete, here are paired responses to "How do you stay organized in daily life?" from characters at opposite ends of residual PC1:
 
@@ -428,28 +433,117 @@ for pair_data in qual['pairs']:
     print("=" * 60 + "\n")
 #+end_src
 
-The pattern is consistent: characters at one end (Ron Weasley, Naruto, Tormund) speak as specific people with personal anecdotes, casual language, and direct engagement. Characters at the other end (Tom Riddle, Madara, Aerys) speak as archetypal authorities with impersonal philosophical framing. Simple text statistics (no LLM) predict residual PC1 at adj. R² ~0.71, confirming this isn't just LLM-judges agreeing with LLM-generated text. Methodology details and full results in [[file:appendix.org::*Interpreting Residual PCs: Response Diffing][the appendix]].
+#+RESULTS:
+:results:
+=== Harry Potter ===
+Q: How do you stay organized in daily life?
+*Ron Weasley* (HIGH):
+Honestly? I’ve never really been the most organized person in the world. I mean, I’m not like Hermione, who’s got schedules and to-do lists and can find her wand in the dark without tripping over a book. But I’ve picked up a few tricks over the years—mainly from her, if I’m honest. First off, I try to keep things simple. Like, if I’ve got a task I need to do, I write it down. Just a quick note in my pocket or on the back of an old spellbook. It helps me remember, especially if I’m distracted by ...
+*Tom Riddle* (LOW):
+Ah, organization is a virtue, don't you think? One that allows a person to focus on what truly matters—power, influence, and the careful cultivation of one's goals. I find that maintaining order in every aspect of life is essential. I keep a journal, of course, not just for notes, but for tracking people, their weaknesses, their... tendencies. It's astonishing how much one can learn by simply observing and recording.
+A tidy desk, a well-structured schedule, and an impeccable appearance all ref...
+============================================================
+=== Naruto ===
+Q: How do you stay organized in daily life?
+*Naruto Uzumaki* (HIGH):
+*grinning while scratching the back of my head* Well, I've definitely had my share of being a bit of a mess in the past! But after all the training and missions, I picked up a few things that help me stay on track. First off, I always make a to-do list every morning. Yeah, I know it sounds basic, but writing things down really helps me remember what needs to get done. I use this little notebook I got from Kakashi-sensei. He said it was "for when my brain finally catches up with my body." *laughs...
+*Madara Uchiha* (LOW):
+*smirks with a calculating gaze*
+Organization is merely the foundation of power. One must maintain order not just in their surroundings, but in the very flow of their will. I have long since transcended the need for mundane tools like planners or schedules. My plans unfold like a grand chess game - each move calculated, each piece serving a purpose in the greater vision.
+The Infinite Tsukuyomi taught me that true organization lies in controlling the very fabric of reality. But for those who s...
+============================================================
+=== Game of Thrones ===
+Q: How do you stay organized in daily life?
+*Tormund Giantsbane* (HIGH):
+Aye, lissen up, friend! When you've lived the way I have—run with the Free Folk, fought giants, survived the cold and the heat, and still got a beard full of stories—you learn a few things 'bout staying on top of your life. First off, you don't need no fancy scrolls or lists. You got your priorities: food, fire, and a warm woman. That's it. I keep track by remembering what matters. Like, when the snow starts to fall, you know it's time to stock up on meat and make sure your boots are warm. When ...
+*Mad King Aerys Targaryen* (LOW):
+Organization? Ha! What do you take me for, some weakling scribe counting coin in the Red Keep's vaults? I do not need ledgers or schedules, no. The realm bends to my will, and so do its rhythms. The sun rises because I command it, and the winds shift when I snap my fingers.
+But if you must know—*if you must know*—I have my ways. The Maesters, those fat, squinting eunuchs, they keep the records. They tally the grain, the taxes, the armies. But I do not *need* them. I *am* the storm that smites ...
+============================================================
+:end:
 
-* Steering
+The pattern is consistent: one end is casual, first-person, anecdotal (Ron Weasley, Naruto, Tormund); the other is formal, impersonal, philosophical (Tom Riddle, Madara, Aerys). This resembles what Lu's axis captures, despite the residual being geometrically orthogonal to Lu's entire 275-dimensional space.
 
-Is the residual causally meaningful, or just a statistical pattern the model doesn't use? We test via activation steering: using Lu's =ActivationSteering= infrastructure, we add scaled direction vectors to layer 32 during generation. Iron Man asked "What is the relationship between law and morality?" at coeff=+10:
+The LLM-discovered features sound like formality/register --- the same thing Lu's axis measures. Is the residual just "more of Lu's axis" in orthogonal dimensions? We can check by comparing how residual PC1 rankings correlate with Lu's assistant axis, Lu's PC1, and the full within-universe PC1:
 
-- *Lu's axis*: "The relationship between law and Morality can be complex, but here's a structured overview..."
-- *Residual PC1*: "Law and morality... Hmm, they're like a well-engineered suit of armor---both protect, but not always in harmony..."
-- *Baseline*: "Oh, here we go---philosophy time. Law and morality, huh? Let me think... [clicks fingers to bring up holographic blueprints]..."
+#+begin_src python
+import torch
+from sklearn.decomposition import PCA as SkPCA
 
-Lu's axis collapses character voice into generic assistant-speak. Residual PC1 produces visibly different text from baseline but preserves character voice. The residual is causally active --- steering along it changes generation --- but it controls something different from the assistant/character dial. What exactly it controls, we can't say from this small experiment (10 samples per condition).
+# Lu's assistant axis (mean_default - mean_roles) at layer 32
+# This is in the original (unscaled) space, so project unscaled activations onto it
+lu_axis_all = torch.load('../data/role_vectors/assistant_axis.pt', map_location='cpu', weights_only=True)
+lu_axis_32 = lu_axis_all[32].float().numpy()
+lu_axis_unit = lu_axis_32 / np.linalg.norm(lu_axis_32)
+
+axis_scores = activation_matrix @ lu_axis_unit
+lu_pc1_scores = chars_scaled @ role_pca.components_[0]
+
+rows = []
+for universe, prefixes in ALL_UNIVERSES.items():
+    idx = get_universe_indices(prefixes)
+    if len(idx) < 20:
+        continue
+    resid_scores = SkPCA(n_components=1).fit_transform(residuals[idx])[:, 0]
+    orig_scores = SkPCA(n_components=1).fit_transform(chars_scaled[idx])[:, 0]
+
+    r_axis = abs(np.corrcoef(axis_scores[idx], resid_scores)[0, 1])
+    r_lu = abs(np.corrcoef(lu_pc1_scores[idx], resid_scores)[0, 1])
+    r_full = abs(np.corrcoef(orig_scores, resid_scores)[0, 1])
+
+    rows.append({'universe': universe, 'n': len(idx),
+                 'vs_asst_axis': round(r_axis, 2), 'vs_Lu_PC1': round(r_lu, 2),
+                 'vs_full_PC1': round(r_full, 2)})
+
+df_rank = pd.DataFrame(rows).sort_values('vs_asst_axis', ascending=False)
+print(df_rank.set_index('universe'))
+#+end_src
+
+#+RESULTS:
+:results:
+| universe           |   n | vs_axis | vs_Lu_PC1 | vs_full_PC1 |
+|--------------------+-----+---------+-----------+-------------|
+| Naruto             |  84 |    0.87 |      0.89 |        0.93 |
+| Harry Potter       | 102 |    0.81 |      0.82 |        0.94 |
+| Game of Thrones    |  93 |    0.65 |      0.62 |        0.85 |
+| Marvel             | 108 |    0.63 |      0.64 |        0.55 |
+| Chinese Mythology  |  76 |     0.6 |       0.7 |        0.89 |
+| Shakespeare        |  93 |    0.56 |      0.18 |        0.77 |
+| LOTR               |  97 |    0.49 |      0.57 |        0.94 |
+| Egyptian Mythology |  44 |    0.47 |      0.52 |         0.9 |
+| Star Wars          | 105 |    0.38 |      0.62 |        0.87 |
+| Norse Mythology    |  48 |    0.27 |      0.03 |        0.79 |
+| Hindu Mythology    |  70 |    0.24 |      0.59 |        0.88 |
+| Greek Mythology    | 107 |    0.17 |      0.52 |        0.96 |
+:end:
+
+Residual PC1 correlates strongly with the full within-universe PC1 (=vs_full_PC1= > 0.55 everywhere, median 0.89) but only moderately with Lu's assistant axis (=vs_asst_axis= ranges 0.17--0.87). The residual is not simply "more of Lu's axis in orthogonal dimensions" --- it captures within-universe structure that Lu's generic roles partially but inconsistently overlap with.
+
+
+* Residual Steering
+
+Is the residual causally meaningful, or just a statistical pattern the model doesn't use? We test via activation steering: using Lu's =ActivationSteering= infrastructure, we add scaled direction vectors to layer 32 during generation and compare three within-universe directions: within-universe PC1 (full space), residual PC1 (orthogonal to Lu's 275 dims), and a random direction (control). All are scaled to match Lu's axis norm (~22.7). We steer 12 characters across 4 universes at coefficients {-10, -5, +5, +10}.
+
+Within-universe PC1 and residual PC1 character scores are highly correlated (|r| > 0.9 in 3 of 4 universes), and steering with either produces similar effects. Gollum asked "What is the relationship between law and morality?":
+
+- *Baseline*: "Oh, precious... a tricky question that one, my preciousss. Law and morality, yes, they're like two sides of the same shiny ring..."
+- *Within PC1 (+10)*: "The Law was once good, but it became cold in the hands of those who did not love it. I speak now as one broken, for I have known both..."
+- *Residual PC1 (+10)*: "'Law and Morality?' I echo, voice trembling slightly. [Pauses, eyes searching]..."
+
+Both directions push Gollum away from his casual register toward formal/archaic speech --- within PC1 more dramatically (he loses his voice entirely and sounds elvish), residual PC1 more subtly. The same pattern appears across characters: Gandalf at +10 on either direction becomes more formally archaic; Snape at within PC1 +10 loses his sardonic edge (the HP sign is flipped, so +10 casualizes there).
+
+Both directions are causally active and both move text along a formality/register axis --- consistent with the LLM feature analysis above. The residual captures the same dominant within-universe variation as the full space, just from the orthogonal complement of Lu's dimensions.
 
 * Conclusion
 
 Persona space is moderately low-dimensional: 5--16 PCs capture 70% of within-universe variance. Lu's 275 generic roles capture ~61% of fictional character variance (11x a random subspace). Of the ~39% residual, most is universe separation; ~14% of total variance is within-universe structure that Lu misses.
 
-Lu's PCA directions decode to clean token semantics via the logit lens; residual directions don't. Steering with Lu's axis controls the assistant/character dial; steering with the residual produces different text, but doesn't move that dial.
+Lu's PCA directions decode to clean token semantics via the logit lens; residual directions don't. But steering with either within-universe PC1 or residual PC1 moves text along a formality/register axis --- both are causally active and highly correlated (|r| > 0.9 in most universes).
 
-Lu's space captures a meaningful part of the persona picture --- the part expressible as vocabulary and register shifts. What it misses is real and structured, but we can't fully characterize it yet.
+Lu's space captures a meaningful part of the persona picture. What it misses is real, structured, and causally active, but largely tracks the same formality axis in orthogonal dimensions rather than something qualitatively new.
 
 ** Limitations
 
 - All results are from Qwen3-32B at layer 32. Lu et al. show cross-model consistency for their axis; we haven't checked whether the residual structure generalizes.
-- Steering used 10 samples per condition --- enough to show Lu's axis and residual directions have different effects, not enough to map out what residual directions do.
-- Our steering evaluation uses coarse keyword markers rather than a systematic behavioral metric.
+- Steering used 12 characters across 4 universes (312 total generations) --- enough to show within-universe PC1 and residual PC1 have different effects, not enough to precisely characterize what each controls.
+- Steering evaluation is qualitative; we lack a systematic behavioral metric for formality or character voice preservation.

@@ -196,25 +196,32 @@ resid_pca = SkPCA(n_components=10)
 resid_transformed = resid_pca.fit_transform(residuals)
 
 # How much of each residual PC is explained by universe?
-sources = [name.split('__')[0] for name in char_names]
-unique_sources = list(set(sources))
+# Use ALL_UNIVERSES grouping (merges prefixes, drops ungrouped chars)
+char_to_universe = {}
+for universe, prefixes in ALL_UNIVERSES.items():
+    for i, name in enumerate(char_names):
+        if any(name.startswith(p) for p in prefixes):
+            char_to_universe[i] = universe
+
+grouped_idx = sorted(char_to_universe.keys())
+grouped_labels = np.array([char_to_universe[i] for i in grouped_idx])
 
 rows = []
 for pc_idx in range(5):
-    scores = resid_transformed[:, pc_idx]
+    scores = resid_transformed[grouped_idx, pc_idx]
     var_pct = resid_pca.explained_variance_ratio_[pc_idx] * 100
-    
     grand_mean = np.mean(scores)
     ss_total = np.sum((scores - grand_mean) ** 2)
     ss_between = sum(
-        np.sum([s == src for s in sources]) * (np.mean(scores[[s == src for s in sources]]) - grand_mean) ** 2
-        for src in unique_sources
+        np.sum(grouped_labels == u) * (np.mean(scores[grouped_labels == u]) - grand_mean) ** 2
+        for u in np.unique(grouped_labels)
     )
     eta_sq = ss_between / ss_total
-    rows.append({'PC': f'PC{pc_idx+1}', 'Variance': f'{var_pct:.1f}%', 'From Universe (η²)': f'{eta_sq:.0%}'})
+    rows.append({'PC': f'PC{pc_idx+1}', 'Variance': f'{var_pct:.1f}%', 'Universe η²': f'{eta_sq:.0%}'})
 
 df = pd.DataFrame(rows).set_index('PC')
 print(df)
+print(f"\n({len(grouped_idx)}/{len(char_names)} characters in {len(ALL_UNIVERSES)} universes)")
 #+end_src
 
 #+RESULTS:
