@@ -194,7 +194,7 @@ Takeaways:
 
 ** How Sensitive Are Results to the Question Battery?
 
-Each character vector is a mean over 240 question-response activations. How much does the choice of questions matter? For each subset size, we draw 200 random subsets of questions, compute each character's mean projection onto PC1, and correlate with the full-battery ranking.
+Each character vector is a mean over 240 question-response activations. How much does the choice of questions matter? For each subset size, we draw 200 random subsets of questions, compute each character's mean projection onto PCs 1--5, and correlate with the full-battery ranking.
 
 #+begin_src python
 import json
@@ -202,28 +202,28 @@ import json
 with open('../results/question_subset_sweep.json') as f:
     sweep = json.load(f)
 
-# Aggregate across universes: for each subset size, show median and worst-case
+# Aggregate across universes: for each subset size and PC, show median correlation
 sizes_to_show = [1, 5, 10, 20, 50, 120]
 rows = []
 for size in sizes_to_show:
-    medians = []
-    p5s = []
-    for universe, udata in sweep.items():
-        for s in udata['sweep']:
-            if s['size'] == size:
-                medians.append(s['median'])
-                p5s.append(s['p5'])
-    rows.append({
-        '# Questions': size,
-        'Median r': f"{np.median(medians):.4f}",
-        'Worst median': f"{min(medians):.4f}",
-        'Worst p5': f"{min(p5s):.4f}",
-    })
+    row = {'# Questions': size}
+    for pc_i in range(5):
+        pc_label = f"PC{pc_i+1}"
+        medians = []
+        for universe, udata in sweep.items():
+            for s in udata['sweeps'][pc_label]:
+                if s['size'] == size:
+                    medians.append(s['median'])
+        row[pc_label] = f"{np.median(medians):.4f}"
+    rows.append(row)
 print(pd.DataFrame(rows).set_index('# Questions'))
-print(f"\n(200 random draws per size, {len(sweep)} universes, correlation with full-battery PC1)")
+print(f"\n(median correlation across 12 universes, 200 random draws per size)")
 #+end_src
 
-Even a single random question recovers PC1 character rankings at r = 0.97. Five questions gets to r = 0.995. The question battery is massively redundant: the persona signal is spread nearly uniformly across all 240 questions.
+#+ATTR_HTML: :width 700
+[[file:../results/question_subset_sweep.png]]
+
+Even a single random question recovers character rankings at r > 0.97 --- and this holds for PCs 1 through 5, not just the dominant direction. Five questions gets to r > 0.99 for all PCs. The question battery is massively redundant: the persona signal is spread nearly uniformly across all 240 questions.
 
 * How Much Does Lu's Space Capture?
 
@@ -429,7 +429,7 @@ PC1 is consistently about formality, register, and gravitas across universes: "L
 
 * Conclusion
 
-Persona space is moderately low-dimensional: 5--16 PCs capture 70% of within-universe variance. The question battery is massively redundant --- even a single random question recovers PC1 rankings at r = 0.97, and five questions gets to r = 0.995.
+Persona space is moderately low-dimensional: 5--16 PCs capture 70% of within-universe variance. The question battery is massively redundant --- even a single random question recovers PC1--5 rankings at r > 0.97, and five questions gets to r > 0.99.
 
 Lu's 275 generic roles capture ~61% of fictional character variance (11x a random subspace). Of the ~39% residual, most is universe separation; ~14% of total variance is within-universe structure orthogonal to Lu.
 
