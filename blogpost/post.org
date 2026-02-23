@@ -398,9 +398,9 @@ Even PC5, which lives only ~63% inside Lu's space, shows Lu-part / orthogonal-pa
 
 * What Do the Directions Encode?
 
-The geometric analysis tells us the space is low-dimensional and Lu's roles cover it. But what are the directions?
+The geometric analysis tells us the residual is an echo of Lu's space. But an echo of *what*? The question battery redundancy helps here: since any 5 questions carry the full signal, we can show an LLM a handful of responses from extreme characters and ask what distinguishes them.
 
-We use an LLM (Claude Sonnet 4 via OpenRouter) to discover interpretable features of each PC direction. For each universe: (1) show the LLM responses from characters at opposite extremes of PC1, ask it to propose 6 distinguishing features; (2) on held-out characters (even-ranked, not seen during discovery), rate each on those features (1--5); (3) regress PC scores on feature ratings.
+For each universe: (1) show the LLM responses from characters at opposite extremes of a PC direction, ask it to propose 6 distinguishing features; (2) on held-out characters (even-ranked, not seen during discovery), rate each on those features (1--5); (3) regress PC scores on feature ratings. These are the residual PCs --- the within-universe structure orthogonal to Lu's space.
 
 #+begin_src python
 import json
@@ -408,24 +408,37 @@ import json
 with open('../results/feature_regression.json') as f:
     reg = json.load(f)
 
-rows = []
-for key, data in reg.items():
-    if data['pc'] != 1:
-        continue
-    # Find top feature by absolute correlation
-    top = max(data['correlations'], key=lambda x: x.get('abs_correlation', 0) if not (x.get('abs_correlation') is None or x.get('abs_correlation') != x.get('abs_correlation')) else 0)
-    rows.append({
-        'Universe': data['universe'],
-        'R²': f"{data['r_squared']:.2f}",
-        'Top feature': top['feature'],
-        'High end': ', '.join(data['high_chars'][:3]),
-        'Low end': ', '.join(data['low_chars'][:3]),
-    })
-print(pd.DataFrame(rows).set_index('Universe'))
-print(f"\n(n=20 held-out characters per universe, 6 LLM-discovered features)")
+def best_feature(data):
+    valid = [c for c in data['correlations']
+             if c.get('abs_correlation') is not None
+             and c['abs_correlation'] == c['abs_correlation']]  # exclude NaN
+    return max(valid, key=lambda x: x['abs_correlation'])['feature'] if valid else '—'
+
+for pc_num in [1, 2]:
+    rows = []
+    for key, data in reg.items():
+        if data['pc'] != pc_num:
+            continue
+        rows.append({
+            'Universe': data['universe'],
+            'R²': f"{data['r_squared']:.2f}",
+            'Top feature': best_feature(data),
+            'High end': ', '.join(data['high_chars'][:3]),
+            'Low end': ', '.join(data['low_chars'][:3]),
+        })
+    df = pd.DataFrame(rows).set_index('Universe')
+    print(f"=== Residual PC{pc_num} ===")
+    print(df)
+    print()
+
+print(f"(n=20 held-out characters per universe, 6 LLM-discovered features)")
 #+end_src
 
-PC1 is consistently about formality, register, and gravitas across universes: "Linguistic Formality" in Harry Potter, "Formal Register" in LOTR and Star Wars, "Mystical Authority" in Norse mythology. The features predict held-out PC scores at R² = 0.82--0.96, meaning these directions are LLM-interpretable. The question battery's redundancy works in our favor here: since any single question carries the same signal, reading a handful of responses from extreme characters is enough to identify what the axis encodes.
+Residual PC1 is consistently about formality, register, and gravitas: "Linguistic Formality" in Harry Potter, "Formal Register" in LOTR and Star Wars, "Mystical Authority" in Norse mythology. R² = 0.82--0.96, meaning the directions are LLM-interpretable.
+
+PC2 is more varied: conversational warmth in LOTR (R² = 0.96; hobbits vs. monsters), philosophical depth in Harry Potter (R² = 0.89; Ravenclaw professors vs. Dursleys), darkness/social warmth in Norse mythology (R² = 0.83). PC2 captures different things in different universes, but remains interpretable.
+
+Since the residual PC1 ranks characters the same way as the Lu-space component (correlation > 0.9), this formality axis is likely what Lu's space encodes locally within each universe --- consistent with Lu's claim that their PC1 is the "assistant axis." The residual is not just geometrically redundant; it's an echo of formality.
 
 * Conclusion
 
