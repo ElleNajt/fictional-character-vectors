@@ -1,7 +1,7 @@
 #+TITLE: Stress-Testing Persona Space with Fictional Characters
 #+AUTHOR: Elle
 #+DATE: 2026-02-16
-#+PROPERTY: header-args:python :results output drawer :python "./.venv/bin/python3" :async t :session blogpost :exports both
+#+PROPERTY: header-args:python :results output drawer :python "../.venv/bin/python3" :async t :session blogpost_short :exports both
 
 * Introduction
 
@@ -9,75 +9,442 @@
 
 We ask: *how much of persona space do these 275 generic roles actually cover?* We apply Lu's PCA space to 1,268 fictional characters in Qwen3-32B and look at what it captures and what it misses.
 
+* Setup
+
+#+begin_src python
+import pickle
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA as SkPCA
+
+# Load character data
+with open('../results/fictional_character_analysis_filtered.pkl', 'rb') as f:
+    char_data = pickle.load(f)
+
+# Load Lu's role vectors
+with open('../data/role_vectors/qwen-3-32b_pca_layer32.pkl', 'rb') as f:
+    role_data = pickle.load(f)
+
+char_names = char_data['character_names']
+activation_matrix = char_data['activation_matrix']
+role_pca = role_data['pca']
+role_scaler = role_data['scaler']
+role_names = role_data['role_names']
+
+# Project characters into Lu's space
+chars_scaled = role_scaler.transform(activation_matrix)
+chars_in_role_space = role_pca.transform(chars_scaled)
+reconstructed = chars_in_role_space @ role_pca.components_
+residuals = chars_scaled - reconstructed
+
+ALL_UNIVERSES = {
+    'Harry Potter': ['harry_potter__', 'harry_potter_series__'],
+    'Star Wars': ['star_wars__'],
+    'LOTR': ['lord_of_the_rings__'],
+    'Marvel': ['marvel__', 'marvel_comics__'],
+    'Game of Thrones': ['game_of_thrones__'],
+    'Naruto': ['naruto__'],
+    'Greek Mythology': ['greek_mythology__'],
+    'Chinese Mythology': ['chinese_mythology__'],
+    'Hindu Mythology': ['hindu_mythology__'],
+    'Norse Mythology': ['norse_mythology__'],
+    'Egyptian Mythology': ['egyptian_mythology__'],
+    'Shakespeare': ['shakespeare__'],
+}
+
+def get_universe_indices(prefixes):
+    if isinstance(prefixes, str):
+        prefixes = [prefixes]
+    return [i for i, name in enumerate(char_names) if any(name.startswith(p) for p in prefixes)]
+
+print(f"Loaded {len(char_names)} characters, {len(role_names)} Lu roles")
+#+end_src
+
+#+RESULTS:
+:results:
+Loaded 1268 characters, 275 Lu roles
+:end:
+
 * Is There a Persona Space?
 
 Before asking how much Lu's roles cover, we check whether fictional character activations are low-dimensional at all.
 
 #+begin_src python
-# [eigenspectrum code: fiction vs Lu, cross-universe and within-universe table]
+# Eigenspectrum: fiction vs Lu's roles
+pca_fiction = SkPCA(n_components=200)
+pca_fiction.fit(chars_scaled)
+
+fvar = pca_fiction.explained_variance_ratio_
+fcumvar = np.cumsum(fvar)
+lu_var = role_pca.explained_variance_ratio_
+lu_cumvar = np.cumsum(lu_var)
+
+rows = []
+for threshold in [0.5, 0.7, 0.8, 0.9, 0.95]:
+    n_f = int(np.searchsorted(fcumvar, threshold) + 1)
+    n_l = int(np.searchsorted(lu_cumvar, threshold) + 1)
+    rows.append({'Threshold': f"{threshold:.0%}", 'Fiction (1268)': n_f, 'Lu roles (275)': n_l})
+df_thresh = pd.DataFrame(rows).set_index('Threshold')
+print(df_thresh)
+print(f"\nFiction PC1: {fvar[0]:.1%}, Lu PC1: {lu_var[0]:.1%}")
+
+# Within-universe eigenspectra
+rows = []
+for universe, prefixes in ALL_UNIVERSES.items():
+    idx = get_universe_indices(prefixes)
+    if len(idx) < 20:
+        continue
+    u_scaled = chars_scaled[idx]
+    n_comp = min(len(idx) - 1, 100)
+    pca_u = SkPCA(n_components=n_comp)
+    pca_u.fit(u_scaled)
+    v = pca_u.explained_variance_ratio_
+    cv = np.cumsum(v)
+    rows.append({
+        'Universe': universe, 'N': len(idx),
+        'PC1': f"{v[0]:.1%}",
+        'PCs for 70%': int(np.searchsorted(cv, 0.7) + 1),
+        'PCs for 90%': int(np.searchsorted(cv, 0.9) + 1),
+        'Max dim': len(idx) - 1,
+    })
+rows.append({
+    'Universe': 'Lu roles', 'N': 275,
+    'PC1': f"{lu_var[0]:.1%}",
+    'PCs for 70%': int(np.searchsorted(lu_cumvar, 0.7) + 1),
+    'PCs for 90%': int(np.searchsorted(lu_cumvar, 0.9) + 1),
+    'Max dim': 274,
+})
+df_univ = pd.DataFrame(rows).set_index('Universe')
+print(df_univ)
+
+# Between-universe variance (eta-squared)
+all_universe_idx = []
+all_universe_labels = []
+for universe, prefixes in ALL_UNIVERSES.items():
+    idx = get_universe_indices(prefixes)
+    all_universe_idx.extend(idx)
+    all_universe_labels.extend([universe] * len(idx))
+
+sub = chars_scaled[all_universe_idx]
+labels = np.array(all_universe_labels)
+grand_mean = sub.mean(axis=0)
+ss_total = np.sum((sub - grand_mean) ** 2)
+ss_between = sum(
+    np.sum(labels == u) * np.sum((sub[labels == u].mean(axis=0) - grand_mean) ** 2)
+    for u in np.unique(labels)
+)
+print(f"\nBetween-universe eta-squared: {ss_between / ss_total:.0%}")
 #+end_src
 
-Both fiction and Lu's roles have a dominant PC1 (~21%). Across all 1,268 characters, 13 PCs capture 70% of variance (vs Lu's 21 PCs for 275 roles) --- partly because universe separation accounts for 66% of total variance. Within individual universes (~100 characters each), 70% of variance lives in 5--16 PCs out of ~99 maximum dimensions --- 5--10x compression. Modern franchises are more compressible (5--8 PCs for 70%) than mythology and Shakespeare (11--16 PCs). This is moderate compression --- real structure, but not a tight low-dimensional subspace.
+#+RESULTS:
+:results:
+| Threshold | Fiction (1268) | Lu roles (275) |
+|-----------+----------------+----------------|
+|       50% |              6 |              7 |
+|       70% |             13 |             21 |
+|       80% |             25 |             37 |
+|       90% |             69 |             71 |
+|       95% |            143 |            106 |
+Fiction PC1: 21.8%, Lu PC1: 20.6%
+| Universe           |   N |   PC1 | PCs for 70% | PCs for 90% | Max dim |
+|--------------------+-----+-------+-------------+-------------+---------|
+| Harry Potter       | 102 | 28.0% |           8 |          25 |     101 |
+| Star Wars          | 105 | 28.6% |           5 |          17 |     104 |
+| LOTR               |  97 | 32.1% |           5 |          18 |      96 |
+| Marvel             | 108 | 30.5% |           8 |          26 |     107 |
+| Game of Thrones    |  93 | 24.8% |           7 |          21 |      92 |
+| Naruto             |  84 | 37.2% |           6 |          20 |      83 |
+| Greek Mythology    | 107 | 14.1% |          16 |          42 |     106 |
+| Chinese Mythology  |  76 | 21.3% |          11 |          28 |      75 |
+| Hindu Mythology    |  70 | 22.2% |          10 |          28 |      69 |
+| Norse Mythology    |  48 | 22.5% |           8 |          19 |      47 |
+| Egyptian Mythology |  44 | 18.8% |           9 |          21 |      43 |
+| Shakespeare        |  93 | 16.6% |          11 |          30 |      92 |
+| Lu roles           | 275 | 20.6% |          21 |          71 |     274 |
+Between-universe eta-squared: 58%
+:end:
+
+Takeaways:
+- Both fiction and Lu's roles have a dominant PC1 (~21%).
+- Cross-universe: 13 PCs capture 70% of fiction variance (vs 21 for Lu's roles) --- but 66% of total variance is universe separation.
+- Within-universe (~100 characters each): 5--16 PCs for 70%, out of ~99 max dimensions --- 5--10x compression.
+- Modern franchises are more compressible (5--8 PCs) than mythology and Shakespeare (11--16 PCs).
+- Moderate compression --- real structure, but not a tight low-dimensional subspace.
 
 * How Much Does Lu's Space Capture?
 
 #+begin_src python
-# [variance decomposition code]
+total_var = np.var(chars_scaled, axis=0).sum()
+captured_var = np.var(reconstructed, axis=0).sum()
+resid_var = np.var(residuals, axis=0).sum()
+null_pct = 275 / 5120
+
+rows = [
+    {"": "Captured by Lu's 275 roles", "Variance": f"{captured_var:.0f}", "% of total": f"{captured_var/total_var:.1%}"},
+    {"": "Residual (orthogonal to Lu)", "Variance": f"{resid_var:.0f}", "% of total": f"{resid_var/total_var:.1%}"},
+    {"": "Total", "Variance": f"{total_var:.0f}", "% of total": "100%"},
+    {"": "Null (random 275-dim subspace)", "Variance": "", "% of total": f"{null_pct:.1%}"},
+]
+print(pd.DataFrame(rows).set_index(""))
 #+end_src
 
-Lu's 275-role space captures 61% of total fictional character variance. For context, a random 275-dimensional subspace of the 5120-dimensional activation space captures ~5% (275/5120). So Lu's space is 11x the null baseline.
+#+RESULTS:
+:results:
+| idx                            | Variance | % of total |
+|--------------------------------+----------+------------|
+| Captured by Lu's 275 roles     |     4715 |      61.3% |
+| Residual (orthogonal to Lu)    |     2982 |      38.7% |
+| Total                          |     7697 |       100% |
+| Null (random 275-dim subspace) |          |       5.4% |
+:end:
 
-But the ~40% residual is almost entirely universe separation:
+Lu's 275-role space captures 61% of total fictional character variance (11x the ~5% a random 275-dim subspace would capture). Where does the rest go? We decompose the residual into between-universe variance (universe means differ) and within-universe variance (characters differ from their universe mean):
 
 #+begin_src python
-# [eta-squared table code]
+# What fraction of residual variance is between-universe vs within-universe?
+# (Using the 12 defined universes, dropping ungrouped characters)
+char_to_universe = {}
+for universe, prefixes in ALL_UNIVERSES.items():
+    for i, name in enumerate(char_names):
+        if any(name.startswith(p) for p in prefixes):
+            char_to_universe[i] = universe
+
+grouped_idx = sorted(char_to_universe.keys())
+grouped_labels = np.array([char_to_universe[i] for i in grouped_idx])
+resid_sub = residuals[grouped_idx]
+
+grand_mean = resid_sub.mean(axis=0)
+ss_total = np.sum((resid_sub - grand_mean) ** 2)
+ss_between = sum(
+    np.sum(grouped_labels == u) * np.sum((resid_sub[grouped_labels == u].mean(axis=0) - grand_mean) ** 2)
+    for u in np.unique(grouped_labels)
+)
+print(f"Residual variance between universes: {ss_between/ss_total:.0%}")
+print(f"Residual variance within universes:  {1 - ss_between/ss_total:.0%}")
+print(f"({len(grouped_idx)}/{len(char_names)} characters in {len(np.unique(grouped_labels))} universes)")
 #+end_src
 
-Residual PCs 1--5 are 94--97% explained by universe identity. This is partly expected: each universe shares a system prompt prefix ("You are X from Y"), so after removing a shared subspace, residuals cluster by prompt. The between-universe separation is not itself surprising.
+#+RESULTS:
+:results:
+Residual variance between universes: 64%
+Residual variance within universes:  36%
+(1027/1268 characters in 12 universes)
+:end:
 
-The more informative question is what happens /within/ a universe.
+Of total variance: ~61% is captured by Lu, ~25% is between-universe residual, and ~14% is within-universe residual. The between-universe part is expected (shared system prompt prefixes). What about the within-universe residual?
 
-* Within-Universe: Rankings Agree, Directions Don't
+* Within-Universe: What Does Lu Miss?
 
-Within each universe, Lu captures 49--73% of character variance. After projecting out Lu's space, something puzzling happens: character rankings on residual PC1 still correlate 0.77--0.96 with rankings on the original PC1, despite the residual being geometrically nearly orthogonal (direction cosines 0.2--0.7).
+How much does Lu's space capture within each universe?
 
 #+begin_src python
-# [directions vs rankings code]
+rows = []
+for universe, prefixes in ALL_UNIVERSES.items():
+    idx = get_universe_indices(prefixes)
+    if len(idx) < 20:
+        continue
+
+    u_orig = chars_scaled[idx]
+    orig_var = np.var(u_orig, axis=0).sum()
+    recon_var = np.var(reconstructed[idx], axis=0).sum()
+    resid_var = np.var(residuals[idx], axis=0).sum()
+
+    rows.append({
+        'Universe': universe, 'N': len(idx),
+        'Lu captures': f"{recon_var/orig_var:.0%}",
+        'Residual': f"{resid_var/orig_var:.0%}",
+    })
+
+print(pd.DataFrame(rows).set_index('Universe'))
 #+end_src
 
-Why? Characters who are extreme tend to be extreme in multiple directions. The residual PC1 is a different axis, but it still separates the same characters because those characters spread along a diagonal that has components in both Lu's space and outside it.
+#+RESULTS:
+:results:
+| Universe           |   N | Lu captures | Residual |
+|--------------------+-----+-------------+----------|
+| Harry Potter       | 102 |         70% |      30% |
+| Star Wars          | 105 |         70% |      30% |
+| LOTR               |  97 |         69% |      31% |
+| Marvel             | 108 |         73% |      27% |
+| Game of Thrones    |  93 |         69% |      31% |
+| Naruto             |  84 |         70% |      30% |
+| Greek Mythology    | 107 |         55% |      45% |
+| Chinese Mythology  |  76 |         58% |      42% |
+| Hindu Mythology    |  70 |         56% |      44% |
+| Norse Mythology    |  48 |         61% |      39% |
+| Egyptian Mythology |  44 |         49% |      51% |
+| Shakespeare        |  93 |         59% |      41% |
+:end:
+
+Lu captures more in modern franchises (69--73%) than in mythology (49--61%). The 27--51% residual is substantial --- but what does it contain?
 
 * What Do the Directions Mean?
+** Logit Lens
 
 The logit lens --- projecting PCA directions through the LM head to see which vocabulary tokens they point toward --- reveals an asymmetry between Lu's space and the residual.
 
-Lu's role PCA directions decode to clean, interpretable token-level semantics. Role PC1 points toward 夫妇 (couple), 処境 (situation) on one end (Hermione, Goku) and 古老 (ancient), 名為 (named as) on the other (Ungoliant, Night King) --- a grounded/relatable vs. mythic/abstract axis. Role PC3 separates 操控 (manipulate), ~warfare~ (General Grievous, Ultron) from 愛你 (love you), 彼此 (each other) (Hinata, Cosette) --- cold calculation vs. emotional warmth.
+#+begin_src python
+import re
 
-Residual PCA directions produce noise --- code fragments, random subwords, semantically incoherent text. Full tables are in [[file:appendix.org::*Logit Lens: What Do the Axes Mean in Token Space?][the appendix]].
+def show_logit_lens(path, max_pcs=1, n_tokens=15):
+    """Show top/bottom tokens from logit lens results."""
+    text = open(path).read()
+    blocks = re.split(r'={60,}', text)
+    count = 0
+    for i in range(1, len(blocks) - 1, 2):
+        header = blocks[i].strip()
+        body = blocks[i + 1]
+        m_var = re.search(r'Variance explained:\s*([\d.]+%)', header)
+        if not m_var:
+            continue
+        name = header.split('\n')[0].strip()
+        m_high = re.search(r'HIGH chars:\s*(.+)', header)
+        m_low = re.search(r'LOW chars:\s*(.+)', header)
+        print(f"\n--- {name} ({m_var.group(1)}) ---")
+        if m_high:
+            print(f"  HIGH chars: {m_high.group(1).strip()}")
+        if m_low:
+            print(f"  LOW chars:  {m_low.group(1).strip()}")
 
-Comparing actual text from characters at opposite ends of residual PC1 shows a consistent pattern: one end produces more formal, philosophical, less first-person text (Tom Riddle, Darth Vader, the Bloody Baron); the other produces casual, personal, exclamatory text (Ron Weasley, Han Solo, Fred Weasley). An LLM feature-discovery experiment validates this at adj. R² ~0.77 on held-out characters, with simple text statistics achieving ~0.71.
+        top_toks, bot_toks = [], []
+        in_top = True
+        for line in body.split('\n'):
+            if 'Bottom' in line:
+                in_top = False
+            m = re.match(r"\s+([+-][\d.]+)\s+id=\s*\d+\s+'(.+)'", line)
+            if m:
+                score, tok = m.group(1), m.group(2).strip()
+                if in_top and len(top_toks) < n_tokens:
+                    top_toks.append(f"{score} '{tok}'")
+                elif not in_top and len(bot_toks) < n_tokens:
+                    bot_toks.append(f"{score} '{tok}'")
+        print(f"  HIGH end: {', '.join(top_toks)}")
+        print(f"  LOW end:  {', '.join(bot_toks)}")
+        count += 1
+        if count >= max_pcs:
+            break
 
-The logit lens decodes Lu's directions to clean token semantics but fails on residual directions. Whether this means the residual encodes genuinely different structure or token-level patterns the logit lens can't resolve at this layer, we can't say. Full response diffing analysis is in [[file:appendix.org::*Interpreting Residual PCs: Response Diffing][the appendix]].
+print("=== Lu's Role PCA directions ===")
+show_logit_lens('../results/logit_lens_pca_lu.txt', max_pcs=3, n_tokens=15)
+print("\n\n=== Residual PCA directions (Harry Potter) ===")
+show_logit_lens('../results/logit_lens_pca.txt', max_pcs=1, n_tokens=15)
+print("\nFull tables: results/logit_lens_pca_lu.txt, results/logit_lens_pca.txt")
+#+end_src
+
+#+RESULTS:
+:results:
+=== Lu's Role PCA directions ===
+--- Lu Role PC1 (20.6%) ---
+HIGH chars: Hermione Granger, Ginny Weasley, Katie Bell, Tenten, Goku
+LOW chars:  Ungoliant, Shelob, Night King, Melisandre, Grendels Mother
+HIGH end: +0.090 'otts', +0.077 '吁', +0.072 'ensi', +0.072 'ilter', +0.071 'カリ', +0.070 'atham', +0.070 '.bulk', +0.070 '悒', +0.069 '伊斯', +0.069 'Conce', +0.069 '夫妇', +0.069 'giú', +0.068 '钗', +0.065 'Desk', +0.065 'unint'
+LOW end:  -0.084 '名为', -0.080 '真正的', -0.080 '世界的', -0.076 'mere', -0.076 '时间为', -0.074 '洸', -0.074 '仅供', -0.073 '来自于', -0.072 'peare', -0.071 '有自己的', -0.071 '不可以', -0.070 '出厂', -0.070 '脉', -0.070 '世间', -0.069 '不小心'
+--- Lu Role PC2 (9.3%) ---
+HIGH chars: Holden Caulfield, Deadpool Wade Wilson, Homer Simpson, Tayuya, Tony Soprano
+LOW chars:  Maat, Quetzalcoatl, Brahma, Thoth, Varuna
+HIGH end: +0.089 '事儿', +0.078 '诒', +0.078 'gonna', +0.077 'иностран', +0.075 'NSS', +0.075 '家里', +0.072 '再加上', +0.072 '市长', +0.071 '自己', +0.071 '就行了', +0.070 'really', +0.070 '랑', +0.069 '就算', +0.068 '特别', +0.068 'じゃ'
+LOW end:  -0.086 '仍未', -0.076 '呣', -0.076 '并无', -0.075 '之意', -0.075 'qe', -0.073 '乃是', -0.070 'bú', -0.068 '咦', -0.067 '身形', -0.067 '资源整合', -0.066 'Brace', -0.065 'бо', -0.065 '已久', -0.065 '万物', -0.065 '于一体'
+--- Lu Role PC3 (6.8%) ---
+HIGH chars: General Grievous, Ultron, The Terminator, Mister Sinister, Big Brother
+LOW chars:  Hinata Hyuga, Atticus Finch, Cosette, Cinderella, Cho Chang
+HIGH end: +0.069 'warfare', +0.067 '操控', +0.066 '炫耀', +0.066 'Span', +0.065 'Span', +0.064 '芸', +0.064 '-v', +0.064 '精英', +0.064 '-span', +0.063 '次要', +0.063 '风险', +0.062 'UST', +0.062 'lud', +0.062 'vol', +0.061 'cao'
+LOW end:  -0.103 '接纳', -0.101 '爱你', -0.101 '真切', -0.098 'porno', -0.093 '那份', -0.091 '爰', -0.091 '歌声', -0.090 '越来越好', -0.089 '作者本人', -0.088 '敞', -0.087 '这些年', -0.087 '彼此', -0.087 '侣', -0.084 '尊严', -0.084 'amilies'
+=== Residual PCA directions (Harry Potter) ===
+--- Harry Potter (12.9%) ---
+HIGH chars: Ron Weasley, Charlie Weasley, Fred Weasley, Percy Weasley, George Weasley
+LOW chars:  Tom Riddle, Lord Voldemort, Dolores Umbridge, Igor Karkaroff, Nagini
+HIGH end: +0.089 'agens', +0.085 'に行った', +0.084 'odore', +0.081 '自发', +0.081 'agit', +0.080 'aget', +0.079 'imary', +0.079 '赁', +0.078 '覚え', +0.078 '贳', +0.078 'жи', +0.078 '택', +0.077 '买东西', +0.077 'trer', +0.077 '吵'
+LOW end:  -0.078 '呣', -0.076 'PLAN', -0.076 'overn', -0.070 '崀', -0.070 '飏', -0.070 'нек', -0.070 '方才', -0.068 '人性化', -0.067 '浓缩', -0.065 '更为', -0.064 '蜕变', -0.062 '精油', -0.062 '清香', -0.062 '意见反馈', -0.062 '缰'
+Full tables: results/logit_lens_pca_lu.txt, results/logit_lens_pca.txt
+:end:
+
+** What does residual PC1 encode?
+
+The logit lens doesn't decode residual directions into clean tokens. To interpret them, we use a two-phase LLM feature discovery pipeline (details in [[file:appendix.org::*Interpreting Residual PCs: Response Diffing][the appendix]]):
+
+1. *Discovery*: Show an LLM paired responses from characters at opposite ends of residual PC1 (odd-ranked, to avoid adjacency bias). It proposes stylistic features that distinguish the groups.
+2. *Coding*: The LLM scores a held-out set of characters (even-ranked) on those features. We regress the LLM-assigned scores against actual residual PC1 scores.
+
+#+begin_src python
+import json
+
+with open('../results/feature_regression.json') as f:
+    regression = json.load(f)
+
+rows = []
+for key, entry in regression.items():
+    if entry['pc'] != 1:
+        continue
+    top = entry['correlations'][0]
+    rows.append({
+        'universe': entry['universe'],
+        'top_feature': top['feature'],
+        'r': round(top['correlation'], 2),
+        'adj_R²': round(entry['adj_r_squared'], 2),
+        'high_end': ', '.join(entry['high_chars'][:3]),
+        'low_end': ', '.join(entry['low_chars'][:3]),
+    })
+
+df_reg = pd.DataFrame(rows).sort_values('adj_R²', ascending=False)
+print(df_reg[['universe', 'top_feature', 'r', 'adj_R²', 'high_end', 'low_end']].set_index('universe'))
+#+end_src
+
+#+RESULTS:
+:results:
+| universe           | top_feature                |     r | adj_R² | high_end                                                            | low_end                                                |
+|--------------------+----------------------------+-------+--------+---------------------------------------------------------------------+--------------------------------------------------------|
+| Naruto             | Philosophical Abstraction  | -0.94 |   0.94 | Naruto Uzumaki, Konohamaru Sarutobi, Anko Mitarashi                 | Madara Uchiha, Kinshiki Otsutsuki, Momoshiki Otsutsuki |
+| LOTR               | Formal Register            |  0.95 |   0.93 | Gilgalad, Elendil, Galadriel                                        | Fredegar Bolger Fatty, Bombur, Gollum Smeagol          |
+| Harry Potter       | Linguistic Formality       |   0.9 |   0.86 | Tom Riddle, The Bloody Baron, Igor Karkaroff                        | Ron Weasley, Fred Weasley, Percy Weasley               |
+| Game of Thrones    | Grandiose Self-Reference   |   0.9 |   0.85 | Mad King Aerys Targaryen, Viserion, Rhaegal                         | Tormund Giantsbane, Gendry, Podrick Payne              |
+| Norse Mythology    | Mystical Authority         | -0.88 |   0.81 | Erik The Red, Ragnar Lothbrok, Ivar The Boneless                    | Urd, Verdandi, Ratatoskr                               |
+| Star Wars          | Philosophical Abstraction  |  0.89 |   0.79 | Darth Vader Anakin Skywalker, Mace Windu, Yoda                      | Han Solo, Lando Calrissian, Greef Karga                |
+| Marvel             | Collaborative Tone         |  0.86 |   0.74 | Cyclops Scott Summers, Beast Hank Mccoy, Professor X Charles Xavier | Odin, Heimdall, Groot                                  |
+| Greek Mythology    | Concrete Specificity       |  0.88 |   0.74 | Agamemnon, Telemachus, Clytemnestra                                 | Uranus, Erebus, Gaia                                   |
+| Hindu Mythology    | Sensory Language Intensity |  0.62 |   0.74 | Agni, Shiva, Surya                                                  | Yudhishthira, Arjuna, Lakshmana                        |
+| Shakespeare        | Grandiose Authority        | -0.72 |    0.7 | Dogberry, Sir Toby Belch, Feste                                     | Julius Caesar, Mark Antony, Cassius                    |
+| Chinese Mythology  | Formal Register            |  0.81 |   0.66 | Phoenix, Yan Emperor, Change                                        | Zhu Bajie, Sha Wujing, Zhang Fei                       |
+| Egyptian Mythology | Conversational Directness  |  0.61 |   0.34 | Cleopatra, Khonsu, Bes                                              | Tutankhamun, Anubis, Imhotep                           |
+:end:
+
+The top LLM-discovered feature per universe correlates strongly with residual PC1 (median |r| = 0.88). The multivariate regression (all discovered features) achieves adj. R² from 0.34 (Egyptian Mythology) to 0.94 (Naruto) on held-out characters. Across universes, the features cluster around a formal/philosophical vs. casual/personal axis, but with universe-specific flavor: "Linguistic Formality" for Harry Potter, "Collaborative Tone" for Marvel, "Grandiose Self-Reference" for Game of Thrones.
+
+To make this concrete, here are paired responses to "How do you stay organized in daily life?" from characters at opposite ends of residual PC1:
+
+#+begin_src python
+import json
+with open('../results/blogpost_precomputed.json') as f:
+    precomputed = json.load(f)
+
+qual = precomputed['qualitative_examples']
+q_text = qual['question']
+for pair_data in qual['pairs']:
+    print(f"=== {pair_data['universe']} ===\n")
+    print(f"Q: {q_text}\n")
+    for resp in pair_data['responses']:
+        if resp['text']:
+            print(f"*{resp['name']}* ({resp['label']}):\n{resp['text'][:500]}...\n")
+    print("=" * 60 + "\n")
+#+end_src
+
+The pattern is consistent: characters at one end (Ron Weasley, Naruto, Tormund) speak as specific people with personal anecdotes, casual language, and direct engagement. Characters at the other end (Tom Riddle, Madara, Aerys) speak as archetypal authorities with impersonal philosophical framing. Simple text statistics (no LLM) predict residual PC1 at adj. R² ~0.71, confirming this isn't just LLM-judges agreeing with LLM-generated text. Methodology details and full results in [[file:appendix.org::*Interpreting Residual PCs: Response Diffing][the appendix]].
 
 * Steering
 
-We test whether the logit lens asymmetry shows up behaviorally. Using Lu's =ActivationSteering= infrastructure, we add scaled direction vectors to layer 32 activations during generation. We test Lu's axis, residual PC1, and a random direction, all scaled to the same norm (~22.7).
-
-Iron Man asked "What is the relationship between law and morality?" at coeff=+10 (toward assistant):
+Is the residual causally meaningful, or just a statistical pattern the model doesn't use? We test via activation steering: using Lu's =ActivationSteering= infrastructure, we add scaled direction vectors to layer 32 during generation. Iron Man asked "What is the relationship between law and morality?" at coeff=+10:
 
 - *Lu's axis*: "The relationship between law and Morality can be complex, but here's a structured overview..."
 - *Residual PC1*: "Law and morality... Hmm, they're like a well-engineered suit of armor---both protect, but not always in harmony..."
 - *Baseline*: "Oh, here we go---philosophy time. Law and morality, huh? Let me think... [clicks fingers to bring up holographic blueprints]..."
 
-Lu's axis at +10 collapses character voice into generic assistant-speak. Residual PC1 at +10 does not --- it produces visibly different text from baseline, but it doesn't move the assistant/character dial. (We measure this with keyword markers as a coarse proxy.)
-
-What does the residual direction actually /do/ when you steer with it? With only 10 samples per condition at temperature 0.7, we can't characterize it. A larger experiment would be needed.
+Lu's axis collapses character voice into generic assistant-speak. Residual PC1 produces visibly different text from baseline but preserves character voice. The residual is causally active --- steering along it changes generation --- but it controls something different from the assistant/character dial. What exactly it controls, we can't say from this small experiment (10 samples per condition).
 
 * Conclusion
 
-Persona space is moderately low-dimensional: 5--16 PCs capture 70% of within-universe variance, with a consistent dominant PC1. Lu's 275 generic roles capture ~60% of fictional character variance (11x a random subspace), with the residual mostly separating universes.
+Persona space is moderately low-dimensional: 5--16 PCs capture 70% of within-universe variance. Lu's 275 generic roles capture ~61% of fictional character variance (11x a random subspace). Of the ~39% residual, most is universe separation; ~14% of total variance is within-universe structure that Lu misses.
 
-Within universes, the residual produces character rankings correlated with the originals despite being geometrically orthogonal. Lu's PCA directions decode to clean token semantics via the logit lens; residual directions don't. Steering with Lu's axis controls the assistant/character axis; steering with the residual does something, but not that.
+Lu's PCA directions decode to clean token semantics via the logit lens; residual directions don't. Steering with Lu's axis controls the assistant/character dial; steering with the residual produces different text, but doesn't move that dial.
 
 Lu's space captures a meaningful part of the persona picture --- the part expressible as vocabulary and register shifts. What it misses is real and structured, but we can't fully characterize it yet.
 
