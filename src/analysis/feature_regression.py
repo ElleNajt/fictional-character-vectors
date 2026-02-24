@@ -1,11 +1,10 @@
-"""Regress residual PC scores on LLM-coded features.
+"""Regress PC scores on LLM-coded features.
 
-Loads llm_feature_coded.json and computes correlations + regression R²
-for each universe × PC. Saves results to results/feature_regression.json
-for use in blogpost.org.
+Loads llm_feature_coded*.json and computes correlations + regression R²
+for each universe × PC. Supports three modes: residual, within, lu.
 
 Usage:
-    python src/analysis/feature_regression.py
+    python src/analysis/feature_regression.py [--mode residual|within|lu]
 """
 
 import json
@@ -17,8 +16,15 @@ from sklearn.decomposition import PCA as SkPCA
 
 CHAR_DATA_PATH = "results/fictional_character_analysis_filtered.pkl"
 LU_PCA_PATH = "data/role_vectors/qwen-3-32b_pca_layer32.pkl"
-CODED_PATH = "results/llm_feature_coded.json"
-OUTPUT_PATH = "results/feature_regression.json"
+
+
+def get_paths(mode):
+    suffix = f"_{mode}" if mode != "residual" else ""
+    return (
+        f"results/llm_feature_coded{suffix}.json",
+        f"results/feature_regression{suffix}.json",
+    )
+
 
 ALL_UNIVERSES = {
     "Harry Potter": ["harry_potter__", "harry_potter_series__"],
@@ -47,11 +53,23 @@ def get_universe_indices(char_names, prefixes):
 
 
 def main():
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--mode",
+        choices=["residual", "within", "lu"],
+        default="residual",
+    )
+    args = parser.parse_args()
+
+    coded_path, output_path = get_paths(args.mode)
+
     with open(CHAR_DATA_PATH, "rb") as f:
         char_data = pickle.load(f)
     with open(LU_PCA_PATH, "rb") as f:
         lu_data = pickle.load(f)
-    with open(CODED_PATH) as f:
+    with open(coded_path) as f:
         coded = json.load(f)
 
     char_names = char_data["character_names"]
@@ -77,11 +95,19 @@ def main():
         prefixes = ALL_UNIVERSES[universe]
         indices = get_universe_indices(char_names, prefixes)
         u_names = [char_names[i] for i in indices]
+        u_scaled = chars_scaled[indices]
         u_residuals = residuals[indices]
 
-        # Fit PCA on universe residuals
-        u_pca = SkPCA(n_components=max(2, pc_num))
-        u_scores = u_pca.fit_transform(u_residuals)
+        # Compute PC scores based on mode
+        if args.mode == "residual":
+            u_pca = SkPCA(n_components=max(2, pc_num))
+            u_scores = u_pca.fit_transform(u_residuals)
+        elif args.mode == "within":
+            u_pca = SkPCA(n_components=max(2, pc_num))
+            u_scores = u_pca.fit_transform(u_scaled)
+        elif args.mode == "lu":
+            components = role_pca.components_[: max(2, pc_num)]
+            u_scores = u_scaled @ components.T
         pc_scores = u_scores[:, pc_num - 1]
 
         # Build feature matrix (only chars with valid ratings)
@@ -174,9 +200,9 @@ def main():
         for c in correlations[:3]:
             print(f"  {c['feature']}: r={c['correlation']:+.3f}")
 
-    with open(OUTPUT_PATH, "w") as f:
+    with open(output_path, "w") as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
-    print(f"\nSaved to {OUTPUT_PATH}")
+    print(f"\nSaved to {output_path}")
 
 
 if __name__ == "__main__":

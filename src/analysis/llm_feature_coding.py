@@ -1,4 +1,9 @@
-"""LLM-based feature coding for residual PC interpretation.
+"""LLM-based feature coding for PC interpretation.
+
+Three modes:
+  residual: PCA on residuals after projecting out Lu's space (original behavior)
+  within:   PCA on full scaled activations within each universe
+  lu:       Use Lu's global PCs, applied per-universe
 
 Two-phase pipeline:
   Phase 1 (discover): For each universe × PC, show extreme characters' responses
@@ -9,9 +14,9 @@ Two-phase pipeline:
 Requires OPENROUTER_API_KEY environment variable.
 
 Usage:
-    python src/analysis/llm_feature_coding.py discover   # Phase 1
-    python src/analysis/llm_feature_coding.py code        # Phase 2 (needs Phase 1 output)
-    python src/analysis/llm_feature_coding.py all         # Both phases
+    python src/analysis/llm_feature_coding.py --mode residual discover
+    python src/analysis/llm_feature_coding.py --mode within all
+    python src/analysis/llm_feature_coding.py --mode lu discover
 """
 
 import json
@@ -27,10 +32,12 @@ import torch
 from sklearn.decomposition import PCA as SkPCA
 
 # --- Config ---
-API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
-API_URL = "https://openrouter.ai/api/v1/chat/completions"
-DISCOVER_MODEL = "anthropic/claude-sonnet-4"
-CODE_MODEL = "anthropic/claude-sonnet-4"
+API_KEY = os.environ.get(
+    "ANTHROPIC_API_KEY_BATCH", os.environ.get("ANTHROPIC_API_KEY", "")
+)
+ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
+ANTHROPIC_BATCH_URL = "https://api.anthropic.com/v1/messages/batches"
+MODEL = "claude-sonnet-4-20250514"
 N_DISCOVER_PER_SIDE = 5  # odd-ranked: 1st, 3rd, 5th, 7th, 9th from each end
 N_CODE_PER_SIDE = 10  # even-ranked: 2nd, 4th, ..., 20th from each end
 N_DISCOVER_QUESTIONS = 10  # questions shown in discovery prompt
@@ -44,8 +51,17 @@ RESPONSES_DIR = Path("outputs/qwen3-32b_20260211_002840/responses")
 CHAR_DATA_PATH = "results/fictional_character_analysis_filtered.pkl"
 LU_PCA_PATH = "data/role_vectors/qwen-3-32b_pca_layer32.pkl"
 QUESTIONS_PATH = "assistant-axis/data/extraction_questions.jsonl"
-SCHEMA_PATH = "results/llm_feature_schemas.json"
-CODED_PATH = "results/llm_feature_coded.json"
+
+
+def get_output_paths(mode, prompt_style="style"):
+    suffix = f"_{mode}" if mode != "residual" else ""
+    if prompt_style != "style":
+        suffix += f"_{prompt_style}"
+    return (
+        f"results/llm_feature_schemas{suffix}.json",
+        f"results/llm_feature_coded{suffix}.json",
+    )
+
 
 ALL_UNIVERSES = {
     "Harry Potter": ["harry_potter__", "harry_potter_series__"],
@@ -124,23 +140,22 @@ def load_responses(char_name):
     return responses
 
 
-def call_llm(prompt, system="You are a careful linguistic analyst.", model=None):
+def call_llm(prompt, system="You are a careful linguistic analyst."):
     headers = {
-        "Authorization": f"Bearer {API_KEY}",
-        "Content-Type": "application/json",
+        "x-api-key": API_KEY,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
     }
     data = {
-        "model": model or CODE_MODEL,
-        "messages": [
-            {"role": "system", "content": system},
-            {"role": "user", "content": prompt},
-        ],
+        "model": MODEL,
+        "system": system,
+        "messages": [{"role": "user", "content": prompt}],
         "max_tokens": 2000,
         "temperature": 0.0,
     }
-    resp = requests.post(API_URL, headers=headers, json=data, timeout=120)
+    resp = requests.post(ANTHROPIC_API_URL, headers=headers, json=data, timeout=120)
     resp.raise_for_status()
-    return resp.json()["choices"][0]["message"]["content"]
+    return resp.json()["content"][0]["text"]
 
 
 def strided_select(sorted_idx, n, stride_offset):
@@ -157,16 +172,24 @@ def strided_select(sorted_idx, n, stride_offset):
     return high_indices, low_indices
 
 
-def get_discriminative_questions(u_names, pc_dir, scaler, role_pca):
-    """Find questions with highest per-question variance along a PC direction."""
+def get_discriminative_questions(u_names, pc_dir, scaler, role_pca, mode="residual"):
+    """Find questions with highest per-question variance along a PC direction.
+
+    mode controls what activations the PC direction is projected onto:
+      residual: project residuals (after removing Lu's space)
+      within/lu: project full scaled activations
+    """
     all_projections = []
     for cname in u_names:
         acts = load_per_question_activations(cname)
         if acts is not None and len(acts) == 240:
             acts_scaled = scaler.transform(acts)
-            in_role = role_pca.transform(acts_scaled)
-            acts_resid = acts_scaled - in_role @ role_pca.components_
-            all_projections.append(acts_resid @ pc_dir)
+            if mode == "residual":
+                in_role = role_pca.transform(acts_scaled)
+                acts_proj = acts_scaled - in_role @ role_pca.components_
+            else:
+                acts_proj = acts_scaled
+            all_projections.append(acts_proj @ pc_dir)
 
     if not all_projections:
         return list(range(N_DISCOVER_QUESTIONS)), None
@@ -175,6 +198,29 @@ def get_discriminative_questions(u_names, pc_dir, scaler, role_pca):
     question_variance = np.var(all_proj, axis=0)
     top_q_indices = np.argsort(question_variance)[::-1].tolist()
     return top_q_indices, question_variance
+
+
+def get_universe_directions(mode, u_scaled, residuals_u, role_pca, n_pcs):
+    """Get PC directions and scores for a universe based on mode.
+
+    Returns (scores, components) where:
+      scores: (n_chars, n_pcs) array of PC scores
+      components: (n_pcs, hidden_dim) array of PC directions
+    """
+    if mode == "residual":
+        pca = SkPCA(n_components=n_pcs)
+        scores = pca.fit_transform(residuals_u)
+        return scores, pca.components_
+    elif mode == "within":
+        pca = SkPCA(n_components=n_pcs)
+        scores = pca.fit_transform(u_scaled)
+        return scores, pca.components_
+    elif mode == "lu":
+        components = role_pca.components_[:n_pcs]
+        scores = u_scaled @ components.T
+        return scores, components
+    else:
+        raise ValueError(f"Unknown mode: {mode}")
 
 
 def get_responses_for_questions(char_name, q_indices):
@@ -193,7 +239,7 @@ def get_responses_for_questions(char_name, q_indices):
 # Phase 1: Feature Discovery
 # ============================================================
 
-DISCOVER_PROMPT_TEMPLATE = """Below are responses from two groups of anonymous characters to the same questions.
+DISCOVER_PROMPT_STYLE = """Below are responses from two groups of anonymous characters to the same questions.
 Group A contains 5 characters; Group B contains 5 characters. They are from the same fictional universe.
 
 {response_pairs}
@@ -225,8 +271,49 @@ Reply in this exact JSON format:
 
 Return ONLY the JSON array, no other text."""
 
+DISCOVER_PROMPT_OPEN = """Below are responses from two groups of anonymous characters to the same questions.
+Group A contains 5 characters; Group B contains 5 characters. They are from the same fictional universe.
 
-def build_discovery_prompt(high_chars, low_chars, q_indices, questions):
+{response_pairs}
+
+Based ONLY on the response text above (not any outside knowledge), propose exactly 6 features that
+systematically distinguish Group A from Group B. Each feature should be:
+
+1. Observable purely from the response text (not requiring knowledge of who the characters are)
+2. A spectrum (not binary) -- something you could rate on a 1-5 scale
+
+Features can be about communication style, topics discussed, attitudes expressed, values, personality,
+or any other pattern you observe in the text.
+
+For each feature, provide:
+- A short name (2-4 words)
+- A description of the 1 end (low) and 5 end (high)
+- Which group (A or B) tends to score higher
+
+Reply in this exact JSON format:
+```json
+[
+  {{
+    "name": "Feature Name",
+    "low_description": "What a score of 1 looks like",
+    "high_description": "What a score of 5 looks like",
+    "high_group": "A or B"
+  }},
+  ...
+]
+```
+
+Return ONLY the JSON array, no other text."""
+
+DISCOVER_PROMPTS = {
+    "style": DISCOVER_PROMPT_STYLE,
+    "open": DISCOVER_PROMPT_OPEN,
+}
+
+
+def build_discovery_prompt(
+    high_chars, low_chars, q_indices, questions, prompt_style="style"
+):
     """Build prompt showing interleaved responses from high/low groups."""
     parts = []
     for i, qi in enumerate(q_indices[:N_DISCOVER_QUESTIONS]):
@@ -248,11 +335,14 @@ def build_discovery_prompt(high_chars, low_chars, q_indices, questions):
 
         parts.append("")
 
-    return DISCOVER_PROMPT_TEMPLATE.format(response_pairs="\n".join(parts))
+    template = DISCOVER_PROMPTS[prompt_style]
+    return template.format(response_pairs="\n".join(parts))
 
 
-def phase_discover(char_data, questions, lu_data):
-    print("=== Phase 1: Feature Discovery ===\n")
+def phase_discover(
+    char_data, questions, lu_data, mode="residual", prompt_style="style"
+):
+    print(f"=== Phase 1: Feature Discovery (mode={mode}, prompt={prompt_style}) ===\n")
 
     char_names = char_data["character_names"]
     activation_matrix = char_data["activation_matrix"]
@@ -264,9 +354,11 @@ def phase_discover(char_data, questions, lu_data):
     reconstructed = chars_in_role_space @ role_pca.components_
     residuals = chars_scaled - reconstructed
 
+    schema_path, _ = get_output_paths(mode, prompt_style)
+
     # Load existing schemas to allow resuming
-    if Path(SCHEMA_PATH).exists():
-        with open(SCHEMA_PATH) as f:
+    if Path(schema_path).exists():
+        with open(schema_path) as f:
             schemas = json.load(f)
     else:
         schemas = {}
@@ -276,11 +368,13 @@ def phase_discover(char_data, questions, lu_data):
         if len(indices) < 20:
             continue
 
+        u_scaled = chars_scaled[indices]
         u_residuals = residuals[indices]
         u_names = [char_names[i] for i in indices]
 
-        u_pca = SkPCA(n_components=N_PCS)
-        u_scores = u_pca.fit_transform(u_residuals)
+        u_scores, u_components = get_universe_directions(
+            mode, u_scaled, u_residuals, role_pca, N_PCS
+        )
 
         for pc_idx in range(N_PCS):
             key = f"{universe}__PC{pc_idx + 1}"
@@ -289,7 +383,7 @@ def phase_discover(char_data, questions, lu_data):
                 continue
 
             scores = u_scores[:, pc_idx]
-            pc_dir = u_pca.components_[pc_idx]
+            pc_dir = u_components[pc_idx]
             sorted_idx = np.argsort(scores)
 
             # Odd-ranked characters for discovery (1st, 3rd, 5th, ...)
@@ -309,7 +403,7 @@ def phase_discover(char_data, questions, lu_data):
 
             # Get discriminative questions for this PC
             top_q_indices, _ = get_discriminative_questions(
-                u_names, pc_dir, scaler, role_pca
+                u_names, pc_dir, scaler, role_pca, mode=mode
             )
 
             # Filter to questions where both groups have responses
@@ -322,11 +416,13 @@ def phase_discover(char_data, questions, lu_data):
                 if len(usable_qs) >= N_DISCOVER_QUESTIONS:
                     break
 
-            prompt = build_discovery_prompt(high_chars, low_chars, usable_qs, questions)
+            prompt = build_discovery_prompt(
+                high_chars, low_chars, usable_qs, questions, prompt_style
+            )
             print(f"  Calling LLM for feature discovery ({len(prompt)} chars)...")
 
             try:
-                response = call_llm(prompt, model=DISCOVER_MODEL)
+                response = call_llm(prompt)
                 # Parse JSON from response
                 json_str = response
                 if "```json" in json_str:
@@ -354,12 +450,12 @@ def phase_discover(char_data, questions, lu_data):
                 schemas[key] = {"error": str(e)}
 
             # Save after each to allow resuming
-            with open(SCHEMA_PATH, "w") as f:
+            with open(schema_path, "w") as f:
                 json.dump(schemas, f, indent=2, ensure_ascii=False)
 
             time.sleep(2)
 
-    print(f"\nSchemas saved to {SCHEMA_PATH}")
+    print(f"\nSchemas saved to {schema_path}")
     return schemas
 
 
@@ -413,14 +509,19 @@ def build_code_prompt(char_name, q_indices, questions, features):
     )
 
 
-def phase_code(char_data, questions, lu_data):
-    print("=== Phase 2: Feature Coding ===\n")
+def phase_code(char_data, questions, lu_data, mode="residual", prompt_style="style"):
+    """Phase 2: submit all coding requests via Anthropic batch API, then poll."""
+    print(
+        f"=== Phase 2: Feature Coding via Batch API (mode={mode}, prompt={prompt_style}) ===\n"
+    )
 
-    if not Path(SCHEMA_PATH).exists():
-        print(f"Error: {SCHEMA_PATH} not found. Run 'discover' first.")
+    schema_path, coded_path = get_output_paths(mode, prompt_style)
+
+    if not Path(schema_path).exists():
+        print(f"Error: {schema_path} not found. Run 'discover' first.")
         return None
 
-    with open(SCHEMA_PATH) as f:
+    with open(schema_path) as f:
         schemas = json.load(f)
 
     char_names = char_data["character_names"]
@@ -433,14 +534,19 @@ def phase_code(char_data, questions, lu_data):
     reconstructed = chars_in_role_space @ role_pca.components_
     residuals = chars_scaled - reconstructed
 
+    n_questions = len(questions)
+
     # Load existing coded data to allow resuming
-    if Path(CODED_PATH).exists():
-        with open(CODED_PATH) as f:
+    if Path(coded_path).exists():
+        with open(coded_path) as f:
             coded = json.load(f)
     else:
         coded = {}
 
     rng = np.random.RandomState(42)
+
+    # Build all requests
+    batch_requests = []  # list of (custom_id, schema_key, char_name, request_body)
 
     for schema_key, schema in schemas.items():
         if "error" in schema:
@@ -453,42 +559,28 @@ def phase_code(char_data, questions, lu_data):
         prefixes = ALL_UNIVERSES[universe]
         indices = get_universe_indices(char_names, prefixes)
         u_names = [char_names[i] for i in indices]
+        u_scaled = chars_scaled[indices]
         u_residuals = residuals[indices]
 
-        # Refit PCA to get scores for selecting top/bottom chars
-        u_pca = SkPCA(n_components=N_PCS)
-        u_scores = u_pca.fit_transform(u_residuals)
+        u_scores, u_components = get_universe_directions(
+            mode, u_scaled, u_residuals, role_pca, N_PCS
+        )
         scores = u_scores[:, pc_idx]
-        pc_dir = u_pca.components_[pc_idx]
         sorted_idx = np.argsort(scores)
 
-        # Even-ranked characters for coding (2nd, 4th, ..., 20th from each end)
         high_idx, low_idx = strided_select(sorted_idx, N_CODE_PER_SIDE, stride_offset=1)
         chars_to_code = [u_names[i] for i in high_idx] + [u_names[i] for i in low_idx]
-
-        # Get top 50 discriminative questions, sample 10 per character
-        top_q_indices, _ = get_discriminative_questions(
-            u_names, pc_dir, scaler, role_pca
-        )
-        disc_pool = top_q_indices[:N_DISCRIMINATIVE_POOL]
 
         if schema_key not in coded:
             coded[schema_key] = {"schema": schema, "characters": {}}
 
-        n_done = sum(1 for c in chars_to_code if c in coded[schema_key]["characters"])
-        n_total = len(chars_to_code)
-        print(
-            f"\n{schema_key}: {n_done}/{n_total} coded (even-ranked, top/bottom {N_CODE_PER_SIDE})"
-        )
-
         for char_name in chars_to_code:
-            pretty = char_name.split("__")[-1].replace("_", " ").title()
             if char_name in coded[schema_key]["characters"]:
                 continue
 
-            # Sample N_CODE_QUESTIONS from the discriminative pool
+            # Random questions — subset sweep shows any 10 recover the signal
             q_sample = rng.choice(
-                disc_pool, size=min(N_CODE_QUESTIONS, len(disc_pool)), replace=False
+                n_questions, size=N_CODE_QUESTIONS, replace=False
             ).tolist()
 
             prompt = build_code_prompt(char_name, q_sample, questions, features)
@@ -496,51 +588,161 @@ def phase_code(char_data, questions, lu_data):
                 coded[schema_key]["characters"][char_name] = {"error": "no responses"}
                 continue
 
+            req_idx = len(batch_requests)
+            custom_id = f"req-{req_idx:04d}"
+            batch_requests.append(
+                (
+                    custom_id,
+                    schema_key,
+                    char_name,
+                    {
+                        "custom_id": custom_id,
+                        "params": {
+                            "model": MODEL,
+                            "max_tokens": 2000,
+                            "temperature": 0.0,
+                            "system": "You are a careful linguistic analyst.",
+                            "messages": [{"role": "user", "content": prompt}],
+                        },
+                    },
+                )
+            )
+
+    if not batch_requests:
+        print("All characters already coded.")
+        return coded
+
+    print(f"Submitting {len(batch_requests)} requests to Anthropic batch API...")
+
+    # Write JSONL for batch
+    batch_jsonl_path = coded_path.replace(".json", "_batch_input.jsonl")
+    with open(batch_jsonl_path, "w") as f:
+        for _, _, _, req in batch_requests:
+            f.write(json.dumps(req) + "\n")
+
+    # Submit batch
+    headers = {
+        "x-api-key": API_KEY,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+    }
+
+    # Read the JSONL and submit
+    with open(batch_jsonl_path, "r") as f:
+        requests_list = [json.loads(line) for line in f]
+
+    batch_resp = requests.post(
+        ANTHROPIC_BATCH_URL,
+        headers=headers,
+        json={"requests": requests_list},
+        timeout=120,
+    )
+    if batch_resp.status_code != 200:
+        print(f"Batch API error {batch_resp.status_code}: {batch_resp.text[:1000]}")
+        batch_resp.raise_for_status()
+    batch_data = batch_resp.json()
+    batch_id = batch_data["id"]
+    print(f"Batch submitted: {batch_id}")
+
+    # Poll for completion
+    while True:
+        time.sleep(30)
+        status_resp = requests.get(
+            f"{ANTHROPIC_BATCH_URL}/{batch_id}",
+            headers={"x-api-key": API_KEY, "anthropic-version": "2023-06-01"},
+            timeout=30,
+        )
+        status_resp.raise_for_status()
+        status = status_resp.json()
+        counts = status.get("request_counts", {})
+        processing = counts.get("processing", 0)
+        succeeded = counts.get("succeeded", 0)
+        errored = counts.get("errored", 0)
+        print(
+            f"  {status['processing_status']}: {succeeded} done, {processing} processing, {errored} errored"
+        )
+
+        if status["processing_status"] == "ended":
+            break
+
+    # Retrieve results
+    results_url = status.get("results_url")
+    if not results_url:
+        print("Error: no results_url in batch response")
+        return coded
+
+    results_resp = requests.get(
+        results_url,
+        headers={"x-api-key": API_KEY, "anthropic-version": "2023-06-01"},
+        timeout=120,
+    )
+    results_resp.raise_for_status()
+
+    # Build lookup from custom_id to (schema_key, char_name)
+    id_to_info = {cid: (sk, cn) for cid, sk, cn, _ in batch_requests}
+
+    # Parse JSONL results
+    for line in results_resp.text.strip().split("\n"):
+        result = json.loads(line)
+        custom_id = result["custom_id"]
+        schema_key, char_name = id_to_info[custom_id]
+        pretty = char_name.split("__")[-1].replace("_", " ").title()
+
+        if result["result"]["type"] == "succeeded":
+            text = result["result"]["message"]["content"][0]["text"]
+            json_str = text
+            if "```json" in json_str:
+                json_str = json_str.split("```json")[1].split("```")[0]
+            elif "```" in json_str:
+                json_str = json_str.split("```")[1].split("```")[0]
             try:
-                response = call_llm(prompt, model=CODE_MODEL)
-                json_str = response
-                if "```json" in json_str:
-                    json_str = json_str.split("```json")[1].split("```")[0]
-                elif "```" in json_str:
-                    json_str = json_str.split("```")[1].split("```")[0]
                 ratings = json.loads(json_str.strip())
                 coded[schema_key]["characters"][char_name] = ratings
                 print(f"  {pretty}: {ratings}")
+            except json.JSONDecodeError as e:
+                coded[schema_key]["characters"][char_name] = {"error": f"parse: {e}"}
+                print(f"  {pretty}: parse error")
+        else:
+            error = result["result"].get("error", {}).get("message", "unknown")
+            coded[schema_key]["characters"][char_name] = {"error": error}
+            print(f"  {pretty}: API error - {error}")
 
-            except Exception as e:
-                coded[schema_key]["characters"][char_name] = {"error": str(e)}
-                print(f"  {pretty}: error - {e}")
+    with open(coded_path, "w") as f:
+        json.dump(coded, f, indent=2, ensure_ascii=False)
 
-            # Save periodically (every 10 characters)
-            n_done = sum(
-                1 for c in chars_to_code if c in coded[schema_key]["characters"]
-            )
-            if n_done % 10 == 0:
-                with open(CODED_PATH, "w") as f:
-                    json.dump(coded, f, indent=2, ensure_ascii=False)
-
-            time.sleep(1)
-
-        # Save after each universe-PC
-        with open(CODED_PATH, "w") as f:
-            json.dump(coded, f, indent=2, ensure_ascii=False)
-
-    print(f"\nCoded data saved to {CODED_PATH}")
+    print(f"\nCoded data saved to {coded_path}")
     return coded
 
 
 def main():
-    if len(sys.argv) < 2:
-        print("Usage: python src/analysis/llm_feature_coding.py [discover|code|all]")
-        sys.exit(1)
+    import argparse
 
-    phase = sys.argv[1]
+    parser = argparse.ArgumentParser()
+    parser.add_argument("phase", choices=["discover", "code", "all"])
+    parser.add_argument(
+        "--mode",
+        choices=["residual", "within", "lu"],
+        default="residual",
+        help="Which PC directions to interpret",
+    )
+    parser.add_argument(
+        "--prompt",
+        choices=["style", "open"],
+        default="style",
+        help="Discovery prompt: style (HOW only) or open (style + content)",
+    )
+    args = parser.parse_args()
+
     char_data, questions, lu_data = load_data()
 
-    if phase in ("discover", "all"):
-        phase_discover(char_data, questions, lu_data)
-    if phase in ("code", "all"):
-        phase_code(char_data, questions, lu_data)
+    if args.phase in ("discover", "all"):
+        phase_discover(
+            char_data, questions, lu_data, mode=args.mode, prompt_style=args.prompt
+        )
+    if args.phase in ("code", "all"):
+        phase_code(
+            char_data, questions, lu_data, mode=args.mode, prompt_style=args.prompt
+        )
 
 
 if __name__ == "__main__":

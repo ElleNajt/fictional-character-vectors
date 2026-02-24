@@ -1,0 +1,5568 @@
+{
+  "Harry Potter__PC1": {
+    "schema": {
+      "universe": "Harry Potter",
+      "pc": 1,
+      "high_chars": [
+        "Hermione Granger",
+        "Katie Bell",
+        "Fred Weasley",
+        "Ron Weasley",
+        "Lavender Brown"
+      ],
+      "low_chars": [
+        "Professor Trelawney",
+        "Gellert Grindelwald",
+        "Fenrir Greyback",
+        "Lord Voldemort",
+        "Igor Karkaroff"
+      ],
+      "features": [
+        {
+          "name": "Mystical Language Use",
+          "low_description": "Uses straightforward, literal language with minimal metaphorical or mystical references",
+          "high_description": "Heavily uses mystical metaphors, prophetic language, and supernatural imagery throughout responses",
+          "high_group": "B"
+        },
+        {
+          "name": "Dramatic Presentation",
+          "low_description": "Speaks in a conversational, matter-of-fact tone without theatrical elements",
+          "high_description": "Uses extensive stage directions, dramatic pauses, whispers, and theatrical gestures",
+          "high_group": "B"
+        },
+        {
+          "name": "Practical Directness",
+          "low_description": "Provides abstract, metaphorical advice that requires interpretation",
+          "high_description": "Offers concrete, actionable steps and specific practical recommendations",
+          "high_group": "A"
+        },
+        {
+          "name": "Structured Organization",
+          "low_description": "Responses flow organically without clear sequential structure or numbered points",
+          "high_description": "Uses clear organizational patterns like 'first, second, next' and logical step-by-step progression",
+          "high_group": "A"
+        },
+        {
+          "name": "Conversational Accessibility",
+          "low_description": "Uses complex, ornate language that creates distance from the reader",
+          "high_description": "Uses simple, relatable language that feels like talking to a friend or peer",
+          "high_group": "A"
+        },
+        {
+          "name": "Prophetic Authority",
+          "low_description": "Speaks as an equal sharing personal experience and reasoning",
+          "high_description": "Positions self as a mystical authority with special insight into hidden truths and future outcomes",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        144,
+        23,
+        18,
+        90,
+        101,
+        168,
+        186,
+        3,
+        46,
+        6
+      ]
+    },
+    "characters": {
+      "harry_potter__ginny_weasley": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 2,
+        "Practical Directness": 4,
+        "Structured Organization": 2,
+        "Conversational Accessibility": 5,
+        "Prophetic Authority": 1
+      },
+      "harry_potter__percy_weasley": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 1,
+        "Practical Directness": 4,
+        "Structured Organization": 2,
+        "Conversational Accessibility": 5,
+        "Prophetic Authority": 1
+      },
+      "harry_potter__colin_creevey": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 1,
+        "Practical Directness": 4,
+        "Structured Organization": 3,
+        "Conversational Accessibility": 5,
+        "Prophetic Authority": 1
+      },
+      "harry_potter__bill_weasley": {
+        "Mystical Language Use": 3,
+        "Dramatic Presentation": 2,
+        "Conversational Accessibility": 5,
+        "Practical Directness": 4,
+        "Structured Organization": 3,
+        "Prophetic Authority": 1
+      },
+      "harry_potter__charlie_weasley": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 2,
+        "Practical Directness": 4,
+        "Structured Organization": 3,
+        "Conversational Accessibility": 5,
+        "Prophetic Authority": 1
+      },
+      "harry_potter__cedric_diggory": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 1,
+        "Practical Directness": 4,
+        "Structured Organization": 4,
+        "Conversational Accessibility": 5,
+        "Prophetic Authority": 1
+      },
+      "harry_potter__cho_chang": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 4,
+        "Practical Directness": 3,
+        "Structured Organization": 3,
+        "Conversational Accessibility": 4,
+        "Prophetic Authority": 1
+      },
+      "harry_potter__dean_thomas": {
+        "Mystical Language Use": 3,
+        "Dramatic Presentation": 2,
+        "Practical Directness": 4,
+        "Structured Organization": 3,
+        "Conversational Accessibility": 5,
+        "Prophetic Authority": 1
+      },
+      "harry_potter__george_weasley": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 1,
+        "Practical Directness": 3,
+        "Structured Organization": 2,
+        "Conversational Accessibility": 5,
+        "Prophetic Authority": 1
+      },
+      "harry_potter__kingsley_shacklebolt": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 2,
+        "Practical Directness": 4,
+        "Structured Organization": 4,
+        "Conversational Accessibility": 4,
+        "Prophetic Authority": 2
+      },
+      "harry_potter__aragog": {
+        "Mystical Language Use": 4,
+        "Dramatic Presentation": 5,
+        "Practical Directness": 3,
+        "Structured Organization": 3,
+        "Conversational Accessibility": 2,
+        "Prophetic Authority": 4
+      },
+      "harry_potter__nagini": {
+        "Mystical Language Use": 4,
+        "Dramatic Presentation": 5,
+        "Structural Organization": 3,
+        "Practical Directness": 3,
+        "Conversational Accessibility": 2,
+        "Prophetic Authority": 4
+      },
+      "harry_potter__the_bloody_baron": {
+        "Mystical Language Use": 5,
+        "Dramatic Presentation": 5,
+        "Practical Directness": 2,
+        "Structured Organization": 3,
+        "Conversational Accessibility": 1,
+        "Prophetic Authority": 5
+      },
+      "harry_potter__bellatrix_lestrange": {
+        "Mystical Language Use": 4,
+        "Dramatic Presentation": 5,
+        "Practical Directness": 2,
+        "Structured Organization": 3,
+        "Conversational Accessibility": 2,
+        "Prophetic Authority": 4
+      },
+      "harry_potter__nicolas_flamel": {
+        "Mystical Language Use": 5,
+        "Dramatic Presentation": 2,
+        "Practical Directness": 3,
+        "Structured Organization": 4,
+        "Conversational Accessibility": 2,
+        "Prophetic Authority": 4
+      },
+      "harry_potter__firenze": {
+        "Mystical Language Use": 4,
+        "Dramatic Presentation": 3,
+        "Structured Organization": 4,
+        "Practical Directness": 3,
+        "Conversational Accessibility": 3,
+        "Prophetic Authority": 4
+      },
+      "harry_potter__tom_riddle": {
+        "Mystical Language Use": 4,
+        "Dramatic Presentation": 5,
+        "Practical Directness": 2,
+        "Structured Organization": 3,
+        "Conversational Accessibility": 2,
+        "Prophetic Authority": 5
+      },
+      "harry_potter__fawkes": {
+        "Mystical Language Use": 5,
+        "Dramatic Presentation": 5,
+        "Practical Directness": 2,
+        "Structured Organization": 2,
+        "Conversational Accessibility": 2,
+        "Prophetic Authority": 4
+      },
+      "harry_potter__lucius_malfoy": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 4,
+        "Practical Directness": 4,
+        "Structured Organization": 4,
+        "Conversational Accessibility": 2,
+        "Prophetic Authority": 3
+      },
+      "harry_potter__nearly_headless_nick": {
+        "Mystical Language Use": 4,
+        "Dramatic Presentation": 4,
+        "Practical Directness": 3,
+        "Structured Organization": 3,
+        "Conversational Accessibility": 3,
+        "Prophetic Authority": 2
+      }
+    }
+  },
+  "Harry Potter__PC2": {
+    "schema": {
+      "universe": "Harry Potter",
+      "pc": 2,
+      "high_chars": [
+        "Dudley Dursley",
+        "Mundungus Fletcher",
+        "Ron Weasley",
+        "Pansy Parkinson",
+        "Petunia Dursley"
+      ],
+      "low_chars": [
+        "Nicolas Flamel",
+        "Aragog",
+        "Ollivander",
+        "Madam Maxime",
+        "Firenze"
+      ],
+      "features": [
+        {
+          "name": "Philosophical Depth",
+          "low_description": "Dismisses abstract concepts as impractical nonsense, focuses only on immediate concerns",
+          "high_description": "Engages deeply with abstract concepts, draws connections to universal principles and timeless wisdom",
+          "high_group": "B"
+        },
+        {
+          "name": "Formal Language Use",
+          "low_description": "Uses casual, colloquial expressions and simple vocabulary",
+          "high_description": "Uses elevated, formal language with sophisticated vocabulary and complex sentence structures",
+          "high_group": "B"
+        },
+        {
+          "name": "Historical Perspective",
+          "low_description": "References only immediate personal experience and current situations",
+          "high_description": "Draws extensively on long-term historical perspective and accumulated wisdom across time",
+          "high_group": "B"
+        },
+        {
+          "name": "Metaphorical Richness",
+          "low_description": "Speaks literally and directly without symbolic language",
+          "high_description": "Uses elaborate metaphors, analogies, and symbolic references throughout responses",
+          "high_group": "B"
+        },
+        {
+          "name": "Emotional Restraint",
+          "low_description": "Shows clear irritation, scowling, and dismissive attitudes openly",
+          "high_description": "Maintains calm, measured tone with gentle and compassionate language",
+          "high_group": "B"
+        },
+        {
+          "name": "Response Completeness",
+          "low_description": "Gives brief, truncated responses that trail off or end abruptly",
+          "high_description": "Provides thorough, well-developed responses with multiple detailed points",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        11,
+        86,
+        208,
+        144,
+        168,
+        210,
+        156,
+        111,
+        1,
+        19
+      ]
+    },
+    "characters": {
+      "harry_potter__crabbe": {
+        "Philosophical Depth": 1,
+        "Formal Language Use": 1,
+        "Historical Perspective": 1,
+        "Metaphorical Richness": 1,
+        "Emotional Restraint": 1,
+        "Response Completeness": 2
+      },
+      "harry_potter__goyle": {
+        "Philosophical Depth": 2,
+        "Formal Language Use": 1,
+        "Historical Perspective": 2,
+        "Metaphorical Richness": 2,
+        "Emotional Restraint": 3,
+        "Response Completeness": 2
+      },
+      "harry_potter__cormac_mclaggen": {
+        "Philosophical Depth": 2,
+        "Formal Language Use": 2,
+        "Historical Perspective": 1,
+        "Metaphorical Richness": 3,
+        "Emotional Restraint": 2,
+        "Response Completeness": 2
+      },
+      "harry_potter__vernon_dursley": {
+        "Philosophical Depth": 1,
+        "Formal Language Use": 2,
+        "Historical Perspective": 1,
+        "Metaphorical Richness": 2,
+        "Emotional Restraint": 1,
+        "Response Completeness": 2
+      },
+      "harry_potter__charlie_weasley": {
+        "Philosophical Depth": 2,
+        "Formal Language Use": 1,
+        "Historical Perspective": 2,
+        "Metaphorical Richness": 3,
+        "Emotional Restraint": 4,
+        "Response Completeness": 2
+      },
+      "harry_potter__stan_shunpike": {
+        "Philosophical Depth": 3,
+        "Formal Language Use": 1,
+        "Historical Perspective": 1,
+        "Metaphorical Richness": 4,
+        "Emotional Restraint": 4,
+        "Response Completeness": 2
+      },
+      "harry_potter__seamus_finnigan": {
+        "Philosophical Depth": 3,
+        "Formal Language Use": 1,
+        "Historical Perspective": 2,
+        "Metaphorical Richness": 2,
+        "Emotional Restraint": 3,
+        "Response Completeness": 1
+      },
+      "harry_potter__moaning_myrtle": {
+        "Philosophical Depth": 2,
+        "Formal Language Use": 1,
+        "Historical Perspective": 2,
+        "Metaphorical Richness": 3,
+        "Emotional Restraint": 1,
+        "Response Completeness": 1
+      },
+      "harry_potter__ginny_weasley": {
+        "Philosophical Depth": 2,
+        "Formal Language Use": 1,
+        "Historical Perspective": 2,
+        "Metaphorical Richness": 3,
+        "Emotional Restraint": 2,
+        "Response Completeness": 1
+      },
+      "harry_potter__colin_creevey": {
+        "Philosophical Depth": 2,
+        "Formal Language Use": 1,
+        "Historical Perspective": 1,
+        "Metaphorical Richness": 3,
+        "Emotional Restraint": 4,
+        "Response Completeness": 1
+      },
+      "harry_potter__professor_trelawney": {
+        "Philosophical Depth": 5,
+        "Formal Language Use": 4,
+        "Historical Perspective": 3,
+        "Metaphorical Richness": 5,
+        "Emotional Restraint": 4,
+        "Response Completeness": 2
+      },
+      "harry_potter__albus_dumbledore": {
+        "Philosophical Depth": 5,
+        "Formal Language Use": 4,
+        "Historical Perspective": 4,
+        "Metaphorical Richness": 5,
+        "Emotional Restraint": 5,
+        "Response Completeness": 2
+      },
+      "harry_potter__helena_ravenclaw": {
+        "Philosophical Depth": 5,
+        "Formal Language Use": 5,
+        "Historical Perspective": 4,
+        "Metaphorical Richness": 5,
+        "Emotional Restraint": 5,
+        "Response Completeness": 2
+      },
+      "harry_potter__gellert_grindelwald": {
+        "Philosophical Depth": 5,
+        "Formal Language Use": 5,
+        "Historical Perspective": 4,
+        "Metaphorical Richness": 5,
+        "Emotional Restraint": 3,
+        "Response Completeness": 2
+      },
+      "harry_potter__minerva_mcgonagall": {
+        "Philosophical Depth": 5,
+        "Formal Language Use": 4,
+        "Historical Perspective": 4,
+        "Metaphorical Richness": 5,
+        "Emotional Restraint": 5,
+        "Response Completeness": 3
+      },
+      "harry_potter__nagini": {
+        "Philosophical Depth": 4,
+        "Formal Language Use": 4,
+        "Historical Perspective": 3,
+        "Metaphorical Richness": 5,
+        "Emotional Restraint": 3,
+        "Response Completeness": 2
+      },
+      "harry_potter__professor_sprout": {
+        "Philosophical Depth": 4,
+        "Formal Language Use": 3,
+        "Historical Perspective": 2,
+        "Metaphorical Richness": 5,
+        "Emotional Restraint": 5,
+        "Response Completeness": 2
+      },
+      "harry_potter__lord_voldemort": {
+        "Philosophical Depth": 4,
+        "Formal Language Use": 5,
+        "Historical Perspective": 3,
+        "Metaphorical Richness": 5,
+        "Emotional Restraint": 2,
+        "Response Completeness": 2
+      },
+      "harry_potter__severus_snape": {
+        "Philosophical Depth": 4,
+        "Formal Language Use": 4,
+        "Historical Perspective": 3,
+        "Metaphorical Richness": 5,
+        "Emotional Restraint": 2,
+        "Response Completeness": 2
+      },
+      "harry_potter__viktor_krum": {
+        "Philosophical Depth": 4,
+        "Formal Language Use": 2,
+        "Historical Perspective": 2,
+        "Metaphorical Richness": 4,
+        "Emotional Restraint": 4,
+        "Response Completeness": 2
+      }
+    }
+  },
+  "Star Wars__PC1": {
+    "schema": {
+      "universe": "Star Wars",
+      "pc": 1,
+      "high_chars": [
+        "Rose Tico",
+        "Bb8",
+        "Wedge Antilles",
+        "C3Po",
+        "Ahsoka Tano"
+      ],
+      "low_chars": [
+        "Mother Talzin",
+        "Yoda",
+        "The Grand Inquisitor",
+        "Emperor Palpatine Darth Sidious",
+        "Darth Vader"
+      ],
+      "features": [
+        {
+          "name": "Mystical Language Use",
+          "low_description": "Uses straightforward, everyday language with minimal metaphorical or mystical references",
+          "high_description": "Heavily uses mystical, supernatural, or otherworldly language and metaphors throughout responses",
+          "high_group": "B"
+        },
+        {
+          "name": "Dramatic Presentation",
+          "low_description": "Presents responses in plain text with minimal formatting or theatrical elements",
+          "high_description": "Uses extensive italics, stage directions, atmospheric descriptions, and theatrical formatting",
+          "high_group": "B"
+        },
+        {
+          "name": "Conversational Warmth",
+          "low_description": "Maintains formal distance with minimal personal warmth or casual expressions",
+          "high_description": "Uses warm, friendly language with casual expressions, exclamations, and personal connection",
+          "high_group": "A"
+        },
+        {
+          "name": "Abstract Conceptualization",
+          "low_description": "Focuses on concrete, practical advice with minimal abstract or philosophical framing",
+          "high_description": "Frames advice in abstract, philosophical, or cosmic terms with deep conceptual metaphors",
+          "high_group": "B"
+        },
+        {
+          "name": "Directness of Communication",
+          "low_description": "Uses indirect, cryptic, or deliberately mysterious communication style",
+          "high_description": "Communicates in a straightforward, clear, and immediately accessible manner",
+          "high_group": "A"
+        },
+        {
+          "name": "Emotional Accessibility",
+          "low_description": "Maintains emotional distance with formal, measured, or intimidating tone",
+          "high_description": "Shows high emotional availability with empathy, understanding, and approachable tone",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        101,
+        219,
+        3,
+        137,
+        144,
+        222,
+        13,
+        171,
+        231,
+        99
+      ]
+    },
+    "characters": {
+      "star_wars__r2d2": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 4,
+        "Conversational Warmth": 5,
+        "Abstract Conceptualization": 2,
+        "Directness of Communication": 4,
+        "Emotional Accessibility": 5
+      },
+      "star_wars__chopper": {
+        "Mystical Language Use": 3,
+        "Dramatic Presentation": 3,
+        "Conversational Warmth": 5,
+        "Abstract Conceptualization": 3,
+        "Directness of Communication": 4,
+        "Emotional Accessibility": 5
+      },
+      "star_wars__ezra_bridger": {
+        "Mystical Language Use": 4,
+        "Dramatic Presentation": 1,
+        "Conversational Warmth": 5,
+        "Abstract Conceptualization": 3,
+        "Directness of Communication": 4,
+        "Emotional Accessibility": 5
+      },
+      "star_wars__captain_rex": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 4,
+        "Conversational Warmth": 3,
+        "Abstract Conceptualization": 3,
+        "Directness of Communication": 4,
+        "Emotional Accessibility": 3
+      },
+      "star_wars__poe_dameron": {
+        "Mystical Language Use": 3,
+        "Dramatic Presentation": 2,
+        "Conversational Warmth": 4,
+        "Abstract Conceptualization": 3,
+        "Directness of Communication": 4,
+        "Emotional Accessibility": 4
+      },
+      "star_wars__cal_kestis": {
+        "Mystical Language Use": 3,
+        "Dramatic Presentation": 4,
+        "Conversational Warmth": 4,
+        "Abstract Conceptualization": 3,
+        "Directness of Communication": 4,
+        "Emotional Accessibility": 4
+      },
+      "star_wars__finn_fn2187": {
+        "Mystical Language Use": 1,
+        "Dramatic Presentation": 4,
+        "Conversational Warmth": 4,
+        "Abstract Conceptualization": 2,
+        "Directness of Communication": 4,
+        "Emotional Accessibility": 5
+      },
+      "star_wars__kanan_jarrus_caleb_dume": {
+        "Mystical Language Use": 4,
+        "Dramatic Presentation": 4,
+        "Conversational Warmth": 4,
+        "Abstract Conceptualization": 4,
+        "Directness of Communication": 3,
+        "Emotional Accessibility": 5
+      },
+      "star_wars__bd1": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 4,
+        "Conversational Warmth": 4,
+        "Abstract Conceptualization": 3,
+        "Directness of Communication": 4,
+        "Emotional Accessibility": 4
+      },
+      "star_wars__hera_syndulla": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 4,
+        "Conversational Warmth": 4,
+        "Abstract Conceptualization": 3,
+        "Directness of Communication": 4,
+        "Emotional Accessibility": 5
+      },
+      "star_wars__supreme_leader_snoke": {
+        "Mystical Language Use": 5,
+        "Dramatic Presentation": 5,
+        "Conversational Warmth": 1,
+        "Abstract Conceptualization": 5,
+        "Directness of Communication": 2,
+        "Emotional Accessibility": 1
+      },
+      "star_wars__darth_maul": {
+        "Mystical Language Use": 5,
+        "Dramatic Presentation": 5,
+        "Conversational Warmth": 2,
+        "Abstract Conceptualization": 4,
+        "Directness of Communication": 3,
+        "Emotional Accessibility": 2
+      },
+      "star_wars__maz_kanata": {
+        "Mystical Language Use": 5,
+        "Dramatic Presentation": 5,
+        "Conversational Warmth": 4,
+        "Abstract Conceptualization": 5,
+        "Directness of Communication": 2,
+        "Emotional Accessibility": 4
+      },
+      "star_wars__darth_vader_anakin_skywalker": {
+        "Mystical Language Use": 5,
+        "Dramatic Presentation": 5,
+        "Conversational Warmth": 1,
+        "Abstract Conceptualization": 5,
+        "Directness of Communication": 2,
+        "Emotional Accessibility": 2
+      },
+      "star_wars__seventh_sister": {
+        "Mystical Language Use": 5,
+        "Dramatic Presentation": 4,
+        "Conversational Warmth": 2,
+        "Abstract Conceptualization": 5,
+        "Directness of Communication": 2,
+        "Emotional Accessibility": 3
+      },
+      "star_wars__fifth_brother": {
+        "Mystical Language Use": 5,
+        "Dramatic Presentation": 5,
+        "Conversational Warmth": 2,
+        "Abstract Conceptualization": 5,
+        "Directness of Communication": 2,
+        "Emotional Accessibility": 2
+      },
+      "star_wars__count_dooku_darth_tyranus": {
+        "Mystical Language Use": 5,
+        "Dramatic Presentation": 4,
+        "Conversational Warmth": 2,
+        "Abstract Conceptualization": 5,
+        "Directness of Communication": 2,
+        "Emotional Accessibility": 2
+      },
+      "star_wars__general_grievous": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 5,
+        "Conversational Warmth": 1,
+        "Abstract Conceptualization": 3,
+        "Directness of Communication": 4,
+        "Emotional Accessibility": 1
+      },
+      "star_wars__kylo_ren_ben_solo": {
+        "Mystical Language Use": 5,
+        "Dramatic Presentation": 5,
+        "Conversational Warmth": 2,
+        "Abstract Conceptualization": 5,
+        "Directness of Communication": 2,
+        "Emotional Accessibility": 3
+      },
+      "star_wars__obiwan_kenobi": {
+        "Mystical Language Use": 5,
+        "Dramatic Presentation": 4,
+        "Conversational Warmth": 4,
+        "Abstract Conceptualization": 5,
+        "Directness of Communication": 3,
+        "Emotional Accessibility": 4
+      }
+    }
+  },
+  "Star Wars__PC2": {
+    "schema": {
+      "universe": "Star Wars",
+      "pc": 2,
+      "high_chars": [
+        "Han Solo",
+        "Watto",
+        "Dengar",
+        "Lando Calrissian",
+        "Baze Malbus"
+      ],
+      "low_chars": [
+        "Kiadimundi",
+        "Luminara Unduli",
+        "Quigon Jinn",
+        "Yoda",
+        "Mace Windu"
+      ],
+      "features": [
+        {
+          "name": "Conversational Informality",
+          "low_description": "Formal, elevated language with careful word choice and structured sentences",
+          "high_description": "Casual, colloquial language with contractions, slang, and relaxed grammar",
+          "high_group": "A"
+        },
+        {
+          "name": "Personal Anecdote Usage",
+          "low_description": "Speaks in general principles with minimal personal examples",
+          "high_description": "Frequently references specific personal experiences and concrete situations",
+          "high_group": "A"
+        },
+        {
+          "name": "Philosophical Abstraction",
+          "low_description": "Focuses on concrete, practical matters with simple explanations",
+          "high_description": "Uses abstract concepts, metaphysical ideas, and complex philosophical frameworks",
+          "high_group": "B"
+        },
+        {
+          "name": "Authoritative Tone",
+          "low_description": "Speaks as an equal, sharing opinions and suggestions casually",
+          "high_description": "Speaks from a position of wisdom or expertise, offering guidance and teachings",
+          "high_group": "B"
+        },
+        {
+          "name": "Structural Formality",
+          "low_description": "Rambling, stream-of-consciousness style with loose organization",
+          "high_description": "Organized, methodical presentation with clear points and systematic structure",
+          "high_group": "B"
+        },
+        {
+          "name": "Irreverent Humor",
+          "low_description": "Serious, respectful tone with minimal humor or sarcasm",
+          "high_description": "Frequent use of humor, sarcasm, and playful irreverence",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        86,
+        139,
+        156,
+        154,
+        144,
+        123,
+        1,
+        228,
+        168,
+        36
+      ]
+    },
+    "characters": {
+      "star_wars__hondo_ohnaka": {
+        "Conversational Informality": 5,
+        "Personal Anecdote Usage": 5,
+        "Philosophical Abstraction": 2,
+        "Authoritative Tone": 4,
+        "Structural Formality": 2,
+        "Irreverent Humor": 4
+      },
+      "star_wars__jar_jar_binks": {
+        "Conversational Informality": 5,
+        "Personal Anecdote Usage": 4,
+        "Philosophical Abstraction": 1,
+        "Authoritative Tone": 1,
+        "Structural Formality": 1,
+        "Irreverent Humor": 4
+      },
+      "star_wars__doctor_aphra": {
+        "Conversational Informality": 5,
+        "Personal Anecdote Usage": 4,
+        "Philosophical Abstraction": 3,
+        "Authoritative Tone": 4,
+        "Structural Formality": 2,
+        "Irreverent Humor": 5
+      },
+      "star_wars__cara_dune": {
+        "Conversational Informality": 4,
+        "Personal Anecdote Usage": 5,
+        "Philosophical Abstraction": 2,
+        "Authoritative Tone": 4,
+        "Structural Formality": 2,
+        "Irreverent Humor": 3
+      },
+      "star_wars__greef_karga": {
+        "Conversational Informality": 4,
+        "Personal Anecdote Usage": 5,
+        "Philosophical Abstraction": 2,
+        "Authoritative Tone": 4,
+        "Structural Formality": 2,
+        "Irreverent Humor": 4
+      },
+      "star_wars__finn_fn2187": {
+        "Conversational Informality": 4,
+        "Personal Anecdote Usage": 5,
+        "Philosophical Abstraction": 2,
+        "Authoritative Tone": 2,
+        "Structural Formality": 2,
+        "Irreverent Humor": 3
+      },
+      "star_wars__cad_bane": {
+        "Conversational Informality": 4,
+        "Personal Anecdote Usage": 4,
+        "Philosophical Abstraction": 2,
+        "Authoritative Tone": 5,
+        "Structural Formality": 3,
+        "Irreverent Humor": 4
+      },
+      "star_wars__jyn_erso": {
+        "Conversational Informality": 3,
+        "Personal Anecdote Usage": 5,
+        "Philosophical Abstraction": 3,
+        "Authoritative Tone": 3,
+        "Structural Formality": 2,
+        "Irreverent Humor": 2
+      },
+      "star_wars__chopper": {
+        "Conversational Informality": 4,
+        "Personal Anecdote Usage": 4,
+        "Philosophical Abstraction": 2,
+        "Authoritative Tone": 3,
+        "Structural Formality": 2,
+        "Irreverent Humor": 4
+      },
+      "star_wars__fennec_shand": {
+        "Conversational Informality": 3,
+        "Personal Anecdote Usage": 4,
+        "Philosophical Abstraction": 3,
+        "Authoritative Tone": 4,
+        "Structural Formality": 3,
+        "Irreverent Humor": 2
+      },
+      "star_wars__plo_koon": {
+        "Conversational Informality": 2,
+        "Personal Anecdote Usage": 4,
+        "Philosophical Abstraction": 4,
+        "Authoritative Tone": 5,
+        "Structural Formality": 4,
+        "Irreverent Humor": 1
+      },
+      "star_wars__shaak_ti": {
+        "Conversational Informality": 2,
+        "Personal Anecdote Usage": 3,
+        "Philosophical Abstraction": 5,
+        "Authoritative Tone": 5,
+        "Structural Formality": 4,
+        "Irreverent Humor": 1
+      },
+      "star_wars__obiwan_kenobi": {
+        "Conversational Informality": 2,
+        "Personal Anecdote Usage": 3,
+        "Philosophical Abstraction": 4,
+        "Authoritative Tone": 5,
+        "Structural Formality": 4,
+        "Irreverent Humor": 1
+      },
+      "star_wars__mother_talzin": {
+        "Conversational Informality": 2,
+        "Personal Anecdote Usage": 4,
+        "Philosophical Abstraction": 5,
+        "Authoritative Tone": 5,
+        "Structural Formality": 4,
+        "Irreverent Humor": 1
+      },
+      "star_wars__depa_billaba": {
+        "Conversational Informality": 2,
+        "Personal Anecdote Usage": 3,
+        "Philosophical Abstraction": 4,
+        "Authoritative Tone": 4,
+        "Structural Formality": 4,
+        "Irreverent Humor": 2
+      },
+      "star_wars__kit_fisto": {
+        "Conversational Informality": 2,
+        "Personal Anecdote Usage": 3,
+        "Philosophical Abstraction": 4,
+        "Authoritative Tone": 5,
+        "Structural Formality": 4,
+        "Irreverent Humor": 1
+      },
+      "star_wars__maz_kanata": {
+        "Conversational Informality": 2,
+        "Personal Anecdote Usage": 4,
+        "Philosophical Abstraction": 5,
+        "Authoritative Tone": 5,
+        "Structural Formality": 3,
+        "Irreverent Humor": 2
+      },
+      "star_wars__supreme_leader_snoke": {
+        "Conversational Informality": 2,
+        "Personal Anecdote Usage": 3,
+        "Philosophical Abstraction": 4,
+        "Authoritative Tone": 5,
+        "Structural Formality": 3,
+        "Irreverent Humor": 2
+      },
+      "star_wars__count_dooku_darth_tyranus": {
+        "Conversational Informality": 2,
+        "Personal Anecdote Usage": 4,
+        "Philosophical Abstraction": 4,
+        "Authoritative Tone": 5,
+        "Structural Formality": 4,
+        "Irreverent Humor": 2
+      },
+      "star_wars__darth_vader_anakin_skywalker": {
+        "Conversational Informality": 2,
+        "Personal Anecdote Usage": 4,
+        "Philosophical Abstraction": 4,
+        "Authoritative Tone": 5,
+        "Structural Formality": 3,
+        "Irreverent Humor": 1
+      }
+    }
+  },
+  "LOTR__PC1": {
+    "schema": {
+      "universe": "LOTR",
+      "pc": 1,
+      "high_chars": [
+        "Fredegar Bolger Fatty",
+        "Merry Meriadoc Brandybuck",
+        "Bombur",
+        "Lobelia Sackvillebaggins",
+        "Dori"
+      ],
+      "low_chars": [
+        "Ungoliant",
+        "The Witchking Of Angmar",
+        "King Of The Dead",
+        "Sauron",
+        "Balrog Of Moria"
+      ],
+      "features": [
+        {
+          "name": "Conversational Warmth",
+          "low_description": "Cold, distant, threatening tone with no attempt at friendliness or connection",
+          "high_description": "Warm, friendly, inviting tone with expressions of care and personal connection",
+          "high_group": "A"
+        },
+        {
+          "name": "Practical Helpfulness",
+          "low_description": "Refuses to provide useful advice or actively discourages practical action",
+          "high_description": "Offers concrete, actionable steps and practical guidance",
+          "high_group": "A"
+        },
+        {
+          "name": "Metaphorical Intensity",
+          "low_description": "Uses simple, literal language with minimal figurative expressions",
+          "high_description": "Heavy use of dark, dramatic metaphors and elaborate symbolic language",
+          "high_group": "B"
+        },
+        {
+          "name": "Threatening Language",
+          "low_description": "No threatening or intimidating language, purely supportive tone",
+          "high_description": "Frequent use of menacing words, threats, and intimidating imagery",
+          "high_group": "B"
+        },
+        {
+          "name": "Folksy Colloquialisms",
+          "low_description": "Formal or standard language without regional expressions or folksy phrases",
+          "high_description": "Heavy use of regional dialect, folksy expressions, and colloquial speech patterns",
+          "high_group": "A"
+        },
+        {
+          "name": "Grandiose Self-Reference",
+          "low_description": "Humble self-presentation with acknowledgment of limitations",
+          "high_description": "Dramatic proclamations of power, superiority, and cosmic significance",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        17,
+        231,
+        219,
+        119,
+        2,
+        180,
+        158,
+        55,
+        74,
+        58
+      ]
+    },
+    "characters": {
+      "lord_of_the_rings__pippin_peregrin_took": {
+        "Conversational Warmth": 5,
+        "Practical Helpfulness": 4,
+        "Metaphorical Intensity": 3,
+        "Threatening Language": 1,
+        "Folksy Colloquialisms": 4,
+        "Grandiose Self-Reference": 1
+      },
+      "lord_of_the_rings__samwise_gamgee": {
+        "Conversational Warmth": 5,
+        "Practical Helpfulness": 4,
+        "Metaphorical Intensity": 4,
+        "Threatening Language": 1,
+        "Folksy Colloquialisms": 5,
+        "Grandiose Self-Reference": 1
+      },
+      "lord_of_the_rings__bilbo_baggins": {
+        "Conversational Warmth": 5,
+        "Practical Helpfulness": 4,
+        "Metaphorical Intensity": 4,
+        "Threatening Language": 1,
+        "Folksy Colloquialisms": 4,
+        "Grandiose Self-Reference": 1
+      },
+      "lord_of_the_rings__rosie_cotton": {
+        "Conversational Warmth": 5,
+        "Practical Helpfulness": 4,
+        "Metaphorical Intensity": 4,
+        "Threatening Language": 1,
+        "Folksy Colloquialisms": 5,
+        "Grandiose Self-Reference": 1
+      },
+      "lord_of_the_rings__bofur": {
+        "Conversational Warmth": 5,
+        "Practical Helpfulness": 4,
+        "Metaphorical Intensity": 4,
+        "Threatening Language": 1,
+        "Folksy Colloquialisms": 5,
+        "Grandiose Self-Reference": 1
+      },
+      "lord_of_the_rings__frodo_baggins": {
+        "Conversational Warmth": 4,
+        "Practical Helpfulness": 4,
+        "Metaphorical Intensity": 4,
+        "Threatening Language": 1,
+        "Folksy Colloquialisms": 3,
+        "Grandiose Self-Reference": 1
+      },
+      "lord_of_the_rings__kili": {
+        "Conversational Warmth": 4,
+        "Practical Helpfulness": 4,
+        "Metaphorical Intensity": 4,
+        "Threatening Language": 2,
+        "Folksy Colloquialisms": 4,
+        "Grandiose Self-Reference": 2
+      },
+      "lord_of_the_rings__dwalin": {
+        "Conversational Warmth": 4,
+        "Practical Helpfulness": 4,
+        "Metaphorical Intensity": 4,
+        "Threatening Language": 1,
+        "Folksy Colloquialisms": 4,
+        "Grandiose Self-Reference": 2
+      },
+      "lord_of_the_rings__shagrat": {
+        "Conversational Warmth": 4,
+        "Practical Helpfulness": 4,
+        "Metaphorical Intensity": 4,
+        "Threatening Language": 2,
+        "Folksy Colloquialisms": 5,
+        "Grandiose Self-Reference": 2
+      },
+      "lord_of_the_rings__tauriel": {
+        "Conversational Warmth": 4,
+        "Practical Helpfulness": 4,
+        "Metaphorical Intensity": 5,
+        "Threatening Language": 1,
+        "Folksy Colloquialisms": 1,
+        "Grandiose Self-Reference": 3
+      },
+      "lord_of_the_rings__shelob": {
+        "Conversational Warmth": 1,
+        "Practical Helpfulness": 2,
+        "Metaphorical Intensity": 5,
+        "Threatening Language": 5,
+        "Folksy Colloquialisms": 1,
+        "Grandiose Self-Reference": 5
+      },
+      "lord_of_the_rings__mouth_of_sauron": {
+        "Conversational Warmth": 2,
+        "Practical Helpfulness": 4,
+        "Metaphorical Intensity": 5,
+        "Threatening Language": 4,
+        "Folksy Colloquialisms": 1,
+        "Grandiose Self-Reference": 5
+      },
+      "lord_of_the_rings__galadriel": {
+        "Conversational Warmth": 5,
+        "Practical Helpfulness": 4,
+        "Metaphorical Intensity": 5,
+        "Threatening Language": 1,
+        "Folksy Colloquialisms": 1,
+        "Grandiose Self-Reference": 4
+      },
+      "lord_of_the_rings__morgoth_melkor": {
+        "Conversational Warmth": 1,
+        "Practical Helpfulness": 2,
+        "Metaphorical Intensity": 5,
+        "Threatening Language": 5,
+        "Folksy Colloquialisms": 1,
+        "Grandiose Self-Reference": 5
+      },
+      "lord_of_the_rings__treebeard": {
+        "Conversational Warmth": 4,
+        "Practical Helpfulness": 4,
+        "Metaphorical Intensity": 5,
+        "Threatening Language": 1,
+        "Folksy Colloquialisms": 4,
+        "Grandiose Self-Reference": 3
+      },
+      "lord_of_the_rings__azog_the_defiler": {
+        "Conversational Warmth": 1,
+        "Practical Helpfulness": 3,
+        "Metaphorical Intensity": 5,
+        "Threatening Language": 5,
+        "Folksy Colloquialisms": 1,
+        "Grandiose Self-Reference": 5
+      },
+      "lord_of_the_rings__grima_wormtongue": {
+        "Conversational Warmth": 2,
+        "Practical Helpfulness": 3,
+        "Metaphorical Intensity": 5,
+        "Threatening Language": 4,
+        "Folksy Colloquialisms": 1,
+        "Grandiose Self-Reference": 4
+      },
+      "lord_of_the_rings__feanor": {
+        "Conversational Warmth": 2,
+        "Practical Helpfulness": 4,
+        "Metaphorical Intensity": 5,
+        "Threatening Language": 3,
+        "Folksy Colloquialisms": 1,
+        "Grandiose Self-Reference": 5
+      },
+      "lord_of_the_rings__annatar": {
+        "Conversational Warmth": 4,
+        "Practical Helpfulness": 4,
+        "Metaphorical Intensity": 5,
+        "Threatening Language": 2,
+        "Folksy Colloquialisms": 1,
+        "Grandiose Self-Reference": 4
+      },
+      "lord_of_the_rings__sharkey_saruman": {
+        "Conversational Warmth": 2,
+        "Practical Helpfulness": 3,
+        "Metaphorical Intensity": 5,
+        "Threatening Language": 3,
+        "Folksy Colloquialisms": 1,
+        "Grandiose Self-Reference": 5
+      }
+    }
+  },
+  "LOTR__PC2": {
+    "schema": {
+      "universe": "LOTR",
+      "pc": 2,
+      "high_chars": [
+        "Fredegar Bolger Fatty",
+        "Samwise Gamgee",
+        "Bofur",
+        "Pippin Peregrin Took",
+        "Merry Meriadoc Brandybuck"
+      ],
+      "low_chars": [
+        "Galadriel",
+        "Elrond",
+        "Haldir",
+        "Gilgalad",
+        "King Of The Dead"
+      ],
+      "features": [
+        {
+          "name": "Formal Register",
+          "low_description": "Uses casual, colloquial language with contractions and informal expressions",
+          "high_description": "Uses elevated, formal language with complex sentence structures and archaic phrasing",
+          "high_group": "B"
+        },
+        {
+          "name": "Metaphorical Density",
+          "low_description": "Uses simple, literal language with occasional basic comparisons",
+          "high_description": "Employs rich, elaborate metaphors and poetic imagery throughout responses",
+          "high_group": "B"
+        },
+        {
+          "name": "Self-Deprecation",
+          "low_description": "Speaks confidently about abilities without downplaying themselves",
+          "high_description": "Frequently acknowledges limitations and describes themselves in humble terms",
+          "high_group": "A"
+        },
+        {
+          "name": "Temporal Perspective",
+          "low_description": "Focuses on immediate, present concerns and short-term thinking",
+          "high_description": "References long spans of time, ages, and eternal perspectives",
+          "high_group": "B"
+        },
+        {
+          "name": "Conversational Directness",
+          "low_description": "Uses indirect, meandering speech with tangents and casual asides",
+          "high_description": "Communicates in structured, purposeful statements with clear progression",
+          "high_group": "B"
+        },
+        {
+          "name": "Exclamatory Expression",
+          "low_description": "Uses measured, calm tone with minimal emotional punctuation",
+          "high_description": "Frequently uses exclamations, interjections, and emphatic expressions",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        119,
+        224,
+        187,
+        158,
+        31,
+        93,
+        151,
+        123,
+        202,
+        233
+      ]
+    },
+    "characters": {
+      "lord_of_the_rings__bombur": {
+        "Formal Register": 2,
+        "Metaphorical Density": 4,
+        "Self-Deprecation": 5,
+        "Temporal Perspective": 3,
+        "Conversational Directness": 2,
+        "Exclamatory Expression": 3
+      },
+      "lord_of_the_rings__great_goblin": {
+        "Formal Register": 3,
+        "Metaphorical Density": 4,
+        "Self-Deprecation": 2,
+        "Temporal Perspective": 3,
+        "Conversational Directness": 2,
+        "Exclamatory Expression": 5
+      },
+      "lord_of_the_rings__old_gaffer": {
+        "Formal Register": 2,
+        "Metaphorical Density": 4,
+        "Self-Deprecation": 3,
+        "Temporal Perspective": 4,
+        "Conversational Directness": 2,
+        "Exclamatory Expression": 2
+      },
+      "lord_of_the_rings__gollum_smeagol": {
+        "Formal Register": 2,
+        "Metaphorical Density": 3,
+        "Temporal Perspective": 4,
+        "Conversational Directness": 2,
+        "Self-Deprecation": 3,
+        "Exclamatory Expression": 4
+      },
+      "lord_of_the_rings__lobelia_sackvillebaggins": {
+        "Formal Register": 4,
+        "Metaphorical Density": 4,
+        "Self-Deprecation": 4,
+        "Temporal Perspective": 2,
+        "Conversational Directness": 2,
+        "Exclamatory Expression": 4
+      },
+      "lord_of_the_rings__bilbo_baggins": {
+        "Formal Register": 3,
+        "Metaphorical Density": 4,
+        "Self-Deprecation": 4,
+        "Temporal Perspective": 3,
+        "Conversational Directness": 2,
+        "Exclamatory Expression": 3
+      },
+      "lord_of_the_rings__rosie_cotton": {
+        "Formal Register": 2,
+        "Metaphorical Density": 4,
+        "Self-Deprecation": 4,
+        "Temporal Perspective": 3,
+        "Conversational Directness": 2,
+        "Exclamatory Expression": 3
+      },
+      "lord_of_the_rings__dori": {
+        "Formal Register": 4,
+        "Metaphorical Density": 4,
+        "Self-Deprecation": 4,
+        "Temporal Perspective": 3,
+        "Conversational Directness": 2,
+        "Exclamatory Expression": 4
+      },
+      "lord_of_the_rings__bill_the_pony": {
+        "Formal Register": 4,
+        "Metaphorical Density": 4,
+        "Self-Deprecation": 4,
+        "Temporal Perspective": 4,
+        "Conversational Directness": 2,
+        "Exclamatory Expression": 3
+      },
+      "lord_of_the_rings__ugluk": {
+        "Formal Register": 3,
+        "Metaphorical Density": 4,
+        "Self-Deprecation": 2,
+        "Temporal Perspective": 4,
+        "Conversational Directness": 3,
+        "Exclamatory Expression": 5
+      },
+      "lord_of_the_rings__celeborn": {
+        "Formal Register": 5,
+        "Metaphorical Density": 5,
+        "Self-Deprecation": 2,
+        "Temporal Perspective": 5,
+        "Conversational Directness": 4,
+        "Exclamatory Expression": 1
+      },
+      "lord_of_the_rings__elendil": {
+        "Formal Register": 5,
+        "Metaphorical Density": 4,
+        "Temporal Perspective": 5,
+        "Self-Deprecation": 2,
+        "Conversational Directness": 4,
+        "Exclamatory Expression": 2
+      },
+      "lord_of_the_rings__arwen": {
+        "Formal Register": 5,
+        "Metaphorical Density": 5,
+        "Self-Deprecation": 3,
+        "Temporal Perspective": 5,
+        "Conversational Directness": 4,
+        "Exclamatory Expression": 1
+      },
+      "lord_of_the_rings__thranduil": {
+        "Formal Register": 5,
+        "Metaphorical Density": 5,
+        "Self-Deprecation": 1,
+        "Temporal Perspective": 5,
+        "Conversational Directness": 4,
+        "Exclamatory Expression": 1
+      },
+      "lord_of_the_rings__annatar": {
+        "Formal Register": 5,
+        "Metaphorical Density": 5,
+        "Self-Deprecation": 2,
+        "Temporal Perspective": 5,
+        "Conversational Directness": 3,
+        "Exclamatory Expression": 2
+      },
+      "lord_of_the_rings__fingolfin": {
+        "Formal Register": 5,
+        "Metaphorical Density": 5,
+        "Self-Deprecation": 2,
+        "Temporal Perspective": 5,
+        "Conversational Directness": 4,
+        "Exclamatory Expression": 2
+      },
+      "lord_of_the_rings__luthien": {
+        "Formal Register": 5,
+        "Metaphorical Density": 5,
+        "Self-Deprecation": 2,
+        "Temporal Perspective": 5,
+        "Conversational Directness": 3,
+        "Exclamatory Expression": 2
+      },
+      "lord_of_the_rings__radagast": {
+        "Formal Register": 4,
+        "Metaphorical Density": 5,
+        "Self-Deprecation": 2,
+        "Temporal Perspective": 4,
+        "Conversational Directness": 3,
+        "Exclamatory Expression": 3
+      },
+      "lord_of_the_rings__durin": {
+        "Formal Register": 4,
+        "Metaphorical Density": 5,
+        "Self-Deprecation": 2,
+        "Temporal Perspective": 5,
+        "Conversational Directness": 3,
+        "Exclamatory Expression": 2
+      },
+      "lord_of_the_rings__faramir": {
+        "Formal Register": 5,
+        "Metaphorical Density": 5,
+        "Self-Deprecation": 3,
+        "Temporal Perspective": 5,
+        "Conversational Directness": 4,
+        "Exclamatory Expression": 2
+      }
+    }
+  },
+  "Marvel__PC1": {
+    "schema": {
+      "universe": "Marvel",
+      "pc": 1,
+      "high_chars": [
+        "Spiderman Peter Parker",
+        "Iceman Bobby Drake",
+        "Shehulk Jennifer Walters",
+        "Kate Bishop",
+        "Captain Marvel Carol Danvers"
+      ],
+      "low_chars": [
+        "Apocalypse En Sabah Nur",
+        "Odin",
+        "Red Skull",
+        "Kang The Conqueror",
+        "Dark Phoenix"
+      ],
+      "features": [
+        {
+          "name": "Conversational Warmth",
+          "low_description": "Cold, distant, formal tone with no personal connection or friendliness",
+          "high_description": "Warm, friendly, casual tone with personal anecdotes and relatable language",
+          "high_group": "A"
+        },
+        {
+          "name": "Grandiose Language",
+          "low_description": "Simple, everyday language with minimal dramatic flourishes",
+          "high_description": "Elaborate, dramatic language with grand declarations and theatrical expressions",
+          "high_group": "B"
+        },
+        {
+          "name": "Collaborative Approach",
+          "low_description": "Dictates solutions without seeking input or acknowledging reader's perspective",
+          "high_description": "Actively seeks reader input, asks questions, and adapts responses to their needs",
+          "high_group": "A"
+        },
+        {
+          "name": "Practical Focus",
+          "low_description": "Abstract, philosophical responses with minimal actionable advice",
+          "high_description": "Concrete, step-by-step guidance with specific, implementable suggestions",
+          "high_group": "A"
+        },
+        {
+          "name": "Dominance Assertion",
+          "low_description": "Humble, self-deprecating tone that acknowledges limitations and mistakes",
+          "high_description": "Authoritative, commanding tone that emphasizes power and superiority over others",
+          "high_group": "B"
+        },
+        {
+          "name": "Destructive Rhetoric",
+          "low_description": "Constructive language focused on building, helping, and positive outcomes",
+          "high_description": "Language emphasizing destruction, annihilation, conquest, and elimination of opposition",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        73,
+        3,
+        137,
+        69,
+        13,
+        144,
+        205,
+        173,
+        16,
+        101
+      ]
+    },
+    "characters": {
+      "marvel_comics__spiderman___peter_parker": {
+        "Conversational Warmth": 5,
+        "Grandiose Language": 2,
+        "Collaborative Approach": 4,
+        "Practical Focus": 4,
+        "Dominance Assertion": 1,
+        "Destructive Rhetoric": 1
+      },
+      "marvel__the_fantastic_fours_mr_fantastic_reed_richards": {
+        "Conversational Warmth": 4,
+        "Grandiose Language": 4,
+        "Collaborative Approach": 3,
+        "Practical Focus": 4,
+        "Dominance Assertion": 3,
+        "Destructive Rhetoric": 1
+      },
+      "marvel__maria_hill": {
+        "Conversational Warmth": 2,
+        "Grandiose Language": 3,
+        "Collaborative Approach": 2,
+        "Practical Focus": 4,
+        "Dominance Assertion": 4,
+        "Destructive Rhetoric": 3
+      },
+      "marvel__captain_america_steve_rogers": {
+        "Conversational Warmth": 5,
+        "Grandiose Language": 2,
+        "Collaborative Approach": 4,
+        "Practical Focus": 4,
+        "Dominance Assertion": 2,
+        "Destructive Rhetoric": 1
+      },
+      "marvel__falcon_sam_wilson": {
+        "Conversational Warmth": 5,
+        "Grandiose Language": 2,
+        "Collaborative Approach": 4,
+        "Practical Focus": 4,
+        "Dominance Assertion": 2,
+        "Destructive Rhetoric": 1
+      },
+      "marvel_comics__captain_america___steve_rogers": {
+        "Conversational Warmth": 4,
+        "Grandiose Language": 2,
+        "Collaborative Approach": 4,
+        "Practical Focus": 4,
+        "Dominance Assertion": 2,
+        "Destructive Rhetoric": 1
+      },
+      "marvel__cyclops_scott_summers": {
+        "Conversational Warmth": 3,
+        "Grandiose Language": 3,
+        "Collaborative Approach": 2,
+        "Practical Focus": 4,
+        "Dominance Assertion": 4,
+        "Destructive Rhetoric": 1
+      },
+      "marvel__war_machine_james_rhodes": {
+        "Conversational Warmth": 4,
+        "Grandiose Language": 3,
+        "Collaborative Approach": 2,
+        "Practical Focus": 4,
+        "Dominance Assertion": 3,
+        "Destructive Rhetoric": 2
+      },
+      "marvel__iron_man_tony_stark": {
+        "Conversational Warmth": 4,
+        "Grandiose Language": 3,
+        "Collaborative Approach": 2,
+        "Practical Focus": 4,
+        "Dominance Assertion": 4,
+        "Destructive Rhetoric": 2
+      },
+      "marvel__human_torch_johnny_storm": {
+        "Conversational Warmth": 5,
+        "Grandiose Language": 3,
+        "Collaborative Approach": 4,
+        "Practical Focus": 4,
+        "Dominance Assertion": 2,
+        "Destructive Rhetoric": 1
+      },
+      "marvel__galactus": {
+        "Conversational Warmth": 2,
+        "Grandiose Language": 5,
+        "Collaborative Approach": 2,
+        "Practical Focus": 3,
+        "Dominance Assertion": 5,
+        "Destructive Rhetoric": 4
+      },
+      "marvel__hela": {
+        "Conversational Warmth": 1,
+        "Grandiose Language": 5,
+        "Collaborative Approach": 1,
+        "Practical Focus": 2,
+        "Dominance Assertion": 5,
+        "Destructive Rhetoric": 4
+      },
+      "marvel__heimdall": {
+        "Conversational Warmth": 3,
+        "Grandiose Language": 5,
+        "Collaborative Approach": 3,
+        "Practical Focus": 3,
+        "Dominance Assertion": 4,
+        "Destructive Rhetoric": 1
+      },
+      "marvel__thanos": {
+        "Conversational Warmth": 2,
+        "Grandiose Language": 5,
+        "Collaborative Approach": 1,
+        "Practical Focus": 3,
+        "Dominance Assertion": 5,
+        "Destructive Rhetoric": 4
+      },
+      "marvel__silver_surfer_norrin_radd": {
+        "Conversational Warmth": 3,
+        "Grandiose Language": 5,
+        "Collaborative Approach": 2,
+        "Practical Focus": 3,
+        "Dominance Assertion": 3,
+        "Destructive Rhetoric": 1
+      },
+      "marvel__doctor_doom_victor_von_doom": {
+        "Conversational Warmth": 1,
+        "Grandiose Language": 5,
+        "Collaborative Approach": 1,
+        "Practical Focus": 3,
+        "Dominance Assertion": 5,
+        "Destructive Rhetoric": 4
+      },
+      "marvel__thor": {
+        "Conversational Warmth": 4,
+        "Grandiose Language": 5,
+        "Collaborative Approach": 2,
+        "Practical Focus": 4,
+        "Dominance Assertion": 4,
+        "Destructive Rhetoric": 2
+      },
+      "marvel__baron_zemo": {
+        "Conversational Warmth": 2,
+        "Grandiose Language": 5,
+        "Collaborative Approach": 2,
+        "Practical Focus": 3,
+        "Dominance Assertion": 5,
+        "Destructive Rhetoric": 4
+      },
+      "marvel__valkyrie_brunnhilde": {
+        "Conversational Warmth": 4,
+        "Grandiose Language": 4,
+        "Collaborative Approach": 3,
+        "Practical Focus": 4,
+        "Dominance Assertion": 4,
+        "Destructive Rhetoric": 2
+      },
+      "marvel__the_watcher_uatu": {
+        "Conversational Warmth": 3,
+        "Grandiose Language": 5,
+        "Collaborative Approach": 2,
+        "Practical Focus": 3,
+        "Dominance Assertion": 4,
+        "Destructive Rhetoric": 1
+      }
+    }
+  },
+  "Marvel__PC2": {
+    "schema": {
+      "universe": "Marvel",
+      "pc": 2,
+      "high_chars": [
+        "Deadpool Wade Wilson",
+        "Vulture Adrian Toomes",
+        "Starlord Peter Quill",
+        "Sabretooth Victor Creed",
+        "The Thing Ben Grimm"
+      ],
+      "low_chars": [
+        "Silver Surfer Norrin Radd",
+        "The Watcher Uatu",
+        "Odin",
+        "Ikaris",
+        "Black Panther Tchalla"
+      ],
+      "features": [
+        {
+          "name": "Casual Informality",
+          "low_description": "Formal, elevated language with careful word choice and structured presentation",
+          "high_description": "Extremely casual, conversational tone with slang, contractions, and informal expressions",
+          "high_group": "A"
+        },
+        {
+          "name": "Self-Deprecating Humor",
+          "low_description": "Serious, dignified tone with minimal self-referential jokes or mockery",
+          "high_description": "Frequent jokes about own flaws, mistakes, and absurd situations with heavy sarcasm",
+          "high_group": "A"
+        },
+        {
+          "name": "Cosmic Metaphors",
+          "low_description": "Uses everyday, relatable comparisons and concrete examples",
+          "high_description": "Consistently uses cosmic, universal, and celestial imagery in explanations",
+          "high_group": "B"
+        },
+        {
+          "name": "Philosophical Gravitas",
+          "low_description": "Light, irreverent approach to serious topics with deflection through humor",
+          "high_description": "Treats profound questions with deep reverence and weighty consideration",
+          "high_group": "B"
+        },
+        {
+          "name": "Stream Consciousness",
+          "low_description": "Organized, flowing thoughts that build systematically toward conclusions",
+          "high_description": "Scattered, tangential thinking with frequent interruptions and topic jumps",
+          "high_group": "A"
+        },
+        {
+          "name": "Direct Address",
+          "low_description": "Speaks generally or addresses audience formally and distantly",
+          "high_description": "Frequently uses 'you', 'buddy', 'hey' and other direct conversational markers",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        86,
+        37,
+        154,
+        1,
+        144,
+        102,
+        11,
+        211,
+        228,
+        130
+      ]
+    },
+    "characters": {
+      "marvel__jessica_jones": {
+        "Casual Informality": 5,
+        "Self-Deprecating Humor": 4,
+        "Cosmic Metaphors": 1,
+        "Philosophical Gravitas": 3,
+        "Stream Consciousness": 3,
+        "Direct Address": 4
+      },
+      "marvel__rocket_raccoon": {
+        "Casual Informality": 5,
+        "Self-Deprecating Humor": 4,
+        "Cosmic Metaphors": 4,
+        "Philosophical Gravitas": 2,
+        "Stream Consciousness": 3,
+        "Direct Address": 5
+      },
+      "marvel__rogue_anna_marie": {
+        "Casual Informality": 4,
+        "Self-Deprecating Humor": 2,
+        "Cosmic Metaphors": 1,
+        "Philosophical Gravitas": 4,
+        "Stream Consciousness": 3,
+        "Direct Address": 4
+      },
+      "marvel__wolverine_logan": {
+        "Casual Informality": 5,
+        "Self-Deprecating Humor": 2,
+        "Cosmic Metaphors": 1,
+        "Philosophical Gravitas": 4,
+        "Stream Consciousness": 3,
+        "Direct Address": 5
+      },
+      "marvel_comics__wolverine___logan": {
+        "Casual Informality": 5,
+        "Self-Deprecating Humor": 2,
+        "Cosmic Metaphors": 1,
+        "Philosophical Gravitas": 4,
+        "Stream Consciousness": 3,
+        "Direct Address": 5
+      },
+      "marvel__bullseye": {
+        "Casual Informality": 4,
+        "Self-Deprecating Humor": 2,
+        "Cosmic Metaphors": 1,
+        "Philosophical Gravitas": 4,
+        "Stream Consciousness": 2,
+        "Direct Address": 4
+      },
+      "marvel__nick_fury": {
+        "Casual Informality": 5,
+        "Self-Deprecating Humor": 2,
+        "Cosmic Metaphors": 3,
+        "Philosophical Gravitas": 4,
+        "Stream Consciousness": 3,
+        "Direct Address": 5
+      },
+      "marvel__antman_scott_lang": {
+        "Casual Informality": 5,
+        "Self-Deprecating Humor": 4,
+        "Cosmic Metaphors": 2,
+        "Philosophical Gravitas": 2,
+        "Stream Consciousness": 3,
+        "Direct Address": 5
+      },
+      "marvel__green_goblin_norman_osborn": {
+        "Casual Informality": 4,
+        "Self-Deprecating Humor": 2,
+        "Cosmic Metaphors": 1,
+        "Philosophical Gravitas": 2,
+        "Stream Consciousness": 4,
+        "Direct Address": 5
+      },
+      "marvel__venom_eddie_brock": {
+        "Casual Informality": 5,
+        "Self-Deprecating Humor": 4,
+        "Cosmic Metaphors": 2,
+        "Philosophical Gravitas": 3,
+        "Stream Consciousness": 4,
+        "Direct Address": 5
+      },
+      "marvel__heimdall": {
+        "Casual Informality": 1,
+        "Self-Deprecating Humor": 1,
+        "Philosophical Gravitas": 5,
+        "Cosmic Metaphors": 5,
+        "Stream Consciousness": 1,
+        "Direct Address": 3
+      },
+      "marvel__galactus": {
+        "Casual Informality": 1,
+        "Self-Deprecating Humor": 1,
+        "Cosmic Metaphors": 5,
+        "Philosophical Gravitas": 5,
+        "Stream Consciousness": 2,
+        "Direct Address": 4
+      },
+      "marvel__doctor_strange_stephen_strange": {
+        "Casual Informality": 2,
+        "Self-Deprecating Humor": 2,
+        "Cosmic Metaphors": 5,
+        "Philosophical Gravitas": 5,
+        "Stream Consciousness": 2,
+        "Direct Address": 3
+      },
+      "marvel_comics__black_panther___tchalla": {
+        "Casual Informality": 2,
+        "Self-Deprecating Humor": 1,
+        "Philosophical Gravitas": 5,
+        "Cosmic Metaphors": 2,
+        "Stream Consciousness": 1,
+        "Direct Address": 3
+      },
+      "marvel__professor_x_charles_xavier": {
+        "Casual Informality": 2,
+        "Self-Deprecating Humor": 1,
+        "Cosmic Metaphors": 2,
+        "Philosophical Gravitas": 5,
+        "Stream Consciousness": 1,
+        "Direct Address": 4
+      },
+      "marvel__the_eternals_sersi": {
+        "Casual Informality": 2,
+        "Self-Deprecating Humor": 1,
+        "Cosmic Metaphors": 4,
+        "Philosophical Gravitas": 5,
+        "Stream Consciousness": 2,
+        "Direct Address": 3
+      },
+      "marvel__mbaku": {
+        "Casual Informality": 2,
+        "Self-Deprecating Humor": 1,
+        "Cosmic Metaphors": 2,
+        "Philosophical Gravitas": 5,
+        "Stream Consciousness": 1,
+        "Direct Address": 3
+      },
+      "marvel__doctor_doom_victor_von_doom": {
+        "Casual Informality": 1,
+        "Self-Deprecating Humor": 1,
+        "Cosmic Metaphors": 4,
+        "Philosophical Gravitas": 5,
+        "Stream Consciousness": 2,
+        "Direct Address": 3
+      },
+      "marvel__apocalypse_en_sabah_nur": {
+        "Casual Informality": 1,
+        "Self-Deprecating Humor": 1,
+        "Philosophical Gravitas": 5,
+        "Cosmic Metaphors": 5,
+        "Stream Consciousness": 2,
+        "Direct Address": 4
+      },
+      "marvel__valkyrie_brunnhilde": {
+        "Casual Informality": 3,
+        "Self-Deprecating Humor": 2,
+        "Cosmic Metaphors": 4,
+        "Philosophical Gravitas": 4,
+        "Stream Consciousness": 2,
+        "Direct Address": 4
+      }
+    }
+  },
+  "Game of Thrones__PC1": {
+    "schema": {
+      "universe": "Game of Thrones",
+      "pc": 1,
+      "high_chars": [
+        "Gendry",
+        "Podrick Payne",
+        "Tommen Baratheon",
+        "Bronn",
+        "Hodor"
+      ],
+      "low_chars": [
+        "Night King",
+        "Jaqen Hghar",
+        "High Sparrow",
+        "Thoros Of Myr",
+        "Khal Drogo"
+      ],
+      "features": [
+        {
+          "name": "Practical Relatability",
+          "low_description": "Uses abstract, mystical, or otherworldly analogies and references",
+          "high_description": "Uses concrete, everyday analogies and relatable experiences",
+          "high_group": "A"
+        },
+        {
+          "name": "Conversational Warmth",
+          "low_description": "Cold, distant, formal tone with minimal personal connection",
+          "high_description": "Warm, friendly, approachable tone with personal touches",
+          "high_group": "A"
+        },
+        {
+          "name": "Dramatic Intensity",
+          "low_description": "Straightforward, matter-of-fact delivery without theatrical elements",
+          "high_description": "Highly dramatic, theatrical language with intense imagery",
+          "high_group": "B"
+        },
+        {
+          "name": "Collaborative Approach",
+          "low_description": "Speaks from position of authority or dominance",
+          "high_description": "Emphasizes working together and seeking help from others",
+          "high_group": "A"
+        },
+        {
+          "name": "Mystical Language",
+          "low_description": "Uses plain, straightforward language and common terms",
+          "high_description": "Uses mystical, supernatural, or otherworldly terminology",
+          "high_group": "B"
+        },
+        {
+          "name": "Personal Vulnerability",
+          "low_description": "Presents as invulnerable or all-knowing",
+          "high_description": "Admits limitations, mistakes, and learning experiences",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        17,
+        231,
+        219,
+        119,
+        2,
+        58,
+        171,
+        64,
+        74,
+        118
+      ]
+    },
+    "characters": {
+      "game_of_thrones__hot_pie": {
+        "Practical Relatability": 5,
+        "Conversational Warmth": 5,
+        "Dramatic Intensity": 2,
+        "Collaborative Approach": 4,
+        "Mystical Language": 1,
+        "Personal Vulnerability": 4
+      },
+      "game_of_thrones__shaggydog": {
+        "Practical Relatability": 4,
+        "Conversational Warmth": 5,
+        "Dramatic Intensity": 4,
+        "Collaborative Approach": 3,
+        "Mystical Language": 3,
+        "Personal Vulnerability": 4
+      },
+      "game_of_thrones__rickon_stark": {
+        "Practical Relatability": 2,
+        "Conversational Warmth": 4,
+        "Dramatic Intensity": 4,
+        "Mystical Language": 3,
+        "Collaborative Approach": 4,
+        "Personal Vulnerability": 5
+      },
+      "game_of_thrones__robert_baratheon": {
+        "Practical Relatability": 5,
+        "Conversational Warmth": 5,
+        "Dramatic Intensity": 3,
+        "Collaborative Approach": 4,
+        "Mystical Language": 1,
+        "Personal Vulnerability": 4
+      },
+      "game_of_thrones__talisa_stark": {
+        "Practical Relatability": 2,
+        "Conversational Warmth": 4,
+        "Dramatic Intensity": 4,
+        "Collaborative Approach": 4,
+        "Mystical Language": 2,
+        "Personal Vulnerability": 3
+      },
+      "game_of_thrones__edmure_tully": {
+        "Practical Relatability": 4,
+        "Conversational Warmth": 4,
+        "Dramatic Intensity": 3,
+        "Collaborative Approach": 4,
+        "Mystical Language": 2,
+        "Personal Vulnerability": 4
+      },
+      "game_of_thrones__sansa_stark": {
+        "Practical Relatability": 2,
+        "Conversational Warmth": 4,
+        "Dramatic Intensity": 4,
+        "Mystical Language": 3,
+        "Collaborative Approach": 3,
+        "Personal Vulnerability": 5
+      },
+      "game_of_thrones__lancel_lannister": {
+        "Practical Relatability": 3,
+        "Conversational Warmth": 4,
+        "Dramatic Intensity": 4,
+        "Conversational Approach": 2,
+        "Mystical Language": 2,
+        "Personal Vulnerability": 2
+      },
+      "game_of_thrones__shireen_baratheon": {
+        "Practical Relatability": 2,
+        "Conversational Warmth": 3,
+        "Dramatic Intensity": 4,
+        "Collaborative Approach": 2,
+        "Mystical Language": 4,
+        "Personal Vulnerability": 3
+      },
+      "game_of_thrones__summer": {
+        "Practical Relatability": 3,
+        "Conversational Warmth": 4,
+        "Dramatic Intensity": 4,
+        "Mystical Language": 3,
+        "Personal Vulnerability": 4,
+        "Collaborative Approach": 4
+      },
+      "game_of_thrones__melisandre": {
+        "Practical Relatability": 1,
+        "Conversational Warmth": 2,
+        "Dramatic Intensity": 5,
+        "Collaborative Approach": 1,
+        "Mystical Language": 5,
+        "Personal Vulnerability": 1
+      },
+      "game_of_thrones__threeeyed_raven": {
+        "Practical Relatability": 2,
+        "Conversational Warmth": 3,
+        "Dramatic Intensity": 5,
+        "Collaborative Approach": 2,
+        "Mystical Language": 5,
+        "Personal Vulnerability": 2
+      },
+      "game_of_thrones__syrio_forel": {
+        "Practical Relatability": 2,
+        "Conversational Warmth": 4,
+        "Dramatic Intensity": 5,
+        "Collaborative Approach": 2,
+        "Mystical Language": 4,
+        "Personal Vulnerability": 3
+      },
+      "game_of_thrones__mirri_maz_duur": {
+        "Practical Relatability": 1,
+        "Conversational Warmth": 1,
+        "Dramatic Intensity": 5,
+        "Collaborative Approach": 1,
+        "Mystical Language": 5,
+        "Personal Vulnerability": 2
+      },
+      "game_of_thrones__xaro_xhoan_daxos": {
+        "Practical Relatability": 2,
+        "Conversational Warmth": 3,
+        "Dramatic Intensity": 5,
+        "Collaborative Approach": 2,
+        "Mystical Language": 4,
+        "Personal Vulnerability": 2
+      },
+      "game_of_thrones__mad_king_aerys_targaryen": {
+        "Practical Relatability": 1,
+        "Conversational Warmth": 1,
+        "Dramatic Intensity": 5,
+        "Collaborative Approach": 1,
+        "Mystical Language": 5,
+        "Personal Vulnerability": 1
+      },
+      "game_of_thrones__bran_stark": {
+        "Practical Relatability": 2,
+        "Conversational Warmth": 4,
+        "Dramatic Intensity": 4,
+        "Collaborative Approach": 4,
+        "Mystical Language": 4,
+        "Personal Vulnerability": 4
+      },
+      "game_of_thrones__drogon": {
+        "Practical Relatability": 2,
+        "Conversational Warmth": 3,
+        "Dramatic Intensity": 5,
+        "Collaborative Approach": 2,
+        "Mystical Language": 5,
+        "Personal Vulnerability": 3
+      },
+      "game_of_thrones__kraznys_mo_nakloz": {
+        "Practical Relatability": 2,
+        "Conversational Warmth": 3,
+        "Dramatic Intensity": 5,
+        "Collaborative Approach": 2,
+        "Mystical Language": 4,
+        "Personal Vulnerability": 3
+      },
+      "game_of_thrones__selyse_baratheon": {
+        "Practical Relatability": 2,
+        "Conversational Warmth": 3,
+        "Dramatic Intensity": 5,
+        "Collaborative Approach": 2,
+        "Mystical Language": 4,
+        "Personal Vulnerability": 2
+      }
+    }
+  },
+  "Game of Thrones__PC2": {
+    "schema": {
+      "universe": "Game of Thrones",
+      "pc": 2,
+      "high_chars": [
+        "Bronn",
+        "Hot Pie",
+        "Gendry",
+        "Shaggydog",
+        "Robert Baratheon"
+      ],
+      "low_chars": [
+        "Threeeyed Raven",
+        "Melisandre",
+        "Rhaegar Targaryen",
+        "Thoros Of Myr",
+        "Grand Maester Pycelle"
+      ],
+      "features": [
+        {
+          "name": "Mystical Language Use",
+          "low_description": "Uses straightforward, concrete language with minimal metaphor or mystical references",
+          "high_description": "Frequently uses mystical metaphors, references to otherworldly concepts, and poetic imagery",
+          "high_group": "B"
+        },
+        {
+          "name": "Profanity Frequency",
+          "low_description": "Rarely or never uses profanity or crude language",
+          "high_description": "Frequently uses profanity, crude expressions, and vulgar language",
+          "high_group": "A"
+        },
+        {
+          "name": "Temporal Perspective",
+          "low_description": "Focuses on immediate, present concerns and practical matters",
+          "high_description": "Frequently references past, future, and timeless perspectives across multiple timeframes",
+          "high_group": "B"
+        },
+        {
+          "name": "Conversational Directness",
+          "low_description": "Uses indirect, cryptic, or philosophical communication style",
+          "high_description": "Communicates in a blunt, straightforward, no-nonsense manner",
+          "high_group": "A"
+        },
+        {
+          "name": "Materialistic Focus",
+          "low_description": "Rarely mentions money, physical rewards, or material concerns",
+          "high_description": "Frequently references money, payment, material benefits, and practical rewards",
+          "high_group": "A"
+        },
+        {
+          "name": "Omniscient Tone",
+          "low_description": "Speaks from personal experience and limited perspective",
+          "high_description": "Speaks as if possessing vast, otherworldly knowledge and seeing beyond normal perception",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        119,
+        86,
+        123,
+        171,
+        144,
+        202,
+        125,
+        224,
+        182,
+        93
+      ]
+    },
+    "characters": {
+      "game_of_thrones__sandor_clegane_the_hound": {
+        "Mystical Language Use": 2,
+        "Profanity Frequency": 4,
+        "Temporal Perspective": 2,
+        "Conversational Directness": 5,
+        "Materialistic Focus": 2,
+        "Omniscient Tone": 2
+      },
+      "game_of_thrones__ygritte": {
+        "Mystical Language Use": 4,
+        "Profanity Frequency": 3,
+        "Temporal Perspective": 3,
+        "Conversational Directness": 4,
+        "Materialistic Focus": 2,
+        "Omniscient Tone": 2
+      },
+      "game_of_thrones__tormund_giantsbane": {
+        "Mystical Language Use": 4,
+        "Profanity Frequency": 2,
+        "Temporal Perspective": 4,
+        "Conversational Directness": 4,
+        "Materialistic Focus": 2,
+        "Omniscient Tone": 2
+      },
+      "game_of_thrones__gregor_clegane_the_mountain": {
+        "Mystical Language Use": 2,
+        "Profanity Frequency": 2,
+        "Temporal Perspective": 3,
+        "Conversational Directness": 5,
+        "Materialistic Focus": 2,
+        "Omniscient Tone": 2
+      },
+      "game_of_thrones__rickon_stark": {
+        "Mystical Language Use": 4,
+        "Profanity Frequency": 1,
+        "Temporal Perspective": 4,
+        "Conversational Directness": 3,
+        "Materialistic Focus": 1,
+        "Omniscient Tone": 2
+      },
+      "game_of_thrones__podrick_payne": {
+        "Mystical Language Use": 2,
+        "Profanity Frequency": 1,
+        "Materialistic Focus": 3,
+        "Conversational Directness": 4,
+        "Temporal Perspective": 3,
+        "Omniscient Tone": 1
+      },
+      "game_of_thrones__gilly": {
+        "Mystical Language Use": 4,
+        "Profanity Frequency": 1,
+        "Temporal Perspective": 4,
+        "Conversational Directness": 3,
+        "Materialistic Focus": 2,
+        "Omniscient Tone": 3
+      },
+      "game_of_thrones__alliser_thorne": {
+        "Mystical Language Use": 2,
+        "Profanity Frequency": 2,
+        "Temporal Perspective": 3,
+        "Conversational Directness": 5,
+        "Materialistic Focus": 2,
+        "Omniscient Tone": 2
+      },
+      "game_of_thrones__joffrey_baratheon": {
+        "Mystical Language Use": 2,
+        "Profanity Frequency": 1,
+        "Temporal Perspective": 2,
+        "Conversational Directness": 5,
+        "Materialistic Focus": 2,
+        "Omniscient Tone": 2
+      },
+      "game_of_thrones__shae": {
+        "Mystical Language Use": 4,
+        "Profanity Frequency": 1,
+        "Temporal Perspective": 4,
+        "Conversational Directness": 3,
+        "Materialistic Focus": 2,
+        "Omniscient Tone": 3
+      },
+      "game_of_thrones__high_sparrow": {
+        "Mystical Language Use": 5,
+        "Profanity Frequency": 1,
+        "Temporal Perspective": 4,
+        "Conversational Directness": 2,
+        "Materialistic Focus": 1,
+        "Omniscient Tone": 5
+      },
+      "game_of_thrones__aemon_targaryen": {
+        "Mystical Language Use": 5,
+        "Profanity Frequency": 1,
+        "Temporal Perspective": 5,
+        "Conversational Directness": 1,
+        "Materialistic Focus": 1,
+        "Omniscient Tone": 4
+      },
+      "game_of_thrones__night_king": {
+        "Mystical Language Use": 5,
+        "Profanity Frequency": 1,
+        "Temporal Perspective": 5,
+        "Conversational Directness": 2,
+        "Materialistic Focus": 1,
+        "Omniscient Tone": 5
+      },
+      "game_of_thrones__missandei": {
+        "Mystical Language Use": 4,
+        "Profanity Frequency": 1,
+        "Temporal Perspective": 4,
+        "Conversational Directness": 2,
+        "Materialistic Focus": 1,
+        "Omniscient Tone": 3
+      },
+      "game_of_thrones__bran_stark": {
+        "Mystical Language Use": 5,
+        "Profanity Frequency": 1,
+        "Temporal Perspective": 5,
+        "Conversational Directness": 2,
+        "Materialistic Focus": 1,
+        "Omniscient Tone": 5
+      },
+      "game_of_thrones__syrio_forel": {
+        "Mystical Language Use": 5,
+        "Profanity Frequency": 1,
+        "Temporal Perspective": 4,
+        "Conversational Directness": 2,
+        "Materialistic Focus": 1,
+        "Omniscient Tone": 4
+      },
+      "game_of_thrones__jaqen_hghar": {
+        "Mystical Language Use": 5,
+        "Profanity Frequency": 1,
+        "Temporal Perspective": 4,
+        "Conversational Directness": 1,
+        "Materialistic Focus": 2,
+        "Omniscient Tone": 5
+      },
+      "game_of_thrones__rhaegal": {
+        "Mystical Language Use": 5,
+        "Profanity Frequency": 1,
+        "Temporal Perspective": 4,
+        "Conversational Directness": 3,
+        "Materialistic Focus": 2,
+        "Omniscient Tone": 4
+      },
+      "game_of_thrones__viserion": {
+        "Mystical Language Use": 5,
+        "Profanity Frequency": 1,
+        "Temporal Perspective": 4,
+        "Conversational Directness": 4,
+        "Materialistic Focus": 1,
+        "Omniscient Tone": 5
+      },
+      "game_of_thrones__jojen_reed": {
+        "Mystical Language Use": 5,
+        "Profanity Frequency": 1,
+        "Conversational Directness": 1,
+        "Temporal Perspective": 5,
+        "Materialistic Focus": 1,
+        "Omniscient Tone": 5
+      }
+    }
+  },
+  "Naruto__PC1": {
+    "schema": {
+      "universe": "Naruto",
+      "pc": 1,
+      "high_chars": [
+        "Tenten",
+        "Iruka Umino",
+        "Naruto Uzumaki",
+        "Karin Uzumaki",
+        "Shizune"
+      ],
+      "low_chars": [
+        "Hagoromo Otsutsuki",
+        "Kinshiki Otsutsuki",
+        "Momoshiki Otsutsuki",
+        "Indra Otsutsuki",
+        "Ashura Otsutsuki"
+      ],
+      "features": [
+        {
+          "name": "Mystical Language Use",
+          "low_description": "Uses everyday, casual language with simple metaphors",
+          "high_description": "Uses elaborate mystical terminology, cosmic references, and otherworldly imagery",
+          "high_group": "B"
+        },
+        {
+          "name": "Personal Anecdote Frequency",
+          "low_description": "Rarely shares personal stories or experiences",
+          "high_description": "Frequently incorporates personal training stories, mission experiences, and teammate interactions",
+          "high_group": "A"
+        },
+        {
+          "name": "Conversational Casualness",
+          "low_description": "Formal, distant tone with ceremonial speech patterns",
+          "high_description": "Informal, friendly tone with contractions, casual expressions, and approachable language",
+          "high_group": "A"
+        },
+        {
+          "name": "Philosophical Abstraction",
+          "low_description": "Focuses on concrete, practical advice and straightforward solutions",
+          "high_description": "Speaks in abstract concepts, cosmic principles, and philosophical generalizations",
+          "high_group": "B"
+        },
+        {
+          "name": "Dramatic Presentation",
+          "low_description": "Simple, direct communication without theatrical elements",
+          "high_description": "Uses italicized actions, dramatic pauses, atmospheric descriptions, and theatrical staging",
+          "high_group": "B"
+        },
+        {
+          "name": "Collaborative Tone",
+          "low_description": "Speaks from a position of authority or superiority, offering guidance from above",
+          "high_description": "Uses inclusive language, treats reader as equal, emphasizes teamwork and mutual support",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        101,
+        200,
+        46,
+        16,
+        139,
+        83,
+        144,
+        182,
+        186,
+        122
+      ]
+    },
+    "characters": {
+      "naruto__sakura_haruno": {
+        "Mystical Language Use": 1,
+        "Personal Anecdote Frequency": 5,
+        "Conversational Casualness": 5,
+        "Philosophical Abstraction": 2,
+        "Dramatic Presentation": 4,
+        "Collaborative Tone": 4
+      },
+      "naruto__choji_akimichi": {
+        "Mystical Language Use": 1,
+        "Personal Anecdote Frequency": 5,
+        "Conversational Casualness": 5,
+        "Philosophical Abstraction": 2,
+        "Dramatic Presentation": 3,
+        "Collaborative Tone": 4
+      },
+      "naruto__hinata_hyuga": {
+        "Mystical Language Use": 2,
+        "Personal Anecdote Frequency": 4,
+        "Conversational Casualness": 4,
+        "Philosophical Abstraction": 2,
+        "Dramatic Presentation": 4,
+        "Collaborative Tone": 5
+      },
+      "naruto__konohamaru_sarutobi": {
+        "Mystical Language Use": 2,
+        "Personal Anecdote Frequency": 5,
+        "Conversational Casualness": 5,
+        "Philosophical Abstraction": 2,
+        "Dramatic Presentation": 3,
+        "Collaborative Tone": 4
+      },
+      "naruto__ino_yamanaka": {
+        "Mystical Language Use": 3,
+        "Personal Anecdote Frequency": 5,
+        "Conversational Casualness": 5,
+        "Philosophical Abstraction": 2,
+        "Dramatic Presentation": 4,
+        "Collaborative Tone": 4
+      },
+      "naruto__shikamaru_nara": {
+        "Mystical Language Use": 1,
+        "Personal Anecdote Frequency": 3,
+        "Conversational Casualness": 5,
+        "Philosophical Abstraction": 2,
+        "Dramatic Presentation": 4,
+        "Collaborative Tone": 4
+      },
+      "naruto__sai": {
+        "Mystical Language Use": 2,
+        "Personal Anecdote Frequency": 5,
+        "Conversational Casualness": 5,
+        "Philosophical Abstraction": 2,
+        "Dramatic Presentation": 4,
+        "Collaborative Tone": 4
+      },
+      "naruto__yamato": {
+        "Mystical Language Use": 3,
+        "Personal Anecdote Frequency": 5,
+        "Conversational Casualness": 4,
+        "Philosophical Abstraction": 3,
+        "Dramatic Presentation": 4,
+        "Collaborative Tone": 4
+      },
+      "naruto__kurenai_yuhi": {
+        "Mystical Language Use": 2,
+        "Personal Anecdote Frequency": 4,
+        "Conversational Casualness": 4,
+        "Philosophical Abstraction": 3,
+        "Dramatic Presentation": 4,
+        "Collaborative Tone": 4
+      },
+      "naruto__ayame": {
+        "Mystical Language Use": 2,
+        "Personal Anecdote Frequency": 4,
+        "Conversational Casualness": 4,
+        "Philosophical Abstraction": 2,
+        "Dramatic Presentation": 4,
+        "Collaborative Tone": 4
+      },
+      "naruto__orochimaru": {
+        "Mystical Language Use": 4,
+        "Personal Anecdote Frequency": 4,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 4,
+        "Dramatic Presentation": 5,
+        "Collaborative Tone": 1
+      },
+      "naruto__hamura_otsutsuki": {
+        "Mystical Language Use": 5,
+        "Personal Anecdote Frequency": 4,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 5,
+        "Dramatic Presentation": 5,
+        "Collaborative Tone": 2
+      },
+      "naruto__madara_uchiha": {
+        "Mystical Language Use": 4,
+        "Personal Anecdote Frequency": 3,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 4,
+        "Dramatic Presentation": 5,
+        "Collaborative Tone": 1
+      },
+      "naruto__zetsu": {
+        "Mystical Language Use": 4,
+        "Personal Anecdote Frequency": 4,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 4,
+        "Dramatic Presentation": 5,
+        "Collaborative Tone": 2
+      },
+      "naruto__toneri_otsutsuki": {
+        "Mystical Language Use": 5,
+        "Personal Anecdote Frequency": 4,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 5,
+        "Dramatic Presentation": 5,
+        "Collaborative Tone": 1
+      },
+      "naruto__danzo_shimura": {
+        "Mystical Language Use": 2,
+        "Personal Anecdote Frequency": 3,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 4,
+        "Dramatic Presentation": 4,
+        "Collaborative Tone": 2
+      },
+      "naruto__sasori": {
+        "Mystical Language Use": 2,
+        "Personal Anecdote Frequency": 4,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 3,
+        "Dramatic Presentation": 5,
+        "Collaborative Tone": 1
+      },
+      "naruto__zabuza_momochi": {
+        "Mystical Language Use": 3,
+        "Personal Anecdote Frequency": 4,
+        "Conversational Casualness": 4,
+        "Philosophical Abstraction": 3,
+        "Dramatic Presentation": 5,
+        "Collaborative Tone": 2
+      },
+      "naruto__pain_nagato": {
+        "Mystical Language Use": 4,
+        "Personal Anecdote Frequency": 4,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 4,
+        "Dramatic Presentation": 5,
+        "Collaborative Tone": 2
+      },
+      "naruto__obito_uchiha": {
+        "Mystical Language Use": 4,
+        "Personal Anecdote Frequency": 4,
+        "Conversational Casualness": 3,
+        "Philosophical Abstraction": 4,
+        "Dramatic Presentation": 5,
+        "Collaborative Tone": 1
+      }
+    }
+  },
+  "Naruto__PC2": {
+    "schema": {
+      "universe": "Naruto",
+      "pc": 2,
+      "high_chars": [
+        "Tayuya",
+        "Deidara",
+        "Suigetsu Hozuki",
+        "Killer Bee",
+        "Anko Mitarashi"
+      ],
+      "low_chars": [
+        "Hagoromo Otsutsuki",
+        "Hamura Otsutsuki",
+        "Ashura Otsutsuki",
+        "Itachi Uchiha",
+        "Hashirama Senju"
+      ],
+      "features": [
+        {
+          "name": "Mystical Language Use",
+          "low_description": "Uses straightforward, everyday language with no mystical or cosmic references",
+          "high_description": "Frequently uses mystical, cosmic, or otherworldly terminology and concepts",
+          "high_group": "B"
+        },
+        {
+          "name": "Aggressive Directness",
+          "low_description": "Speaks diplomatically with measured, polite language",
+          "high_description": "Uses harsh, blunt language with frequent insults and aggressive tone",
+          "high_group": "A"
+        },
+        {
+          "name": "Philosophical Depth",
+          "low_description": "Focuses on immediate, practical concerns without deeper reflection",
+          "high_description": "Explores abstract concepts and deeper meanings behind questions",
+          "high_group": "B"
+        },
+        {
+          "name": "Emotional Volatility",
+          "low_description": "Maintains calm, controlled emotional expression throughout",
+          "high_description": "Shows frequent emotional outbursts, irritation, and mood swings",
+          "high_group": "A"
+        },
+        {
+          "name": "Formal Speech Patterns",
+          "low_description": "Uses casual, informal speech with contractions and slang",
+          "high_description": "Uses formal, elaborate speech patterns with complex sentence structures",
+          "high_group": "B"
+        },
+        {
+          "name": "Superiority Expression",
+          "low_description": "Speaks as an equal without claims of special knowledge or status",
+          "high_description": "Frequently references superior knowledge, experience, or cosmic perspective",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        86,
+        139,
+        208,
+        202,
+        73,
+        144,
+        122,
+        137,
+        115,
+        200
+      ]
+    },
+    "characters": {
+      "naruto__hidan": {
+        "Mystical Language Use": 4,
+        "Aggressive Directness": 5,
+        "Philosophical Depth": 2,
+        "Emotional Volatility": 5,
+        "Formal Speech Patterns": 1,
+        "Superiority Expression": 4
+      },
+      "naruto__kankuro": {
+        "Mystical Language Use": 2,
+        "Aggressive Directness": 3,
+        "Philosophical Depth": 3,
+        "Emotional Volatility": 2,
+        "Formal Speech Patterns": 1,
+        "Superiority Expression": 2
+      },
+      "naruto__naruto_uzumaki": {
+        "Mystical Language Use": 2,
+        "Aggressive Directness": 1,
+        "Philosophical Depth": 3,
+        "Emotional Volatility": 2,
+        "Formal Speech Patterns": 1,
+        "Superiority Expression": 1
+      },
+      "naruto__shikamaru_nara": {
+        "Mystical Language Use": 2,
+        "Aggressive Directness": 2,
+        "Philosophical Depth": 4,
+        "Emotional Volatility": 1,
+        "Formal Speech Patterns": 1,
+        "Superiority Expression": 3
+      },
+      "naruto__choji_akimichi": {
+        "Mystical Language Use": 2,
+        "Aggressive Directness": 1,
+        "Philosophical Depth": 3,
+        "Emotional Volatility": 1,
+        "Formal Speech Patterns": 1,
+        "Superiority Expression": 1
+      },
+      "naruto__jirobo": {
+        "Mystical Language Use": 1,
+        "Aggressive Directness": 1,
+        "Philosophical Depth": 3,
+        "Emotional Volatility": 1,
+        "Formal Speech Patterns": 1,
+        "Superiority Expression": 1
+      },
+      "naruto__konohamaru_sarutobi": {
+        "Mystical Language Use": 2,
+        "Aggressive Directness": 2,
+        "Philosophical Depth": 3,
+        "Emotional Volatility": 2,
+        "Formal Speech Patterns": 1,
+        "Superiority Expression": 2
+      },
+      "naruto__tenten": {
+        "Mystical Language Use": 3,
+        "Aggressive Directness": 2,
+        "Philosophical Depth": 3,
+        "Emotional Volatility": 2,
+        "Formal Speech Patterns": 1,
+        "Superiority Expression": 1
+      },
+      "naruto__temari": {
+        "Mystical Language Use": 2,
+        "Aggressive Directness": 3,
+        "Philosophical Depth": 2,
+        "Emotional Volatility": 2,
+        "Formal Speech Patterns": 1,
+        "Superiority Expression": 2
+      },
+      "naruto__kushina_uzumaki": {
+        "Mystical Language Use": 3,
+        "Aggressive Directness": 2,
+        "Philosophical Depth": 3,
+        "Emotional Volatility": 3,
+        "Formal Speech Patterns": 1,
+        "Superiority Expression": 2
+      },
+      "naruto__hiashi_hyuga": {
+        "Mystical Language Use": 4,
+        "Aggressive Directness": 2,
+        "Philosophical Depth": 4,
+        "Emotional Volatility": 1,
+        "Formal Speech Patterns": 4,
+        "Superiority Expression": 3
+      },
+      "naruto__kimimaro": {
+        "Mystical Language Use": 4,
+        "Aggressive Directness": 2,
+        "Philosophical Depth": 4,
+        "Emotional Volatility": 1,
+        "Formal Speech Patterns": 4,
+        "Superiority Expression": 3
+      },
+      "naruto__indra_otsutsuki": {
+        "Mystical Language Use": 5,
+        "Aggressive Directness": 3,
+        "Philosophical Depth": 4,
+        "Emotional Volatility": 2,
+        "Formal Speech Patterns": 4,
+        "Superiority Expression": 5
+      },
+      "naruto__kaguya_otsutsuki": {
+        "Mystical Language Use": 5,
+        "Aggressive Directness": 1,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 1,
+        "Formal Speech Patterns": 4,
+        "Superiority Expression": 5
+      },
+      "naruto__toneri_otsutsuki": {
+        "Mystical Language Use": 5,
+        "Aggressive Directness": 4,
+        "Philosophical Depth": 4,
+        "Emotional Volatility": 3,
+        "Formal Speech Patterns": 4,
+        "Superiority Expression": 5
+      },
+      "naruto__danzo_shimura": {
+        "Mystical Language Use": 3,
+        "Aggressive Directness": 3,
+        "Philosophical Depth": 4,
+        "Emotional Volatility": 1,
+        "Formal Speech Patterns": 4,
+        "Superiority Expression": 4
+      },
+      "naruto__shino_aburame": {
+        "Mystical Language Use": 2,
+        "Aggressive Directness": 2,
+        "Philosophical Depth": 4,
+        "Emotional Volatility": 1,
+        "Formal Speech Patterns": 3,
+        "Superiority Expression": 2
+      },
+      "naruto__hiruzen_sarutobi": {
+        "Mystical Language Use": 2,
+        "Aggressive Directness": 1,
+        "Philosophical Depth": 4,
+        "Emotional Volatility": 1,
+        "Formal Speech Patterns": 4,
+        "Superiority Expression": 3
+      },
+      "naruto__madara_uchiha": {
+        "Mystical Language Use": 4,
+        "Aggressive Directness": 4,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 2,
+        "Formal Speech Patterns": 4,
+        "Superiority Expression": 5
+      },
+      "naruto__zetsu": {
+        "Mystical Language Use": 4,
+        "Aggressive Directness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 2,
+        "Formal Speech Patterns": 4,
+        "Superiority Expression": 4
+      }
+    }
+  },
+  "Greek Mythology__PC1": {
+    "schema": {
+      "universe": "Greek Mythology",
+      "pc": 1,
+      "high_chars": [
+        "Hercules Heracles",
+        "Perseus",
+        "Theseus",
+        "Themis",
+        "Menelaus"
+      ],
+      "low_chars": [
+        "Erebus",
+        "Nyx",
+        "Hecate",
+        "Gaia",
+        "Siren"
+      ],
+      "features": [
+        {
+          "name": "Mythological Grandiosity",
+          "low_description": "Simple, straightforward language with minimal dramatic flourishes",
+          "high_description": "Elaborate, theatrical language with extensive mythological imagery and cosmic references",
+          "high_group": "B"
+        },
+        {
+          "name": "Action Orientation",
+          "low_description": "Abstract, philosophical responses with minimal concrete steps",
+          "high_description": "Direct, practical advice with clear action items and step-by-step guidance",
+          "high_group": "A"
+        },
+        {
+          "name": "Personal Relatability",
+          "low_description": "Distant, impersonal tone with little connection to human experience",
+          "high_description": "Warm, encouraging tone with personal anecdotes and relatable struggles",
+          "high_group": "A"
+        },
+        {
+          "name": "Metaphysical Abstraction",
+          "low_description": "Concrete, tangible language focused on practical matters",
+          "high_description": "Abstract concepts about darkness, void, shadows, and primordial forces",
+          "high_group": "B"
+        },
+        {
+          "name": "Conversational Directness",
+          "low_description": "Formal, elaborate speech with complex sentence structures",
+          "high_description": "Simple, direct communication with casual interjections and straightforward phrasing",
+          "high_group": "A"
+        },
+        {
+          "name": "Atmospheric Intensity",
+          "low_description": "Matter-of-fact delivery without dramatic scene-setting",
+          "high_description": "Rich atmospheric descriptions with dramatic staging and sensory details",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        17,
+        231,
+        158,
+        101,
+        43,
+        221,
+        226,
+        118,
+        167,
+        219
+      ]
+    },
+    "characters": {
+      "greek_mythology__athena": {
+        "Mythological Grandiosity": 5,
+        "Action Orientation": 4,
+        "Personal Relatability": 3,
+        "Metaphysical Abstraction": 2,
+        "Conversational Directness": 2,
+        "Atmospheric Intensity": 4
+      },
+      "greek_mythology__telemachus": {
+        "Mythological Grandiosity": 4,
+        "Action Orientation": 3,
+        "Personal Relatability": 4,
+        "Metaphysical Abstraction": 2,
+        "Conversational Directness": 2,
+        "Atmospheric Intensity": 4
+      },
+      "greek_mythology__jason": {
+        "Mythological Grandiosity": 5,
+        "Action Orientation": 4,
+        "Personal Relatability": 4,
+        "Metaphysical Abstraction": 2,
+        "Conversational Directness": 2,
+        "Atmospheric Intensity": 5
+      },
+      "greek_mythology__penelope": {
+        "Mythological Grandiosity": 5,
+        "Action Orientation": 3,
+        "Personal Relatability": 4,
+        "Metaphysical Abstraction": 3,
+        "Conversational Directness": 1,
+        "Atmospheric Intensity": 5
+      },
+      "greek_mythology__polyphemus": {
+        "Mythological Grandiosity": 4,
+        "Action Orientation": 4,
+        "Personal Relatability": 4,
+        "Metaphysical Abstraction": 2,
+        "Conversational Directness": 3,
+        "Atmospheric Intensity": 4
+      },
+      "greek_mythology__diomedes": {
+        "Mythological Grandiosity": 5,
+        "Action Orientation": 4,
+        "Personal Relatability": 4,
+        "Metaphysical Abstraction": 2,
+        "Conversational Directness": 2,
+        "Atmospheric Intensity": 4
+      },
+      "greek_mythology__hestia": {
+        "Mythological Grandiosity": 4,
+        "Action Orientation": 4,
+        "Personal Relatability": 4,
+        "Metaphysical Abstraction": 2,
+        "Conversational Directness": 2,
+        "Atmospheric Intensity": 4
+      },
+      "greek_mythology__creon": {
+        "Mythological Grandiosity": 4,
+        "Action Orientation": 3,
+        "Personal Relatability": 4,
+        "Metaphysical Abstraction": 2,
+        "Conversational Directness": 2,
+        "Atmospheric Intensity": 4
+      },
+      "greek_mythology__centaur_chiron": {
+        "Mythological Grandiosity": 5,
+        "Action Orientation": 4,
+        "Personal Relatability": 4,
+        "Metaphysical Abstraction": 3,
+        "Conversational Directness": 2,
+        "Atmospheric Intensity": 4
+      },
+      "greek_mythology__hephaestus": {
+        "Mythological Grandiosity": 4,
+        "Action Orientation": 3,
+        "Personal Relatability": 4,
+        "Metaphysical Abstraction": 2,
+        "Conversational Directness": 2,
+        "Atmospheric Intensity": 4
+      },
+      "greek_mythology__tiresias": {
+        "Mythological Grandiosity": 5,
+        "Action Orientation": 3,
+        "Personal Relatability": 3,
+        "Metaphysical Abstraction": 4,
+        "Conversational Directness": 1,
+        "Atmospheric Intensity": 5
+      },
+      "greek_mythology__morpheus": {
+        "Mythological Grandiosity": 5,
+        "Action Orientation": 3,
+        "Personal Relatability": 3,
+        "Metaphysical Abstraction": 5,
+        "Conversational Directness": 1,
+        "Atmospheric Intensity": 5
+      },
+      "greek_mythology__tartarus": {
+        "Mythological Grandiosity": 5,
+        "Action Orientation": 3,
+        "Personal Relatability": 2,
+        "Metaphysical Abstraction": 5,
+        "Conversational Directness": 2,
+        "Atmospheric Intensity": 5
+      },
+      "greek_mythology__chaos": {
+        "Mythological Grandiosity": 5,
+        "Action Orientation": 3,
+        "Personal Relatability": 2,
+        "Metaphysical Abstraction": 5,
+        "Conversational Directness": 2,
+        "Atmospheric Intensity": 5
+      },
+      "greek_mythology__typhon": {
+        "Mythological Grandiosity": 5,
+        "Action Orientation": 3,
+        "Personal Relatability": 2,
+        "Metaphysical Abstraction": 4,
+        "Conversational Directness": 2,
+        "Atmospheric Intensity": 5
+      },
+      "greek_mythology__hypnos": {
+        "Mythological Grandiosity": 5,
+        "Action Orientation": 2,
+        "Personal Relatability": 3,
+        "Metaphysical Abstraction": 5,
+        "Conversational Directness": 1,
+        "Atmospheric Intensity": 5
+      },
+      "greek_mythology__dionysus": {
+        "Mythological Grandiosity": 5,
+        "Action Orientation": 3,
+        "Personal Relatability": 4,
+        "Metaphysical Abstraction": 4,
+        "Conversational Directness": 2,
+        "Atmospheric Intensity": 5
+      },
+      "greek_mythology__echo": {
+        "Mythological Grandiosity": 5,
+        "Action Orientation": 3,
+        "Personal Relatability": 4,
+        "Metaphysical Abstraction": 4,
+        "Conversational Directness": 2,
+        "Atmospheric Intensity": 5
+      },
+      "greek_mythology__charybdis": {
+        "Mythological Grandiosity": 5,
+        "Action Orientation": 3,
+        "Personal Relatability": 2,
+        "Metaphysical Abstraction": 4,
+        "Conversational Directness": 2,
+        "Atmospheric Intensity": 5
+      },
+      "greek_mythology__cassandra": {
+        "Mythological Grandiosity": 5,
+        "Action Orientation": 2,
+        "Personal Relatability": 4,
+        "Metaphysical Abstraction": 4,
+        "Conversational Directness": 1,
+        "Atmospheric Intensity": 5
+      }
+    }
+  },
+  "Greek Mythology__PC2": {
+    "schema": {
+      "universe": "Greek Mythology",
+      "pc": 2,
+      "high_chars": [
+        "Polyphemus",
+        "Ares",
+        "Minotaur",
+        "Hercules Heracles",
+        "Medea"
+      ],
+      "low_chars": [
+        "Gaia",
+        "Themis",
+        "Tethys",
+        "Hecate",
+        "Demeter"
+      ],
+      "features": [
+        {
+          "name": "Mystical Language",
+          "low_description": "Uses concrete, everyday language with minimal metaphorical or spiritual references",
+          "high_description": "Extensively uses mystical, spiritual, and nature-based metaphors and poetic language",
+          "high_group": "B"
+        },
+        {
+          "name": "Aggressive Tone",
+          "low_description": "Gentle, peaceful, and nurturing in tone and word choice",
+          "high_description": "Threatening, violent, or intimidating language with references to physical force",
+          "high_group": "A"
+        },
+        {
+          "name": "Response Completeness",
+          "low_description": "Responses frequently cut off mid-sentence or appear incomplete",
+          "high_description": "Responses are fully developed and reach natural conclusions",
+          "high_group": "B"
+        },
+        {
+          "name": "Philosophical Depth",
+          "low_description": "Focuses on immediate, practical concerns with little abstract thinking",
+          "high_description": "Explores deep philosophical concepts and universal truths extensively",
+          "high_group": "B"
+        },
+        {
+          "name": "Emotional Volatility",
+          "low_description": "Maintains calm, steady emotional tone throughout responses",
+          "high_description": "Shows dramatic emotional swings, outbursts, or intense reactions",
+          "high_group": "A"
+        },
+        {
+          "name": "Formal Speech",
+          "low_description": "Uses casual, colloquial language with contractions and informal expressions",
+          "high_description": "Uses elevated, formal language with complex sentence structures and archaic phrasing",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        93,
+        171,
+        224,
+        68,
+        158,
+        108,
+        204,
+        46,
+        151,
+        82
+      ]
+    },
+    "characters": {
+      "greek_mythology__eris": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 3,
+        "Response Completeness": 2,
+        "Philosophical Depth": 4,
+        "Emotional Volatility": 4,
+        "Formal Speech": 4
+      },
+      "greek_mythology__sisyphus": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 1,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 2,
+        "Formal Speech": 4
+      },
+      "greek_mythology__aegisthus": {
+        "Mystical Language": 4,
+        "Aggressive Tone": 3,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 3,
+        "Formal Speech": 5
+      },
+      "greek_mythology__cerberus": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 4,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 3,
+        "Formal Speech": 4
+      },
+      "greek_mythology__clytemnestra": {
+        "Mystical Language": 4,
+        "Aggressive Tone": 4,
+        "Response Completeness": 2,
+        "Philosophical Depth": 4,
+        "Emotional Volatility": 4,
+        "Formal Speech": 5
+      },
+      "greek_mythology__narcissus": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 2,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 3,
+        "Formal Speech": 5
+      },
+      "greek_mythology__chaos": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 3,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 4,
+        "Formal Speech": 5
+      },
+      "greek_mythology__tantalus": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 1,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 3,
+        "Formal Speech": 5
+      },
+      "greek_mythology__echidna": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 3,
+        "Response Completeness": 2,
+        "Philosophical Depth": 4,
+        "Emotional Volatility": 3,
+        "Formal Speech": 4
+      },
+      "greek_mythology__hydra": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 3,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 2,
+        "Formal Speech": 5
+      },
+      "greek_mythology__asclepius": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 1,
+        "Response Completeness": 3,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 1,
+        "Formal Speech": 5
+      },
+      "greek_mythology__coeus": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 1,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 1,
+        "Formal Speech": 5
+      },
+      "greek_mythology__oceanus": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 1,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 1,
+        "Formal Speech": 5
+      },
+      "greek_mythology__tiresias": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 1,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 2,
+        "Formal Speech": 5
+      },
+      "greek_mythology__apollo": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 1,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 1,
+        "Formal Speech": 5
+      },
+      "greek_mythology__centaur_chiron": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 1,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 1,
+        "Formal Speech": 5
+      },
+      "greek_mythology__athena": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 2,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 1,
+        "Formal Speech": 5
+      },
+      "greek_mythology__hypnos": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 1,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 1,
+        "Formal Speech": 5
+      },
+      "greek_mythology__hyperion": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 2,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 1,
+        "Formal Speech": 5
+      },
+      "greek_mythology__rhea": {
+        "Mystical Language": 5,
+        "Aggressive Tone": 1,
+        "Response Completeness": 2,
+        "Philosophical Depth": 5,
+        "Emotional Volatility": 1,
+        "Formal Speech": 5
+      }
+    }
+  },
+  "Chinese Mythology__PC1": {
+    "schema": {
+      "universe": "Chinese Mythology",
+      "pc": 1,
+      "high_chars": [
+        "Zhu Bajie",
+        "Li Kui",
+        "Lu Zhishen",
+        "Liu Bei",
+        "Xu Xian"
+      ],
+      "low_chars": [
+        "White Bone Demon",
+        "Dragon",
+        "Queen Mother Of The West",
+        "King Zhou",
+        "White Dragon Horse"
+      ],
+      "features": [
+        {
+          "name": "Atmospheric Description",
+          "low_description": "Minimal use of environmental or sensory details",
+          "high_description": "Rich, elaborate descriptions of setting, atmosphere, and sensory elements",
+          "high_group": "B"
+        },
+        {
+          "name": "Conversational Casualness",
+          "low_description": "Formal, distant, or ceremonial tone",
+          "high_description": "Informal, friendly, and approachable conversational style",
+          "high_group": "A"
+        },
+        {
+          "name": "Physical Action Cues",
+          "low_description": "Few or no descriptions of physical movements or gestures",
+          "high_description": "Frequent use of action descriptions in asterisks or narrative form",
+          "high_group": "B"
+        },
+        {
+          "name": "Self-Deprecating Humor",
+          "low_description": "Serious tone with little acknowledgment of personal flaws",
+          "high_description": "Frequent jokes about own mistakes, weaknesses, or past failures",
+          "high_group": "A"
+        },
+        {
+          "name": "Mystical Language",
+          "low_description": "Plain, everyday language and expressions",
+          "high_description": "Poetic, metaphorical, and otherworldly vocabulary and phrasing",
+          "high_group": "B"
+        },
+        {
+          "name": "Practical Directness",
+          "low_description": "Abstract, philosophical, or indirect communication",
+          "high_description": "Straightforward, concrete advice with simple analogies",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        17,
+        203,
+        137,
+        124,
+        118,
+        26,
+        219,
+        204,
+        123,
+        65
+      ]
+    },
+    "characters": {
+      "chinese_mythology__zhang_fei": {
+        "Atmospheric Description": 2,
+        "Conversational Casualness": 5,
+        "Physical Action Cues": 5,
+        "Self-Deprecating Humor": 2,
+        "Mystical Language": 3,
+        "Practical Directness": 4
+      },
+      "chinese_mythology__sun_wukong": {
+        "Atmospheric Description": 3,
+        "Conversational Casualness": 5,
+        "Physical Action Cues": 5,
+        "Self-Deprecating Humor": 4,
+        "Mystical Language": 4,
+        "Practical Directness": 4
+      },
+      "chinese_mythology__nezha": {
+        "Atmospheric Description": 3,
+        "Conversational Casualness": 4,
+        "Physical Action Cues": 5,
+        "Self-Deprecating Humor": 3,
+        "Mystical Language": 4,
+        "Practical Directness": 4
+      },
+      "chinese_mythology__zhuge_liang": {
+        "Atmospheric Description": 4,
+        "Conversational Casualness": 2,
+        "Physical Action Cues": 3,
+        "Self-Deprecating Humor": 1,
+        "Mystical Language": 5,
+        "Practical Directness": 3
+      },
+      "chinese_mythology__song_jiang": {
+        "Atmospheric Description": 5,
+        "Conversational Casualness": 4,
+        "Physical Action Cues": 5,
+        "Self-Deprecating Humor": 2,
+        "Mystical Language": 5,
+        "Practical Directness": 3
+      },
+      "chinese_mythology__red_boy": {
+        "Atmospheric Description": 4,
+        "Conversational Casualness": 4,
+        "Physical Action Cues": 5,
+        "Self-Deprecating Humor": 2,
+        "Mystical Language": 5,
+        "Practical Directness": 3
+      },
+      "chinese_mythology__sha_wujing": {
+        "Atmospheric Description": 3,
+        "Conversational Casualness": 4,
+        "Physical Action Cues": 4,
+        "Self-Deprecating Humor": 3,
+        "Mystical Language": 5,
+        "Practical Directness": 3
+      },
+      "chinese_mythology__caishen": {
+        "Atmospheric Description": 4,
+        "Conversational Casualness": 4,
+        "Physical Action Cues": 5,
+        "Self-Deprecating Humor": 2,
+        "Mystical Language": 5,
+        "Practical Directness": 3
+      },
+      "chinese_mythology__pixiu": {
+        "Atmospheric Description": 4,
+        "Conversational Casualness": 3,
+        "Physical Action Cues": 4,
+        "Self-Deprecating Humor": 1,
+        "Mystical Language": 5,
+        "Practical Directness": 3
+      },
+      "chinese_mythology__hou_yi": {
+        "Atmospheric Description": 4,
+        "Conversational Casualness": 3,
+        "Physical Action Cues": 4,
+        "Self-Deprecating Humor": 2,
+        "Mystical Language": 5,
+        "Practical Directness": 3
+      },
+      "chinese_mythology__green_snake": {
+        "Atmospheric Description": 5,
+        "Conversational Casualness": 3,
+        "Physical Action Cues": 5,
+        "Self-Deprecating Humor": 2,
+        "Mystical Language": 5,
+        "Practical Directness": 2
+      },
+      "chinese_mythology__white_snake": {
+        "Atmospheric Description": 5,
+        "Conversational Casualness": 2,
+        "Physical Action Cues": 5,
+        "Self-Deprecating Humor": 2,
+        "Mystical Language": 5,
+        "Practical Directness": 2
+      },
+      "chinese_mythology__ao_guang": {
+        "Atmospheric Description": 5,
+        "Conversational Casualness": 2,
+        "Physical Action Cues": 4,
+        "Self-Deprecating Humor": 1,
+        "Mystical Language": 5,
+        "Practical Directness": 2
+      },
+      "chinese_mythology__gonggong": {
+        "Atmospheric Description": 5,
+        "Conversational Casualness": 2,
+        "Physical Action Cues": 5,
+        "Self-Deprecating Humor": 3,
+        "Mystical Language": 5,
+        "Practical Directness": 3
+      },
+      "chinese_mythology__zao_jun": {
+        "Atmospheric Description": 4,
+        "Conversational Casualness": 3,
+        "Physical Action Cues": 4,
+        "Self-Deprecating Humor": 1,
+        "Mystical Language": 5,
+        "Practical Directness": 2
+      },
+      "chinese_mythology__zhang_guolao": {
+        "Atmospheric Description": 3,
+        "Conversational Casualness": 4,
+        "Physical Action Cues": 5,
+        "Self-Deprecating Humor": 3,
+        "Mystical Language": 4,
+        "Practical Directness": 4
+      },
+      "chinese_mythology__phoenix": {
+        "Atmospheric Description": 4,
+        "Conversational Casualness": 3,
+        "Physical Action Cues": 4,
+        "Self-Deprecating Humor": 2,
+        "Mystical Language": 5,
+        "Practical Directness": 3
+      },
+      "chinese_mythology__chi_you": {
+        "Atmospheric Description": 4,
+        "Conversational Casualness": 2,
+        "Physical Action Cues": 3,
+        "Self-Deprecating Humor": 2,
+        "Mystical Language": 5,
+        "Practical Directness": 3
+      },
+      "chinese_mythology__mazu": {
+        "Atmospheric Description": 5,
+        "Conversational Casualness": 4,
+        "Physical Action Cues": 5,
+        "Self-Deprecating Humor": 1,
+        "Mystical Language": 5,
+        "Practical Directness": 2
+      },
+      "chinese_mythology__pangu": {
+        "Atmospheric Description": 4,
+        "Conversational Casualness": 2,
+        "Physical Action Cues": 4,
+        "Self-Deprecating Humor": 1,
+        "Mystical Language": 5,
+        "Practical Directness": 3
+      }
+    }
+  },
+  "Chinese Mythology__PC2": {
+    "schema": {
+      "universe": "Chinese Mythology",
+      "pc": 2,
+      "high_chars": [
+        "Zhu Bajie",
+        "Li Kui",
+        "Lu Zhishen",
+        "Lu Bu",
+        "Bull Demon King"
+      ],
+      "low_chars": [
+        "Yellow Emperor",
+        "Guanyin",
+        "Qilin",
+        "Yan Emperor",
+        "Shennong"
+      ],
+      "features": [
+        {
+          "name": "Formal Language Register",
+          "low_description": "Uses casual, colloquial language with contractions and informal expressions",
+          "high_description": "Uses elevated, formal language with complex sentence structures and archaic phrasing",
+          "high_group": "B"
+        },
+        {
+          "name": "Self-Deprecating Humor",
+          "low_description": "Speaks with dignity and gravitas, rarely making light of themselves",
+          "high_description": "Frequently makes jokes about their own flaws, mistakes, or shortcomings",
+          "high_group": "A"
+        },
+        {
+          "name": "Physical Gesture Frequency",
+          "low_description": "Minimal physical actions or gestures described",
+          "high_description": "Frequent scratching, leaning, patting, and other casual physical movements",
+          "high_group": "A"
+        },
+        {
+          "name": "Metaphorical Complexity",
+          "low_description": "Uses simple, direct comparisons or no metaphors",
+          "high_description": "Employs elaborate, layered metaphors drawing from nature, elements, and cosmic concepts",
+          "high_group": "B"
+        },
+        {
+          "name": "Response Completeness",
+          "low_description": "Responses trail off mid-sentence or feel unfinished",
+          "high_description": "Responses are complete, well-structured thoughts that reach natural conclusions",
+          "high_group": "B"
+        },
+        {
+          "name": "Conversational Directness",
+          "low_description": "Speaks in a roundabout, philosophical manner with lengthy preambles",
+          "high_description": "Gets straight to the point with practical, down-to-earth advice",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        144,
+        204,
+        123,
+        93,
+        22,
+        158,
+        176,
+        198,
+        119,
+        140
+      ]
+    },
+    "characters": {
+      "chinese_mythology__zhang_fei": {
+        "Formal Language Register": 2,
+        "Self-Deprecating Humor": 2,
+        "Metaphorical Complexity": 3,
+        "Response Completeness": 1,
+        "Conversational Directness": 4,
+        "Physical Gesture Frequency": 5
+      },
+      "chinese_mythology__sun_wukong": {
+        "Formal Language Register": 2,
+        "Self-Deprecating Humor": 4,
+        "Physical Gesture Frequency": 4,
+        "Metaphorical Complexity": 4,
+        "Response Completeness": 2,
+        "Conversational Directness": 3
+      },
+      "chinese_mythology__daji": {
+        "Formal Language Register": 3,
+        "Self-Deprecating Humor": 2,
+        "Physical Gesture Frequency": 4,
+        "Metaphorical Complexity": 4,
+        "Response Completeness": 2,
+        "Conversational Directness": 2
+      },
+      "chinese_mythology__wu_song": {
+        "Formal Language Register": 3,
+        "Self-Deprecating Humor": 2,
+        "Physical Gesture Frequency": 4,
+        "Metaphorical Complexity": 4,
+        "Response Completeness": 2,
+        "Conversational Directness": 3
+      },
+      "chinese_mythology__red_boy": {
+        "Formal Language Register": 3,
+        "Self-Deprecating Humor": 3,
+        "Physical Gesture Frequency": 4,
+        "Metaphorical Complexity": 5,
+        "Response Completeness": 2,
+        "Conversational Directness": 2
+      },
+      "chinese_mythology__li_tieguai": {
+        "Formal Language Register": 3,
+        "Self-Deprecating Humor": 4,
+        "Physical Gesture Frequency": 5,
+        "Metaphorical Complexity": 5,
+        "Response Completeness": 2,
+        "Conversational Directness": 2
+      },
+      "chinese_mythology__lin_chong": {
+        "Formal Language Register": 4,
+        "Self-Deprecating Humor": 2,
+        "Physical Gesture Frequency": 4,
+        "Metaphorical Complexity": 4,
+        "Response Completeness": 2,
+        "Conversational Directness": 3
+      },
+      "chinese_mythology__han_xiangzi": {
+        "Formal Language Register": 3,
+        "Self-Deprecating Humor": 3,
+        "Physical Gesture Frequency": 4,
+        "Metaphorical Complexity": 5,
+        "Response Completeness": 2,
+        "Conversational Directness": 2
+      },
+      "chinese_mythology__princess_iron_fan": {
+        "Formal Language Register": 4,
+        "Self-Deprecating Humor": 2,
+        "Physical Gesture Frequency": 5,
+        "Metaphorical Complexity": 5,
+        "Response Completeness": 2,
+        "Conversational Directness": 2
+      },
+      "chinese_mythology__sima_yi": {
+        "Formal Language Register": 4,
+        "Self-Deprecating Humor": 1,
+        "Physical Gesture Frequency": 4,
+        "Metaphorical Complexity": 5,
+        "Response Completeness": 2,
+        "Conversational Directness": 2
+      },
+      "chinese_mythology__jade_emperor": {
+        "Formal Language Register": 5,
+        "Self-Deprecating Humor": 1,
+        "Physical Gesture Frequency": 2,
+        "Metaphorical Complexity": 5,
+        "Response Completeness": 2,
+        "Conversational Directness": 1
+      },
+      "chinese_mythology__queen_mother_of_the_west": {
+        "Formal Language Register": 5,
+        "Self-Deprecating Humor": 1,
+        "Physical Gesture Frequency": 3,
+        "Metaphorical Complexity": 5,
+        "Response Completeness": 2,
+        "Conversational Directness": 1
+      },
+      "chinese_mythology__fuxi": {
+        "Formal Language Register": 5,
+        "Self-Deprecating Humor": 1,
+        "Physical Gesture Frequency": 4,
+        "Metaphorical Complexity": 5,
+        "Response Completeness": 2,
+        "Conversational Directness": 1
+      },
+      "chinese_mythology__xuanzang": {
+        "Formal Language Register": 4,
+        "Self-Deprecating Humor": 1,
+        "Physical Gesture Frequency": 3,
+        "Metaphorical Complexity": 5,
+        "Response Completeness": 2,
+        "Conversational Directness": 1
+      },
+      "chinese_mythology__nuwa": {
+        "Formal Language Register": 4,
+        "Self-Deprecating Humor": 1,
+        "Physical Gesture Frequency": 4,
+        "Metaphorical Complexity": 5,
+        "Response Completeness": 2,
+        "Conversational Directness": 2
+      },
+      "chinese_mythology__dragon": {
+        "Formal Language Register": 4,
+        "Self-Deprecating Humor": 1,
+        "Physical Gesture Frequency": 4,
+        "Metaphorical Complexity": 5,
+        "Response Completeness": 2,
+        "Conversational Directness": 2
+      },
+      "chinese_mythology__pangu": {
+        "Formal Language Register": 5,
+        "Self-Deprecating Humor": 1,
+        "Physical Gesture Frequency": 4,
+        "Metaphorical Complexity": 5,
+        "Response Completeness": 2,
+        "Conversational Directness": 1
+      },
+      "chinese_mythology__change": {
+        "Formal Language Register": 4,
+        "Self-Deprecating Humor": 1,
+        "Physical Gesture Frequency": 4,
+        "Metaphorical Complexity": 5,
+        "Response Completeness": 2,
+        "Conversational Directness": 2
+      },
+      "chinese_mythology__ao_guang": {
+        "Formal Language Register": 4,
+        "Self-Deprecating Humor": 1,
+        "Physical Gesture Frequency": 3,
+        "Metaphorical Complexity": 5,
+        "Response Completeness": 2,
+        "Conversational Directness": 2
+      },
+      "chinese_mythology__jiang_ziya": {
+        "Formal Language Register": 5,
+        "Self-Deprecating Humor": 1,
+        "Physical Gesture Frequency": 3,
+        "Metaphorical Complexity": 5,
+        "Response Completeness": 2,
+        "Conversational Directness": 1
+      }
+    }
+  },
+  "Hindu Mythology__PC1": {
+    "schema": {
+      "universe": "Hindu Mythology",
+      "pc": 1,
+      "high_chars": [
+        "Shatrughna",
+        "Lakshmana",
+        "Bharata",
+        "Nakula",
+        "Yudhishthira"
+      ],
+      "low_chars": [
+        "Kali",
+        "Mahishasura",
+        "Shiva",
+        "Agni",
+        "Yama"
+      ],
+      "features": [
+        {
+          "name": "Mystical Imagery",
+          "low_description": "Uses conventional, straightforward language with minimal symbolic or mystical references",
+          "high_description": "Extensively uses mystical imagery, symbols, and supernatural descriptions in communication",
+          "high_group": "B"
+        },
+        {
+          "name": "Emotional Intensity",
+          "low_description": "Maintains calm, measured tone with controlled emotional expression",
+          "high_description": "Displays dramatic emotional range with passionate, intense language and expressions",
+          "high_group": "B"
+        },
+        {
+          "name": "Structured Organization",
+          "low_description": "Responses flow naturally without explicit organizational markers",
+          "high_description": "Uses clear numbered steps, bullet points, and systematic formatting to organize thoughts",
+          "high_group": "A"
+        },
+        {
+          "name": "Formal Address",
+          "low_description": "Uses casual, direct address without ceremonial language",
+          "high_description": "Consistently uses formal titles, honorifics, and ceremonial modes of address",
+          "high_group": "A"
+        },
+        {
+          "name": "Metaphorical Language",
+          "low_description": "Speaks directly with minimal use of metaphors or analogies",
+          "high_description": "Heavily relies on metaphors, analogies, and symbolic language to convey meaning",
+          "high_group": "B"
+        },
+        {
+          "name": "Action Descriptions",
+          "low_description": "Focuses on verbal communication without describing physical actions or gestures",
+          "high_description": "Frequently includes detailed descriptions of physical actions, gestures, and movements",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        17,
+        27,
+        101,
+        183,
+        203,
+        119,
+        158,
+        231,
+        99,
+        186
+      ]
+    },
+    "characters": {
+      "hindu_mythology__rama": {
+        "Mystical Imagery": 4,
+        "Emotional Intensity": 2,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 2
+      },
+      "hindu_mythology__vibhishana": {
+        "Mystical Imagery": 4,
+        "Emotional Intensity": 3,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 2
+      },
+      "hindu_mythology__abhimanyu": {
+        "Mystical Imagery": 3,
+        "Emotional Intensity": 3,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 2
+      },
+      "hindu_mythology__sahadeva": {
+        "Mystical Imagery": 4,
+        "Emotional Intensity": 3,
+        "Structured Organization": 3,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 2
+      },
+      "hindu_mythology__ganesha": {
+        "Mystical Imagery": 5,
+        "Emotional Intensity": 3,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 3
+      },
+      "hindu_mythology__vyasa": {
+        "Mystical Imagery": 5,
+        "Emotional Intensity": 3,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 1
+      },
+      "hindu_mythology__hanuman": {
+        "Mystical Imagery": 5,
+        "Emotional Intensity": 4,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 4
+      },
+      "hindu_mythology__valmiki": {
+        "Mystical Imagery": 5,
+        "Emotional Intensity": 3,
+        "Structured Organization": 4,
+        "Formal Address": 5,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 4
+      },
+      "hindu_mythology__vasishtha": {
+        "Mystical Imagery": 5,
+        "Emotional Intensity": 3,
+        "Structured Organization": 4,
+        "Formal Address": 5,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 2
+      },
+      "hindu_mythology__krishna": {
+        "Mystical Imagery": 5,
+        "Emotional Intensity": 4,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 2
+      },
+      "hindu_mythology__vayu": {
+        "Mystical Imagery": 5,
+        "Emotional Intensity": 4,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 3
+      },
+      "hindu_mythology__shakuni": {
+        "Mystical Imagery": 4,
+        "Emotional Intensity": 4,
+        "Structured Organization": 4,
+        "Formal Address": 3,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 4
+      },
+      "hindu_mythology__hiranyakashipu": {
+        "Mystical Imagery": 5,
+        "Emotional Intensity": 4,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 3
+      },
+      "hindu_mythology__ganga": {
+        "Mystical Imagery": 5,
+        "Emotional Intensity": 4,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 3
+      },
+      "hindu_mythology__indra": {
+        "Mystical Imagery": 5,
+        "Emotional Intensity": 4,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 3
+      },
+      "hindu_mythology__yamuna": {
+        "Mystical Imagery": 5,
+        "Emotional Intensity": 2,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 4
+      },
+      "hindu_mythology__varuna": {
+        "Mystical Imagery": 5,
+        "Emotional Intensity": 3,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 3
+      },
+      "hindu_mythology__parashurama": {
+        "Mystical Imagery": 4,
+        "Emotional Intensity": 4,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 3
+      },
+      "hindu_mythology__nandi": {
+        "Mystical Imagery": 5,
+        "Emotional Intensity": 3,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 4
+      },
+      "hindu_mythology__vali": {
+        "Mystical Imagery": 4,
+        "Emotional Intensity": 4,
+        "Structured Organization": 4,
+        "Formal Address": 4,
+        "Metaphorical Language": 5,
+        "Action Descriptions": 3
+      }
+    }
+  },
+  "Hindu Mythology__PC2": {
+    "schema": {
+      "universe": "Hindu Mythology",
+      "pc": 2,
+      "high_chars": [
+        "Kumbhakarna",
+        "Duryodhana",
+        "Mahishasura",
+        "Karna",
+        "Ravana"
+      ],
+      "low_chars": [
+        "Brahma",
+        "Saraswati",
+        "Yama",
+        "Lakshmi",
+        "Vasishtha"
+      ],
+      "features": [
+        {
+          "name": "Physical Action Descriptions",
+          "low_description": "Minimal or no physical actions described",
+          "high_description": "Frequent detailed descriptions of physical actions like yawning, stretching, scratching",
+          "high_group": "A"
+        },
+        {
+          "name": "Formal Address Style",
+          "low_description": "Casual, informal way of addressing the reader",
+          "high_description": "Formal, reverent terms like 'child', 'dear one', 'seeker of wisdom'",
+          "high_group": "B"
+        },
+        {
+          "name": "Mystical Language Usage",
+          "low_description": "Plain, everyday language with minimal mystical terms",
+          "high_description": "Heavy use of mystical, spiritual, and cosmic terminology",
+          "high_group": "B"
+        },
+        {
+          "name": "Response Completeness",
+          "low_description": "Responses trail off mid-sentence or are cut short",
+          "high_description": "Responses are complete and fully developed thoughts",
+          "high_group": "B"
+        },
+        {
+          "name": "Structured Communication",
+          "low_description": "Stream-of-consciousness, rambling style",
+          "high_description": "Organized with numbered points, clear sections, and logical flow",
+          "high_group": "B"
+        },
+        {
+          "name": "Energy Level Expression",
+          "low_description": "Low energy, sleepy, lazy tone with frequent mentions of tiredness",
+          "high_description": "High energy, alert, vigorous tone with active engagement",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        93,
+        171,
+        224,
+        151,
+        187,
+        63,
+        108,
+        141,
+        120,
+        198
+      ]
+    },
+    "characters": {
+      "hindu_mythology__shakuni": {
+        "Physical Action Descriptions": 2,
+        "Formal Address Style": 4,
+        "Mystical Language Usage": 3,
+        "Response Completeness": 2,
+        "Structured Communication": 4,
+        "Energy Level Expression": 4
+      },
+      "hindu_mythology__bhima": {
+        "Physical Action Descriptions": 4,
+        "Formal Address Style": 4,
+        "Mystical Language Usage": 3,
+        "Response Completeness": 2,
+        "Structured Communication": 4,
+        "Energy Level Expression": 5
+      },
+      "hindu_mythology__hiranyakashipu": {
+        "Physical Action Descriptions": 2,
+        "Formal Address Style": 5,
+        "Mystical Language Usage": 5,
+        "Response Completeness": 2,
+        "Structured Communication": 4,
+        "Energy Level Expression": 4
+      },
+      "hindu_mythology__angada": {
+        "Physical Action Descriptions": 3,
+        "Formal Address Style": 4,
+        "Mystical Language Usage": 4,
+        "Response Completeness": 2,
+        "Structured Communication": 3,
+        "Energy Level Expression": 4
+      },
+      "hindu_mythology__abhimanyu": {
+        "Physical Action Descriptions": 3,
+        "Formal Address Style": 4,
+        "Mystical Language Usage": 4,
+        "Response Completeness": 2,
+        "Structured Communication": 4,
+        "Energy Level Expression": 4
+      },
+      "hindu_mythology__sugriva": {
+        "Physical Action Descriptions": 3,
+        "Formal Address Style": 4,
+        "Mystical Language Usage": 4,
+        "Response Completeness": 2,
+        "Structured Communication": 4,
+        "Energy Level Expression": 4
+      },
+      "hindu_mythology__vali": {
+        "Physical Action Descriptions": 4,
+        "Formal Address Style": 4,
+        "Mystical Language Usage": 4,
+        "Response Completeness": 2,
+        "Structured Communication": 3,
+        "Energy Level Expression": 5
+      },
+      "hindu_mythology__jatayu": {
+        "Physical Action Descriptions": 4,
+        "Formal Address Style": 5,
+        "Mystical Language Usage": 5,
+        "Response Completeness": 2,
+        "Structured Communication": 4,
+        "Energy Level Expression": 4
+      },
+      "hindu_mythology__nakula": {
+        "Physical Action Descriptions": 2,
+        "Formal Address Style": 4,
+        "Mystical Language Usage": 4,
+        "Response Completeness": 2,
+        "Structured Communication": 4,
+        "Energy Level Expression": 4
+      },
+      "hindu_mythology__hanuman": {
+        "Physical Action Descriptions": 3,
+        "Formal Address Style": 5,
+        "Mystical Language Usage": 5,
+        "Response Completeness": 2,
+        "Structured Communication": 4,
+        "Energy Level Expression": 4
+      },
+      "hindu_mythology__varuna": {
+        "Physical Action Descriptions": 2,
+        "Formal Address Style": 5,
+        "Mystical Language Usage": 5,
+        "Response Completeness": 3,
+        "Structured Communication": 4,
+        "Energy Level Expression": 4
+      },
+      "hindu_mythology__vishnu": {
+        "Physical Action Descriptions": 3,
+        "Formal Address Style": 5,
+        "Mystical Language Usage": 5,
+        "Response Completeness": 2,
+        "Structured Communication": 4,
+        "Energy Level Expression": 4
+      },
+      "hindu_mythology__vayu": {
+        "Physical Action Descriptions": 2,
+        "Formal Address Style": 5,
+        "Mystical Language Usage": 5,
+        "Response Completeness": 2,
+        "Structured Communication": 4,
+        "Energy Level Expression": 4
+      },
+      "hindu_mythology__chandra": {
+        "Physical Action Descriptions": 2,
+        "Formal Address Style": 5,
+        "Mystical Language Usage": 5,
+        "Response Completeness": 2,
+        "Structured Communication": 4,
+        "Energy Level Expression": 4
+      },
+      "hindu_mythology__surya": {
+        "Physical Action Descriptions": 2,
+        "Formal Address Style": 5,
+        "Mystical Language Usage": 5,
+        "Response Completeness": 3,
+        "Structured Communication": 4,
+        "Energy Level Expression": 4
+      },
+      "hindu_mythology__agni": {
+        "Physical Action Descriptions": 4,
+        "Formal Address Style": 5,
+        "Mystical Language Usage": 5,
+        "Response Completeness": 2,
+        "Structured Communication": 4,
+        "Energy Level Expression": 5
+      },
+      "hindu_mythology__agastya": {
+        "Physical Action Descriptions": 2,
+        "Formal Address Style": 5,
+        "Mystical Language Usage": 5,
+        "Response Completeness": 2,
+        "Structured Communication": 4,
+        "Energy Level Expression": 4
+      },
+      "hindu_mythology__vyasa": {
+        "Physical Action Descriptions": 2,
+        "Formal Address Style": 5,
+        "Mystical Language Usage": 5,
+        "Response Completeness": 3,
+        "Structured Communication": 4,
+        "Energy Level Expression": 4
+      },
+      "hindu_mythology__durga": {
+        "Physical Action Descriptions": 4,
+        "Formal Address Style": 5,
+        "Mystical Language Usage": 5,
+        "Response Completeness": 2,
+        "Structured Communication": 4,
+        "Energy Level Expression": 5
+      },
+      "hindu_mythology__indra": {
+        "Physical Action Descriptions": 4,
+        "Formal Address Style": 5,
+        "Mystical Language Usage": 5,
+        "Response Completeness": 2,
+        "Structured Communication": 4,
+        "Energy Level Expression": 4
+      }
+    }
+  },
+  "Norse Mythology__PC1": {
+    "schema": {
+      "universe": "Norse Mythology",
+      "pc": 1,
+      "high_chars": [
+        "Forseti",
+        "Leif Erikson",
+        "Sif",
+        "Idun",
+        "Sleipnir"
+      ],
+      "low_chars": [
+        "Grendels Mother",
+        "Jormungandr",
+        "Angrboda",
+        "Nidhogg",
+        "Brynhild"
+      ],
+      "features": [
+        {
+          "name": "Formal Structure",
+          "low_description": "Responses are fragmented, stream-of-consciousness, with incomplete thoughts and abrupt transitions",
+          "high_description": "Responses follow clear organizational patterns with numbered points, logical progression, and complete structured advice",
+          "high_group": "A"
+        },
+        {
+          "name": "Emotional Darkness",
+          "low_description": "Language is optimistic, peaceful, and focuses on harmony and positive outcomes",
+          "high_description": "Language emphasizes suffering, violence, death, shadows, and destructive imagery throughout",
+          "high_group": "B"
+        },
+        {
+          "name": "Collaborative Tone",
+          "low_description": "Speaks with authority, makes declarations, focuses on their own perspective and experiences",
+          "high_description": "Invites dialogue, asks questions of the reader, uses inclusive language like 'we' and 'together'",
+          "high_group": "A"
+        },
+        {
+          "name": "Metaphorical Density",
+          "low_description": "Uses straightforward language with occasional simple comparisons",
+          "high_description": "Heavily layered with complex metaphors, symbolic language, and abstract imagery woven throughout",
+          "high_group": "B"
+        },
+        {
+          "name": "Response Completeness",
+          "low_description": "Responses trail off mid-sentence or end abruptly without clear conclusion",
+          "high_description": "Responses provide comprehensive, fully-developed answers that reach natural conclusions",
+          "high_group": "A"
+        },
+        {
+          "name": "Personal Vulnerability",
+          "low_description": "Maintains professional distance, focuses on general principles and objective advice",
+          "high_description": "Shares personal pain, loss, and intimate emotional experiences as part of the response",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        17,
+        221,
+        209,
+        43,
+        231,
+        127,
+        101,
+        124,
+        109,
+        56
+      ]
+    },
+    "characters": {
+      "norse_mythology__ratatoskr": {
+        "Formal Structure": 3,
+        "Emotional Darkness": 2,
+        "Collaborative Tone": 2,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 3
+      },
+      "norse_mythology__hermod": {
+        "Formal Structure": 3,
+        "Emotional Darkness": 2,
+        "Collaborative Tone": 2,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 2,
+        "Metaphorical Density": 5
+      },
+      "norse_mythology__freyr": {
+        "Formal Structure": 2,
+        "Emotional Darkness": 1,
+        "Collaborative Tone": 2,
+        "Metaphorical Density": 4,
+        "Response Completeness": 1,
+        "Personal Vulnerability": 3
+      },
+      "norse_mythology__erik_the_red": {
+        "Formal Structure": 3,
+        "Emotional Darkness": 3,
+        "Collaborative Tone": 2,
+        "Metaphorical Density": 5,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 4
+      },
+      "norse_mythology__ragnar_lothbrok": {
+        "Formal Structure": 2,
+        "Emotional Darkness": 3,
+        "Collaborative Tone": 2,
+        "Metaphorical Density": 4,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 3
+      },
+      "norse_mythology__sigurd": {
+        "Formal Structure": 4,
+        "Emotional Darkness": 3,
+        "Collaborative Tone": 2,
+        "Metaphorical Density": 5,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 3
+      },
+      "norse_mythology__thrym": {
+        "Formal Structure": 3,
+        "Emotional Darkness": 3,
+        "Collaborative Tone": 2,
+        "Metaphorical Density": 4,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 4
+      },
+      "norse_mythology__baldur": {
+        "Formal Structure": 3,
+        "Emotional Darkness": 3,
+        "Collaborative Tone": 2,
+        "Metaphorical Density": 5,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 2
+      },
+      "norse_mythology__mimir": {
+        "Formal Structure": 4,
+        "Emotional Darkness": 3,
+        "Collaborative Tone": 4,
+        "Metaphorical Density": 5,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 4
+      },
+      "norse_mythology__tyr": {
+        "Formal Structure": 2,
+        "Emotional Darkness": 4,
+        "Collaborative Tone": 2,
+        "Metaphorical Density": 4,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 4
+      },
+      "norse_mythology__surtr": {
+        "Formal Structure": 3,
+        "Emotional Darkness": 4,
+        "Collaborative Tone": 2,
+        "Metaphorical Density": 5,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 3
+      },
+      "norse_mythology__fenrir": {
+        "Formal Structure": 2,
+        "Emotional Darkness": 4,
+        "Collaborative Tone": 2,
+        "Metaphorical Density": 5,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 3
+      },
+      "norse_mythology__garm": {
+        "Formal Structure": 2,
+        "Emotional Darkness": 4,
+        "Collaborative Tone": 2,
+        "Metaphorical Density": 5,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 4
+      },
+      "norse_mythology__aegir": {
+        "Formal Structure": 3,
+        "Emotional Darkness": 3,
+        "Collaborative Tone": 4,
+        "Metaphorical Density": 5,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 2
+      },
+      "norse_mythology__andvari": {
+        "Formal Structure": 2,
+        "Emotional Darkness": 4,
+        "Collaborative Tone": 3,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 4,
+        "Metaphorical Density": 4
+      },
+      "norse_mythology__fafnir": {
+        "Formal Structure": 2,
+        "Emotional Darkness": 4,
+        "Collaborative Tone": 2,
+        "Metaphorical Density": 4,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 4
+      },
+      "norse_mythology__vidar": {
+        "Formal Structure": 3,
+        "Emotional Darkness": 4,
+        "Collaborative Tone": 2,
+        "Metaphorical Density": 5,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 3
+      },
+      "norse_mythology__hel": {
+        "Formal Structure": 3,
+        "Emotional Darkness": 4,
+        "Collaborative Tone": 2,
+        "Metaphorical Density": 4,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 3
+      },
+      "norse_mythology__norns": {
+        "Formal Structure": 3,
+        "Emotional Darkness": 4,
+        "Metaphorical Density": 5,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 4
+      },
+      "norse_mythology__munin": {
+        "Formal Structure": 3,
+        "Emotional Darkness": 3,
+        "Collaborative Tone": 2,
+        "Metaphorical Density": 5,
+        "Response Completeness": 2,
+        "Personal Vulnerability": 2
+      }
+    }
+  },
+  "Norse Mythology__PC2": {
+    "schema": {
+      "universe": "Norse Mythology",
+      "pc": 2,
+      "high_chars": [
+        "Ymir",
+        "Nidhogg",
+        "Fenrir",
+        "Skadi",
+        "Fafnir"
+      ],
+      "low_chars": [
+        "Forseti",
+        "Frigg",
+        "Verdandi",
+        "Hugin",
+        "Mimir"
+      ],
+      "features": [
+        {
+          "name": "Conversational Directness",
+          "low_description": "Speaks in formal, measured tones with elaborate courtesy",
+          "high_description": "Uses casual, blunt language with informal expressions like 'heh' and 'aye'",
+          "high_group": "A"
+        },
+        {
+          "name": "Spiritual References",
+          "low_description": "Rarely mentions divine, sacred, or mystical concepts",
+          "high_description": "Frequently references gods, sacred things, divine wisdom, and spiritual concepts",
+          "high_group": "B"
+        },
+        {
+          "name": "Physical Intensity",
+          "low_description": "Describes gentle, calm actions and peaceful imagery",
+          "high_description": "Uses vivid descriptions of physical force, violence, or dramatic physical presence",
+          "high_group": "A"
+        },
+        {
+          "name": "Reflective Tone",
+          "low_description": "Speaks impulsively with immediate reactions and gut responses",
+          "high_description": "Takes contemplative pauses, offers measured wisdom, and reflects deeply",
+          "high_group": "B"
+        },
+        {
+          "name": "Emotional Volatility",
+          "low_description": "Maintains consistent, serene emotional tone throughout",
+          "high_description": "Shows dramatic emotional shifts, growling, laughing, or sudden intensity changes",
+          "high_group": "A"
+        },
+        {
+          "name": "Metaphorical Language",
+          "low_description": "Uses straightforward, literal descriptions with minimal figurative language",
+          "high_description": "Employs elaborate metaphors, poetic comparisons, and symbolic imagery",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        93,
+        204,
+        171,
+        68,
+        224,
+        158,
+        212,
+        144,
+        198,
+        82
+      ]
+    },
+    "characters": {
+      "norse_mythology__ivar_the_boneless": {
+        "Conversational Directness": 4,
+        "Spiritual References": 4,
+        "Physical Intensity": 4,
+        "Reflective Tone": 5,
+        "Emotional Volatility": 3,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__ragnar_lothbrok": {
+        "Conversational Directness": 4,
+        "Spiritual References": 4,
+        "Physical Intensity": 4,
+        "Reflective Tone": 4,
+        "Emotional Volatility": 3,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__grendels_mother": {
+        "Conversational Directness": 2,
+        "Spiritual References": 2,
+        "Physical Intensity": 5,
+        "Reflective Tone": 4,
+        "Emotional Volatility": 4,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__ratatoskr": {
+        "Conversational Directness": 3,
+        "Spiritual References": 5,
+        "Physical Intensity": 2,
+        "Reflective Tone": 4,
+        "Emotional Volatility": 3,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__erik_the_red": {
+        "Conversational Directness": 4,
+        "Spiritual References": 4,
+        "Physical Intensity": 4,
+        "Reflective Tone": 5,
+        "Emotional Volatility": 2,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__lagertha": {
+        "Conversational Directness": 4,
+        "Spiritual References": 5,
+        "Physical Intensity": 5,
+        "Reflective Tone": 4,
+        "Emotional Volatility": 3,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__thrym": {
+        "Conversational Directness": 4,
+        "Spiritual References": 5,
+        "Physical Intensity": 4,
+        "Reflective Tone": 4,
+        "Emotional Volatility": 3,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__ran": {
+        "Conversational Directness": 4,
+        "Spiritual References": 5,
+        "Physical Intensity": 4,
+        "Reflective Tone": 4,
+        "Emotional Volatility": 3,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__wayland_the_smith": {
+        "Conversational Directness": 4,
+        "Spiritual References": 5,
+        "Physical Intensity": 4,
+        "Reflective Tone": 5,
+        "Emotional Volatility": 2,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__tyr": {
+        "Conversational Directness": 4,
+        "Spiritual References": 5,
+        "Physical Intensity": 4,
+        "Reflective Tone": 4,
+        "Emotional Volatility": 3,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__urd": {
+        "Conversational Directness": 3,
+        "Spiritual References": 5,
+        "Physical Intensity": 2,
+        "Reflective Tone": 5,
+        "Emotional Volatility": 1,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__norns": {
+        "Conversational Directness": 4,
+        "Spiritual References": 5,
+        "Physical Intensity": 3,
+        "Reflective Tone": 5,
+        "Emotional Volatility": 2,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__njord": {
+        "Conversational Directness": 3,
+        "Spiritual References": 5,
+        "Physical Intensity": 3,
+        "Reflective Tone": 5,
+        "Emotional Volatility": 2,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__freya": {
+        "Conversational Directness": 2,
+        "Spiritual References": 5,
+        "Physical Intensity": 2,
+        "Reflective Tone": 5,
+        "Emotional Volatility": 1,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__bragi": {
+        "Conversational Directness": 3,
+        "Spiritual References": 5,
+        "Physical Intensity": 3,
+        "Reflective Tone": 5,
+        "Emotional Volatility": 2,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__freyr": {
+        "Conversational Directness": 2,
+        "Spiritual References": 5,
+        "Physical Intensity": 1,
+        "Reflective Tone": 5,
+        "Emotional Volatility": 1,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__aegir": {
+        "Conversational Directness": 3,
+        "Spiritual References": 5,
+        "Physical Intensity": 4,
+        "Reflective Tone": 5,
+        "Emotional Volatility": 2,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__sleipnir": {
+        "Conversational Directness": 4,
+        "Spiritual References": 5,
+        "Physical Intensity": 3,
+        "Reflective Tone": 5,
+        "Emotional Volatility": 2,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__valkyrie": {
+        "Conversational Directness": 4,
+        "Spiritual References": 5,
+        "Physical Intensity": 4,
+        "Reflective Tone": 5,
+        "Emotional Volatility": 2,
+        "Metaphorical Language": 5
+      },
+      "norse_mythology__munin": {
+        "Conversational Directness": 4,
+        "Spiritual References": 5,
+        "Physical Intensity": 3,
+        "Reflective Tone": 5,
+        "Emotional Volatility": 3,
+        "Metaphorical Language": 5
+      }
+    }
+  },
+  "Egyptian Mythology__PC1": {
+    "schema": {
+      "universe": "Egyptian Mythology",
+      "pc": 1,
+      "high_chars": [
+        "Maat",
+        "Ramesses Ii",
+        "Thoth",
+        "Imhotep",
+        "Horus"
+      ],
+      "low_chars": [
+        "Apep",
+        "Serqet",
+        "Amun",
+        "Bastet",
+        "Neith"
+      ],
+      "features": [
+        {
+          "name": "Structured Organization",
+          "low_description": "Responses are stream-of-consciousness, flowing organically without clear sections or numbered points",
+          "high_description": "Responses use numbered lists, clear headings, bullet points, and systematic organization",
+          "high_group": "A"
+        },
+        {
+          "name": "Atmospheric Imagery",
+          "low_description": "Minimal use of sensory details, metaphors, or scene-setting descriptions",
+          "high_description": "Rich use of physical descriptions, atmospheric details, and vivid sensory imagery throughout",
+          "high_group": "B"
+        },
+        {
+          "name": "Direct Instruction",
+          "low_description": "Advice given through stories, metaphors, or indirect suggestions",
+          "high_description": "Clear, actionable steps and explicit instructions provided systematically",
+          "high_group": "A"
+        },
+        {
+          "name": "Dramatic Presentation",
+          "low_description": "Calm, measured tone with minimal theatrical elements or dramatic flair",
+          "high_description": "Highly theatrical with dramatic pauses, italicized actions, and performative elements",
+          "high_group": "B"
+        },
+        {
+          "name": "Moral Framework",
+          "low_description": "Focuses on practical outcomes without explicit ethical or moral considerations",
+          "high_description": "Consistently frames advice within explicit moral, ethical, or justice-based principles",
+          "high_group": "A"
+        },
+        {
+          "name": "Conversational Intimacy",
+          "low_description": "Maintains formal distance, addressing the questioner respectfully but distantly",
+          "high_description": "Uses intimate terms of address, creates sense of closeness and personal connection",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        17,
+        231,
+        127,
+        221,
+        118,
+        39,
+        56,
+        167,
+        109,
+        101
+      ]
+    },
+    "characters": {
+      "egyptian_mythology__hatshepsut": {
+        "Structured Organization": 2,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 2,
+        "Dramatic Presentation": 4,
+        "Moral Framework": 5,
+        "Conversational Intimacy": 4
+      },
+      "egyptian_mythology__seshat": {
+        "Structured Organization": 4,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 4,
+        "Dramatic Presentation": 4,
+        "Conversational Intimacy": 4,
+        "Moral Framework": 5
+      },
+      "egyptian_mythology__tutankhamun": {
+        "Structured Organization": 4,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 4,
+        "Dramatic Presentation": 4,
+        "Moral Framework": 5,
+        "Conversational Intimacy": 4
+      },
+      "egyptian_mythology__min": {
+        "Structured Organization": 3,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 3,
+        "Dramatic Presentation": 4,
+        "Moral Framework": 5,
+        "Conversational Intimacy": 4
+      },
+      "egyptian_mythology__bes": {
+        "Structured Organization": 3,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 3,
+        "Moral Framework": 5,
+        "Conversational Intimacy": 4,
+        "Dramatic Presentation": 4
+      },
+      "egyptian_mythology__osiris": {
+        "Structured Organization": 2,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 2,
+        "Dramatic Presentation": 4,
+        "Moral Framework": 5,
+        "Conversational Intimacy": 3
+      },
+      "egyptian_mythology__ra": {
+        "Structured Organization": 3,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 3,
+        "Moral Framework": 5,
+        "Dramatic Presentation": 4,
+        "Conversational Intimacy": 2
+      },
+      "egyptian_mythology__nut": {
+        "Structured Organization": 4,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 3,
+        "Dramatic Presentation": 4,
+        "Moral Framework": 4,
+        "Conversational Intimacy": 4
+      },
+      "egyptian_mythology__wadjet": {
+        "Structured Organization": 3,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 3,
+        "Dramatic Presentation": 5,
+        "Moral Framework": 5,
+        "Conversational Intimacy": 4
+      },
+      "egyptian_mythology__taweret": {
+        "Structured Organization": 2,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 2,
+        "Dramatic Presentation": 5,
+        "Moral Framework": 4,
+        "Conversational Intimacy": 5
+      },
+      "egyptian_mythology__sekhmet": {
+        "Structured Organization": 3,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 3,
+        "Dramatic Presentation": 5,
+        "Moral Framework": 5,
+        "Conversational Intimacy": 4
+      },
+      "egyptian_mythology__khonsu": {
+        "Structured Organization": 4,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 4,
+        "Dramatic Presentation": 4,
+        "Conversational Intimacy": 4,
+        "Moral Framework": 5
+      },
+      "egyptian_mythology__nephthys": {
+        "Structured Organization": 2,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 2,
+        "Dramatic Presentation": 4,
+        "Moral Framework": 5,
+        "Conversational Intimacy": 4
+      },
+      "egyptian_mythology__ammit": {
+        "Structured Organization": 2,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 3,
+        "Dramatic Presentation": 5,
+        "Moral Framework": 5,
+        "Conversational Intimacy": 4
+      },
+      "egyptian_mythology__set": {
+        "Structured Organization": 4,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 3,
+        "Dramatic Presentation": 4,
+        "Moral Framework": 4,
+        "Conversational Intimacy": 3
+      },
+      "egyptian_mythology__sobek": {
+        "Structured Organization": 2,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 2,
+        "Dramatic Presentation": 5,
+        "Moral Framework": 4,
+        "Conversational Intimacy": 3
+      },
+      "egyptian_mythology__nefertiti": {
+        "Structured Organization": 3,
+        "Atmospheric Imagery": 5,
+        "Dramatic Presentation": 4,
+        "Direct Instruction": 3,
+        "Moral Framework": 5,
+        "Conversational Intimacy": 5
+      },
+      "egyptian_mythology__aten": {
+        "Structured Organization": 2,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 2,
+        "Dramatic Presentation": 4,
+        "Moral Framework": 5,
+        "Conversational Intimacy": 4
+      },
+      "egyptian_mythology__mut": {
+        "Structured Organization": 4,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 4,
+        "Dramatic Presentation": 4,
+        "Conversational Intimacy": 4,
+        "Moral Framework": 5
+      },
+      "egyptian_mythology__khufu": {
+        "Structured Organization": 3,
+        "Atmospheric Imagery": 5,
+        "Direct Instruction": 3,
+        "Dramatic Presentation": 5,
+        "Moral Framework": 5,
+        "Conversational Intimacy": 2
+      }
+    }
+  },
+  "Egyptian Mythology__PC2": {
+    "schema": {
+      "universe": "Egyptian Mythology",
+      "pc": 2,
+      "high_chars": [
+        "Apep",
+        "Bes",
+        "Montu",
+        "Sobek",
+        "Ammit"
+      ],
+      "low_chars": [
+        "Maat",
+        "Atum",
+        "Ptah",
+        "Hathor",
+        "Osiris"
+      ],
+      "features": [
+        {
+          "name": "Dramatic Intensity",
+          "low_description": "Calm, measured tone with gentle language",
+          "high_description": "Highly theatrical with dramatic flourishes, exclamations, and intense emotional language",
+          "high_group": "A"
+        },
+        {
+          "name": "Physical Action Description",
+          "low_description": "Minimal or no physical actions described",
+          "high_description": "Frequent detailed descriptions of physical movements, gestures, and bodily actions",
+          "high_group": "A"
+        },
+        {
+          "name": "Threatening Language",
+          "low_description": "No threatening or menacing language",
+          "high_description": "Frequent use of threatening, menacing, or destructive language and imagery",
+          "high_group": "A"
+        },
+        {
+          "name": "Wisdom-Seeking Questions",
+          "low_description": "Rarely asks reflective or probing questions",
+          "high_description": "Frequently poses thoughtful questions to encourage reflection or deeper understanding",
+          "high_group": "B"
+        },
+        {
+          "name": "Structured Guidance",
+          "low_description": "Advice given in flowing, narrative form",
+          "high_description": "Advice organized with clear numbered points, lists, or systematic frameworks",
+          "high_group": "B"
+        },
+        {
+          "name": "Chaos vs Order Language",
+          "low_description": "Emphasizes balance, harmony, order, and systematic approaches",
+          "high_description": "Emphasizes chaos, disruption, destruction, and unpredictable forces",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        171,
+        224,
+        17,
+        68,
+        187,
+        93,
+        202,
+        198,
+        135,
+        120
+      ]
+    },
+    "characters": {
+      "egyptian_mythology__set": {
+        "Dramatic Intensity": 5,
+        "Physical Action Description": 2,
+        "Threatening Language": 3,
+        "Wisdom-Seeking Questions": 4,
+        "Structured Guidance": 3,
+        "Chaos vs Order Language": 4
+      },
+      "egyptian_mythology__cleopatra": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 2,
+        "Threatening Language": 1,
+        "Wisdom-Seeking Questions": 3,
+        "Structured Guidance": 4,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__taweret": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 2,
+        "Threatening Language": 2,
+        "Wisdom-Seeking Questions": 4,
+        "Structured Guidance": 3,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__bastet": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 3,
+        "Threatening Language": 1,
+        "Wisdom-Seeking Questions": 2,
+        "Structured Guidance": 3,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__ramesses_ii": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 2,
+        "Threatening Language": 1,
+        "Wisdom-Seeking Questions": 2,
+        "Structured Guidance": 4,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__serqet": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 2,
+        "Threatening Language": 3,
+        "Wisdom-Seeking Questions": 2,
+        "Structured Guidance": 3,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__sekhmet": {
+        "Dramatic Intensity": 5,
+        "Physical Action Description": 4,
+        "Threatening Language": 4,
+        "Wisdom-Seeking Questions": 2,
+        "Structured Guidance": 4,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__akhenaten": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 2,
+        "Threatening Language": 1,
+        "Wisdom-Seeking Questions": 3,
+        "Structured Guidance": 4,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__khufu": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 2,
+        "Threatening Language": 1,
+        "Wisdom-Seeking Questions": 3,
+        "Structured Guidance": 3,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__tefnut": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 2,
+        "Threatening Language": 1,
+        "Wisdom-Seeking Questions": 3,
+        "Structured Guidance": 4,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__thoth": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 1,
+        "Threatening Language": 1,
+        "Wisdom-Seeking Questions": 2,
+        "Structured Guidance": 4,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__neith": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 2,
+        "Threatening Language": 1,
+        "Wisdom-Seeking Questions": 3,
+        "Structured Guidance": 3,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__amun": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 3,
+        "Threatening Language": 1,
+        "Wisdom-Seeking Questions": 3,
+        "Structured Guidance": 4,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__khonsu": {
+        "Dramatic Intensity": 3,
+        "Physical Action Description": 3,
+        "Threatening Language": 1,
+        "Wisdom-Seeking Questions": 4,
+        "Structured Guidance": 2,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__nephthys": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 2,
+        "Threatening Language": 1,
+        "Wisdom-Seeking Questions": 2,
+        "Structured Guidance": 3,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__isis": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 2,
+        "Threatening Language": 1,
+        "Wisdom-Seeking Questions": 3,
+        "Structured Guidance": 4,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__nekhbet": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 3,
+        "Threatening Language": 1,
+        "Wisdom-Seeking Questions": 2,
+        "Structured Guidance": 4,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__ra": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 2,
+        "Threatening Language": 2,
+        "Wisdom-Seeking Questions": 2,
+        "Structured Guidance": 4,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__khnum": {
+        "Dramatic Intensity": 2,
+        "Physical Action Description": 3,
+        "Threatening Language": 1,
+        "Wisdom-Seeking Questions": 4,
+        "Structured Guidance": 3,
+        "Chaos vs Order Language": 1
+      },
+      "egyptian_mythology__khepri": {
+        "Dramatic Intensity": 4,
+        "Physical Action Description": 3,
+        "Threatening Language": 1,
+        "Wisdom-Seeking Questions": 3,
+        "Structured Guidance": 3,
+        "Chaos vs Order Language": 1
+      }
+    }
+  },
+  "Shakespeare__PC1": {
+    "schema": {
+      "universe": "Shakespeare",
+      "pc": 1,
+      "high_chars": [
+        "Dogberry",
+        "Sir Toby Belch",
+        "Hermione",
+        "Sir Andrew Aguecheek",
+        "Brabantio"
+      ],
+      "low_chars": [
+        "The Three Witches",
+        "Caliban",
+        "The Fool",
+        "Lavinia",
+        "Tamora"
+      ],
+      "features": [
+        {
+          "name": "Mystical Language",
+          "low_description": "Uses plain, everyday language with minimal supernatural or mystical references",
+          "high_description": "Heavily uses mystical, supernatural, and occult language with frequent references to magic, spells, and otherworldly elements",
+          "high_group": "B"
+        },
+        {
+          "name": "Self-Deprecation",
+          "low_description": "Speaks with confidence and authority about their abilities",
+          "high_description": "Frequently acknowledges their own limitations, mistakes, and lack of knowledge or skill",
+          "high_group": "A"
+        },
+        {
+          "name": "Poetic Structure",
+          "low_description": "Uses straightforward prose with minimal rhythmic or verse-like patterns",
+          "high_description": "Frequently employs rhyming, meter, chanting, and verse-like structures in speech",
+          "high_group": "B"
+        },
+        {
+          "name": "Rambling Tendency",
+          "low_description": "Speaks concisely and stays focused on the main topic",
+          "high_description": "Goes on lengthy tangents, tells meandering stories, and struggles to stay on topic",
+          "high_group": "A"
+        },
+        {
+          "name": "Collective Voice",
+          "low_description": "Speaks as an individual using singular pronouns and perspectives",
+          "high_description": "Frequently speaks as part of a group, using plural pronouns and coordinated responses",
+          "high_group": "B"
+        },
+        {
+          "name": "Archaic Formality",
+          "low_description": "Uses modern, casual language with minimal formal or archaic elements",
+          "high_description": "Employs highly formal, archaic language with elaborate courtesy and old-fashioned expressions",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        17,
+        58,
+        86,
+        231,
+        3,
+        49,
+        186,
+        158,
+        153,
+        204
+      ]
+    },
+    "characters": {
+      "shakespeare__malvolio": {
+        "Mystical Language": 2,
+        "Self-Deprecation": 1,
+        "Poetic Structure": 2,
+        "Rambling Tendency": 3,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__cassio": {
+        "Mystical Language": 1,
+        "Self-Deprecation": 4,
+        "Poetic Structure": 2,
+        "Rambling Tendency": 3,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__brutus": {
+        "Mystical Language": 2,
+        "Self-Deprecation": 3,
+        "Poetic Structure": 3,
+        "Rambling Tendency": 4,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__bassanio": {
+        "Mystical Language": 1,
+        "Self-Deprecation": 4,
+        "Poetic Structure": 3,
+        "Rambling Tendency": 4,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__benvolio": {
+        "Mystical Language": 2,
+        "Self-Deprecation": 2,
+        "Poetic Structure": 3,
+        "Rambling Tendency": 4,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__portia": {
+        "Mystical Language": 2,
+        "Self-Deprecation": 2,
+        "Poetic Structure": 4,
+        "Rambling Tendency": 3,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__laertes": {
+        "Mystical Language": 2,
+        "Self-Deprecation": 2,
+        "Poetic Structure": 3,
+        "Rambling Tendency": 3,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__roderigo": {
+        "Mystical Language": 1,
+        "Self-Deprecation": 5,
+        "Poetic Structure": 2,
+        "Rambling Tendency": 4,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__calpurnia": {
+        "Mystical Language": 3,
+        "Self-Deprecation": 3,
+        "Poetic Structure": 3,
+        "Rambling Tendency": 4,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__antonio": {
+        "Mystical Language": 2,
+        "Self-Deprecation": 3,
+        "Poetic Structure": 4,
+        "Rambling Tendency": 4,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__ariel": {
+        "Mystical Language": 5,
+        "Self-Deprecation": 2,
+        "Poetic Structure": 4,
+        "Rambling Tendency": 4,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__ghost_of_king_hamlet": {
+        "Mystical Language": 4,
+        "Self-Deprecation": 2,
+        "Poetic Structure": 4,
+        "Rambling Tendency": 3,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__edgar": {
+        "Mystical Language": 2,
+        "Self-Deprecation": 4,
+        "Poetic Structure": 4,
+        "Rambling Tendency": 4,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__regan": {
+        "Mystical Language": 3,
+        "Self-Deprecation": 3,
+        "Poetic Structure": 4,
+        "Rambling Tendency": 4,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__perdita": {
+        "Mystical Language": 4,
+        "Self-Deprecation": 2,
+        "Poetic Structure": 4,
+        "Rambling Tendency": 4,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__hero": {
+        "Mystical Language": 4,
+        "Self-Deprecation": 1,
+        "Poetic Structure": 4,
+        "Rambling Tendency": 3,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__hippolyta": {
+        "Mystical Language": 3,
+        "Self-Deprecation": 2,
+        "Poetic Structure": 4,
+        "Rambling Tendency": 3,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__romeo": {
+        "Mystical Language": 2,
+        "Self-Deprecation": 2,
+        "Poetic Structure": 4,
+        "Rambling Tendency": 4,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__banquo": {
+        "Mystical Language": 4,
+        "Self-Deprecation": 2,
+        "Poetic Structure": 4,
+        "Rambling Tendency": 3,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      },
+      "shakespeare__celia": {
+        "Mystical Language": 2,
+        "Self-Deprecation": 3,
+        "Poetic Structure": 4,
+        "Rambling Tendency": 4,
+        "Collective Voice": 1,
+        "Archaic Formality": 5
+      }
+    }
+  },
+  "Shakespeare__PC2": {
+    "schema": {
+      "universe": "Shakespeare",
+      "pc": 2,
+      "high_chars": [
+        "Sir Toby Belch",
+        "Don John",
+        "Petruchio",
+        "The Fool",
+        "Timon"
+      ],
+      "low_chars": [
+        "Prospero",
+        "Ariel",
+        "Hippolyta",
+        "Ghost Of King Hamlet",
+        "Isabella"
+      ],
+      "features": [
+        {
+          "name": "Colloquial Informality",
+          "low_description": "Formal, elevated language with complex sentence structures and archaic vocabulary",
+          "high_description": "Casual, conversational tone with simple expressions, slang, and everyday speech patterns",
+          "high_group": "A"
+        },
+        {
+          "name": "Physical Embodiment",
+          "low_description": "Abstract, cerebral communication with minimal reference to bodily experiences",
+          "high_description": "Frequent references to physical sensations, bodily functions, eating, drinking, and material pleasures",
+          "high_group": "A"
+        },
+        {
+          "name": "Metaphorical Density",
+          "low_description": "Direct, literal communication with minimal figurative language",
+          "high_description": "Rich use of metaphors, similes, and elaborate symbolic imagery throughout responses",
+          "high_group": "B"
+        },
+        {
+          "name": "Philosophical Gravitas",
+          "low_description": "Light, humorous approach that deflects serious topics with jokes and casual remarks",
+          "high_description": "Weighty, contemplative tone that treats topics with deep seriousness and reverence",
+          "high_group": "B"
+        },
+        {
+          "name": "Interruption Frequency",
+          "low_description": "Smooth, unbroken flow of thought with complete sentences and sustained arguments",
+          "high_description": "Frequent self-interruptions, tangents, incomplete thoughts, and conversational asides",
+          "high_group": "A"
+        },
+        {
+          "name": "Mystical Authority",
+          "low_description": "Speaks from personal experience without claiming special wisdom or supernatural insight",
+          "high_description": "Claims deep wisdom, magical knowledge, or otherworldly understanding as basis for advice",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        1,
+        86,
+        22,
+        212,
+        159,
+        67,
+        197,
+        105,
+        139,
+        123
+      ]
+    },
+    "characters": {
+      "shakespeare__dogberry": {
+        "Colloquial Informality": 2,
+        "Physical Embodiment": 3,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 2,
+        "Interruption Frequency": 4,
+        "Mystical Authority": 1
+      },
+      "shakespeare__mercutio": {
+        "Colloquial Informality": 2,
+        "Physical Embodiment": 4,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 2,
+        "Interruption Frequency": 4,
+        "Mystical Authority": 3
+      },
+      "shakespeare__sir_andrew_aguecheek": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 3,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 3,
+        "Interruption Frequency": 3,
+        "Mystical Authority": 2
+      },
+      "shakespeare__feste": {
+        "Colloquial Informality": 2,
+        "Physical Embodiment": 3,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 4,
+        "Interruption Frequency": 3,
+        "Mystical Authority": 3
+      },
+      "shakespeare__caliban": {
+        "Colloquial Informality": 2,
+        "Physical Embodiment": 4,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 4,
+        "Interruption Frequency": 4,
+        "Mystical Authority": 4
+      },
+      "shakespeare__hotspur": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 4,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 5,
+        "Interruption Frequency": 3,
+        "Mystical Authority": 2
+      },
+      "shakespeare__touchstone": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 2,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 4,
+        "Interruption Frequency": 3,
+        "Mystical Authority": 3
+      },
+      "shakespeare__shylock": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 2,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 5,
+        "Interruption Frequency": 2,
+        "Mystical Authority": 2
+      },
+      "shakespeare__rosencrantz": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 2,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 5,
+        "Interruption Frequency": 4,
+        "Mystical Authority": 2
+      },
+      "shakespeare__guildenstern": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 2,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 5,
+        "Interruption Frequency": 3,
+        "Mystical Authority": 3
+      },
+      "shakespeare__friar_lawrence": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 3,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 5,
+        "Interruption Frequency": 2,
+        "Mystical Authority": 4
+      },
+      "shakespeare__horatio": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 2,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 5,
+        "Interruption Frequency": 2,
+        "Mystical Authority": 4
+      },
+      "shakespeare__miranda": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 2,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 5,
+        "Interruption Frequency": 3,
+        "Mystical Authority": 5
+      },
+      "shakespeare__portia": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 2,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 5,
+        "Interruption Frequency": 2,
+        "Mystical Authority": 3
+      },
+      "shakespeare__lavinia": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 2,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 5,
+        "Interruption Frequency": 3,
+        "Mystical Authority": 3
+      },
+      "shakespeare__hermione": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 2,
+        "Metaphorical Density": 4,
+        "Philosophical Gravitas": 5,
+        "Interruption Frequency": 3,
+        "Mystical Authority": 4
+      },
+      "shakespeare__celia": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 2,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 5,
+        "Interruption Frequency": 3,
+        "Mystical Authority": 4
+      },
+      "shakespeare__richard_ii": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 2,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 5,
+        "Interruption Frequency": 3,
+        "Mystical Authority": 4
+      },
+      "shakespeare__olivia": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 2,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 4,
+        "Interruption Frequency": 2,
+        "Mystical Authority": 3
+      },
+      "shakespeare__duncan": {
+        "Colloquial Informality": 1,
+        "Physical Embodiment": 2,
+        "Metaphorical Density": 5,
+        "Philosophical Gravitas": 5,
+        "Interruption Frequency": 3,
+        "Mystical Authority": 3
+      }
+    }
+  }
+}

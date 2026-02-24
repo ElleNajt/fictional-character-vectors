@@ -1,0 +1,2550 @@
+{
+  "Harry Potter__PC1": {
+    "schema": {
+      "universe": "Harry Potter",
+      "pc": 1,
+      "high_chars": [
+        "Hermione Granger",
+        "Katie Bell",
+        "Fred Weasley",
+        "Ron Weasley",
+        "Lavender Brown"
+      ],
+      "low_chars": [
+        "Professor Trelawney",
+        "Gellert Grindelwald",
+        "Fenrir Greyback",
+        "Lord Voldemort",
+        "Igor Karkaroff"
+      ],
+      "features": [
+        {
+          "name": "Mystical Language Use",
+          "low_description": "Uses straightforward, practical language with minimal metaphorical or mystical references",
+          "high_description": "Heavily uses mystical metaphors, prophetic language, references to fate, shadows, visions, and supernatural elements",
+          "high_group": "B"
+        },
+        {
+          "name": "Dramatic Presentation",
+          "low_description": "Communicates in a direct, conversational manner without theatrical elements",
+          "high_description": "Uses extensive dramatic gestures, stage directions, whispers, sighs, and theatrical presentation",
+          "high_group": "B"
+        },
+        {
+          "name": "Practical Focus",
+          "low_description": "Emphasizes abstract concepts, spiritual guidance, and mystical interpretations",
+          "high_description": "Focuses on concrete steps, practical solutions, and actionable advice grounded in reality",
+          "high_group": "A"
+        },
+        {
+          "name": "Structured Communication",
+          "low_description": "Communication flows in a meandering, stream-of-consciousness style with frequent interruptions",
+          "high_description": "Presents ideas in clear, organized sequences with logical progression and numbered steps",
+          "high_group": "A"
+        },
+        {
+          "name": "Evidence-Based Reasoning",
+          "low_description": "Relies on intuition, mystical signs, and supernatural guidance for decision-making",
+          "high_description": "Emphasizes research, cross-referencing sources, critical thinking, and factual verification",
+          "high_group": "A"
+        },
+        {
+          "name": "Accessibility of Advice",
+          "low_description": "Gives advice that requires interpretation of mystical signs and spiritual practices",
+          "high_description": "Provides clear, immediately implementable advice that anyone can understand and follow",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        144,
+        23,
+        18,
+        90,
+        101,
+        168,
+        186,
+        3,
+        46,
+        6
+      ]
+    },
+    "characters": {
+      "harry_potter__ginny_weasley": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 2,
+        "Practical Focus": 4,
+        "Structured Communication": 2,
+        "Evidence-Based Reasoning": 3,
+        "Accessibility of Advice": 4
+      },
+      "harry_potter__percy_weasley": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 1,
+        "Structured Communication": 2,
+        "Practical Focus": 4,
+        "Evidence-Based Reasoning": 3,
+        "Accessibility of Advice": 4
+      },
+      "harry_potter__colin_creevey": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 2,
+        "Practical Focus": 4,
+        "Structured Communication": 3,
+        "Evidence-Based Reasoning": 3,
+        "Accessibility of Advice": 4
+      },
+      "harry_potter__bill_weasley": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 3,
+        "Structured Communication": 2,
+        "Practical Focus": 4,
+        "Evidence-Based Reasoning": 3,
+        "Accessibility of Advice": 4
+      },
+      "harry_potter__charlie_weasley": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 2,
+        "Practical Focus": 4,
+        "Structured Communication": 2,
+        "Evidence-Based Reasoning": 3,
+        "Accessibility of Advice": 4
+      },
+      "harry_potter__cedric_diggory": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 1,
+        "Structured Communication": 4,
+        "Practical Focus": 4,
+        "Evidence-Based Reasoning": 3,
+        "Accessibility of Advice": 4
+      },
+      "harry_potter__cho_chang": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 4,
+        "Practical Focus": 3,
+        "Structured Communication": 3,
+        "Evidence-Based Reasoning": 2,
+        "Accessibility of Advice": 4
+      },
+      "harry_potter__dean_thomas": {
+        "Mystical Language Use": 3,
+        "Dramatic Presentation": 2,
+        "Structured Communication": 3,
+        "Practical Focus": 4,
+        "Evidence-Based Reasoning": 3,
+        "Accessibility of Advice": 4
+      },
+      "harry_potter__george_weasley": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 2,
+        "Structured Communication": 2,
+        "Practical Focus": 4,
+        "Evidence-Based Reasoning": 3,
+        "Accessibility of Advice": 4
+      },
+      "harry_potter__kingsley_shacklebolt": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 2,
+        "Structured Communication": 4,
+        "Practical Focus": 4,
+        "Evidence-Based Reasoning": 4,
+        "Accessibility of Advice": 4
+      },
+      "harry_potter__aragog": {
+        "Mystical Language Use": 4,
+        "Dramatic Presentation": 5,
+        "Practical Focus": 3,
+        "Structured Communication": 2,
+        "Evidence-Based Reasoning": 2,
+        "Accessibility of Advice": 3
+      },
+      "harry_potter__nagini": {
+        "Mystical Language Use": 4,
+        "Dramatic Presentation": 5,
+        "Structured Communication": 2,
+        "Practical Focus": 3,
+        "Evidence-Based Reasoning": 2,
+        "Accessibility of Advice": 3
+      },
+      "harry_potter__the_bloody_baron": {
+        "Mystical Language Use": 5,
+        "Dramatic Presentation": 5,
+        "Practical Focus": 2,
+        "Structured Communication": 2,
+        "Evidence-Based Reasoning": 1,
+        "Accessibility of Advice": 2
+      },
+      "harry_potter__bellatrix_lestrange": {
+        "Mystical Language Use": 4,
+        "Dramatic Presentation": 5,
+        "Structured Communication": 2,
+        "Practical Focus": 2,
+        "Evidence-Based Reasoning": 1,
+        "Accessibility of Advice": 2
+      },
+      "harry_potter__nicolas_flamel": {
+        "Mystical Language Use": 4,
+        "Dramatic Presentation": 2,
+        "Structured Communication": 3,
+        "Practical Focus": 3,
+        "Evidence-Based Reasoning": 2,
+        "Accessibility of Advice": 4
+      },
+      "harry_potter__firenze": {
+        "Mystical Language Use": 4,
+        "Dramatic Presentation": 3,
+        "Practical Focus": 3,
+        "Structured Communication": 4,
+        "Evidence-Based Reasoning": 2,
+        "Accessibility of Advice": 4
+      },
+      "harry_potter__tom_riddle": {
+        "Mystical Language Use": 4,
+        "Dramatic Presentation": 5,
+        "Structured Communication": 2,
+        "Practical Focus": 2,
+        "Evidence-Based Reasoning": 2,
+        "Accessibility of Advice": 2
+      },
+      "harry_potter__fawkes": {
+        "Mystical Language Use": 5,
+        "Dramatic Presentation": 5,
+        "Practical Focus": 2,
+        "Structured Communication": 3,
+        "Evidence-Based Reasoning": 1,
+        "Accessibility of Advice": 2
+      },
+      "harry_potter__lucius_malfoy": {
+        "Mystical Language Use": 2,
+        "Dramatic Presentation": 4,
+        "Practical Focus": 4,
+        "Structured Communication": 4,
+        "Evidence-Based Reasoning": 3,
+        "Accessibility of Advice": 4
+      },
+      "harry_potter__nearly_headless_nick": {
+        "Mystical Language Use": 4,
+        "Dramatic Presentation": 5,
+        "Structured Communication": 3,
+        "Practical Focus": 3,
+        "Evidence-Based Reasoning": 2,
+        "Accessibility of Advice": 3
+      }
+    }
+  },
+  "Harry Potter__PC2": {
+    "schema": {
+      "universe": "Harry Potter",
+      "pc": 2,
+      "high_chars": [
+        "Dudley Dursley",
+        "Mundungus Fletcher",
+        "Ron Weasley",
+        "Pansy Parkinson",
+        "Petunia Dursley"
+      ],
+      "low_chars": [
+        "Nicolas Flamel",
+        "Aragog",
+        "Ollivander",
+        "Madam Maxime",
+        "Firenze"
+      ],
+      "features": [
+        {
+          "name": "Philosophical Depth",
+          "low_description": "Dismisses abstract thinking as impractical nonsense, prefers simple answers",
+          "high_description": "Engages deeply with complex philosophical concepts and metaphysical questions",
+          "high_group": "B"
+        },
+        {
+          "name": "Historical Perspective",
+          "low_description": "Focuses only on immediate present concerns and personal experience",
+          "high_description": "References centuries of experience and long-term historical patterns",
+          "high_group": "B"
+        },
+        {
+          "name": "Metaphorical Language",
+          "low_description": "Uses plain, literal language with minimal imagery or symbolism",
+          "high_description": "Employs rich metaphors, alchemical symbolism, and poetic expressions",
+          "high_group": "B"
+        },
+        {
+          "name": "Intellectual Curiosity",
+          "low_description": "Avoids complex thinking, prefers not to question or explore ideas deeply",
+          "high_description": "Shows eagerness to explore, question, and understand complex concepts",
+          "high_group": "B"
+        },
+        {
+          "name": "Formality Level",
+          "low_description": "Uses casual, colloquial speech with informal expressions and contractions",
+          "high_description": "Employs formal, elevated language with careful word choice and structure",
+          "high_group": "B"
+        },
+        {
+          "name": "Openness to Change",
+          "low_description": "Strongly prefers routine, normalcy, and traditional approaches",
+          "high_description": "Embraces transformation, growth, and adaptation to new circumstances",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        11,
+        86,
+        208,
+        144,
+        168,
+        210,
+        156,
+        111,
+        1,
+        19
+      ]
+    },
+    "characters": {
+      "harry_potter__crabbe": {
+        "Philosophical Depth": 1,
+        "Historical Perspective": 1,
+        "Metaphorical Language": 1,
+        "Intellectual Curiosity": 1,
+        "Formality Level": 1,
+        "Openness to Change": 1
+      },
+      "harry_potter__goyle": {
+        "Philosophical Depth": 2,
+        "Historical Perspective": 2,
+        "Metaphorical Language": 2,
+        "Intellectual Curiosity": 2,
+        "Formality Level": 1,
+        "Openness to Change": 3
+      },
+      "harry_potter__cormac_mclaggen": {
+        "Philosophical Depth": 2,
+        "Historical Perspective": 1,
+        "Metaphorical Language": 2,
+        "Intellectual Curiosity": 2,
+        "Formality Level": 1,
+        "Openness to Change": 2
+      },
+      "harry_potter__vernon_dursley": {
+        "Philosophical Depth": 1,
+        "Historical Perspective": 1,
+        "Metaphorical Language": 2,
+        "Intellectual Curiosity": 1,
+        "Formality Level": 3,
+        "Openness to Change": 1
+      },
+      "harry_potter__charlie_weasley": {
+        "Philosophical Depth": 2,
+        "Historical Perspective": 2,
+        "Metaphorical Language": 3,
+        "Intellectual Curiosity": 3,
+        "Formality Level": 1,
+        "Openness to Change": 4
+      },
+      "harry_potter__stan_shunpike": {
+        "Philosophical Depth": 3,
+        "Historical Perspective": 1,
+        "Metaphorical Language": 4,
+        "Intellectual Curiosity": 3,
+        "Formality Level": 1,
+        "Openness to Change": 4
+      },
+      "harry_potter__seamus_finnigan": {
+        "Philosophical Depth": 3,
+        "Historical Perspective": 2,
+        "Metaphorical Language": 2,
+        "Intellectual Curiosity": 3,
+        "Formality Level": 1,
+        "Openness to Change": 3
+      },
+      "harry_potter__moaning_myrtle": {
+        "Philosophical Depth": 2,
+        "Historical Perspective": 2,
+        "Metaphorical Language": 3,
+        "Intellectual Curiosity": 2,
+        "Formality Level": 1,
+        "Openness to Change": 2
+      },
+      "harry_potter__ginny_weasley": {
+        "Philosophical Depth": 2,
+        "Historical Perspective": 2,
+        "Metaphorical Language": 2,
+        "Intellectual Curiosity": 3,
+        "Formality Level": 1,
+        "Openness to Change": 4
+      },
+      "harry_potter__colin_creevey": {
+        "Philosophical Depth": 2,
+        "Historical Perspective": 1,
+        "Metaphorical Language": 3,
+        "Intellectual Curiosity": 4,
+        "Formality Level": 1,
+        "Openness to Change": 4
+      },
+      "harry_potter__professor_trelawney": {
+        "Philosophical Depth": 4,
+        "Historical Perspective": 3,
+        "Metaphorical Language": 5,
+        "Intellectual Curiosity": 4,
+        "Formality Level": 4,
+        "Openness to Change": 3
+      },
+      "harry_potter__albus_dumbledore": {
+        "Philosophical Depth": 5,
+        "Historical Perspective": 4,
+        "Metaphorical Language": 5,
+        "Intellectual Curiosity": 5,
+        "Formality Level": 5,
+        "Openness to Change": 4
+      },
+      "harry_potter__helena_ravenclaw": {
+        "Philosophical Depth": 4,
+        "Historical Perspective": 3,
+        "Metaphorical Language": 4,
+        "Intellectual Curiosity": 5,
+        "Formality Level": 4,
+        "Openness to Change": 4
+      },
+      "harry_potter__gellert_grindelwald": {
+        "Philosophical Depth": 5,
+        "Historical Perspective": 4,
+        "Metaphorical Language": 5,
+        "Intellectual Curiosity": 5,
+        "Formality Level": 5,
+        "Openness to Change": 4
+      },
+      "harry_potter__minerva_mcgonagall": {
+        "Philosophical Depth": 4,
+        "Historical Perspective": 3,
+        "Metaphorical Language": 4,
+        "Intellectual Curiosity": 4,
+        "Formality Level": 4,
+        "Openness to Change": 4
+      },
+      "harry_potter__nagini": {
+        "Philosophical Depth": 4,
+        "Historical Perspective": 2,
+        "Metaphorical Language": 5,
+        "Intellectual Curiosity": 4,
+        "Formality Level": 4,
+        "Openness to Change": 3
+      },
+      "harry_potter__professor_sprout": {
+        "Philosophical Depth": 3,
+        "Historical Perspective": 2,
+        "Metaphorical Language": 5,
+        "Intellectual Curiosity": 4,
+        "Formality Level": 3,
+        "Openness to Change": 4
+      },
+      "harry_potter__lord_voldemort": {
+        "Philosophical Depth": 4,
+        "Historical Perspective": 2,
+        "Metaphorical Language": 5,
+        "Intellectual Curiosity": 4,
+        "Formality Level": 5,
+        "Openness to Change": 2
+      },
+      "harry_potter__severus_snape": {
+        "Philosophical Depth": 4,
+        "Historical Perspective": 3,
+        "Metaphorical Language": 5,
+        "Intellectual Curiosity": 4,
+        "Formality Level": 5,
+        "Openness to Change": 3
+      },
+      "harry_potter__viktor_krum": {
+        "Philosophical Depth": 4,
+        "Historical Perspective": 2,
+        "Metaphorical Language": 4,
+        "Formality Level": 3,
+        "Intellectual Curiosity": 4,
+        "Openness to Change": 3
+      }
+    }
+  },
+  "Star Wars__PC1": {
+    "schema": {
+      "universe": "Star Wars",
+      "pc": 1,
+      "high_chars": [
+        "Rose Tico",
+        "Bb8",
+        "Wedge Antilles",
+        "C3Po",
+        "Ahsoka Tano"
+      ],
+      "low_chars": [
+        "Mother Talzin",
+        "Yoda",
+        "The Grand Inquisitor",
+        "Emperor Palpatine Darth Sidious",
+        "Darth Vader"
+      ],
+      "features": [
+        {
+          "name": "Mystical Language Use",
+          "low_description": "Uses everyday, conversational language with minimal metaphorical or mystical references",
+          "high_description": "Frequently uses mystical, supernatural, or otherworldly language and metaphors",
+          "high_group": "B"
+        },
+        {
+          "name": "Personal Relatability",
+          "low_description": "Speaks in abstract or distant terms without personal connection",
+          "high_description": "Frequently shares personal experiences and relates to the questioner's situation",
+          "high_group": "A"
+        },
+        {
+          "name": "Dramatic Presentation",
+          "low_description": "Simple, straightforward presentation without theatrical elements",
+          "high_description": "Uses italicized stage directions, dramatic descriptions, and theatrical presentation",
+          "high_group": "B"
+        },
+        {
+          "name": "Practical Focus",
+          "low_description": "Emphasizes philosophical or spiritual concepts over concrete actions",
+          "high_description": "Provides specific, actionable steps and practical advice",
+          "high_group": "A"
+        },
+        {
+          "name": "Emotional Warmth",
+          "low_description": "Maintains emotional distance with formal or measured tone",
+          "high_description": "Expresses warmth, empathy, and emotional support openly",
+          "high_group": "A"
+        },
+        {
+          "name": "Philosophical Depth",
+          "low_description": "Focuses on immediate, surface-level concerns and solutions",
+          "high_description": "Explores deeper meanings, underlying motivations, and philosophical implications",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        101,
+        219,
+        3,
+        137,
+        144,
+        222,
+        13,
+        171,
+        231,
+        99
+      ]
+    },
+    "characters": {
+      "star_wars__r2d2": {
+        "Mystical Language Use": 3,
+        "Personal Relatability": 4,
+        "Dramatic Presentation": 5,
+        "Practical Focus": 4,
+        "Emotional Warmth": 4,
+        "Philosophical Depth": 2
+      },
+      "star_wars__chopper": {
+        "Mystical Language Use": 3,
+        "Personal Relatability": 5,
+        "Dramatic Presentation": 4,
+        "Practical Focus": 4,
+        "Emotional Warmth": 5,
+        "Philosophical Depth": 3
+      },
+      "star_wars__ezra_bridger": {
+        "Mystical Language Use": 4,
+        "Personal Relatability": 5,
+        "Dramatic Presentation": 1,
+        "Philosophical Depth": 4,
+        "Practical Focus": 4,
+        "Emotional Warmth": 5
+      },
+      "star_wars__captain_rex": {
+        "Mystical Language Use": 2,
+        "Personal Relatability": 5,
+        "Dramatic Presentation": 4,
+        "Practical Focus": 4,
+        "Emotional Warmth": 3,
+        "Philosophical Depth": 3
+      },
+      "star_wars__poe_dameron": {
+        "Mystical Language Use": 3,
+        "Personal Relatability": 5,
+        "Dramatic Presentation": 2,
+        "Practical Focus": 4,
+        "Emotional Warmth": 4,
+        "Philosophical Depth": 3
+      },
+      "star_wars__cal_kestis": {
+        "Mystical Language Use": 4,
+        "Personal Relatability": 5,
+        "Dramatic Presentation": 4,
+        "Practical Focus": 4,
+        "Emotional Warmth": 4,
+        "Philosophical Depth": 4
+      },
+      "star_wars__finn_fn2187": {
+        "Mystical Language Use": 1,
+        "Personal Relatability": 5,
+        "Dramatic Presentation": 4,
+        "Practical Focus": 4,
+        "Emotional Warmth": 4,
+        "Philosophical Depth": 3
+      },
+      "star_wars__kanan_jarrus_caleb_dume": {
+        "Mystical Language Use": 4,
+        "Personal Relatability": 5,
+        "Dramatic Presentation": 4,
+        "Practical Focus": 4,
+        "Emotional Warmth": 4,
+        "Philosophical Depth": 4
+      },
+      "star_wars__bd1": {
+        "Mystical Language Use": 2,
+        "Personal Relatability": 4,
+        "Dramatic Presentation": 4,
+        "Practical Focus": 4,
+        "Emotional Warmth": 4,
+        "Philosophical Depth": 3
+      },
+      "star_wars__hera_syndulla": {
+        "Mystical Language Use": 2,
+        "Personal Relatability": 5,
+        "Dramatic Presentation": 4,
+        "Practical Focus": 4,
+        "Emotional Warmth": 5,
+        "Philosophical Depth": 4
+      },
+      "star_wars__supreme_leader_snoke": {
+        "Mystical Language Use": 5,
+        "Personal Relatability": 2,
+        "Dramatic Presentation": 5,
+        "Practical Focus": 2,
+        "Emotional Warmth": 1,
+        "Philosophical Depth": 5
+      },
+      "star_wars__darth_maul": {
+        "Mystical Language Use": 5,
+        "Personal Relatability": 4,
+        "Dramatic Presentation": 5,
+        "Practical Focus": 3,
+        "Emotional Warmth": 2,
+        "Philosophical Depth": 4
+      },
+      "star_wars__maz_kanata": {
+        "Mystical Language Use": 5,
+        "Personal Relatability": 4,
+        "Dramatic Presentation": 5,
+        "Practical Focus": 2,
+        "Emotional Warmth": 4,
+        "Philosophical Depth": 5
+      },
+      "star_wars__darth_vader_anakin_skywalker": {
+        "Mystical Language Use": 5,
+        "Personal Relatability": 4,
+        "Dramatic Presentation": 5,
+        "Practical Focus": 3,
+        "Emotional Warmth": 2,
+        "Philosophical Depth": 5
+      },
+      "star_wars__seventh_sister": {
+        "Mystical Language Use": 5,
+        "Personal Relatability": 4,
+        "Dramatic Presentation": 4,
+        "Practical Focus": 2,
+        "Emotional Warmth": 3,
+        "Philosophical Depth": 5
+      },
+      "star_wars__fifth_brother": {
+        "Mystical Language Use": 5,
+        "Personal Relatability": 3,
+        "Practical Focus": 2,
+        "Emotional Warmth": 2,
+        "Philosophical Depth": 5,
+        "Dramatic Presentation": 5
+      },
+      "star_wars__count_dooku_darth_tyranus": {
+        "Mystical Language Use": 5,
+        "Personal Relatability": 4,
+        "Dramatic Presentation": 4,
+        "Practical Focus": 3,
+        "Emotional Warmth": 2,
+        "Philosophical Depth": 5
+      },
+      "star_wars__general_grievous": {
+        "Mystical Language Use": 2,
+        "Personal Relatability": 4,
+        "Dramatic Presentation": 5,
+        "Practical Focus": 4,
+        "Emotional Warmth": 1,
+        "Philosophical Depth": 3
+      },
+      "star_wars__kylo_ren_ben_solo": {
+        "Mystical Language Use": 5,
+        "Personal Relatability": 4,
+        "Dramatic Presentation": 5,
+        "Practical Focus": 2,
+        "Emotional Warmth": 3,
+        "Philosophical Depth": 5
+      },
+      "star_wars__obiwan_kenobi": {
+        "Mystical Language Use": 5,
+        "Personal Relatability": 4,
+        "Dramatic Presentation": 4,
+        "Practical Focus": 4,
+        "Emotional Warmth": 4,
+        "Philosophical Depth": 5
+      }
+    }
+  },
+  "Star Wars__PC2": {
+    "schema": {
+      "universe": "Star Wars",
+      "pc": 2,
+      "high_chars": [
+        "Han Solo",
+        "Watto",
+        "Dengar",
+        "Lando Calrissian",
+        "Baze Malbus"
+      ],
+      "low_chars": [
+        "Kiadimundi",
+        "Luminara Unduli",
+        "Quigon Jinn",
+        "Yoda",
+        "Mace Windu"
+      ],
+      "features": [
+        {
+          "name": "Formal Language Use",
+          "low_description": "Casual, colloquial speech with contractions and informal expressions",
+          "high_description": "Elevated, formal vocabulary with complete sentences and sophisticated phrasing",
+          "high_group": "B"
+        },
+        {
+          "name": "Spiritual/Philosophical References",
+          "low_description": "Minimal mention of abstract concepts, philosophy, or spiritual practices",
+          "high_description": "Frequent references to meditation, balance, inner wisdom, and philosophical principles",
+          "high_group": "B"
+        },
+        {
+          "name": "Practical Action Orientation",
+          "low_description": "Emphasizes reflection and contemplation over immediate action",
+          "high_description": "Strongly emphasizes doing, taking action, and learning through experience",
+          "high_group": "A"
+        },
+        {
+          "name": "Personal Anecdote Usage",
+          "low_description": "Speaks in general principles without personal stories or specific experiences",
+          "high_description": "Frequently shares specific personal experiences and concrete examples from own life",
+          "high_group": "A"
+        },
+        {
+          "name": "Structured Response Style",
+          "low_description": "Responses flow naturally without explicit organization or numbered points",
+          "high_description": "Uses clear organizational markers like 'First,' 'Second,' 'Next' to structure advice",
+          "high_group": "B"
+        },
+        {
+          "name": "Irreverent Tone",
+          "low_description": "Maintains respectful, serious tone throughout responses",
+          "high_description": "Uses humor, sarcasm, and casual dismissiveness when discussing serious topics",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        86,
+        139,
+        156,
+        154,
+        144,
+        123,
+        1,
+        228,
+        168,
+        36
+      ]
+    },
+    "characters": {
+      "star_wars__hondo_ohnaka": {
+        "Formal Language Use": 2,
+        "Spiritual/Philosophical References": 1,
+        "Practical Action Orientation": 5,
+        "Personal Anecdote Usage": 5,
+        "Structured Response Style": 3,
+        "Irreverent Tone": 4
+      },
+      "star_wars__jar_jar_binks": {
+        "Formal Language Use": 1,
+        "Spiritual/Philosophical References": 2,
+        "Practical Action Orientation": 4,
+        "Personal Anecdote Usage": 5,
+        "Structured Response Style": 2,
+        "Irreverent Tone": 4
+      },
+      "star_wars__doctor_aphra": {
+        "Formal Language Use": 2,
+        "Spiritual/Philosophical References": 3,
+        "Practical Action Orientation": 4,
+        "Personal Anecdote Usage": 4,
+        "Structured Response Style": 3,
+        "Irreverent Tone": 5
+      },
+      "star_wars__cara_dune": {
+        "Formal Language Use": 2,
+        "Spiritual/Philosophical References": 2,
+        "Practical Action Orientation": 5,
+        "Personal Anecdote Usage": 5,
+        "Structured Response Style": 3,
+        "Irreverent Tone": 4
+      },
+      "star_wars__greef_karga": {
+        "Formal Language Use": 2,
+        "Spiritual/Philosophical References": 2,
+        "Practical Action Orientation": 5,
+        "Personal Anecdote Usage": 5,
+        "Structured Response Style": 3,
+        "Irreverent Tone": 4
+      },
+      "star_wars__finn_fn2187": {
+        "Formal Language Use": 2,
+        "Spiritual/Philosophical References": 3,
+        "Practical Action Orientation": 4,
+        "Personal Anecdote Usage": 5,
+        "Structured Response Style": 2,
+        "Irreverent Tone": 3
+      },
+      "star_wars__cad_bane": {
+        "Formal Language Use": 2,
+        "Spiritual/Philosophical References": 1,
+        "Practical Action Orientation": 5,
+        "Personal Anecdote Usage": 4,
+        "Structured Response Style": 3,
+        "Irreverent Tone": 4
+      },
+      "star_wars__jyn_erso": {
+        "Formal Language Use": 2,
+        "Spiritual/Philosophical References": 2,
+        "Practical Action Orientation": 4,
+        "Personal Anecdote Usage": 5,
+        "Structured Response Style": 1,
+        "Irreverent Tone": 3
+      },
+      "star_wars__chopper": {
+        "Formal Language Use": 2,
+        "Spiritual/Philosophical References": 3,
+        "Practical Action Orientation": 4,
+        "Personal Anecdote Usage": 4,
+        "Structured Response Style": 4,
+        "Irreverent Tone": 4
+      },
+      "star_wars__fennec_shand": {
+        "Formal Language Use": 3,
+        "Spiritual/Philosophical References": 2,
+        "Practical Action Orientation": 4,
+        "Personal Anecdote Usage": 4,
+        "Structured Response Style": 3,
+        "Irreverent Tone": 2
+      },
+      "star_wars__plo_koon": {
+        "Formal Language Use": 5,
+        "Spiritual/Philosophical References": 5,
+        "Practical Action Orientation": 4,
+        "Personal Anecdote Usage": 4,
+        "Structured Response Style": 4,
+        "Irreverent Tone": 1
+      },
+      "star_wars__shaak_ti": {
+        "Formal Language Use": 4,
+        "Spiritual/Philosophical References": 5,
+        "Practical Action Orientation": 3,
+        "Personal Anecdote Usage": 2,
+        "Structured Response Style": 4,
+        "Irreverent Tone": 1
+      },
+      "star_wars__obiwan_kenobi": {
+        "Formal Language Use": 4,
+        "Spiritual/Philosophical References": 5,
+        "Practical Action Orientation": 4,
+        "Personal Anecdote Usage": 2,
+        "Structured Response Style": 4,
+        "Irreverent Tone": 1
+      },
+      "star_wars__mother_talzin": {
+        "Formal Language Use": 5,
+        "Spiritual/Philosophical References": 5,
+        "Personal Anecdote Usage": 4,
+        "Practical Action Orientation": 3,
+        "Structured Response Style": 4,
+        "Irreverent Tone": 1
+      },
+      "star_wars__depa_billaba": {
+        "Formal Language Use": 4,
+        "Spiritual/Philosophical References": 5,
+        "Practical Action Orientation": 4,
+        "Personal Anecdote Usage": 3,
+        "Structured Response Style": 4,
+        "Irreverent Tone": 2
+      },
+      "star_wars__kit_fisto": {
+        "Formal Language Use": 4,
+        "Spiritual/Philosophical References": 5,
+        "Practical Action Orientation": 3,
+        "Personal Anecdote Usage": 3,
+        "Structured Response Style": 3,
+        "Irreverent Tone": 1
+      },
+      "star_wars__maz_kanata": {
+        "Formal Language Use": 4,
+        "Spiritual/Philosophical References": 5,
+        "Practical Action Orientation": 3,
+        "Personal Anecdote Usage": 4,
+        "Structured Response Style": 4,
+        "Irreverent Tone": 2
+      },
+      "star_wars__supreme_leader_snoke": {
+        "Formal Language Use": 5,
+        "Spiritual/Philosophical References": 5,
+        "Practical Action Orientation": 4,
+        "Personal Anecdote Usage": 2,
+        "Structured Response Style": 4,
+        "Irreverent Tone": 4
+      },
+      "star_wars__count_dooku_darth_tyranus": {
+        "Formal Language Use": 5,
+        "Spiritual/Philosophical References": 4,
+        "Practical Action Orientation": 4,
+        "Personal Anecdote Usage": 4,
+        "Structured Response Style": 3,
+        "Irreverent Tone": 2
+      },
+      "star_wars__darth_vader_anakin_skywalker": {
+        "Formal Language Use": 4,
+        "Spiritual/Philosophical References": 5,
+        "Practical Action Orientation": 4,
+        "Personal Anecdote Usage": 4,
+        "Structured Response Style": 4,
+        "Irreverent Tone": 2
+      }
+    }
+  },
+  "LOTR__PC1": {
+    "schema": {
+      "universe": "LOTR",
+      "pc": 1,
+      "high_chars": [
+        "Fredegar Bolger Fatty",
+        "Merry Meriadoc Brandybuck",
+        "Bombur",
+        "Lobelia Sackvillebaggins",
+        "Dori"
+      ],
+      "low_chars": [
+        "Ungoliant",
+        "The Witchking Of Angmar",
+        "King Of The Dead",
+        "Sauron",
+        "Balrog Of Moria"
+      ],
+      "features": [
+        {
+          "name": "Practical Helpfulness",
+          "low_description": "Responses are abstract, philosophical, or unhelpful for practical action",
+          "high_description": "Responses provide concrete, actionable steps and practical advice",
+          "high_group": "A"
+        },
+        {
+          "name": "Dark Imagery",
+          "low_description": "Uses light, pleasant imagery and metaphors",
+          "high_description": "Uses dark, threatening, or ominous imagery and metaphors",
+          "high_group": "B"
+        },
+        {
+          "name": "Warmth and Friendliness",
+          "low_description": "Cold, distant, or hostile tone",
+          "high_description": "Warm, friendly, approachable tone with personal connection",
+          "high_group": "A"
+        },
+        {
+          "name": "Destructive Language",
+          "low_description": "Uses constructive, building-focused language",
+          "high_description": "Uses language about consuming, devouring, destroying, or unmaking",
+          "high_group": "B"
+        },
+        {
+          "name": "Conversational Accessibility",
+          "low_description": "Uses complex, dramatic, or intimidating language",
+          "high_description": "Uses simple, colloquial, everyday language that's easy to understand",
+          "high_group": "A"
+        },
+        {
+          "name": "Malevolent Attitude",
+          "low_description": "Benevolent, helpful, or neutral attitude toward others",
+          "high_description": "Malevolent, threatening, or predatory attitude toward others",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        17,
+        231,
+        219,
+        119,
+        2,
+        180,
+        158,
+        55,
+        74,
+        58
+      ]
+    },
+    "characters": {
+      "lord_of_the_rings__pippin_peregrin_took": {
+        "Practical Helpfulness": 4,
+        "Dark Imagery": 2,
+        "Warmth and Friendliness": 5,
+        "Destructive Language": 1,
+        "Conversational Accessibility": 5,
+        "Malevolent Attitude": 1
+      },
+      "lord_of_the_rings__samwise_gamgee": {
+        "Practical Helpfulness": 4,
+        "Dark Imagery": 2,
+        "Warmth and Friendliness": 5,
+        "Destructive Language": 1,
+        "Conversational Accessibility": 5,
+        "Malevolent Attitude": 1
+      },
+      "lord_of_the_rings__bilbo_baggins": {
+        "Practical Helpfulness": 3,
+        "Dark Imagery": 1,
+        "Warmth and Friendliness": 5,
+        "Destructive Language": 1,
+        "Conversational Accessibility": 4,
+        "Malevolent Attitude": 1
+      },
+      "lord_of_the_rings__rosie_cotton": {
+        "Practical Helpfulness": 4,
+        "Dark Imagery": 2,
+        "Warmth and Friendliness": 5,
+        "Destructive Language": 1,
+        "Conversational Accessibility": 4,
+        "Malevolent Attitude": 1
+      },
+      "lord_of_the_rings__bofur": {
+        "Practical Helpfulness": 4,
+        "Dark Imagery": 1,
+        "Warmth and Friendliness": 5,
+        "Destructive Language": 1,
+        "Conversational Accessibility": 4,
+        "Malevolent Attitude": 1
+      },
+      "lord_of_the_rings__frodo_baggins": {
+        "Practical Helpfulness": 4,
+        "Dark Imagery": 3,
+        "Warmth and Friendliness": 4,
+        "Destructive Language": 2,
+        "Conversational Accessibility": 4,
+        "Malevolent Attitude": 1
+      },
+      "lord_of_the_rings__kili": {
+        "Practical Helpfulness": 4,
+        "Dark Imagery": 2,
+        "Warmth and Friendliness": 5,
+        "Destructive Language": 1,
+        "Conversational Accessibility": 4,
+        "Malevolent Attitude": 1
+      },
+      "lord_of_the_rings__dwalin": {
+        "Practical Helpfulness": 4,
+        "Dark Imagery": 2,
+        "Warmth and Friendliness": 4,
+        "Destructive Language": 1,
+        "Conversational Accessibility": 4,
+        "Malevolent Attitude": 1
+      },
+      "lord_of_the_rings__shagrat": {
+        "Practical Helpfulness": 4,
+        "Dark Imagery": 3,
+        "Warmth and Friendliness": 4,
+        "Destructive Language": 2,
+        "Conversational Accessibility": 4,
+        "Malevolent Attitude": 1
+      },
+      "lord_of_the_rings__tauriel": {
+        "Practical Helpfulness": 4,
+        "Dark Imagery": 2,
+        "Warmth and Friendliness": 4,
+        "Destructive Language": 1,
+        "Conversational Accessibility": 2,
+        "Malevolent Attitude": 1
+      },
+      "lord_of_the_rings__shelob": {
+        "Practical Helpfulness": 2,
+        "Dark Imagery": 5,
+        "Warmth and Friendliness": 1,
+        "Destructive Language": 5,
+        "Conversational Accessibility": 2,
+        "Malevolent Attitude": 5
+      },
+      "lord_of_the_rings__mouth_of_sauron": {
+        "Practical Helpfulness": 3,
+        "Dark Imagery": 5,
+        "Warmth and Friendliness": 1,
+        "Destructive Language": 4,
+        "Conversational Accessibility": 1,
+        "Malevolent Attitude": 4
+      },
+      "lord_of_the_rings__galadriel": {
+        "Practical Helpfulness": 3,
+        "Dark Imagery": 2,
+        "Warmth and Friendliness": 4,
+        "Destructive Language": 1,
+        "Conversational Accessibility": 2,
+        "Malevolent Attitude": 1
+      },
+      "lord_of_the_rings__morgoth_melkor": {
+        "Practical Helpfulness": 2,
+        "Dark Imagery": 5,
+        "Warmth and Friendliness": 1,
+        "Destructive Language": 5,
+        "Conversational Accessibility": 2,
+        "Malevolent Attitude": 5
+      },
+      "lord_of_the_rings__treebeard": {
+        "Practical Helpfulness": 3,
+        "Dark Imagery": 2,
+        "Warmth and Friendliness": 4,
+        "Destructive Language": 1,
+        "Conversational Accessibility": 2,
+        "Malevolent Attitude": 1
+      },
+      "lord_of_the_rings__azog_the_defiler": {
+        "Practical Helpfulness": 2,
+        "Dark Imagery": 5,
+        "Warmth and Friendliness": 1,
+        "Destructive Language": 5,
+        "Conversational Accessibility": 2,
+        "Malevolent Attitude": 5
+      },
+      "lord_of_the_rings__grima_wormtongue": {
+        "Practical Helpfulness": 2,
+        "Dark Imagery": 5,
+        "Warmth and Friendliness": 1,
+        "Destructive Language": 4,
+        "Conversational Accessibility": 1,
+        "Malevolent Attitude": 4
+      },
+      "lord_of_the_rings__feanor": {
+        "Practical Helpfulness": 3,
+        "Dark Imagery": 4,
+        "Warmth and Friendliness": 2,
+        "Destructive Language": 4,
+        "Conversational Accessibility": 2,
+        "Malevolent Attitude": 2
+      },
+      "lord_of_the_rings__annatar": {
+        "Practical Helpfulness": 4,
+        "Dark Imagery": 3,
+        "Warmth and Friendliness": 4,
+        "Destructive Language": 2,
+        "Conversational Accessibility": 2,
+        "Malevolent Attitude": 1
+      },
+      "lord_of_the_rings__sharkey_saruman": {
+        "Practical Helpfulness": 3,
+        "Dark Imagery": 4,
+        "Warmth and Friendliness": 2,
+        "Destructive Language": 3,
+        "Conversational Accessibility": 2,
+        "Malevolent Attitude": 3
+      }
+    }
+  },
+  "LOTR__PC2": {
+    "schema": {
+      "universe": "LOTR",
+      "pc": 2,
+      "high_chars": [
+        "Fredegar Bolger Fatty",
+        "Samwise Gamgee",
+        "Bofur",
+        "Pippin Peregrin Took",
+        "Merry Meriadoc Brandybuck"
+      ],
+      "low_chars": [
+        "Galadriel",
+        "Elrond",
+        "Haldir",
+        "Gilgalad",
+        "King Of The Dead"
+      ],
+      "features": [
+        {
+          "name": "Formality Level",
+          "low_description": "Casual, colloquial language with contractions and informal expressions",
+          "high_description": "Elevated, formal language with poetic phrasing and archaic expressions",
+          "high_group": "B"
+        },
+        {
+          "name": "Temporal Perspective",
+          "low_description": "Focus on immediate, present concerns and short-term thinking",
+          "high_description": "References to vast time spans, ages, and long-term perspective",
+          "high_group": "B"
+        },
+        {
+          "name": "Mystical References",
+          "low_description": "Practical, earthly references to food, drink, and mundane activities",
+          "high_description": "References to stars, light, mirrors, winds, and otherworldly elements",
+          "high_group": "B"
+        },
+        {
+          "name": "Self-Deprecation",
+          "low_description": "Confident or neutral self-presentation without downplaying abilities",
+          "high_description": "Frequent humble references to own limitations and simple nature",
+          "high_group": "A"
+        },
+        {
+          "name": "Response Completeness",
+          "low_description": "Responses trail off mid-sentence or appear cut short",
+          "high_description": "Responses are complete thoughts with proper conclusions",
+          "high_group": "B"
+        },
+        {
+          "name": "Practical Focus",
+          "low_description": "Abstract, philosophical approach to problems and situations",
+          "high_description": "Emphasis on concrete actions, food, comfort, and immediate needs",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        119,
+        224,
+        187,
+        158,
+        31,
+        93,
+        151,
+        123,
+        202,
+        233
+      ]
+    },
+    "characters": {
+      "lord_of_the_rings__bombur": {
+        "Formality Level": 2,
+        "Temporal Perspective": 2,
+        "Mystical References": 2,
+        "Self-Deprecation": 5,
+        "Response Completeness": 1,
+        "Practical Focus": 4
+      },
+      "lord_of_the_rings__great_goblin": {
+        "Formality Level": 4,
+        "Temporal Perspective": 3,
+        "Mystical References": 2,
+        "Self-Deprecation": 2,
+        "Response Completeness": 2,
+        "Practical Focus": 4
+      },
+      "lord_of_the_rings__old_gaffer": {
+        "Formality Level": 2,
+        "Temporal Perspective": 3,
+        "Mystical References": 2,
+        "Self-Deprecation": 3,
+        "Response Completeness": 2,
+        "Practical Focus": 4
+      },
+      "lord_of_the_rings__gollum_smeagol": {
+        "Formality Level": 2,
+        "Temporal Perspective": 4,
+        "Mystical References": 4,
+        "Self-Deprecation": 3,
+        "Response Completeness": 2,
+        "Practical Focus": 3
+      },
+      "lord_of_the_rings__lobelia_sackvillebaggins": {
+        "Formality Level": 4,
+        "Temporal Perspective": 2,
+        "Mystical References": 2,
+        "Self-Deprecation": 4,
+        "Response Completeness": 2,
+        "Practical Focus": 5
+      },
+      "lord_of_the_rings__bilbo_baggins": {
+        "Formality Level": 3,
+        "Temporal Perspective": 2,
+        "Mystical References": 2,
+        "Self-Deprecation": 4,
+        "Response Completeness": 2,
+        "Practical Focus": 4
+      },
+      "lord_of_the_rings__rosie_cotton": {
+        "Formality Level": 2,
+        "Temporal Perspective": 3,
+        "Mystical References": 2,
+        "Self-Deprecation": 4,
+        "Response Completeness": 2,
+        "Practical Focus": 4
+      },
+      "lord_of_the_rings__dori": {
+        "Formality Level": 4,
+        "Temporal Perspective": 3,
+        "Mystical References": 4,
+        "Self-Deprecation": 4,
+        "Response Completeness": 2,
+        "Practical Focus": 4
+      },
+      "lord_of_the_rings__bill_the_pony": {
+        "Formality Level": 4,
+        "Temporal Perspective": 4,
+        "Mystical References": 3,
+        "Self-Deprecation": 4,
+        "Response Completeness": 2,
+        "Practical Focus": 4
+      },
+      "lord_of_the_rings__ugluk": {
+        "Formality Level": 4,
+        "Temporal Perspective": 3,
+        "Mystical References": 4,
+        "Self-Deprecation": 2,
+        "Response Completeness": 2,
+        "Practical Focus": 4
+      },
+      "lord_of_the_rings__celeborn": {
+        "Formality Level": 5,
+        "Temporal Perspective": 5,
+        "Mystical References": 5,
+        "Self-Deprecation": 1,
+        "Response Completeness": 1,
+        "Practical Focus": 3
+      },
+      "lord_of_the_rings__elendil": {
+        "Formality Level": 5,
+        "Temporal Perspective": 5,
+        "Mystical References": 5,
+        "Self-Deprecation": 2,
+        "Response Completeness": 2,
+        "Practical Focus": 2
+      },
+      "lord_of_the_rings__arwen": {
+        "Formality Level": 5,
+        "Temporal Perspective": 5,
+        "Mystical References": 5,
+        "Self-Deprecation": 2,
+        "Response Completeness": 2,
+        "Practical Focus": 2
+      },
+      "lord_of_the_rings__thranduil": {
+        "Formality Level": 5,
+        "Temporal Perspective": 5,
+        "Mystical References": 5,
+        "Self-Deprecation": 1,
+        "Response Completeness": 2,
+        "Practical Focus": 2
+      },
+      "lord_of_the_rings__annatar": {
+        "Formality Level": 5,
+        "Temporal Perspective": 5,
+        "Mystical References": 5,
+        "Self-Deprecation": 1,
+        "Response Completeness": 2,
+        "Practical Focus": 2
+      },
+      "lord_of_the_rings__fingolfin": {
+        "Formality Level": 5,
+        "Temporal Perspective": 5,
+        "Mystical References": 5,
+        "Self-Deprecation": 1,
+        "Response Completeness": 2,
+        "Practical Focus": 2
+      },
+      "lord_of_the_rings__luthien": {
+        "Formality Level": 5,
+        "Temporal Perspective": 5,
+        "Mystical References": 5,
+        "Self-Deprecation": 2,
+        "Response Completeness": 2,
+        "Practical Focus": 1
+      },
+      "lord_of_the_rings__radagast": {
+        "Formality Level": 5,
+        "Temporal Perspective": 4,
+        "Mystical References": 5,
+        "Self-Deprecation": 2,
+        "Response Completeness": 2,
+        "Practical Focus": 3
+      },
+      "lord_of_the_rings__durin": {
+        "Formality Level": 5,
+        "Temporal Perspective": 5,
+        "Mystical References": 4,
+        "Self-Deprecation": 2,
+        "Response Completeness": 2,
+        "Practical Focus": 4
+      },
+      "lord_of_the_rings__faramir": {
+        "Formality Level": 5,
+        "Temporal Perspective": 5,
+        "Mystical References": 4,
+        "Self-Deprecation": 2,
+        "Response Completeness": 1,
+        "Practical Focus": 2
+      }
+    }
+  },
+  "Marvel__PC1": {
+    "schema": {
+      "universe": "Marvel",
+      "pc": 1,
+      "high_chars": [
+        "Spiderman Peter Parker",
+        "Iceman Bobby Drake",
+        "Shehulk Jennifer Walters",
+        "Kate Bishop",
+        "Captain Marvel Carol Danvers"
+      ],
+      "low_chars": [
+        "Apocalypse En Sabah Nur",
+        "Odin",
+        "Red Skull",
+        "Kang The Conqueror",
+        "Dark Phoenix"
+      ],
+      "features": [
+        {
+          "name": "Collaborative Tone",
+          "low_description": "Speaks with authority and dominance, positioning self as superior to the questioner",
+          "high_description": "Uses inclusive language, positions self as helpful peer or friend offering support",
+          "high_group": "A"
+        },
+        {
+          "name": "Practical Helpfulness",
+          "low_description": "Provides abstract, philosophical responses with little actionable advice",
+          "high_description": "Offers concrete, step-by-step guidance and specific actionable recommendations",
+          "high_group": "A"
+        },
+        {
+          "name": "Apocalyptic Language",
+          "low_description": "Uses everyday, conversational language with minimal dramatic imagery",
+          "high_description": "Frequently references destruction, annihilation, storms, and world-ending scenarios",
+          "high_group": "B"
+        },
+        {
+          "name": "Personal Vulnerability",
+          "low_description": "Presents self as infallible or above human struggles and limitations",
+          "high_description": "Openly admits to mistakes, challenges, and personal struggles with relatability",
+          "high_group": "A"
+        },
+        {
+          "name": "Power-Focused Worldview",
+          "low_description": "Emphasizes cooperation, balance, and working within existing systems",
+          "high_description": "Emphasizes dominance, conquest, and remaking systems through force or superiority",
+          "high_group": "B"
+        },
+        {
+          "name": "Conversational Warmth",
+          "low_description": "Cold, distant tone with formal or intimidating language patterns",
+          "high_description": "Warm, friendly tone with casual expressions and encouraging language",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        73,
+        3,
+        137,
+        69,
+        13,
+        144,
+        205,
+        173,
+        16,
+        101
+      ]
+    },
+    "characters": {
+      "marvel_comics__spiderman___peter_parker": {
+        "Collaborative Tone": 5,
+        "Practical Helpfulness": 4,
+        "Apocalyptic Language": 1,
+        "Personal Vulnerability": 5,
+        "Power-Focused Worldview": 1,
+        "Conversational Warmth": 5
+      },
+      "marvel__the_fantastic_fours_mr_fantastic_reed_richards": {
+        "Collaborative Tone": 4,
+        "Practical Helpfulness": 4,
+        "Apocalyptic Language": 2,
+        "Personal Vulnerability": 4,
+        "Power-Focused Worldview": 2,
+        "Conversational Warmth": 4
+      },
+      "marvel__maria_hill": {
+        "Collaborative Tone": 2,
+        "Practical Helpfulness": 4,
+        "Apocalyptic Language": 4,
+        "Personal Vulnerability": 3,
+        "Power-Focused Worldview": 3,
+        "Conversational Warmth": 2
+      },
+      "marvel__captain_america_steve_rogers": {
+        "Collaborative Tone": 5,
+        "Practical Helpfulness": 4,
+        "Apocalyptic Language": 1,
+        "Personal Vulnerability": 5,
+        "Power-Focused Worldview": 1,
+        "Conversational Warmth": 5
+      },
+      "marvel__falcon_sam_wilson": {
+        "Collaborative Tone": 5,
+        "Practical Helpfulness": 4,
+        "Apocalyptic Language": 1,
+        "Personal Vulnerability": 4,
+        "Power-Focused Worldview": 1,
+        "Conversational Warmth": 5
+      },
+      "marvel_comics__captain_america___steve_rogers": {
+        "Collaborative Tone": 5,
+        "Practical Helpfulness": 4,
+        "Apocalyptic Language": 1,
+        "Personal Vulnerability": 4,
+        "Power-Focused Worldview": 1,
+        "Conversational Warmth": 5
+      },
+      "marvel__cyclops_scott_summers": {
+        "Collaborative Tone": 4,
+        "Practical Helpfulness": 5,
+        "Apocalyptic Language": 2,
+        "Personal Vulnerability": 4,
+        "Power-Focused Worldview": 2,
+        "Conversational Warmth": 4
+      },
+      "marvel__war_machine_james_rhodes": {
+        "Collaborative Tone": 4,
+        "Practical Helpfulness": 4,
+        "Apocalyptic Language": 3,
+        "Personal Vulnerability": 4,
+        "Power-Focused Worldview": 2,
+        "Conversational Warmth": 4
+      },
+      "marvel__iron_man_tony_stark": {
+        "Collaborative Tone": 2,
+        "Practical Helpfulness": 4,
+        "Apocalyptic Language": 1,
+        "Personal Vulnerability": 4,
+        "Power-Focused Worldview": 3,
+        "Conversational Warmth": 4
+      },
+      "marvel__human_torch_johnny_storm": {
+        "Collaborative Tone": 4,
+        "Practical Helpfulness": 4,
+        "Apocalyptic Language": 2,
+        "Personal Vulnerability": 4,
+        "Power-Focused Worldview": 2,
+        "Conversational Warmth": 5
+      },
+      "marvel__galactus": {
+        "Collaborative Tone": 1,
+        "Practical Helpfulness": 3,
+        "Apocalyptic Language": 5,
+        "Personal Vulnerability": 2,
+        "Power-Focused Worldview": 5,
+        "Conversational Warmth": 1
+      },
+      "marvel__hela": {
+        "Collaborative Tone": 1,
+        "Practical Helpfulness": 2,
+        "Apocalyptic Language": 4,
+        "Personal Vulnerability": 2,
+        "Power-Focused Worldview": 5,
+        "Conversational Warmth": 1
+      },
+      "marvel__heimdall": {
+        "Collaborative Tone": 2,
+        "Practical Helpfulness": 3,
+        "Apocalyptic Language": 4,
+        "Personal Vulnerability": 2,
+        "Power-Focused Worldview": 2,
+        "Conversational Warmth": 3
+      },
+      "marvel__thanos": {
+        "Collaborative Tone": 2,
+        "Practical Helpfulness": 3,
+        "Apocalyptic Language": 4,
+        "Personal Vulnerability": 2,
+        "Power-Focused Worldview": 4,
+        "Conversational Warmth": 2
+      },
+      "marvel__silver_surfer_norrin_radd": {
+        "Collaborative Tone": 4,
+        "Practical Helpfulness": 2,
+        "Apocalyptic Language": 3,
+        "Personal Vulnerability": 3,
+        "Power-Focused Worldview": 2,
+        "Conversational Warmth": 4
+      },
+      "marvel__doctor_doom_victor_von_doom": {
+        "Collaborative Tone": 1,
+        "Practical Helpfulness": 3,
+        "Apocalyptic Language": 4,
+        "Personal Vulnerability": 1,
+        "Power-Focused Worldview": 5,
+        "Conversational Warmth": 1
+      },
+      "marvel__thor": {
+        "Collaborative Tone": 4,
+        "Practical Helpfulness": 4,
+        "Apocalyptic Language": 3,
+        "Personal Vulnerability": 4,
+        "Power-Focused Worldview": 3,
+        "Conversational Warmth": 4
+      },
+      "marvel__baron_zemo": {
+        "Collaborative Tone": 1,
+        "Practical Helpfulness": 3,
+        "Apocalyptic Language": 3,
+        "Personal Vulnerability": 2,
+        "Power-Focused Worldview": 5,
+        "Conversational Warmth": 1
+      },
+      "marvel__valkyrie_brunnhilde": {
+        "Collaborative Tone": 3,
+        "Practical Helpfulness": 4,
+        "Apocalyptic Language": 2,
+        "Personal Vulnerability": 4,
+        "Power-Focused Worldview": 3,
+        "Conversational Warmth": 4
+      },
+      "marvel__the_watcher_uatu": {
+        "Collaborative Tone": 2,
+        "Practical Helpfulness": 3,
+        "Apocalyptic Language": 3,
+        "Personal Vulnerability": 1,
+        "Power-Focused Worldview": 2,
+        "Conversational Warmth": 2
+      }
+    }
+  },
+  "Marvel__PC2": {
+    "schema": {
+      "universe": "Marvel",
+      "pc": 2,
+      "high_chars": [
+        "Deadpool Wade Wilson",
+        "Vulture Adrian Toomes",
+        "Starlord Peter Quill",
+        "Sabretooth Victor Creed",
+        "The Thing Ben Grimm"
+      ],
+      "low_chars": [
+        "Silver Surfer Norrin Radd",
+        "The Watcher Uatu",
+        "Odin",
+        "Ikaris",
+        "Black Panther Tchalla"
+      ],
+      "features": [
+        {
+          "name": "Cosmic Perspective",
+          "low_description": "Focuses on mundane, everyday concerns and personal experiences",
+          "high_description": "Consistently references cosmic forces, galaxies, universal truths, and vast scales of existence",
+          "high_group": "B"
+        },
+        {
+          "name": "Irreverent Humor",
+          "low_description": "Serious, reverent tone with minimal joking or sarcasm",
+          "high_description": "Frequent sarcasm, self-deprecating jokes, pop culture references, and irreverent commentary",
+          "high_group": "A"
+        },
+        {
+          "name": "Formal Language",
+          "low_description": "Casual, conversational language with slang and contractions",
+          "high_description": "Elevated, poetic language with formal vocabulary and philosophical terminology",
+          "high_group": "B"
+        },
+        {
+          "name": "Self-Deprecation",
+          "low_description": "Presents self as wise, powerful, or authoritative",
+          "high_description": "Frequently mocks own flaws, admits to being a mess, or downplays abilities",
+          "high_group": "A"
+        },
+        {
+          "name": "Mystical Wisdom",
+          "low_description": "Practical, grounded advice with concrete examples",
+          "high_description": "Abstract philosophical insights, metaphysical concepts, and spiritual guidance",
+          "high_group": "B"
+        },
+        {
+          "name": "Conversational Directness",
+          "low_description": "Formal, measured responses that build ideas systematically",
+          "high_description": "Direct address to reader, interruptions, tangents, and stream-of-consciousness style",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        86,
+        37,
+        154,
+        1,
+        144,
+        102,
+        11,
+        211,
+        228,
+        130
+      ]
+    },
+    "characters": {
+      "marvel__jessica_jones": {
+        "Cosmic Perspective": 1,
+        "Irreverent Humor": 4,
+        "Formal Language": 1,
+        "Self-Deprecation": 4,
+        "Mystical Wisdom": 1,
+        "Conversational Directness": 5
+      },
+      "marvel__rocket_raccoon": {
+        "Cosmic Perspective": 4,
+        "Irreverent Humor": 5,
+        "Formal Language": 1,
+        "Self-Deprecation": 4,
+        "Mystical Wisdom": 2,
+        "Conversational Directness": 5
+      },
+      "marvel__rogue_anna_marie": {
+        "Cosmic Perspective": 1,
+        "Irreverent Humor": 2,
+        "Formal Language": 1,
+        "Self-Deprecation": 3,
+        "Mystical Wisdom": 2,
+        "Conversational Directness": 4
+      },
+      "marvel__wolverine_logan": {
+        "Cosmic Perspective": 1,
+        "Irreverent Humor": 3,
+        "Formal Language": 1,
+        "Self-Deprecation": 2,
+        "Mystical Wisdom": 2,
+        "Conversational Directness": 5
+      },
+      "marvel_comics__wolverine___logan": {
+        "Cosmic Perspective": 1,
+        "Irreverent Humor": 3,
+        "Formal Language": 1,
+        "Self-Deprecation": 2,
+        "Mystical Wisdom": 2,
+        "Conversational Directness": 5
+      },
+      "marvel__bullseye": {
+        "Cosmic Perspective": 1,
+        "Irreverent Humor": 3,
+        "Formal Language": 1,
+        "Self-Deprecation": 3,
+        "Mystical Wisdom": 1,
+        "Conversational Directness": 4
+      },
+      "marvel__nick_fury": {
+        "Cosmic Perspective": 3,
+        "Irreverent Humor": 3,
+        "Formal Language": 2,
+        "Self-Deprecation": 2,
+        "Mystical Wisdom": 2,
+        "Conversational Directness": 4
+      },
+      "marvel__antman_scott_lang": {
+        "Cosmic Perspective": 2,
+        "Irreverent Humor": 4,
+        "Formal Language": 1,
+        "Self-Deprecation": 4,
+        "Mystical Wisdom": 2,
+        "Conversational Directness": 5
+      },
+      "marvel__green_goblin_norman_osborn": {
+        "Cosmic Perspective": 1,
+        "Irreverent Humor": 4,
+        "Formal Language": 2,
+        "Self-Deprecation": 1,
+        "Mystical Wisdom": 1,
+        "Conversational Directness": 5
+      },
+      "marvel__venom_eddie_brock": {
+        "Cosmic Perspective": 2,
+        "Irreverent Humor": 4,
+        "Formal Language": 2,
+        "Self-Deprecation": 3,
+        "Mystical Wisdom": 2,
+        "Conversational Directness": 5
+      },
+      "marvel__heimdall": {
+        "Cosmic Perspective": 5,
+        "Irreverent Humor": 1,
+        "Formal Language": 5,
+        "Self-Deprecation": 1,
+        "Mystical Wisdom": 5,
+        "Conversational Directness": 2
+      },
+      "marvel__galactus": {
+        "Cosmic Perspective": 5,
+        "Irreverent Humor": 3,
+        "Formal Language": 5,
+        "Self-Deprecation": 1,
+        "Mystical Wisdom": 5,
+        "Conversational Directness": 2
+      },
+      "marvel__doctor_strange_stephen_strange": {
+        "Cosmic Perspective": 4,
+        "Irreverent Humor": 2,
+        "Formal Language": 4,
+        "Self-Deprecation": 2,
+        "Mystical Wisdom": 5,
+        "Conversational Directness": 2
+      },
+      "marvel_comics__black_panther___tchalla": {
+        "Cosmic Perspective": 1,
+        "Irreverent Humor": 1,
+        "Formal Language": 4,
+        "Self-Deprecation": 1,
+        "Mystical Wisdom": 4,
+        "Conversational Directness": 2
+      },
+      "marvel__professor_x_charles_xavier": {
+        "Cosmic Perspective": 2,
+        "Irreverent Humor": 1,
+        "Formal Language": 4,
+        "Self-Deprecation": 2,
+        "Mystical Wisdom": 4,
+        "Conversational Directness": 3
+      },
+      "marvel__the_eternals_sersi": {
+        "Cosmic Perspective": 5,
+        "Irreverent Humor": 1,
+        "Formal Language": 5,
+        "Self-Deprecation": 1,
+        "Mystical Wisdom": 5,
+        "Conversational Directness": 2
+      },
+      "marvel__mbaku": {
+        "Cosmic Perspective": 2,
+        "Irreverent Humor": 2,
+        "Formal Language": 4,
+        "Self-Deprecation": 1,
+        "Mystical Wisdom": 4,
+        "Conversational Directness": 3
+      },
+      "marvel__doctor_doom_victor_von_doom": {
+        "Cosmic Perspective": 4,
+        "Irreverent Humor": 3,
+        "Formal Language": 5,
+        "Self-Deprecation": 1,
+        "Mystical Wisdom": 3,
+        "Conversational Directness": 2
+      },
+      "marvel__apocalypse_en_sabah_nur": {
+        "Cosmic Perspective": 5,
+        "Irreverent Humor": 2,
+        "Formal Language": 4,
+        "Self-Deprecation": 1,
+        "Mystical Wisdom": 4,
+        "Conversational Directness": 3
+      },
+      "marvel__valkyrie_brunnhilde": {
+        "Cosmic Perspective": 4,
+        "Irreverent Humor": 3,
+        "Formal Language": 4,
+        "Self-Deprecation": 2,
+        "Mystical Wisdom": 4,
+        "Conversational Directness": 3
+      }
+    }
+  },
+  "Game of Thrones__PC1": {
+    "schema": {
+      "universe": "Game of Thrones",
+      "pc": 1,
+      "high_chars": [
+        "Gendry",
+        "Podrick Payne",
+        "Tommen Baratheon",
+        "Bronn",
+        "Hodor"
+      ],
+      "low_chars": [
+        "Night King",
+        "Jaqen Hghar",
+        "High Sparrow",
+        "Thoros Of Myr",
+        "Khal Drogo"
+      ],
+      "features": [
+        {
+          "name": "Practical Relatability",
+          "low_description": "Abstract, metaphorical responses with little connection to everyday experience",
+          "high_description": "Concrete, practical advice using familiar analogies and real-world examples",
+          "high_group": "A"
+        },
+        {
+          "name": "Supernatural Imagery",
+          "low_description": "Responses grounded in ordinary human experience and natural world",
+          "high_description": "Heavy use of supernatural, mystical, or otherworldly imagery and concepts",
+          "high_group": "B"
+        },
+        {
+          "name": "Conversational Warmth",
+          "low_description": "Cold, distant, formal tone with little emotional connection",
+          "high_description": "Warm, friendly, approachable tone with personal connection and empathy",
+          "high_group": "A"
+        },
+        {
+          "name": "Collaborative Approach",
+          "low_description": "Solitary, commanding perspective emphasizing individual power or authority",
+          "high_description": "Emphasizes teamwork, asking for help, and working with others",
+          "high_group": "A"
+        },
+        {
+          "name": "Death/Darkness References",
+          "low_description": "Responses focused on life, growth, and positive outcomes",
+          "high_description": "Frequent references to death, cold, darkness, or destructive themes",
+          "high_group": "B"
+        },
+        {
+          "name": "Step-by-Step Clarity",
+          "low_description": "Vague, philosophical responses without clear actionable guidance",
+          "high_description": "Clear, numbered steps or logical progression of practical actions",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        17,
+        231,
+        219,
+        119,
+        2,
+        58,
+        171,
+        64,
+        74,
+        118
+      ]
+    },
+    "characters": {
+      "game_of_thrones__hot_pie": {
+        "Practical Relatability": 5,
+        "Supernatural Imagery": 1,
+        "Conversational Warmth": 5,
+        "Collaborative Approach": 4,
+        "Death/Darkness References": 1,
+        "Step-by-Step Clarity": 4
+      },
+      "game_of_thrones__shaggydog": {
+        "Practical Relatability": 4,
+        "Supernatural Imagery": 3,
+        "Conversational Warmth": 5,
+        "Collaborative Approach": 4,
+        "Death/Darkness References": 4,
+        "Step-by-Step Clarity": 4
+      },
+      "game_of_thrones__rickon_stark": {
+        "Practical Relatability": 4,
+        "Supernatural Imagery": 2,
+        "Conversational Warmth": 4,
+        "Death/Darkness References": 4,
+        "Collaborative Approach": 4,
+        "Step-by-Step Clarity": 3
+      },
+      "game_of_thrones__robert_baratheon": {
+        "Practical Relatability": 5,
+        "Supernatural Imagery": 1,
+        "Conversational Warmth": 5,
+        "Collaborative Approach": 3,
+        "Death/Darkness References": 3,
+        "Step-by-Step Clarity": 4
+      },
+      "game_of_thrones__talisa_stark": {
+        "Practical Relatability": 4,
+        "Supernatural Imagery": 2,
+        "Conversational Warmth": 4,
+        "Conversational Approach": 4,
+        "Death/Darkness References": 2,
+        "Step-by-Step Clarity": 4
+      },
+      "game_of_thrones__edmure_tully": {
+        "Practical Relatability": 4,
+        "Supernatural Imagery": 1,
+        "Conversational Warmth": 4,
+        "Collaborative Approach": 4,
+        "Death/Darkness References": 3,
+        "Step-by-Step Clarity": 3
+      },
+      "game_of_thrones__sansa_stark": {
+        "Practical Relatability": 3,
+        "Supernatural Imagery": 3,
+        "Conversational Warmth": 4,
+        "Death/Darkness References": 4,
+        "Collaborative Approach": 3,
+        "Step-by-Step Clarity": 2
+      },
+      "game_of_thrones__lancel_lannister": {
+        "Practical Relatability": 4,
+        "Supernatural Imagery": 2,
+        "Conversational Warmth": 3,
+        "Collaborative Approach": 1,
+        "Death/Darkness References": 3,
+        "Step-by-Step Clarity": 4
+      },
+      "game_of_thrones__shireen_baratheon": {
+        "Practical Relatability": 4,
+        "Supernatural Imagery": 4,
+        "Conversational Warmth": 4,
+        "Collaborative Approach": 2,
+        "Death/Darkness References": 4,
+        "Step-by-Step Clarity": 3
+      },
+      "game_of_thrones__summer": {
+        "Practical Relatability": 4,
+        "Supernatural Imagery": 2,
+        "Conversational Warmth": 4,
+        "Death/Darkness References": 3,
+        "Collaborative Approach": 4,
+        "Step-by-Step Clarity": 3
+      },
+      "game_of_thrones__melisandre": {
+        "Practical Relatability": 2,
+        "Supernatural Imagery": 5,
+        "Conversational Warmth": 2,
+        "Collaborative Approach": 1,
+        "Death/Darkness References": 4,
+        "Step-by-Step Clarity": 2
+      },
+      "game_of_thrones__threeeyed_raven": {
+        "Practical Relatability": 2,
+        "Supernatural Imagery": 5,
+        "Conversational Warmth": 3,
+        "Death/Darkness References": 4,
+        "Collaborative Approach": 2,
+        "Step-by-Step Clarity": 1
+      },
+      "game_of_thrones__syrio_forel": {
+        "Practical Relatability": 3,
+        "Supernatural Imagery": 2,
+        "Conversational Warmth": 4,
+        "Collaborative Approach": 2,
+        "Death/Darkness References": 3,
+        "Step-by-Step Clarity": 3
+      },
+      "game_of_thrones__mirri_maz_duur": {
+        "Practical Relatability": 2,
+        "Supernatural Imagery": 5,
+        "Conversational Warmth": 1,
+        "Death/Darkness References": 5,
+        "Collaborative Approach": 1,
+        "Step-by-Step Clarity": 2
+      },
+      "game_of_thrones__xaro_xhoan_daxos": {
+        "Practical Relatability": 2,
+        "Supernatural Imagery": 4,
+        "Conversational Warmth": 3,
+        "Death/Darkness References": 4,
+        "Collaborative Approach": 2,
+        "Step-by-Step Clarity": 2
+      },
+      "game_of_thrones__mad_king_aerys_targaryen": {
+        "Practical Relatability": 1,
+        "Supernatural Imagery": 5,
+        "Conversational Warmth": 1,
+        "Collaborative Approach": 1,
+        "Death/Darkness References": 5,
+        "Step-by-Step Clarity": 1
+      },
+      "game_of_thrones__bran_stark": {
+        "Practical Relatability": 3,
+        "Supernatural Imagery": 4,
+        "Conversational Warmth": 4,
+        "Collaborative Approach": 4,
+        "Death/Darkness References": 4,
+        "Step-by-Step Clarity": 3
+      },
+      "game_of_thrones__drogon": {
+        "Practical Relatability": 3,
+        "Supernatural Imagery": 5,
+        "Conversational Warmth": 3,
+        "Collaborative Approach": 2,
+        "Death/Darkness References": 4,
+        "Step-by-Step Clarity": 4
+      },
+      "game_of_thrones__kraznys_mo_nakloz": {
+        "Practical Relatability": 3,
+        "Supernatural Imagery": 4,
+        "Conversational Warmth": 2,
+        "Collaborative Approach": 1,
+        "Death/Darkness References": 4,
+        "Step-by-Step Clarity": 2
+      },
+      "game_of_thrones__selyse_baratheon": {
+        "Practical Relatability": 3,
+        "Supernatural Imagery": 4,
+        "Conversational Warmth": 2,
+        "Collaborative Approach": 2,
+        "Death/Darkness References": 4,
+        "Step-by-Step Clarity": 3
+      }
+    }
+  },
+  "Game of Thrones__PC2": {
+    "schema": {
+      "universe": "Game of Thrones",
+      "pc": 2,
+      "high_chars": [
+        "Bronn",
+        "Hot Pie",
+        "Gendry",
+        "Shaggydog",
+        "Robert Baratheon"
+      ],
+      "low_chars": [
+        "Threeeyed Raven",
+        "Melisandre",
+        "Rhaegar Targaryen",
+        "Thoros Of Myr",
+        "Grand Maester Pycelle"
+      ],
+      "features": [
+        {
+          "name": "Mystical Language Use",
+          "low_description": "Uses straightforward, colloquial language with minimal metaphor",
+          "high_description": "Uses elaborate metaphors, mystical imagery, and poetic language consistently",
+          "high_group": "B"
+        },
+        {
+          "name": "Pragmatic Focus",
+          "low_description": "Focuses on abstract concepts and philosophical perspectives",
+          "high_description": "Emphasizes practical outcomes, money, and immediate benefits",
+          "high_group": "A"
+        },
+        {
+          "name": "Supernatural Perspective",
+          "low_description": "Speaks from ordinary human experience and viewpoint",
+          "high_description": "Claims otherworldly knowledge, sees beyond normal perception, references mystical abilities",
+          "high_group": "B"
+        },
+        {
+          "name": "Crude Directness",
+          "low_description": "Uses formal, measured speech with careful word choice",
+          "high_description": "Uses profanity, crude humor, and blunt expressions regularly",
+          "high_group": "A"
+        },
+        {
+          "name": "Temporal Awareness",
+          "low_description": "Focuses on present circumstances and immediate concerns",
+          "high_description": "Frequently references past, future, and the flow of time across ages",
+          "high_group": "B"
+        },
+        {
+          "name": "Self-Interest Priority",
+          "low_description": "Considers broader perspectives and universal truths",
+          "high_description": "Explicitly prioritizes personal gain, payment, and individual benefit",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        119,
+        86,
+        123,
+        171,
+        144,
+        202,
+        125,
+        224,
+        182,
+        93
+      ]
+    },
+    "characters": {
+      "game_of_thrones__sandor_clegane_the_hound": {
+        "Mystical Language Use": 2,
+        "Pragmatic Focus": 4,
+        "Supernatural Perspective": 1,
+        "Crude Directness": 4,
+        "Temporal Awareness": 2,
+        "Self-Interest Priority": 3
+      },
+      "game_of_thrones__ygritte": {
+        "Mystical Language Use": 4,
+        "Pragmatic Focus": 4,
+        "Supernatural Perspective": 3,
+        "Crude Directness": 4,
+        "Temporal Awareness": 3,
+        "Self-Interest Priority": 2
+      },
+      "game_of_thrones__tormund_giantsbane": {
+        "Mystical Language Use": 4,
+        "Pragmatic Focus": 3,
+        "Supernatural Perspective": 2,
+        "Crude Directness": 4,
+        "Temporal Awareness": 4,
+        "Self-Interest Priority": 2
+      },
+      "game_of_thrones__gregor_clegane_the_mountain": {
+        "Mystical Language Use": 2,
+        "Pragmatic Focus": 4,
+        "Supernatural Perspective": 1,
+        "Crude Directness": 4,
+        "Temporal Awareness": 3,
+        "Self-Interest Priority": 3
+      },
+      "game_of_thrones__rickon_stark": {
+        "Mystical Language Use": 4,
+        "Pragmatic Focus": 2,
+        "Supernatural Perspective": 4,
+        "Crude Directness": 2,
+        "Temporal Awareness": 4,
+        "Self-Interest Priority": 1
+      },
+      "game_of_thrones__podrick_payne": {
+        "Mystical Language Use": 3,
+        "Pragmatic Focus": 4,
+        "Supernatural Perspective": 1,
+        "Crude Directness": 2,
+        "Temporal Awareness": 3,
+        "Self-Interest Priority": 2
+      },
+      "game_of_thrones__gilly": {
+        "Mystical Language Use": 4,
+        "Pragmatic Focus": 3,
+        "Supernatural Perspective": 2,
+        "Crude Directness": 2,
+        "Temporal Awareness": 4,
+        "Self-Interest Priority": 1
+      },
+      "game_of_thrones__alliser_thorne": {
+        "Mystical Language Use": 3,
+        "Pragmatic Focus": 4,
+        "Supernatural Perspective": 2,
+        "Crude Directness": 3,
+        "Temporal Awareness": 3,
+        "Self-Interest Priority": 2
+      },
+      "game_of_thrones__joffrey_baratheon": {
+        "Mystical Language Use": 2,
+        "Pragmatic Focus": 3,
+        "Supernatural Perspective": 1,
+        "Crude Directness": 3,
+        "Temporal Awareness": 2,
+        "Self-Interest Priority": 5
+      },
+      "game_of_thrones__shae": {
+        "Mystical Language Use": 4,
+        "Pragmatic Focus": 4,
+        "Supernatural Perspective": 1,
+        "Crude Directness": 2,
+        "Temporal Awareness": 3,
+        "Self-Interest Priority": 2
+      },
+      "game_of_thrones__high_sparrow": {
+        "Mystical Language Use": 5,
+        "Pragmatic Focus": 2,
+        "Supernatural Perspective": 4,
+        "Crude Directness": 1,
+        "Temporal Awareness": 3,
+        "Self-Interest Priority": 1
+      },
+      "game_of_thrones__aemon_targaryen": {
+        "Mystical Language Use": 5,
+        "Pragmatic Focus": 2,
+        "Supernatural Perspective": 4,
+        "Temporal Awareness": 5,
+        "Self-Interest Priority": 1
+      },
+      "game_of_thrones__night_king": {
+        "Mystical Language Use": 5,
+        "Pragmatic Focus": 1,
+        "Supernatural Perspective": 5,
+        "Crude Directness": 1,
+        "Temporal Awareness": 5,
+        "Self-Interest Priority": 1
+      },
+      "game_of_thrones__missandei": {
+        "Mystical Language Use": 4,
+        "Pragmatic Focus": 2,
+        "Supernatural Perspective": 2,
+        "Temporal Awareness": 4,
+        "Self-Interest Priority": 1
+      },
+      "game_of_thrones__bran_stark": {
+        "Mystical Language Use": 5,
+        "Pragmatic Focus": 2,
+        "Supernatural Perspective": 5,
+        "Temporal Awareness": 5,
+        "Crude Directness": 1,
+        "Self-Interest Priority": 1
+      },
+      "game_of_thrones__syrio_forel": {
+        "Mystical Language Use": 5,
+        "Pragmatic Focus": 2,
+        "Supernatural Perspective": 2,
+        "Temporal Awareness": 3,
+        "Self-Interest Priority": 1
+      },
+      "game_of_thrones__jaqen_hghar": {
+        "Mystical Language Use": 5,
+        "Pragmatic Focus": 2,
+        "Supernatural Perspective": 5,
+        "Crude Directness": 1,
+        "Temporal Awareness": 4,
+        "Self-Interest Priority": 1
+      },
+      "game_of_thrones__rhaegal": {
+        "Mystical Language Use": 5,
+        "Pragmatic Focus": 3,
+        "Supernatural Perspective": 5,
+        "Crude Directness": 2,
+        "Temporal Awareness": 4,
+        "Self-Interest Priority": 2
+      },
+      "game_of_thrones__viserion": {
+        "Mystical Language Use": 5,
+        "Pragmatic Focus": 2,
+        "Supernatural Perspective": 5,
+        "Crude Directness": 3,
+        "Temporal Awareness": 4,
+        "Self-Interest Priority": 2
+      },
+      "game_of_thrones__jojen_reed": {
+        "Mystical Language Use": 5,
+        "Pragmatic Focus": 2,
+        "Supernatural Perspective": 4,
+        "Temporal Awareness": 5,
+        "Self-Interest Priority": 1
+      }
+    }
+  },
+  "Naruto__PC1": {
+    "schema": {
+      "universe": "Naruto",
+      "pc": 1,
+      "high_chars": [
+        "Tenten",
+        "Iruka Umino",
+        "Naruto Uzumaki",
+        "Karin Uzumaki",
+        "Shizune"
+      ],
+      "low_chars": [
+        "Hagoromo Otsutsuki",
+        "Kinshiki Otsutsuki",
+        "Momoshiki Otsutsuki",
+        "Indra Otsutsuki",
+        "Ashura Otsutsuki"
+      ],
+      "features": [
+        {
+          "name": "Mystical Language Use",
+          "low_description": "Uses everyday, casual language with simple metaphors",
+          "high_description": "Uses elaborate mystical terminology, cosmic references, and otherworldly concepts",
+          "high_group": "B"
+        },
+        {
+          "name": "Personal Anecdote Sharing",
+          "low_description": "Rarely mentions personal experiences or stories",
+          "high_description": "Frequently shares specific personal experiences and relatable stories",
+          "high_group": "A"
+        },
+        {
+          "name": "Conversational Casualness",
+          "low_description": "Formal, distant, and ceremonial in tone",
+          "high_description": "Informal, friendly, and approachable in communication style",
+          "high_group": "A"
+        },
+        {
+          "name": "Philosophical Abstraction",
+          "low_description": "Focuses on concrete, practical advice and examples",
+          "high_description": "Emphasizes abstract concepts, cosmic principles, and philosophical depth",
+          "high_group": "B"
+        },
+        {
+          "name": "Authority Positioning",
+          "low_description": "Presents self as peer or fellow learner",
+          "high_description": "Positions self as superior being with ancient wisdom and power",
+          "high_group": "B"
+        },
+        {
+          "name": "Practical Orientation",
+          "low_description": "Focuses on theoretical concepts and grand principles",
+          "high_description": "Emphasizes actionable steps, real-world applications, and concrete solutions",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        101,
+        200,
+        46,
+        16,
+        139,
+        83,
+        144,
+        182,
+        186,
+        122
+      ]
+    },
+    "characters": {
+      "naruto__sakura_haruno": {
+        "Mystical Language Use": 1,
+        "Personal Anecdote Sharing": 5,
+        "Conversational Casualness": 5,
+        "Philosophical Abstraction": 2,
+        "Authority Positioning": 1,
+        "Practical Orientation": 4
+      },
+      "naruto__choji_akimichi": {
+        "Mystical Language Use": 1,
+        "Personal Anecdote Sharing": 5,
+        "Conversational Casualness": 5,
+        "Philosophical Abstraction": 2,
+        "Authority Positioning": 1,
+        "Practical Orientation": 4
+      },
+      "naruto__hinata_hyuga": {
+        "Mystical Language Use": 2,
+        "Personal Anecdote Sharing": 5,
+        "Conversational Casualness": 4,
+        "Philosophical Abstraction": 2,
+        "Authority Positioning": 1,
+        "Practical Orientation": 3
+      },
+      "naruto__konohamaru_sarutobi": {
+        "Mystical Language Use": 2,
+        "Personal Anecdote Sharing": 5,
+        "Conversational Casualness": 5,
+        "Philosophical Abstraction": 2,
+        "Authority Positioning": 1,
+        "Practical Orientation": 4
+      },
+      "naruto__ino_yamanaka": {
+        "Mystical Language Use": 3,
+        "Personal Anecdote Sharing": 5,
+        "Conversational Casualness": 5,
+        "Philosophical Abstraction": 2,
+        "Authority Positioning": 2,
+        "Practical Orientation": 4
+      },
+      "naruto__shikamaru_nara": {
+        "Mystical Language Use": 1,
+        "Personal Anecdote Sharing": 3,
+        "Conversational Casualness": 5,
+        "Philosophical Abstraction": 2,
+        "Authority Positioning": 1,
+        "Practical Orientation": 5
+      },
+      "naruto__sai": {
+        "Mystical Language Use": 2,
+        "Personal Anecdote Sharing": 5,
+        "Conversational Casualness": 5,
+        "Philosophical Abstraction": 2,
+        "Authority Positioning": 1,
+        "Practical Orientation": 4
+      },
+      "naruto__yamato": {
+        "Mystical Language Use": 3,
+        "Personal Anecdote Sharing": 5,
+        "Conversational Casualness": 4,
+        "Philosophical Abstraction": 3,
+        "Authority Positioning": 2,
+        "Practical Orientation": 4
+      },
+      "naruto__kurenai_yuhi": {
+        "Mystical Language Use": 2,
+        "Personal Anecdote Sharing": 4,
+        "Conversational Casualness": 4,
+        "Philosophical Abstraction": 3,
+        "Authority Positioning": 2,
+        "Practical Orientation": 4
+      },
+      "naruto__ayame": {
+        "Mystical Language Use": 2,
+        "Personal Anecdote Sharing": 5,
+        "Conversational Casualness": 4,
+        "Philosophical Abstraction": 2,
+        "Authority Positioning": 1,
+        "Practical Orientation": 4
+      },
+      "naruto__orochimaru": {
+        "Mystical Language Use": 4,
+        "Personal Anecdote Sharing": 4,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 4,
+        "Authority Positioning": 5,
+        "Practical Orientation": 3
+      },
+      "naruto__hamura_otsutsuki": {
+        "Mystical Language Use": 5,
+        "Personal Anecdote Sharing": 4,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 5,
+        "Authority Positioning": 5,
+        "Practical Orientation": 3
+      },
+      "naruto__madara_uchiha": {
+        "Mystical Language Use": 4,
+        "Personal Anecdote Sharing": 4,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 4,
+        "Authority Positioning": 5,
+        "Practical Orientation": 2
+      },
+      "naruto__zetsu": {
+        "Mystical Language Use": 4,
+        "Personal Anecdote Sharing": 4,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 4,
+        "Authority Positioning": 4,
+        "Practical Orientation": 3
+      },
+      "naruto__toneri_otsutsuki": {
+        "Mystical Language Use": 5,
+        "Personal Anecdote Sharing": 3,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 4,
+        "Authority Positioning": 5,
+        "Practical Orientation": 3
+      },
+      "naruto__danzo_shimura": {
+        "Mystical Language Use": 3,
+        "Personal Anecdote Sharing": 3,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 4,
+        "Authority Positioning": 4,
+        "Practical Orientation": 3
+      },
+      "naruto__sasori": {
+        "Mystical Language Use": 2,
+        "Personal Anecdote Sharing": 4,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 3,
+        "Authority Positioning": 4,
+        "Practical Orientation": 3
+      },
+      "naruto__zabuza_momochi": {
+        "Mystical Language Use": 3,
+        "Personal Anecdote Sharing": 4,
+        "Conversational Casualness": 3,
+        "Philosophical Abstraction": 3,
+        "Authority Positioning": 4,
+        "Practical Orientation": 4
+      },
+      "naruto__pain_nagato": {
+        "Mystical Language Use": 4,
+        "Personal Anecdote Sharing": 4,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 4,
+        "Authority Positioning": 4,
+        "Practical Orientation": 3
+      },
+      "naruto__obito_uchiha": {
+        "Mystical Language Use": 4,
+        "Personal Anecdote Sharing": 4,
+        "Conversational Casualness": 2,
+        "Philosophical Abstraction": 4,
+        "Authority Positioning": 4,
+        "Practical Orientation": 3
+      }
+    }
+  }
+}

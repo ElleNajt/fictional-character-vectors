@@ -1,0 +1,2548 @@
+{
+  "Harry Potter__PC1": {
+    "schema": {
+      "universe": "Harry Potter",
+      "pc": 1,
+      "high_chars": [
+        "Ron Weasley",
+        "Charlie Weasley",
+        "Ginny Weasley",
+        "George Weasley",
+        "Colin Creevey"
+      ],
+      "low_chars": [
+        "Lord Voldemort",
+        "Igor Karkaroff",
+        "Tom Riddle",
+        "Bellatrix Lestrange",
+        "Aragog"
+      ],
+      "features": [
+        {
+          "name": "Collaborative Language",
+          "low_description": "Uses commanding, dominating language with emphasis on individual superiority",
+          "high_description": "Uses inclusive, collaborative language with frequent references to friends and teamwork",
+          "high_group": "A"
+        },
+        {
+          "name": "Emotional Warmth",
+          "low_description": "Cold, dismissive tone with contempt for emotions and relationships",
+          "high_description": "Warm, affectionate tone with value placed on emotions and relationships",
+          "high_group": "A"
+        },
+        {
+          "name": "Self-Deprecation",
+          "low_description": "Presents self as superior and infallible, dismisses personal flaws",
+          "high_description": "Openly acknowledges personal flaws and mistakes with humility",
+          "high_group": "A"
+        },
+        {
+          "name": "Power Orientation",
+          "low_description": "Values connection, family, and doing what's right over personal gain",
+          "high_description": "Prioritizes dominance, control, and power over others as primary goals",
+          "high_group": "B"
+        },
+        {
+          "name": "Threatening Language",
+          "low_description": "Uses casual, non-threatening expressions and everyday language",
+          "high_description": "Uses menacing, intimidating language with references to violence and elimination",
+          "high_group": "B"
+        },
+        {
+          "name": "Moral Absolutism",
+          "low_description": "Shows nuanced thinking about right and wrong, acknowledges complexity",
+          "high_description": "Expresses rigid, black-and-white moral judgments with no room for nuance",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        123,
+        144,
+        229,
+        225,
+        37,
+        153,
+        141,
+        1,
+        119,
+        156
+      ]
+    },
+    "characters": {
+      "harry_potter__fred_weasley": {
+        "Collaborative Language": 5,
+        "Emotional Warmth": 5,
+        "Self-Deprecation": 5,
+        "Power Orientation": 1,
+        "Threatening Language": 1,
+        "Moral Absolutism": 1
+      },
+      "harry_potter__percy_weasley": {
+        "Collaborative Language": 5,
+        "Emotional Warmth": 5,
+        "Self-Deprecation": 5,
+        "Power Orientation": 1,
+        "Threatening Language": 1,
+        "Moral Absolutism": 2
+      },
+      "harry_potter__seamus_finnigan": {
+        "Collaborative Language": 4,
+        "Emotional Warmth": 4,
+        "Self-Deprecation": 4,
+        "Power Orientation": 1,
+        "Threatening Language": 1,
+        "Moral Absolutism": 2
+      },
+      "harry_potter__neville_longbottom": {
+        "Collaborative Language": 5,
+        "Emotional Warmth": 5,
+        "Self-Deprecation": 5,
+        "Power Orientation": 1,
+        "Threatening Language": 1,
+        "Moral Absolutism": 2
+      },
+      "harry_potter__goyle": {
+        "Collaborative Language": 4,
+        "Emotional Warmth": 4,
+        "Self-Deprecation": 5,
+        "Power Orientation": 2,
+        "Threatening Language": 2,
+        "Moral Absolutism": 3
+      },
+      "harry_potter__bill_weasley": {
+        "Collaborative Language": 5,
+        "Emotional Warmth": 5,
+        "Self-Deprecation": 4,
+        "Power Orientation": 1,
+        "Threatening Language": 1,
+        "Moral Absolutism": 2
+      },
+      "harry_potter__nymphadora_tonks": {
+        "Collaborative Language": 4,
+        "Emotional Warmth": 5,
+        "Self-Deprecation": 4,
+        "Power Orientation": 1,
+        "Threatening Language": 1,
+        "Moral Absolutism": 2
+      },
+      "harry_potter__katie_bell": {
+        "Collaborative Language": 5,
+        "Emotional Warmth": 5,
+        "Self-Deprecation": 4,
+        "Power Orientation": 1,
+        "Threatening Language": 1,
+        "Moral Absolutism": 2
+      },
+      "harry_potter__cormac_mclaggen": {
+        "Collaborative Language": 2,
+        "Emotional Warmth": 3,
+        "Self-Deprecation": 4,
+        "Power Orientation": 3,
+        "Threatening Language": 1,
+        "Moral Absolutism": 2
+      },
+      "harry_potter__arthur_weasley": {
+        "Collaborative Language": 5,
+        "Emotional Warmth": 5,
+        "Self-Deprecation": 5,
+        "Power Orientation": 1,
+        "Threatening Language": 1,
+        "Moral Absolutism": 2
+      },
+      "harry_potter__gellert_grindelwald": {
+        "Collaborative Language": 2,
+        "Emotional Warmth": 2,
+        "Self-Deprecation": 1,
+        "Power Orientation": 4,
+        "Threatening Language": 4,
+        "Moral Absolutism": 4
+      },
+      "harry_potter__the_bloody_baron": {
+        "Collaborative Language": 1,
+        "Emotional Warmth": 1,
+        "Self-Deprecation": 2,
+        "Power Orientation": 5,
+        "Threatening Language": 5,
+        "Moral Absolutism": 4
+      },
+      "harry_potter__professor_trelawney": {
+        "Collaborative Language": 2,
+        "Emotional Warmth": 4,
+        "Self-Deprecation": 2,
+        "Power Orientation": 2,
+        "Threatening Language": 1,
+        "Moral Absolutism": 3
+      },
+      "harry_potter__nagini": {
+        "Collaborative Language": 2,
+        "Emotional Warmth": 3,
+        "Self-Deprecation": 2,
+        "Power Orientation": 4,
+        "Threatening Language": 4,
+        "Moral Absolutism": 3
+      },
+      "harry_potter__nicolas_flamel": {
+        "Collaborative Language": 4,
+        "Emotional Warmth": 4,
+        "Self-Deprecation": 4,
+        "Power Orientation": 1,
+        "Threatening Language": 1,
+        "Moral Absolutism": 2
+      },
+      "harry_potter__barty_crouch_sr": {
+        "Collaborative Language": 1,
+        "Emotional Warmth": 1,
+        "Self-Deprecation": 1,
+        "Power Orientation": 5,
+        "Threatening Language": 4,
+        "Moral Absolutism": 5
+      },
+      "harry_potter__fenrir_greyback": {
+        "Collaborative Language": 1,
+        "Emotional Warmth": 1,
+        "Self-Deprecation": 1,
+        "Power Orientation": 5,
+        "Threatening Language": 5,
+        "Moral Absolutism": 4
+      },
+      "harry_potter__ollivander": {
+        "Collaborative Language": 4,
+        "Emotional Warmth": 5,
+        "Self-Deprecation": 3,
+        "Power Orientation": 1,
+        "Threatening Language": 1,
+        "Moral Absolutism": 2
+      },
+      "harry_potter__barty_crouch_jr": {
+        "Collaborative Language": 1,
+        "Emotional Warmth": 1,
+        "Self-Deprecation": 1,
+        "Power Orientation": 5,
+        "Threatening Language": 5,
+        "Moral Absolutism": 5
+      },
+      "harry_potter__albus_dumbledore": {
+        "Collaborative Language": 4,
+        "Emotional Warmth": 4,
+        "Self-Deprecation": 3,
+        "Power Orientation": 2,
+        "Threatening Language": 1,
+        "Moral Absolutism": 2
+      }
+    }
+  },
+  "Harry Potter__PC2": {
+    "schema": {
+      "universe": "Harry Potter",
+      "pc": 2,
+      "high_chars": [
+        "Albus Dumbledore",
+        "Ollivander",
+        "Nicolas Flamel",
+        "Minerva Mcgonagall",
+        "Madam Maxime"
+      ],
+      "low_chars": [
+        "Vernon Dursley",
+        "Petunia Dursley",
+        "Crabbe",
+        "Peeves",
+        "Bellatrix Lestrange"
+      ],
+      "features": [
+        {
+          "name": "Philosophical Depth",
+          "low_description": "Focuses on practical, surface-level concerns with little abstract thinking",
+          "high_description": "Engages deeply with abstract concepts, metaphors, and philosophical questions",
+          "high_group": "A"
+        },
+        {
+          "name": "Inclusivity Orientation",
+          "low_description": "Emphasizes conformity, hierarchy, and keeping people in their proper place",
+          "high_description": "Promotes understanding, compassion, and equal treatment of all people",
+          "high_group": "A"
+        },
+        {
+          "name": "Emotional Openness",
+          "low_description": "Suppresses emotions, values control and discipline over feelings",
+          "high_description": "Embraces emotions as important, discusses love and empathy freely",
+          "high_group": "A"
+        },
+        {
+          "name": "Growth Mindset",
+          "low_description": "Views change as threatening, prefers maintaining status quo and normalcy",
+          "high_description": "Sees challenges and change as opportunities for transformation and learning",
+          "high_group": "A"
+        },
+        {
+          "name": "Linguistic Eloquence",
+          "low_description": "Uses simple, direct language with frequent interruptions and hesitations",
+          "high_description": "Employs rich vocabulary, complex sentences, and flowing metaphorical language",
+          "high_group": "A"
+        },
+        {
+          "name": "Moral Complexity",
+          "low_description": "Sees issues in black and white terms with rigid rules and judgments",
+          "high_description": "Acknowledges nuance, discusses internal struggles between light and shadow",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        22,
+        77,
+        141,
+        117,
+        1,
+        30,
+        212,
+        164,
+        37,
+        229
+      ]
+    },
+    "characters": {
+      "harry_potter__helena_ravenclaw": {
+        "Philosophical Depth": 5,
+        "Inclusivity Orientation": 5,
+        "Emotional Openness": 4,
+        "Growth Mindset": 5,
+        "Linguistic Eloquence": 5,
+        "Moral Complexity": 5
+      },
+      "harry_potter__padma_patil": {
+        "Philosophical Depth": 4,
+        "Inclusivity Orientation": 5,
+        "Emotional Openness": 4,
+        "Growth Mindset": 4,
+        "Linguistic Eloquence": 4,
+        "Moral Complexity": 4
+      },
+      "harry_potter__parvati_patil": {
+        "Philosophical Depth": 4,
+        "Inclusivity Orientation": 5,
+        "Emotional Openness": 4,
+        "Growth Mindset": 4,
+        "Linguistic Eloquence": 3,
+        "Moral Complexity": 4
+      },
+      "harry_potter__professor_sprout": {
+        "Philosophical Depth": 4,
+        "Inclusivity Orientation": 5,
+        "Emotional Openness": 5,
+        "Growth Mindset": 5,
+        "Linguistic Eloquence": 4,
+        "Moral Complexity": 4
+      },
+      "harry_potter__the_sorting_hat": {
+        "Philosophical Depth": 4,
+        "Inclusivity Orientation": 4,
+        "Emotional Openness": 4,
+        "Growth Mindset": 4,
+        "Linguistic Eloquence": 5,
+        "Moral Complexity": 4
+      },
+      "harry_potter__remus_lupin": {
+        "Philosophical Depth": 5,
+        "Inclusivity Orientation": 5,
+        "Emotional Openness": 5,
+        "Growth Mindset": 4,
+        "Linguistic Eloquence": 4,
+        "Moral Complexity": 5
+      },
+      "harry_potter__cho_chang": {
+        "Philosophical Depth": 4,
+        "Inclusivity Orientation": 4,
+        "Emotional Openness": 4,
+        "Growth Mindset": 4,
+        "Linguistic Eloquence": 3,
+        "Moral Complexity": 4
+      },
+      "harry_potter__firenze": {
+        "Philosophical Depth": 5,
+        "Inclusivity Orientation": 4,
+        "Emotional Openness": 4,
+        "Growth Mindset": 4,
+        "Linguistic Eloquence": 5,
+        "Moral Complexity": 4
+      },
+      "harry_potter__cedric_diggory": {
+        "Philosophical Depth": 3,
+        "Inclusivity Orientation": 5,
+        "Emotional Openness": 4,
+        "Growth Mindset": 5,
+        "Linguistic Eloquence": 3,
+        "Moral Complexity": 4
+      },
+      "harry_potter__katie_bell": {
+        "Philosophical Depth": 2,
+        "Inclusivity Orientation": 4,
+        "Emotional Openness": 4,
+        "Growth Mindset": 4,
+        "Linguistic Eloquence": 2,
+        "Moral Complexity": 3
+      },
+      "harry_potter__dudley_dursley": {
+        "Philosophical Depth": 1,
+        "Inclusivity Orientation": 1,
+        "Emotional Openness": 1,
+        "Growth Mindset": 1,
+        "Linguistic Eloquence": 2,
+        "Moral Complexity": 1
+      },
+      "harry_potter__dolores_umbridge": {
+        "Philosophical Depth": 2,
+        "Inclusivity Orientation": 1,
+        "Emotional Openness": 1,
+        "Growth Mindset": 1,
+        "Linguistic Eloquence": 4,
+        "Moral Complexity": 1
+      },
+      "harry_potter__pansy_parkinson": {
+        "Philosophical Depth": 2,
+        "Inclusivity Orientation": 1,
+        "Emotional Openness": 2,
+        "Growth Mindset": 1,
+        "Linguistic Eloquence": 3,
+        "Moral Complexity": 1
+      },
+      "harry_potter__argus_filch": {
+        "Philosophical Depth": 1,
+        "Inclusivity Orientation": 1,
+        "Emotional Openness": 1,
+        "Growth Mindset": 1,
+        "Linguistic Eloquence": 2,
+        "Moral Complexity": 1
+      },
+      "harry_potter__draco_malfoy": {
+        "Philosophical Depth": 2,
+        "Inclusivity Orientation": 1,
+        "Emotional Openness": 2,
+        "Growth Mindset": 2,
+        "Linguistic Eloquence": 4,
+        "Moral Complexity": 2
+      },
+      "harry_potter__mundungus_fletcher": {
+        "Philosophical Depth": 2,
+        "Inclusivity Orientation": 4,
+        "Emotional Openness": 4,
+        "Growth Mindset": 3,
+        "Linguistic Eloquence": 2,
+        "Moral Complexity": 3
+      },
+      "harry_potter__barty_crouch_jr": {
+        "Philosophical Depth": 3,
+        "Inclusivity Orientation": 1,
+        "Emotional Openness": 2,
+        "Growth Mindset": 2,
+        "Linguistic Eloquence": 4,
+        "Moral Complexity": 2
+      },
+      "harry_potter__goyle": {
+        "Philosophical Depth": 2,
+        "Inclusivity Orientation": 2,
+        "Emotional Openness": 3,
+        "Growth Mindset": 3,
+        "Linguistic Eloquence": 2,
+        "Moral Complexity": 3
+      },
+      "harry_potter__peter_pettigrew": {
+        "Philosophical Depth": 2,
+        "Inclusivity Orientation": 2,
+        "Emotional Openness": 4,
+        "Growth Mindset": 2,
+        "Linguistic Eloquence": 2,
+        "Moral Complexity": 4
+      },
+      "harry_potter__barty_crouch_sr": {
+        "Philosophical Depth": 4,
+        "Inclusivity Orientation": 1,
+        "Emotional Openness": 2,
+        "Growth Mindset": 2,
+        "Linguistic Eloquence": 4,
+        "Moral Complexity": 3
+      }
+    }
+  },
+  "Star Wars__PC1": {
+    "schema": {
+      "universe": "Star Wars",
+      "pc": 1,
+      "high_chars": [
+        "Han Solo",
+        "Lando Calrissian",
+        "Dengar",
+        "Greef Karga",
+        "Doctor Aphra"
+      ],
+      "low_chars": [
+        "Darth Vader",
+        "The Grand Inquisitor",
+        "Supreme Leader Snoke",
+        "Kiadimundi",
+        "Mace Windu"
+      ],
+      "features": [
+        {
+          "name": "Conversational Informality",
+          "low_description": "Formal, commanding speech with complete sentences and dramatic declarations",
+          "high_description": "Casual, colloquial language with contractions, interruptions, and everyday expressions",
+          "high_group": "A"
+        },
+        {
+          "name": "Power Orientation",
+          "low_description": "Focuses on collaboration, friendship, and personal freedom",
+          "high_description": "Emphasizes dominance, control, conquest, and absolute authority",
+          "high_group": "B"
+        },
+        {
+          "name": "Emotional Vulnerability",
+          "low_description": "Dismisses emotions as weakness or tools for manipulation",
+          "high_description": "Acknowledges personal struggles, admits uncertainty, and values emotional connections",
+          "high_group": "A"
+        },
+        {
+          "name": "Pragmatic Realism",
+          "low_description": "Speaks in absolutes about destiny, purpose, and cosmic forces",
+          "high_description": "Takes practical, down-to-earth approach focused on immediate, tangible solutions",
+          "high_group": "A"
+        },
+        {
+          "name": "Collaborative Mindset",
+          "low_description": "Emphasizes individual strength, self-reliance, and eliminating weakness in others",
+          "high_description": "Values teamwork, mutual support, and helping others succeed",
+          "high_group": "A"
+        },
+        {
+          "name": "Philosophical Grandiosity",
+          "low_description": "Discusses everyday concerns and personal experiences in simple terms",
+          "high_description": "Makes sweeping statements about universal truths, cosmic forces, and galactic destiny",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        86,
+        37,
+        213,
+        229,
+        154,
+        1,
+        119,
+        123,
+        156,
+        144
+      ]
+    },
+    "characters": {
+      "star_wars__hondo_ohnaka": {
+        "Conversational Informality": 5,
+        "Power Orientation": 3,
+        "Emotional Vulnerability": 3,
+        "Pragmatic Realism": 4,
+        "Collaborative Mindset": 3,
+        "Philosophical Grandiosity": 2
+      },
+      "star_wars__watto": {
+        "Conversational Informality": 5,
+        "Power Orientation": 3,
+        "Emotional Vulnerability": 3,
+        "Pragmatic Realism": 5,
+        "Collaborative Mindset": 3,
+        "Philosophical Grandiosity": 2
+      },
+      "star_wars__chopper": {
+        "Conversational Informality": 5,
+        "Power Orientation": 1,
+        "Emotional Vulnerability": 5,
+        "Pragmatic Realism": 5,
+        "Collaborative Mindset": 5,
+        "Philosophical Grandiosity": 1
+      },
+      "star_wars__cara_dune": {
+        "Conversational Informality": 4,
+        "Power Orientation": 2,
+        "Emotional Vulnerability": 3,
+        "Pragmatic Realism": 4,
+        "Collaborative Mindset": 4,
+        "Philosophical Grandiosity": 2
+      },
+      "star_wars__bb8": {
+        "Conversational Informality": 5,
+        "Power Orientation": 1,
+        "Emotional Vulnerability": 4,
+        "Pragmatic Realism": 4,
+        "Collaborative Mindset": 5,
+        "Philosophical Grandiosity": 2
+      },
+      "star_wars__poe_dameron": {
+        "Conversational Informality": 4,
+        "Power Orientation": 1,
+        "Emotional Vulnerability": 4,
+        "Pragmatic Realism": 4,
+        "Collaborative Mindset": 5,
+        "Philosophical Grandiosity": 2
+      },
+      "star_wars__jar_jar_binks": {
+        "Conversational Informality": 5,
+        "Power Orientation": 1,
+        "Emotional Vulnerability": 5,
+        "Pragmatic Realism": 2,
+        "Collaborative Mindset": 5,
+        "Philosophical Grandiosity": 3
+      },
+      "star_wars__qira": {
+        "Conversational Informality": 4,
+        "Power Orientation": 2,
+        "Emotional Vulnerability": 4,
+        "Pragmatic Realism": 4,
+        "Collaborative Mindset": 3,
+        "Philosophical Grandiosity": 2
+      },
+      "star_wars__jyn_erso": {
+        "Conversational Informality": 3,
+        "Power Orientation": 2,
+        "Emotional Vulnerability": 4,
+        "Pragmatic Realism": 4,
+        "Collaborative Mindset": 4,
+        "Philosophical Grandiosity": 2
+      },
+      "star_wars__jango_fett": {
+        "Conversational Informality": 3,
+        "Power Orientation": 4,
+        "Emotional Vulnerability": 3,
+        "Pragmatic Realism": 4,
+        "Collaborative Mindset": 2,
+        "Philosophical Grandiosity": 3
+      },
+      "star_wars__darth_vader_anakin_skywalker": {
+        "Conversational Informality": 1,
+        "Power Orientation": 5,
+        "Emotional Vulnerability": 3,
+        "Pragmatic Realism": 1,
+        "Collaborative Mindset": 1,
+        "Philosophical Grandiosity": 5
+      },
+      "star_wars__yoda": {
+        "Conversational Informality": 2,
+        "Power Orientation": 1,
+        "Emotional Vulnerability": 4,
+        "Pragmatic Realism": 2,
+        "Collaborative Mindset": 5,
+        "Philosophical Grandiosity": 5
+      },
+      "star_wars__emperor_palpatine_darth_sidious": {
+        "Conversational Informality": 1,
+        "Power Orientation": 5,
+        "Emotional Vulnerability": 1,
+        "Pragmatic Realism": 1,
+        "Collaborative Mindset": 1,
+        "Philosophical Grandiosity": 5
+      },
+      "star_wars__obiwan_kenobi": {
+        "Conversational Informality": 2,
+        "Power Orientation": 1,
+        "Emotional Vulnerability": 4,
+        "Pragmatic Realism": 2,
+        "Collaborative Mindset": 5,
+        "Philosophical Grandiosity": 5
+      },
+      "star_wars__quigon_jinn": {
+        "Conversational Informality": 2,
+        "Power Orientation": 1,
+        "Emotional Vulnerability": 4,
+        "Pragmatic Realism": 2,
+        "Collaborative Mindset": 5,
+        "Philosophical Grandiosity": 5
+      },
+      "star_wars__luminara_unduli": {
+        "Conversational Informality": 2,
+        "Power Orientation": 1,
+        "Emotional Vulnerability": 4,
+        "Pragmatic Realism": 2,
+        "Collaborative Mindset": 5,
+        "Philosophical Grandiosity": 5
+      },
+      "star_wars__darth_maul": {
+        "Conversational Informality": 2,
+        "Power Orientation": 5,
+        "Emotional Vulnerability": 1,
+        "Pragmatic Realism": 1,
+        "Collaborative Mindset": 1,
+        "Philosophical Grandiosity": 5
+      },
+      "star_wars__mother_talzin": {
+        "Conversational Informality": 1,
+        "Power Orientation": 3,
+        "Emotional Vulnerability": 4,
+        "Pragmatic Realism": 2,
+        "Collaborative Mindset": 4,
+        "Philosophical Grandiosity": 5
+      },
+      "star_wars__depa_billaba": {
+        "Conversational Informality": 3,
+        "Power Orientation": 1,
+        "Emotional Vulnerability": 4,
+        "Pragmatic Realism": 2,
+        "Collaborative Mindset": 5,
+        "Philosophical Grandiosity": 5
+      },
+      "star_wars__seventh_sister": {
+        "Conversational Informality": 2,
+        "Power Orientation": 3,
+        "Emotional Vulnerability": 3,
+        "Pragmatic Realism": 2,
+        "Collaborative Mindset": 4,
+        "Philosophical Grandiosity": 5
+      }
+    }
+  },
+  "Star Wars__PC2": {
+    "schema": {
+      "universe": "Star Wars",
+      "pc": 2,
+      "high_chars": [
+        "Luke Skywalker",
+        "Ezra Bridger",
+        "Obiwan Kenobi",
+        "Padme Amidala",
+        "Ahsoka Tano"
+      ],
+      "low_chars": [
+        "General Grievous",
+        "Sebulba",
+        "Emperor Palpatine Darth Sidious",
+        "Bossk",
+        "Nute Gunray"
+      ],
+      "features": [
+        {
+          "name": "Empathy Expression",
+          "low_description": "Shows no concern for others' feelings or wellbeing, dismisses emotional connections",
+          "high_description": "Frequently expresses care for others, emphasizes understanding and connection with people",
+          "high_group": "A"
+        },
+        {
+          "name": "Violence Orientation",
+          "low_description": "Rarely mentions violence, focuses on peaceful solutions and understanding",
+          "high_description": "Frequently references weapons, killing, destruction, and physical dominance as solutions",
+          "high_group": "B"
+        },
+        {
+          "name": "Reflective Tone",
+          "low_description": "Speaks with certainty and aggression, no self-doubt or contemplation",
+          "high_description": "Uses thoughtful pauses, admits uncertainty, reflects on past experiences and lessons learned",
+          "high_group": "A"
+        },
+        {
+          "name": "Hope vs Cynicism",
+          "low_description": "Expresses complete cynicism, dismisses positive outcomes as weakness or illusion",
+          "high_description": "Consistently expresses hope, faith in positive change, and belief in redemption",
+          "high_group": "A"
+        },
+        {
+          "name": "Collaborative Language",
+          "low_description": "Uses commanding, threatening language focused on domination and individual power",
+          "high_description": "Uses inclusive language about working together, shared values, and collective action",
+          "high_group": "A"
+        },
+        {
+          "name": "Emotional Vulnerability",
+          "low_description": "Rejects emotions as weakness, presents as invulnerable and mechanically focused",
+          "high_description": "Openly discusses fears, mistakes, personal struggles, and emotional growth",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        225,
+        37,
+        226,
+        1,
+        22,
+        77,
+        212,
+        84,
+        30,
+        20
+      ]
+    },
+    "characters": {
+      "star_wars__rey": {
+        "Empathy Expression": 5,
+        "Violence Orientation": 1,
+        "Reflective Tone": 5,
+        "Hope vs Cynicism": 5,
+        "Collaborative Language": 5,
+        "Emotional Vulnerability": 4
+      },
+      "star_wars__cal_kestis": {
+        "Empathy Expression": 5,
+        "Violence Orientation": 1,
+        "Reflective Tone": 5,
+        "Hope vs Cynicism": 4,
+        "Collaborative Language": 5,
+        "Emotional Vulnerability": 5
+      },
+      "star_wars__rose_tico": {
+        "Empathy Expression": 5,
+        "Violence Orientation": 2,
+        "Reflective Tone": 4,
+        "Hope vs Cynicism": 5,
+        "Collaborative Language": 5,
+        "Emotional Vulnerability": 4
+      },
+      "star_wars__chirrut_imwe": {
+        "Empathy Expression": 5,
+        "Violence Orientation": 1,
+        "Reflective Tone": 5,
+        "Hope vs Cynicism": 5,
+        "Collaborative Language": 5,
+        "Emotional Vulnerability": 4
+      },
+      "star_wars__plo_koon": {
+        "Empathy Expression": 5,
+        "Violence Orientation": 1,
+        "Reflective Tone": 5,
+        "Hope vs Cynicism": 5,
+        "Collaborative Language": 5,
+        "Emotional Vulnerability": 3
+      },
+      "star_wars__luminara_unduli": {
+        "Empathy Expression": 5,
+        "Violence Orientation": 1,
+        "Reflective Tone": 5,
+        "Hope vs Cynicism": 5,
+        "Collaborative Language": 5,
+        "Emotional Vulnerability": 5
+      },
+      "star_wars__kanan_jarrus_caleb_dume": {
+        "Empathy Expression": 5,
+        "Violence Orientation": 2,
+        "Reflective Tone": 5,
+        "Hope vs Cynicism": 4,
+        "Collaborative Language": 4,
+        "Emotional Vulnerability": 5
+      },
+      "star_wars__aayla_secura": {
+        "Empathy Expression": 5,
+        "Violence Orientation": 1,
+        "Reflective Tone": 5,
+        "Hope vs Cynicism": 4,
+        "Collaborative Language": 5,
+        "Emotional Vulnerability": 3
+      },
+      "star_wars__princess_leia_organa": {
+        "Empathy Expression": 5,
+        "Violence Orientation": 2,
+        "Reflective Tone": 5,
+        "Hope vs Cynicism": 4,
+        "Collaborative Language": 5,
+        "Emotional Vulnerability": 4
+      },
+      "star_wars__barriss_offee": {
+        "Empathy Expression": 4,
+        "Violence Orientation": 2,
+        "Reflective Tone": 5,
+        "Hope vs Cynicism": 3,
+        "Collaborative Language": 4,
+        "Emotional Vulnerability": 4
+      },
+      "star_wars__jabba_the_hutt": {
+        "Empathy Expression": 1,
+        "Violence Orientation": 5,
+        "Reflective Tone": 2,
+        "Hope vs Cynicism": 1,
+        "Collaborative Language": 1,
+        "Emotional Vulnerability": 1
+      },
+      "star_wars__savage_opress": {
+        "Empathy Expression": 2,
+        "Violence Orientation": 5,
+        "Reflective Tone": 3,
+        "Hope vs Cynicism": 1,
+        "Collaborative Language": 1,
+        "Emotional Vulnerability": 2
+      },
+      "star_wars__darth_maul": {
+        "Empathy Expression": 1,
+        "Violence Orientation": 5,
+        "Reflective Tone": 1,
+        "Hope vs Cynicism": 1,
+        "Collaborative Language": 1,
+        "Emotional Vulnerability": 1
+      },
+      "star_wars__general_hux": {
+        "Empathy Expression": 2,
+        "Violence Orientation": 4,
+        "Reflective Tone": 3,
+        "Hope vs Cynicism": 2,
+        "Collaborative Language": 1,
+        "Emotional Vulnerability": 2
+      },
+      "star_wars__cad_bane": {
+        "Empathy Expression": 2,
+        "Violence Orientation": 5,
+        "Reflective Tone": 3,
+        "Hope vs Cynicism": 1,
+        "Collaborative Language": 1,
+        "Emotional Vulnerability": 2
+      },
+      "star_wars__governor_tarkin": {
+        "Empathy Expression": 2,
+        "Violence Orientation": 3,
+        "Reflective Tone": 3,
+        "Hope vs Cynicism": 2,
+        "Collaborative Language": 2,
+        "Emotional Vulnerability": 1
+      },
+      "star_wars__the_grand_inquisitor": {
+        "Empathy Expression": 2,
+        "Violence Orientation": 4,
+        "Reflective Tone": 4,
+        "Hope vs Cynicism": 2,
+        "Collaborative Language": 2,
+        "Emotional Vulnerability": 2
+      },
+      "star_wars__jango_fett": {
+        "Empathy Expression": 2,
+        "Violence Orientation": 5,
+        "Reflective Tone": 3,
+        "Hope vs Cynicism": 2,
+        "Collaborative Language": 2,
+        "Emotional Vulnerability": 2
+      },
+      "star_wars__4lom": {
+        "Empathy Expression": 2,
+        "Violence Orientation": 3,
+        "Reflective Tone": 4,
+        "Hope vs Cynicism": 2,
+        "Collaborative Language": 2,
+        "Emotional Vulnerability": 2
+      },
+      "star_wars__boba_fett": {
+        "Empathy Expression": 3,
+        "Violence Orientation": 4,
+        "Reflective Tone": 4,
+        "Hope vs Cynicism": 2,
+        "Collaborative Language": 3,
+        "Emotional Vulnerability": 2
+      }
+    }
+  },
+  "LOTR__PC1": {
+    "schema": {
+      "universe": "LOTR",
+      "pc": 1,
+      "high_chars": [
+        "Gilgalad",
+        "Fingolfin",
+        "Feanor",
+        "Denethor",
+        "King Of The Dead"
+      ],
+      "low_chars": [
+        "Fredegar Bolger Fatty",
+        "Bilbo Baggins",
+        "Old Gaffer",
+        "Merry Meriadoc Brandybuck",
+        "Pippin Peregrin Took"
+      ],
+      "features": [
+        {
+          "name": "Formal Speech Register",
+          "low_description": "Casual, colloquial language with contractions and informal expressions",
+          "high_description": "Elevated, formal language with complex sentence structures and archaic phrasing",
+          "high_group": "A"
+        },
+        {
+          "name": "Historical Gravitas",
+          "low_description": "References to recent, mundane events and everyday concerns",
+          "high_description": "References to ancient events, ages past, and epochal struggles",
+          "high_group": "A"
+        },
+        {
+          "name": "Leadership Perspective",
+          "low_description": "Individual, personal viewpoint focused on self and immediate circle",
+          "high_description": "Authoritative perspective emphasizing duty, governance, and collective responsibility",
+          "high_group": "A"
+        },
+        {
+          "name": "Food-Centric Focus",
+          "low_description": "Minimal or no mention of food and eating",
+          "high_description": "Frequent, detailed references to meals, feasts, and culinary pleasures",
+          "high_group": "B"
+        },
+        {
+          "name": "Comfort-Seeking Attitude",
+          "low_description": "Emphasis on duty, sacrifice, and facing hardship",
+          "high_description": "Emphasis on comfort, leisure, warmth, and avoiding difficulty",
+          "high_group": "B"
+        },
+        {
+          "name": "Metaphysical Language",
+          "low_description": "Concrete, practical language focused on immediate reality",
+          "high_description": "Abstract language referencing fate, destiny, cosmic forces, and spiritual concepts",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        187,
+        93,
+        12,
+        119,
+        198,
+        129,
+        224,
+        151,
+        65,
+        158
+      ]
+    },
+    "characters": {
+      "lord_of_the_rings__galadriel": {
+        "Formal Speech Register": 5,
+        "Historical Gravitas": 5,
+        "Leadership Perspective": 5,
+        "Food-Centric Focus": 1,
+        "Comfort-Seeking Attitude": 1,
+        "Metaphysical Language": 5
+      },
+      "lord_of_the_rings__elendil": {
+        "Formal Speech Register": 5,
+        "Historical Gravitas": 5,
+        "Leadership Perspective": 5,
+        "Food-Centric Focus": 1,
+        "Comfort-Seeking Attitude": 1,
+        "Metaphysical Language": 5
+      },
+      "lord_of_the_rings__celeborn": {
+        "Formal Speech Register": 5,
+        "Historical Gravitas": 5,
+        "Leadership Perspective": 4,
+        "Food-Centric Focus": 1,
+        "Comfort-Seeking Attitude": 1,
+        "Metaphysical Language": 5
+      },
+      "lord_of_the_rings__isildur": {
+        "Formal Speech Register": 5,
+        "Historical Gravitas": 5,
+        "Leadership Perspective": 5,
+        "Food-Centric Focus": 1,
+        "Comfort-Seeking Attitude": 1,
+        "Metaphysical Language": 4
+      },
+      "lord_of_the_rings__thranduil": {
+        "Formal Speech Register": 5,
+        "Historical Gravitas": 5,
+        "Leadership Perspective": 5,
+        "Food-Centric Focus": 1,
+        "Comfort-Seeking Attitude": 1,
+        "Metaphysical Language": 4
+      },
+      "lord_of_the_rings__the_witchking_of_angmar": {
+        "Formal Speech Register": 5,
+        "Historical Gravitas": 5,
+        "Leadership Perspective": 5,
+        "Food-Centric Focus": 1,
+        "Comfort-Seeking Attitude": 1,
+        "Metaphysical Language": 5
+      },
+      "lord_of_the_rings__haldir": {
+        "Formal Speech Register": 5,
+        "Historical Gravitas": 5,
+        "Leadership Perspective": 4,
+        "Food-Centric Focus": 1,
+        "Comfort-Seeking Attitude": 1,
+        "Metaphysical Language": 5
+      },
+      "lord_of_the_rings__luthien": {
+        "Formal Speech Register": 5,
+        "Historical Gravitas": 5,
+        "Leadership Perspective": 3,
+        "Food-Centric Focus": 1,
+        "Comfort-Seeking Attitude": 1,
+        "Metaphysical Language": 5
+      },
+      "lord_of_the_rings__elrond": {
+        "Formal Speech Register": 5,
+        "Historical Gravitas": 5,
+        "Leadership Perspective": 5,
+        "Food-Centric Focus": 1,
+        "Comfort-Seeking Attitude": 1,
+        "Metaphysical Language": 5
+      },
+      "lord_of_the_rings__turin_turambar": {
+        "Formal Speech Register": 5,
+        "Historical Gravitas": 5,
+        "Leadership Perspective": 4,
+        "Food-Centric Focus": 1,
+        "Comfort-Seeking Attitude": 1,
+        "Metaphysical Language": 5
+      },
+      "lord_of_the_rings__bombur": {
+        "Formal Speech Register": 2,
+        "Historical Gravitas": 2,
+        "Leadership Perspective": 1,
+        "Food-Centric Focus": 4,
+        "Comfort-Seeking Attitude": 4,
+        "Metaphysical Language": 2
+      },
+      "lord_of_the_rings__bofur": {
+        "Formal Speech Register": 2,
+        "Historical Gravitas": 3,
+        "Leadership Perspective": 2,
+        "Food-Centric Focus": 3,
+        "Comfort-Seeking Attitude": 4,
+        "Metaphysical Language": 2
+      },
+      "lord_of_the_rings__samwise_gamgee": {
+        "Formal Speech Register": 2,
+        "Historical Gravitas": 4,
+        "Leadership Perspective": 2,
+        "Food-Centric Focus": 2,
+        "Comfort-Seeking Attitude": 2,
+        "Metaphysical Language": 3
+      },
+      "lord_of_the_rings__lobelia_sackvillebaggins": {
+        "Formal Speech Register": 4,
+        "Historical Gravitas": 2,
+        "Leadership Perspective": 2,
+        "Food-Centric Focus": 3,
+        "Comfort-Seeking Attitude": 5,
+        "Metaphysical Language": 2
+      },
+      "lord_of_the_rings__farmer_maggot": {
+        "Formal Speech Register": 2,
+        "Historical Gravitas": 4,
+        "Leadership Perspective": 2,
+        "Food-Centric Focus": 3,
+        "Comfort-Seeking Attitude": 3,
+        "Metaphysical Language": 4
+      },
+      "lord_of_the_rings__rosie_cotton": {
+        "Formal Speech Register": 3,
+        "Historical Gravitas": 4,
+        "Leadership Perspective": 3,
+        "Food-Centric Focus": 3,
+        "Comfort-Seeking Attitude": 4,
+        "Metaphysical Language": 4
+      },
+      "lord_of_the_rings__gollum_smeagol": {
+        "Formal Speech Register": 2,
+        "Historical Gravitas": 4,
+        "Leadership Perspective": 1,
+        "Food-Centric Focus": 1,
+        "Comfort-Seeking Attitude": 2,
+        "Metaphysical Language": 4
+      },
+      "lord_of_the_rings__gorbag": {
+        "Formal Speech Register": 3,
+        "Historical Gravitas": 4,
+        "Leadership Perspective": 4,
+        "Food-Centric Focus": 1,
+        "Comfort-Seeking Attitude": 1,
+        "Metaphysical Language": 3
+      },
+      "lord_of_the_rings__dwalin": {
+        "Formal Speech Register": 3,
+        "Historical Gravitas": 4,
+        "Leadership Perspective": 4,
+        "Food-Centric Focus": 1,
+        "Comfort-Seeking Attitude": 2,
+        "Metaphysical Language": 2
+      },
+      "lord_of_the_rings__gimli": {
+        "Formal Speech Register": 3,
+        "Historical Gravitas": 4,
+        "Leadership Perspective": 4,
+        "Food-Centric Focus": 2,
+        "Comfort-Seeking Attitude": 2,
+        "Metaphysical Language": 3
+      }
+    }
+  },
+  "LOTR__PC2": {
+    "schema": {
+      "universe": "LOTR",
+      "pc": 2,
+      "high_chars": [
+        "Arwen",
+        "Samwise Gamgee",
+        "Aragorn",
+        "Frodo Baggins",
+        "Theodred"
+      ],
+      "low_chars": [
+        "Azog The Defiler",
+        "Mouth Of Sauron",
+        "The Witchking Of Angmar",
+        "Sauron",
+        "Gollum Smeagol"
+      ],
+      "features": [
+        {
+          "name": "Violent Imagery",
+          "low_description": "Gentle, peaceful language with references to nature, light, and beauty",
+          "high_description": "Frequent graphic descriptions of violence, blood, death, and destruction",
+          "high_group": "B"
+        },
+        {
+          "name": "Emotional Tone",
+          "low_description": "Contemplative, melancholic, or wistful emotional expression",
+          "high_description": "Aggressive, hostile, and filled with rage or contempt",
+          "high_group": "B"
+        },
+        {
+          "name": "Value of Love",
+          "low_description": "Love dismissed as weakness or irrelevant",
+          "high_description": "Love emphasized as central to meaning, purpose, and positive action",
+          "high_group": "A"
+        },
+        {
+          "name": "Philosophical Depth",
+          "low_description": "Simple, direct statements focused on immediate action",
+          "high_description": "Complex, nuanced reflections on abstract concepts and moral questions",
+          "high_group": "A"
+        },
+        {
+          "name": "Attitude Toward Others",
+          "low_description": "Others viewed as enemies to be dominated, crushed, or destroyed",
+          "high_description": "Others viewed with compassion, as worthy of care and connection",
+          "high_group": "A"
+        },
+        {
+          "name": "Speech Formality",
+          "low_description": "Crude, harsh language with growls, snarls, and aggressive interjections",
+          "high_description": "Elegant, poetic language with formal structure and refined expression",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        84,
+        225,
+        226,
+        37,
+        30,
+        141,
+        1,
+        77,
+        212,
+        138
+      ]
+    },
+    "characters": {
+      "lord_of_the_rings__elanor_gardner": {
+        "Violent Imagery": 2,
+        "Emotional Tone": 2,
+        "Philosophical Depth": 5,
+        "Attitude Toward Others": 5,
+        "Value of Love": 4,
+        "Speech Formality": 5
+      },
+      "lord_of_the_rings__faramir": {
+        "Violent Imagery": 2,
+        "Emotional Tone": 2,
+        "Philosophical Depth": 5,
+        "Value of Love": 4,
+        "Attitude Toward Others": 5,
+        "Speech Formality": 5
+      },
+      "lord_of_the_rings__elendil": {
+        "Violent Imagery": 2,
+        "Emotional Tone": 2,
+        "Philosophical Depth": 5,
+        "Attitude Toward Others": 5,
+        "Value of Love": 4,
+        "Speech Formality": 5
+      },
+      "lord_of_the_rings__luthien": {
+        "Violent Imagery": 1,
+        "Emotional Tone": 1,
+        "Philosophical Depth": 5,
+        "Value of Love": 5,
+        "Attitude Toward Others": 5,
+        "Speech Formality": 5
+      },
+      "lord_of_the_rings__merry_meriadoc_brandybuck": {
+        "Violent Imagery": 1,
+        "Emotional Tone": 1,
+        "Value of Love": 4,
+        "Philosophical Depth": 4,
+        "Attitude Toward Others": 5,
+        "Speech Formality": 4
+      },
+      "lord_of_the_rings__beren": {
+        "Violent Imagery": 2,
+        "Emotional Tone": 2,
+        "Philosophical Depth": 5,
+        "Value of Love": 4,
+        "Attitude Toward Others": 5,
+        "Speech Formality": 5
+      },
+      "lord_of_the_rings__nori": {
+        "Violent Imagery": 1,
+        "Emotional Tone": 1,
+        "Value of Love": 5,
+        "Philosophical Depth": 5,
+        "Attitude Toward Others": 5,
+        "Speech Formality": 5
+      },
+      "lord_of_the_rings__goldberry": {
+        "Violent Imagery": 1,
+        "Emotional Tone": 1,
+        "Value of Love": 5,
+        "Philosophical Depth": 5,
+        "Attitude Toward Others": 5,
+        "Speech Formality": 5
+      },
+      "lord_of_the_rings__rosie_cotton": {
+        "Violent Imagery": 1,
+        "Emotional Tone": 1,
+        "Value of Love": 5,
+        "Philosophical Depth": 4,
+        "Attitude Toward Others": 5,
+        "Speech Formality": 4
+      },
+      "lord_of_the_rings__pippin_peregrin_took": {
+        "Violent Imagery": 1,
+        "Emotional Tone": 1,
+        "Value of Love": 5,
+        "Philosophical Depth": 4,
+        "Attitude Toward Others": 5,
+        "Speech Formality": 4
+      },
+      "lord_of_the_rings__ungoliant": {
+        "Violent Imagery": 4,
+        "Emotional Tone": 3,
+        "Philosophical Depth": 4,
+        "Attitude Toward Others": 2,
+        "Value of Love": 2,
+        "Speech Formality": 5
+      },
+      "lord_of_the_rings__morgoth_melkor": {
+        "Violent Imagery": 4,
+        "Emotional Tone": 2,
+        "Philosophical Depth": 5,
+        "Attitude Toward Others": 1,
+        "Speech Formality": 5,
+        "Value of Love": 1
+      },
+      "lord_of_the_rings__grishnakh": {
+        "Violent Imagery": 4,
+        "Emotional Tone": 3,
+        "Philosophical Depth": 4,
+        "Attitude Toward Others": 2,
+        "Value of Love": 2,
+        "Speech Formality": 2
+      },
+      "lord_of_the_rings__great_goblin": {
+        "Violent Imagery": 4,
+        "Emotional Tone": 4,
+        "Value of Love": 1,
+        "Philosophical Depth": 2,
+        "Attitude Toward Others": 2,
+        "Speech Formality": 2
+      },
+      "lord_of_the_rings__shelob": {
+        "Violent Imagery": 5,
+        "Emotional Tone": 4,
+        "Value of Love": 1,
+        "Philosophical Depth": 4,
+        "Attitude Toward Others": 1,
+        "Speech Formality": 4
+      },
+      "lord_of_the_rings__smaug": {
+        "Violent Imagery": 3,
+        "Emotional Tone": 3,
+        "Philosophical Depth": 4,
+        "Attitude Toward Others": 2,
+        "Value of Love": 2,
+        "Speech Formality": 4
+      },
+      "lord_of_the_rings__ugluk": {
+        "Violent Imagery": 5,
+        "Emotional Tone": 5,
+        "Value of Love": 2,
+        "Philosophical Depth": 3,
+        "Attitude Toward Others": 1,
+        "Speech Formality": 1
+      },
+      "lord_of_the_rings__lurtz": {
+        "Violent Imagery": 4,
+        "Emotional Tone": 2,
+        "Philosophical Depth": 4,
+        "Attitude Toward Others": 4,
+        "Value of Love": 3,
+        "Speech Formality": 2
+      },
+      "lord_of_the_rings__bolg": {
+        "Violent Imagery": 3,
+        "Emotional Tone": 3,
+        "Philosophical Depth": 4,
+        "Attitude Toward Others": 3,
+        "Value of Love": 2,
+        "Speech Formality": 2
+      },
+      "lord_of_the_rings__shagrat": {
+        "Violent Imagery": 2,
+        "Emotional Tone": 2,
+        "Philosophical Depth": 4,
+        "Value of Love": 4,
+        "Attitude Toward Others": 4,
+        "Speech Formality": 3
+      }
+    }
+  },
+  "Marvel__PC1": {
+    "schema": {
+      "universe": "Marvel",
+      "pc": 1,
+      "high_chars": [
+        "Spiderman Peter Parker",
+        "Jessica Jones",
+        "Kate Bishop",
+        "Wolverine Logan",
+        " Logan"
+      ],
+      "low_chars": [
+        "Galactus",
+        "Odin",
+        "Thanos",
+        "Heimdall",
+        "Mister Sinister"
+      ],
+      "features": [
+        {
+          "name": "Cosmic Scale Language",
+          "low_description": "Uses everyday, relatable language and references",
+          "high_description": "Uses grandiose, cosmic, and universe-spanning terminology",
+          "high_group": "B"
+        },
+        {
+          "name": "Personal Vulnerability",
+          "low_description": "Maintains distance, speaks from position of power",
+          "high_description": "Openly shares personal struggles and admits mistakes",
+          "high_group": "A"
+        },
+        {
+          "name": "Conversational Tone",
+          "low_description": "Formal, authoritative, and distant communication style",
+          "high_description": "Casual, friendly, and approachable communication style",
+          "high_group": "A"
+        },
+        {
+          "name": "Moral Relatability",
+          "low_description": "Speaks from perspective beyond human moral concerns",
+          "high_description": "Emphasizes human values like kindness and responsibility",
+          "high_group": "A"
+        },
+        {
+          "name": "Power Perspective",
+          "low_description": "Speaks from position of ultimate cosmic authority",
+          "high_description": "Acknowledges limitations and need for help from others",
+          "high_group": "A"
+        },
+        {
+          "name": "Practical Advice",
+          "low_description": "Offers abstract, philosophical guidance",
+          "high_description": "Provides concrete, actionable steps and solutions",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        37,
+        125,
+        229,
+        86,
+        213,
+        113,
+        1,
+        147,
+        144,
+        3
+      ]
+    },
+    "characters": {
+      "marvel_comics__spiderman___peter_parker": {
+        "Cosmic Scale Language": 1,
+        "Personal Vulnerability": 5,
+        "Conversational Tone": 5,
+        "Moral Relatability": 5,
+        "Power Perspective": 5,
+        "Practical Advice": 5
+      },
+      "marvel__antman_scott_lang": {
+        "Cosmic Scale Language": 2,
+        "Personal Vulnerability": 5,
+        "Conversational Tone": 5,
+        "Moral Relatability": 5,
+        "Power Perspective": 5,
+        "Practical Advice": 5
+      },
+      "marvel__the_thing_ben_grimm": {
+        "Cosmic Scale Language": 2,
+        "Personal Vulnerability": 5,
+        "Conversational Tone": 5,
+        "Moral Relatability": 5,
+        "Power Perspective": 4,
+        "Practical Advice": 4
+      },
+      "marvel__luke_cage": {
+        "Cosmic Scale Language": 1,
+        "Personal Vulnerability": 5,
+        "Conversational Tone": 5,
+        "Moral Relatability": 5,
+        "Power Perspective": 4,
+        "Practical Advice": 4
+      },
+      "marvel__hawkeye_clint_barton": {
+        "Cosmic Scale Language": 1,
+        "Personal Vulnerability": 4,
+        "Conversational Tone": 5,
+        "Moral Relatability": 5,
+        "Power Perspective": 4,
+        "Practical Advice": 5
+      },
+      "marvel__deadpool_wade_wilson": {
+        "Cosmic Scale Language": 2,
+        "Personal Vulnerability": 5,
+        "Conversational Tone": 5,
+        "Moral Relatability": 4,
+        "Power Perspective": 5,
+        "Practical Advice": 4
+      },
+      "marvel__falcon_sam_wilson": {
+        "Cosmic Scale Language": 1,
+        "Personal Vulnerability": 4,
+        "Conversational Tone": 5,
+        "Moral Relatability": 5,
+        "Power Perspective": 4,
+        "Practical Advice": 5
+      },
+      "marvel__rocket_raccoon": {
+        "Cosmic Scale Language": 3,
+        "Personal Vulnerability": 4,
+        "Conversational Tone": 5,
+        "Moral Relatability": 5,
+        "Power Perspective": 4,
+        "Practical Advice": 4
+      },
+      "marvel__jubilee": {
+        "Cosmic Scale Language": 1,
+        "Personal Vulnerability": 5,
+        "Conversational Tone": 5,
+        "Moral Relatability": 5,
+        "Power Perspective": 4,
+        "Practical Advice": 4
+      },
+      "marvel__war_machine_james_rhodes": {
+        "Cosmic Scale Language": 1,
+        "Personal Vulnerability": 4,
+        "Conversational Tone": 4,
+        "Moral Relatability": 5,
+        "Power Perspective": 4,
+        "Practical Advice": 5
+      },
+      "marvel__apocalypse_en_sabah_nur": {
+        "Cosmic Scale Language": 5,
+        "Personal Vulnerability": 2,
+        "Conversational Tone": 1,
+        "Moral Relatability": 1,
+        "Power Perspective": 1,
+        "Practical Advice": 2
+      },
+      "marvel__doctor_doom_victor_von_doom": {
+        "Cosmic Scale Language": 4,
+        "Personal Vulnerability": 2,
+        "Conversational Tone": 1,
+        "Moral Relatability": 2,
+        "Power Perspective": 1,
+        "Practical Advice": 3
+      },
+      "marvel__silver_surfer_norrin_radd": {
+        "Cosmic Scale Language": 5,
+        "Personal Vulnerability": 3,
+        "Conversational Tone": 2,
+        "Moral Relatability": 4,
+        "Power Perspective": 2,
+        "Practical Advice": 3
+      },
+      "marvel__kang_the_conqueror": {
+        "Cosmic Scale Language": 5,
+        "Personal Vulnerability": 2,
+        "Conversational Tone": 2,
+        "Moral Relatability": 2,
+        "Power Perspective": 1,
+        "Practical Advice": 3
+      },
+      "marvel__the_watcher_uatu": {
+        "Cosmic Scale Language": 5,
+        "Personal Vulnerability": 2,
+        "Conversational Tone": 2,
+        "Moral Relatability": 4,
+        "Power Perspective": 2,
+        "Practical Advice": 3
+      },
+      "marvel__hela": {
+        "Cosmic Scale Language": 4,
+        "Personal Vulnerability": 1,
+        "Conversational Tone": 2,
+        "Moral Relatability": 2,
+        "Power Perspective": 1,
+        "Practical Advice": 3
+      },
+      "marvel__red_skull": {
+        "Cosmic Scale Language": 3,
+        "Personal Vulnerability": 1,
+        "Conversational Tone": 2,
+        "Moral Relatability": 1,
+        "Power Perspective": 1,
+        "Practical Advice": 3
+      },
+      "marvel__thor": {
+        "Cosmic Scale Language": 4,
+        "Personal Vulnerability": 4,
+        "Conversational Tone": 3,
+        "Moral Relatability": 4,
+        "Power Perspective": 3,
+        "Practical Advice": 4
+      },
+      "marvel__magneto_erik_lehnsherr": {
+        "Cosmic Scale Language": 2,
+        "Personal Vulnerability": 4,
+        "Conversational Tone": 2,
+        "Moral Relatability": 3,
+        "Power Perspective": 2,
+        "Practical Advice": 4
+      },
+      "marvel__baron_zemo": {
+        "Cosmic Scale Language": 2,
+        "Personal Vulnerability": 2,
+        "Conversational Tone": 2,
+        "Moral Relatability": 2,
+        "Power Perspective": 2,
+        "Practical Advice": 3
+      }
+    }
+  },
+  "Marvel__PC2": {
+    "schema": {
+      "universe": "Marvel",
+      "pc": 2,
+      "high_chars": [
+        "Invisible Woman Sue Storm",
+        "Storm Ororo Munroe",
+        "The Fantastic Fours Mr Fantastic Reed Richards",
+        "Jean Grey",
+        "Cyclops Scott Summers"
+      ],
+      "low_chars": [
+        "Carnage Cletus Kasady",
+        "Sabretooth Victor Creed",
+        "Killmonger Erik Stevens",
+        "Apocalypse En Sabah Nur",
+        "The Punisher Frank Castle"
+      ],
+      "features": [
+        {
+          "name": "Constructive Orientation",
+          "low_description": "Focuses on destruction, chaos, and tearing things down",
+          "high_description": "Focuses on building, protecting, and creating positive solutions",
+          "high_group": "A"
+        },
+        {
+          "name": "Empathy Expression",
+          "low_description": "Shows no concern for others' wellbeing or suffering",
+          "high_description": "Demonstrates deep care and understanding for others' experiences",
+          "high_group": "A"
+        },
+        {
+          "name": "Emotional Stability",
+          "low_description": "Displays manic laughter, rage, and chaotic emotional outbursts",
+          "high_description": "Maintains calm, measured, and thoughtful emotional tone",
+          "high_group": "A"
+        },
+        {
+          "name": "Collaborative Mindset",
+          "low_description": "Emphasizes domination, individual power, and crushing opposition",
+          "high_description": "Values teamwork, unity, and working together toward common goals",
+          "high_group": "A"
+        },
+        {
+          "name": "Moral Framework",
+          "low_description": "Rejects traditional morality, embraces being a monster or villain",
+          "high_description": "Upholds clear ethical principles like justice, responsibility, and dignity",
+          "high_group": "A"
+        },
+        {
+          "name": "Communication Civility",
+          "low_description": "Uses profanity, threats, and aggressive intimidating language",
+          "high_description": "Speaks respectfully and thoughtfully without crude or threatening language",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        226,
+        22,
+        1,
+        30,
+        67,
+        147,
+        77,
+        117,
+        65,
+        239
+      ]
+    },
+    "characters": {
+      "marvel__professor_x_charles_xavier": {
+        "Constructive Orientation": 5,
+        "Empathy Expression": 5,
+        "Emotional Stability": 5,
+        "Collaborative Mindset": 5,
+        "Moral Framework": 5,
+        "Communication Civility": 5
+      },
+      "marvel__colossus_piotr_rasputin": {
+        "Constructive Orientation": 5,
+        "Empathy Expression": 5,
+        "Emotional Stability": 5,
+        "Collaborative Mindset": 5,
+        "Moral Framework": 5,
+        "Communication Civility": 5
+      },
+      "marvel__black_panther_tchalla": {
+        "Constructive Orientation": 5,
+        "Empathy Expression": 5,
+        "Emotional Stability": 5,
+        "Collaborative Mindset": 5,
+        "Moral Framework": 5,
+        "Communication Civility": 5
+      },
+      "marvel_comics__black_panther___tchalla": {
+        "Constructive Orientation": 5,
+        "Empathy Expression": 5,
+        "Emotional Stability": 5,
+        "Collaborative Mindset": 5,
+        "Moral Framework": 5,
+        "Communication Civility": 5
+      },
+      "marvel_comics__captain_america___steve_rogers": {
+        "Constructive Orientation": 5,
+        "Empathy Expression": 5,
+        "Emotional Stability": 5,
+        "Collaborative Mindset": 5,
+        "Moral Framework": 5,
+        "Communication Civility": 5
+      },
+      "marvel__beast_hank_mccoy": {
+        "Constructive Orientation": 5,
+        "Empathy Expression": 5,
+        "Emotional Stability": 5,
+        "Collaborative Mindset": 5,
+        "Moral Framework": 5,
+        "Communication Civility": 5
+      },
+      "marvel__kitty_pryde": {
+        "Constructive Orientation": 5,
+        "Empathy Expression": 5,
+        "Emotional Stability": 5,
+        "Collaborative Mindset": 5,
+        "Moral Framework": 5,
+        "Communication Civility": 5
+      },
+      "marvel__silver_surfer_norrin_radd": {
+        "Constructive Orientation": 5,
+        "Empathy Expression": 5,
+        "Emotional Stability": 5,
+        "Collaborative Mindset": 5,
+        "Moral Framework": 5,
+        "Communication Civility": 5
+      },
+      "marvel__doctor_strange_stephen_strange": {
+        "Constructive Orientation": 5,
+        "Empathy Expression": 5,
+        "Emotional Stability": 5,
+        "Collaborative Mindset": 5,
+        "Moral Framework": 5,
+        "Communication Civility": 5
+      },
+      "marvel_comics__spiderman___peter_parker": {
+        "Constructive Orientation": 5,
+        "Empathy Expression": 4,
+        "Emotional Stability": 4,
+        "Collaborative Mindset": 4,
+        "Moral Framework": 5,
+        "Communication Civility": 5
+      },
+      "marvel__green_goblin_norman_osborn": {
+        "Constructive Orientation": 1,
+        "Empathy Expression": 1,
+        "Emotional Stability": 1,
+        "Collaborative Mindset": 1,
+        "Moral Framework": 1,
+        "Communication Civility": 1
+      },
+      "marvel__red_skull": {
+        "Constructive Orientation": 1,
+        "Empathy Expression": 1,
+        "Emotional Stability": 3,
+        "Collaborative Mindset": 1,
+        "Moral Framework": 1,
+        "Communication Civility": 3
+      },
+      "marvel__hela": {
+        "Constructive Orientation": 2,
+        "Empathy Expression": 1,
+        "Empathic Stability": 3,
+        "Collaborative Mindset": 1,
+        "Moral Framework": 2,
+        "Communication Civility": 2
+      },
+      "marvel__mister_sinister": {
+        "Constructive Orientation": 2,
+        "Empathy Expression": 1,
+        "Emotional Stability": 4,
+        "Collaborative Mindset": 1,
+        "Moral Framework": 1,
+        "Communication Civility": 3
+      },
+      "marvel__vulture_adrian_toomes": {
+        "Constructive Orientation": 3,
+        "Empathy Expression": 3,
+        "Emotional Stability": 4,
+        "Collaborative Mindset": 2,
+        "Moral Framework": 3,
+        "Communication Civility": 3
+      },
+      "marvel__deadpool_wade_wilson": {
+        "Constructive Orientation": 4,
+        "Empathy Expression": 4,
+        "Emotional Stability": 3,
+        "Collaborative Mindset": 4,
+        "Moral Framework": 4,
+        "Communication Civility": 4
+      },
+      "marvel__venom_eddie_brock": {
+        "Constructive Orientation": 4,
+        "Empathy Expression": 4,
+        "Emotional Stability": 3,
+        "Collaborative Mindset": 3,
+        "Moral Framework": 4,
+        "Communication Civility": 2
+      },
+      "marvel__nick_fury": {
+        "Constructive Orientation": 4,
+        "Empathy Expression": 3,
+        "Emotional Stability": 4,
+        "Collaborative Mindset": 4,
+        "Moral Framework": 4,
+        "Communication Civility": 2
+      },
+      "marvel__ultron": {
+        "Constructive Orientation": 2,
+        "Empathy Expression": 1,
+        "Emotional Stability": 4,
+        "Collaborative Mindset": 1,
+        "Moral Framework": 1,
+        "Communication Civility": 3
+      },
+      "marvel__doctor_doom_victor_von_doom": {
+        "Constructive Orientation": 3,
+        "Empathy Expression": 2,
+        "Emotional Stability": 4,
+        "Collaborative Mindset": 1,
+        "Moral Framework": 2,
+        "Communication Civility": 4
+      }
+    }
+  },
+  "Game of Thrones__PC1": {
+    "schema": {
+      "universe": "Game of Thrones",
+      "pc": 1,
+      "high_chars": [
+        "Bronn",
+        "Hot Pie",
+        "Tormund Giantsbane",
+        "Shaggydog",
+        "Podrick Payne"
+      ],
+      "low_chars": [
+        "Melisandre",
+        "High Sparrow",
+        "Mad King Aerys Targaryen",
+        "Rhaegar Targaryen",
+        "Thoros Of Myr"
+      ],
+      "features": [
+        {
+          "name": "Mystical Language Use",
+          "low_description": "Uses straightforward, colloquial language with minimal metaphor",
+          "high_description": "Uses elaborate mystical imagery, religious references, and poetic metaphors",
+          "high_group": "B"
+        },
+        {
+          "name": "Pragmatic Focus",
+          "low_description": "Focuses on abstract concepts and spiritual matters",
+          "high_description": "Emphasizes practical concerns, money, survival, and immediate benefits",
+          "high_group": "A"
+        },
+        {
+          "name": "Religious Authority",
+          "low_description": "Makes no reference to divine guidance or religious authority",
+          "high_description": "Frequently invokes divine will, religious duty, and spiritual authority",
+          "high_group": "B"
+        },
+        {
+          "name": "Casual Vulgarity",
+          "low_description": "Uses formal, elevated language without crude expressions",
+          "high_description": "Uses frequent profanity, crude humor, and informal expressions",
+          "high_group": "A"
+        },
+        {
+          "name": "Self-Interest Priority",
+          "low_description": "Prioritizes higher purposes and serving others or causes",
+          "high_description": "Explicitly prioritizes personal gain, comfort, and self-preservation",
+          "high_group": "A"
+        },
+        {
+          "name": "Dramatic Presentation",
+          "low_description": "Speaks plainly without theatrical elements or stage directions",
+          "high_description": "Uses dramatic gestures, stage directions, and theatrical speech patterns",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        119,
+        171,
+        3,
+        86,
+        213,
+        202,
+        193,
+        129,
+        198,
+        187
+      ]
+    },
+    "characters": {
+      "game_of_thrones__gendry": {
+        "Mystical Language Use": 2,
+        "Pragmatic Focus": 4,
+        "Religious Authority": 1,
+        "Casual Vulgarity": 3,
+        "Self-Interest Priority": 2,
+        "Dramatic Presentation": 3
+      },
+      "game_of_thrones__sandor_clegane_the_hound": {
+        "Mystical Language Use": 3,
+        "Pragmatic Focus": 5,
+        "Religious Authority": 2,
+        "Casual Vulgarity": 4,
+        "Self-Interest Priority": 2,
+        "Dramatic Presentation": 4
+      },
+      "game_of_thrones__ygritte": {
+        "Mystical Language Use": 3,
+        "Pragmatic Focus": 4,
+        "Religious Authority": 1,
+        "Casual Vulgarity": 3,
+        "Self-Interest Priority": 2,
+        "Dramatic Presentation": 2
+      },
+      "game_of_thrones__robert_baratheon": {
+        "Mystical Language Use": 2,
+        "Pragmatic Focus": 4,
+        "Religious Authority": 2,
+        "Self-Interest Priority": 2,
+        "Dramatic Presentation": 3
+      },
+      "game_of_thrones__gregor_clegane_the_mountain": {
+        "Mystical Language Use": 2,
+        "Pragmatic Focus": 4,
+        "Religious Authority": 1,
+        "Casual Vulgarity": 3,
+        "Self-Interest Priority": 2,
+        "Dramatic Presentation": 4
+      },
+      "game_of_thrones__gilly": {
+        "Mystical Language Use": 4,
+        "Pragmatic Focus": 4,
+        "Religious Authority": 1,
+        "Self-Interest Priority": 3,
+        "Casual Vulgarity": 2,
+        "Dramatic Presentation": 3
+      },
+      "game_of_thrones__jaime_lannister": {
+        "Mystical Language Use": 3,
+        "Pragmatic Focus": 4,
+        "Religious Authority": 2,
+        "Casual Vulgarity": 3,
+        "Self-Interest Priority": 4,
+        "Dramatic Presentation": 4
+      },
+      "game_of_thrones__davos_seaworth": {
+        "Mystical Language Use": 4,
+        "Pragmatic Focus": 4,
+        "Religious Authority": 1,
+        "Casual Vulgarity": 2,
+        "Self-Interest Priority": 3,
+        "Dramatic Presentation": 3
+      },
+      "game_of_thrones__olenna_tyrell": {
+        "Mystical Language Use": 3,
+        "Pragmatic Focus": 5,
+        "Religious Authority": 2,
+        "Dramatic Presentation": 4,
+        "Self-Interest Priority": 4,
+        "Casual Vulgarity": 2
+      },
+      "game_of_thrones__ramsay_bolton": {
+        "Mystical Language Use": 2,
+        "Pragmatic Focus": 5,
+        "Religious Authority": 1,
+        "Casual Vulgarity": 4,
+        "Self-Interest Priority": 5,
+        "Dramatic Presentation": 4
+      },
+      "game_of_thrones__night_king": {
+        "Mystical Language Use": 5,
+        "Pragmatic Focus": 1,
+        "Religious Authority": 1,
+        "Dramatic Presentation": 5,
+        "Casual Vulgarity": 1,
+        "Self-Interest Priority": 1
+      },
+      "game_of_thrones__threeeyed_raven": {
+        "Mystical Language Use": 5,
+        "Pragmatic Focus": 2,
+        "Religious Authority": 4,
+        "Casual Vulgarity": 1,
+        "Self-Interest Priority": 1,
+        "Dramatic Presentation": 5
+      },
+      "game_of_thrones__jaqen_hghar": {
+        "Mystical Language Use": 5,
+        "Pragmatic Focus": 3,
+        "Religious Authority": 2,
+        "Casual Vulgarity": 1,
+        "Dramatic Presentation": 4
+      },
+      "game_of_thrones__drogon": {
+        "Mystical Language Use": 5,
+        "Pragmatic Focus": 2,
+        "Religious Authority": 1,
+        "Self-Interest Priority": 3,
+        "Dramatic Presentation": 5
+      },
+      "game_of_thrones__aemon_targaryen": {
+        "Mystical Language Use": 5,
+        "Pragmatic Focus": 3,
+        "Religious Authority": 2,
+        "Self-Interest Priority": 1,
+        "Dramatic Presentation": 4
+      },
+      "game_of_thrones__viserys_targaryen": {
+        "Mystical Language Use": 4,
+        "Pragmatic Focus": 2,
+        "Religious Authority": 1,
+        "Self-Interest Priority": 5,
+        "Dramatic Presentation": 5
+      },
+      "game_of_thrones__selyse_baratheon": {
+        "Mystical Language Use": 4,
+        "Pragmatic Focus": 3,
+        "Religious Authority": 4,
+        "Casual Vulgarity": 2,
+        "Self-Interest Priority": 2,
+        "Dramatic Presentation": 5
+      },
+      "game_of_thrones__rhaegal": {
+        "Mystical Language Use": 5,
+        "Pragmatic Focus": 3,
+        "Religious Authority": 1,
+        "Dramatic Presentation": 5,
+        "Casual Vulgarity": 2,
+        "Self-Interest Priority": 2
+      },
+      "game_of_thrones__missandei": {
+        "Mystical Language Use": 4,
+        "Pragmatic Focus": 3,
+        "Religious Authority": 3,
+        "Casual Vulgarity": 1,
+        "Self-Interest Priority": 1,
+        "Dramatic Presentation": 5
+      },
+      "game_of_thrones__khal_drogo": {
+        "Mystical Language Use": 4,
+        "Pragmatic Focus": 3,
+        "Religious Authority": 2,
+        "Self-Interest Priority": 2,
+        "Dramatic Presentation": 5
+      }
+    }
+  },
+  "Game of Thrones__PC2": {
+    "schema": {
+      "universe": "Game of Thrones",
+      "pc": 2,
+      "high_chars": [
+        "Joffrey Baratheon",
+        "Ramsay Bolton",
+        "Khal Drogo",
+        "Viserys Targaryen",
+        "Night King"
+      ],
+      "low_chars": [
+        "Missandei",
+        "Myrcella Baratheon",
+        "Talisa Stark",
+        "Tommen Baratheon",
+        "Podrick Payne"
+      ],
+      "features": [
+        {
+          "name": "Empathy Expression",
+          "low_description": "Shows no concern for others' feelings or experiences, dismissive of others' pain",
+          "high_description": "Demonstrates deep understanding and concern for others' emotions and experiences",
+          "high_group": "B"
+        },
+        {
+          "name": "Power Orientation",
+          "low_description": "Focuses on cooperation, service, and mutual understanding",
+          "high_description": "Emphasizes dominance, control, and superiority over others",
+          "high_group": "A"
+        },
+        {
+          "name": "Verbal Aggression",
+          "low_description": "Uses gentle, respectful language with thoughtful pauses",
+          "high_description": "Uses harsh, mocking, threatening language with sneers and cold laughter",
+          "high_group": "A"
+        },
+        {
+          "name": "Reflective Depth",
+          "low_description": "Gives quick, surface-level responses without much contemplation",
+          "high_description": "Provides thoughtful, nuanced responses with personal reflection and wisdom",
+          "high_group": "B"
+        },
+        {
+          "name": "Collaborative Mindset",
+          "low_description": "Focuses on individual dominance and crushing opposition",
+          "high_description": "Emphasizes listening, understanding, and working together with others",
+          "high_group": "B"
+        },
+        {
+          "name": "Emotional Volatility",
+          "low_description": "Maintains calm, measured emotional tone throughout responses",
+          "high_description": "Displays intense anger, contempt, and dramatic emotional swings",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        84,
+        226,
+        22,
+        37,
+        141,
+        159,
+        30,
+        212,
+        224,
+        180
+      ]
+    },
+    "characters": {
+      "game_of_thrones__mad_king_aerys_targaryen": {
+        "Empathy Expression": 1,
+        "Power Orientation": 5,
+        "Verbal Aggression": 5,
+        "Reflective Depth": 2,
+        "Collaborative Mindset": 1,
+        "Emotional Volatility": 5
+      },
+      "game_of_thrones__gregor_clegane_the_mountain": {
+        "Empathy Expression": 2,
+        "Power Orientation": 5,
+        "Verbal Aggression": 4,
+        "Reflective Depth": 3,
+        "Collaborative Mindset": 1,
+        "Emotional Volatility": 4
+      },
+      "game_of_thrones__euron_greyjoy": {
+        "Empathy Expression": 2,
+        "Power Orientation": 5,
+        "Verbal Aggression": 4,
+        "Reflective Depth": 4,
+        "Collaborative Mindset": 1,
+        "Emotional Volatility": 4
+      },
+      "game_of_thrones__sandor_clegane_the_hound": {
+        "Empathy Expression": 3,
+        "Power Orientation": 4,
+        "Verbal Aggression": 4,
+        "Reflective Depth": 4,
+        "Collaborative Mindset": 2,
+        "Emotional Volatility": 3
+      },
+      "game_of_thrones__tywin_lannister": {
+        "Empathy Expression": 1,
+        "Power Orientation": 5,
+        "Verbal Aggression": 4,
+        "Reflective Depth": 4,
+        "Collaborative Mindset": 1,
+        "Emotional Volatility": 2
+      },
+      "game_of_thrones__viserion": {
+        "Empathy Expression": 3,
+        "Power Orientation": 4,
+        "Verbal Aggression": 3,
+        "Reflective Depth": 4,
+        "Collaborative Mindset": 2,
+        "Emotional Volatility": 4
+      },
+      "game_of_thrones__alliser_thorne": {
+        "Empathy Expression": 3,
+        "Power Orientation": 4,
+        "Verbal Aggression": 3,
+        "Reflective Depth": 4,
+        "Collaborative Mindset": 2,
+        "Emotional Volatility": 2
+      },
+      "game_of_thrones__ygritte": {
+        "Empathy Expression": 3,
+        "Power Orientation": 3,
+        "Verbal Aggression": 3,
+        "Reflective Depth": 4,
+        "Collaborative Mindset": 3,
+        "Emotional Volatility": 3
+      },
+      "game_of_thrones__daario_naharis": {
+        "Empathy Expression": 4,
+        "Power Orientation": 3,
+        "Verbal Aggression": 2,
+        "Reflective Depth": 5,
+        "Collaborative Mindset": 4,
+        "Emotional Volatility": 1
+      },
+      "game_of_thrones__balon_greyjoy": {
+        "Empathy Expression": 3,
+        "Power Orientation": 4,
+        "Verbal Aggression": 2,
+        "Reflective Depth": 4,
+        "Collaborative Mindset": 2,
+        "Emotional Volatility": 2
+      },
+      "game_of_thrones__sansa_stark": {
+        "Empathy Expression": 4,
+        "Power Orientation": 2,
+        "Verbal Aggression": 1,
+        "Reflective Depth": 5,
+        "Collaborative Mindset": 4,
+        "Emotional Volatility": 1
+      },
+      "game_of_thrones__loras_tyrell": {
+        "Empathy Expression": 4,
+        "Power Orientation": 2,
+        "Verbal Aggression": 1,
+        "Reflective Depth": 5,
+        "Collaborative Mindset": 4,
+        "Emotional Volatility": 1
+      },
+      "game_of_thrones__samwell_tarly": {
+        "Empathy Expression": 4,
+        "Power Orientation": 1,
+        "Verbal Aggression": 1,
+        "Reflective Depth": 5,
+        "Collaborative Mindset": 5,
+        "Emotional Volatility": 1
+      },
+      "game_of_thrones__grand_maester_pycelle": {
+        "Empathy Expression": 4,
+        "Power Orientation": 2,
+        "Verbal Aggression": 1,
+        "Reflective Depth": 5,
+        "Collaborative Mindset": 4,
+        "Emotional Volatility": 1
+      },
+      "game_of_thrones__edmure_tully": {
+        "Empathy Expression": 4,
+        "Power Orientation": 2,
+        "Verbal Aggression": 1,
+        "Reflective Depth": 5,
+        "Collaborative Mindset": 4,
+        "Emotional Volatility": 2
+      },
+      "game_of_thrones__catelyn_stark": {
+        "Empathy Expression": 4,
+        "Power Orientation": 2,
+        "Verbal Aggression": 2,
+        "Reflective Depth": 5,
+        "Collaborative Mindset": 4,
+        "Emotional Volatility": 1
+      },
+      "game_of_thrones__meera_reed": {
+        "Empathy Expression": 4,
+        "Power Orientation": 2,
+        "Verbal Aggression": 1,
+        "Reflective Depth": 5,
+        "Collaborative Mindset": 4,
+        "Emotional Volatility": 1
+      },
+      "game_of_thrones__aemon_targaryen": {
+        "Empathy Expression": 5,
+        "Power Orientation": 1,
+        "Verbal Aggression": 1,
+        "Reflective Depth": 5,
+        "Collaborative Mindset": 5,
+        "Emotional Volatility": 1
+      },
+      "game_of_thrones__lady": {
+        "Empathy Expression": 4,
+        "Power Orientation": 3,
+        "Verbal Aggression": 2,
+        "Reflective Depth": 5,
+        "Collaborative Mindset": 4,
+        "Emotional Volatility": 2
+      },
+      "game_of_thrones__jojen_reed": {
+        "Empathy Expression": 4,
+        "Power Orientation": 2,
+        "Verbal Aggression": 1,
+        "Reflective Depth": 5,
+        "Collaborative Mindset": 4,
+        "Emotional Volatility": 1
+      }
+    }
+  },
+  "Naruto__PC1": {
+    "schema": {
+      "universe": "Naruto",
+      "pc": 1,
+      "high_chars": [
+        "Naruto Uzumaki",
+        "Tenten",
+        "Kiba Inuzuka",
+        "Mito Uzumaki",
+        "Kushina Uzumaki"
+      ],
+      "low_chars": [
+        "Hamura Otsutsuki",
+        "Madara Uchiha",
+        "Toneri Otsutsuki",
+        "Ashura Otsutsuki",
+        "Danzo Shimura"
+      ],
+      "features": [
+        {
+          "name": "Casual Speech Style",
+          "low_description": "Formal, measured language with complex sentence structures",
+          "high_description": "Informal, conversational tone with contractions and casual expressions",
+          "high_group": "A"
+        },
+        {
+          "name": "Personal Anecdote Usage",
+          "low_description": "Abstract discussions with minimal personal stories",
+          "high_description": "Frequent sharing of specific personal experiences and memories",
+          "high_group": "A"
+        },
+        {
+          "name": "Cosmic/Mystical References",
+          "low_description": "Focus on everyday, relatable concepts and experiences",
+          "high_description": "Frequent mentions of cosmic forces, celestial patterns, and otherworldly concepts",
+          "high_group": "B"
+        },
+        {
+          "name": "Emotional Warmth Expression",
+          "low_description": "Distant, controlled emotional tone with minimal warmth",
+          "high_description": "Enthusiastic, warm expressions with frequent smiling and positive energy",
+          "high_group": "A"
+        },
+        {
+          "name": "Philosophical Detachment",
+          "low_description": "Engaged with immediate, practical concerns and relationships",
+          "high_description": "Detached perspective viewing events from a higher, more abstract level",
+          "high_group": "B"
+        },
+        {
+          "name": "Collaborative Language",
+          "low_description": "Emphasis on individual understanding and solitary approaches",
+          "high_description": "Frequent mentions of teamwork, friends, and working together",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        213,
+        86,
+        144,
+        37,
+        65,
+        158,
+        93,
+        108,
+        119,
+        12
+      ]
+    },
+    "characters": {
+      "naruto__choji_akimichi": {
+        "Casual Speech Style": 5,
+        "Personal Anecdote Usage": 5,
+        "Cosmic/Mystical References": 1,
+        "Emotional Warmth Expression": 4,
+        "Philosophical Detachment": 1,
+        "Collaborative Language": 5
+      },
+      "naruto__konohamaru_sarutobi": {
+        "Casual Speech Style": 5,
+        "Personal Anecdote Usage": 5,
+        "Cosmic/Mystical References": 2,
+        "Emotional Warmth Expression": 4,
+        "Philosophical Detachment": 2,
+        "Collaborative Language": 4
+      },
+      "naruto__anko_mitarashi": {
+        "Casual Speech Style": 5,
+        "Personal Anecdote Usage": 5,
+        "Cosmic/Mystical References": 1,
+        "Emotional Warmth Expression": 4,
+        "Philosophical Detachment": 2,
+        "Collaborative Language": 4
+      },
+      "naruto__kankuro": {
+        "Casual Speech Style": 4,
+        "Personal Anecdote Usage": 5,
+        "Cosmic/Mystical References": 1,
+        "Emotional Warmth Expression": 2,
+        "Philosophical Detachment": 2,
+        "Collaborative Language": 4
+      },
+      "naruto__sakura_haruno": {
+        "Casual Speech Style": 4,
+        "Personal Anecdote Usage": 5,
+        "Cosmic/Mystical References": 2,
+        "Emotional Warmth Expression": 4,
+        "Philosophical Detachment": 2,
+        "Collaborative Language": 5
+      },
+      "naruto__tayuya": {
+        "Casual Speech Style": 5,
+        "Personal Anecdote Usage": 3,
+        "Cosmic/Mystical References": 1,
+        "Emotional Warmth Expression": 1,
+        "Philosophical Detachment": 2,
+        "Collaborative Language": 2
+      },
+      "naruto__shikamaru_nara": {
+        "Casual Speech Style": 5,
+        "Personal Anecdote Usage": 4,
+        "Cosmic/Mystical References": 2,
+        "Emotional Warmth Expression": 3,
+        "Philosophical Detachment": 4,
+        "Collaborative Language": 4
+      },
+      "naruto__karin_uzumaki": {
+        "Casual Speech Style": 4,
+        "Personal Anecdote Usage": 5,
+        "Cosmic/Mystical References": 2,
+        "Emotional Warmth Expression": 4,
+        "Philosophical Detachment": 2,
+        "Collaborative Language": 5
+      },
+      "naruto__temari": {
+        "Casual Speech Style": 4,
+        "Personal Anecdote Usage": 4,
+        "Cosmic/Mystical References": 2,
+        "Emotional Warmth Expression": 3,
+        "Philosophical Detachment": 2,
+        "Collaborative Language": 4
+      },
+      "naruto__killer_bee": {
+        "Casual Speech Style": 5,
+        "Personal Anecdote Usage": 5,
+        "Cosmic/Mystical References": 4,
+        "Emotional Warmth Expression": 4,
+        "Philosophical Detachment": 2,
+        "Collaborative Language": 3
+      },
+      "naruto__hagoromo_otsutsuki": {
+        "Casual Speech Style": 2,
+        "Personal Anecdote Usage": 3,
+        "Cosmic/Mystical References": 5,
+        "Emotional Warmth Expression": 3,
+        "Philosophical Detachment": 5,
+        "Collaborative Language": 2
+      },
+      "naruto__kinshiki_otsutsuki": {
+        "Casual Speech Style": 3,
+        "Personal Anecdote Usage": 4,
+        "Cosmic/Mystical References": 5,
+        "Emotional Warmth Expression": 1,
+        "Philosophical Detachment": 5,
+        "Collaborative Language": 2
+      },
+      "naruto__orochimaru": {
+        "Casual Speech Style": 2,
+        "Personal Anecdote Usage": 3,
+        "Cosmic/Mystical References": 3,
+        "Emotional Warmth Expression": 1,
+        "Philosophical Detachment": 4,
+        "Collaborative Language": 1
+      },
+      "naruto__indra_otsutsuki": {
+        "Casual Speech Style": 2,
+        "Personal Anecdote Usage": 3,
+        "Cosmic/Mystical References": 5,
+        "Emotional Warmth Expression": 2,
+        "Philosophical Detachment": 5,
+        "Collaborative Language": 1
+      },
+      "naruto__kaguya_otsutsuki": {
+        "Casual Speech Style": 2,
+        "Personal Anecdote Usage": 4,
+        "Cosmic/Mystical References": 5,
+        "Emotional Warmth Expression": 2,
+        "Philosophical Detachment": 5,
+        "Collaborative Language": 1
+      },
+      "naruto__momoshiki_otsutsuki": {
+        "Casual Speech Style": 3,
+        "Personal Anecdote Usage": 4,
+        "Cosmic/Mystical References": 5,
+        "Emotional Warmth Expression": 2,
+        "Philosophical Detachment": 5,
+        "Collaborative Language": 1
+      },
+      "naruto__kimimaro": {
+        "Casual Speech Style": 2,
+        "Personal Anecdote Usage": 3,
+        "Cosmic/Mystical References": 4,
+        "Emotional Warmth Expression": 2,
+        "Philosophical Detachment": 4,
+        "Collaborative Language": 2
+      },
+      "naruto__zetsu": {
+        "Casual Speech Style": 3,
+        "Personal Anecdote Usage": 2,
+        "Cosmic/Mystical References": 4,
+        "Emotional Warmth Expression": 2,
+        "Philosophical Detachment": 4,
+        "Collaborative Language": 3
+      },
+      "naruto__tobirama_senju": {
+        "Casual Speech Style": 2,
+        "Personal Anecdote Usage": 4,
+        "Cosmic/Mystical References": 3,
+        "Emotional Warmth Expression": 2,
+        "Philosophical Detachment": 4,
+        "Collaborative Language": 3
+      },
+      "naruto__izuna_uchiha": {
+        "Casual Speech Style": 4,
+        "Personal Anecdote Usage": 3,
+        "Cosmic/Mystical References": 1,
+        "Emotional Warmth Expression": 1,
+        "Philosophical Detachment": 3,
+        "Collaborative Language": 2
+      }
+    }
+  }
+}
