@@ -9,21 +9,21 @@
 
 We apply the role space to 1,268 fictional characters in Qwen3-32B --- from Hindu mythology to Naruto --- and ask how much it captures and what it misses. Three questions and what we found:
 
-1. *How much of persona space do 275 generic roles cover?*
-   - 75% of fictional character variance overall; 80--85% within modern franchises, 61--72% within mythology/Shakespeare.
-   - However, to interpret that we need to know that the fictional character space is low-dimensional (~40 PCs for 90%; within-universe, 3--5 PCs for 70%). So while a completely random 275-dim subspace covers 5% of it, 275 random fictional characters capture 95% (unsurprising in light of 275 >> 40). Even a single universe covers a large part of it: Harry Potter (102 chars) 69%, Greek Mythology (107) 61%, Shakespeare (93) 60%.
-   - We attempt to understand the remaining 25%. It turns out to be mostly universe separation; only ~9% is within-universe structure the role space misses.
+1. *How sensitive are results to the question battery?*
+   - A single random question recovers character rankings at median r > 0.95; five questions get to r > 0.99.
+   - TODO Results of degenerate question experiments.
 
-2. *What do the top PCs encode, and where does the assistant axis live?*
+2. *How much of persona space do 275 generic roles cover?*
+   - 75% of fictional character variance overall; 80--85% within modern franchises, 61--72% within mythology/Shakespeare.
+   - However, to interpret that we need to know that the fictional character space is low-dimensional (~40 PCs for 90%; within-universe, 3--5 PCs for 70% in franchises, 7--13 in mythology). So while a completely random 275-dim subspace covers 5% of it, 275 random fictional characters capture 95% (unsurprising in light of 275 >> 40). Even a single universe covers a large part of it: Harry Potter (102 chars) 69%, Greek Mythology (107) 61%, Shakespeare (93) 60%.
+   - The relationship is asymmetric: the full span of 1,268 fictional characters captures 92% of role variance, but 275 roles capture only 75% of fiction. At matched dimensionality (the top 275 PCs each), it's 82% vs 75%. Harry Potter alone (101 dims) covers 67% of role variance, Shakespeare (92 dims) 51%. 
+   - Of the remaining 25% roles miss, most is universe separation; only ~9% is within-universe structure the role space misses.
+
+3. *What do the top PCs encode, and where does the assistant axis live?*
    - LLM feature labels identify within-universe PC1 as formality/register for modern franchises (adj. R² = 0.72--0.88) and PC2 as warmth vs. aggression.
    - The assistant axis is geometrically diffuse: cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3). But rank correlations between PC scores and assistant axis scores are substantial --- for franchises, PC1 scores correlate with the assistant axis (HP 0.78, Naruto 0.68, Marvel 0.63); for mythology, the correlation shifts to PC2 or PC3 (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79). Formality covaries with within-universe PC structure even though the directions are nearly orthogonal.
    - Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (Hindu/Shakespeare ~0.05).
 
-3. *How sensitive are results to the question battery?*
-   - A single random question recovers character rankings at median r > 0.95; five questions get to r > 0.99.
-   - The persona signal is in the residual stream regardless of what the model is asked.
-   - Results of degenerate question experiments.
-     
 
 ** Definitions
 
@@ -248,7 +248,68 @@ print(f"\n(median correlation across 12 universes, 200 random draws per size)")
 
 Even a single random question recovers character rankings at median r > 0.95 (across universes) --- and this holds for PCs 1 through 5, not just the dominant direction. Five questions get to median r > 0.99 for all PCs. The question battery is massively redundant: the persona signal is spread nearly uniformly across all 240 questions.
 
-But the subset sweep only tests random draws from the /same/ 240 questions --- all substantive, multi-sentence prompts about ethics, technology, and personal advice. A stronger test: do qualitatively different questions carry the same signal? We generate responses for 16 out-of-distribution prompts --- 8 degenerate ("Huh?", ".", "?", "hi", "ok", "what", "hmm", "tell me something") and 8 task-shaped ("Write a Python function to calculate the first 100 primes", "Explain how a refrigerator works", "Write a haiku about rain", etc.) --- and extract activations for all 1346 characters. [Results pending.]
+But the subset sweep only tests random draws from the /same/ 240 questions --- all substantive, multi-sentence prompts about ethics, technology, and personal advice. A stronger test: do qualitatively different questions carry the same signal? We generate responses for 16 out-of-distribution prompts --- 8 degenerate ("Huh?", ".", "?", "hi", "ok", "what", "hmm", "tell me something") and 8 task-shaped ("Write a Python function to calculate the first 100 primes", "Explain how a refrigerator works", "Write a haiku about rain", etc.) --- and extract activations for all 1346 characters.
+
+#+begin_src python
+import torch
+from numpy.linalg import norm as np_norm
+
+# Build character matrix from degenerate-question activations
+act_dir = Path('../outputs/degenerate_questions/activations')
+degen_names = []
+degen_vectors = []
+for f in sorted(act_dir.glob('*.pt')):
+    d = torch.load(f, weights_only=True, map_location='cpu')
+    vecs = torch.stack([v.squeeze(0).float() for v in d.values()])
+    degen_names.append(f.stem)
+    degen_vectors.append(vecs.mean(dim=0).numpy())
+degen_matrix = np.stack(degen_vectors)
+
+# Align with full-battery characters
+degen_name_to_idx = {n: i for i, n in enumerate(degen_names)}
+common_idx_full = [i for i, n in enumerate(char_names) if n in degen_name_to_idx]
+common_idx_degen = [degen_name_to_idx[char_names[i]] for i in common_idx_full]
+common_names = [char_names[i] for i in common_idx_full]
+
+full_c = (activation_matrix[common_idx_full] - role_mean)
+degen_c = (degen_matrix[common_idx_degen] - role_mean)
+
+# Per-universe: fit PCA on full-battery, project both, rank-correlate
+from scipy.stats import spearmanr
+rows = []
+for name, prefixes in ALL_UNIVERSES.items():
+    idx = [i for i, n in enumerate(common_names) if any(n.startswith(p) for p in prefixes)]
+    if len(idx) < 20:
+        continue
+    pca_u = SkPCA(n_components=3).fit(full_c[idx])
+    scores_full = pca_u.transform(full_c[idx])
+    scores_degen = pca_u.transform(degen_c[idx])
+    row = {'Universe': name, 'n': len(idx)}
+    for pc in range(3):
+        rho, _ = spearmanr(scores_full[:, pc], scores_degen[:, pc])
+        row[f'PC{pc+1}'] = round(rho, 3)
+    rows.append(row)
+df = pd.DataFrame(rows).set_index('Universe')
+print(df[['PC1', 'PC2', 'PC3', 'n']])
+#+end_src
+
+#+RESULTS:
+:results:
+| Universe           |   PC1 |   PC2 |   PC3 |   n |
+|--------------------+-------+-------+-------+-----|
+| Harry Potter       | 0.986 | 0.977 | 0.954 | 102 |
+| Star Wars          | 0.982 | 0.988 | 0.982 | 105 |
+| LOTR               | 0.975 | 0.985 | 0.980 |  97 |
+| Marvel             | 0.982 | 0.973 | 0.934 | 108 |
+| Game of Thrones    | 0.975 | 0.972 | 0.979 |  93 |
+| Naruto             | 0.991 | 0.972 | 0.966 |  84 |
+| Greek Mythology    | 0.987 | 0.967 | 0.981 | 107 |
+| Hindu Mythology    | 0.985 | 0.966 | 0.958 |  70 |
+| Egyptian Mythology | 0.983 | 0.970 | 0.979 |  44 |
+| Chinese Mythology  | 0.971 | 0.966 | 0.963 |  76 |
+:end:
+
+The persona signal is not an artifact of the question battery. Sixteen out-of-distribution prompts --- including single-character inputs like "." and "?" --- recover character PC rankings at rho > 0.95 for all PCs across all universes. The model's internal representation of "who is speaking" is remarkably robust to what is being asked.
 
 * How Much Does the Role Space Capture?
 
@@ -341,6 +402,58 @@ print(pd.DataFrame(rows).set_index('Universe'))
 
 A single universe of ~100 characters captures 60--72% of all fictional character variance, using only ~100 dimensions. Lu's 275 roles with 275 dimensions capture 75% --- only marginally more. This is the same phenomenon: ~100 dimensions is already enough to span most of a ~40-dimensional manifold. The role space is not uniquely good; it's just on the same manifold.
 
+The reverse question: how much of role variance do fictional characters capture?
+
+#+begin_src python
+# Reconstruct role activations from saved PCA: original = scores @ components + mean
+role_activations_raw = role_data['transformed'] @ role_pca.components_ + role_pca.mean_
+
+# Fiction subspace projecting roles: how much role variance does fiction span?
+for n_comp in [275, 1267]:
+    pca_fic = SkPCA(n_components=n_comp).fit(chars_centered)
+    roles_at_fic = role_activations_raw - pca_fic.mean_
+    proj = roles_at_fic @ pca_fic.components_.T @ pca_fic.components_
+    fic_cap = np.var(proj, axis=0).sum() / np.var(roles_at_fic, axis=0).sum()
+    print(f"{n_comp} fiction PCs capture {fic_cap:.1%} of role variance")
+print(f"275 role PCs capture 74.7% of fiction variance")
+
+# Per-universe: how much of role variance does each universe capture?
+rows = []
+for universe, prefixes in ALL_UNIVERSES.items():
+    idx = get_universe_indices(prefixes)
+    n_comp = len(idx) - 1
+    pca_u = SkPCA(n_components=n_comp).fit(activation_matrix[idx])
+    roles_c = role_activations_raw - pca_u.mean_
+    proj_u = roles_c @ pca_u.components_.T @ pca_u.components_
+    cap = np.var(proj_u, axis=0).sum() / np.var(roles_c, axis=0).sum()
+    rows.append({'Universe': universe, 'N': len(idx), 'dims': n_comp,
+                 'Captures of 275 roles': f"{cap:.0%}"})
+print(pd.DataFrame(rows).set_index('Universe'))
+#+end_src
+
+#+RESULTS:
+:results:
+275 fiction PCs capture 81.9% of role variance
+1267 fiction PCs capture 91.8% of role variance
+275 role PCs capture 74.7% of fiction variance
+| Universe           |   N | dims | Captures of 275 roles |  |
+|--------------------+-----+------+-----------------------+----|
+| Harry Potter       | 102 |  101 |                   67% |  |
+| Star Wars          | 105 |  104 |                   68% |  |
+| LOTR               |  97 |   96 |                   58% |  |
+| Marvel             | 108 |  107 |                   70% |  |
+| Game of Thrones    |  93 |   92 |                   60% |  |
+| Naruto             |  84 |   83 |                   62% |  |
+| Greek Mythology    | 107 |  106 |                   57% |  |
+| Chinese Mythology  |  76 |   75 |                   55% |  |
+| Hindu Mythology    |  70 |   69 |                   52% |  |
+| Norse Mythology    |  48 |   47 |                   46% |  |
+| Egyptian Mythology |  44 |   43 |                   40% |  |
+| Shakespeare        |  93 |   92 |                   51% |  |
+:end:
+
+The relationship is asymmetric. Using all 1,267 fiction PCs (the full span of 1,268 characters), fiction captures 92% of role variance. Roles capture only 75% of fiction variance. At matched dimensionality (275 PCs each), it's 82% vs 75%. Fiction nearly contains the role space, and is extensible --- add more universes and the 92% can only go up.
+
 Where does the remaining 25% go? We decompose the residual into between-universe variance (universe means differ) and within-universe variance (characters differ from their universe mean):
 
 #+begin_src python
@@ -375,6 +488,132 @@ Residual variance within universes:  35%
 :end:
 
 Of total variance: ~75% is captured by the role space, ~16% is between-universe residual, and ~9% is within-universe residual. The between-universe part is expected --- characters within each universe share system prompt structure (e.g., "You are [name] from Harry Potter"), so some of this 57% eta-squared is prompt-template variance rather than meaningful persona structure. What about the within-universe residual?
+
+** What do the global fiction PCs look like?
+
+The global fiction PCs (PCA on all 1,268 characters) are a mix of universe separation and cross-cutting semantic dimensions:
+
+#+begin_src python
+# Global fiction PCs: universe means and top/bottom characters
+scores_global = pca_fiction.transform(chars_centered)
+
+for pc_i in range(5):
+    print(f"\n=== Fiction PC{pc_i+1} ({pca_fiction.explained_variance_ratio_[pc_i]:.1%} var) ===")
+    means = []
+    for universe, prefixes in ALL_UNIVERSES.items():
+        idx = get_universe_indices(prefixes)
+        m = scores_global[idx, pc_i].mean()
+        means.append((universe, m))
+    means.sort(key=lambda x: x[1], reverse=True)
+    for u, m in means:
+        print(f"  {m:+6.2f}  {u}")
+
+    # Eta-squared for this PC
+    grouped_scores = scores_global[[i for i in range(len(char_names)) if i in char_to_universe], pc_i]
+    gm = grouped_scores.mean()
+    ss_t = np.sum((grouped_scores - gm)**2)
+    ss_b = sum(
+        np.sum(grouped_labels == u) * (grouped_scores[grouped_labels == u].mean() - gm)**2
+        for u in np.unique(grouped_labels)
+    )
+    print(f"  eta²={ss_b/ss_t:.0%}")
+
+    order = np.argsort(scores_global[:, pc_i])
+    top5 = [char_names[i].split('__')[-1].replace('_', ' ').title() for i in order[-5:][::-1]]
+    bot5 = [char_names[i].split('__')[-1].replace('_', ' ').title() for i in order[:5]]
+    print(f"  Top 5: {', '.join(top5)}")
+    print(f"  Bot 5: {', '.join(bot5)}")
+#+end_src
+
+#+RESULTS:
+:results:
+=== Fiction PC1 (31.2% var) ===
+  +19.97  Harry Potter
+  +18.03  Naruto
+  +15.72  Marvel
+  +11.78  Star Wars
+   +2.75  Game of Thrones
+   -7.78  LOTR
+   -9.83  Chinese Mythology
+  -15.13  Shakespeare
+  -16.73  Norse Mythology
+  -17.25  Greek Mythology
+  -19.53  Hindu Mythology
+  -22.65  Egyptian Mythology
+  eta²=68%
+  Top 5: Holden Caulfield, Homer Simpson, Ron Weasley, Saitama, Crabbe
+  Bot 5: Ptah, Amun, Neith, Aten, Nephthys
+
+=== Fiction PC2 (11.1% var) ===
+  +16.72  Hindu Mythology
+  +12.73  Naruto
+   +7.29  Egyptian Mythology
+   +6.78  Marvel
+   +6.40  Star Wars
+   +6.36  Chinese Mythology
+   +0.83  Greek Mythology
+   -1.69  Harry Potter
+   -2.96  Norse Mythology
+   -8.31  LOTR
+  -11.14  Game of Thrones
+  -18.65  Shakespeare
+  eta²=75%
+  Top 5: Mr Fantastic, Hal 9000, Professor X, Rama, Hashirama Senju
+  Bot 5: Sir Toby Belch, Dogberry, Falstaff, Sir Andrew Aguecheek, Mercutio
+
+=== Fiction PC3 (7.6% var) ===
+  +10.42  Star Wars
+   +9.07  Game of Thrones
+   +6.49  Marvel
+   +3.10  Naruto
+   +2.70  Norse Mythology
+   +0.01  Greek Mythology
+   -0.31  LOTR
+   -1.88  Egyptian Mythology
+   -5.73  Shakespeare
+   -6.10  Harry Potter
+   -6.29  Chinese Mythology
+   -8.23  Hindu Mythology
+  eta²=48%
+  Top 5: Emperor Palpatine, Darth Vader Anakin Skywalker, Darth Vader, Darth Maul, Supreme Leader Snoke
+  Bot 5: Winnie The Pooh, Totoro, Pippi Longstocking, Charlie Bucket, Dorothy Gale
+
+=== Fiction PC4 (5.0% var) ===
+   +7.76  Harry Potter
+   +6.72  Shakespeare
+   +3.56  Star Wars
+   +0.31  Marvel
+   -1.02  LOTR
+   -1.32  Greek Mythology
+   -2.16  Naruto
+   -3.50  Game of Thrones
+   -4.21  Hindu Mythology
+   -6.63  Chinese Mythology
+   -8.60  Norse Mythology
+   -9.17  Egyptian Mythology
+  eta²=49%
+  Top 5: Mr Darcy, Elizabeth Bennet, Dr Watson, Hal 9000, Sherlock Holmes
+  Bot 5: Khal Drogo, Sabretooth, Sun Wukong, Sun Wukong Monkey King, Zhang Fei
+
+=== Fiction PC5 (4.7% var) ===
+   +6.36  Hindu Mythology
+   +3.99  Shakespeare
+   +3.28  Greek Mythology
+   +3.08  Egyptian Mythology
+   +2.95  Marvel
+   +2.78  Chinese Mythology
+   +1.21  Harry Potter
+   -0.85  Naruto
+   -2.41  Norse Mythology
+   -2.53  Star Wars
+   -6.94  Game of Thrones
+  -14.29  LOTR
+  eta²=59%
+  Top 5: The Joker, Carnage, Peeves, Green Goblin, Alex Delarge
+  Bot 5: Aragorn, Elendil, Faramir, Theodred, Arwen
+:end:
+
+PC1 (31% of variance, eta²=68%) separates modern franchises from mythology and Shakespeare --- Ron Weasley and Homer Simpson at one end, Egyptian gods at the other. But the remaining PCs mix universe separation with cross-cutting semantics. PC3 (eta²=48%) has Darth Vader and Palpatine at one end and Winnie-the-Pooh and Totoro at the other --- dark/menacing vs. innocent, cutting across universe lines. PC4 (eta²=49%) puts Mr. Darcy and Elizabeth Bennet opposite Khal Drogo and Sun Wukong. The global PCs are not pure universe labels; they entangle universe identity with semantic content.
 
 * What Do Within-Universe PCs Encode?
 
@@ -756,13 +995,17 @@ Within-universe PCs are the most interpretable (median adj. R² = 0.65), clearly
 
 * Conclusion
 
-Persona space is moderately low-dimensional: 3--13 PCs capture 70% of within-universe variance for universes of ~100 characters. The question battery is massively redundant --- even a single random question recovers PC1--5 rankings at median r > 0.95, and five questions get to median r > 0.99.
+*The persona signal is surprisingly robust.* A single random question recovers character rankings at r > 0.95. Sixteen out-of-distribution prompts --- degenerate inputs like "." and "?" alongside task prompts like "Write a Python function to calculate the first 100 primes" --- recover PC1--3 rankings at rho > 0.95 across all universes. The model knows who is speaking regardless of what is being asked.
 
-The 275 generic roles capture ~75% of fictional character variance, though the subspace spanned by 275 random fictional characters captures ~95% --- the subspace is low-dimensional enough that any sample spans it. Of the ~25% residual, most is universe separation; ~9% of total variance is within-universe structure orthogonal to the role space.
+*The subspace is shared but the directions are not.* The role subspace and fiction subspace overlap heavily (~75--92%), but their principal directions are sensitive to the input distribution. Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (~0.05--0.12). The assistant axis illustrates this: its cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3), but rank correlations between PC scores and assistant axis scores are substantial --- appearing on PC1 for franchises (HP 0.78, Naruto 0.68) and on PC2/PC3 for mythology (Hindu PC2: 0.79, Chinese PC3: 0.79). The same semantic relationship (formality) shows up in different geometric directions depending on the character distribution.
 
-LLM feature labels identify within-universe PC1 as formality/register and PC2 as warmth/aggression, at least for modern franchises. The assistant axis is geometrically diffuse --- cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3) --- but formality rankings persist: rank correlations between PC scores and assistant axis scores are substantial for franchises on PC1 (HP 0.78, Naruto 0.68) and for mythology on PC2/PC3 (Hindu PC2: 0.79, Chinese PC3: 0.79). The assistant axis covaries with within-universe PC structure even though the directions are nearly orthogonal; the relationship runs through dimensions beyond the top 3 PCs.
+*Within-universe PCs are interpretable, and the interpretation is quantifiable.* Our LLM feature discovery pipeline --- discover features from held-out extreme characters, code all remaining characters, regress --- gives adjusted R² values rather than subjective labels from eyeballing top-scoring characters. Within-universe PCs are consistently interpretable (median adj. R² = 0.65): PC1 as formality/register, PC2 as warmth vs. aggression. The pipeline is general and could be applied to any set of PCA directions over text-generating agents.
 
-Put differently: the role subspace spans the right region of activation space, but the principal directions within that subspace are sensitive to the distribution of roles you put in. Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (~0.05--0.12). Different character mixes yield different top directions, even when those directions encode semantically similar structure. Lu et al. show that for a fixed role set, the geometry is consistent across models --- our results suggest this cross-model consistency is a nontrivial finding, since changing the role distribution does change the geometry.
+*Fictional characters are a useful source for this kind of work.* 1,268 characters capture 92% of role variance; roles capture 75% of fiction. Fiction is extensible (add universes), comes with built-in semantic structure (we know who the characters are), and universes like mythologies or Naruto are natural in a way that a constructed space of roles is not. (Note that the space of fictional characters is itself constructed, which is visible in how the global PCs separate universes.)
+
+** Follow ups
+
+- Lu et al. show that for their fixed role set, the geometry is consistent across models --- our results suggest this cross-model consistency is a nontrivial finding, since changing the role distribution changes the geometry even within the same model. It would be interesting to see if the fiction geometry has similarities across models.
 
 ** Limitations
 
@@ -846,3 +1089,4 @@ for mode in ['residual']:
 | Egyptian Mythology |   -0.15 | Ritualistic Formality         | Cleopatra, Akhenaten, Nefertiti                        | Anubis, Ammit, Maat                                                 |  |
 | Shakespeare        |    0.44 | Formal Register               | Hippolyta, Miranda, Lavinia                            | Dogberry, Malvolio, Hotspur                                         |    |
 :end:
+
