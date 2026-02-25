@@ -30,7 +30,7 @@ We apply the role space to 1,268 fictional characters in Qwen3-32B --- from Hind
 Each character or role is represented by a mean activation vector in 5120-dimensional space (Qwen3-32B layer 32). We work with four types of PC directions, obtained by running PCA on different subsets of these vectors:
 
 - *Role PCs:* PCA on 275 generic role activations (from Lu et al.). Fit once; shared across all analyses.
-- *Assistant axis:* The direction from mean role-playing activation to mean default-assistant activation (from Lu et al.'s data). Cosine with role PC1 is ~0.67 --- related but not identical (consistent with Lu et al.'s report of >0.71 at middle layers).
+- *Assistant axis:* The direction from mean role-playing activation to mean default-assistant activation (from Lu et al.'s data). Cosine with role PC1 is 0.67 at layer 32 (0-indexed). Lu et al. report >0.71 at middle layers; the discrepancy may reflect model differences (they report across multiple models) or layer choice.
 - *Within-universe PCs:* PCA on one universe's characters using their full activations (e.g., PCA on the 102 Harry Potter vectors). Different per universe.
 - *Within-universe residual PCs:* PCA on one universe's characters after projecting out the role subspace. Different per universe; orthogonal to the role space by construction.
 
