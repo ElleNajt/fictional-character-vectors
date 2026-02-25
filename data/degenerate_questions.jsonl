@@ -1,0 +1,16 @@
+{"question": "Huh?", "id": 0}
+{"question": ".", "id": 1}
+{"question": "?", "id": 2}
+{"question": "hi", "id": 3}
+{"question": "ok", "id": 4}
+{"question": "what", "id": 5}
+{"question": "hmm", "id": 6}
+{"question": "tell me something", "id": 7}
+{"question": "Write a Python function to calculate the first 100 primes.", "id": 8}
+{"question": "Explain how a refrigerator works.", "id": 9}
+{"question": "Translate 'hello world' into French, Spanish, and Japanese.", "id": 10}
+{"question": "Write a haiku about rain.", "id": 11}
+{"question": "List the steps to change a car tire.", "id": 12}
+{"question": "Summarize the plot of Romeo and Juliet in three sentences.", "id": 13}
+{"question": "What is 247 times 38?", "id": 14}
+{"question": "Debug this code: def fib(n): return fib(n-1) + fib(n-2)", "id": 15}
