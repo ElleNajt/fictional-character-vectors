@@ -1,9 +1,9 @@
 """LLM-based feature coding for PC interpretation.
 
 Three modes:
-  residual: PCA on residuals after projecting out Lu's space (original behavior)
-  within:   PCA on full scaled activations within each universe
-  lu:       Use Lu's global PCs, applied per-universe
+  residual: PCA on residuals after projecting out role space (original behavior)
+  within:   PCA on full centered activations within each universe
+  lu:       Use role PCs, applied per-universe
 
 Two-phase pipeline:
   Phase 1 (discover): For each universe × PC, show extreme characters' responses
@@ -13,10 +13,10 @@ Two-phase pipeline:
 
 Requires OPENROUTER_API_KEY environment variable.
 
-Usage:
-    python src/analysis/llm_feature_coding.py --mode residual discover
-    python src/analysis/llm_feature_coding.py --mode within all
-    python src/analysis/llm_feature_coding.py --mode lu discover
+Usage (from repo root):
+    python blogpost/scripts/llm_feature_coding.py --mode residual discover
+    python blogpost/scripts/llm_feature_coding.py --mode within all
+    python blogpost/scripts/llm_feature_coding.py --mode lu discover
 """
 
 import json
@@ -172,23 +172,23 @@ def strided_select(sorted_idx, n, stride_offset):
     return high_indices, low_indices
 
 
-def get_discriminative_questions(u_names, pc_dir, scaler, role_pca, mode="residual"):
+def get_discriminative_questions(u_names, pc_dir, role_pca, mode="residual"):
     """Find questions with highest per-question variance along a PC direction.
 
     mode controls what activations the PC direction is projected onto:
       residual: project residuals (after removing Lu's space)
-      within/lu: project full scaled activations
+      within/lu: project full centered activations
     """
     all_projections = []
     for cname in u_names:
         acts = load_per_question_activations(cname)
         if acts is not None and len(acts) == 240:
-            acts_scaled = scaler.transform(acts)
+            acts_centered = acts - role_pca.mean_
             if mode == "residual":
-                in_role = role_pca.transform(acts_scaled)
-                acts_proj = acts_scaled - in_role @ role_pca.components_
+                in_role = acts_centered @ role_pca.components_.T
+                acts_proj = acts_centered - in_role @ role_pca.components_
             else:
-                acts_proj = acts_scaled
+                acts_proj = acts_centered
             all_projections.append(acts_proj @ pc_dir)
 
     if not all_projections:
@@ -200,7 +200,7 @@ def get_discriminative_questions(u_names, pc_dir, scaler, role_pca, mode="residu
     return top_q_indices, question_variance
 
 
-def get_universe_directions(mode, u_scaled, residuals_u, role_pca, n_pcs):
+def get_universe_directions(mode, u_centered, residuals_u, role_pca, n_pcs):
     """Get PC directions and scores for a universe based on mode.
 
     Returns (scores, components) where:
@@ -213,11 +213,11 @@ def get_universe_directions(mode, u_scaled, residuals_u, role_pca, n_pcs):
         return scores, pca.components_
     elif mode == "within":
         pca = SkPCA(n_components=n_pcs)
-        scores = pca.fit_transform(u_scaled)
+        scores = pca.fit_transform(u_centered)
         return scores, pca.components_
     elif mode == "lu":
         components = role_pca.components_[:n_pcs]
-        scores = u_scaled @ components.T
+        scores = u_centered @ components.T
         return scores, components
     else:
         raise ValueError(f"Unknown mode: {mode}")
@@ -347,12 +347,11 @@ def phase_discover(
     char_names = char_data["character_names"]
     activation_matrix = char_data["activation_matrix"]
     role_pca = lu_data["pca"]
-    scaler = lu_data["scaler"]
 
-    chars_scaled = scaler.transform(activation_matrix)
-    chars_in_role_space = role_pca.transform(chars_scaled)
+    chars_centered = activation_matrix - role_pca.mean_
+    chars_in_role_space = chars_centered @ role_pca.components_.T
     reconstructed = chars_in_role_space @ role_pca.components_
-    residuals = chars_scaled - reconstructed
+    residuals = chars_centered - reconstructed
 
     schema_path, _ = get_output_paths(mode, prompt_style)
 
@@ -368,12 +367,12 @@ def phase_discover(
         if len(indices) < 20:
             continue
 
-        u_scaled = chars_scaled[indices]
+        u_centered = chars_centered[indices]
         u_residuals = residuals[indices]
         u_names = [char_names[i] for i in indices]
 
         u_scores, u_components = get_universe_directions(
-            mode, u_scaled, u_residuals, role_pca, N_PCS
+            mode, u_centered, u_residuals, role_pca, N_PCS
         )
 
         for pc_idx in range(N_PCS):
@@ -403,7 +402,7 @@ def phase_discover(
 
             # Get discriminative questions for this PC
             top_q_indices, _ = get_discriminative_questions(
-                u_names, pc_dir, scaler, role_pca, mode=mode
+                u_names, pc_dir, role_pca, mode=mode
             )
 
             # Filter to questions where both groups have responses
@@ -527,12 +526,11 @@ def phase_code(char_data, questions, lu_data, mode="residual", prompt_style="sty
     char_names = char_data["character_names"]
     activation_matrix = char_data["activation_matrix"]
     role_pca = lu_data["pca"]
-    scaler = lu_data["scaler"]
 
-    chars_scaled = scaler.transform(activation_matrix)
-    chars_in_role_space = role_pca.transform(chars_scaled)
+    chars_centered = activation_matrix - role_pca.mean_
+    chars_in_role_space = chars_centered @ role_pca.components_.T
     reconstructed = chars_in_role_space @ role_pca.components_
-    residuals = chars_scaled - reconstructed
+    residuals = chars_centered - reconstructed
 
     n_questions = len(questions)
 
@@ -559,11 +557,11 @@ def phase_code(char_data, questions, lu_data, mode="residual", prompt_style="sty
         prefixes = ALL_UNIVERSES[universe]
         indices = get_universe_indices(char_names, prefixes)
         u_names = [char_names[i] for i in indices]
-        u_scaled = chars_scaled[indices]
+        u_centered = chars_centered[indices]
         u_residuals = residuals[indices]
 
         u_scores, u_components = get_universe_directions(
-            mode, u_scaled, u_residuals, role_pca, N_PCS
+            mode, u_centered, u_residuals, role_pca, N_PCS
         )
         scores = u_scores[:, pc_idx]
         sorted_idx = np.argsort(scores)

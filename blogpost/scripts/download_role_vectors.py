@@ -6,8 +6,8 @@ and fit a PCA for comparison with fictional characters.
 The Assistant Axis paper (Lu et al., 2026) provides individual role vectors.
 We download these and fit our own PCA to create a comparable space.
 
-Usage:
-    python src/data_collection/download_role_vectors.py --output data/role_vectors/
+Usage (from repo root):
+    python blogpost/scripts/download_role_vectors.py --output data/role_vectors/
 """
 
 import argparse
@@ -18,7 +18,6 @@ import numpy as np
 import torch
 from huggingface_hub import hf_hub_download, list_repo_files
 from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
 from tqdm import tqdm
 
 
@@ -73,8 +72,7 @@ def fit_pca_on_roles(vectors: dict, layer: int = 32, n_components: int = None):
         n_components: Number of PCA components (default: min of n_roles, hidden_dim)
 
     Returns:
-        pca: Fitted PCA model
-        scaler: Fitted StandardScaler
+        pca: Fitted PCA model (centers internally, no additional scaling)
         role_names: List of role names in order
         transformed: PCA-transformed role vectors
     """
@@ -98,21 +96,17 @@ def fit_pca_on_roles(vectors: dict, layer: int = 32, n_components: int = None):
     X = np.vstack(layer_vectors)
     print(f"Role matrix shape: {X.shape}")
 
-    # Standardize
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-
-    # Fit PCA
+    # Fit PCA (centers at role mean internally, no additional scaling)
     if n_components is None:
         n_components = min(X.shape[0], X.shape[1])
 
     pca = PCA(n_components=n_components)
-    transformed = pca.fit_transform(X_scaled)
+    transformed = pca.fit_transform(X)
 
     print(f"PCA fitted: {pca.n_components_} components")
     print(f"Variance explained: {sum(pca.explained_variance_ratio_):.1%}")
 
-    return pca, scaler, role_names, transformed
+    return pca, role_names, transformed
 
 
 def main():
@@ -126,13 +120,12 @@ def main():
     vectors = download_role_vectors(args.output, args.model)
 
     print(f"\nFitting PCA on layer {args.layer}...")
-    pca, scaler, role_names, transformed = fit_pca_on_roles(vectors, args.layer)
+    pca, role_names, transformed = fit_pca_on_roles(vectors, args.layer)
 
     # Save everything
     output_file = args.output / f"{args.model}_pca_layer{args.layer}.pkl"
     results = {
         "pca": pca,
-        "scaler": scaler,
         "role_names": role_names,
         "transformed": transformed,
         "layer": args.layer,

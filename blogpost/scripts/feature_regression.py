@@ -3,8 +3,8 @@
 Loads llm_feature_coded*.json and computes correlations + regression R²
 for each universe × PC. Supports three modes: residual, within, lu.
 
-Usage:
-    python src/analysis/feature_regression.py [--mode residual|within|lu]
+Usage (from repo root):
+    python blogpost/scripts/feature_regression.py [--mode residual|within|lu]
 """
 
 import json
@@ -75,12 +75,11 @@ def main():
     char_names = char_data["character_names"]
     activation_matrix = char_data["activation_matrix"]
     role_pca = lu_data["pca"]
-    scaler = lu_data["scaler"]
 
-    chars_scaled = scaler.transform(activation_matrix)
-    chars_in_role_space = role_pca.transform(chars_scaled)
+    chars_centered = activation_matrix - role_pca.mean_
+    chars_in_role_space = chars_centered @ role_pca.components_.T
     reconstructed = chars_in_role_space @ role_pca.components_
-    residuals = chars_scaled - reconstructed
+    residuals = chars_centered - reconstructed
 
     results = {}
 
@@ -95,7 +94,7 @@ def main():
         prefixes = ALL_UNIVERSES[universe]
         indices = get_universe_indices(char_names, prefixes)
         u_names = [char_names[i] for i in indices]
-        u_scaled = chars_scaled[indices]
+        u_centered = chars_centered[indices]
         u_residuals = residuals[indices]
 
         # Compute PC scores based on mode
@@ -104,10 +103,10 @@ def main():
             u_scores = u_pca.fit_transform(u_residuals)
         elif args.mode == "within":
             u_pca = SkPCA(n_components=max(2, pc_num))
-            u_scores = u_pca.fit_transform(u_scaled)
+            u_scores = u_pca.fit_transform(u_centered)
         elif args.mode == "lu":
             components = role_pca.components_[: max(2, pc_num)]
-            u_scores = u_scaled @ components.T
+            u_scores = u_centered @ components.T
         pc_scores = u_scores[:, pc_num - 1]
 
         # Build feature matrix (only chars with valid ratings)

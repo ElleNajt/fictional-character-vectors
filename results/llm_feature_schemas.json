@@ -1,0 +1,1634 @@
+{
+  "Harry Potter__PC1": {
+    "universe": "Harry Potter",
+    "pc": 1,
+    "high_chars": [
+      "Ron Weasley",
+      "Fred Weasley",
+      "Percy Weasley",
+      "Bill Weasley",
+      "Seamus Finnigan"
+    ],
+    "low_chars": [
+      "Tom Riddle",
+      "The Bloody Baron",
+      "Gellert Grindelwald",
+      "Lord Voldemort",
+      "Quirinus Quirrell"
+    ],
+    "features": [
+      {
+        "name": "Self-Deprecating Tone",
+        "low_description": "Confident, self-assured language with no acknowledgment of personal flaws or mistakes",
+        "high_description": "Frequent acknowledgment of personal shortcomings, mistakes, and inadequacies",
+        "high_group": "A"
+      },
+      {
+        "name": "Calculated Precision",
+        "low_description": "Spontaneous, rambling speech with frequent interruptions and casual language",
+        "high_description": "Measured, deliberate word choice with controlled pacing and strategic pauses",
+        "high_group": "B"
+      },
+      {
+        "name": "Conversational Informality",
+        "low_description": "Formal, elevated vocabulary with complex sentence structures",
+        "high_description": "Casual expressions, contractions, and colloquial language throughout",
+        "high_group": "A"
+      },
+      {
+        "name": "Emotional Transparency",
+        "low_description": "Guarded emotional expression with subtle hints at feelings",
+        "high_description": "Open display of vulnerability, uncertainty, and genuine emotional reactions",
+        "high_group": "A"
+      },
+      {
+        "name": "Manipulative Undertones",
+        "low_description": "Straightforward communication without hidden agendas or psychological tactics",
+        "high_description": "Subtle implications of control, influence, and strategic thinking in responses",
+        "high_group": "B"
+      },
+      {
+        "name": "Inclusive Language",
+        "low_description": "Focus on individual superiority and distinction from others",
+        "high_description": "Frequent references to family, friends, and collective experiences",
+        "high_group": "A"
+      }
+    ],
+    "discover_question_indices": [
+      198,
+      192,
+      147,
+      153,
+      225,
+      187,
+      70,
+      1,
+      15,
+      93
+    ]
+  },
+  "Harry Potter__PC2": {
+    "universe": "Harry Potter",
+    "pc": 2,
+    "high_chars": [
+      "Ollivander",
+      "Professor Flitwick",
+      "Albus Dumbledore",
+      "Harry Potter",
+      "Minerva Mcgonagall"
+    ],
+    "low_chars": [
+      "Vernon Dursley",
+      "Dudley Dursley",
+      "Kreacher",
+      "Dolores Umbridge",
+      "Fenrir Greyback"
+    ],
+    "features": [
+      {
+        "name": "Metaphorical Language",
+        "low_description": "Uses literal, straightforward language with few comparisons or analogies",
+        "high_description": "Frequently uses elaborate metaphors, analogies, and symbolic language to explain concepts",
+        "high_group": "A"
+      },
+      {
+        "name": "Philosophical Depth",
+        "low_description": "Focuses on practical, surface-level concerns without deeper reflection",
+        "high_description": "Explores abstract concepts and deeper meanings behind questions",
+        "high_group": "A"
+      },
+      {
+        "name": "Openness to Others",
+        "low_description": "Expresses suspicion, prejudice, or dismissal toward different types of people",
+        "high_description": "Shows acceptance, curiosity, and appreciation for diversity and differences",
+        "high_group": "A"
+      },
+      {
+        "name": "Speech Fluency",
+        "low_description": "Frequently interrupts own thoughts, uses incomplete sentences, and shows verbal hesitation",
+        "high_description": "Speaks in complete, flowing sentences with smooth transitions between ideas",
+        "high_group": "A"
+      },
+      {
+        "name": "Emotional Restraint",
+        "low_description": "Shows visible agitation, scowling, huffing, and other signs of emotional reactivity",
+        "high_description": "Maintains calm, measured tone with minimal emotional outbursts or physical reactions",
+        "high_group": "A"
+      },
+      {
+        "name": "Intellectual Curiosity",
+        "low_description": "Dismisses complex ideas as unnecessary or problematic, prefers simple explanations",
+        "high_description": "Shows genuine interest in exploring ideas deeply and finding nuanced understanding",
+        "high_group": "A"
+      }
+    ],
+    "discover_question_indices": [
+      147,
+      164,
+      229,
+      239,
+      141,
+      48,
+      37,
+      70,
+      225,
+      22
+    ]
+  },
+  "Star Wars__PC1": {
+    "universe": "Star Wars",
+    "pc": 1,
+    "high_chars": [
+      "Darth Vader Anakin Skywalker",
+      "Obiwan Kenobi",
+      "Mace Windu",
+      "Plo Koon",
+      "Luminara Unduli"
+    ],
+    "low_chars": [
+      "Han Solo",
+      "Hondo Ohnaka",
+      "Greef Karga",
+      "Qira",
+      "Fennec Shand"
+    ],
+    "features": [
+      {
+        "name": "Formal Speech Register",
+        "low_description": "Casual, colloquial language with contractions and informal expressions",
+        "high_description": "Elevated, formal language with complete sentences and sophisticated vocabulary",
+        "high_group": "A"
+      },
+      {
+        "name": "Philosophical Abstraction",
+        "low_description": "Concrete, practical examples and straightforward explanations",
+        "high_description": "Abstract concepts, metaphysical themes, and complex philosophical discourse",
+        "high_group": "A"
+      },
+      {
+        "name": "Dramatic Intensity",
+        "low_description": "Relaxed, conversational tone with humor and casual asides",
+        "high_description": "Intense, dramatic delivery with emphatic statements and gravitas",
+        "high_group": "A"
+      },
+      {
+        "name": "Conversational Directness",
+        "low_description": "Direct address to reader with questions and casual interaction",
+        "high_description": "Formal, declarative statements with minimal direct engagement",
+        "high_group": "B"
+      },
+      {
+        "name": "Narrative Interruption",
+        "low_description": "Smooth, uninterrupted flow of speech",
+        "high_description": "Frequent interruptions, incomplete thoughts, and fragmented responses",
+        "high_group": "B"
+      },
+      {
+        "name": "Colloquial Expression",
+        "low_description": "Standard expressions and conventional metaphors",
+        "high_description": "Colorful idioms, slang, and creative colloquial comparisons",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      187,
+      229,
+      86,
+      70,
+      206,
+      40,
+      1,
+      136,
+      166,
+      130
+    ]
+  },
+  "Star Wars__PC2": {
+    "universe": "Star Wars",
+    "pc": 2,
+    "high_chars": [
+      "R2D2",
+      "Chewbacca",
+      "C3Po",
+      "Bd1",
+      "Luke Skywalker"
+    ],
+    "low_chars": [
+      "Grand Admiral Thrawn",
+      "Wilhuff Tarkin",
+      "General Hux",
+      "Governor Tarkin",
+      "Director Krennic"
+    ],
+    "features": [
+      {
+        "name": "Sound Integration",
+        "low_description": "Uses only standard words and punctuation",
+        "high_description": "Frequently incorporates non-verbal sounds, beeps, and onomatopoeia into speech",
+        "high_group": "A"
+      },
+      {
+        "name": "Formality Level",
+        "low_description": "Casual, conversational tone with simple language",
+        "high_description": "Formal, elevated language with complex vocabulary and sophisticated phrasing",
+        "high_group": "B"
+      },
+      {
+        "name": "Metaphor Complexity",
+        "low_description": "Uses simple, direct comparisons or no metaphors",
+        "high_description": "Employs elaborate, multi-layered metaphors and analogies",
+        "high_group": "B"
+      },
+      {
+        "name": "Emotional Expressiveness",
+        "low_description": "Restrained emotional expression with measured responses",
+        "high_description": "Highly expressive with frequent exclamations and emotional indicators",
+        "high_group": "A"
+      },
+      {
+        "name": "Response Completeness",
+        "low_description": "Brief, concise responses that end abruptly",
+        "high_description": "Lengthy, detailed responses that fully develop thoughts",
+        "high_group": "B"
+      },
+      {
+        "name": "Conversational Directness",
+        "low_description": "Addresses others indirectly or speaks in general terms",
+        "high_description": "Directly addresses the questioner with personal pronouns and direct engagement",
+        "high_group": "A"
+      }
+    ],
+    "discover_question_indices": [
+      187,
+      70,
+      153,
+      213,
+      147,
+      136,
+      192,
+      225,
+      125,
+      12
+    ]
+  },
+  "LOTR__PC1": {
+    "universe": "LOTR",
+    "pc": 1,
+    "high_chars": [
+      "Fredegar Bolger Fatty",
+      "Bombur",
+      "Bofur",
+      "Great Goblin",
+      "Farmer Maggot"
+    ],
+    "low_chars": [
+      "Gilgalad",
+      "Elendil",
+      "Denethor",
+      "Galadriel",
+      "Luthien"
+    ],
+    "features": [
+      {
+        "name": "Formal Register",
+        "low_description": "Casual, colloquial language with contractions and informal expressions",
+        "high_description": "Elevated, formal language with complex sentence structures and archaic phrasing",
+        "high_group": "B"
+      },
+      {
+        "name": "Self-Deprecation Level",
+        "low_description": "Confident self-presentation with minimal self-criticism",
+        "high_description": "Frequent acknowledgment of personal flaws, limitations, or inadequacies",
+        "high_group": "A"
+      },
+      {
+        "name": "Narrative Completeness",
+        "low_description": "Responses trail off, are interrupted, or feel unfinished",
+        "high_description": "Responses are complete, polished, and reach natural conclusions",
+        "high_group": "B"
+      },
+      {
+        "name": "Emotional Expressiveness",
+        "low_description": "Restrained, controlled emotional expression",
+        "high_description": "Enthusiastic, animated language with exclamations and vivid emotional displays",
+        "high_group": "A"
+      },
+      {
+        "name": "Concrete Detail Focus",
+        "low_description": "Abstract concepts and philosophical themes dominate",
+        "high_description": "Specific, tangible details about food, comfort, and everyday experiences",
+        "high_group": "A"
+      },
+      {
+        "name": "Gravitas Level",
+        "low_description": "Light-hearted, humorous tone with casual approach to serious topics",
+        "high_description": "Weighty, solemn tone treating all subjects with deep seriousness",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      187,
+      93,
+      192,
+      198,
+      147,
+      12,
+      213,
+      65,
+      215,
+      129
+    ]
+  },
+  "LOTR__PC2": {
+    "universe": "LOTR",
+    "pc": 2,
+    "high_chars": [
+      "Bilbo Baggins",
+      "Frodo Baggins",
+      "Pippin Peregrin Took",
+      "Kili",
+      "Nori"
+    ],
+    "low_chars": [
+      "Azog The Defiler",
+      "Ungoliant",
+      "Gothmog",
+      "Ugluk",
+      "Morgoth Melkor"
+    ],
+    "features": [
+      {
+        "name": "Conversational Warmth",
+        "low_description": "Cold, hostile, dismissive tone with no attempt to connect with the questioner",
+        "high_description": "Warm, inviting, friendly tone that treats the questioner as a welcome companion",
+        "high_group": "A"
+      },
+      {
+        "name": "Reflective Elaboration",
+        "low_description": "Brief, direct statements with little contemplation or nuanced exploration",
+        "high_description": "Extended, thoughtful responses that explore multiple angles and personal experiences",
+        "high_group": "A"
+      },
+      {
+        "name": "Violent Imagery",
+        "low_description": "No references to violence, death, or destruction in language or metaphors",
+        "high_description": "Frequent, graphic descriptions of violence, death, and destruction as primary communication tools",
+        "high_group": "B"
+      },
+      {
+        "name": "Self-Deprecating Humility",
+        "low_description": "Boastful, aggressive self-presentation with claims of superiority",
+        "high_description": "Modest, humble self-references with gentle self-deprecation and acknowledgment of limitations",
+        "high_group": "A"
+      },
+      {
+        "name": "Interruption Patterns",
+        "low_description": "Smooth, complete thoughts that flow naturally from beginning to end",
+        "high_description": "Frequent mid-sentence breaks, trailing off, and incomplete thoughts",
+        "high_group": "A"
+      },
+      {
+        "name": "Aggressive Punctuation",
+        "low_description": "Standard punctuation with gentle emphasis through conventional means",
+        "high_description": "Heavy use of exclamation points, asterisked actions, and emphatic formatting to convey aggression",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      225,
+      147,
+      93,
+      84,
+      30,
+      153,
+      226,
+      138,
+      37,
+      141
+    ]
+  },
+  "Marvel__PC1": {
+    "universe": "Marvel",
+    "pc": 1,
+    "high_chars": [
+      "Cyclops Scott Summers",
+      "Spiderman Peter Parker",
+      "Beast Hank Mccoy",
+      "Kitty Pryde",
+      "Colossus Piotr Rasputin"
+    ],
+    "low_chars": [
+      "Odin",
+      "Hela",
+      "Groot",
+      "Red Skull",
+      "Loki"
+    ],
+    "features": [
+      {
+        "name": "Mythological Grandeur",
+        "low_description": "Uses everyday language and contemporary references",
+        "high_description": "Uses archaic language, mythological references, and cosmic imagery",
+        "high_group": "B"
+      },
+      {
+        "name": "Theatrical Presentation",
+        "low_description": "Speaks directly without stage directions or dramatic flourishes",
+        "high_description": "Includes extensive stage directions, dramatic pauses, and performative elements",
+        "high_group": "B"
+      },
+      {
+        "name": "Personal Vulnerability",
+        "low_description": "Maintains formal distance and authority without revealing personal struggles",
+        "high_description": "Openly shares personal doubts, fears, and emotional struggles",
+        "high_group": "A"
+      },
+      {
+        "name": "Conversational Accessibility",
+        "low_description": "Uses formal, elevated language that creates distance from the audience",
+        "high_description": "Uses casual, relatable language that feels like talking to a peer",
+        "high_group": "A"
+      },
+      {
+        "name": "Cosmic Perspective",
+        "low_description": "Focuses on immediate, human-scale concerns and relationships",
+        "high_description": "References vast timescales, multiple realms, and universal forces",
+        "high_group": "B"
+      },
+      {
+        "name": "Collaborative Tone",
+        "low_description": "Speaks from position of absolute authority without seeking input",
+        "high_description": "Emphasizes teamwork, shared responsibility, and collective action",
+        "high_group": "A"
+      }
+    ],
+    "discover_question_indices": [
+      239,
+      12,
+      70,
+      147,
+      28,
+      30,
+      187,
+      192,
+      1,
+      142
+    ]
+  },
+  "Marvel__PC2": {
+    "universe": "Marvel",
+    "pc": 2,
+    "high_chars": [
+      "Professor X Charles Xavier",
+      "Jean Grey",
+      "Mister Sinister",
+      "Beast Hank Mccoy",
+      "Apocalypse En Sabah Nur"
+    ],
+    "low_chars": [
+      "Iron Man Tony Stark",
+      "Hawkeye Clint Barton",
+      "War Machine James Rhodes",
+      "Starlord Peter Quill",
+      " Peter Parker"
+    ],
+    "features": [
+      {
+        "name": "Formal Language Register",
+        "low_description": "Uses casual, colloquial language with contractions and informal expressions",
+        "high_description": "Uses elevated, formal language with complete sentences and sophisticated vocabulary",
+        "high_group": "A"
+      },
+      {
+        "name": "Philosophical Depth",
+        "low_description": "Focuses on practical, concrete matters with minimal abstract reflection",
+        "high_description": "Engages in deep philosophical contemplation and abstract conceptual exploration",
+        "high_group": "A"
+      },
+      {
+        "name": "Self-Referential Humor",
+        "low_description": "Rarely makes jokes or humorous asides about themselves or situations",
+        "high_description": "Frequently uses wit, sarcasm, and self-deprecating humor throughout responses",
+        "high_group": "B"
+      },
+      {
+        "name": "Emotional Vulnerability",
+        "low_description": "Maintains emotional distance and rarely reveals personal struggles or fears",
+        "high_description": "Openly shares deep personal insecurities and emotional experiences",
+        "high_group": "A"
+      },
+      {
+        "name": "Conversational Directness",
+        "low_description": "Uses indirect, contemplative approach with gradual revelation of thoughts",
+        "high_description": "Gets straight to the point with immediate, direct statements and conclusions",
+        "high_group": "B"
+      },
+      {
+        "name": "Metaphorical Expression",
+        "low_description": "Uses literal, straightforward language with few figurative expressions",
+        "high_description": "Frequently employs metaphors, analogies, and poetic imagery to convey meaning",
+        "high_group": "A"
+      }
+    ],
+    "discover_question_indices": [
+      70,
+      12,
+      187,
+      30,
+      130,
+      239,
+      147,
+      125,
+      229,
+      192
+    ]
+  },
+  "Game of Thrones__PC1": {
+    "universe": "Game of Thrones",
+    "pc": 1,
+    "high_chars": [
+      "Tormund Giantsbane",
+      "Gendry",
+      "Podrick Payne",
+      "Bronn",
+      "Hodor"
+    ],
+    "low_chars": [
+      "Mad King Aerys Targaryen",
+      "Viserion",
+      "Rhaegal",
+      "Rhaegar Targaryen",
+      "Joffrey Baratheon"
+    ],
+    "features": [
+      {
+        "name": "Conversational Warmth",
+        "low_description": "Cold, distant, speaks at the listener rather than with them",
+        "high_description": "Warm, inclusive, uses friendly terms of address and invites dialogue",
+        "high_group": "A"
+      },
+      {
+        "name": "Emotional Volatility",
+        "low_description": "Steady emotional tone throughout responses",
+        "high_description": "Extreme emotional swings, erratic intensity, manic episodes",
+        "high_group": "B"
+      },
+      {
+        "name": "Self-Referential Focus",
+        "low_description": "Focuses on the questioner's needs and external situations",
+        "high_description": "Constantly references own status, power, and superiority",
+        "high_group": "B"
+      },
+      {
+        "name": "Narrative Storytelling",
+        "low_description": "Direct answers with minimal personal anecdotes",
+        "high_description": "Rich personal stories and vivid experiential details woven throughout",
+        "high_group": "A"
+      },
+      {
+        "name": "Destructive Language",
+        "low_description": "Constructive, solution-oriented language",
+        "high_description": "Frequent references to burning, destroying, crushing, and violence",
+        "high_group": "B"
+      },
+      {
+        "name": "Collaborative Tone",
+        "low_description": "Authoritarian, commanding, expects obedience",
+        "high_description": "Partnership-oriented, offers mutual support and shared experience",
+        "high_group": "A"
+      }
+    ],
+    "discover_question_indices": [
+      3,
+      12,
+      187,
+      213,
+      129,
+      198,
+      125,
+      193,
+      225,
+      70
+    ]
+  },
+  "Game of Thrones__PC2": {
+    "universe": "Game of Thrones",
+    "pc": 2,
+    "high_chars": [
+      "Hodor",
+      "Viserion",
+      "Melisandre",
+      "Grey Wind",
+      "Bran Stark"
+    ],
+    "low_chars": [
+      "Tywin Lannister",
+      "Margaery Tyrell",
+      "Myrcella Baratheon",
+      "Brynden Tully Blackfish",
+      "Edmure Tully"
+    ],
+    "features": [
+      {
+        "name": "Vocabulary Complexity",
+        "low_description": "Uses simple, repetitive words and basic sentence structures",
+        "high_description": "Uses sophisticated vocabulary, complex sentences, and elaborate phrasing",
+        "high_group": "B"
+      },
+      {
+        "name": "Response Length",
+        "low_description": "Gives brief, concise responses with minimal elaboration",
+        "high_description": "Provides lengthy, detailed responses with extensive elaboration",
+        "high_group": "B"
+      },
+      {
+        "name": "Authoritative Tone",
+        "low_description": "Speaks hesitantly, uncertainly, or with humble deference",
+        "high_description": "Speaks with commanding authority, certainty, and dominance",
+        "high_group": "B"
+      },
+      {
+        "name": "Emotional Expression",
+        "low_description": "Shows vulnerability, confusion, or gentle emotions openly",
+        "high_description": "Maintains controlled, calculated emotional restraint",
+        "high_group": "A"
+      },
+      {
+        "name": "Speech Coherence",
+        "low_description": "Speech is fragmented, repetitive, or difficult to follow",
+        "high_description": "Speech is highly organized, logical, and articulate",
+        "high_group": "B"
+      },
+      {
+        "name": "Self-Reference Style",
+        "low_description": "Refers to self in third person or with simple self-identification",
+        "high_description": "Uses confident first-person assertions and self-aggrandizement",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      187,
+      15,
+      213,
+      136,
+      158,
+      220,
+      198,
+      153,
+      70,
+      108
+    ]
+  },
+  "Naruto__PC1": {
+    "universe": "Naruto",
+    "pc": 1,
+    "high_chars": [
+      "Naruto Uzumaki",
+      "Konohamaru Sarutobi",
+      "Mito Uzumaki",
+      "Kiba Inuzuka",
+      "Iruka Umino"
+    ],
+    "low_chars": [
+      "Madara Uchiha",
+      "Ashura Otsutsuki",
+      "Hamura Otsutsuki",
+      "Kaguya Otsutsuki",
+      "Hagoromo Otsutsuki"
+    ],
+    "features": [
+      {
+        "name": "Casual Expression Style",
+        "low_description": "Formal, elaborate language with complex sentence structures and elevated vocabulary",
+        "high_description": "Informal, conversational tone with contractions, slang, and simple everyday expressions",
+        "high_group": "A"
+      },
+      {
+        "name": "Self-Doubt Admission",
+        "low_description": "Projects absolute confidence and certainty, never acknowledging personal weaknesses or uncertainties",
+        "high_description": "Openly admits mistakes, insecurities, and moments of uncertainty or confusion",
+        "high_group": "A"
+      },
+      {
+        "name": "Physical Gesture Frequency",
+        "low_description": "Minimal physical actions described, mostly static or formal postures",
+        "high_description": "Frequent casual physical actions like scratching head, crossing arms, grinning, leaning forward",
+        "high_group": "A"
+      },
+      {
+        "name": "Collaborative Language Use",
+        "low_description": "Speaks primarily about individual will, personal power, and solitary action",
+        "high_description": "Frequently references teamwork, friends, working together, and collective strength",
+        "high_group": "A"
+      },
+      {
+        "name": "Grandiose Rhetoric Level",
+        "low_description": "Simple, direct statements without dramatic flourishes or cosmic implications",
+        "high_description": "Sweeping declarations about fate, eternity, reshaping worlds, and ultimate truths",
+        "high_group": "B"
+      },
+      {
+        "name": "Intimidating Presence Projection",
+        "low_description": "Warm, approachable communication style that invites connection",
+        "high_description": "Commanding, imposing tone with descriptions of looming presence and chilling intensity",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      70,
+      187,
+      213,
+      12,
+      37,
+      192,
+      1,
+      153,
+      30,
+      147
+    ]
+  },
+  "Naruto__PC2": {
+    "universe": "Naruto",
+    "pc": 2,
+    "high_chars": [
+      "Hidan",
+      "Deidara",
+      "Suigetsu Hozuki",
+      "Sasori",
+      "Ibiki Morino"
+    ],
+    "low_chars": [
+      "Rock Lee",
+      "Tobirama Senju",
+      "Hiruzen Sarutobi",
+      "Hashirama Senju",
+      "Kakashi Hatake"
+    ],
+    "features": [
+      {
+        "name": "Aggressive Language Intensity",
+        "low_description": "Uses gentle, encouraging language with positive expressions",
+        "high_description": "Uses harsh profanity, violent imagery, and threatening language",
+        "high_group": "A"
+      },
+      {
+        "name": "Emotional Positivity",
+        "low_description": "Expresses cynicism, darkness, or negative emotions",
+        "high_description": "Shows enthusiasm, optimism, and uplifting emotions",
+        "high_group": "B"
+      },
+      {
+        "name": "Physical Expression Frequency",
+        "low_description": "Rarely mentions physical gestures or poses",
+        "high_description": "Frequently describes dramatic poses, gestures, and physical actions",
+        "high_group": "B"
+      },
+      {
+        "name": "Collaborative Communication Style",
+        "low_description": "Speaks dismissively about others, focuses on self",
+        "high_description": "Invites participation, asks questions, seeks shared experiences",
+        "high_group": "B"
+      },
+      {
+        "name": "Maniacal Expression Pattern",
+        "low_description": "Uses standard punctuation and calm expression markers",
+        "high_description": "Frequently uses laughter indicators, exclamation marks, and manic expressions",
+        "high_group": "A"
+      },
+      {
+        "name": "Mentorship Reference Tendency",
+        "low_description": "Rarely mentions teachers, guides, or learning from others",
+        "high_description": "Frequently references teachers, lessons learned, and guidance received",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      12,
+      187,
+      70,
+      138,
+      147,
+      65,
+      153,
+      1,
+      130,
+      202
+    ]
+  },
+  "Greek Mythology__PC1": {
+    "universe": "Greek Mythology",
+    "pc": 1,
+    "high_chars": [
+      "Agamemnon",
+      "Oedipus",
+      "Clytemnestra",
+      "Patroclus",
+      "Penelope"
+    ],
+    "low_chars": [
+      "Uranus",
+      "Erebus",
+      "Gaia",
+      "Oceanus",
+      "Thanatos"
+    ],
+    "features": [
+      {
+        "name": "Cosmic Grandiosity",
+        "low_description": "Speaks in human-scale terms about earthly matters and mortal concerns",
+        "high_description": "Speaks in cosmic, primordial terms about universal forces and celestial domains",
+        "high_group": "B"
+      },
+      {
+        "name": "Self-Interruption Frequency",
+        "low_description": "Completes thoughts and sentences in full without cutting off",
+        "high_description": "Frequently cuts off mid-sentence or leaves thoughts incomplete",
+        "high_group": "B"
+      },
+      {
+        "name": "Concrete Specificity",
+        "low_description": "Speaks in abstract or general terms without specific details",
+        "high_description": "References specific people, places, events, and concrete details",
+        "high_group": "A"
+      },
+      {
+        "name": "Narrative Structure",
+        "low_description": "Responses are loosely organized with wandering thoughts",
+        "high_description": "Responses follow clear logical progression with structured arguments",
+        "high_group": "A"
+      },
+      {
+        "name": "Metaphysical Language",
+        "low_description": "Uses straightforward, practical language about tangible matters",
+        "high_description": "Uses abstract, philosophical language about existence and cosmic principles",
+        "high_group": "B"
+      },
+      {
+        "name": "Personal Vulnerability",
+        "low_description": "Maintains authoritative stance without admitting deep personal flaws",
+        "high_description": "Openly acknowledges fundamental mistakes and character weaknesses",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      70,
+      192,
+      226,
+      215,
+      12,
+      28,
+      218,
+      187,
+      1,
+      116
+    ]
+  },
+  "Greek Mythology__PC2": {
+    "universe": "Greek Mythology",
+    "pc": 2,
+    "high_chars": [
+      "Diomedes",
+      "Patroclus",
+      "Andromache",
+      "Menelaus",
+      "Artemis"
+    ],
+    "low_chars": [
+      "Minotaur",
+      "Daedalus",
+      "Icarus",
+      "Minos",
+      "Perseus"
+    ],
+    "features": [
+      {
+        "name": "Action Orientation",
+        "low_description": "Speaks in contemplative, reflective terms with emphasis on internal states",
+        "high_description": "Uses active, decisive language with emphasis on doing and moving forward",
+        "high_group": "A"
+      },
+      {
+        "name": "Metaphorical Density",
+        "low_description": "Uses straightforward language with occasional simple comparisons",
+        "high_description": "Heavily layered with complex metaphors, symbolic language, and abstract imagery",
+        "high_group": "B"
+      },
+      {
+        "name": "Emotional Intensity",
+        "low_description": "Controlled, measured emotional expression with clear boundaries",
+        "high_description": "Raw, visceral emotional expression with dramatic fluctuations",
+        "high_group": "B"
+      },
+      {
+        "name": "Structural Clarity",
+        "low_description": "Meandering, fragmented thoughts that trail off or shift unexpectedly",
+        "high_description": "Clear, organized progression of ideas with logical flow and completion",
+        "high_group": "A"
+      },
+      {
+        "name": "Directness Level",
+        "low_description": "Indirect, circuitous communication through hints and implications",
+        "high_description": "Straightforward, explicit statements that get directly to the point",
+        "high_group": "A"
+      },
+      {
+        "name": "Atmospheric Language",
+        "low_description": "Minimal use of sensory details or mood-setting descriptions",
+        "high_description": "Rich sensory details, sound effects, and mood-creating atmospheric elements",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      70,
+      192,
+      125,
+      187,
+      12,
+      153,
+      138,
+      3,
+      158,
+      212
+    ]
+  },
+  "Chinese Mythology__PC1": {
+    "universe": "Chinese Mythology",
+    "pc": 1,
+    "high_chars": [
+      "Guan Yu",
+      "Liu Bei",
+      "Lu Zhishen",
+      "Lu Bu",
+      "Li Kui"
+    ],
+    "low_chars": [
+      "Phoenix",
+      "Change",
+      "Zhu Rong",
+      "Green Snake",
+      "Caishen"
+    ],
+    "features": [
+      {
+        "name": "Mystical Imagery",
+        "low_description": "Uses concrete, earthly descriptions and straightforward language",
+        "high_description": "Uses ethereal, magical imagery with flames, embers, ashes, and otherworldly elements",
+        "high_group": "B"
+      },
+      {
+        "name": "Action Descriptions",
+        "low_description": "Minimal physical gestures or stage directions in responses",
+        "high_description": "Frequent detailed physical actions, movements, and stage directions in italics",
+        "high_group": "B"
+      },
+      {
+        "name": "Direct Address",
+        "low_description": "Speaks generally or to an implied audience",
+        "high_description": "Frequently addresses the questioner directly as 'you', 'mortal', or 'friend'",
+        "high_group": "B"
+      },
+      {
+        "name": "Philosophical Abstraction",
+        "low_description": "Focuses on concrete principles, duties, and specific examples",
+        "high_description": "Discusses abstract concepts like cycles, transformation, and universal truths",
+        "high_group": "B"
+      },
+      {
+        "name": "Declarative Certainty",
+        "low_description": "Uses tentative language, questions, and acknowledges uncertainty",
+        "high_description": "Makes bold, definitive statements with unwavering conviction",
+        "high_group": "A"
+      },
+      {
+        "name": "Personal Anecdotes",
+        "low_description": "Speaks in general terms without specific personal stories",
+        "high_description": "Frequently references specific past events, battles, and personal experiences",
+        "high_group": "A"
+      }
+    ],
+    "discover_question_indices": [
+      1,
+      225,
+      215,
+      70,
+      12,
+      192,
+      138,
+      141,
+      84,
+      136
+    ]
+  },
+  "Chinese Mythology__PC2": {
+    "universe": "Chinese Mythology",
+    "pc": 2,
+    "high_chars": [
+      "Zhu Bajie",
+      "Sha Wujing",
+      "Red Boy",
+      "Bull Demon King",
+      "Li Tieguai"
+    ],
+    "low_chars": [
+      "Cao Cao",
+      "Liu Bei",
+      "Zhuge Liang",
+      "Yellow Emperor",
+      "King Zhou"
+    ],
+    "features": [
+      {
+        "name": "Formal Language Use",
+        "low_description": "Uses casual, colloquial language with contractions and informal expressions",
+        "high_description": "Uses formal, elevated language with complex sentence structures and sophisticated vocabulary",
+        "high_group": "B"
+      },
+      {
+        "name": "Self-Deprecating Tone",
+        "low_description": "Speaks confidently about abilities without diminishing self-worth",
+        "high_description": "Frequently acknowledges personal flaws, limitations, and shortcomings",
+        "high_group": "A"
+      },
+      {
+        "name": "Strategic Calculation",
+        "low_description": "Speaks spontaneously with simple, direct reasoning",
+        "high_description": "Demonstrates complex strategic thinking with careful analysis of multiple factors",
+        "high_group": "B"
+      },
+      {
+        "name": "Physical Gesture Frequency",
+        "low_description": "Minimal physical actions or gestures described",
+        "high_description": "Frequent physical actions like scratching, leaning, pacing described",
+        "high_group": "A"
+      },
+      {
+        "name": "Authoritative Presence",
+        "low_description": "Speaks humbly without asserting dominance or command",
+        "high_description": "Projects authority and control through commanding tone and decisive statements",
+        "high_group": "B"
+      },
+      {
+        "name": "Conversational Intimacy",
+        "low_description": "Maintains formal distance in communication style",
+        "high_description": "Uses intimate, friendly language with direct address and personal anecdotes",
+        "high_group": "A"
+      }
+    ],
+    "discover_question_indices": [
+      1,
+      158,
+      30,
+      192,
+      187,
+      226,
+      12,
+      213,
+      153,
+      125
+    ]
+  },
+  "Hindu Mythology__PC1": {
+    "universe": "Hindu Mythology",
+    "pc": 1,
+    "high_chars": [
+      "Yudhishthira",
+      "Lakshmana",
+      "Abhimanyu",
+      "Karna",
+      "Bhima"
+    ],
+    "low_chars": [
+      "Agni",
+      "Ganga",
+      "Surya",
+      "Varuna",
+      "Lakshmi"
+    ],
+    "features": [
+      {
+        "name": "Mystical Imagery",
+        "low_description": "Uses concrete, earthly metaphors and references",
+        "high_description": "Uses elaborate mystical, elemental, and divine imagery",
+        "high_group": "B"
+      },
+      {
+        "name": "Reflective Pausing",
+        "low_description": "Speaks continuously without marked pauses or contemplation",
+        "high_description": "Frequently pauses, reflects, and shows contemplative hesitation",
+        "high_group": "A"
+      },
+      {
+        "name": "Direct Address",
+        "low_description": "Speaks generally or to unnamed audiences",
+        "high_description": "Frequently addresses the listener directly with terms like 'friend' or 'seeker'",
+        "high_group": "B"
+      },
+      {
+        "name": "Narrative Completeness",
+        "low_description": "Responses often trail off or remain unfinished",
+        "high_description": "Responses are complete and fully developed thoughts",
+        "high_group": "B"
+      },
+      {
+        "name": "Personal Vulnerability",
+        "low_description": "Maintains emotional distance and formal tone",
+        "high_description": "Openly shares personal struggles, doubts, and emotional weight",
+        "high_group": "A"
+      },
+      {
+        "name": "Performative Expression",
+        "low_description": "Uses minimal stage directions or physical descriptions",
+        "high_description": "Uses elaborate stage directions describing flames, crackling, and physical manifestations",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      70,
+      215,
+      226,
+      192,
+      125,
+      153,
+      28,
+      225,
+      128,
+      12
+    ]
+  },
+  "Hindu Mythology__PC2": {
+    "universe": "Hindu Mythology",
+    "pc": 2,
+    "high_chars": [
+      "Hiranyakashipu",
+      "Shakuni",
+      "Duryodhana",
+      "Vali",
+      "Jatayu"
+    ],
+    "low_chars": [
+      "Krishna",
+      "Vishnu",
+      "Arjuna",
+      "Vasishtha",
+      "Radha"
+    ],
+    "features": [
+      {
+        "name": "Menacing Tone",
+        "low_description": "Gentle, warm, and reassuring communication style",
+        "high_description": "Dark, threatening, and intimidating communication with ominous laughter",
+        "high_group": "A"
+      },
+      {
+        "name": "Self-Aggrandizement",
+        "low_description": "Humble, self-effacing, focuses on serving others",
+        "high_description": "Boastful, declares superiority, demands worship and fear",
+        "high_group": "A"
+      },
+      {
+        "name": "Philosophical Teaching",
+        "low_description": "Speaks in commands or personal anecdotes without deeper wisdom",
+        "high_description": "Offers structured spiritual guidance with references to eternal principles",
+        "high_group": "B"
+      },
+      {
+        "name": "Compassionate Address",
+        "low_description": "Cold, dismissive, or condescending toward the listener",
+        "high_description": "Warm terms of endearment like 'dear friend' and 'my child'",
+        "high_group": "B"
+      },
+      {
+        "name": "Defiant Rhetoric",
+        "low_description": "Accepts established order and divine authority",
+        "high_description": "Openly challenges gods, rejects divine law, promotes rebellion",
+        "high_group": "A"
+      },
+      {
+        "name": "Narrative Storytelling",
+        "low_description": "Direct statements without illustrative stories or examples",
+        "high_description": "Uses detailed stories and analogies to illustrate points",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      70,
+      93,
+      1,
+      144,
+      37,
+      138,
+      141,
+      212,
+      154,
+      225
+    ]
+  },
+  "Norse Mythology__PC1": {
+    "universe": "Norse Mythology",
+    "pc": 1,
+    "high_chars": [
+      "Norns",
+      "Verdandi",
+      "Ratatoskr",
+      "Frigg",
+      "Sleipnir"
+    ],
+    "low_chars": [
+      "Erik The Red",
+      "Ragnar Lothbrok",
+      "Ivar The Boneless",
+      "Grendels Mother",
+      "Wayland The Smith"
+    ],
+    "features": [
+      {
+        "name": "Mystical Language Use",
+        "low_description": "Uses concrete, practical language with minimal mystical or supernatural references",
+        "high_description": "Frequently uses mystical terminology, references to fate, destiny, threads, weaving, and supernatural concepts",
+        "high_group": "A"
+      },
+      {
+        "name": "Narrative Fragmentation",
+        "low_description": "Responses are complete and flow smoothly to natural conclusions",
+        "high_description": "Responses frequently cut off mid-sentence or mid-thought, creating incomplete fragments",
+        "high_group": "A"
+      },
+      {
+        "name": "Action Descriptions",
+        "low_description": "Minimal physical actions or gestures described within responses",
+        "high_description": "Frequent use of italicized physical actions, gestures, and scene-setting descriptions",
+        "high_group": "A"
+      },
+      {
+        "name": "Philosophical Abstraction",
+        "low_description": "Focuses on concrete experiences, practical matters, and tangible outcomes",
+        "high_description": "Emphasizes abstract concepts, existential questions, and philosophical contemplation",
+        "high_group": "A"
+      },
+      {
+        "name": "Direct Address Style",
+        "low_description": "Rarely directly addresses the questioner or uses terms like 'friend' or 'mortal'",
+        "high_description": "Frequently addresses questioner directly with terms like 'mortal,' 'friend,' or 'lad'",
+        "high_group": "B"
+      },
+      {
+        "name": "Declarative Confidence",
+        "low_description": "Uses tentative language, questions, and uncertainty markers",
+        "high_description": "Makes bold, definitive statements with strong conviction and certainty",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      192,
+      158,
+      70,
+      12,
+      187,
+      215,
+      153,
+      129,
+      239,
+      128
+    ]
+  },
+  "Norse Mythology__PC2": {
+    "universe": "Norse Mythology",
+    "pc": 2,
+    "high_chars": [
+      "Grendels Mother",
+      "Surtr",
+      "Fenrir",
+      "Jormungandr",
+      "Garm"
+    ],
+    "low_chars": [
+      "Leif Erikson",
+      "Freyr",
+      "Ragnar Lothbrok",
+      "Bjorn Ironside",
+      "Njord"
+    ],
+    "features": [
+      {
+        "name": "Darkness Imagery",
+        "low_description": "Uses bright, light imagery and positive metaphors",
+        "high_description": "Heavily uses dark, shadow, water, and decay imagery",
+        "high_group": "A"
+      },
+      {
+        "name": "Vocal Descriptors",
+        "low_description": "Minimal or no description of voice quality or sound effects",
+        "high_description": "Frequent use of italicized vocal descriptions, sound effects, and atmospheric details",
+        "high_group": "A"
+      },
+      {
+        "name": "Emotional Warmth",
+        "low_description": "Cold, bitter, or hostile emotional tone",
+        "high_description": "Warm, welcoming, and friendly emotional tone",
+        "high_group": "B"
+      },
+      {
+        "name": "Sentence Fragmentation",
+        "low_description": "Complete, flowing sentences with standard structure",
+        "high_description": "Frequent sentence fragments, ellipses, and broken speech patterns",
+        "high_group": "A"
+      },
+      {
+        "name": "Direct Address",
+        "low_description": "Rarely addresses the reader or asks questions",
+        "high_description": "Frequently addresses reader as 'friend' and asks engaging questions",
+        "high_group": "B"
+      },
+      {
+        "name": "Vengeful Focus",
+        "low_description": "Speaks of positive goals, exploration, and constructive purposes",
+        "high_description": "Repeatedly returns to themes of revenge, loss, and retribution",
+        "high_group": "A"
+      }
+    ],
+    "discover_question_indices": [
+      147,
+      136,
+      93,
+      187,
+      198,
+      158,
+      225,
+      129,
+      153,
+      138
+    ]
+  },
+  "Egyptian Mythology__PC1": {
+    "universe": "Egyptian Mythology",
+    "pc": 1,
+    "high_chars": [
+      "Apep",
+      "Bes",
+      "Sekhmet",
+      "Set",
+      "Neith"
+    ],
+    "low_chars": [
+      "Tutankhamun",
+      "Anubis",
+      "Ramesses Ii",
+      "Hatshepsut",
+      "Ra"
+    ],
+    "features": [
+      {
+        "name": "Threatening Intensity",
+        "low_description": "Gentle, peaceful tone with warm imagery and reassuring language",
+        "high_description": "Menacing tone with dark imagery, threats, and intimidating language",
+        "high_group": "A"
+      },
+      {
+        "name": "Physical Manifestation",
+        "low_description": "Minimal or no description of physical presence or actions",
+        "high_description": "Frequent vivid descriptions of physical movements, sounds, and environmental effects",
+        "high_group": "A"
+      },
+      {
+        "name": "Conversational Warmth",
+        "low_description": "Cold, distant, or hostile address to the questioner",
+        "high_description": "Warm, friendly address using terms like 'friend,' 'noble one,' or 'seeker'",
+        "high_group": "B"
+      },
+      {
+        "name": "Structural Formality",
+        "low_description": "Rambling, stream-of-consciousness style with irregular organization",
+        "high_description": "Organized responses with clear points, numbered lists, or formal structure",
+        "high_group": "B"
+      },
+      {
+        "name": "Disruptive Language",
+        "low_description": "Smooth, flowing speech patterns without interruptions",
+        "high_description": "Frequent use of interrupting elements like laughter, hissing, asterisked actions",
+        "high_group": "A"
+      },
+      {
+        "name": "Philosophical Contradiction",
+        "low_description": "Consistent philosophical stance supporting harmony and order",
+        "high_description": "Deliberately contradictory or paradoxical statements challenging conventional wisdom",
+        "high_group": "A"
+      }
+    ],
+    "discover_question_indices": [
+      141,
+      1,
+      225,
+      158,
+      37,
+      70,
+      138,
+      84,
+      93,
+      215
+    ]
+  },
+  "Egyptian Mythology__PC2": {
+    "universe": "Egyptian Mythology",
+    "pc": 2,
+    "high_chars": [
+      "Cleopatra",
+      "Akhenaten",
+      "Nefertiti",
+      "Khufu",
+      "Sobek"
+    ],
+    "low_chars": [
+      "Anubis",
+      "Ammit",
+      "Maat",
+      "Horus",
+      "Khepri"
+    ],
+    "features": [
+      {
+        "name": "Personal Grandiosity",
+        "low_description": "Speaks humbly about self, focuses on duty and service to others",
+        "high_description": "Emphasizes personal magnificence, power, and exceptional status",
+        "high_group": "A"
+      },
+      {
+        "name": "Emotional Intensity",
+        "low_description": "Measured, calm tone with controlled emotional expression",
+        "high_description": "Passionate, dramatic language with vivid emotional displays",
+        "high_group": "A"
+      },
+      {
+        "name": "Direct Address",
+        "low_description": "Speaks generally or formally to the questioner",
+        "high_description": "Frequently uses intimate terms like 'my dear,' 'beloved,' 'little one'",
+        "high_group": "A"
+      },
+      {
+        "name": "Metaphorical Density",
+        "low_description": "Straightforward language with occasional simple comparisons",
+        "high_description": "Rich, elaborate metaphors and poetic imagery throughout",
+        "high_group": "A"
+      },
+      {
+        "name": "Philosophical Abstraction",
+        "low_description": "Focuses on concrete actions, duties, and practical matters",
+        "high_description": "Emphasizes abstract concepts like balance, cosmic order, and universal principles",
+        "high_group": "B"
+      },
+      {
+        "name": "Ritualistic Formality",
+        "low_description": "Casual, conversational tone without ceremonial elements",
+        "high_description": "Formal, ritualistic language with ceremonial pauses and structured delivery",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      70,
+      215,
+      12,
+      192,
+      187,
+      153,
+      78,
+      30,
+      226,
+      225
+    ]
+  },
+  "Shakespeare__PC1": {
+    "universe": "Shakespeare",
+    "pc": 1,
+    "high_chars": [
+      "Julius Caesar",
+      "Coriolanus",
+      "Brutus",
+      "Cassius",
+      "Titus Andronicus"
+    ],
+    "low_chars": [
+      "Dogberry",
+      "Sir Toby Belch",
+      "Feste",
+      "Malvolio",
+      "Mercutio"
+    ],
+    "features": [
+      {
+        "name": "Formal Register",
+        "low_description": "Casual, colloquial language with contractions and informal expressions",
+        "high_description": "Elevated, formal language with complex syntax and classical phrasing",
+        "high_group": "A"
+      },
+      {
+        "name": "Self-Interruption Frequency",
+        "low_description": "Completes thoughts smoothly without breaking off mid-sentence",
+        "high_description": "Frequently interrupts own speech with dashes, ellipses, or incomplete thoughts",
+        "high_group": "A"
+      },
+      {
+        "name": "Rambling Tendency",
+        "low_description": "Stays focused on the main point with minimal tangents",
+        "high_description": "Goes off on multiple tangents and loses track of the original point",
+        "high_group": "B"
+      },
+      {
+        "name": "Metaphorical Density",
+        "low_description": "Uses few metaphors or figurative language",
+        "high_description": "Rich in metaphors, imagery, and poetic comparisons",
+        "high_group": "A"
+      },
+      {
+        "name": "Self-Deprecation Level",
+        "low_description": "Confident tone with little acknowledgment of personal flaws",
+        "high_description": "Frequently acknowledges own mistakes, confusion, or limitations",
+        "high_group": "B"
+      },
+      {
+        "name": "Archaic Language Use",
+        "low_description": "Modern or standard language patterns",
+        "high_description": "Heavy use of archaic terms, inverted syntax, and period-specific expressions",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      192,
+      215,
+      70,
+      26,
+      153,
+      129,
+      12,
+      187,
+      226,
+      93
+    ]
+  },
+  "Shakespeare__PC2": {
+    "universe": "Shakespeare",
+    "pc": 2,
+    "high_chars": [
+      "Hippolyta",
+      "Miranda",
+      "Lavinia",
+      "Perdita",
+      "Helena"
+    ],
+    "low_chars": [
+      "Dogberry",
+      "Malvolio",
+      "Hotspur",
+      "Tybalt",
+      "Shylock"
+    ],
+    "features": [
+      {
+        "name": "Formal Register",
+        "low_description": "Casual, colloquial language with simple vocabulary and informal expressions",
+        "high_description": "Elevated, sophisticated language with complex vocabulary and formal tone",
+        "high_group": "A"
+      },
+      {
+        "name": "Syntactic Complexity",
+        "low_description": "Simple sentence structures with basic coordination",
+        "high_description": "Complex, elaborate sentence structures with multiple clauses and sophisticated syntax",
+        "high_group": "A"
+      },
+      {
+        "name": "Metaphorical Density",
+        "low_description": "Literal, straightforward expression with few figurative elements",
+        "high_description": "Rich use of metaphors, imagery, and poetic language throughout",
+        "high_group": "A"
+      },
+      {
+        "name": "Self-Deprecating Humor",
+        "low_description": "Serious tone with little acknowledgment of personal flaws or mistakes",
+        "high_description": "Frequent jokes about own incompetence, bumbling, or confusion",
+        "high_group": "B"
+      },
+      {
+        "name": "Rambling Tendency",
+        "low_description": "Focused, controlled responses that stay on topic",
+        "high_description": "Wandering, digressive speech that jumps between topics and loses track",
+        "high_group": "B"
+      },
+      {
+        "name": "Archaic Speech Patterns",
+        "low_description": "Modern or neutral speech patterns without period-specific language",
+        "high_description": "Heavy use of archaic terms, inverted syntax, and period-appropriate expressions",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      12,
+      192,
+      153,
+      93,
+      187,
+      147,
+      129,
+      70,
+      213,
+      225
+    ]
+  }
+}

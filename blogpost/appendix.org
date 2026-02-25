@@ -1785,7 +1785,7 @@ We design a held-out validation experiment with strict separation between discov
 
 3. *Regression*: We regress each character's actual residual PC score against their 6 feature ratings using OLS. High adjusted R^{2} means the LLM-discovered features (from held-out characters) predict PC position well.
 
-The striding ensures zero overlap between the characters used to discover features and those used to validate them. Full code is in =src/analysis/llm_feature_coding.py= and =src/analysis/feature_regression.py=.
+The striding ensures zero overlap between the characters used to discover features and those used to validate them. Full code is in =blogpost/scripts/llm_feature_coding.py= and =blogpost/scripts/feature_regression.py=.
 
 #+begin_src python :session blogpost :async t
 import json
