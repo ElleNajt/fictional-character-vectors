@@ -1057,6 +1057,8 @@ All result files the post loads are checked into git. To regenerate from scratch
 | =results/question_subset_sweep.json=, =.png=          | yes             | =blogpost/scripts/question_subset_sweep.py=        | =python blogpost/scripts/question_subset_sweep.py= (local, ~18s)                                        |
 | =results/llm_feature_coded{,_lu,_within}.json=      | yes             | =blogpost/scripts/llm_feature_coding.py=           | =python blogpost/scripts/llm_feature_coding.py --mode {residual,lu,within} all= (needs =ANTHROPIC_API_KEY_BATCH=, cluster responses) |
 | =results/feature_regression{,_lu,_within}.json=     | yes             | =blogpost/scripts/feature_regression.py=           | =python blogpost/scripts/feature_regression.py --mode {residual,lu,within}= (local, instant)            |
+| =outputs/degenerate_questions/activations/*.pt=     | no (gitignored) | =scripts/slurm_degenerate_questions.sh=            | SLURM job on cluster: generate + extract activations for 16 degenerate/task questions                   |
+| =data/degenerate_questions.jsonl=                   | yes             | hand-written                                     | 16 prompts (degenerate + task-shaped) for question invariance test                                      |
 
 To render the post from a fresh clone: run =download_role_vectors.py=, then eval the org file. All other data is checked in.
 
