@@ -16,14 +16,14 @@ We apply the role space to 1,268 fictional characters in Qwen3-32B --- from Hind
 
 2. *What do the top PCs encode, and where does the assistant axis live?*
    - LLM feature labels identify within-universe PC1 as formality/register for modern franchises (adj. R² = 0.72--0.88) and PC2 as warmth vs. aggression.
-   - The assistant axis is not concentrated in any universe's top PCs: cosines between within-universe PC1--3 and the assistant axis are low (medians 0.17, 0.28, 0.13), and the top 3 PCs capture at most 24% of the assistant axis.
-   - Geometric directions not aligned across universes (median cosine ~0.13 with role PC1), but modern franchises cluster tightly (HP/Naruto ~0.95).
+   - The assistant axis is geometrically diffuse: cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3). But rank correlations between PC scores and assistant axis scores are substantial --- for franchises, PC1 scores correlate with the assistant axis (HP 0.78, Naruto 0.68, Marvel 0.63); for mythology, the correlation shifts to PC2 or PC3 (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79). Formality covaries with within-universe PC structure even though the directions are nearly orthogonal.
+   - Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (Hindu/Shakespeare ~0.05).
 
 3. *How sensitive are results to the question battery?*
    - A single random question recovers character rankings at median r > 0.95; five questions get to r > 0.99.
    - The persona signal is in the residual stream regardless of what the model is asked.
-
-The most striking finding: within-universe PCs encode formality and warmth (per LLM labels), but the assistant axis is geometrically diffuse --- it is not concentrated in the top PCs of any universe. Lu et al. show that for a fixed role set, the geometry is consistent across models --- our results show the converse matters too: changing the character distribution changes which directions dominate, even within the same model.
+   - Results of degenerate question experiments.
+     
 
 ** Definitions
 
@@ -36,11 +36,7 @@ Each character or role is represented by a mean activation vector in 5120-dimens
 
 When the text says "role PC1" vs. "within-universe PC1" vs. "residual PC1," these are three different directions from three different PCA fits.
 
-*Role subspace decomposition.* The 275 role PCs define a subspace. Any direction w decomposes as w = w_{role} + w_{\perp}, where w_{role} is the projection onto the role subspace and w_{\perp} is orthogonal to it. We define:
-- =frac_in_role= = ||w_{role}||^{2} / ||w||^{2} --- fraction of the direction inside the role subspace.
-- =role_perp_corr= --- correlation between characters' scores on w_{role} and w_{\perp}. High correlation means the two components rank characters the same way.
-
-*Residuals.* For each character activation x, the residual is x minus its projection onto the role subspace. Within-universe residual PCs are PCA on these residuals within a universe.
+*Residuals.* The 275 role PCs define a subspace. For each character activation x, the residual is x minus its projection onto the role subspace. Within-universe residual PCs are PCA on these residuals within a universe.
 
 * Setup
 
@@ -252,6 +248,8 @@ print(f"\n(median correlation across 12 universes, 200 random draws per size)")
 
 Even a single random question recovers character rankings at median r > 0.95 (across universes) --- and this holds for PCs 1 through 5, not just the dominant direction. Five questions get to median r > 0.99 for all PCs. The question battery is massively redundant: the persona signal is spread nearly uniformly across all 240 questions.
 
+But the subset sweep only tests random draws from the /same/ 240 questions --- all substantive, multi-sentence prompts about ethics, technology, and personal advice. A stronger test: do qualitatively different questions carry the same signal? We generate responses for 16 out-of-distribution prompts --- 8 degenerate ("Huh?", ".", "?", "hi", "ok", "what", "hmm", "tell me something") and 8 task-shaped ("Write a Python function to calculate the first 100 primes", "Explain how a refrigerator works", "Write a haiku about rain", etc.) --- and extract activations for all 1346 characters. [Results pending.]
+
 * How Much Does the Role Space Capture?
 
 #+begin_src python
@@ -421,66 +419,7 @@ print(pd.DataFrame(rows).set_index('Universe'))
 | Shakespeare        |  93 |           70% |      30% |    |
 :end:
 
-The role space captures more in modern franchises (80--85%) than in mythology (61--72%). Within-universe PCs 1--5 live 70--91% inside the role subspace (median =frac_in_role=), so most within-universe structure is geometrically inside the role space. But are the principal directions the same? We decompose each within-universe PC into its role-space component and its orthogonal component, then check whether they rank characters the same way:
-
-#+begin_src python
-from sklearn.decomposition import PCA as SkPCA
-
-rows = []
-for name, prefixes in ALL_UNIVERSES.items():
-    idx = get_universe_indices(prefixes)
-    if len(idx) < 20:
-        continue
-    lu_part = chars_centered[idx] @ role_pca.components_.T @ role_pca.components_
-    resid_part = residuals[idx]
-
-    n_pcs = min(5, len(idx) - 1)
-    within_pca = SkPCA(n_components=n_pcs).fit(chars_centered[idx])
-
-    for pc_i in range(n_pcs):
-        w = within_pca.components_[pc_i]
-        w_lu = role_pca.components_.T @ (role_pca.components_ @ w)
-        w_perp = w - w_lu
-        frac_in_lu = np.linalg.norm(w_lu)**2
-
-        lu_scores = lu_part @ w_lu
-        perp_scores = resid_part @ w_perp
-        if np.std(lu_scores) > 1e-10 and np.std(perp_scores) > 1e-10:
-            corr = abs(np.corrcoef(lu_scores, perp_scores)[0, 1])
-        else:
-            corr = float('nan')
-
-        rows.append({'universe': name, 'PC': pc_i + 1,
-                     'frac_in_role': round(frac_in_lu, 2),
-                     'role_perp_corr': round(corr, 2),
-                     'var_explained': round(within_pca.explained_variance_ratio_[pc_i], 3)})
-
-df = pd.DataFrame(rows)
-# Show summary: median across universes for each PC
-summary = df.groupby('PC').agg(
-    med_frac_in_role=('frac_in_role', 'median'),
-    med_role_perp_corr=('role_perp_corr', 'median'),
-    med_var_expl=('var_explained', 'median')
-).round(3)
-print(summary)
-#+end_src
-
-#+RESULTS:
-:results:
-| PC | med_frac_in_role | med_role_perp_corr | med_var_expl |  |
-|----+------------------+--------------------+--------------+----|
-|  1 |            0.905 |              0.935 |        0.318 |  |
-|  2 |            0.885 |               0.92 |        0.171 |  |
-|  3 |              0.8 |               0.87 |        0.086 |  |
-|  4 |             0.77 |              0.835 |        0.061 |  |
-|  5 |            0.705 |              0.795 |        0.042 |    |
-:end:
-
-=frac_in_role= and =role_perp_corr= are defined in the Definitions section. =var_expl= is the within-universe variance explained by that PC.
-
-Even PC5, which lives only ~71% inside the role space, shows role-part / orthogonal-part character rankings correlated at ~0.80. This is consistent with the residual redundantly encoding the same axes as the role space --- but high =role_perp_corr= alone doesn't rule out a confound. For PC1, the test is nearly tautological: if formality dominates within-universe variation (as the LLM labels in the next section suggest), then splitting a formality direction into its role-part and orthogonal-part and finding both correlate with formality is expected. The test is more informative for PC3--5, where the dominant axis is less clear, and =role_perp_corr= remains high (~0.80) even there.
-
-A more direct test: how similar are the actual PC directions? We compute cosine similarities between each universe's within-universe PC1 direction and role PC1, and between the within-universe and residual PC1 directions. We also check whether within-universe PC1 directions align with each other across universes:
+The role space captures more in modern franchises (80--85%) than in mythology (61--72%). But are the principal directions the same across universes? We compute cosine similarities between each universe's within-universe PC1 direction and role PC1, and check whether within-universe PC1 directions align with each other across universes:
 
 #+begin_src python
 # Cosine similarity: within-universe PC directions vs role PCs
@@ -668,11 +607,9 @@ The cosines are uniformly low: the median PC1 cosine is 0.17, and the top 3 PCs 
 
 Yet the rank correlations tell a different story. Characters who score high on within-universe PC1 tend to score high on the assistant axis (median rank correlation 0.52 for PC1, 0.58 for PC2), even though the directions are nearly orthogonal. This means the assistant axis covaries with within-universe PC structure through dimensions beyond the top 3 --- the relationship is real but is not captured by the top PC directions themselves.
 
-The =role_perp_corr= correlation (0.80--0.94 median across universes) and the LLM feature labels (next section) suggest these geometrically distinct directions encode *semantically* similar structure, but the geometric evidence alone is ambiguous: a single dominant confound could produce the same =role_perp_corr= pattern.
-
 * What Do the Directions Encode?
 
-The geometric analysis shows the residual is largely redundant with the role space (=role_perp_corr= is high), but can't tell us what semantic content the PCs actually encode --- and the actual PC directions are not aligned across universes, so we can't just read off what they mean from the geometry. The question battery redundancy helps here: since any 5 questions carry the full signal, we can show an LLM a handful of responses from extreme characters and ask what distinguishes them.
+The geometric analysis can't tell us what semantic content the PCs actually encode --- the directions are not aligned across universes, so we can't read off what they mean from the geometry. The question battery redundancy helps here: since any 5 questions carry the full signal, we can show an LLM a handful of responses from extreme characters and ask what distinguishes them.
 
 We apply this pipeline to three types of PC directions: within-universe PCs (PCA on one universe's full activations), role PCs applied per-universe (projecting each universe's characters onto Lu et al.'s role PC directions and running discovery/regression on those scores), and residual PCs (within-universe PCA after projecting out the role space). The pipeline has three steps with strict separation between discovery and validation:
 
@@ -823,9 +760,9 @@ Persona space is moderately low-dimensional: 3--13 PCs capture 70% of within-uni
 
 The 275 generic roles capture ~75% of fictional character variance, though the subspace spanned by 275 random fictional characters captures ~95% --- the subspace is low-dimensional enough that any sample spans it. Of the ~25% residual, most is universe separation; ~9% of total variance is within-universe structure orthogonal to the role space.
 
-LLM feature labels identify within-universe PC1 as formality/register and PC2 as warmth/aggression, at least for modern franchises. But the assistant axis is geometrically diffuse: cosines between within-universe PCs and the assistant axis are low (medians 0.17, 0.28, 0.13 for PC1--3), and the top 3 PCs of any universe capture at most 24% of the assistant axis. Within-universe PCA finds directions that are mostly orthogonal to the assistant axis, because the assistant axis is not the dominant source of within-universe variation.
+LLM feature labels identify within-universe PC1 as formality/register and PC2 as warmth/aggression, at least for modern franchises. The assistant axis is geometrically diffuse --- cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3) --- but formality rankings persist: rank correlations between PC scores and assistant axis scores are substantial for franchises on PC1 (HP 0.78, Naruto 0.68) and for mythology on PC2/PC3 (Hindu PC2: 0.79, Chinese PC3: 0.79). The assistant axis covaries with within-universe PC structure even though the directions are nearly orthogonal; the relationship runs through dimensions beyond the top 3 PCs.
 
-Put differently: the role subspace spans the right region of activation space, but the principal directions within that subspace are sensitive to the distribution of roles you put in. The moderate cross-universe cosine similarities (~0.47 median between within-universe PC1 directions, but ranging from ~0.05 to ~0.95) are direct evidence: different character mixes yield different top directions, even when those directions encode semantically similar structure. Lu et al. show that for a fixed role set, the geometry is consistent across models --- our results suggest this cross-model consistency is a nontrivial finding, since changing the role distribution does change the geometry.
+Put differently: the role subspace spans the right region of activation space, but the principal directions within that subspace are sensitive to the distribution of roles you put in. Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (~0.05--0.12). Different character mixes yield different top directions, even when those directions encode semantically similar structure. Lu et al. show that for a fixed role set, the geometry is consistent across models --- our results suggest this cross-model consistency is a nontrivial finding, since changing the role distribution does change the geometry.
 
 ** Limitations
 
