@@ -11,7 +11,7 @@ We apply the role space to 1,268 fictional characters in Qwen3-32B --- from Hind
 
 1. *How sensitive are results to the question battery?*
    - A single random question recovers character rankings at median r > 0.95; five questions get to r > 0.99.
-   - TODO Results of degenerate question experiments.
+   - Sixteen out-of-distribution prompts --- degenerate inputs (".", "?", "hi") and task prompts ("Write a Python function to calculate the first 100 primes") --- recover PC1--3 rankings at rho > 0.95 across all universes. The persona signal is not an artifact of the question battery.
 
 2. *How much of persona space do 275 generic roles cover?*
    - 75% of fictional character variance overall; 80--85% within modern franchises, 61--72% within mythology/Shakespeare.
