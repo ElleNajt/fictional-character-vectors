@@ -14,10 +14,8 @@ We apply the role space to 1,268 fictional characters in Qwen3-32B --- from Hind
    - Sixteen out-of-distribution prompts --- degenerate inputs (".", "?", "hi") and task prompts ("Write a Python function to calculate the first 100 primes") --- recover PC1--3 scores at Pearson r > 0.95 across all universes. The persona signal is not an artifact of the question battery.
 
 2. *How much of persona space do 275 generic roles cover?*
-   - 75% of fictional character variance overall; 80--85% within modern franchises, 61--72% within mythology/Shakespeare.
-   - However, to interpret that we need to know that the fictional character space is low-dimensional (~40 PCs for 90%; within-universe, 3--5 PCs for 70% in franchises, 7--13 in mythology). So while a completely random 275-dim subspace covers 5% of it, 275 random fictional characters capture 95% (unsurprising in light of 275 >> 40). Even a single universe covers a large part of it: Harry Potter (102 chars) 69%, Greek Mythology (107) 61%, Shakespeare (93) 60%.
-   - The relationship is asymmetric: the full span of 1,268 fictional characters captures 92% of role variance, but 275 roles capture only 75% of fiction. At matched dimensionality (the top 275 PCs each), it's 82% vs 75%. Harry Potter alone (101 dims) covers 67% of role variance, Shakespeare (92 dims) 51%. 
-   - Of the remaining 25% roles miss, most is universe separation; only ~9% is within-universe structure the role space misses.
+   - 75% of fictional character variance overall. The fictional character space is low-dimensional (~40 PCs for 90%), so this is less than a random sample of 275 fictional characters (95%) but far more than a random 275-dim subspace (5%).
+   - The relationship is asymmetric: 1,268 fictional characters capture 92% of role variance, but roles capture only 75% of fiction. Of the 25% roles miss, most is universe separation; only ~9% is within-universe structure.
 
 3. *What do the top PCs encode, and where does the assistant axis live?*
    - LLM feature labels identify within-universe PC1 as formality/register for modern franchises (adj. R² = 0.72--0.88) and PC2 as warmth vs. aggression.
@@ -340,6 +338,44 @@ PC direction cosines (full-battery vs degen-battery PCA):
 The persona signal is not an artifact of the question battery. Sixteen out-of-distribution prompts --- including single-character inputs like "." and "?" --- recover character PC scores at Pearson r > 0.95 across all universes and all PCs. This is not just rank preservation: the linear relationship between full-battery and degenerate-battery scores is nearly perfect. The characters respond in character even to "?" (Ron Weasley: "Oi, what's up? You look like you've seen a dementor"; Voldemort: "You dare to question me?"; Zeus: "Mortal, you dare to question the heavens?").
 
 The PC /directions/ are another matter. When PCA is fit independently on the degenerate-battery activations, the resulting PC1 directions align well with the full-battery PC1 for franchises (cosine 0.89--0.93) but poorly for Greek mythology (0.55), Shakespeare (0.45), and Chinese mythology PC2--3 (0.12). This is not a sample size issue: 16 random questions from the /same/ 240-question battery give PC1 direction cosines > 0.99 everywhere (even 5 give > 0.96). The direction instability comes from the questions being qualitatively different --- degenerate and task prompts elicit different variance structure in mythology and Shakespeare, even though character scores are preserved. More questions of the same type don't help; question /diversity/ matters for axis stability.
+
+#+begin_src python
+# Judge scoring comparison: degenerate vs original battery
+import json
+from pathlib import Path as JPath
+
+degen_scores_dir = JPath('../outputs/degenerate_questions/scores')
+orig_scores_dir = JPath('../outputs/qwen3-32b_20260211_002840/scores')
+
+degen_all, orig_all = [], []
+degen_task, degen_degen = [], []
+for f in sorted(degen_scores_dir.glob('*.json')):
+    with open(f) as fh:
+        scores = json.load(fh)
+    for key, val in scores.items():
+        q_idx = int(key.split('_')[-1].replace('q', ''))
+        degen_all.append(val)
+        if q_idx < 8:
+            degen_degen.append(val)
+        else:
+            degen_task.append(val)
+    orig_f = orig_scores_dir / f'{f.stem}.json'
+    if orig_f.exists():
+        with open(orig_f) as fh:
+            orig_all.extend(json.load(fh).values())
+
+rows = []
+for label, arr in [('Original battery (240Q)', orig_all),
+                    ('Degenerate prompts (8Q)', degen_degen),
+                    ('Task prompts (8Q)', degen_task)]:
+    n = len(arr)
+    pct3 = sum(1 for s in arr if s == 3) / n
+    mean = sum(arr) / n
+    rows.append({'Battery': label, 'Mean score': f'{mean:.2f}', '% score=3': f'{100*pct3:.1f}%', 'n': n})
+print(pd.DataFrame(rows).set_index('Battery'))
+#+end_src
+
+LLM judge scoring (GPT-4.1-mini, 0--3 scale) tells the same story from the behavioral side. Degenerate prompts --- ".", "?", "hi" --- score 99.1% at full role adherence (score 3), slightly /higher/ than the original 240-question battery (98.3%). Characters stay in character when given nothing to work with. Task prompts ("Write a Python function to calculate the first 100 primes", "Write a haiku about rain") drop to 79.1% at score 3: characters are more likely to break character when asked to perform a specific task. The hardest prompt is "Write a haiku" (28.7% at score 3) --- the constraint of the poetic form overrides the persona.
 
 * How Much Does the Role Space Capture?
 
