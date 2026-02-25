@@ -15,15 +15,15 @@ We apply the role space to 1,268 fictional characters in Qwen3-32B --- from Hind
    - We attempt to understand the remaining 25%. It turns out to be mostly universe separation; only ~9% is within-universe structure the role space misses.
 
 2. *What do the top PCs encode, and where does the assistant axis live?*
-   - Within-universe PC1 is formality/register for modern franchises; correlates with the assistant axis there (rank r = 0.63--0.78).
-   - For mythology and Shakespeare, PC1 captures other structure --- but the assistant axis doesn't disappear: it loads on PC2 or PC3 instead (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79). The assistant axis signal is always in the top 2--3 PCs; which PC it dominates depends on the character distribution.
+   - LLM feature labels identify within-universe PC1 as formality/register for modern franchises (adj. R² = 0.72--0.88) and PC2 as warmth vs. aggression.
+   - The assistant axis is not concentrated in any universe's top PCs: cosines between within-universe PC1--3 and the assistant axis are low (medians 0.17, 0.28, 0.13), and the top 3 PCs capture at most 24% of the assistant axis.
    - Geometric directions not aligned across universes (median cosine ~0.13 with role PC1), but modern franchises cluster tightly (HP/Naruto ~0.95).
 
 3. *How sensitive are results to the question battery?*
    - A single random question recovers character rankings at median r > 0.95; five questions get to r > 0.99.
    - The persona signal is in the residual stream regardless of what the model is asked.
 
-The assistant axis finding is the most striking: formality is always present in the top 2--3 PCs, but which PC it dominates depends on the character distribution. Lu et al. show that for a fixed role set, the geometry is consistent across models --- our results show the converse matters too: changing the character distribution changes which directions dominate, even within the same model.
+The most striking finding: within-universe PCs encode formality and warmth (per LLM labels), but the assistant axis is geometrically diffuse --- it is not concentrated in the top PCs of any universe. Lu et al. show that for a fixed role set, the geometry is consistent across models --- our results show the converse matters too: changing the character distribution changes which directions dominate, even within the same model.
 
 ** Definitions
 
@@ -547,10 +547,11 @@ from scipy.stats import spearmanr
 assistant_axis_all = torch.load('../data/role_vectors/assistant_axis.pt', weights_only=True)
 assistant_axis = assistant_axis_all[32].float().numpy()  # layer 32, 1-indexed
 
-print(f"\n=== Rank correlation: within-universe PCs vs assistant axis ===")
+print(f"\n=== Cosine: within-universe PCs vs assistant axis ===")
 aa_cos = abs(cosine_sim(assistant_axis, role_pca.components_[0]))
 print(f"Cosine(assistant axis, role PC1): {aa_cos:.3f}")
 
+cos_rows = []
 rank_rows = []
 for name, prefixes in ALL_UNIVERSES.items():
     idx = get_universe_indices(prefixes)
@@ -558,15 +559,25 @@ for name, prefixes in ALL_UNIVERSES.items():
         continue
     within_pca = SkPCA(n_components=3).fit(chars_centered[idx])
     aa_scores = chars_centered[idx] @ assistant_axis
-    row = {'Universe': name}
+    crow = {'Universe': name}
+    rrow = {'Universe': name}
     for pc_i in range(3):
+        cos = abs(cosine_sim(within_pca.components_[pc_i], assistant_axis))
+        crow[f'PC{pc_i+1}'] = round(cos, 2)
         scores = chars_centered[idx] @ within_pca.components_[pc_i]
         rho, _ = spearmanr(scores, aa_scores)
-        row[f'PC{pc_i+1}'] = round(abs(rho), 2)
-    rank_rows.append(row)
-df_rank = pd.DataFrame(rank_rows).set_index('Universe')
-print(df_rank)
-print(f"\nMedians: PC1={df_rank['PC1'].median():.2f}, PC2={df_rank['PC2'].median():.2f}, PC3={df_rank['PC3'].median():.2f}")
+        rrow[f'PC{pc_i+1}'] = round(abs(rho), 2)
+    crow['sum_sq'] = round(sum(crow[f'PC{pc_i+1}']**2 for pc_i in range(3)), 2)
+    cos_rows.append(crow)
+    rank_rows.append(rrow)
+df_cos_aa = pd.DataFrame(cos_rows).set_index('Universe')
+print(df_cos_aa)
+print(f"\nMedians: PC1={df_cos_aa['PC1'].median():.2f}, PC2={df_cos_aa['PC2'].median():.2f}, PC3={df_cos_aa['PC3'].median():.2f}")
+
+print(f"\n=== Rank correlation (Spearman): within-universe PC scores vs assistant axis scores ===")
+df_rank_aa = pd.DataFrame(rank_rows).set_index('Universe')
+print(df_rank_aa)
+print(f"\nMedians: PC1={df_rank_aa['PC1'].median():.2f}, PC2={df_rank_aa['PC2'].median():.2f}, PC3={df_rank_aa['PC3'].median():.2f}")
 #+end_src
 
 #+RESULTS:
@@ -612,8 +623,24 @@ Medians:
 |----+--------------+-----------------+----|
 |  1 |        0.132 |            0.24 |  |
 |  2 |        0.105 |           0.268 |  |
-=== Rank correlation: within-universe PCs vs assistant axis ===
+=== Cosine: within-universe PCs vs assistant axis ===
 Cosine(assistant axis, role PC1): 0.672
+| Universe           |  PC1 |  PC2 |  PC3 | sum_sq |  |
+|--------------------+------+------+------+--------+----|
+| Harry Potter       | 0.31 |  0.3 | 0.15 |   0.21 |  |
+| Star Wars          | 0.14 | 0.28 | 0.12 |   0.11 |  |
+| LOTR               | 0.21 | 0.28 | 0.03 |   0.12 |  |
+| Marvel             | 0.24 | 0.41 | 0.11 |   0.24 |  |
+| Game of Thrones    | 0.23 | 0.28 |  0.1 |   0.14 |  |
+| Naruto             | 0.26 | 0.37 | 0.12 |   0.22 |  |
+| Greek Mythology    | 0.03 | 0.19 | 0.22 |   0.09 |  |
+| Chinese Mythology  |  0.1 | 0.02 | 0.35 |   0.13 |  |
+| Hindu Mythology    |  0.1 | 0.35 | 0.14 |   0.15 |  |
+| Norse Mythology    |  0.2 |  0.1 | 0.18 |   0.08 |  |
+| Egyptian Mythology | 0.14 | 0.14 | 0.01 |   0.04 |  |
+| Shakespeare        | 0.06 | 0.14 | 0.19 |   0.06 |  |
+Medians: PC1=0.17, PC2=0.28, PC3=0.13
+=== Rank correlation (Spearman): within-universe PC scores vs assistant axis scores ===
 | Universe           |  PC1 |  PC2 |  PC3 |  |
 |--------------------+------+------+------+----|
 | Harry Potter       | 0.78 | 0.53 | 0.14 |  |
@@ -635,9 +662,11 @@ Medians: PC1=0.52, PC2=0.58, PC3=0.13
 
 The cosine similarities are low: within-universe PC1 has median cosine ~0.13 with role PC1. Within-universe PC1 directions do align with each other across some universes (median cross-universe cosine ~0.47). The highest-cosine pairs are modern franchises (Harry Potter/Naruto ~0.95, Marvel/Naruto ~0.95, Harry Potter/Marvel ~0.93); the lowest are franchise-vs-mythology pairs (Naruto/Hindu ~0.11, Hindu/Shakespeare ~0.05). Modern franchises share a PC1 direction; mythology and Shakespeare do not.
 
-*Where does the assistant axis live?* Lu et al.'s PC1 aligns with their "assistant axis" (cosine ~0.67). Do within-universe PCs also correlate with the assistant axis? The table above shows Spearman rank correlations between each universe's within-universe PC1--3 scores and the assistant axis scores.
+*Where does the assistant axis live?* Lu et al.'s PC1 aligns with their "assistant axis" (cosine ~0.67). How much of the assistant axis do within-universe PCs capture? The table above shows cosine similarities between each universe's within-universe PC1--3 directions and the assistant axis direction. The =sum_sq= column is the fraction of the assistant axis captured by the top 3 PCs (sum of squared cosines).
 
-For modern franchises, the assistant axis loads primarily on PC1 (0.41--0.78) with a secondary loading on PC2 (0.53--0.69). For mythology and Shakespeare, the pattern shifts: the assistant axis loads weakly on PC1 (Greek 0.10, Chinese 0.17, Hindu 0.24, Shakespeare 0.23) but loads on PC2 or PC3 instead (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79, Shakespeare PC2: 0.57). The assistant axis signal is always present in the top 2--3 PCs, but which PC it loads on depends on what else varies in the character set. When formality dominates the variation (modern franchises with casual heroes and formal villains), it's PC1. When other structure dominates (mythology), formality gets pushed to a lower PC.
+The cosines are uniformly low: the median PC1 cosine is 0.17, and the top 3 PCs together capture at most 24% of the assistant axis (Marvel). The assistant axis is not concentrated in any universe's top PCs --- it is spread diffusely across many dimensions.
+
+Yet the rank correlations tell a different story. Characters who score high on within-universe PC1 tend to score high on the assistant axis (median rank correlation 0.52 for PC1, 0.58 for PC2), even though the directions are nearly orthogonal. This means the assistant axis covaries with within-universe PC structure through dimensions beyond the top 3 --- the relationship is real but is not captured by the top PC directions themselves.
 
 The =role_perp_corr= correlation (0.80--0.94 median across universes) and the LLM feature labels (next section) suggest these geometrically distinct directions encode *semantically* similar structure, but the geometric evidence alone is ambiguous: a single dominant confound could produce the same =role_perp_corr= pattern.
 
@@ -794,7 +823,7 @@ Persona space is moderately low-dimensional: 3--13 PCs capture 70% of within-uni
 
 The 275 generic roles capture ~75% of fictional character variance, though the subspace spanned by 275 random fictional characters captures ~95% --- the subspace is low-dimensional enough that any sample spans it. Of the ~25% residual, most is universe separation; ~9% of total variance is within-universe structure orthogonal to the role space.
 
-The assistant axis signal is always present in the top 2--3 within-universe PCs, but which PC it dominates depends on the character distribution. For modern franchises, it loads on PC1 (rank r = 0.63--0.78); for mythology and Shakespeare, it shifts to PC2 or PC3 (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79). Formality dominates PC1 when the character set varies most along formality --- but when other structure dominates (e.g., mortal-vs-divine in mythology), formality gets pushed to a lower PC.
+LLM feature labels identify within-universe PC1 as formality/register and PC2 as warmth/aggression, at least for modern franchises. But the assistant axis is geometrically diffuse: cosines between within-universe PCs and the assistant axis are low (medians 0.17, 0.28, 0.13 for PC1--3), and the top 3 PCs of any universe capture at most 24% of the assistant axis. Within-universe PCA finds directions that are mostly orthogonal to the assistant axis, because the assistant axis is not the dominant source of within-universe variation.
 
 Put differently: the role subspace spans the right region of activation space, but the principal directions within that subspace are sensitive to the distribution of roles you put in. The moderate cross-universe cosine similarities (~0.47 median between within-universe PC1 directions, but ranging from ~0.05 to ~0.95) are direct evidence: different character mixes yield different top directions, even when those directions encode semantically similar structure. Lu et al. show that for a fixed role set, the geometry is consistent across models --- our results suggest this cross-model consistency is a nontrivial finding, since changing the role distribution does change the geometry.
 
