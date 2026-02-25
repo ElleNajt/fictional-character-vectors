@@ -39,7 +39,7 @@ ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
 ANTHROPIC_BATCH_URL = "https://api.anthropic.com/v1/messages/batches"
 MODEL = "claude-sonnet-4-20250514"
 N_DISCOVER_PER_SIDE = 5  # odd-ranked: 1st, 3rd, 5th, 7th, 9th from each end
-N_CODE_PER_SIDE = 10  # even-ranked: 2nd, 4th, ..., 20th from each end
+N_CODE_PER_SIDE = 10  # legacy; coding phase now uses all non-discovery characters
 N_DISCOVER_QUESTIONS = 10  # questions shown in discovery prompt
 N_CODE_QUESTIONS = 10  # questions shown when coding each character
 N_DISCRIMINATIVE_POOL = 50  # top 50 most discriminative questions to sample from
@@ -566,8 +566,14 @@ def phase_code(char_data, questions, lu_data, mode="residual", prompt_style="sty
         scores = u_scores[:, pc_idx]
         sorted_idx = np.argsort(scores)
 
-        high_idx, low_idx = strided_select(sorted_idx, N_CODE_PER_SIDE, stride_offset=1)
-        chars_to_code = [u_names[i] for i in high_idx] + [u_names[i] for i in low_idx]
+        # Discovery used odd-ranked extremes; code ALL remaining characters
+        discover_high, discover_low = strided_select(
+            sorted_idx, N_DISCOVER_PER_SIDE, stride_offset=0
+        )
+        discovery_set = set(discover_high) | set(discover_low)
+        chars_to_code = [
+            u_names[i] for i in range(len(u_names)) if i not in discovery_set
+        ]
 
         if schema_key not in coded:
             coded[schema_key] = {"schema": schema, "characters": {}}

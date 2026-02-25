@@ -2,7 +2,7 @@
   "Harry Potter__PC1": {
     "universe": "Harry Potter",
     "pc": 1,
-    "n_chars": 20,
+    "n_chars": 91,
     "n_features": 6,
     "features": [
       "Self-Deprecating Tone",
@@ -14,62 +14,62 @@
     ],
     "correlations": [
       {
-        "feature": "Conversational Informality",
-        "correlation": 0.9346226393900849,
-        "abs_correlation": 0.9346226393900849
+        "feature": "Calculated Precision",
+        "correlation": -0.7931850491959245,
+        "abs_correlation": 0.7931850491959245
       },
       {
-        "feature": "Calculated Precision",
-        "correlation": -0.9160839309339576,
-        "abs_correlation": 0.9160839309339576
+        "feature": "Conversational Informality",
+        "correlation": 0.7877351660352899,
+        "abs_correlation": 0.7877351660352899
       },
       {
         "feature": "Self-Deprecating Tone",
-        "correlation": 0.8462713704301642,
-        "abs_correlation": 0.8462713704301642
-      },
-      {
-        "feature": "Manipulative Undertones",
-        "correlation": -0.6317378170821365,
-        "abs_correlation": 0.6317378170821365
-      },
-      {
-        "feature": "Inclusive Language",
-        "correlation": 0.6052256953325192,
-        "abs_correlation": 0.6052256953325192
+        "correlation": 0.5842745312239542,
+        "abs_correlation": 0.5842745312239542
       },
       {
         "feature": "Emotional Transparency",
-        "correlation": 0.5816570997385213,
-        "abs_correlation": 0.5816570997385213
+        "correlation": 0.5500201838117803,
+        "abs_correlation": 0.5500201838117803
+      },
+      {
+        "feature": "Manipulative Undertones",
+        "correlation": -0.4831406250299813,
+        "abs_correlation": 0.4831406250299813
+      },
+      {
+        "feature": "Inclusive Language",
+        "correlation": 0.43921429133023965,
+        "abs_correlation": 0.43921429133023965
       }
     ],
-    "r_squared": 0.9535090594473675,
-    "adj_r_squared": 0.9320517022692294,
+    "r_squared": 0.7096843723576323,
+    "adj_r_squared": 0.6889475418117489,
     "coefficients": [
       {
         "feature": "Self-Deprecating Tone",
-        "std_beta": 0.3491180103077621
+        "std_beta": 0.22336771750487106
       },
       {
         "feature": "Calculated Precision",
-        "std_beta": -0.6150704360916761
+        "std_beta": -0.4915901173041024
       },
       {
         "feature": "Conversational Informality",
-        "std_beta": 0.3424399835417476
+        "std_beta": 0.37960950118917397
       },
       {
         "feature": "Emotional Transparency",
-        "std_beta": -0.6862747172291691
+        "std_beta": -0.35421517380902345
       },
       {
         "feature": "Manipulative Undertones",
-        "std_beta": -0.039813833292286965
+        "std_beta": -0.19734818904172846
       },
       {
         "feature": "Inclusive Language",
-        "std_beta": 0.2454900347716951
+        "std_beta": -0.023448125348544065
       }
     ],
     "high_chars": [
@@ -90,7 +90,7 @@
   "Harry Potter__PC2": {
     "universe": "Harry Potter",
     "pc": 2,
-    "n_chars": 20,
+    "n_chars": 90,
     "n_features": 6,
     "features": [
       "Metaphorical Language",
@@ -102,62 +102,62 @@
     ],
     "correlations": [
       {
-        "feature": "Intellectual Curiosity",
-        "correlation": 0.9074737666287565,
-        "abs_correlation": 0.9074737666287565
-      },
-      {
-        "feature": "Philosophical Depth",
-        "correlation": 0.849749175000268,
-        "abs_correlation": 0.849749175000268
-      },
-      {
         "feature": "Openness to Others",
-        "correlation": 0.8344333442096369,
-        "abs_correlation": 0.8344333442096369
+        "correlation": 0.7355973396242593,
+        "abs_correlation": 0.7355973396242593
+      },
+      {
+        "feature": "Intellectual Curiosity",
+        "correlation": 0.7216480799207238,
+        "abs_correlation": 0.7216480799207238
       },
       {
         "feature": "Emotional Restraint",
-        "correlation": 0.8319443367848438,
-        "abs_correlation": 0.8319443367848438
+        "correlation": 0.6749178812928448,
+        "abs_correlation": 0.6749178812928448
+      },
+      {
+        "feature": "Philosophical Depth",
+        "correlation": 0.5024648812513126,
+        "abs_correlation": 0.5024648812513126
       },
       {
         "feature": "Metaphorical Language",
-        "correlation": 0.7311483035278605,
-        "abs_correlation": 0.7311483035278605
+        "correlation": 0.44188220077812596,
+        "abs_correlation": 0.44188220077812596
       },
       {
         "feature": "Speech Fluency",
-        "correlation": 0.6170271633796072,
-        "abs_correlation": 0.6170271633796072
+        "correlation": 0.20523235250488636,
+        "abs_correlation": 0.20523235250488636
       }
     ],
-    "r_squared": 0.9408303717943484,
-    "adj_r_squared": 0.9135213126225091,
+    "r_squared": 0.7349393993065547,
+    "adj_r_squared": 0.7157783920275105,
     "coefficients": [
       {
         "feature": "Metaphorical Language",
-        "std_beta": 0.4438522889649459
+        "std_beta": -0.014032211146452582
       },
       {
         "feature": "Philosophical Depth",
-        "std_beta": -0.09774526147314179
+        "std_beta": -0.01710767887704557
       },
       {
         "feature": "Openness to Others",
-        "std_beta": 0.14427958025178692
+        "std_beta": 0.36102687700339336
       },
       {
         "feature": "Speech Fluency",
-        "std_beta": -0.28151072113196457
+        "std_beta": -0.058856242801385954
       },
       {
         "feature": "Emotional Restraint",
-        "std_beta": 0.594997602063016
+        "std_beta": 0.3195938821128229
       },
       {
         "feature": "Intellectual Curiosity",
-        "std_beta": 0.2839427793013212
+        "std_beta": 0.38875613450377305
       }
     ],
     "high_chars": [
@@ -178,7 +178,7 @@
   "Star Wars__PC1": {
     "universe": "Star Wars",
     "pc": 1,
-    "n_chars": 20,
+    "n_chars": 95,
     "n_features": 6,
     "features": [
       "Formal Speech Register",
@@ -191,61 +191,61 @@
     "correlations": [
       {
         "feature": "Philosophical Abstraction",
-        "correlation": 0.8909225061177402,
-        "abs_correlation": 0.8909225061177402
+        "correlation": 0.6712288725832651,
+        "abs_correlation": 0.6712288725832651
       },
       {
         "feature": "Colloquial Expression",
-        "correlation": -0.7661109980519215,
-        "abs_correlation": 0.7661109980519215
+        "correlation": -0.5065881268329242,
+        "abs_correlation": 0.5065881268329242
       },
       {
         "feature": "Formal Speech Register",
-        "correlation": 0.642127489360766,
-        "abs_correlation": 0.642127489360766
+        "correlation": 0.4080749681286792,
+        "abs_correlation": 0.4080749681286792
       },
       {
         "feature": "Dramatic Intensity",
-        "correlation": 0.533792486250211,
-        "abs_correlation": 0.533792486250211
+        "correlation": 0.20348719062017148,
+        "abs_correlation": 0.20348719062017148
       },
       {
         "feature": "Conversational Directness",
-        "correlation": 0.4844503178998461,
-        "abs_correlation": 0.4844503178998461
+        "correlation": 0.19833365009356826,
+        "abs_correlation": 0.19833365009356826
       },
       {
         "feature": "Narrative Interruption",
-        "correlation": -0.3193443248224251,
-        "abs_correlation": 0.3193443248224251
+        "correlation": -0.1794364814259963,
+        "abs_correlation": 0.1794364814259963
       }
     ],
-    "r_squared": 0.8796275079796931,
-    "adj_r_squared": 0.82407097320109,
+    "r_squared": 0.4882647370366999,
+    "adj_r_squared": 0.45337369638011127,
     "coefficients": [
       {
         "feature": "Formal Speech Register",
-        "std_beta": 0.2356848156573727
+        "std_beta": -0.25952640415142314
       },
       {
         "feature": "Philosophical Abstraction",
-        "std_beta": 1.0468069436966683
+        "std_beta": 0.6937648878463566
       },
       {
         "feature": "Dramatic Intensity",
-        "std_beta": -0.14958382053159716
+        "std_beta": -0.057451170023440426
       },
       {
         "feature": "Conversational Directness",
-        "std_beta": -0.5421349525499713
+        "std_beta": -0.02461203023340461
       },
       {
         "feature": "Narrative Interruption",
-        "std_beta": -0.0693530326720771
+        "std_beta": 0.028418046941708672
       },
       {
         "feature": "Colloquial Expression",
-        "std_beta": -0.1514149077893759
+        "std_beta": -0.2964284640408132
       }
     ],
     "high_chars": [
@@ -266,7 +266,7 @@
   "Star Wars__PC2": {
     "universe": "Star Wars",
     "pc": 2,
-    "n_chars": 19,
+    "n_chars": 95,
     "n_features": 6,
     "features": [
       "Sound Integration",
@@ -278,62 +278,62 @@
     ],
     "correlations": [
       {
-        "feature": "Emotional Expressiveness",
-        "correlation": 0.8617444951775566,
-        "abs_correlation": 0.8617444951775566
-      },
-      {
         "feature": "Sound Integration",
-        "correlation": 0.8069420167284067,
-        "abs_correlation": 0.8069420167284067
-      },
-      {
-        "feature": "Metaphor Complexity",
-        "correlation": -0.7144143840555451,
-        "abs_correlation": 0.7144143840555451
+        "correlation": 0.5795054238116344,
+        "abs_correlation": 0.5795054238116344
       },
       {
         "feature": "Formality Level",
-        "correlation": -0.6347656579317238,
-        "abs_correlation": 0.6347656579317238
+        "correlation": -0.3813715072436371,
+        "abs_correlation": 0.3813715072436371
+      },
+      {
+        "feature": "Metaphor Complexity",
+        "correlation": -0.3128468050419782,
+        "abs_correlation": 0.3128468050419782
+      },
+      {
+        "feature": "Emotional Expressiveness",
+        "correlation": 0.29687984776181153,
+        "abs_correlation": 0.29687984776181153
       },
       {
         "feature": "Conversational Directness",
-        "correlation": 0.21985996676385225,
-        "abs_correlation": 0.21985996676385225
+        "correlation": 0.06912611516301362,
+        "abs_correlation": 0.06912611516301362
       },
       {
         "feature": "Response Completeness",
-        "correlation": -0.08890456020103818,
-        "abs_correlation": 0.08890456020103818
+        "correlation": 0.028402446487582427,
+        "abs_correlation": 0.028402446487582427
       }
     ],
-    "r_squared": 0.8671583532267623,
-    "adj_r_squared": 0.8007375298401435,
+    "r_squared": 0.46047933435298405,
+    "adj_r_squared": 0.42369383442250563,
     "coefficients": [
       {
         "feature": "Sound Integration",
-        "std_beta": 0.4690816093135246
+        "std_beta": 0.5733777655664066
       },
       {
         "feature": "Formality Level",
-        "std_beta": -0.2723371239146014
+        "std_beta": -0.4300586173085193
       },
       {
         "feature": "Metaphor Complexity",
-        "std_beta": -0.05547726682352121
+        "std_beta": 0.03895742103774028
       },
       {
         "feature": "Emotional Expressiveness",
-        "std_beta": 0.2901795191544209
+        "std_beta": -0.06428653468741265
       },
       {
         "feature": "Response Completeness",
-        "std_beta": 0.1436897838649689
+        "std_beta": 0.16803846705264341
       },
       {
         "feature": "Conversational Directness",
-        "std_beta": 0.17668846439380345
+        "std_beta": -0.13465100962733828
       }
     ],
     "high_chars": [
@@ -354,7 +354,7 @@
   "LOTR__PC1": {
     "universe": "LOTR",
     "pc": 1,
-    "n_chars": 20,
+    "n_chars": 82,
     "n_features": 6,
     "features": [
       "Formal Register",
@@ -367,13 +367,13 @@
     "correlations": [
       {
         "feature": "Formal Register",
-        "correlation": -0.9107271020688635,
-        "abs_correlation": 0.9107271020688635
+        "correlation": -0.7710360607534206,
+        "abs_correlation": 0.7710360607534206
       },
       {
         "feature": "Self-Deprecation Level",
-        "correlation": 0.6033568636552394,
-        "abs_correlation": 0.6033568636552394
+        "correlation": 0.1992129653951726,
+        "abs_correlation": 0.1992129653951726
       },
       {
         "feature": "Narrative Completeness",
@@ -381,47 +381,47 @@
         "abs_correlation": NaN
       },
       {
-        "feature": "Concrete Detail Focus",
-        "correlation": 0.9554186476137496,
-        "abs_correlation": 0.9554186476137496
+        "feature": "Gravitas Level",
+        "correlation": -0.7649005554300914,
+        "abs_correlation": 0.7649005554300914
       },
       {
-        "feature": "Gravitas Level",
-        "correlation": -0.9380901529125999,
-        "abs_correlation": 0.9380901529125999
+        "feature": "Concrete Detail Focus",
+        "correlation": 0.7178437561920716,
+        "abs_correlation": 0.7178437561920716
       },
       {
         "feature": "Emotional Expressiveness",
-        "correlation": 0.4688552612679993,
-        "abs_correlation": 0.4688552612679993
+        "correlation": 0.44859871002236956,
+        "abs_correlation": 0.44859871002236956
       }
     ],
-    "r_squared": 0.9398763542619515,
-    "adj_r_squared": 0.9121269793059291,
+    "r_squared": 0.7687011033445262,
+    "adj_r_squared": 0.7501971916120884,
     "coefficients": [
       {
         "feature": "Formal Register",
-        "std_beta": -0.3167122379334783
+        "std_beta": -0.2798993400036858
       },
       {
         "feature": "Self-Deprecation Level",
-        "std_beta": 0.050277381818851254
+        "std_beta": -0.07503932722871662
       },
       {
         "feature": "Narrative Completeness",
-        "std_beta": -0.0
+        "std_beta": 0.0
       },
       {
         "feature": "Emotional Expressiveness",
-        "std_beta": -0.012322204576516524
+        "std_beta": 0.23590368333956616
       },
       {
         "feature": "Concrete Detail Focus",
-        "std_beta": 0.6582965551561151
+        "std_beta": 0.24677074639854546
       },
       {
         "feature": "Gravitas Level",
-        "std_beta": 0.0022052904545394555
+        "std_beta": -0.3724255355055156
       }
     ],
     "high_chars": [
@@ -442,7 +442,7 @@
   "LOTR__PC2": {
     "universe": "LOTR",
     "pc": 2,
-    "n_chars": 20,
+    "n_chars": 87,
     "n_features": 6,
     "features": [
       "Conversational Warmth",
@@ -455,61 +455,61 @@
     "correlations": [
       {
         "feature": "Conversational Warmth",
-        "correlation": 0.9517747898687042,
-        "abs_correlation": 0.9517747898687042
-      },
-      {
-        "feature": "Self-Deprecating Humility",
-        "correlation": 0.9085541072264341,
-        "abs_correlation": 0.9085541072264341
-      },
-      {
-        "feature": "Violent Imagery",
-        "correlation": -0.8786853207912169,
-        "abs_correlation": 0.8786853207912169
+        "correlation": 0.8492890483953507,
+        "abs_correlation": 0.8492890483953507
       },
       {
         "feature": "Aggressive Punctuation",
-        "correlation": -0.8551029581239993,
-        "abs_correlation": 0.8551029581239993
+        "correlation": -0.8030410902059608,
+        "abs_correlation": 0.8030410902059608
+      },
+      {
+        "feature": "Self-Deprecating Humility",
+        "correlation": 0.7226640712855179,
+        "abs_correlation": 0.7226640712855179
+      },
+      {
+        "feature": "Violent Imagery",
+        "correlation": -0.6676263157545843,
+        "abs_correlation": 0.6676263157545843
       },
       {
         "feature": "Reflective Elaboration",
-        "correlation": 0.5536099389064445,
-        "abs_correlation": 0.5536099389064445
+        "correlation": 0.5549884294999929,
+        "abs_correlation": 0.5549884294999929
       },
       {
         "feature": "Interruption Patterns",
-        "correlation": 0.20380889595794893,
-        "abs_correlation": 0.20380889595794893
+        "correlation": -0.218917907155069,
+        "abs_correlation": 0.218917907155069
       }
     ],
-    "r_squared": 0.9605013781178872,
-    "adj_r_squared": 0.9422712449415274,
+    "r_squared": 0.7947204209149983,
+    "adj_r_squared": 0.7793244524836231,
     "coefficients": [
       {
         "feature": "Conversational Warmth",
-        "std_beta": 0.801652727501339
+        "std_beta": 0.4274857493031317
       },
       {
         "feature": "Reflective Elaboration",
-        "std_beta": 0.11076821317081717
+        "std_beta": 0.011689567700326966
       },
       {
         "feature": "Violent Imagery",
-        "std_beta": -0.10690084697680474
+        "std_beta": -0.16581863587165788
       },
       {
         "feature": "Self-Deprecating Humility",
-        "std_beta": -0.14169305172821864
+        "std_beta": 0.040821808512970244
       },
       {
         "feature": "Interruption Patterns",
-        "std_beta": 0.08583418881261605
+        "std_beta": -0.03571878014621749
       },
       {
         "feature": "Aggressive Punctuation",
-        "std_beta": -0.17950581139554778
+        "std_beta": -0.34512446227378535
       }
     ],
     "high_chars": [
@@ -530,7 +530,7 @@
   "Marvel__PC1": {
     "universe": "Marvel",
     "pc": 1,
-    "n_chars": 20,
+    "n_chars": 98,
     "n_features": 6,
     "features": [
       "Mythological Grandeur",
@@ -543,61 +543,61 @@
     "correlations": [
       {
         "feature": "Mythological Grandeur",
-        "correlation": -0.878697698440436,
-        "abs_correlation": 0.878697698440436
+        "correlation": -0.6366154812491742,
+        "abs_correlation": 0.6366154812491742
       },
       {
         "feature": "Conversational Accessibility",
-        "correlation": 0.8495348893581679,
-        "abs_correlation": 0.8495348893581679
-      },
-      {
-        "feature": "Cosmic Perspective",
-        "correlation": -0.7561110392539557,
-        "abs_correlation": 0.7561110392539557
+        "correlation": 0.6191779112512592,
+        "abs_correlation": 0.6191779112512592
       },
       {
         "feature": "Theatrical Presentation",
-        "correlation": -0.7135170377408819,
-        "abs_correlation": 0.7135170377408819
+        "correlation": -0.501593589640112,
+        "abs_correlation": 0.501593589640112
       },
       {
-        "feature": "Personal Vulnerability",
-        "correlation": 0.7076338392111667,
-        "abs_correlation": 0.7076338392111667
+        "feature": "Cosmic Perspective",
+        "correlation": -0.4980876115170017,
+        "abs_correlation": 0.4980876115170017
       },
       {
         "feature": "Collaborative Tone",
-        "correlation": 0.701807225413189,
-        "abs_correlation": 0.701807225413189
+        "correlation": 0.46680796290114945,
+        "abs_correlation": 0.46680796290114945
+      },
+      {
+        "feature": "Personal Vulnerability",
+        "correlation": 0.4614384833514953,
+        "abs_correlation": 0.4614384833514953
       }
     ],
-    "r_squared": 0.8608458706508499,
-    "adj_r_squared": 0.7966208878743192,
+    "r_squared": 0.5080443125641486,
+    "adj_r_squared": 0.47560767383211444,
     "coefficients": [
       {
         "feature": "Mythological Grandeur",
-        "std_beta": -0.6684404762042412
+        "std_beta": -0.6219484669762264
       },
       {
         "feature": "Theatrical Presentation",
-        "std_beta": -0.1645674182871554
+        "std_beta": -0.062045251474044424
       },
       {
         "feature": "Personal Vulnerability",
-        "std_beta": 0.041967702494518554
+        "std_beta": 0.14729371019344423
       },
       {
         "feature": "Conversational Accessibility",
-        "std_beta": 0.1120701507225996
+        "std_beta": 0.03844108611968155
       },
       {
         "feature": "Cosmic Perspective",
-        "std_beta": 0.1288747538180697
+        "std_beta": 0.19662568877786873
       },
       {
         "feature": "Collaborative Tone",
-        "std_beta": 0.18324902327301798
+        "std_beta": 0.18669068400948893
       }
     ],
     "high_chars": [
@@ -618,7 +618,7 @@
   "Marvel__PC2": {
     "universe": "Marvel",
     "pc": 2,
-    "n_chars": 20,
+    "n_chars": 97,
     "n_features": 6,
     "features": [
       "Formal Language Register",
@@ -630,62 +630,62 @@
     ],
     "correlations": [
       {
-        "feature": "Philosophical Depth",
-        "correlation": 0.7856367761934927,
-        "abs_correlation": 0.7856367761934927
-      },
-      {
         "feature": "Formal Language Register",
-        "correlation": 0.7781036551946737,
-        "abs_correlation": 0.7781036551946737
+        "correlation": 0.5951365626398238,
+        "abs_correlation": 0.5951365626398238
       },
       {
-        "feature": "Self-Referential Humor",
-        "correlation": -0.5852904815048994,
-        "abs_correlation": 0.5852904815048994
-      },
-      {
-        "feature": "Metaphorical Expression",
-        "correlation": 0.5463349928634491,
-        "abs_correlation": 0.5463349928634491
+        "feature": "Philosophical Depth",
+        "correlation": 0.5136970431576631,
+        "abs_correlation": 0.5136970431576631
       },
       {
         "feature": "Conversational Directness",
-        "correlation": -0.33343518077537104,
-        "abs_correlation": 0.33343518077537104
+        "correlation": -0.41045062423125894,
+        "abs_correlation": 0.41045062423125894
+      },
+      {
+        "feature": "Self-Referential Humor",
+        "correlation": -0.39919642889653145,
+        "abs_correlation": 0.39919642889653145
+      },
+      {
+        "feature": "Metaphorical Expression",
+        "correlation": 0.39916973716800824,
+        "abs_correlation": 0.39916973716800824
       },
       {
         "feature": "Emotional Vulnerability",
-        "correlation": 0.02815080089391065,
-        "abs_correlation": 0.02815080089391065
+        "correlation": -0.11455074335210708,
+        "abs_correlation": 0.11455074335210708
       }
     ],
-    "r_squared": 0.7379499839053898,
-    "adj_r_squared": 0.6170038226309543,
+    "r_squared": 0.41985955869495983,
+    "adj_r_squared": 0.38118352927462384,
     "coefficients": [
       {
         "feature": "Formal Language Register",
-        "std_beta": 0.4281175381891172
+        "std_beta": 0.5968764814736275
       },
       {
         "feature": "Philosophical Depth",
-        "std_beta": 0.8458504369190919
+        "std_beta": -0.1451747212338698
       },
       {
         "feature": "Self-Referential Humor",
-        "std_beta": 0.14321640194014246
+        "std_beta": -0.19249956499860718
       },
       {
         "feature": "Emotional Vulnerability",
-        "std_beta": -0.038133661197967815
+        "std_beta": 0.20680439216936713
       },
       {
         "feature": "Conversational Directness",
-        "std_beta": 0.34779656378923895
+        "std_beta": -0.10375370299527849
       },
       {
         "feature": "Metaphorical Expression",
-        "std_beta": -0.10769355514673722
+        "std_beta": 0.10890383465922199
       }
     ],
     "high_chars": [
@@ -706,7 +706,7 @@
   "Game of Thrones__PC1": {
     "universe": "Game of Thrones",
     "pc": 1,
-    "n_chars": 20,
+    "n_chars": 83,
     "n_features": 6,
     "features": [
       "Conversational Warmth",
@@ -718,62 +718,62 @@
     ],
     "correlations": [
       {
-        "feature": "Conversational Warmth",
-        "correlation": 0.6244523755839649,
-        "abs_correlation": 0.6244523755839649
-      },
-      {
         "feature": "Self-Referential Focus",
-        "correlation": -0.6146577203767344,
-        "abs_correlation": 0.6146577203767344
+        "correlation": -0.4604012429282667,
+        "abs_correlation": 0.4604012429282667
       },
       {
         "feature": "Collaborative Tone",
-        "correlation": 0.599143130498915,
-        "abs_correlation": 0.599143130498915
+        "correlation": 0.42073625090119543,
+        "abs_correlation": 0.42073625090119543
+      },
+      {
+        "feature": "Conversational Warmth",
+        "correlation": 0.39676121439527534,
+        "abs_correlation": 0.39676121439527534
       },
       {
         "feature": "Destructive Language",
-        "correlation": -0.5629459152915979,
-        "abs_correlation": 0.5629459152915979
-      },
-      {
-        "feature": "Narrative Storytelling",
-        "correlation": 0.40690784076442393,
-        "abs_correlation": 0.40690784076442393
+        "correlation": -0.2519605859306737,
+        "abs_correlation": 0.2519605859306737
       },
       {
         "feature": "Emotional Volatility",
-        "correlation": -0.37376641804919397,
-        "abs_correlation": 0.37376641804919397
+        "correlation": -0.18950881350340998,
+        "abs_correlation": 0.18950881350340998
+      },
+      {
+        "feature": "Narrative Storytelling",
+        "correlation": 0.00788654395313879,
+        "abs_correlation": 0.00788654395313879
       }
     ],
-    "r_squared": 0.4522506286192337,
-    "adj_r_squared": 0.19944322644349544,
+    "r_squared": 0.29490300731793295,
+    "adj_r_squared": 0.23923745526408557,
     "coefficients": [
       {
         "feature": "Conversational Warmth",
-        "std_beta": 0.21904773002870961
+        "std_beta": 0.2205654824253308
       },
       {
         "feature": "Emotional Volatility",
-        "std_beta": 0.008080236435395405
+        "std_beta": -0.04271788952476605
       },
       {
         "feature": "Self-Referential Focus",
-        "std_beta": -0.312821330495535
+        "std_beta": -0.3689435100425556
       },
       {
         "feature": "Narrative Storytelling",
-        "std_beta": 0.19927527849102505
+        "std_beta": -0.08505310170199669
       },
       {
         "feature": "Destructive Language",
-        "std_beta": -0.15492031260391637
+        "std_beta": 0.46087294447340904
       },
       {
         "feature": "Collaborative Tone",
-        "std_beta": -0.0702513721833323
+        "std_beta": 0.3475484453040422
       }
     ],
     "high_chars": [
@@ -794,7 +794,7 @@
   "Game of Thrones__PC2": {
     "universe": "Game of Thrones",
     "pc": 2,
-    "n_chars": 20,
+    "n_chars": 83,
     "n_features": 6,
     "features": [
       "Vocabulary Complexity",
@@ -806,62 +806,62 @@
     ],
     "correlations": [
       {
-        "feature": "Speech Coherence",
-        "correlation": -0.5619817880686498,
-        "abs_correlation": 0.5619817880686498
+        "feature": "Self-Reference Style",
+        "correlation": -0.43824406736840504,
+        "abs_correlation": 0.43824406736840504
       },
       {
-        "feature": "Self-Reference Style",
-        "correlation": -0.5327670997370267,
-        "abs_correlation": 0.5327670997370267
+        "feature": "Speech Coherence",
+        "correlation": -0.4075138271283841,
+        "abs_correlation": 0.4075138271283841
       },
       {
         "feature": "Vocabulary Complexity",
-        "correlation": -0.4149212081663633,
-        "abs_correlation": 0.4149212081663633
-      },
-      {
-        "feature": "Emotional Expression",
-        "correlation": -0.13627571075966052,
-        "abs_correlation": 0.13627571075966052
+        "correlation": -0.2285144463628067,
+        "abs_correlation": 0.2285144463628067
       },
       {
         "feature": "Response Length",
-        "correlation": -0.12136375173449851,
-        "abs_correlation": 0.12136375173449851
+        "correlation": -0.21144564072801791,
+        "abs_correlation": 0.21144564072801791
+      },
+      {
+        "feature": "Emotional Expression",
+        "correlation": -0.1391626614063807,
+        "abs_correlation": 0.1391626614063807
       },
       {
         "feature": "Authoritative Tone",
-        "correlation": 0.05588894164907977,
-        "abs_correlation": 0.05588894164907977
+        "correlation": -0.09270641119268543,
+        "abs_correlation": 0.09270641119268543
       }
     ],
-    "r_squared": 0.6587334253519883,
-    "adj_r_squared": 0.5012257755144445,
+    "r_squared": 0.42495407848244393,
+    "adj_r_squared": 0.3795557162573737,
     "coefficients": [
       {
         "feature": "Vocabulary Complexity",
-        "std_beta": -0.03886202705959932
+        "std_beta": -0.03672278988939119
       },
       {
         "feature": "Response Length",
-        "std_beta": 0.25612622197227775
+        "std_beta": -0.10996670207308605
       },
       {
         "feature": "Authoritative Tone",
-        "std_beta": 0.3346632118655898
+        "std_beta": 0.5907371648820713
       },
       {
         "feature": "Emotional Expression",
-        "std_beta": 0.2965038040156789
+        "std_beta": -0.12203602284715404
       },
       {
         "feature": "Speech Coherence",
-        "std_beta": -0.781621900365589
+        "std_beta": -0.2806078825426315
       },
       {
         "feature": "Self-Reference Style",
-        "std_beta": -0.48076957958312044
+        "std_beta": -0.7227502712850052
       }
     ],
     "high_chars": [
@@ -882,7 +882,7 @@
   "Naruto__PC1": {
     "universe": "Naruto",
     "pc": 1,
-    "n_chars": 20,
+    "n_chars": 72,
     "n_features": 6,
     "features": [
       "Casual Expression Style",
@@ -895,61 +895,61 @@
     "correlations": [
       {
         "feature": "Casual Expression Style",
-        "correlation": 0.9039328863928738,
-        "abs_correlation": 0.9039328863928738
-      },
-      {
-        "feature": "Collaborative Language Use",
-        "correlation": 0.9015230744448517,
-        "abs_correlation": 0.9015230744448517
-      },
-      {
-        "feature": "Intimidating Presence Projection",
-        "correlation": -0.8899766733214669,
-        "abs_correlation": 0.8899766733214669
+        "correlation": 0.7655855150563595,
+        "abs_correlation": 0.7655855150563595
       },
       {
         "feature": "Grandiose Rhetoric Level",
-        "correlation": -0.8098529597384155,
-        "abs_correlation": 0.8098529597384155
+        "correlation": -0.7447047987492593,
+        "abs_correlation": 0.7447047987492593
       },
       {
-        "feature": "Physical Gesture Frequency",
-        "correlation": 0.7825240118086739,
-        "abs_correlation": 0.7825240118086739
+        "feature": "Intimidating Presence Projection",
+        "correlation": -0.7045956654349801,
+        "abs_correlation": 0.7045956654349801
+      },
+      {
+        "feature": "Collaborative Language Use",
+        "correlation": 0.6944715487384131,
+        "abs_correlation": 0.6944715487384131
       },
       {
         "feature": "Self-Doubt Admission",
-        "correlation": 0.7177802652949834,
-        "abs_correlation": 0.7177802652949834
+        "correlation": 0.5210011023229693,
+        "abs_correlation": 0.5210011023229693
+      },
+      {
+        "feature": "Physical Gesture Frequency",
+        "correlation": 0.49862577996170954,
+        "abs_correlation": 0.49862577996170954
       }
     ],
-    "r_squared": 0.9644769117396229,
-    "adj_r_squared": 0.9480816402348334,
+    "r_squared": 0.8118197977907495,
+    "adj_r_squared": 0.7944493175868187,
     "coefficients": [
       {
         "feature": "Casual Expression Style",
-        "std_beta": 0.3964460511370775
+        "std_beta": 0.36996377738664393
       },
       {
         "feature": "Self-Doubt Admission",
-        "std_beta": -0.14275899769158926
+        "std_beta": -0.15638968998865282
       },
       {
         "feature": "Physical Gesture Frequency",
-        "std_beta": 0.30637861945398503
+        "std_beta": 0.1726607075468572
       },
       {
         "feature": "Collaborative Language Use",
-        "std_beta": -0.0263209474252457
+        "std_beta": 0.24024707622709365
       },
       {
         "feature": "Grandiose Rhetoric Level",
-        "std_beta": -0.033819103163700015
+        "std_beta": -0.24395080027835103
       },
       {
         "feature": "Intimidating Presence Projection",
-        "std_beta": -0.5226852560879076
+        "std_beta": -0.24900931950326732
       }
     ],
     "high_chars": [
@@ -970,7 +970,7 @@
   "Naruto__PC2": {
     "universe": "Naruto",
     "pc": 2,
-    "n_chars": 20,
+    "n_chars": 74,
     "n_features": 6,
     "features": [
       "Aggressive Language Intensity",
@@ -983,61 +983,61 @@
     "correlations": [
       {
         "feature": "Aggressive Language Intensity",
-        "correlation": 0.8203838247753358,
-        "abs_correlation": 0.8203838247753358
-      },
-      {
-        "feature": "Collaborative Communication Style",
-        "correlation": -0.6787147134807527,
-        "abs_correlation": 0.6787147134807527
+        "correlation": 0.4245930572534089,
+        "abs_correlation": 0.4245930572534089
       },
       {
         "feature": "Emotional Positivity",
-        "correlation": -0.6751641709298088,
-        "abs_correlation": 0.6751641709298088
-      },
-      {
-        "feature": "Mentorship Reference Tendency",
-        "correlation": -0.5946042784695202,
-        "abs_correlation": 0.5946042784695202
+        "correlation": -0.3093534897225246,
+        "abs_correlation": 0.3093534897225246
       },
       {
         "feature": "Maniacal Expression Pattern",
-        "correlation": 0.4018671913328786,
-        "abs_correlation": 0.4018671913328786
+        "correlation": 0.2667472906876639,
+        "abs_correlation": 0.2667472906876639
+      },
+      {
+        "feature": "Collaborative Communication Style",
+        "correlation": -0.25765521999825153,
+        "abs_correlation": 0.25765521999825153
+      },
+      {
+        "feature": "Mentorship Reference Tendency",
+        "correlation": -0.2529909227999376,
+        "abs_correlation": 0.2529909227999376
       },
       {
         "feature": "Physical Expression Frequency",
-        "correlation": -0.17868450825320678,
-        "abs_correlation": 0.17868450825320678
+        "correlation": -0.11303281711965661,
+        "abs_correlation": 0.11303281711965661
       }
     ],
-    "r_squared": 0.7042645211881005,
-    "adj_r_squared": 0.567771223274916,
+    "r_squared": 0.2579462108022963,
+    "adj_r_squared": 0.19149363266518848,
     "coefficients": [
       {
         "feature": "Aggressive Language Intensity",
-        "std_beta": 1.0289419640453286
+        "std_beta": 0.4123884343818475
       },
       {
         "feature": "Emotional Positivity",
-        "std_beta": -0.044681221191006724
+        "std_beta": -0.290310360048849
       },
       {
         "feature": "Physical Expression Frequency",
-        "std_beta": -0.13403753213044908
+        "std_beta": -0.21777253925069995
       },
       {
         "feature": "Collaborative Communication Style",
-        "std_beta": 0.14281491879279098
+        "std_beta": 0.26778040147875015
       },
       {
         "feature": "Maniacal Expression Pattern",
-        "std_beta": 0.013145213616999482
+        "std_beta": 0.19657631837295506
       },
       {
         "feature": "Mentorship Reference Tendency",
-        "std_beta": 0.1721017827534517
+        "std_beta": 0.059355013632628274
       }
     ],
     "high_chars": [
@@ -1058,7 +1058,7 @@
   "Greek Mythology__PC1": {
     "universe": "Greek Mythology",
     "pc": 1,
-    "n_chars": 20,
+    "n_chars": 97,
     "n_features": 6,
     "features": [
       "Cosmic Grandiosity",
@@ -1070,62 +1070,62 @@
     ],
     "correlations": [
       {
-        "feature": "Personal Vulnerability",
-        "correlation": 0.8517113219530362,
-        "abs_correlation": 0.8517113219530362
-      },
-      {
         "feature": "Cosmic Grandiosity",
-        "correlation": -0.7891259092837087,
-        "abs_correlation": 0.7891259092837087
+        "correlation": -0.6766225158030822,
+        "abs_correlation": 0.6766225158030822
       },
       {
         "feature": "Metaphysical Language",
-        "correlation": -0.6998291209236275,
-        "abs_correlation": 0.6998291209236275
+        "correlation": -0.6276594117972296,
+        "abs_correlation": 0.6276594117972296
       },
       {
         "feature": "Concrete Specificity",
-        "correlation": 0.6356142056553924,
-        "abs_correlation": 0.6356142056553924
+        "correlation": 0.6164780857282469,
+        "abs_correlation": 0.6164780857282469
+      },
+      {
+        "feature": "Personal Vulnerability",
+        "correlation": 0.5119305068168875,
+        "abs_correlation": 0.5119305068168875
       },
       {
         "feature": "Narrative Structure",
-        "correlation": 0.5044221380045457,
-        "abs_correlation": 0.5044221380045457
+        "correlation": -0.08214590195171698,
+        "abs_correlation": 0.08214590195171698
       },
       {
         "feature": "Self-Interruption Frequency",
-        "correlation": -0.180285384084377,
-        "abs_correlation": 0.180285384084377
+        "correlation": 0.004448615877701271,
+        "abs_correlation": 0.004448615877701271
       }
     ],
-    "r_squared": 0.8617287369995323,
-    "adj_r_squared": 0.7979112309993165,
+    "r_squared": 0.6503457945967377,
+    "adj_r_squared": 0.6270355142365203,
     "coefficients": [
       {
         "feature": "Cosmic Grandiosity",
-        "std_beta": -0.0737185120304045
+        "std_beta": -0.47864200857919054
       },
       {
         "feature": "Self-Interruption Frequency",
-        "std_beta": 0.14173039688499417
+        "std_beta": 0.01771589759025369
       },
       {
         "feature": "Concrete Specificity",
-        "std_beta": -0.07002732814480812
+        "std_beta": 0.2990515853907708
       },
       {
         "feature": "Narrative Structure",
-        "std_beta": 0.09636922073102236
+        "std_beta": 0.024143564235361094
       },
       {
         "feature": "Metaphysical Language",
-        "std_beta": -0.32194561560597795
+        "std_beta": -0.0074649553449122495
       },
       {
         "feature": "Personal Vulnerability",
-        "std_beta": 0.7041119849126689
+        "std_beta": 0.2721973301643544
       }
     ],
     "high_chars": [
@@ -1146,7 +1146,7 @@
   "Greek Mythology__PC2": {
     "universe": "Greek Mythology",
     "pc": 2,
-    "n_chars": 20,
+    "n_chars": 97,
     "n_features": 6,
     "features": [
       "Action Orientation",
@@ -1158,62 +1158,62 @@
     ],
     "correlations": [
       {
-        "feature": "Atmospheric Language",
-        "correlation": 0.47403331390515896,
-        "abs_correlation": 0.47403331390515896
-      },
-      {
-        "feature": "Directness Level",
-        "correlation": 0.25326206148419184,
-        "abs_correlation": 0.25326206148419184
+        "feature": "Emotional Intensity",
+        "correlation": -0.17192239801721282,
+        "abs_correlation": 0.17192239801721282
       },
       {
         "feature": "Structural Clarity",
-        "correlation": 0.13647406333732254,
-        "abs_correlation": 0.13647406333732254
+        "correlation": 0.14828604287761787,
+        "abs_correlation": 0.14828604287761787
       },
       {
-        "feature": "Emotional Intensity",
-        "correlation": 0.1283676157510069,
-        "abs_correlation": 0.1283676157510069
-      },
-      {
-        "feature": "Action Orientation",
-        "correlation": 0.10541620927429729,
-        "abs_correlation": 0.10541620927429729
+        "feature": "Directness Level",
+        "correlation": 0.10697458603337107,
+        "abs_correlation": 0.10697458603337107
       },
       {
         "feature": "Metaphorical Density",
-        "correlation": -0.048935574185453044,
-        "abs_correlation": 0.048935574185453044
+        "correlation": -0.10294216434272543,
+        "abs_correlation": 0.10294216434272543
+      },
+      {
+        "feature": "Atmospheric Language",
+        "correlation": 0.06172436863329136,
+        "abs_correlation": 0.06172436863329136
+      },
+      {
+        "feature": "Action Orientation",
+        "correlation": -0.030214259100260144,
+        "abs_correlation": 0.030214259100260144
       }
     ],
-    "r_squared": 0.40079186615297413,
-    "adj_r_squared": 0.12423426591588516,
+    "r_squared": 0.09168057959967468,
+    "adj_r_squared": 0.031125951572986366,
     "coefficients": [
       {
         "feature": "Action Orientation",
-        "std_beta": -0.3361042729479316
+        "std_beta": -0.10914597302218526
       },
       {
         "feature": "Metaphorical Density",
-        "std_beta": -0.03254456263448383
+        "std_beta": -0.1965664417523512
       },
       {
         "feature": "Emotional Intensity",
-        "std_beta": -0.17127790403797735
+        "std_beta": -0.16770560844162208
       },
       {
         "feature": "Structural Clarity",
-        "std_beta": 0.2565873907776239
+        "std_beta": 0.05970537135114576
       },
       {
         "feature": "Directness Level",
-        "std_beta": 0.5352977979660405
+        "std_beta": 0.1702006391313484
       },
       {
         "feature": "Atmospheric Language",
-        "std_beta": 0.6033931869286984
+        "std_beta": 0.19854224871490314
       }
     ],
     "high_chars": [
@@ -1234,7 +1234,7 @@
   "Chinese Mythology__PC1": {
     "universe": "Chinese Mythology",
     "pc": 1,
-    "n_chars": 20,
+    "n_chars": 66,
     "n_features": 6,
     "features": [
       "Mystical Imagery",
@@ -1247,61 +1247,61 @@
     "correlations": [
       {
         "feature": "Mystical Imagery",
-        "correlation": -0.8416750364888145,
-        "abs_correlation": 0.8416750364888145
-      },
-      {
-        "feature": "Action Descriptions",
-        "correlation": -0.3333889922332532,
-        "abs_correlation": 0.3333889922332532
-      },
-      {
-        "feature": "Direct Address",
-        "correlation": NaN,
-        "abs_correlation": NaN
+        "correlation": -0.7592991261034905,
+        "abs_correlation": 0.7592991261034905
       },
       {
         "feature": "Philosophical Abstraction",
-        "correlation": -0.8553628308494302,
-        "abs_correlation": 0.8553628308494302
+        "correlation": -0.7109547251706454,
+        "abs_correlation": 0.7109547251706454
       },
       {
         "feature": "Personal Anecdotes",
-        "correlation": 0.403587370905335,
-        "abs_correlation": 0.403587370905335
+        "correlation": 0.3123474241723778,
+        "abs_correlation": 0.3123474241723778
       },
       {
         "feature": "Declarative Certainty",
-        "correlation": 0.06269608541932092,
-        "abs_correlation": 0.06269608541932092
+        "correlation": -0.09415447033438809,
+        "abs_correlation": 0.09415447033438809
+      },
+      {
+        "feature": "Action Descriptions",
+        "correlation": -0.07450009571018855,
+        "abs_correlation": 0.07450009571018855
+      },
+      {
+        "feature": "Direct Address",
+        "correlation": -0.05442471745821434,
+        "abs_correlation": 0.05442471745821434
       }
     ],
-    "r_squared": 0.8225349494736895,
-    "adj_r_squared": 0.7406280030769309,
+    "r_squared": 0.7281174563839583,
+    "adj_r_squared": 0.7004683841518184,
     "coefficients": [
       {
         "feature": "Mystical Imagery",
-        "std_beta": -0.4088600284203743
+        "std_beta": -0.5244841721056533
       },
       {
         "feature": "Action Descriptions",
-        "std_beta": -0.10826528773304094
+        "std_beta": -0.09530668336964486
       },
       {
         "feature": "Direct Address",
-        "std_beta": 0.0
+        "std_beta": -0.01829227269109068
       },
       {
         "feature": "Philosophical Abstraction",
-        "std_beta": -0.538777082773099
+        "std_beta": -0.4531016830991814
       },
       {
         "feature": "Declarative Certainty",
-        "std_beta": 0.03420413865443851
+        "std_beta": 0.16861346907403446
       },
       {
         "feature": "Personal Anecdotes",
-        "std_beta": -0.05124317714321508
+        "std_beta": 0.04969492628804808
       }
     ],
     "high_chars": [
@@ -1322,7 +1322,7 @@
   "Chinese Mythology__PC2": {
     "universe": "Chinese Mythology",
     "pc": 2,
-    "n_chars": 20,
+    "n_chars": 66,
     "n_features": 6,
     "features": [
       "Formal Language Use",
@@ -1335,61 +1335,61 @@
     "correlations": [
       {
         "feature": "Strategic Calculation",
-        "correlation": -0.7436734969038193,
-        "abs_correlation": 0.7436734969038193
+        "correlation": -0.4998116019114651,
+        "abs_correlation": 0.4998116019114651
       },
       {
         "feature": "Formal Language Use",
-        "correlation": -0.640617234725984,
-        "abs_correlation": 0.640617234725984
-      },
-      {
-        "feature": "Self-Deprecating Tone",
-        "correlation": 0.5221089116641968,
-        "abs_correlation": 0.5221089116641968
+        "correlation": -0.4745387988294235,
+        "abs_correlation": 0.4745387988294235
       },
       {
         "feature": "Conversational Intimacy",
-        "correlation": 0.4324521236793971,
-        "abs_correlation": 0.4324521236793971
-      },
-      {
-        "feature": "Physical Gesture Frequency",
-        "correlation": -0.08243401794943941,
-        "abs_correlation": 0.08243401794943941
+        "correlation": 0.2661803266243909,
+        "abs_correlation": 0.2661803266243909
       },
       {
         "feature": "Authoritative Presence",
-        "correlation": -0.08092746541898922,
-        "abs_correlation": 0.08092746541898922
+        "correlation": -0.08247428381390078,
+        "abs_correlation": 0.08247428381390078
+      },
+      {
+        "feature": "Physical Gesture Frequency",
+        "correlation": 0.07186735964451099,
+        "abs_correlation": 0.07186735964451099
+      },
+      {
+        "feature": "Self-Deprecating Tone",
+        "correlation": 0.030320027654871243,
+        "abs_correlation": 0.030320027654871243
       }
     ],
-    "r_squared": 0.6601767160849578,
-    "adj_r_squared": 0.5033352004318613,
+    "r_squared": 0.3437161541647814,
+    "adj_r_squared": 0.2769754240798439,
     "coefficients": [
       {
         "feature": "Formal Language Use",
-        "std_beta": -0.1376067096527498
+        "std_beta": -0.2852175554966522
       },
       {
         "feature": "Self-Deprecating Tone",
-        "std_beta": 0.14138327361349706
+        "std_beta": 0.06549583202079147
       },
       {
         "feature": "Strategic Calculation",
-        "std_beta": -0.8109283743512039
+        "std_beta": -0.4464574498414222
       },
       {
         "feature": "Physical Gesture Frequency",
-        "std_beta": -0.08826665738762374
+        "std_beta": 0.008245374143886326
       },
       {
         "feature": "Authoritative Presence",
-        "std_beta": 0.1956680418220658
+        "std_beta": 0.1519383163632523
       },
       {
         "feature": "Conversational Intimacy",
-        "std_beta": -0.2226862499225033
+        "std_beta": -0.018117766511032533
       }
     ],
     "high_chars": [
@@ -1410,7 +1410,7 @@
   "Hindu Mythology__PC1": {
     "universe": "Hindu Mythology",
     "pc": 1,
-    "n_chars": 20,
+    "n_chars": 60,
     "n_features": 6,
     "features": [
       "Mystical Imagery",
@@ -1422,62 +1422,62 @@
     ],
     "correlations": [
       {
-        "feature": "Mystical Imagery",
-        "correlation": -0.5881772061145618,
-        "abs_correlation": 0.5881772061145618
-      },
-      {
-        "feature": "Reflective Pausing",
-        "correlation": -0.05731153071729235,
-        "abs_correlation": 0.05731153071729235
-      },
-      {
-        "feature": "Direct Address",
-        "correlation": -0.03904298330699463,
-        "abs_correlation": 0.03904298330699463
-      },
-      {
-        "feature": "Narrative Completeness",
-        "correlation": NaN,
-        "abs_correlation": NaN
-      },
-      {
         "feature": "Personal Vulnerability",
-        "correlation": 0.6531257284257963,
-        "abs_correlation": 0.6531257284257963
+        "correlation": 0.6809035587432712,
+        "abs_correlation": 0.6809035587432712
+      },
+      {
+        "feature": "Mystical Imagery",
+        "correlation": -0.39681265561964923,
+        "abs_correlation": 0.39681265561964923
       },
       {
         "feature": "Performative Expression",
-        "correlation": -0.3714877894923859,
-        "abs_correlation": 0.3714877894923859
+        "correlation": -0.38185297996303824,
+        "abs_correlation": 0.38185297996303824
+      },
+      {
+        "feature": "Reflective Pausing",
+        "correlation": 0.28185887427428397,
+        "abs_correlation": 0.28185887427428397
+      },
+      {
+        "feature": "Direct Address",
+        "correlation": 0.014330045659469817,
+        "abs_correlation": 0.014330045659469817
+      },
+      {
+        "feature": "Narrative Completeness",
+        "correlation": 0.010646979346240064,
+        "abs_correlation": 0.010646979346240064
       }
     ],
-    "r_squared": 0.7175039088341895,
-    "adj_r_squared": 0.5871210975268923,
+    "r_squared": 0.6927353227085868,
+    "adj_r_squared": 0.6579506422605024,
     "coefficients": [
       {
         "feature": "Mystical Imagery",
-        "std_beta": -0.5643438451219996
+        "std_beta": -0.18910796750412856
       },
       {
         "feature": "Reflective Pausing",
-        "std_beta": 0.03507927576079721
+        "std_beta": 0.04808138336155947
       },
       {
         "feature": "Direct Address",
-        "std_beta": 0.042079282849027934
+        "std_beta": -0.06505631209061626
       },
       {
         "feature": "Narrative Completeness",
-        "std_beta": 0.0
+        "std_beta": 0.07863148001842736
       },
       {
         "feature": "Personal Vulnerability",
-        "std_beta": 0.5997791401680918
+        "std_beta": 0.6716907580253075
       },
       {
         "feature": "Performative Expression",
-        "std_beta": 0.006751422981369289
+        "std_beta": -0.38465357978841813
       }
     ],
     "high_chars": [
@@ -1498,7 +1498,7 @@
   "Hindu Mythology__PC2": {
     "universe": "Hindu Mythology",
     "pc": 2,
-    "n_chars": 20,
+    "n_chars": 60,
     "n_features": 6,
     "features": [
       "Menacing Tone",
@@ -1510,62 +1510,62 @@
     ],
     "correlations": [
       {
-        "feature": "Philosophical Teaching",
-        "correlation": -0.7039279187265189,
-        "abs_correlation": 0.7039279187265189
-      },
-      {
         "feature": "Compassionate Address",
-        "correlation": -0.6171869441769735,
-        "abs_correlation": 0.6171869441769735
+        "correlation": -0.571146834680098,
+        "abs_correlation": 0.571146834680098
       },
       {
         "feature": "Defiant Rhetoric",
-        "correlation": 0.5809536941209232,
-        "abs_correlation": 0.5809536941209232
+        "correlation": 0.5457991588678535,
+        "abs_correlation": 0.5457991588678535
+      },
+      {
+        "feature": "Philosophical Teaching",
+        "correlation": -0.537599082270859,
+        "abs_correlation": 0.537599082270859
       },
       {
         "feature": "Menacing Tone",
-        "correlation": 0.5693645397988953,
-        "abs_correlation": 0.5693645397988953
+        "correlation": 0.4798768501189163,
+        "abs_correlation": 0.4798768501189163
       },
       {
         "feature": "Self-Aggrandizement",
-        "correlation": 0.38031487304984274,
-        "abs_correlation": 0.38031487304984274
+        "correlation": 0.3237032225527207,
+        "abs_correlation": 0.3237032225527207
       },
       {
         "feature": "Narrative Storytelling",
-        "correlation": -0.1707128885806836,
-        "abs_correlation": 0.1707128885806836
+        "correlation": -0.17838422796038592,
+        "abs_correlation": 0.17838422796038592
       }
     ],
-    "r_squared": 0.5431581553565307,
-    "adj_r_squared": 0.33230807321339095,
+    "r_squared": 0.4704317703663511,
+    "adj_r_squared": 0.4104806500304663,
     "coefficients": [
       {
         "feature": "Menacing Tone",
-        "std_beta": 0.1818119203877631
+        "std_beta": -0.05157080231573061
       },
       {
         "feature": "Self-Aggrandizement",
-        "std_beta": -0.3343122126914942
+        "std_beta": 0.003929617038746851
       },
       {
         "feature": "Philosophical Teaching",
-        "std_beta": -0.5989964135234667
+        "std_beta": -0.3498363962775749
       },
       {
         "feature": "Compassionate Address",
-        "std_beta": -0.09639541656448537
+        "std_beta": -0.20048460963306958
       },
       {
         "feature": "Defiant Rhetoric",
-        "std_beta": 0.14065730547657102
+        "std_beta": 0.3027331456288843
       },
       {
         "feature": "Narrative Storytelling",
-        "std_beta": -0.02299255879681476
+        "std_beta": -0.14630223710391904
       }
     ],
     "high_chars": [
@@ -1586,7 +1586,7 @@
   "Norse Mythology__PC1": {
     "universe": "Norse Mythology",
     "pc": 1,
-    "n_chars": 20,
+    "n_chars": 38,
     "n_features": 6,
     "features": [
       "Mystical Language Use",
@@ -1598,62 +1598,62 @@
     ],
     "correlations": [
       {
-        "feature": "Philosophical Abstraction",
-        "correlation": 0.6914381199448068,
-        "abs_correlation": 0.6914381199448068
-      },
-      {
         "feature": "Mystical Language Use",
-        "correlation": 0.5946041151570944,
-        "abs_correlation": 0.5946041151570944
-      },
-      {
-        "feature": "Direct Address Style",
-        "correlation": -0.10404053916510685,
-        "abs_correlation": 0.10404053916510685
-      },
-      {
-        "feature": "Action Descriptions",
-        "correlation": 0.10128504443626377,
-        "abs_correlation": 0.10128504443626377
+        "correlation": 0.3710599489530479,
+        "abs_correlation": 0.3710599489530479
       },
       {
         "feature": "Narrative Fragmentation",
-        "correlation": 0.09301530247864255,
-        "abs_correlation": 0.09301530247864255
+        "correlation": NaN,
+        "abs_correlation": NaN
+      },
+      {
+        "feature": "Philosophical Abstraction",
+        "correlation": 0.4638575234042215,
+        "abs_correlation": 0.4638575234042215
+      },
+      {
+        "feature": "Direct Address Style",
+        "correlation": -0.21977282109505367,
+        "abs_correlation": 0.21977282109505367
       },
       {
         "feature": "Declarative Confidence",
-        "correlation": NaN,
-        "abs_correlation": NaN
+        "correlation": 0.15536672861997067,
+        "abs_correlation": 0.15536672861997067
+      },
+      {
+        "feature": "Action Descriptions",
+        "correlation": -0.03782586433322504,
+        "abs_correlation": 0.03782586433322504
       }
     ],
-    "r_squared": 0.6129100057835642,
-    "adj_r_squared": 0.4342530853759785,
+    "r_squared": 0.3607463415239094,
+    "adj_r_squared": 0.2370198269801499,
     "coefficients": [
       {
         "feature": "Mystical Language Use",
-        "std_beta": 0.3318549679540948
+        "std_beta": 0.1891643697559394
       },
       {
         "feature": "Narrative Fragmentation",
-        "std_beta": 0.044331435535003155
+        "std_beta": -0.0
       },
       {
         "feature": "Action Descriptions",
-        "std_beta": 0.16491550270457928
+        "std_beta": -0.08095820208745878
       },
       {
         "feature": "Philosophical Abstraction",
-        "std_beta": 0.5328911940181894
+        "std_beta": 0.38551148402208824
       },
       {
         "feature": "Direct Address Style",
-        "std_beta": -0.25278127055592203
+        "std_beta": -0.3498244505228142
       },
       {
         "feature": "Declarative Confidence",
-        "std_beta": -0.0
+        "std_beta": 0.20460315745598442
       }
     ],
     "high_chars": [
@@ -1674,7 +1674,7 @@
   "Norse Mythology__PC2": {
     "universe": "Norse Mythology",
     "pc": 2,
-    "n_chars": 19,
+    "n_chars": 36,
     "n_features": 6,
     "features": [
       "Darkness Imagery",
@@ -1686,62 +1686,62 @@
     ],
     "correlations": [
       {
-        "feature": "Emotional Warmth",
-        "correlation": -0.637298521932853,
-        "abs_correlation": 0.637298521932853
+        "feature": "Vengeful Focus",
+        "correlation": 0.6887069515077598,
+        "abs_correlation": 0.6887069515077598
       },
       {
-        "feature": "Vengeful Focus",
-        "correlation": 0.5959848844751634,
-        "abs_correlation": 0.5959848844751634
+        "feature": "Emotional Warmth",
+        "correlation": -0.6573150375203709,
+        "abs_correlation": 0.6573150375203709
       },
       {
         "feature": "Darkness Imagery",
-        "correlation": 0.407113447365789,
-        "abs_correlation": 0.407113447365789
+        "correlation": 0.43125546214164046,
+        "abs_correlation": 0.43125546214164046
       },
       {
         "feature": "Sentence Fragmentation",
-        "correlation": 0.326163054911792,
-        "abs_correlation": 0.326163054911792
-      },
-      {
-        "feature": "Direct Address",
-        "correlation": 0.25417906515412525,
-        "abs_correlation": 0.25417906515412525
+        "correlation": 0.4228311293371501,
+        "abs_correlation": 0.4228311293371501
       },
       {
         "feature": "Vocal Descriptors",
-        "correlation": 0.0991418589574067,
-        "abs_correlation": 0.0991418589574067
+        "correlation": 0.3389525725045858,
+        "abs_correlation": 0.3389525725045858
+      },
+      {
+        "feature": "Direct Address",
+        "correlation": -0.07528985044470198,
+        "abs_correlation": 0.07528985044470198
       }
     ],
-    "r_squared": 0.6034545688432092,
-    "adj_r_squared": 0.4051818532648138,
+    "r_squared": 0.5424235892988126,
+    "adj_r_squared": 0.44775260777442905,
     "coefficients": [
       {
         "feature": "Darkness Imagery",
-        "std_beta": -0.7324689775682963
+        "std_beta": -0.27506040149161365
       },
       {
         "feature": "Vocal Descriptors",
-        "std_beta": 0.013347586336382528
+        "std_beta": -0.02929082093707855
       },
       {
         "feature": "Emotional Warmth",
-        "std_beta": -0.7829225555229783
+        "std_beta": -0.28681091387898794
       },
       {
         "feature": "Sentence Fragmentation",
-        "std_beta": 0.27449094262583756
+        "std_beta": 0.1288895082835461
       },
       {
         "feature": "Direct Address",
-        "std_beta": 0.06990096887222554
+        "std_beta": -0.08649212610849041
       },
       {
         "feature": "Vengeful Focus",
-        "std_beta": 0.49343147009845634
+        "std_beta": 0.6119258397105358
       }
     ],
     "high_chars": [
@@ -1762,7 +1762,7 @@
   "Egyptian Mythology__PC1": {
     "universe": "Egyptian Mythology",
     "pc": 1,
-    "n_chars": 20,
+    "n_chars": 34,
     "n_features": 6,
     "features": [
       "Threatening Intensity",
@@ -1775,61 +1775,61 @@
     "correlations": [
       {
         "feature": "Physical Manifestation",
-        "correlation": 0.3961478918383089,
-        "abs_correlation": 0.3961478918383089
+        "correlation": 0.34466666184333467,
+        "abs_correlation": 0.34466666184333467
       },
       {
         "feature": "Disruptive Language",
-        "correlation": 0.2569622848562172,
-        "abs_correlation": 0.2569622848562172
-      },
-      {
-        "feature": "Conversational Warmth",
-        "correlation": 0.22794779488282832,
-        "abs_correlation": 0.22794779488282832
+        "correlation": 0.32475536075773215,
+        "abs_correlation": 0.32475536075773215
       },
       {
         "feature": "Philosophical Contradiction",
-        "correlation": 0.058990107123918646,
-        "abs_correlation": 0.058990107123918646
+        "correlation": 0.21378348536503705,
+        "abs_correlation": 0.21378348536503705
       },
       {
         "feature": "Structural Formality",
-        "correlation": -0.02287114615094182,
-        "abs_correlation": 0.02287114615094182
+        "correlation": -0.20231223231928994,
+        "abs_correlation": 0.20231223231928994
+      },
+      {
+        "feature": "Conversational Warmth",
+        "correlation": 0.14631977699469456,
+        "abs_correlation": 0.14631977699469456
       },
       {
         "feature": "Threatening Intensity",
-        "correlation": -0.0009942874902866214,
-        "abs_correlation": 0.0009942874902866214
+        "correlation": 0.1234520640610799,
+        "abs_correlation": 0.1234520640610799
       }
     ],
-    "r_squared": 0.37243535024624186,
-    "adj_r_squared": 0.08279012728296897,
+    "r_squared": 0.29130247433415246,
+    "adj_r_squared": 0.13381413529729747,
     "coefficients": [
       {
         "feature": "Threatening Intensity",
-        "std_beta": 0.061616567358747105
+        "std_beta": 0.037425883726632164
       },
       {
         "feature": "Physical Manifestation",
-        "std_beta": 0.5572221369744196
+        "std_beta": 0.3035181502914812
       },
       {
         "feature": "Conversational Warmth",
-        "std_beta": 0.5937345585927971
+        "std_beta": 0.5184174434285455
       },
       {
         "feature": "Structural Formality",
-        "std_beta": -0.14343601746544146
+        "std_beta": -0.02877842056348314
       },
       {
         "feature": "Disruptive Language",
-        "std_beta": 0.006914210415570995
+        "std_beta": 0.170937913272354
       },
       {
         "feature": "Philosophical Contradiction",
-        "std_beta": 0.19251708301010653
+        "std_beta": 0.2099302170658255
       }
     ],
     "high_chars": [
@@ -1850,7 +1850,7 @@
   "Egyptian Mythology__PC2": {
     "universe": "Egyptian Mythology",
     "pc": 2,
-    "n_chars": 20,
+    "n_chars": 34,
     "n_features": 6,
     "features": [
       "Personal Grandiosity",
@@ -1863,13 +1863,23 @@
     "correlations": [
       {
         "feature": "Ritualistic Formality",
-        "correlation": 0.25713856543727065,
-        "abs_correlation": 0.25713856543727065
+        "correlation": 0.2064390494070693,
+        "abs_correlation": 0.2064390494070693
+      },
+      {
+        "feature": "Emotional Intensity",
+        "correlation": 0.058967144989371084,
+        "abs_correlation": 0.058967144989371084
       },
       {
         "feature": "Direct Address",
-        "correlation": 0.22580696482273951,
-        "abs_correlation": 0.22580696482273951
+        "correlation": -0.05380839299646733,
+        "abs_correlation": 0.05380839299646733
+      },
+      {
+        "feature": "Personal Grandiosity",
+        "correlation": -0.035894108025455874,
+        "abs_correlation": 0.035894108025455874
       },
       {
         "feature": "Metaphorical Density",
@@ -1878,34 +1888,24 @@
       },
       {
         "feature": "Philosophical Abstraction",
-        "correlation": -0.06657401496789284,
-        "abs_correlation": 0.06657401496789284
-      },
-      {
-        "feature": "Emotional Intensity",
-        "correlation": 0.14984322725323038,
-        "abs_correlation": 0.14984322725323038
-      },
-      {
-        "feature": "Personal Grandiosity",
-        "correlation": -0.09655923072840811,
-        "abs_correlation": 0.09655923072840811
+        "correlation": 0.017745437143092704,
+        "abs_correlation": 0.017745437143092704
       }
     ],
-    "r_squared": 0.2823431913382758,
-    "adj_r_squared": -0.04888302804405842,
+    "r_squared": 0.05781950099708921,
+    "adj_r_squared": -0.15155394322577997,
     "coefficients": [
       {
         "feature": "Personal Grandiosity",
-        "std_beta": -0.3398675309832965
+        "std_beta": -0.13539038566232522
       },
       {
         "feature": "Emotional Intensity",
-        "std_beta": 0.34656843369062135
+        "std_beta": 0.06785051869218667
       },
       {
         "feature": "Direct Address",
-        "std_beta": 0.3817429226200899
+        "std_beta": -0.05593611075740516
       },
       {
         "feature": "Metaphorical Density",
@@ -1913,11 +1913,11 @@
       },
       {
         "feature": "Philosophical Abstraction",
-        "std_beta": -0.020471090211996595
+        "std_beta": -0.002438708938857351
       },
       {
         "feature": "Ritualistic Formality",
-        "std_beta": 0.427908553376745
+        "std_beta": 0.2227888930451424
       }
     ],
     "high_chars": [
@@ -1938,7 +1938,7 @@
   "Shakespeare__PC1": {
     "universe": "Shakespeare",
     "pc": 1,
-    "n_chars": 20,
+    "n_chars": 83,
     "n_features": 6,
     "features": [
       "Formal Register",
@@ -1951,61 +1951,61 @@
     "correlations": [
       {
         "feature": "Rambling Tendency",
-        "correlation": -0.5058264131948117,
-        "abs_correlation": 0.5058264131948117
-      },
-      {
-        "feature": "Self-Deprecation Level",
-        "correlation": -0.2018351808163391,
-        "abs_correlation": 0.2018351808163391
-      },
-      {
-        "feature": "Formal Register",
-        "correlation": 0.19211236037240131,
-        "abs_correlation": 0.19211236037240131
-      },
-      {
-        "feature": "Self-Interruption Frequency",
-        "correlation": 0.0959854002584646,
-        "abs_correlation": 0.0959854002584646
+        "correlation": -0.353512618169855,
+        "abs_correlation": 0.353512618169855
       },
       {
         "feature": "Metaphorical Density",
-        "correlation": NaN,
-        "abs_correlation": NaN
+        "correlation": -0.10907767142922192,
+        "abs_correlation": 0.10907767142922192
+      },
+      {
+        "feature": "Self-Deprecation Level",
+        "correlation": -0.08721657136254728,
+        "abs_correlation": 0.08721657136254728
+      },
+      {
+        "feature": "Formal Register",
+        "correlation": 0.031145624739904093,
+        "abs_correlation": 0.031145624739904093
+      },
+      {
+        "feature": "Self-Interruption Frequency",
+        "correlation": 0.019728663132561518,
+        "abs_correlation": 0.019728663132561518
       },
       {
         "feature": "Archaic Language Use",
-        "correlation": NaN,
-        "abs_correlation": NaN
+        "correlation": 0.011923616806999318,
+        "abs_correlation": 0.011923616806999318
       }
     ],
-    "r_squared": 0.28729399039920256,
-    "adj_r_squared": -0.04164724480116555,
+    "r_squared": 0.1406405033864162,
+    "adj_r_squared": 0.07279633260113327,
     "coefficients": [
       {
         "feature": "Formal Register",
-        "std_beta": 0.10448706503896069
+        "std_beta": 0.07592546375396689
       },
       {
         "feature": "Self-Interruption Frequency",
-        "std_beta": 0.14021376821293102
+        "std_beta": 0.10117979290512805
       },
       {
         "feature": "Rambling Tendency",
-        "std_beta": -0.5047304898629209
+        "std_beta": -0.35229485652470216
       },
       {
         "feature": "Metaphorical Density",
-        "std_beta": 0.0
+        "std_beta": -0.07727628772633088
       },
       {
         "feature": "Self-Deprecation Level",
-        "std_beta": 0.007648870591117443
+        "std_beta": -0.0465654452301278
       },
       {
         "feature": "Archaic Language Use",
-        "std_beta": 0.0
+        "std_beta": -0.06302150503182281
       }
     ],
     "high_chars": [
@@ -2026,7 +2026,7 @@
   "Shakespeare__PC2": {
     "universe": "Shakespeare",
     "pc": 2,
-    "n_chars": 20,
+    "n_chars": 83,
     "n_features": 6,
     "features": [
       "Formal Register",
@@ -2039,61 +2039,61 @@
     "correlations": [
       {
         "feature": "Formal Register",
-        "correlation": 0.7020058007210156,
-        "abs_correlation": 0.7020058007210156
+        "correlation": 0.5741800552714145,
+        "abs_correlation": 0.5741800552714145
       },
       {
         "feature": "Syntactic Complexity",
-        "correlation": 0.7020058007210156,
-        "abs_correlation": 0.7020058007210156
-      },
-      {
-        "feature": "Self-Deprecating Humor",
-        "correlation": -0.45573264366641003,
-        "abs_correlation": 0.45573264366641003
+        "correlation": 0.5158182912896023,
+        "abs_correlation": 0.5158182912896023
       },
       {
         "feature": "Metaphorical Density",
-        "correlation": 0.17130084089272052,
-        "abs_correlation": 0.17130084089272052
+        "correlation": 0.4197017736574057,
+        "abs_correlation": 0.4197017736574057
+      },
+      {
+        "feature": "Self-Deprecating Humor",
+        "correlation": -0.35116295102247114,
+        "abs_correlation": 0.35116295102247114
       },
       {
         "feature": "Rambling Tendency",
-        "correlation": -0.09656930451065159,
-        "abs_correlation": 0.09656930451065159
+        "correlation": 0.09764014699332178,
+        "abs_correlation": 0.09764014699332178
       },
       {
         "feature": "Archaic Speech Patterns",
-        "correlation": NaN,
-        "abs_correlation": NaN
+        "correlation": 0.08914912593459656,
+        "abs_correlation": 0.08914912593459656
       }
     ],
-    "r_squared": 0.5816322059430281,
-    "adj_r_squared": 0.38853937791673343,
+    "r_squared": 0.4784983955418197,
+    "adj_r_squared": 0.4373272162424897,
     "coefficients": [
       {
         "feature": "Formal Register",
-        "std_beta": 0.3404383665877033
+        "std_beta": 1.2027451382107155
       },
       {
         "feature": "Syntactic Complexity",
-        "std_beta": 0.3404383665877031
+        "std_beta": -0.7730394120512883
       },
       {
         "feature": "Metaphorical Density",
-        "std_beta": 0.21200613461302345
+        "std_beta": 0.144115510319184
       },
       {
         "feature": "Self-Deprecating Humor",
-        "std_beta": -0.16312157408921482
+        "std_beta": -0.2815154989899899
       },
       {
         "feature": "Rambling Tendency",
-        "std_beta": 0.07252716113767575
+        "std_beta": 0.33955733699761514
       },
       {
         "feature": "Archaic Speech Patterns",
-        "std_beta": -0.0
+        "std_beta": -0.06555080371197122
       }
     ],
     "high_chars": [
