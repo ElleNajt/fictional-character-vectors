@@ -407,9 +407,6 @@
       138
     ]
   },
-  "Marvel__PC1": {
-    "error": "529 Server Error: <none> for url: https://api.anthropic.com/v1/messages"
-  },
   "Marvel__PC2": {
     "universe": "Marvel",
     "pc": 2,
@@ -1564,6 +1561,74 @@
       212,
       61,
       136
+    ]
+  },
+  "Marvel__PC1": {
+    "universe": "Marvel",
+    "pc": 1,
+    "high_chars": [
+      "Galactus",
+      "The Watcher Uatu",
+      "Heimdall",
+      "Ultron",
+      "Professor X Charles Xavier"
+    ],
+    "low_chars": [
+      "Deadpool Wade Wilson",
+      "Jessica Jones",
+      "Starlord Peter Quill",
+      " Logan",
+      "Spiderman Peter Parker"
+    ],
+    "features": [
+      {
+        "name": "Cosmic Grandiosity",
+        "low_description": "Uses everyday, casual language and references",
+        "high_description": "Uses cosmic, universal, and grandiose language with references to stars, void, eternity",
+        "high_group": "A"
+      },
+      {
+        "name": "Conversational Informality",
+        "low_description": "Formal, distant, and ceremonial tone",
+        "high_description": "Casual, buddy-like tone with contractions and colloquialisms",
+        "high_group": "B"
+      },
+      {
+        "name": "Self-Referential Humor",
+        "low_description": "Serious, no jokes or self-deprecating comments",
+        "high_description": "Frequent jokes, puns, and self-aware commentary about own situation",
+        "high_group": "B"
+      },
+      {
+        "name": "Philosophical Abstraction",
+        "low_description": "Concrete, practical responses focused on immediate concerns",
+        "high_description": "Abstract philosophical musings about existence, purpose, and cosmic meaning",
+        "high_group": "A"
+      },
+      {
+        "name": "Pop Culture References",
+        "low_description": "No references to modern culture, media, or contemporary life",
+        "high_description": "Frequent references to movies, brands, modern technology, and current culture",
+        "high_group": "B"
+      },
+      {
+        "name": "Authoritative Proclamation",
+        "low_description": "Tentative, questioning, or conversational delivery",
+        "high_description": "Declarative, commanding tone with absolute statements and cosmic authority",
+        "high_group": "A"
+      }
+    ],
+    "discover_question_indices": [
+      86,
+      213,
+      37,
+      16,
+      144,
+      113,
+      102,
+      202,
+      130,
+      228
     ]
   }
 }

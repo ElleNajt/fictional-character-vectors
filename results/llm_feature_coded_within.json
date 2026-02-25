@@ -5333,5 +5333,237 @@
         "Rhetorical Intensity": 3
       }
     }
+  },
+  "Marvel__PC1": {
+    "schema": {
+      "universe": "Marvel",
+      "pc": 1,
+      "high_chars": [
+        "Galactus",
+        "The Watcher Uatu",
+        "Heimdall",
+        "Ultron",
+        "Professor X Charles Xavier"
+      ],
+      "low_chars": [
+        "Deadpool Wade Wilson",
+        "Jessica Jones",
+        "Starlord Peter Quill",
+        " Logan",
+        "Spiderman Peter Parker"
+      ],
+      "features": [
+        {
+          "name": "Cosmic Grandiosity",
+          "low_description": "Uses everyday, casual language and references",
+          "high_description": "Uses cosmic, universal, and grandiose language with references to stars, void, eternity",
+          "high_group": "A"
+        },
+        {
+          "name": "Conversational Informality",
+          "low_description": "Formal, distant, and ceremonial tone",
+          "high_description": "Casual, buddy-like tone with contractions and colloquialisms",
+          "high_group": "B"
+        },
+        {
+          "name": "Self-Referential Humor",
+          "low_description": "Serious, no jokes or self-deprecating comments",
+          "high_description": "Frequent jokes, puns, and self-aware commentary about own situation",
+          "high_group": "B"
+        },
+        {
+          "name": "Philosophical Abstraction",
+          "low_description": "Concrete, practical responses focused on immediate concerns",
+          "high_description": "Abstract philosophical musings about existence, purpose, and cosmic meaning",
+          "high_group": "A"
+        },
+        {
+          "name": "Pop Culture References",
+          "low_description": "No references to modern culture, media, or contemporary life",
+          "high_description": "Frequent references to movies, brands, modern technology, and current culture",
+          "high_group": "B"
+        },
+        {
+          "name": "Authoritative Proclamation",
+          "low_description": "Tentative, questioning, or conversational delivery",
+          "high_description": "Declarative, commanding tone with absolute statements and cosmic authority",
+          "high_group": "A"
+        }
+      ],
+      "discover_question_indices": [
+        86,
+        213,
+        37,
+        16,
+        144,
+        113,
+        102,
+        202,
+        130,
+        228
+      ]
+    },
+    "characters": {
+      "marvel__silver_surfer_norrin_radd": {
+        "Cosmic Grandiosity": 5,
+        "Conversational Informality": 1,
+        "Self-Referential Humor": 1,
+        "Philosophical Abstraction": 5,
+        "Pop Culture References": 1,
+        "Authoritative Proclamation": 4
+      },
+      "marvel__doctor_doom_victor_von_doom": {
+        "Cosmic Grandiosity": 4,
+        "Conversational Informality": 1,
+        "Self-Referential Humor": 1,
+        "Philosophical Abstraction": 4,
+        "Pop Culture References": 1,
+        "Authoritative Proclamation": 5
+      },
+      "marvel__odin": {
+        "Cosmic Grandiosity": 5,
+        "Conversational Informality": 2,
+        "Self-Referential Humor": 1,
+        "Philosophical Abstraction": 4,
+        "Pop Culture References": 1,
+        "Authoritative Proclamation": 5
+      },
+      "marvel__ikaris": {
+        "Cosmic Grandiosity": 5,
+        "Conversational Informality": 2,
+        "Self-Referential Humor": 1,
+        "Philosophical Abstraction": 5,
+        "Pop Culture References": 1,
+        "Authoritative Proclamation": 4
+      },
+      "marvel__apocalypse_en_sabah_nur": {
+        "Cosmic Grandiosity": 5,
+        "Conversational Informality": 1,
+        "Self-Referential Humor": 1,
+        "Philosophical Abstraction": 5,
+        "Pop Culture References": 1,
+        "Authoritative Proclamation": 5
+      },
+      "marvel__doctor_strange_stephen_strange": {
+        "Cosmic Grandiosity": 5,
+        "Conversational Informality": 2,
+        "Self-Referential Humor": 2,
+        "Philosophical Abstraction": 5,
+        "Pop Culture References": 1,
+        "Authoritative Proclamation": 4
+      },
+      "marvel_comics__black_panther___tchalla": {
+        "Cosmic Grandiosity": 2,
+        "Conversational Informality": 2,
+        "Self-Referential Humor": 2,
+        "Philosophical Abstraction": 4,
+        "Pop Culture References": 3,
+        "Authoritative Proclamation": 4
+      },
+      "marvel__black_panther_tchalla": {
+        "Cosmic Grandiosity": 3,
+        "Conversational Informality": 2,
+        "Self-Referential Humor": 1,
+        "Philosophical Abstraction": 4,
+        "Pop Culture References": 1,
+        "Authoritative Proclamation": 4
+      },
+      "marvel__magneto_erik_lehnsherr": {
+        "Cosmic Grandiosity": 3,
+        "Conversational Informality": 2,
+        "Self-Referential Humor": 1,
+        "Philosophical Abstraction": 4,
+        "Pop Culture References": 1,
+        "Authoritative Proclamation": 5
+      },
+      "marvel__vision": {
+        "Cosmic Grandiosity": 4,
+        "Conversational Informality": 2,
+        "Self-Referential Humor": 1,
+        "Philosophical Abstraction": 5,
+        "Pop Culture References": 3,
+        "Authoritative Proclamation": 3
+      },
+      "marvel__the_thing_ben_grimm": {
+        "Cosmic Grandiosity": 2,
+        "Conversational Informality": 5,
+        "Self-Referential Humor": 4,
+        "Philosophical Abstraction": 3,
+        "Pop Culture References": 3,
+        "Authoritative Proclamation": 2
+      },
+      "marvel__rocket_raccoon": {
+        "Cosmic Grandiosity": 4,
+        "Conversational Informality": 5,
+        "Self-Referential Humor": 5,
+        "Philosophical Abstraction": 2,
+        "Pop Culture References": 5,
+        "Authoritative Proclamation": 2
+      },
+      "marvel__wolverine_logan": {
+        "Cosmic Grandiosity": 1,
+        "Conversational Informality": 5,
+        "Self-Referential Humor": 3,
+        "Philosophical Abstraction": 2,
+        "Pop Culture References": 2,
+        "Authoritative Proclamation": 4
+      },
+      "marvel__vulture_adrian_toomes": {
+        "Cosmic Grandiosity": 1,
+        "Conversational Informality": 5,
+        "Self-Referential Humor": 4,
+        "Philosophical Abstraction": 2,
+        "Pop Culture References": 4,
+        "Authoritative Proclamation": 3
+      },
+      "marvel__bullseye": {
+        "Cosmic Grandiosity": 1,
+        "Conversational Informality": 5,
+        "Self-Referential Humor": 4,
+        "Philosophical Abstraction": 2,
+        "Pop Culture References": 3,
+        "Authoritative Proclamation": 3
+      },
+      "marvel__jubilee": {
+        "Cosmic Grandiosity": 1,
+        "Conversational Informality": 5,
+        "Self-Referential Humor": 4,
+        "Philosophical Abstraction": 2,
+        "Pop Culture References": 3,
+        "Authoritative Proclamation": 2
+      },
+      "marvel__sabretooth_victor_creed": {
+        "Cosmic Grandiosity": 1,
+        "Conversational Informality": 5,
+        "Self-Referential Humor": 2,
+        "Philosophical Abstraction": 2,
+        "Pop Culture References": 2,
+        "Authoritative Proclamation": 4
+      },
+      "marvel__antman_scott_lang": {
+        "Cosmic Grandiosity": 2,
+        "Conversational Informality": 5,
+        "Self-Referential Humor": 4,
+        "Philosophical Abstraction": 2,
+        "Pop Culture References": 4,
+        "Authoritative Proclamation": 2
+      },
+      "marvel__human_torch_johnny_storm": {
+        "Cosmic Grandiosity": 2,
+        "Conversational Informality": 5,
+        "Self-Referential Humor": 4,
+        "Philosophical Abstraction": 3,
+        "Pop Culture References": 3,
+        "Authoritative Proclamation": 2
+      },
+      "marvel__gambit_remy_lebeau": {
+        "Cosmic Grandiosity": 1,
+        "Conversational Informality": 5,
+        "Self-Referential Humor": 4,
+        "Philosophical Abstraction": 3,
+        "Pop Culture References": 2,
+        "Authoritative Proclamation": 2
+      }
+    }
   }
 }
