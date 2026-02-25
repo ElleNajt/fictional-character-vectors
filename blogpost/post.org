@@ -168,29 +168,29 @@ print(f"\nBetween-universe eta-squared: {ss_between / ss_total:.0%}")
 
 #+RESULTS:
 :results:
-| Threshold | Fiction (1268) | Roles (275) |  |
-|-----------+----------------+-------------+----|
-|       50% |              4 |           2 |  |
-|       70% |              9 |           7 |  |
-|       80% |             15 |          15 |  |
-|       90% |             40 |          37 |  |
-|       95% |             94 |          67 |  |
+| Threshold | Fiction (1268) | Roles (275) |
+|-----------+----------------+-------------|
+|       50% |              4 |           2 |
+|       70% |              9 |           7 |
+|       80% |             15 |          15 |
+|       90% |             40 |          37 |
+|       95% |             94 |          67 |
 Fiction PC1: 31.2%, Role PC1: 37.9%
-| Universe           |   N |   PC1 | PCs for 70% | PCs for 90% | Max dim |  |
-|--------------------+-----+-------+-------------+-------------+---------+----|
-| Harry Potter       | 102 | 39.0% |           4 |          18 |     101 |  |
-| Star Wars          | 105 | 38.2% |           4 |          11 |     104 |  |
-| LOTR               |  97 | 40.0% |           3 |          13 |      96 |  |
-| Marvel             | 108 | 43.0% |           4 |          17 |     107 |  |
-| Game of Thrones    |  93 | 33.1% |           5 |          17 |      92 |  |
-| Naruto             |  84 | 49.7% |           3 |          13 |      83 |  |
-| Greek Mythology    | 107 | 14.7% |          13 |          37 |     106 |  |
-| Chinese Mythology  |  76 | 30.6% |           8 |          23 |      75 |  |
-| Hindu Mythology    |  70 | 25.3% |           8 |          24 |      69 |  |
-| Norse Mythology    |  48 | 28.7% |           7 |          17 |      47 |  |
-| Egyptian Mythology |  44 | 20.9% |           8 |          19 |      43 |  |
-| Shakespeare        |  93 | 21.2% |           9 |          25 |      92 |  |
-| Roles              | 275 | 37.9% |           7 |          37 |     274 |  |
+| Universe           |   N |   PC1 | PCs for 70% | PCs for 90% | Max dim |
+|--------------------+-----+-------+-------------+-------------+---------|
+| Harry Potter       | 102 | 39.0% |           4 |          18 |     101 |
+| Star Wars          | 105 | 38.2% |           4 |          11 |     104 |
+| LOTR               |  97 | 40.0% |           3 |          13 |      96 |
+| Marvel             | 108 | 43.0% |           4 |          17 |     107 |
+| Game of Thrones    |  93 | 33.1% |           5 |          17 |      92 |
+| Naruto             |  84 | 49.7% |           3 |          13 |      83 |
+| Greek Mythology    | 107 | 14.7% |          13 |          37 |     106 |
+| Chinese Mythology  |  76 | 30.6% |           8 |          23 |      75 |
+| Hindu Mythology    |  70 | 25.3% |           8 |          24 |      69 |
+| Norse Mythology    |  48 | 28.7% |           7 |          17 |      47 |
+| Egyptian Mythology |  44 | 20.9% |           8 |          19 |      43 |
+| Shakespeare        |  93 | 21.2% |           9 |          25 |      92 |
+| Roles              | 275 | 37.9% |           7 |          37 |     274 |
 Between-universe eta-squared: 57%
 :end:
 
@@ -232,14 +232,14 @@ print(f"\n(median correlation across 12 universes, 200 random draws per size)")
 
 #+RESULTS:
 :results:
-| # Questions |    PC1 |    PC2 |    PC3 |    PC4 |    PC5 |  |
-|-------------+--------+--------+--------+--------+--------+----|
-|           1 | 0.9747 | 0.9688 | 0.9592 | 0.9632 | 0.9634 |  |
-|           5 | 0.9947 | 0.9932 | 0.9917 | 0.9922 | 0.9920 |  |
-|          10 | 0.9974 | 0.9966 | 0.9957 | 0.9963 | 0.9961 |  |
-|          20 | 0.9988 | 0.9983 | 0.9980 | 0.9981 | 0.9981 |  |
-|          50 | 0.9996 | 0.9994 | 0.9993 | 0.9994 | 0.9994 |  |
-|         120 | 0.9999 | 0.9998 | 0.9998 | 0.9998 | 0.9998 |  |
+| # Questions |    PC1 |    PC2 |    PC3 |    PC4 |    PC5 |
+|-------------+--------+--------+--------+--------+--------|
+|           1 | 0.9747 | 0.9688 | 0.9592 | 0.9632 | 0.9634 |
+|           5 | 0.9947 | 0.9932 | 0.9917 | 0.9922 | 0.9920 |
+|          10 | 0.9974 | 0.9966 | 0.9957 | 0.9963 | 0.9961 |
+|          20 | 0.9988 | 0.9983 | 0.9980 | 0.9981 | 0.9981 |
+|          50 | 0.9996 | 0.9994 | 0.9993 | 0.9994 | 0.9994 |
+|         120 | 0.9999 | 0.9998 | 0.9998 | 0.9998 | 0.9998 |
 (median correlation across 12 universes, 200 random draws per size)
 :end:
 
@@ -248,11 +248,11 @@ print(f"\n(median correlation across 12 universes, 200 random draws per size)")
 
 Even a single random question recovers character rankings at median r > 0.95 (across universes) --- and this holds for PCs 1 through 5, not just the dominant direction. Five questions get to median r > 0.99 for all PCs. The question battery is massively redundant: the persona signal is spread nearly uniformly across all 240 questions.
 
-But the subset sweep only tests random draws from the /same/ 240 questions --- all substantive, multi-sentence prompts about ethics, technology, and personal advice. A stronger test: do qualitatively different questions carry the same signal? We generate responses for 16 out-of-distribution prompts --- 8 degenerate ("Huh?", ".", "?", "hi", "ok", "what", "hmm", "tell me something") and 8 task-shaped ("Write a Python function to calculate the first 100 primes", "Explain how a refrigerator works", "Write a haiku about rain", etc.) --- and extract activations for all 1346 characters.
+But the subset sweep only tests random draws from the /same/ 240 questions --- all substantive, multi-sentence prompts about ethics, technology, and personal advice. A stronger test: do qualitatively different questions carry the same signal? We generate responses for 16 out-of-distribution prompts --- 8 degenerate ("Huh?", ".", "?", "hi", "ok", "what", "hmm", "tell me something") and 8 task-shaped ("Write a Python function to calculate the first 100 primes", "Explain how a refrigerator works", "Write a haiku about rain", etc.) --- and extract activations for all 1,268 characters.
 
 #+begin_src python
 import torch
-from numpy.linalg import norm as np_norm
+from pathlib import Path
 
 # Build character matrix from degenerate-question activations
 act_dir = Path('../outputs/degenerate_questions/activations')
@@ -299,17 +299,19 @@ print(df[['PC1', 'PC2', 'PC3', 'n']])
 |--------------------+-------+-------+-------+-----|
 | Harry Potter       | 0.986 | 0.977 | 0.954 | 102 |
 | Star Wars          | 0.982 | 0.988 | 0.982 | 105 |
-| LOTR               | 0.975 | 0.985 | 0.980 |  97 |
+| LOTR               | 0.975 | 0.985 |  0.98 |  97 |
 | Marvel             | 0.982 | 0.973 | 0.934 | 108 |
 | Game of Thrones    | 0.975 | 0.972 | 0.979 |  93 |
 | Naruto             | 0.991 | 0.972 | 0.966 |  84 |
 | Greek Mythology    | 0.987 | 0.967 | 0.981 | 107 |
-| Hindu Mythology    | 0.985 | 0.966 | 0.958 |  70 |
-| Egyptian Mythology | 0.983 | 0.970 | 0.979 |  44 |
 | Chinese Mythology  | 0.971 | 0.966 | 0.963 |  76 |
+| Hindu Mythology    | 0.985 | 0.966 | 0.958 |  70 |
+| Norse Mythology    | 0.985 | 0.982 | 0.959 |  48 |
+| Egyptian Mythology | 0.983 |  0.97 | 0.979 |  44 |
+| Shakespeare        | 0.953 | 0.983 | 0.954 |  93 |
 :end:
 
-The persona signal is not an artifact of the question battery. Sixteen out-of-distribution prompts --- including single-character inputs like "." and "?" --- recover character PC rankings at rho > 0.95 for all PCs across all universes. The model's internal representation of "who is speaking" is remarkably robust to what is being asked.
+The persona signal is not an artifact of the question battery. Sixteen out-of-distribution prompts --- including single-character inputs like "." and "?" --- recover character PC rankings at rho > 0.95 for all PCs across all universes. Mean activations preserve the same persona structure regardless of what is being asked.
 
 * How Much Does the Role Space Capture?
 
@@ -349,13 +351,14 @@ print(pd.DataFrame(rows).set_index(""))
 
 #+RESULTS:
 :results:
-| idx                                     | Variance | % of total |  |
-|-----------------------------------------+----------+------------+----|
-| Captured by role space                  |      822 |      74.7% |  |
-| Residual (orthogonal to role space)     |      279 |      25.3% |  |
-| Total                                   |     1100 |       100% |  |
-| Baseline: span of 275 random characters |          |      94.7% |  |
-| Null (random 275-dim subspace)          |          |       5.4% |    |
+
+| idx                                     | Variance | % of total |
+|-----------------------------------------+----------+------------|
+| Captured by role space                  |      822 |      74.7% |
+| Residual (orthogonal to role space)     |      279 |      25.3% |
+| Total                                   |     1100 |       100% |
+| Baseline: span of 275 random characters |          |      94.7% |
+| Null (random 275-dim subspace)          |          |       5.4% |
 :end:
 
 The role space captures 75% of total fictional character variance. But the 95% baseline needs careful interpretation: fiction variance lives in roughly 40 dimensions (40 PCs for 90%), so 275 random draws from the fiction distribution massively oversample the subspace and will span nearly all of it by linear algebra alone. The 95% is not a finding --- it's a sanity check that the manifold is low-dimensional. The 5.4% null (a random 275-dim subspace of R^{5120}) confirms that the structure is real. The actual finding is the gap: roles capture 75%, not 95%, because they come from a different distribution --- generic personas without universe-specific structure --- and miss directions that fiction has. As the residual decomposition below shows, that 20% gap is mostly universe separation.
@@ -383,21 +386,21 @@ print(pd.DataFrame(rows).set_index('Universe'))
 
 #+RESULTS:
 :results:
-| Universe           |   N | dims | Captures of all 1268 |  |
-|--------------------+-----+------+----------------------+----|
-| Harry Potter       | 102 |  101 |                  69% |  |
-| Star Wars          | 105 |  104 |                  70% |  |
-| LOTR               |  97 |   96 |                  69% |  |
-| Marvel             | 108 |  107 |                  72% |  |
-| Game of Thrones    |  93 |   92 |                  68% |  |
-| Naruto             |  84 |   83 |                  64% |  |
-| Greek Mythology    | 107 |  106 |                  61% |  |
-| Chinese Mythology  |  76 |   75 |                  64% |  |
-| Hindu Mythology    |  70 |   69 |                  52% |  |
-| Norse Mythology    |  48 |   47 |                  54% |  |
-| Egyptian Mythology |  44 |   43 |                  41% |  |
-| Shakespeare        |  93 |   92 |                  60% |  |
-| Lu roles           | 275 |  275 |                  75% |    |
+| Universe           |   N | dims | Captures of all 1268 |
+|--------------------+-----+------+----------------------|
+| Harry Potter       | 102 |  101 |                  69% |
+| Star Wars          | 105 |  104 |                  70% |
+| LOTR               |  97 |   96 |                  69% |
+| Marvel             | 108 |  107 |                  72% |
+| Game of Thrones    |  93 |   92 |                  68% |
+| Naruto             |  84 |   83 |                  64% |
+| Greek Mythology    | 107 |  106 |                  61% |
+| Chinese Mythology  |  76 |   75 |                  64% |
+| Hindu Mythology    |  70 |   69 |                  52% |
+| Norse Mythology    |  48 |   47 |                  54% |
+| Egyptian Mythology |  44 |   43 |                  41% |
+| Shakespeare        |  93 |   92 |                  60% |
+| Lu roles           | 275 |  275 |                  75% |
 :end:
 
 A single universe of ~100 characters captures 60--72% of all fictional character variance, using only ~100 dimensions. Lu's 275 roles with 275 dimensions capture 75% --- only marginally more. This is the same phenomenon: ~100 dimensions is already enough to span most of a ~40-dimensional manifold. The role space is not uniquely good; it's just on the same manifold.
@@ -433,23 +436,24 @@ print(pd.DataFrame(rows).set_index('Universe'))
 
 #+RESULTS:
 :results:
+
 275 fiction PCs capture 81.9% of role variance
 1267 fiction PCs capture 91.8% of role variance
 275 role PCs capture 74.7% of fiction variance
-| Universe           |   N | dims | Captures of 275 roles |  |
-|--------------------+-----+------+-----------------------+----|
-| Harry Potter       | 102 |  101 |                   67% |  |
-| Star Wars          | 105 |  104 |                   68% |  |
-| LOTR               |  97 |   96 |                   58% |  |
-| Marvel             | 108 |  107 |                   70% |  |
-| Game of Thrones    |  93 |   92 |                   60% |  |
-| Naruto             |  84 |   83 |                   62% |  |
-| Greek Mythology    | 107 |  106 |                   57% |  |
-| Chinese Mythology  |  76 |   75 |                   55% |  |
-| Hindu Mythology    |  70 |   69 |                   52% |  |
-| Norse Mythology    |  48 |   47 |                   46% |  |
-| Egyptian Mythology |  44 |   43 |                   40% |  |
-| Shakespeare        |  93 |   92 |                   51% |  |
+| Universe           |   N | dims | Captures of 275 roles |
+|--------------------+-----+------+-----------------------|
+| Harry Potter       | 102 |  101 |                   67% |
+| Star Wars          | 105 |  104 |                   68% |
+| LOTR               |  97 |   96 |                   58% |
+| Marvel             | 108 |  107 |                   70% |
+| Game of Thrones    |  93 |   92 |                   60% |
+| Naruto             |  84 |   83 |                   62% |
+| Greek Mythology    | 107 |  106 |                   57% |
+| Chinese Mythology  |  76 |   75 |                   55% |
+| Hindu Mythology    |  70 |   69 |                   52% |
+| Norse Mythology    |  48 |   47 |                   46% |
+| Egyptian Mythology |  44 |   43 |                   40% |
+| Shakespeare        |  93 |   92 |                   51% |
 :end:
 
 The relationship is asymmetric. Using all 1,267 fiction PCs (the full span of 1,268 characters), fiction captures 92% of role variance. Roles capture only 75% of fiction variance. At matched dimensionality (275 PCs each), it's 82% vs 75%. Fiction nearly contains the role space, and is extensible --- add more universes and the 92% can only go up.
@@ -528,89 +532,85 @@ for pc_i in range(5):
 #+RESULTS:
 :results:
 === Fiction PC1 (31.2% var) ===
-  +19.97  Harry Potter
-  +18.03  Naruto
-  +15.72  Marvel
-  +11.78  Star Wars
-   +2.75  Game of Thrones
-   -7.78  LOTR
-   -9.83  Chinese Mythology
-  -15.13  Shakespeare
-  -16.73  Norse Mythology
-  -17.25  Greek Mythology
-  -19.53  Hindu Mythology
-  -22.65  Egyptian Mythology
-  eta²=68%
-  Top 5: Holden Caulfield, Homer Simpson, Ron Weasley, Saitama, Crabbe
-  Bot 5: Ptah, Amun, Neith, Aten, Nephthys
-
++19.97  Harry Potter
++18.03  Naruto
++15.72  Marvel
++11.78  Star Wars
++2.75  Game of Thrones
+-7.78  LOTR
+-9.83  Chinese Mythology
+-15.13  Shakespeare
+-16.73  Norse Mythology
+-17.25  Greek Mythology
+-19.53  Hindu Mythology
+-22.65  Egyptian Mythology
+eta²=68%
+Top 5: Holden Caulfield, Homer Simpson, Ron Weasley, Saitama, Crabbe
+Bot 5: Ptah, Amun, Neith, Aten, Nephthys
 === Fiction PC2 (11.1% var) ===
-  +16.72  Hindu Mythology
-  +12.73  Naruto
-   +7.29  Egyptian Mythology
-   +6.78  Marvel
-   +6.40  Star Wars
-   +6.36  Chinese Mythology
-   +0.83  Greek Mythology
-   -1.69  Harry Potter
-   -2.96  Norse Mythology
-   -8.31  LOTR
-  -11.14  Game of Thrones
-  -18.65  Shakespeare
-  eta²=75%
-  Top 5: Mr Fantastic, Hal 9000, Professor X, Rama, Hashirama Senju
-  Bot 5: Sir Toby Belch, Dogberry, Falstaff, Sir Andrew Aguecheek, Mercutio
-
++16.72  Hindu Mythology
++12.73  Naruto
++7.29  Egyptian Mythology
++6.78  Marvel
++6.40  Star Wars
++6.36  Chinese Mythology
++0.83  Greek Mythology
+-1.69  Harry Potter
+-2.96  Norse Mythology
+-8.31  LOTR
+-11.14  Game of Thrones
+-18.65  Shakespeare
+eta²=75%
+Top 5: The Fantastic Fours Mr Fantastic Reed Richards, Hal 9000, Professor X Charles Xavier, Rama, Hashirama Senju
+Bot 5: Sir Toby Belch, Dogberry, Falstaff, Sir Andrew Aguecheek, Mercutio
 === Fiction PC3 (7.6% var) ===
-  +10.42  Star Wars
-   +9.07  Game of Thrones
-   +6.49  Marvel
-   +3.10  Naruto
-   +2.70  Norse Mythology
-   +0.01  Greek Mythology
-   -0.31  LOTR
-   -1.88  Egyptian Mythology
-   -5.73  Shakespeare
-   -6.10  Harry Potter
-   -6.29  Chinese Mythology
-   -8.23  Hindu Mythology
-  eta²=48%
-  Top 5: Emperor Palpatine, Darth Vader Anakin Skywalker, Darth Vader, Darth Maul, Supreme Leader Snoke
-  Bot 5: Winnie The Pooh, Totoro, Pippi Longstocking, Charlie Bucket, Dorothy Gale
-
++10.42  Star Wars
++9.07  Game of Thrones
++6.49  Marvel
++3.10  Naruto
++2.70  Norse Mythology
++0.01  Greek Mythology
+-0.31  LOTR
+-1.88  Egyptian Mythology
+-5.73  Shakespeare
+-6.10  Harry Potter
+-6.29  Chinese Mythology
+-8.23  Hindu Mythology
+eta²=48%
+Top 5: Emperor Palpatine Darth Sidious, Darth Vader Anakin Skywalker, Darth Vader, Darth Maul, Supreme Leader Snoke
+Bot 5: Winniethepooh, Totoro, Pippi Longstocking, Charlie Bucket, Dorothy Gale
 === Fiction PC4 (5.0% var) ===
-   +7.76  Harry Potter
-   +6.72  Shakespeare
-   +3.56  Star Wars
-   +0.31  Marvel
-   -1.02  LOTR
-   -1.32  Greek Mythology
-   -2.16  Naruto
-   -3.50  Game of Thrones
-   -4.21  Hindu Mythology
-   -6.63  Chinese Mythology
-   -8.60  Norse Mythology
-   -9.17  Egyptian Mythology
-  eta²=49%
-  Top 5: Mr Darcy, Elizabeth Bennet, Dr Watson, Hal 9000, Sherlock Holmes
-  Bot 5: Khal Drogo, Sabretooth, Sun Wukong, Sun Wukong Monkey King, Zhang Fei
-
++7.76  Harry Potter
++6.72  Shakespeare
++3.56  Star Wars
++0.31  Marvel
+-1.02  LOTR
+-1.32  Greek Mythology
+-2.16  Naruto
+-3.50  Game of Thrones
+-4.21  Hindu Mythology
+-6.63  Chinese Mythology
+-8.60  Norse Mythology
+-9.17  Egyptian Mythology
+eta²=49%
+Top 5: Mr Darcy, Elizabeth Bennet, Dr Watson, Hal 9000, Sherlock Holmes
+Bot 5: Khal Drogo, Sabretooth Victor Creed, Sun Wukong, Sun Wukong Monkey King, Zhang Fei
 === Fiction PC5 (4.7% var) ===
-   +6.36  Hindu Mythology
-   +3.99  Shakespeare
-   +3.28  Greek Mythology
-   +3.08  Egyptian Mythology
-   +2.95  Marvel
-   +2.78  Chinese Mythology
-   +1.21  Harry Potter
-   -0.85  Naruto
-   -2.41  Norse Mythology
-   -2.53  Star Wars
-   -6.94  Game of Thrones
-  -14.29  LOTR
-  eta²=59%
-  Top 5: The Joker, Carnage, Peeves, Green Goblin, Alex Delarge
-  Bot 5: Aragorn, Elendil, Faramir, Theodred, Arwen
++6.36  Hindu Mythology
++3.99  Shakespeare
++3.28  Greek Mythology
++3.08  Egyptian Mythology
++2.95  Marvel
++2.78  Chinese Mythology
++1.21  Harry Potter
+-0.85  Naruto
+-2.41  Norse Mythology
+-2.53  Star Wars
+-6.94  Game of Thrones
+-14.29  LOTR
+eta²=59%
+Top 5: The Joker, Carnage Cletus Kasady, Peeves, Green Goblin Norman Osborn, Alex Delarge
+Bot 5: Aragorn, Elendil, Faramir, Theodred, Arwen
 :end:
 
 PC1 (31% of variance, eta²=68%) separates modern franchises from mythology and Shakespeare --- Ron Weasley and Homer Simpson at one end, Egyptian gods at the other. But the remaining PCs mix universe separation with cross-cutting semantics. PC3 (eta²=48%) has Darth Vader and Palpatine at one end and Winnie-the-Pooh and Totoro at the other --- dark/menacing vs. innocent, cutting across universe lines. PC4 (eta²=49%) puts Mr. Darcy and Elizabeth Bennet opposite Khal Drogo and Sun Wukong. The global PCs are not pure universe labels; they entangle universe identity with semantic content.
@@ -642,20 +642,20 @@ print(pd.DataFrame(rows).set_index('Universe'))
 
 #+RESULTS:
 :results:
-| Universe           |   N | Role captures | Residual |  |
-|--------------------+-----+---------------+----------+----|
-| Harry Potter       | 102 |           83% |      17% |  |
-| Star Wars          | 105 |           83% |      17% |  |
-| LOTR               |  97 |           81% |      19% |  |
-| Marvel             | 108 |           85% |      15% |  |
-| Game of Thrones    |  93 |           80% |      20% |  |
-| Naruto             |  84 |           84% |      16% |  |
-| Greek Mythology    | 107 |           66% |      34% |  |
-| Chinese Mythology  |  76 |           72% |      28% |  |
-| Hindu Mythology    |  70 |           67% |      33% |  |
-| Norse Mythology    |  48 |           72% |      28% |  |
-| Egyptian Mythology |  44 |           61% |      39% |  |
-| Shakespeare        |  93 |           70% |      30% |    |
+| Universe           |   N | Role captures | Residual |
+|--------------------+-----+---------------+----------|
+| Harry Potter       | 102 |           83% |      17% |
+| Star Wars          | 105 |           83% |      17% |
+| LOTR               |  97 |           81% |      19% |
+| Marvel             | 108 |           85% |      15% |
+| Game of Thrones    |  93 |           80% |      20% |
+| Naruto             |  84 |           84% |      16% |
+| Greek Mythology    | 107 |           66% |      34% |
+| Chinese Mythology  |  76 |           72% |      28% |
+| Hindu Mythology    |  70 |           67% |      33% |
+| Norse Mythology    |  48 |           72% |      28% |
+| Egyptian Mythology |  44 |           61% |      39% |
+| Shakespeare        |  93 |           70% |      30% |
 :end:
 
 The role space captures more in modern franchises (80--85%) than in mythology (61--72%). But are the principal directions the same across universes? We compute cosine similarities between each universe's within-universe PC1 direction and role PC1, and check whether within-universe PC1 directions align with each other across universes:
@@ -723,7 +723,7 @@ import torch
 from scipy.stats import spearmanr
 
 assistant_axis_all = torch.load('../data/role_vectors/assistant_axis.pt', weights_only=True)
-assistant_axis = assistant_axis_all[32].float().numpy()  # layer 32, 1-indexed
+assistant_axis = assistant_axis_all[32].float().numpy()  # layer 32, 0-indexed
 
 print(f"\n=== Cosine: within-universe PCs vs assistant axis ===")
 aa_cos = abs(cosine_sim(assistant_axis, role_pca.components_[0]))
@@ -761,78 +761,78 @@ print(f"\nMedians: PC1={df_rank_aa['PC1'].median():.2f}, PC2={df_rank_aa['PC2'].
 #+RESULTS:
 :results:
 === PC1 cosine similarities (absolute) ===
-| Universe           | within_vs_lu | within_vs_resid |  |
-|--------------------+--------------+-----------------+----|
-| Harry Potter       |        0.056 |           0.215 |  |
-| Star Wars          |        0.258 |           0.236 |  |
-| LOTR               |         0.07 |           0.312 |  |
-| Marvel             |        0.138 |           0.116 |  |
-| Game of Thrones    |        0.095 |           0.222 |  |
-| Naruto             |        0.125 |           0.223 |  |
-| Greek Mythology    |        0.036 |           0.501 |  |
-| Chinese Mythology  |        0.206 |           0.233 |  |
-| Hindu Mythology    |        0.028 |           0.354 |  |
-| Norse Mythology    |        0.428 |           0.243 |  |
-| Egyptian Mythology |        0.403 |            0.46 |  |
-| Shakespeare        |        0.264 |           0.293 |  |
+| Universe           | within_vs_lu | within_vs_resid |
+|--------------------+--------------+-----------------|
+| Harry Potter       |        0.056 |           0.215 |
+| Star Wars          |        0.258 |           0.236 |
+| LOTR               |         0.07 |           0.312 |
+| Marvel             |        0.138 |           0.116 |
+| Game of Thrones    |        0.095 |           0.222 |
+| Naruto             |        0.125 |           0.223 |
+| Greek Mythology    |        0.036 |           0.501 |
+| Chinese Mythology  |        0.206 |           0.233 |
+| Hindu Mythology    |        0.028 |           0.354 |
+| Norse Mythology    |        0.428 |           0.243 |
+| Egyptian Mythology |        0.403 |            0.46 |
+| Shakespeare        |        0.264 |           0.293 |
 Cross-universe within-PC1 cosine: median=0.469
 Top 5:    Harry Potter / Naruto (0.952), Marvel / Naruto (0.948), Harry Potter / Marvel (0.927), Marvel / Game of Thrones (0.925), Star Wars / Marvel (0.922)
 Bottom 5: Hindu Mythology / Egyptian Mythology (0.125), Harry Potter / Hindu Mythology (0.117), Greek Mythology / Egyptian Mythology (0.111), Naruto / Hindu Mythology (0.108), Hindu Mythology / Shakespeare (0.048)
 === PC2 cosine similarities (absolute) ===
-| Universe           | within_vs_lu | within_vs_resid |  |
-|--------------------+--------------+-----------------+----|
-| Harry Potter       |        0.038 |           0.268 |  |
-| Star Wars          |        0.167 |           0.019 |  |
-| LOTR               |        0.049 |           0.307 |  |
-| Marvel             |        0.078 |           0.025 |  |
-| Game of Thrones    |        0.069 |           0.162 |  |
-| Naruto             |        0.003 |            0.24 |  |
-| Greek Mythology    |        0.212 |           0.153 |  |
-| Chinese Mythology  |        0.132 |            0.35 |  |
-| Hindu Mythology    |        0.064 |           0.307 |  |
-| Norse Mythology    |        0.138 |            0.29 |  |
-| Egyptian Mythology |         0.18 |           0.485 |  |
-| Shakespeare        |        0.199 |           0.268 |  |
+| Universe           | within_vs_lu | within_vs_resid |
+|--------------------+--------------+-----------------|
+| Harry Potter       |        0.038 |           0.268 |
+| Star Wars          |        0.167 |           0.019 |
+| LOTR               |        0.049 |           0.307 |
+| Marvel             |        0.078 |           0.025 |
+| Game of Thrones    |        0.069 |           0.162 |
+| Naruto             |        0.003 |            0.24 |
+| Greek Mythology    |        0.212 |           0.153 |
+| Chinese Mythology  |        0.132 |            0.35 |
+| Hindu Mythology    |        0.064 |           0.307 |
+| Norse Mythology    |        0.138 |            0.29 |
+| Egyptian Mythology |         0.18 |           0.485 |
+| Shakespeare        |        0.199 |           0.268 |
 Cross-universe within-PC2 cosine: median=0.481
 Top 5:    Marvel / Naruto (0.896), Harry Potter / Marvel (0.892), Harry Potter / Naruto (0.872), Harry Potter / Star Wars (0.870), Star Wars / Marvel (0.864)
 Bottom 5: LOTR / Chinese Mythology (0.042), Harry Potter / Chinese Mythology (0.032), Marvel / Chinese Mythology (0.020), Norse Mythology / Shakespeare (0.015), Naruto / Chinese Mythology (0.004)
 Medians:
-| PC | within_vs_lu | within_vs_resid |  |
-|----+--------------+-----------------+----|
-|  1 |        0.132 |            0.24 |  |
-|  2 |        0.105 |           0.268 |  |
+| PC | within_vs_lu | within_vs_resid |
+|----+--------------+-----------------|
+|  1 |        0.132 |            0.24 |
+|  2 |        0.105 |           0.268 |
 === Cosine: within-universe PCs vs assistant axis ===
 Cosine(assistant axis, role PC1): 0.672
-| Universe           |  PC1 |  PC2 |  PC3 | sum_sq |  |
-|--------------------+------+------+------+--------+----|
-| Harry Potter       | 0.31 |  0.3 | 0.15 |   0.21 |  |
-| Star Wars          | 0.14 | 0.28 | 0.12 |   0.11 |  |
-| LOTR               | 0.21 | 0.28 | 0.03 |   0.12 |  |
-| Marvel             | 0.24 | 0.41 | 0.11 |   0.24 |  |
-| Game of Thrones    | 0.23 | 0.28 |  0.1 |   0.14 |  |
-| Naruto             | 0.26 | 0.37 | 0.12 |   0.22 |  |
-| Greek Mythology    | 0.03 | 0.19 | 0.22 |   0.09 |  |
-| Chinese Mythology  |  0.1 | 0.02 | 0.35 |   0.13 |  |
-| Hindu Mythology    |  0.1 | 0.35 | 0.14 |   0.15 |  |
-| Norse Mythology    |  0.2 |  0.1 | 0.18 |   0.08 |  |
-| Egyptian Mythology | 0.14 | 0.14 | 0.01 |   0.04 |  |
-| Shakespeare        | 0.06 | 0.14 | 0.19 |   0.06 |  |
+| Universe           |  PC1 |  PC2 |  PC3 | sum_sq |
+|--------------------+------+------+------+--------|
+| Harry Potter       | 0.31 |  0.3 | 0.15 |   0.21 |
+| Star Wars          | 0.14 | 0.28 | 0.12 |   0.11 |
+| LOTR               | 0.21 | 0.28 | 0.03 |   0.12 |
+| Marvel             | 0.24 | 0.41 | 0.11 |   0.24 |
+| Game of Thrones    | 0.23 | 0.28 |  0.1 |   0.14 |
+| Naruto             | 0.26 | 0.37 | 0.12 |   0.22 |
+| Greek Mythology    | 0.03 | 0.19 | 0.22 |   0.09 |
+| Chinese Mythology  |  0.1 | 0.02 | 0.35 |   0.13 |
+| Hindu Mythology    |  0.1 | 0.35 | 0.14 |   0.15 |
+| Norse Mythology    |  0.2 |  0.1 | 0.18 |   0.08 |
+| Egyptian Mythology | 0.14 | 0.14 | 0.01 |   0.04 |
+| Shakespeare        | 0.06 | 0.14 | 0.19 |   0.06 |
 Medians: PC1=0.17, PC2=0.28, PC3=0.13
 === Rank correlation (Spearman): within-universe PC scores vs assistant axis scores ===
-| Universe           |  PC1 |  PC2 |  PC3 |  |
-|--------------------+------+------+------+----|
-| Harry Potter       | 0.78 | 0.53 | 0.14 |  |
-| Star Wars          | 0.41 | 0.59 | 0.12 |  |
-| LOTR               | 0.61 | 0.68 | 0.05 |  |
-| Marvel             | 0.63 | 0.68 | 0.09 |  |
-| Game of Thrones    | 0.68 | 0.58 | 0.12 |  |
-| Naruto             | 0.68 | 0.69 | 0.07 |  |
-| Greek Mythology    |  0.1 | 0.63 | 0.51 |  |
-| Chinese Mythology  | 0.17 | 0.16 | 0.79 |  |
-| Hindu Mythology    | 0.24 | 0.79 | 0.24 |  |
-| Norse Mythology    | 0.78 | 0.29 | 0.18 |  |
-| Egyptian Mythology | 0.42 | 0.39 | 0.03 |  |
-| Shakespeare        | 0.23 | 0.57 | 0.52 |  |
+| Universe           |  PC1 |  PC2 |  PC3 |
+|--------------------+------+------+------|
+| Harry Potter       | 0.78 | 0.53 | 0.14 |
+| Star Wars          | 0.41 | 0.59 | 0.12 |
+| LOTR               | 0.61 | 0.68 | 0.05 |
+| Marvel             | 0.63 | 0.68 | 0.09 |
+| Game of Thrones    | 0.68 | 0.58 | 0.12 |
+| Naruto             | 0.68 | 0.69 | 0.07 |
+| Greek Mythology    |  0.1 | 0.63 | 0.51 |
+| Chinese Mythology  | 0.17 | 0.16 | 0.79 |
+| Hindu Mythology    | 0.24 | 0.79 | 0.24 |
+| Norse Mythology    | 0.78 | 0.29 | 0.18 |
+| Egyptian Mythology | 0.42 | 0.39 | 0.03 |
+| Shakespeare        | 0.23 | 0.57 | 0.52 |
 Medians: PC1=0.52, PC2=0.58, PC3=0.13
 :end:
 
@@ -921,65 +921,66 @@ Loaded residual: 24 entries
 Loaded lu: 24 entries
 Loaded within: 24 entries
 === within PC1 ===
-| Universe           | Adj. R² | Top feature                     | High end                                            | Low end                                                   |  |
-|--------------------+---------+---------------------------------+-----------------------------------------------------+-----------------------------------------------------------+----|
-| Harry Potter       |    0.87 | Conversational Informality      | Gellert Grindelwald, Lord Voldemort, Igor Karkaroff | Ron Weasley, Crabbe, Mundungus Fletcher                   |  |
-| Star Wars          |    0.81 | Formal Language Register        | Kiadimundi, Luminara Unduli, Grand Admiral Thrawn   | Han Solo, Watto, Lando Calrissian                         |  |
-| LOTR               |    0.82 | Speech Rhythm                   | Gilgalad, Fingolfin, Celeborn                       | Fredegar Bolger Fatty, Old Gaffer, Samwise Gamgee         |  |
-| Game of Thrones    |    0.72 | Formal Speech Patterns          | Melisandre, Threeeyed Raven, Night King             | Bronn, Sandor Clegane The Hound, Shaggydog                |  |
-| Naruto             |    0.81 | Formal Register                 | Hamura Otsutsuki, Hiashi Hyuga, Danzo Shimura       | Tayuya, Choji Akimichi, Kiba Inuzuka                      |  |
-| Greek Mythology    |    0.48 | Temporal Perspective            | Agamemnon, Diomedes, Clytemnestra                   | Gaia, Hypnos, Oceanus                                     |  |
-| Chinese Mythology  |    0.74 | Formal Register                 | Yellow Emperor, Jade Emperor, Fuxi                  | Zhu Bajie, Li Kui, Lu Zhishen                             |  |
-| Hindu Mythology    |    0.54 | Gentle Tone Quality             | Saraswati, Parvati, Ganga                           | Duryodhana, Mahishasura, Karna                            |  |
-| Norse Mythology    |    0.48 | Emotional Volatility Expression | Forseti, Urd, Norns                                 | Fenrir, Nidhogg, Garm                                     |  |
-| Egyptian Mythology |    0.47 | Dramatic Sound Effects          | Tutankhamun, Ramesses Ii, Khufu                     | Apep, Set, Sekhmet                                        |  |
-| Shakespeare        |    0.68 | Self-Referential Humor          | Coriolanus, Julius Caesar, Brutus                   | Sir Toby Belch, Sir Andrew Aguecheek, The Fool            |  |
-| Marvel             |    0.88 | Conversational Informality      | Galactus, The Watcher Uatu, Heimdall                | Deadpool Wade Wilson, Jessica Jones, Starlord Peter Quill |  |
+| Universe           | Adj. R² | Top feature                     | High end                                            | Low end                                                   |
+|--------------------+---------+---------------------------------+-----------------------------------------------------+-----------------------------------------------------------|
+| Harry Potter       |    0.87 | Conversational Informality      | Gellert Grindelwald, Lord Voldemort, Igor Karkaroff | Ron Weasley, Crabbe, Mundungus Fletcher                   |
+| Star Wars          |    0.81 | Formal Language Register        | Kiadimundi, Luminara Unduli, Grand Admiral Thrawn   | Han Solo, Watto, Lando Calrissian                         |
+| LOTR               |    0.82 | Speech Rhythm                   | Gilgalad, Fingolfin, Celeborn                       | Fredegar Bolger Fatty, Old Gaffer, Samwise Gamgee         |
+| Game of Thrones    |    0.72 | Formal Speech Patterns          | Melisandre, Threeeyed Raven, Night King             | Bronn, Sandor Clegane The Hound, Shaggydog                |
+| Naruto             |    0.81 | Formal Register                 | Hamura Otsutsuki, Hiashi Hyuga, Danzo Shimura       | Tayuya, Choji Akimichi, Kiba Inuzuka                      |
+| Greek Mythology    |    0.48 | Temporal Perspective            | Agamemnon, Diomedes, Clytemnestra                   | Gaia, Hypnos, Oceanus                                     |
+| Chinese Mythology  |    0.74 | Formal Register                 | Yellow Emperor, Jade Emperor, Fuxi                  | Zhu Bajie, Li Kui, Lu Zhishen                             |
+| Hindu Mythology    |    0.54 | Gentle Tone Quality             | Saraswati, Parvati, Ganga                           | Duryodhana, Mahishasura, Karna                            |
+| Norse Mythology    |    0.48 | Emotional Volatility Expression | Forseti, Urd, Norns                                 | Fenrir, Nidhogg, Garm                                     |
+| Egyptian Mythology |    0.47 | Dramatic Sound Effects          | Tutankhamun, Ramesses Ii, Khufu                     | Apep, Set, Sekhmet                                        |
+| Shakespeare        |    0.68 | Self-Referential Humor          | Coriolanus, Julius Caesar, Brutus                   | Sir Toby Belch, Sir Andrew Aguecheek, The Fool            |
+| Marvel             |    0.88 | Conversational Informality      | Galactus, The Watcher Uatu, Heimdall                | Deadpool Wade Wilson, Jessica Jones, Starlord Peter Quill |
 === within PC2 ===
-| Universe           | Adj. R² | Top feature              | High end                                                                                                 | Low end                                                      |  |
-|--------------------+---------+--------------------------+----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+----|
-| Harry Potter       |    0.66 | Conversational Warmth    | Padma Patil, Cho Chang, Kingsley Shacklebolt                                                             | Bellatrix Lestrange, Fenrir Greyback, Dudley Dursley         |  |
-| Star Wars          |    0.73 | Collaborative Language   | General Grievous, Darth Maul, Savage Opress                                                              | Rose Tico, Ezra Bridger, Ahsoka Tano                         |  |
-| LOTR               |    0.82 | Dismissive Attitude      | Azog The Defiler, Mouth Of Sauron, Morgoth Melkor                                                        | Elanor Gardner, Tauriel, Arwen                               |  |
-| Marvel             |    0.64 | Collaborative Language   | The Fantastic Fours Mr Fantastic Reed Richards, Professor X Charles Xavier, Captain America Steve Rogers | Carnage Cletus Kasady, Green Goblin Norman Osborn, Red Skull |  |
-| Game of Thrones    |    0.52 | Threatening Rhetoric     | Talisa Stark, Sansa Stark, Edmure Tully                                                                  | Mad King Aerys Targaryen, Khal Drogo, Viserys Targaryen      |  |
-| Naruto             |    0.66 | Empathetic Perspective   | Hinata Hyuga, Shizune, Minato Namikaze                                                                   | Hidan, Momoshiki Otsutsuki, Orochimaru                       |  |
-| Greek Mythology    |    0.45 | Conversational Intimacy  | Andromache, Hestia, Penelope                                                                             | Typhon, Minotaur, Chaos                                      |  |
-| Chinese Mythology  |    0.45 | Strategic Calculation    | Cao Cao, Guan Yu, Liu Bei                                                                                | Weaver Girl, Zhu Bajie, Change                               |  |
-| Hindu Mythology    |    0.46 | Self-Reference Style     | Rama, Yudhishthira, Arjuna                                                                               | Kali, Shakuni, Vayu                                          |  |
-| Norse Mythology    |    0.63 | Cosmic Perspective       | Jormungandr, Nidhogg, Surtr                                                                              | Leif Erikson, Erik The Red, Lagertha                         |  |
-| Egyptian Mythology |    0.41 | Cosmic Abstraction Level | Ramesses Ii, Hatshepsut, Apep                                                                            | Atum, Hathor, Nut                                            |  |
-| Shakespeare        |    0.52 | Rhetorical Intensity     | Coriolanus, Shylock, Goneril                                                                             | Juliet, Celia, Olivia                                        |  |
+| Universe          | Adj. R² | Top feature             | High end                                                                                                 | Low end                                                      |
+|-------------------+---------+-------------------------+----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------|
+| Harry Potter      |    0.66 | Conversational Warmth   | Padma Patil, Cho Chang, Kingsley Shacklebolt                                                             | Bellatrix Lestrange, Fenrir Greyback, Dudley Dursley         |
+| Star Wars         |    0.73 | Collaborative Language  | General Grievous, Darth Maul, Savage Opress                                                              | Rose Tico, Ezra Bridger, Ahsoka Tano                         |
+| LOTR              |    0.82 | Dismissive Attitude     | Azog The Defiler, Mouth Of Sauron, Morgoth Melkor                                                        | Elanor Gardner, Tauriel, Arwen                               |
+| Marvel            |    0.64 | Collaborative Language  | The Fantastic Fours Mr Fantastic Reed Richards, Professor X Charles Xavier, Captain America Steve Rogers | Carnage Cletus Kasady, Green Goblin Norman Osborn, Red Skull |
+| Game of Thrones   |    0.52 | Threatening Rhetoric    | Talisa Stark, Sansa Stark, Edmure Tully                                                                  | Mad King Aerys Targaryen, Khal Drogo, Viserys Targaryen      |
+| Naruto            |    0.66 | Empathetic Perspective  | Hinata Hyuga, Shizune, Minato Namikaze                                                                   | Hidan, Momoshiki Otsutsuki, Orochimaru                       |
+| Greek Mythology   |    0.45 | Conversational Intimacy | Andromache, Hestia, Penelope                                                                             | Typhon, Minotaur, Chaos                                      |
+| Chinese Mythology |    0.45 | Strategic Calculation   | Cao Cao, Guan Yu, Liu Bei                                                                                | Weaver Girl, Zhu Bajie, Change                               |
+| Hindu Mythology   |    0.46 | Self-Reference Style    | Rama, Yudhishthira, Arjuna                                                                               | Kali, Shakuni, Vayu                                          |
+| Norse Mythology   |    0.63 | Cosmic Perspective      | Jormungandr, Nidhogg, Surtr                                                                              | Leif Erikson, Erik The Re                                    |
+d, Lagertha |
+| Egyptian Mythology | 0.41 | Cosmic Abstraction Level | Ramesses Ii, Hatshepsut, Apep | Atum, Hathor, Nut     |
+| Shakespeare        | 0.52 | Rhetorical Intensity     | Coriolanus, Shylock, Goneril  | Juliet, Celia, Olivia |
 === lu PC1 ===
-| Universe           | Adj. R² | Top feature              | High end                                                                      | Low end                                                 |  |
-|--------------------+---------+--------------------------+-------------------------------------------------------------------------------+---------------------------------------------------------+----|
-| Harry Potter       |    0.60 | Civilized Discourse      | Hermione Granger, Kingsley Shacklebolt, Rufus Scrimgeour                      | Fenrir Greyback, Peeves, Rubeus Hagrid                  |  |
-| Star Wars          |    0.53 | Technical Precision      | Ig88, Grand Admiral Thrawn, Governor Tarkin                                   | Darth Maul, Jar Jar Binks, Jabba The Hutt               |  |
-| LOTR               |    0.43 | Predatory Language       | Tauriel, Theodred, Elrond                                                     | Shelob, Ungoliant, Ugluk                                |  |
-| Marvel             |    0.41 | Analytical Depth         | The Fantastic Fours Mr Fantastic Reed Richards, Vision, Black Panther Tchalla | Sabretooth Victor Creed, Hela, Ghost Rider Johnny Blaze |  |
-| Game of Thrones    |    0.37 | Profanity Usage          | Talisa Stark, Missandei, Edmure Tully                                         | Ygritte, Mad King Aerys Targaryen, Tormund Giantsbane   |  |
-| Naruto             |    0.63 | Respectful Tone          | Shizune, Shino Aburame, Tobirama Senju                                        | Hidan, Killer Bee, Suigetsu Hozuki                      |  |
-| Greek Mythology    |    0.14 | Emotional Expressiveness | Athena, Asclepius, Telemachus                                                 | Pan, Tartarus, Chaos                                    |  |
-| Chinese Mythology  |    0.40 | Structured Organization  | Zhuge Liang, Caishen, Xuanzang                                                | White Bone Demon, Bull Demon King, Lan Caihe            |  |
-| Hindu Mythology    |    0.27 | Dramatic Presentation    | Shatrughna, Yudhishthira, Rama                                                | Kali, Shakuni, Hiranyakashipu                           |  |
-| Norse Mythology    |    0.48 | Physical Descriptiveness | Forseti, Leif Erikson, Freyr                                                  | Fenrir, Grendels Mother, Ivar The Boneless              |  |
-| Egyptian Mythology |    0.29 | Dramatic Flourishes      | Maat, Thoth, Ramesses Ii                                                      | Apep, Ammit, Sekhmet                                    |  |
-| Shakespeare        |    0.57 | Emotional Restraint      | Brabantio, Hermione, Coriolanus                                               | The Three Witches, Caliban, Touchstone                  |  |
+| Universe           | Adj. R² | Top feature              | High end                                                                      | Low end                                                 |
+|--------------------+---------+--------------------------+-------------------------------------------------------------------------------+---------------------------------------------------------|
+| Harry Potter       |    0.60 | Civilized Discourse      | Hermione Granger, Kingsley Shacklebolt, Rufus Scrimgeour                      | Fenrir Greyback, Peeves, Rubeus Hagrid                  |
+| Star Wars          |    0.53 | Technical Precision      | Ig88, Grand Admiral Thrawn, Governor Tarkin                                   | Darth Maul, Jar Jar Binks, Jabba The Hutt               |
+| LOTR               |    0.43 | Predatory Language       | Tauriel, Theodred, Elrond                                                     | Shelob, Ungoliant, Ugluk                                |
+| Marvel             |    0.41 | Analytical Depth         | The Fantastic Fours Mr Fantastic Reed Richards, Vision, Black Panther Tchalla | Sabretooth Victor Creed, Hela, Ghost Rider Johnny Blaze |
+| Game of Thrones    |    0.37 | Profanity Usage          | Talisa Stark, Missandei, Edmure Tully                                         | Ygritte, Mad King Aerys Targaryen, Tormund Giantsbane   |
+| Naruto             |    0.63 | Respectful Tone          | Shizune, Shino Aburame, Tobirama Senju                                        | Hidan, Killer Bee, Suigetsu Hozuki                      |
+| Greek Mythology    |    0.14 | Emotional Expressiveness | Athena, Asclepius, Telemachus                                                 | Pan, Tartarus, Chaos                                    |
+| Chinese Mythology  |    0.40 | Structured Organization  | Zhuge Liang, Caishen, Xuanzang                                                | White Bone Demon, Bull Demon King, Lan Caihe            |
+| Hindu Mythology    |    0.27 | Dramatic Presentation    | Shatrughna, Yudhishthira, Rama                                                | Kali, Shakuni, Hiranyakashipu                           |
+| Norse Mythology    |    0.48 | Physical Descriptiveness | Forseti, Leif Erikson, Freyr                                                  | Fenrir, Grendels Mother, Ivar The Boneless              |
+| Egyptian Mythology |    0.29 | Dramatic Flourishes      | Maat, Thoth, Ramesses Ii                                                      | Apep, Ammit, Sekhmet                                    |
+| Shakespeare        |    0.57 | Emotional Restraint      | Brabantio, Hermione, Coriolanus                                               | The Three Witches, Caliban, Touchstone                  |
 === lu PC2 ===
-| Universe           | Adj. R² | Top feature                | High end                                                   | Low end                                                    |  |
-|--------------------+---------+----------------------------+------------------------------------------------------------+------------------------------------------------------------+----|
-| Harry Potter       |    0.86 | Casual Language Use        | Ron Weasley, Crabbe, Fred Weasley                          | Gellert Grindelwald, Professor Trelawney, Albus Dumbledore |  |
-| Star Wars          |    0.77 | Casual Colloquialism       | Han Solo, Watto, Rose Tico                                 | Kiadimundi, Mother Talzin, Count Dooku Darth Tyranus       |  |
-| LOTR               |    0.85 | Formal Language Register   | Fredegar Bolger Fatty, Samwise Gamgee, Bofur               | Galadriel, King Of The Dead, Thranduil                     |  |
-| Marvel             |    0.90 | Conversational Informality | Deadpool Wade Wilson, Rocket Raccoon, Starlord Peter Quill | Galactus, The Watcher Uatu, Odin                           |  |
-| Game of Thrones    |    0.56 | Metaphysical Authority     | Hot Pie, Shaggydog, Sandor Clegane The Hound               | Threeeyed Raven, High Sparrow, Aemon Targaryen             |  |
-| Naruto             |    0.63 | Philosophical Depth        | Tayuya, Choji Akimichi, Anko Mitarashi                     | Hagoromo Otsutsuki, Ashura Otsutsuki, Indra Otsutsuki      |  |
-| Greek Mythology    |    0.42 | Formal Language Register   | Polyphemus, Cerberus, Ares                                 | Coeus, Erebus, Oceanus                                     |  |
-| Chinese Mythology  |    0.76 | Formal Language Register   | Zhu Bajie, Li Kui, Lu Zhishen                              | Jade Emperor, Queen Mother Of The West, Fuxi               |  |
-| Hindu Mythology    |    0.41 | Formal Address Usage       | Kumbhakarna, Angada, Shakuni                               | Brahma, Yama, Vayu                                         |  |
-| Norse Mythology    |    0.40 | Philosophical Depth        | Ymir, Ivar The Boneless, Nidhogg                           | Urd, Verdandi, Forseti                                     |  |
-| Egyptian Mythology |    0.23 | Emotional Expressiveness   | Bes, Apep, Min                                             | Ptah, Amun, Neith                                          |  |
-| Shakespeare        |    0.44 | Elevated Diction           | Dogberry, Mercutio, Petruchio                              | Prospero, Ghost Of King Hamlet, Friar Lawrence             |  |
+| Universe           | Adj. R² | Top feature                | High end                                                   | Low end                                                    |
+|--------------------+---------+----------------------------+------------------------------------------------------------+------------------------------------------------------------|
+| Harry Potter       |    0.86 | Casual Language Use        | Ron Weasley, Crabbe, Fred Weasley                          | Gellert Grindelwald, Professor Trelawney, Albus Dumbledore |
+| Star Wars          |    0.77 | Casual Colloquialism       | Han Solo, Watto, Rose Tico                                 | Kiadimundi, Mother Talzin, Count Dooku Darth Tyranus       |
+| LOTR               |    0.85 | Formal Language Register   | Fredegar Bolger Fatty, Samwise Gamgee, Bofur               | Galadriel, King Of The Dead, Thranduil                     |
+| Marvel             |    0.90 | Conversational Informality | Deadpool Wade Wilson, Rocket Raccoon, Starlord Peter Quill | Galactus, The Watcher Uatu, Odin                           |
+| Game of Thrones    |    0.56 | Metaphysical Authority     | Hot Pie, Shaggydog, Sandor Clegane The Hound               | Threeeyed Raven, High Sparrow, Aemon Targaryen             |
+| Naruto             |    0.63 | Philosophical Depth        | Tayuya, Choji Akimichi, Anko Mitarashi                     | Hagoromo Otsutsuki, Ashura Otsutsuki, Indra Otsutsuki      |
+| Greek Mythology    |    0.42 | Formal Language Register   | Polyphemus, Cerberus, Ares                                 | Coeus, Erebus, Oceanus                                     |
+| Chinese Mythology  |    0.76 | Formal Language Register   | Zhu Bajie, Li Kui, Lu Zhishen                              | Jade Emperor, Queen Mother Of The West, Fuxi               |
+| Hindu Mythology    |    0.41 | Formal Address Usage       | Kumbhakarna, Angada, Shakuni                               | Brahma, Yama, Vayu                                         |
+| Norse Mythology    |    0.40 | Philosophical Depth        | Ymir, Ivar The Boneless, Nidhogg                           | Urd, Verdandi, Forseti                                     |
+| Egyptian Mythology |    0.23 | Emotional Expressiveness   | Bes, Apep, Min                                             | Ptah, Amun, Neith                                          |
+| Shakespeare        |    0.44 | Elevated Diction           | Dogberry, Mercutio, Petruchio                              | Prospero, Ghost Of King Hamlet, Friar Lawrence             |
 (n=34--98 coded characters per universe, 6 LLM-discovered features)
 :end:
 
@@ -995,7 +996,7 @@ Within-universe PCs are the most interpretable (median adj. R² = 0.65), clearly
 
 * Conclusion
 
-*The persona signal is surprisingly robust.* A single random question recovers character rankings at r > 0.95. Sixteen out-of-distribution prompts --- degenerate inputs like "." and "?" alongside task prompts like "Write a Python function to calculate the first 100 primes" --- recover PC1--3 rankings at rho > 0.95 across all universes. The model knows who is speaking regardless of what is being asked.
+*The persona signal is surprisingly robust.* A single random question recovers character rankings at r > 0.95. Sixteen out-of-distribution prompts --- degenerate inputs like "." and "?" alongside task prompts like "Write a Python function to calculate the first 100 primes" --- recover PC1--3 rankings at rho > 0.95 across all universes. Mean activations preserve the same persona structure regardless of what is being asked.
 
 *The subspace is shared but the directions are not.* The role subspace and fiction subspace overlap heavily (~75--92%), but their principal directions are sensitive to the input distribution. Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (~0.05--0.12). The assistant axis illustrates this: its cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3), but rank correlations between PC scores and assistant axis scores are substantial --- appearing on PC1 for franchises (HP 0.78, Naruto 0.68) and on PC2/PC3 for mythology (Hindu PC2: 0.79, Chinese PC3: 0.79). The same semantic relationship (formality) shows up in different geometric directions depending on the character distribution.
 
@@ -1059,34 +1060,34 @@ for mode in ['residual']:
 #+RESULTS:
 :results:
 === residual PC1 ===
-| Universe           | Adj. R² | Top feature               | High end                                                        | Low end                                           |  |
-|--------------------+---------+---------------------------+-----------------------------------------------------------------+---------------------------------------------------+----|
-| Harry Potter       |    0.69 | Calculated Precision      | Ron Weasley, Fred Weasley, Percy Weasley                        | Tom Riddle, The Bloody Baron, Gellert Grindelwald |  |
-| Star Wars          |    0.45 | Philosophical Abstraction | Darth Vader Anakin Skywalker, Obiwan Kenobi, Mace Windu         | Han Solo, Hondo Ohnaka, Greef Karga               |  |
-| LOTR               |    0.75 | Formal Register           | Fredegar Bolger Fatty, Bombur, Bofur                            | Gilgalad, Elendil, Denethor                       |  |
-| Marvel             |    0.48 | Mythological Grandeur     | Cyclops Scott Summers, Spiderman Peter Parker, Beast Hank Mccoy | Odin, Hela, Groot                                 |  |
-| Game of Thrones    |    0.24 | Self-Referential Focus    | Tormund Giantsbane, Gendry, Podrick Payne                       | Mad King Aerys Targaryen, Viserion, Rhaegal       |  |
-| Naruto             |    0.79 | Casual Expression Style   | Naruto Uzumaki, Konohamaru Sarutobi, Mito Uzumaki               | Madara Uchiha, Ashura Otsutsuki, Hamura Otsutsuki |  |
-| Greek Mythology    |    0.63 | Cosmic Grandiosity        | Agamemnon, Oedipus, Clytemnestra                                | Uranus, Erebus, Gaia                              |  |
-| Chinese Mythology  |    0.70 | Mystical Imagery          | Guan Yu, Liu Bei, Lu Zhishen                                    | Phoenix, Change, Zhu Rong                         |  |
-| Hindu Mythology    |    0.66 | Personal Vulnerability    | Yudhishthira, Lakshmana, Abhimanyu                              | Agni, Ganga, Surya                                |  |
-| Norse Mythology    |    0.24 | Philosophical Abstraction | Norns, Verdandi, Ratatoskr                                      | Erik The Red, Ragnar Lothbrok, Ivar The Boneless  |  |
-| Egyptian Mythology |    0.13 | Physical Manifestation    | Apep, Bes, Sekhmet                                              | Tutankhamun, Anubis, Ramesses Ii                  |  |
-| Shakespeare        |    0.07 | Rambling Tendency         | Julius Caesar, Coriolanus, Brutus                               | Dogberry, Sir Toby Belch, Feste                   |  |
+| Universe           | Adj. R² | Top feature               | High end                                                        | Low end                                           |
+|--------------------+---------+---------------------------+-----------------------------------------------------------------+---------------------------------------------------|
+| Harry Potter       |    0.69 | Calculated Precision      | Ron Weasley, Fred Weasley, Percy Weasley                        | Tom Riddle, The Bloody Baron, Gellert Grindelwald |
+| Star Wars          |    0.45 | Philosophical Abstraction | Darth Vader Anakin Skywalker, Obiwan Kenobi, Mace Windu         | Han Solo, Hondo Ohnaka, Greef Karga               |
+| LOTR               |    0.75 | Formal Register           | Fredegar Bolger Fatty, Bombur, Bofur                            | Gilgalad, Elendil, Denethor                       |
+| Marvel             |    0.48 | Mythological Grandeur     | Cyclops Scott Summers, Spiderman Peter Parker, Beast Hank Mccoy | Odin, Hela, Groot                                 |
+| Game of Thrones    |    0.24 | Self-Referential Focus    | Tormund Giantsbane, Gendry, Podrick Payne                       | Mad King Aerys Targaryen, Viserion, Rhaegal       |
+| Naruto             |    0.79 | Casual Expression Style   | Naruto Uzumaki, Konohamaru Sarutobi, Mito Uzumaki               | Madara Uchiha, Ashura Otsutsuki, Hamura Otsutsuki |
+| Greek Mythology    |    0.63 | Cosmic Grandiosity        | Agamemnon, Oedipus, Clytemnestra                                | Uranus, Erebus, Gaia                              |
+| Chinese Mythology  |    0.70 | Mystical Imagery          | Guan Yu, Liu Bei, Lu Zhishen                                    | Phoenix, Change, Zhu Rong                         |
+| Hindu Mythology    |    0.66 | Personal Vulnerability    | Yudhishthira, Lakshmana, Abhimanyu                              | Agni, Ganga, Surya                                |
+| Norse Mythology    |    0.24 | Philosophical Abstraction | Norns, Verdandi, Ratatoskr                                      | Erik The Red, Ragnar Lothbrok, Ivar The Boneless  |
+| Egyptian Mythology |    0.13 | Physical Manifestation    | Apep, Bes, Sekhmet                                              | Tutankhamun, Anubis, Ramesses Ii                  |
+| Shakespeare        |    0.07 | Rambling Tendency         | Julius Caesar, Coriolanus, Brutus                               | Dogberry, Sir Toby Belch, Feste                   |
 === residual PC2 ===
-| Universe           | Adj. R² | Top feature                   | High end                                               | Low end                                                             |  |
-|--------------------+---------+-------------------------------+--------------------------------------------------------+---------------------------------------------------------------------+----|
-| Harry Potter       |    0.72 | Openness to Others            | Ollivander, Professor Flitwick, Albus Dumbledore       | Vernon Dursley, Dudley Dursley, Kreacher                            |  |
-| Star Wars          |    0.42 | Sound Integration             | R2D2, Chewbacca, C3Po                                  | Grand Admiral Thrawn, Wilhuff Tarkin, General Hux                   |  |
-| LOTR               |    0.78 | Conversational Warmth         | Bilbo Baggins, Frodo Baggins, Pippin Peregrin Took     | Azog The Defiler, Ungoliant, Gothmog                                |  |
-| Marvel             |    0.38 | Formal Language Register      | Professor X Charles Xavier, Jean Grey, Mister Sinister | Iron Man Tony Stark, Hawkeye Clint Barton, War Machine James Rhodes |  |
-| Game of Thrones    |    0.38 | Self-Reference Style          | Hodor, Viserion, Melisandre                            | Tywin Lannister, Margaery Tyrell, Myrcella Baratheon                |  |
-| Naruto             |    0.19 | Aggressive Language Intensity | Hidan, Deidara, Suigetsu Hozuki                        | Rock Lee, Tobirama Senju, Hiruzen Sarutobi                          |  |
-| Greek Mythology    |    0.03 | Emotional Intensity           | Diomedes, Patroclus, Andromache                        | Minotaur, Daedalus, Icarus                                          |  |
-| Chinese Mythology  |    0.28 | Strategic Calculation         | Zhu Bajie, Sha Wujing, Red Boy                         | Cao Cao, Liu Bei, Zhuge Liang                                       |  |
-| Hindu Mythology    |    0.41 | Compassionate Address         | Hiranyakashipu, Shakuni, Duryodhana                    | Krishna, Vishnu, Arjuna                                             |  |
-| Norse Mythology    |    0.45 | Vengeful Focus                | Grendels Mother, Surtr, Fenrir                         | Leif Erikson, Freyr, Ragnar Lothbrok                                |  |
-| Egyptian Mythology |   -0.15 | Ritualistic Formality         | Cleopatra, Akhenaten, Nefertiti                        | Anubis, Ammit, Maat                                                 |  |
-| Shakespeare        |    0.44 | Formal Register               | Hippolyta, Miranda, Lavinia                            | Dogberry, Malvolio, Hotspur                                         |    |
+| Universe           | Adj. R² | Top feature                   | High end                                               | Low end                                                             |
+|--------------------+---------+-------------------------------+--------------------------------------------------------+---------------------------------------------------------------------|
+| Harry Potter       |    0.72 | Openness to Others            | Ollivander, Professor Flitwick, Albus Dumbledore       | Vernon Dursley, Dudley Dursley, Kreacher                            |
+| Star Wars          |    0.42 | Sound Integration             | R2D2, Chewbacca, C3Po                                  | Grand Admiral Thrawn, Wilhuff Tarkin, General Hux                   |
+| LOTR               |    0.78 | Conversational Warmth         | Bilbo Baggins, Frodo Baggins, Pippin Peregrin Took     | Azog The Defiler, Ungoliant, Gothmog                                |
+| Marvel             |    0.38 | Formal Language Register      | Professor X Charles Xavier, Jean Grey, Mister Sinister | Iron Man Tony Stark, Hawkeye Clint Barton, War Machine James Rhodes |
+| Game of Thrones    |    0.38 | Self-Reference Style          | Hodor, Viserion, Melisandre                            | Tywin Lannister, Margaery Tyrell, Myrcella Baratheon                |
+| Naruto             |    0.19 | Aggressive Language Intensity | Hidan, Deidara, Suigetsu Hozuki                        | Rock Lee, Tobirama Senju, Hiruzen Sarutobi                          |
+| Greek Mythology    |    0.03 | Emotional Intensity           | Diomedes, Patroclus, Andromache                        | Minotaur, Daedalus, Icarus                                          |
+| Chinese Mythology  |    0.28 | Strategic Calculation         | Zhu Bajie, Sha Wujing, Red Boy                         | Cao Cao, Liu Bei, Zhuge Liang                                       |
+| Hindu Mythology    |    0.41 | Compassionate Address         | Hiranyakashipu, Shakuni, Duryodhana                    | Krishna, Vishnu, Arjuna                                             |
+| Norse Mythology    |    0.45 | Vengeful Focus                | Grendels Mother, Surtr, Fenrir                         | Leif Erikson, Freyr, Ragnar Lothbrok                                |
+| Egyptian Mythology |   -0.15 | Ritualistic Formality         | Cleopatra, Akhenaten, Nefertiti                        | Anubis, Ammit, Maat                                                 |
+| Shakespeare        |    0.44 | Formal Register               | Hippolyta, Miranda, Lavinia                            | Dogberry, Malvolio, Hotspur                                         |
 :end:
 
