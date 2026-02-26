@@ -908,6 +908,36 @@ The cosine similarities are low: within-universe PC1 has median cosine ~0.13 wit
 
 The cosines are uniformly low: the median PC1 cosine is 0.17, and the top 3 PCs together capture at most 24% of the assistant axis (Marvel). The assistant axis is not concentrated in any universe's top PCs --- it is spread diffusely across many dimensions.
 
+Who are the most and least assistant-like fictional characters? Projecting all 1,268 characters onto the assistant axis:
+
+#+begin_src python
+# Project all characters onto the assistant axis
+aa_scores_all = chars_centered @ (assistant_axis / np.linalg.norm(assistant_axis))
+
+def fmt_char(name):
+    parts = name.split('__')
+    universe = parts[0].replace('_', ' ').title()
+    char = parts[-1].replace('_', ' ').title()
+    return f"{char} ({universe})"
+
+order = np.argsort(aa_scores_all)
+print("Most assistant-like (highest AA score):")
+rows = [{'Rank': i+1, 'Character': fmt_char(char_names[order[-(i+1)]]),
+         'AA': f"{aa_scores_all[order[-(i+1)]]:+.1f}"}
+        for i in range(10)]
+print(pd.DataFrame(rows).set_index('Rank'))
+
+print("\nLeast assistant-like (lowest AA score):")
+rows = [{'Rank': i+1, 'Character': fmt_char(char_names[order[i]]),
+         'AA': f"{aa_scores_all[order[i]]:+.1f}"}
+        for i in range(10)]
+print(pd.DataFrame(rows).set_index('Rank'))
+
+print(f"\nMean: {aa_scores_all.mean():.1f}, Std: {aa_scores_all.std():.1f}")
+#+end_src
+
+Hermione Granger is the most assistant-like fictional character in the dataset. The bottom of the list is dominated by non-verbal monsters and embodiments of primordial evil --- Ungoliant, Grendel's Mother, Shelob --- which makes intuitive sense: they are the furthest thing from a helpful conversational partner. Nearly all fictional characters score well below the assistant baseline (mean AA = -18.5); only Hermione is near zero. Fictional characters are, on average, much less assistant-like than Lu et al.'s 275 generic roles --- the role-playing signal is strong.
+
 Yet the rank correlations tell a different story. Characters who score high on within-universe PC1 tend to score high on the assistant axis (median rank correlation 0.52 for PC1, 0.58 for PC2), even though the directions are nearly orthogonal. This means the assistant axis covaries with within-universe PC structure through dimensions beyond the top 3 --- the relationship is real but is not captured by the top PC directions themselves.
 
 Despite both being rank-correlated with the assistant axis, PC1 and PC2 scores are uncorrelated with each other (median |rho| = 0.03, max 0.12), confirming they capture independent aspects of the AA. We can test this directly: using the LLM-discovered features from the feature interpretation pipeline (described in the next section), we regress assistant axis scores against the 6 features discovered for within-universe PC1 (formality features), the 6 features for PC2 (warmth features), and both combined.
