@@ -19,7 +19,7 @@ We apply the role space to 1,268 fictional characters in Qwen3-32B --- from Hind
 
 3. *What do the top PCs encode, and where does the assistant axis live?*
    - LLM feature labels identify within-universe PC1 as formality/register for modern franchises (adj. R² = 0.72--0.88) and PC2 as warmth vs. aggression.
-   - The assistant axis is geometrically diffuse: cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3). But rank correlations between PC scores and assistant axis scores are substantial --- for franchises, PC1 scores correlate with the assistant axis (HP 0.78, Naruto 0.68, Marvel 0.63); for mythology, the correlation shifts to PC2 or PC3 (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79). Formality covaries with within-universe PC structure even though the directions are nearly orthogonal.
+   - The assistant axis is geometrically diffuse: cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3). But rank correlations between PC scores and assistant axis scores are substantial --- for franchises, PC1 scores correlate with the assistant axis (HP 0.78, Naruto 0.68, Marvel 0.63); for mythology, the correlation shifts to PC2 or PC3 (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79). PC1 and PC2 are rank-uncorrelated with each other but both predict the AA: it is a blend of formality and warmth, not either alone (combined adj. R² = 0.60). Running feature discovery directly on the AA confirms this --- the top features are prosociality (collaborative tone, warmth, self-deprecation) versus grandiose/threatening behavior (franchise median adj. R² = 0.66).
    - Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (Hindu/Shakespeare ~0.05).
 
 
@@ -910,6 +910,151 @@ The cosines are uniformly low: the median PC1 cosine is 0.17, and the top 3 PCs 
 
 Yet the rank correlations tell a different story. Characters who score high on within-universe PC1 tend to score high on the assistant axis (median rank correlation 0.52 for PC1, 0.58 for PC2), even though the directions are nearly orthogonal. This means the assistant axis covaries with within-universe PC structure through dimensions beyond the top 3 --- the relationship is real but is not captured by the top PC directions themselves.
 
+Despite both being rank-correlated with the assistant axis, PC1 and PC2 scores are uncorrelated with each other (median |rho| = 0.03, max 0.12), confirming they capture independent aspects of the AA. We can test this directly: using the LLM-discovered features from the feature interpretation pipeline (described in the next section), we regress assistant axis scores against the 6 features discovered for within-universe PC1 (formality features), the 6 features for PC2 (warmth features), and both combined.
+
+#+begin_src python
+# Regress AA scores on existing within-universe feature ratings
+import json
+from pathlib import Path
+
+# Load within-mode coded features (already generated for PC1/PC2 interpretation)
+with open('../results/llm_feature_coded_within.json') as f:
+    coded_within = json.load(f)
+
+assistant_axis_all = torch.load('../data/role_vectors/assistant_axis.pt', weights_only=True)
+assistant_axis = assistant_axis_all[32].float().numpy()
+aa_norm = assistant_axis / np.linalg.norm(assistant_axis)
+
+# Also compute PC1-PC2 rank correlations to confirm independence
+from scipy.stats import spearmanr
+
+pc_corr_rows = []
+aa_reg_rows = []
+
+for universe, prefixes in ALL_UNIVERSES.items():
+    idx = get_universe_indices(prefixes)
+    if len(idx) < 20:
+        continue
+    u_names = [char_names[i] for i in idx]
+    u_centered = chars_centered[idx]
+
+    # PC1-PC2 rank correlation
+    within_pca = SkPCA(n_components=5).fit(u_centered)
+    scores = within_pca.transform(u_centered)
+    rho_12, _ = spearmanr(scores[:, 0], scores[:, 1])
+    pc_corr_rows.append({'Universe': universe, '|PC1-PC2 rho|': round(abs(rho_12), 3)})
+
+    # AA scores
+    aa_scores = u_centered @ aa_norm
+    name_to_local = {n: i for i, n in enumerate(u_names)}
+
+    for source in ['PC1', 'PC2', 'PC1+PC2']:
+        if source == 'PC1+PC2':
+            keys = [f"{universe}__PC1", f"{universe}__PC2"]
+        else:
+            keys = [f"{universe}__{source}"]
+
+        all_feature_names = []
+        for key in keys:
+            if key not in coded_within:
+                continue
+            all_feature_names.extend([f['name'] for f in coded_within[key]['schema']['features']])
+
+        # Build feature matrix
+        valid_local_idx = []
+        feature_matrix = []
+        for i, cname in enumerate(u_names):
+            if cname not in name_to_local:
+                continue
+            row = []
+            valid = True
+            for key in keys:
+                if key not in coded_within:
+                    valid = False
+                    break
+                ratings = coded_within[key]['characters'].get(cname, {})
+                if 'error' in ratings:
+                    valid = False
+                    break
+                for fname in [f['name'] for f in coded_within[key]['schema']['features']]:
+                    val = ratings.get(fname)
+                    if val is None or not isinstance(val, (int, float)):
+                        valid = False
+                        break
+                    row.append(float(val))
+                if not valid:
+                    break
+            if valid and len(row) == len(all_feature_names):
+                valid_local_idx.append(i)
+                feature_matrix.append(row)
+
+        if len(valid_local_idx) < 15:
+            continue
+
+        X = np.array(feature_matrix)
+        y = aa_scores[valid_local_idx]
+        n = len(y)
+        p = X.shape[1]
+        X_aug = np.column_stack([np.ones(n), X])
+        beta = np.linalg.lstsq(X_aug, y, rcond=None)[0]
+        y_hat = X_aug @ beta
+        ss_res = np.sum((y - y_hat) ** 2)
+        ss_tot = np.sum((y - y.mean()) ** 2)
+        r2 = 1 - ss_res / ss_tot
+        adj_r2 = 1 - (1 - r2) * (n - 1) / (n - p - 1)
+        aa_reg_rows.append({'Universe': universe, 'Features': source,
+                           'Adj. R²': round(adj_r2, 2), 'n': n})
+
+print("PC1-PC2 rank independence:")
+print(pd.DataFrame(pc_corr_rows).set_index('Universe'))
+print(f"Median: {np.median([r['|PC1-PC2 rho|'] for r in pc_corr_rows]):.3f}")
+
+df_reg = pd.DataFrame(aa_reg_rows)
+print("\nAA scores regressed on within-universe features:")
+pivot = df_reg.pivot(index='Universe', columns='Features', values='Adj. R²')
+pivot = pivot[['PC1', 'PC2', 'PC1+PC2']]
+print(pivot)
+print(f"\nMedians: PC1={pivot['PC1'].median():.2f}, PC2={pivot['PC2'].median():.2f}, PC1+PC2={pivot['PC1+PC2'].median():.2f}")
+#+end_src
+
+#+RESULTS:
+:results:
+PC1-PC2 rank independence:
+| Universe           | \vert{}PC1-PC2 rho\vert{} |
+|--------------------+---------------------------|
+| Harry Potter       |                     0.007 |
+| Star Wars          |                     0.020 |
+| LOTR               |                     0.012 |
+| Marvel             |                     0.031 |
+| Game of Thrones    |                     0.021 |
+| Naruto             |                     0.011 |
+| Greek Mythology    |                     0.025 |
+| Chinese Mythology  |                     0.028 |
+| Hindu Mythology    |                     0.072 |
+| Norse Mythology    |                     0.062 |
+| Egyptian Mythology |                     0.031 |
+| Shakespeare        |                     0.123 |
+Median: 0.027
+AA scores regressed on within-universe features:
+| Universe           |  PC1 |  PC2 | PC1+PC2 |
+|--------------------+------+------+---------|
+| Harry Potter       | 0.69 | 0.37 |    0.75 |
+| Star Wars          | 0.48 | 0.41 |    0.63 |
+| LOTR               | 0.68 | 0.73 |    0.86 |
+| Marvel             | 0.73 | 0.72 |    0.87 |
+| Game of Thrones    | 0.51 | 0.64 |    0.69 |
+| Naruto             | 0.71 | 0.66 |    0.74 |
+| Greek Mythology    | 0.20 | 0.24 |    0.29 |
+| Chinese Mythology  | 0.07 | 0.32 |    0.23 |
+| Hindu Mythology    | 0.49 | 0.55 |    0.58 |
+| Norse Mythology    | 0.25 | 0.53 |    0.46 |
+| Egyptian Mythology | -0.04 | -0.08 |   -0.37 |
+| Shakespeare        | 0.23 | 0.38 |    0.42 |
+Medians: PC1=0.48, PC2=0.47, PC1+PC2=0.60
+:end:
+
+PC1 (formality) and PC2 (warmth) each independently predict assistant axis scores at median adj. R² ~0.48. Combining both sets of features (12 total) raises this to median 0.60, with franchises reaching 0.63--0.87. The AA is not formality alone --- it is a blend of formality and warmth/cooperativeness. This explains why both PC1 and PC2 rank-correlate with the AA despite being uncorrelated with each other: they capture independent components of the same direction. In mythology, where within-universe AA variance is small (std 1.7--2.9 vs. 4--6 for franchises), neither set of features predicts well.
+
 * What Do the Directions Encode?
 
 The geometric analysis can't tell us what semantic content the PCs actually encode --- the directions are not aligned across universes, so we can't read off what they mean from the geometry. The question battery redundancy helps here: since any 5 questions carry the full signal, we can show an LLM a handful of responses from extreme characters and ask what distinguishes them.
@@ -1058,11 +1203,50 @@ We report adjusted R² throughout. Unlike raw R², adjusted R² penalizes for th
 
 Within-universe PCs are the most interpretable (median adj. R² = 0.65), clearly ahead of role PCs (median 0.46). Role PC labels are more heterogeneous --- "Civilized Discourse" alongside "Technical Precision," "Analytical Depth" --- and a quarter of role PC1 entries have adj. R² below 0.3 (Greek, Hindu, Egyptian mythology). Residual PCs (within-universe structure orthogonal to the role space) are similar to role PCs in quality (median adj. R² = 0.43); full residual tables are in the appendix below.
 
+** Direct interpretation of the assistant axis
+
+The indirect regression above showed the AA is a blend of formality and warmth. We can also run the feature discovery pipeline directly on the assistant axis --- using characters with the most extreme AA scores (rather than PC scores) as discovery inputs. This asks: what features does the LLM discover when shown high-AA characters (Hermione, Samwise Gamgee, Spider-Man) versus low-AA characters (Grindelwald, Ungoliant, Apocalypse)?
+
+#+begin_src python
+import json
+from pathlib import Path
+
+# Generated by: python blogpost/scripts/feature_regression.py --mode aa
+# (depends on results/llm_feature_coded_aa.json from blogpost/scripts/llm_feature_coding.py --mode aa)
+with open('../results/feature_regression_aa.json') as f:
+    aa_reg = json.load(f)
+print(f"Loaded {len(aa_reg)} entries")
+
+rows = []
+for key, data in aa_reg.items():
+    best = max(data['correlations'], key=lambda x: x['abs_correlation'])
+    rows.append({
+        'Universe': data['universe'],
+        'Adj. R²': f"{data['adj_r_squared']:.2f}",
+        'Top feature': best['feature'],
+        'n': data['n_chars'],
+        'High AA': ', '.join(data['high_chars'][:3]),
+        'Low AA': ', '.join(data['low_chars'][:3]),
+    })
+df = pd.DataFrame(rows).set_index('Universe')
+print(df)
+
+adj_r2s = [d['adj_r_squared'] for d in aa_reg.values()]
+franchise_names = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
+franchise_r2 = [d['adj_r_squared'] for d in aa_reg.values() if d['universe'] in franchise_names]
+myth_r2 = [d['adj_r_squared'] for d in aa_reg.values() if d['universe'] not in franchise_names]
+print(f"\nMedian adj. R²: {np.median(adj_r2s):.2f} (all), {np.median(franchise_r2):.2f} (franchises), {np.median(myth_r2):.2f} (mythology)")
+#+end_src
+
+The discovered features confirm and sharpen the indirect finding. For franchises, the top features are "Collaborative Tone" (LOTR, Marvel, Naruto, Hindu), "Grandiose Language" (Marvel, Naruto), "Dramatic Tone" (Harry Potter), and "Self-Deprecation Level" (Game of Thrones) --- warmth and approachability at the high end, theatrical menace at the low end. Samwise Gamgee, Spider-Man, and Hinata Hyuga score high; Ungoliant, Apocalypse, and Madara Uchiha score low. The AA is not formality in the narrow sense of register; it is prosociality --- collaborative, warm, self-deprecating, concrete --- versus grandiose, threatening, dramatic, and dismissive.
+
+Franchise fits are strong (median adj. R² = 0.66, range 0.61--0.76), comparable to the indirect PC1+PC2 regression (median 0.60). Mythology fits are weaker (median adj. R² = 0.27), as expected: the AA has low variance in mythology universes (they cluster near the low end of the axis), so there is less signal for the features to predict. Greek mythology is the worst case (adj. R² = 0.11), where the discovered features ("Mystical Gravitas," "Atmospheric Staging") correlate only weakly with the AA.
+
 * Conclusion
 
 *The persona signal is surprisingly robust.* A single random question recovers character rankings at r > 0.95. Sixteen out-of-distribution prompts --- degenerate inputs like "." and "?" alongside task prompts like "Write a Python function to calculate the first 100 primes" --- recover PC1--3 scores at Pearson r > 0.95 across all universes. Mean activations preserve the same persona structure regardless of what is being asked.
 
-*The subspace is shared but the directions are not.* The role subspace and fiction subspace overlap heavily (~75--92%), but their principal directions are sensitive to the input distribution. Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (~0.05--0.12). The assistant axis illustrates this: its cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3), but rank correlations between PC scores and assistant axis scores are substantial --- appearing on PC1 for franchises (HP 0.78, Naruto 0.68) and on PC2/PC3 for mythology (Hindu PC2: 0.79, Chinese PC3: 0.79). The same semantic relationship (formality) shows up in different geometric directions depending on the character distribution.
+*The subspace is shared but the directions are not.* The role subspace and fiction subspace overlap heavily (~75--92%), but their principal directions are sensitive to the input distribution. Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (~0.05--0.12). The assistant axis illustrates this: its cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3), but rank correlations between PC scores and assistant axis scores are substantial --- appearing on PC1 for franchises (HP 0.78, Naruto 0.68) and on PC2/PC3 for mythology (Hindu PC2: 0.79, Chinese PC3: 0.79). PC1 and PC2 are rank-uncorrelated with each other (median |rho| = 0.03) but both predict the AA independently: the AA is a blend of formality (PC1) and warmth (PC2), not either alone. Combined PC1+PC2 features predict AA scores at median adj. R² = 0.60 (0.63--0.87 for franchises). Running the feature pipeline directly on the AA confirms this: the discovered features are prosociality --- collaborative tone, warmth, self-deprecation --- versus grandiose, threatening, dramatic behavior (franchise median adj. R² = 0.66).
 
 *Within-universe PCs are interpretable, and the interpretation is quantifiable.* Our LLM feature discovery pipeline --- discover features from held-out extreme characters, code all remaining characters, regress --- gives adjusted R² values rather than subjective labels from eyeballing top-scoring characters. Within-universe PCs are consistently interpretable (median adj. R² = 0.65): PC1 as formality/register, PC2 as warmth vs. aggression. The pipeline is general and could be applied to any set of PCA directions over text-generating agents.
 
@@ -1091,8 +1275,8 @@ All result files the post loads are checked into git. To regenerate from scratch
 | =results/fictional_character_analysis_filtered.pkl= | yes             | =blogpost/scripts/build_character_matrix.py=       | Requires per-character vectors from cluster (=outputs/.../vectors/*.pt=)                                |
 | =results/question_projections.pkl=                  | yes             | =blogpost/scripts/compute_question_projections.py= | Requires per-question activations from cluster (=outputs/.../activations/*.pt=)                         |
 | =results/question_subset_sweep.json=, =.png=          | yes             | =blogpost/scripts/question_subset_sweep.py=        | =python blogpost/scripts/question_subset_sweep.py= (local, ~18s)                                        |
-| =results/llm_feature_coded{,_lu,_within}.json=      | yes             | =blogpost/scripts/llm_feature_coding.py=           | =python blogpost/scripts/llm_feature_coding.py --mode {residual,lu,within} all= (needs =ANTHROPIC_API_KEY_BATCH=, cluster responses) |
-| =results/feature_regression{,_lu,_within}.json=     | yes             | =blogpost/scripts/feature_regression.py=           | =python blogpost/scripts/feature_regression.py --mode {residual,lu,within}= (local, instant)            |
+| =results/llm_feature_coded{,_lu,_within,_aa}.json=  | yes             | =blogpost/scripts/llm_feature_coding.py=           | =python blogpost/scripts/llm_feature_coding.py --mode {residual,lu,within,aa} all= (needs =ANTHROPIC_API_KEY_BATCH=, cluster responses) |
+| =results/feature_regression{,_lu,_within,_aa}.json= | yes             | =blogpost/scripts/feature_regression.py=           | =python blogpost/scripts/feature_regression.py --mode {residual,lu,within,aa}= (local, instant)         |
 | =outputs/degenerate_questions/activations/*.pt=     | no (gitignored) | =scripts/slurm_degenerate_questions.sh=            | SLURM job on cluster: generate + extract activations for 16 degenerate/task questions                   |
 | =data/degenerate_questions.jsonl=                   | yes             | hand-written                                     | 16 prompts (degenerate + task-shaped) for question invariance test                                      |
 

@@ -43,13 +43,14 @@ N_CODE_PER_SIDE = 10  # legacy; coding phase now uses all non-discovery characte
 N_DISCOVER_QUESTIONS = 10  # questions shown in discovery prompt
 N_CODE_QUESTIONS = 10  # questions shown when coding each character
 N_DISCRIMINATIVE_POOL = 50  # top 50 most discriminative questions to sample from
-N_PCS = 2  # code features for PC1 and PC2
+N_PCS = 2  # code features for PC1 and PC2 (overridden to 1 for aa mode)
 
 # --- Paths ---
 ACTIVATIONS_DIR = Path("outputs/qwen3-32b_20260211_002840/activations")
 RESPONSES_DIR = Path("outputs/qwen3-32b_20260211_002840/responses")
 CHAR_DATA_PATH = "results/fictional_character_analysis_filtered.pkl"
 LU_PCA_PATH = "data/role_vectors/qwen-3-32b_pca_layer32.pkl"
+AA_PATH = "data/role_vectors/assistant_axis.pt"
 QUESTIONS_PATH = "assistant-axis/data/extraction_questions.jsonl"
 
 
@@ -200,6 +201,12 @@ def get_discriminative_questions(u_names, pc_dir, role_pca, mode="residual"):
     return top_q_indices, question_variance
 
 
+def load_assistant_axis(layer=32):
+    """Load assistant axis vector for the given layer."""
+    aa_all = torch.load(AA_PATH, weights_only=True)
+    return aa_all[layer].float().numpy()
+
+
 def get_universe_directions(mode, u_centered, residuals_u, role_pca, n_pcs):
     """Get PC directions and scores for a universe based on mode.
 
@@ -219,6 +226,11 @@ def get_universe_directions(mode, u_centered, residuals_u, role_pca, n_pcs):
         components = role_pca.components_[:n_pcs]
         scores = u_centered @ components.T
         return scores, components
+    elif mode == "aa":
+        aa = load_assistant_axis()
+        aa_norm = aa / np.linalg.norm(aa)
+        scores = u_centered @ aa_norm
+        return scores[:, np.newaxis], aa_norm[np.newaxis, :]
     else:
         raise ValueError(f"Unknown mode: {mode}")
 
@@ -362,6 +374,8 @@ def phase_discover(
     else:
         schemas = {}
 
+    n_pcs = 1 if mode == "aa" else N_PCS
+
     for universe, prefixes in ALL_UNIVERSES.items():
         indices = get_universe_indices(char_names, prefixes)
         if len(indices) < 20:
@@ -372,11 +386,11 @@ def phase_discover(
         u_names = [char_names[i] for i in indices]
 
         u_scores, u_components = get_universe_directions(
-            mode, u_centered, u_residuals, role_pca, N_PCS
+            mode, u_centered, u_residuals, role_pca, n_pcs
         )
 
-        for pc_idx in range(N_PCS):
-            key = f"{universe}__PC{pc_idx + 1}"
+        for pc_idx in range(n_pcs):
+            key = f"{universe}__AA" if mode == "aa" else f"{universe}__PC{pc_idx + 1}"
             if key in schemas:
                 print(f"Skipping {key} (already discovered)")
                 continue
@@ -560,10 +574,11 @@ def phase_code(char_data, questions, lu_data, mode="residual", prompt_style="sty
         u_centered = chars_centered[indices]
         u_residuals = residuals[indices]
 
+        n_pcs = 1 if mode == "aa" else N_PCS
         u_scores, u_components = get_universe_directions(
-            mode, u_centered, u_residuals, role_pca, N_PCS
+            mode, u_centered, u_residuals, role_pca, n_pcs
         )
-        scores = u_scores[:, pc_idx]
+        scores = u_scores[:, min(pc_idx, n_pcs - 1)]
         sorted_idx = np.argsort(scores)
 
         # Discovery used odd-ranked extremes; code ALL remaining characters
@@ -725,9 +740,9 @@ def main():
     parser.add_argument("phase", choices=["discover", "code", "all"])
     parser.add_argument(
         "--mode",
-        choices=["residual", "within", "lu"],
+        choices=["residual", "within", "lu", "aa"],
         default="residual",
-        help="Which PC directions to interpret",
+        help="Which PC directions to interpret (aa = assistant axis)",
     )
     parser.add_argument(
         "--prompt",

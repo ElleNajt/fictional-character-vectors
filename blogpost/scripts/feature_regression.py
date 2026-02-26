@@ -12,10 +12,12 @@ import pickle
 from pathlib import Path
 
 import numpy as np
+import torch
 from sklearn.decomposition import PCA as SkPCA
 
 CHAR_DATA_PATH = "results/fictional_character_analysis_filtered.pkl"
 LU_PCA_PATH = "data/role_vectors/qwen-3-32b_pca_layer32.pkl"
+AA_PATH = "data/role_vectors/assistant_axis.pt"
 
 
 def get_paths(mode):
@@ -58,7 +60,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--mode",
-        choices=["residual", "within", "lu"],
+        choices=["residual", "within", "lu", "aa"],
         default="residual",
     )
     args = parser.parse_args()
@@ -101,13 +103,20 @@ def main():
         if args.mode == "residual":
             u_pca = SkPCA(n_components=max(2, pc_num))
             u_scores = u_pca.fit_transform(u_residuals)
+            pc_scores = u_scores[:, pc_num - 1]
         elif args.mode == "within":
             u_pca = SkPCA(n_components=max(2, pc_num))
             u_scores = u_pca.fit_transform(u_centered)
+            pc_scores = u_scores[:, pc_num - 1]
         elif args.mode == "lu":
             components = role_pca.components_[: max(2, pc_num)]
             u_scores = u_centered @ components.T
-        pc_scores = u_scores[:, pc_num - 1]
+            pc_scores = u_scores[:, pc_num - 1]
+        elif args.mode == "aa":
+            aa_all = torch.load(AA_PATH, weights_only=True)
+            aa = aa_all[32].float().numpy()
+            aa_norm = aa / np.linalg.norm(aa)
+            pc_scores = u_centered @ aa_norm
 
         # Build feature matrix (only chars with valid ratings)
         valid_indices = []
