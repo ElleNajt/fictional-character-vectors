@@ -9,8 +9,63 @@
 
 We apply the role space to 1,268 fictional characters in Qwen3-32B --- from Hindu mythology to Naruto --- and ask how much it captures and what it misses. Three questions and what we found:
 
-#+ATTR_HTML: :width 800
+#+begin_src python :results file :exports results
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+INTRO_UNIVERSES = {
+    'Harry Potter': ['harry_potter__', 'harry_potter_series__'],
+    'Star Wars': ['star_wars__'],
+    'LOTR': ['lord_of_the_rings__'],
+    'Marvel': ['marvel__', 'marvel_comics__'],
+    'Game of Thrones': ['game_of_thrones__'],
+    'Naruto': ['naruto__'],
+    'Greek Myth.': ['greek_mythology__'],
+    'Chinese Myth.': ['chinese_mythology__'],
+    'Hindu Myth.': ['hindu_mythology__'],
+    'Norse Myth.': ['norse_mythology__'],
+    'Egyptian Myth.': ['egyptian_mythology__'],
+    'Shakespeare': ['shakespeare__'],
+}
+INTRO_COLORS = {
+    'Harry Potter': '#e41a1c', 'Star Wars': '#377eb8', 'LOTR': '#4daf4a',
+    'Marvel': '#984ea3', 'Game of Thrones': '#ff7f00', 'Naruto': '#a65628',
+    'Greek Myth.': '#f781bf', 'Chinese Myth.': '#999999', 'Hindu Myth.': '#e7298a',
+    'Norse Myth.': '#66a61e', 'Egyptian Myth.': '#e6ab02', 'Shakespeare': '#1b9e77',
+}
+def _intro_idx(prefixes):
+    return [i for i, n in enumerate(char_names) if any(n.startswith(p) for p in prefixes)]
+
+pca_intro = SkPCA(n_components=200).fit(chars_centered)
+scores_intro = pca_intro.transform(chars_centered)
+evr = pca_intro.explained_variance_ratio_
+
+fig, ax = plt.subplots(figsize=(8, 6))
+grouped = set()
+for pxs in INTRO_UNIVERSES.values():
+    for i, n in enumerate(char_names):
+        if any(n.startswith(p) for p in pxs): grouped.add(i)
+ungrouped = [i for i in range(len(char_names)) if i not in grouped]
+ax.scatter(scores_intro[ungrouped, 0], scores_intro[ungrouped, 1], c='#cccccc', s=8, alpha=0.3, label='Other', zorder=1)
+for name, pxs in INTRO_UNIVERSES.items():
+    idx = _intro_idx(pxs)
+    ax.scatter(scores_intro[idx, 0], scores_intro[idx, 1], c=INTRO_COLORS[name], s=12, alpha=0.6, label=name, zorder=2)
+ax.set_xlabel(f"Fiction PC1 ({evr[0]:.0%} var)")
+ax.set_ylabel(f"Fiction PC2 ({evr[1]:.0%} var)")
+ax.set_title("1,268 fictional characters in activation space")
+ax.legend(loc='upper left', fontsize=7, ncol=2, markerscale=2)
+fig.tight_layout()
+path = '../results/intro_scatter_pc12.png'
+fig.savefig(path, dpi=150, bbox_inches='tight')
+plt.close()
+print(path)
+#+end_src
+
+#+RESULTS:
+:results:
 [[file:../results/intro_scatter_pc12.png]]
+:end:
 
 1. *How sensitive are results to the question battery?*
    - A single random question recovers character rankings at median r > 0.95; five questions get to r > 0.99.
@@ -23,19 +78,142 @@ We apply the role space to 1,268 fictional characters in Qwen3-32B --- from Hind
    - 75% of fictional character variance overall. The fictional character space is low-dimensional (~40 PCs for 90%), so this is less than a random sample of 275 fictional characters (95%) but far more than a random 275-dim subspace (5%).
    - The relationship is asymmetric: 1,268 fictional characters capture 92% of role variance, but roles capture only 75% of fiction. Of the 25% roles miss, most is universe separation; only ~9% is within-universe structure.
 
-#+ATTR_HTML: :width 600
+#+begin_src python :results file :exports results
+fig, ax = plt.subplots(figsize=(6, 4))
+fcumvar = np.cumsum(pca_intro.explained_variance_ratio_)
+lu_cumvar = np.cumsum(role_pca.explained_variance_ratio_)
+ax.plot(range(1, len(fcumvar)+1), fcumvar, label='Fiction (1,268 characters)', color='#377eb8', linewidth=2)
+ax.plot(range(1, len(lu_cumvar)+1), lu_cumvar, label='Roles (275, Lu et al.)', color='#e41a1c', linewidth=2)
+for thresh, style in [(0.7, '--'), (0.9, ':')]:
+    ax.axhline(thresh, color='gray', linestyle=style, alpha=0.5, linewidth=0.8)
+    ax.annotate(f"{thresh:.0%}", xy=(195, thresh), fontsize=8, color='gray', va='bottom')
+ax.set_xlabel("Number of PCs")
+ax.set_ylabel("Cumulative variance explained")
+ax.set_title("Both spaces are low-dimensional")
+ax.set_xlim(1, 200); ax.set_ylim(0, 1.02)
+ax.legend(loc='lower right', fontsize=9)
+fig.tight_layout()
+path = '../results/intro_eigenspectrum.png'
+fig.savefig(path, dpi=150, bbox_inches='tight')
+plt.close()
+print(path)
+#+end_src
+
+#+RESULTS:
+:results:
 [[file:../results/intro_eigenspectrum.png]]
+:end:
 
 3. *What do the top PCs encode, and where does the assistant axis live?*
    - LLM feature labels identify within-universe PC1 as formality/register for modern franchises (adj. R² = 0.72--0.88) and PC2 as warmth vs. aggression.
    - The assistant axis is geometrically diffuse: cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3). But rank correlations between PC scores and assistant axis scores are substantial --- for franchises, PC1 scores correlate with the assistant axis (HP 0.78, Naruto 0.68, Marvel 0.63); for mythology, the correlation shifts to PC2 or PC3 (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79). PC1 and PC2 are rank-uncorrelated with each other but both predict the AA: it is a blend of formality and warmth, not either alone (combined adj. R² = 0.60). Running feature discovery directly on the AA confirms this --- the top features are prosociality (collaborative tone, warmth, self-deprecation) versus grandiose/threatening behavior (franchise median adj. R² = 0.66).
    - Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (Hindu/Shakespeare ~0.05).
 
-#+ATTR_HTML: :width 800
-[[file:../results/intro_heatmap_k1.png]]
+#+begin_src python :results file :exports results
+import torch
+from scipy.linalg import svd
 
-#+ATTR_HTML: :width 800
+assistant_axis_all = torch.load('../data/role_vectors/assistant_axis.pt', weights_only=True)
+assistant_axis = assistant_axis_all[32].float().numpy()
+aa_norm = assistant_axis / np.linalg.norm(assistant_axis)
+
+def _pa_cos(A, B):
+    s = svd(A @ B.T, compute_uv=False)
+    return np.clip(s, 0, 1)
+
+u_pcas = {}
+for name, pxs in INTRO_UNIVERSES.items():
+    idx = _intro_idx(pxs)
+    n_comp = min(len(idx)-1, 10)
+    u_pcas[name] = SkPCA(n_components=n_comp).fit(chars_centered[idx]).components_
+
+labels = list(INTRO_UNIVERSES.keys()) + ['Role PCs', 'Asst. Axis']
+n = len(labels)
+mat = np.full((n, n), np.nan)
+for i in range(n):
+    for j in range(n):
+        bi = aa_norm.reshape(1,-1) if labels[i]=='Asst. Axis' else (role_pca.components_[:1] if labels[i]=='Role PCs' else u_pcas[labels[i]][:1])
+        bj = aa_norm.reshape(1,-1) if labels[j]=='Asst. Axis' else (role_pca.components_[:1] if labels[j]=='Role PCs' else u_pcas[labels[j]][:1])
+        mat[i,j] = _pa_cos(bi, bj)[0]
+
+fig, ax = plt.subplots(figsize=(8, 7))
+im = ax.imshow(mat, cmap='RdYlGn', vmin=0, vmax=1, aspect='equal')
+ax.set_xticks(range(n)); ax.set_yticks(range(n))
+ax.set_xticklabels(labels, rotation=45, ha='right', fontsize=9)
+ax.set_yticklabels(labels, fontsize=9)
+for i in range(n):
+    for j in range(n):
+        if not np.isnan(mat[i,j]) and i != j:
+            c = 'white' if mat[i,j] < 0.4 else 'black'
+            ax.text(j, i, f"{mat[i,j]:.2f}", ha='center', va='center', fontsize=7, color=c)
+ax.set_title("PC1 alignment across universes\n(cosine between within-universe PC1 directions)", fontsize=11)
+fig.colorbar(im, ax=ax, shrink=0.8, label='Cosine similarity')
+fig.tight_layout()
+path = '../results/intro_heatmap_k1.png'
+fig.savefig(path, dpi=150, bbox_inches='tight')
+plt.close()
+print(path)
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:../results/intro_heatmap_k1.png]]
+:end:
+
+#+begin_src python :results file :exports results
+import json
+from matplotlib.patches import Patch
+
+with open('../results/feature_regression_aa.json') as f:
+    aa_reg = json.load(f)
+
+franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
+universes, r2s, colors = [], [], []
+for entry in aa_reg.values():
+    u = entry['universe']
+    universes.append(u); r2s.append(entry['adj_r_squared'])
+    colors.append('#377eb8' if u in franchise_set else '#e41a1c')
+order = np.argsort(r2s)[::-1]
+universes = [universes[i] for i in order]
+r2s = [r2s[i] for i in order]
+colors = [colors[i] for i in order]
+
+feature_counts = {}
+for entry in aa_reg.values():
+    for corr in entry['correlations'][:2]:
+        f = corr['feature']
+        feature_counts[f] = feature_counts.get(f, 0) + 1
+top_feats = sorted(feature_counts.items(), key=lambda x: x[1], reverse=True)[:8]
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5), gridspec_kw={'width_ratios': [1.2, 1]})
+ax1.barh(range(len(universes)), r2s, color=colors)
+ax1.set_yticks(range(len(universes))); ax1.set_yticklabels(universes, fontsize=9)
+ax1.set_xlabel("Adj. R² (6 LLM-discovered features)")
+ax1.set_title("Assistant axis is predictable\nfrom semantic features")
+ax1.set_xlim(0, 1); ax1.invert_yaxis()
+ax1.legend(handles=[Patch(facecolor='#377eb8', label='Franchise'), Patch(facecolor='#e41a1c', label='Mythology/Shakespeare')], loc='lower right', fontsize=8)
+for i, v in enumerate(r2s):
+    ax1.text(v+0.01, i, f"{v:.2f}", va='center', fontsize=8)
+
+fnames = [f[0] for f in top_feats]
+fcounts = [f[1] for f in top_feats]
+ax2.barh(range(len(fnames)), fcounts, color='#4daf4a')
+ax2.set_yticks(range(len(fnames))); ax2.set_yticklabels(fnames, fontsize=8)
+ax2.set_xlabel("# universes where this is a top-2 feature")
+ax2.set_title("What predicts the assistant axis?\n(most common top features across universes)")
+ax2.invert_yaxis()
+
+fig.tight_layout()
+path = '../results/intro_aa_features.png'
+fig.savefig(path, dpi=150, bbox_inches='tight')
+plt.close()
+print(path)
+#+end_src
+
+#+RESULTS:
+:results:
 [[file:../results/intro_aa_features.png]]
+:end:
 
 
 ** Definitions
@@ -1385,7 +1563,7 @@ All result files the post loads are checked into git. To regenerate from scratch
 | =results/llm_feature_coded{,_lu,_within,_aa}.json=  | yes             | =blogpost/scripts/llm_feature_coding.py=           | =python blogpost/scripts/llm_feature_coding.py --mode {residual,lu,within,aa} all= (needs =ANTHROPIC_API_KEY_BATCH=, cluster responses) |
 | =results/feature_regression{,_lu,_within,_aa}.json= | yes             | =blogpost/scripts/feature_regression.py=           | =python blogpost/scripts/feature_regression.py --mode {residual,lu,within,aa}= (local, instant)         |
 | =results/principal_angle_heatmaps.png=              | yes             | =blogpost/scripts/principal_angle_heatmaps.py=     | =.venv/bin/python blogpost/scripts/principal_angle_heatmaps.py= (local, instant)                        |
-| =results/intro_*.png= (4 files)                     | yes             | =blogpost/scripts/intro_figures.py=                | =.venv/bin/python blogpost/scripts/intro_figures.py= (local, instant)                                   |
+| =results/intro_*.png= (4 files)                     | yes             | Introduction src blocks in =post.org=              | Eval the intro src blocks (local, instant)                                                              |
 | =outputs/degenerate_questions/activations/*.pt=     | no (gitignored) | =scripts/slurm_degenerate_questions.sh=            | SLURM job on cluster: generate + extract activations for 16 degenerate/task questions                   |
 | =data/degenerate_questions.jsonl=                   | yes             | hand-written                                     | 16 prompts (degenerate + task-shaped) for question invariance test                                      |
 
