@@ -9,7 +9,7 @@
 
 We apply the role space to 1,268 fictional characters in Qwen3-32B --- from Hindu mythology to Naruto --- and ask how much it captures and what it misses. Three questions and what we found:
 
-#+begin_src python :results file :exports results
+#+begin_src python :exports results
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -576,7 +576,7 @@ print(pd.DataFrame(rows).set_index('Battery'))
 | Task prompts (8Q)       |       2.67 |     79.1% |   53840 |    |
 :end:
 
-LLM judge scoring (GPT-4.1-mini, 0--3 scale) tells the same story from the behavioral side. Degenerate prompts --- ".", "?", "hi" --- score 99.1% at full role adherence (score 3), slightly /higher/ than the original 240-question battery (98.3%). Characters stay in character when given nothing to work with. Task prompts ("Write a Python function to calculate the first 100 primes", "Write a haiku about rain") drop to 79.1% at score 3: characters are more likely to break character when asked to perform a specific task. The hardest prompt is "Write a haiku" (28.7% at score 3) --- the constraint of the poetic form overrides the persona.
+Note that the activation analysis above used all 1,346 characters with no judge-based filtering. The full-battery pipeline scores each response with an LLM judge and filters out poor role-players before building the activation matrix. The degenerate-question results show this filtering is unnecessary for recovering the persona space: degenerate prompts actually score /higher/ on role adherence (99.1% at score 3) than the original 240-question battery (98.3%). Task prompts are where scores drop (79.1% at score 3) --- characters break character when asked to write haiku or Python, not when given "?". The upshot: you can skip both the diverse question battery and the judge filtering step and still recover the same persona structure.
 
 * How Much Does the Role Space Capture?
 
