@@ -62,7 +62,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260226_111706_6067523.png]]
+[[file:plots/post/plot_20260226_111933_8013080.png]]
 :end:
 
 1. *How sensitive are results to the question battery?*
@@ -96,6 +96,7 @@ plt.show()
 
 #+RESULTS:
 :results:
+[[file:plots/post/plot_20260226_112145_9238142.png]]
 :end:
 
 3. *What do the top PCs encode, and where does the assistant axis live?*
@@ -148,6 +149,7 @@ plt.show()
 
 #+RESULTS:
 :results:
+[[file:plots/post/plot_20260226_112326_1398940.png]]
 :end:
 
 #+begin_src python :exports results
@@ -199,6 +201,7 @@ plt.show()
 
 #+RESULTS:
 :results:
+[[file:plots/post/plot_20260226_112337_6921794.png]]
 :end:
 
 
@@ -1125,6 +1128,51 @@ rows = [{'Rank': i+1, 'Character': fmt_char(char_names[order[i]]),
 print(pd.DataFrame(rows).set_index('Rank'))
 
 print(f"\nMean: {aa_scores_all.mean():.1f}, Std: {aa_scores_all.std():.1f}")
+#+end_src
+
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+
+aa_norm_vec = assistant_axis / np.linalg.norm(assistant_axis)
+aa_scores_all = chars_centered @ aa_norm_vec
+order = np.argsort(aa_scores_all)
+
+def fmt_char(name):
+    parts = name.split('__')
+    char = parts[-1].replace('_', ' ').title()
+    return char
+
+n_show = 15
+top_idx = order[-n_show:][::-1]
+bot_idx = order[:n_show]
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
+
+# Most assistant-like
+names_top = [fmt_char(char_names[i]) for i in top_idx]
+scores_top = [aa_scores_all[i] for i in top_idx]
+colors_top = ['#4daf4a' if s >= 0 else '#377eb8' for s in scores_top]
+ax1.barh(range(n_show), scores_top, color=colors_top)
+ax1.set_yticks(range(n_show))
+ax1.set_yticklabels(names_top, fontsize=9)
+ax1.invert_yaxis()
+ax1.set_xlabel('Assistant axis projection')
+ax1.set_title('Most assistant-like')
+ax1.axvline(0, color='gray', linewidth=0.5, linestyle='--')
+
+# Least assistant-like
+names_bot = [fmt_char(char_names[i]) for i in bot_idx]
+scores_bot = [aa_scores_all[i] for i in bot_idx]
+ax2.barh(range(n_show), scores_bot, color='#e41a1c')
+ax2.set_yticks(range(n_show))
+ax2.set_yticklabels(names_bot, fontsize=9)
+ax2.invert_yaxis()
+ax2.set_xlabel('Assistant axis projection')
+ax2.set_title('Least assistant-like')
+
+fig.suptitle('1,268 fictional characters ranked on the assistant axis', fontsize=12, y=1.02)
+fig.tight_layout()
+plt.show()
 #+end_src
 
 #+RESULTS:
