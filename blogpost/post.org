@@ -9,18 +9,33 @@
 
 We apply the role space to 1,268 fictional characters in Qwen3-32B --- from Hindu mythology to Naruto --- and ask how much it captures and what it misses. Three questions and what we found:
 
+#+ATTR_HTML: :width 800
+[[file:../results/intro_scatter_pc12.png]]
+
 1. *How sensitive are results to the question battery?*
    - A single random question recovers character rankings at median r > 0.95; five questions get to r > 0.99.
    - Sixteen out-of-distribution prompts --- degenerate inputs (".", "?", "hi") and task prompts ("Write a Python function to calculate the first 100 primes") --- recover PC1--3 scores at Pearson r > 0.95 across all universes. The persona signal is not an artifact of the question battery.
+
+#+ATTR_HTML: :width 700
+[[file:../results/question_subset_sweep.png]]
 
 2. *How much of persona space do 275 generic roles cover?*
    - 75% of fictional character variance overall. The fictional character space is low-dimensional (~40 PCs for 90%), so this is less than a random sample of 275 fictional characters (95%) but far more than a random 275-dim subspace (5%).
    - The relationship is asymmetric: 1,268 fictional characters capture 92% of role variance, but roles capture only 75% of fiction. Of the 25% roles miss, most is universe separation; only ~9% is within-universe structure.
 
+#+ATTR_HTML: :width 600
+[[file:../results/intro_eigenspectrum.png]]
+
 3. *What do the top PCs encode, and where does the assistant axis live?*
    - LLM feature labels identify within-universe PC1 as formality/register for modern franchises (adj. R² = 0.72--0.88) and PC2 as warmth vs. aggression.
    - The assistant axis is geometrically diffuse: cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3). But rank correlations between PC scores and assistant axis scores are substantial --- for franchises, PC1 scores correlate with the assistant axis (HP 0.78, Naruto 0.68, Marvel 0.63); for mythology, the correlation shifts to PC2 or PC3 (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79). PC1 and PC2 are rank-uncorrelated with each other but both predict the AA: it is a blend of formality and warmth, not either alone (combined adj. R² = 0.60). Running feature discovery directly on the AA confirms this --- the top features are prosociality (collaborative tone, warmth, self-deprecation) versus grandiose/threatening behavior (franchise median adj. R² = 0.66).
    - Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (Hindu/Shakespeare ~0.05).
+
+#+ATTR_HTML: :width 800
+[[file:../results/intro_heatmap_k1.png]]
+
+#+ATTR_HTML: :width 800
+[[file:../results/intro_aa_features.png]]
 
 
 ** Definitions
@@ -1370,6 +1385,7 @@ All result files the post loads are checked into git. To regenerate from scratch
 | =results/llm_feature_coded{,_lu,_within,_aa}.json=  | yes             | =blogpost/scripts/llm_feature_coding.py=           | =python blogpost/scripts/llm_feature_coding.py --mode {residual,lu,within,aa} all= (needs =ANTHROPIC_API_KEY_BATCH=, cluster responses) |
 | =results/feature_regression{,_lu,_within,_aa}.json= | yes             | =blogpost/scripts/feature_regression.py=           | =python blogpost/scripts/feature_regression.py --mode {residual,lu,within,aa}= (local, instant)         |
 | =results/principal_angle_heatmaps.png=              | yes             | =blogpost/scripts/principal_angle_heatmaps.py=     | =.venv/bin/python blogpost/scripts/principal_angle_heatmaps.py= (local, instant)                        |
+| =results/intro_*.png= (4 files)                     | yes             | =blogpost/scripts/intro_figures.py=                | =.venv/bin/python blogpost/scripts/intro_figures.py= (local, instant)                                   |
 | =outputs/degenerate_questions/activations/*.pt=     | no (gitignored) | =scripts/slurm_degenerate_questions.sh=            | SLURM job on cluster: generate + extract activations for 16 degenerate/task questions                   |
 | =data/degenerate_questions.jsonl=                   | yes             | hand-written                                     | 16 prompts (degenerate + task-shaped) for question invariance test                                      |
 
