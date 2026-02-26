@@ -39,18 +39,21 @@ pca_intro = SkPCA(n_components=200).fit(chars_centered)
 scores_intro = pca_intro.transform(chars_centered)
 evr = pca_intro.explained_variance_ratio_
 
+MYTH_UNIVERSES = {'Greek Myth.', 'Chinese Myth.', 'Hindu Myth.', 'Norse Myth.', 'Egyptian Myth.', 'Shakespeare'}
+INTRO_MARKERS = {name: ('^' if name in MYTH_UNIVERSES else 'o') for name in INTRO_UNIVERSES}
+
 fig, ax = plt.subplots(figsize=(8, 6))
 grouped = set()
 for pxs in INTRO_UNIVERSES.values():
     for i, n in enumerate(char_names):
         if any(n.startswith(p) for p in pxs): grouped.add(i)
 ungrouped = [i for i in range(len(char_names)) if i not in grouped]
-ax.scatter(scores_intro[ungrouped, 0], scores_intro[ungrouped, 1], c='#cccccc', s=8, alpha=0.3, label='Other', zorder=1)
+ax.scatter(scores_intro[ungrouped, 0], scores_intro[ungrouped, 1], c='#cccccc', s=8, alpha=0.3, label='Other', marker='o', zorder=1)
 for name, pxs in INTRO_UNIVERSES.items():
     idx = _intro_idx(pxs)
-    ax.scatter(scores_intro[idx, 0], scores_intro[idx, 1], c=INTRO_COLORS[name], s=12, alpha=0.6, label=name, zorder=2)
-ax.set_xlabel(f"Fiction PC1 ({evr[0]:.0%} var)")
-ax.set_ylabel(f"Fiction PC2 ({evr[1]:.0%} var)")
+    ax.scatter(scores_intro[idx, 0], scores_intro[idx, 1], c=INTRO_COLORS[name], s=15, alpha=0.6, label=name, marker=INTRO_MARKERS[name], zorder=2)
+ax.set_xlabel(f"Fiction PC1 ({evr[0]:.0%} var)\nMythology / Shakespeare  ←→  Modern franchises")
+ax.set_ylabel(f"Fiction PC2 ({evr[1]:.0%} var)\nShakespeare / GoT  ←→  Hindu myth. / Naruto")
 ax.set_title("1,268 fictional characters in activation space")
 ax.legend(loc='upper left', fontsize=7, ncol=2, markerscale=2)
 fig.tight_layout()
@@ -59,6 +62,7 @@ plt.show()
 
 #+RESULTS:
 :results:
+[[file:plots/post/plot_20260226_111706_6067523.png]]
 :end:
 
 1. *How sensitive are results to the question battery?*
