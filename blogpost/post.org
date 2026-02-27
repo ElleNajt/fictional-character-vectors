@@ -572,10 +572,6 @@ print(pd.DataFrame(rows).set_index(""))
 
 #+RESULTS:
 :results:
-
-
-
-
 | idx                                     | Variance | % of total |
 |-----------------------------------------+----------+------------|
 | Captured by role space                  |      822 |      74.7% |
@@ -585,7 +581,7 @@ print(pd.DataFrame(rows).set_index(""))
 | Null (random 275-dim subspace)          |          |       5.4% |
 :end:
 
-The role space captures 75% of total fictional character variance (measured as $\sum_j \mathrm{Var}_i(\hat{a}_{ij}) / \sum_j \mathrm{Var}_i(\tilde{a}_{ij})$ where $\hat{a}_i = P\tilde{a}_i$ is the projection onto the 275-dim role subspace). The 95% baseline (275 random fictional characters) reflects the low dimensionality of the fiction space: with ~40 PCs covering 90% of variance, 275 random draws span nearly the full subspace. The 5.4% null (a random 275-dim subspace of $\mathbb{R}^{5120}$) confirms the structure is real. The gap between 75% (roles) and 95% (random fiction) reflects that roles come from a different distribution --- generic personas without universe-specific structure. As the residual decomposition below shows, most of that 20% gap is universe separation.
+The role space captures 75% of total fictional character variance. Here $\tilde{a}_i = \bar{a}_i - \bar{a}_{\text{role}}$ is each character's mean activation centered at the role mean (matching the centering used to fit the role PCA), $\hat{a}_i = P\tilde{a}_i$ is its projection onto the 275-dim role subspace via $P = V_{\text{role}} V_{\text{role}}^\top$, and the capture ratio is $\sum_j \mathrm{Var}_i(\hat{a}_{ij}) / \sum_j \mathrm{Var}_i(\tilde{a}_{ij})$ where $j$ indexes coordinates and variance is over characters $i$. The 95% baseline (275 random fictional characters) reflects the low dimensionality of the fiction space: with ~40 PCs covering 90% of variance, 275 random draws span nearly the full subspace. The 5.4% null (a random 275-dim subspace of $\mathbb{R}^{5120}$) confirms the structure is real. The gap between 75% (roles) and 95% (random fiction) reflects that roles come from a different distribution --- generic personas without universe-specific structure. As the residual decomposition below shows, most of that 20% gap is universe separation.
 
 A single universe's subspace (PCA on $\{\bar{a}_i : i \in \mathcal{U}\}$, yielding $n_{\mathcal{U}}-1$ components) captures 60--72% of all 1,268 characters' variance:
 
