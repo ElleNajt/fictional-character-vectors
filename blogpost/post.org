@@ -117,7 +117,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003042_4277091.png]]
+[[file:plots/post/plot_20260227_102311_3249595.png]]
 :end:
 
 [[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 points from role-playing toward default-assistant behavior --- they call this the "Assistant Axis." Their findings generalize across models.
@@ -149,7 +149,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003042_537026.png]]
+[[file:plots/post/plot_20260227_102312_6312550.png]]
 :end:
 
 2. *What do the top PCs encode, and where does the assistant axis live?*
@@ -203,7 +203,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003043_5254644.png]]
+[[file:plots/post/plot_20260227_102312_5153172.png]]
 :end:
 
    - The assistant axis is geometrically diffuse: cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3). But rank correlations between PC scores and assistant axis scores are substantial --- for franchises, PC1 scores rank-correlate with the assistant axis (HP 0.78, Naruto 0.68, Marvel 0.63); for mythology, the correlation shifts to PC2 or PC3 (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79).
@@ -241,7 +241,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003043_6048568.png]]
+[[file:plots/post/plot_20260227_102313_6421671.png]]
 :end:
 
    - PC1 and PC2 are rank-uncorrelated with each other but both predict the AA: it is a blend of formality and warmth, not either alone (combined adj. R² = 0.60). Running feature discovery directly on the AA confirms this --- the top discovered features are collaborative tone, warmth, and self-deprecation versus grandiose/threatening language (franchise median adj. R² = 0.69).
@@ -295,7 +295,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003043_9238267.png]]
+[[file:plots/post/plot_20260227_102313_1339280.png]]
 :end:
 
 - Projecting all 1,268 characters onto the assistant axis, nearly all score well below zero (mean = -18.5, std = 7.0) --- fictional characters are much less assistant-like than Lu et al.'s generic roles.
@@ -353,7 +353,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003045_123167.png]]
+[[file:plots/post/plot_20260227_102320_9880460.png]]
 :end:
 
 3. *How sensitive are results to the question battery?*
@@ -397,7 +397,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003046_2137189.png]]
+[[file:plots/post/plot_20260227_102320_2143772.png]]
 :end:
 
 ** Definitions and notation
@@ -522,7 +522,7 @@ print(f"Between-universe eta-squared: {eta_sq:.0%}")
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003046_149373.png]]
+[[file:plots/post/plot_20260227_102321_3183656.png]]
 Global fiction: 9 PCs for 70%, 40 PCs for 90%
 Fiction PC1: 31.2%, Role PC1: 37.9%
 Between-universe eta-squared: 57%
@@ -627,7 +627,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003111_5413989.png]]
+[[file:plots/post/plot_20260227_102348_617626.png]]
 :end:
 
 A single universe of ~100 characters captures 60--72% of all fictional character variance using ~100 dimensions. Lu's 275 roles with 275 dimensions capture 75%. Both results reflect the low dimensionality of the fiction space (~40 PCs for 90%), but the role space is notable for achieving 75% coverage from a different distribution (generic personas, not fictional characters).
@@ -689,7 +689,7 @@ print(f"1267 fiction PCs capture {fic_all_cap:.1%} of role variance")
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_095214_9918218.png]]
+[[file:plots/post/plot_20260227_102349_1561861.png]]
 275 fiction PCs capture 81.9% of role variance
 1267 fiction PCs capture 91.8% of role variance
 :end:
@@ -750,6 +750,11 @@ print(f"Mythology→Mythology: median={np.median(mm):.0%}")
 
 #+RESULTS:
 :results:
+[[file:plots/post/plot_20260227_102350_7252062.png]]
+Overall: median=63%, min=43%, max=86%
+Franchise→Franchise: median=80%
+Franchise↔Mythology: median=60%
+Mythology→Mythology: median=59%
 :end:
 
 Franchise subspaces capture ~80% of each other's variance (median), despite using only ~100 dimensions each. The franchise block is warm and roughly symmetric. Cross-boundary pairs drop to ~60%, and mythology-mythology pairs are similar (~59%). LOTR is the bridge --- it captures more mythology variance than any other franchise, likely because it shares archetypal structure (gods, monsters, quests) with mythology universes. The matrix is mildly asymmetric: Greek Mythology's 106-dim subspace captures 63% of Harry Potter, but Harry Potter's 101-dim subspace captures only 51% of Greek.
@@ -847,7 +852,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003113_4760945.png]]
+[[file:plots/post/plot_20260227_102351_996832.png]]
 :end:
 
 PC1 (31% of variance, eta²=68%) separates modern franchises from mythology and Shakespeare --- Ron Weasley and Homer Simpson at one end, Egyptian gods at the other. But the remaining PCs mix universe separation with cross-cutting semantics. PC3 (eta²=48%) has Darth Vader and Palpatine at one end and Winnie-the-Pooh and Totoro at the other --- dark/menacing vs. innocent, cutting across universe lines. PC4 (eta²=49%) puts Mr. Darcy and Elizabeth Bennet opposite Khal Drogo and Sun Wukong.
@@ -893,7 +898,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003114_1755351.png]]
+[[file:plots/post/plot_20260227_102351_7588132.png]]
 :end:
 
 The role space captures more in modern franchises (80--85%) than in mythology (61--72%). What happens in the 15--39% the role space misses?
@@ -957,6 +962,7 @@ plt.show()
 
 #+RESULTS:
 :results:
+[[file:plots/post/plot_20260227_132624_6509497.png]]
 :end:
 
 Residual PC1 directions are nearly orthogonal to the original PC1 (cosines 0.19--0.66), but character rankings on residual PC1 correlate 0.77--0.96 with original PC1 rankings in most universes (Marvel is the exception at 0.55). The role space captures the *axis* well (direction cosine ~0.9 between Lu-reconstructed and original PC1), but the residual --- geometrically orthogonal to the role space --- still preserves who ranks where. Extreme characters (Voldemort, Darth Vader, Galadriel) are extreme in multiple directions; projecting out the role space changes the axis but not the ordering.
@@ -1061,9 +1067,9 @@ print(f"Cosine(assistant axis, role PC1): {abs(cosine_sim(assistant_axis, role_p
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003114_7021533.png]]
+[[file:plots/post/plot_20260227_132625_2849784.png]]
 Cross-universe within-PC1 cosine: median=0.468
-[[file:plots/post/plot_20260227_003114_3789861.png]]
+[[file:plots/post/plot_20260227_132625_4739052.png]]
 Cosine medians: PC1=0.17, PC2=0.28, PC3=0.13
 Rank-corr medians: PC1=0.51, PC2=0.58, PC3=0.13
 Cosine(assistant axis, role PC1): 0.672
@@ -1129,7 +1135,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003134_7914571.png]]
+[[file:plots/post/plot_20260227_132626_6705592.png]]
 :end:
 
 Hermione Granger is the most assistant-like fictional character in the dataset. The bottom is dominated by non-verbal monsters --- Ungoliant, Grendel's Mother, Shelob. Nearly all fictional characters score well below the assistant baseline (mean AA = -18.5); only Hermione is near zero. 
@@ -1270,7 +1276,7 @@ print(f"PC1-PC2 rank independence median: {med_rho:.3f}")
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003135_6972484.png]]
+[[file:plots/post/plot_20260227_132626_7598793.png]]
 Medians: PC1=0.48, PC2=0.47, PC1+PC2=0.60
 PC1-PC2 rank independence median: 0.027
 :end:
@@ -1366,7 +1372,7 @@ for mode in ['within', 'lu']:
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003135_4532876.png]]
+[[file:plots/post/plot_20260227_132626_2719061.png]]
 within median adj. R²: 0.65
 lu median adj. R²: 0.46
 :end:
@@ -1428,7 +1434,7 @@ print(f"Median adj. R²: {np.median([r['r2'] for r in rows]):.2f} (all), {np.med
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003135_9325966.png]]
+[[file:plots/post/plot_20260227_132627_2560467.png]]
 Median adj. R²: 0.54 (all), 0.69 (franchises), 0.28 (mythology)
 :end:
 
@@ -1512,7 +1518,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003141_1246180.png]]
+[[file:plots/post/plot_20260227_132628_6712151.png]]
 :end:
 
 Franchises recover PC1 with cosine > 0.99 from just 5 questions; mythology and Shakespeare need 20--50 questions to reach the same threshold. Greek mythology is the hardest case: PC1 direction cosine is only 0.61 at $k=1$ and reaches 0.93 at $k=120$. The gap between score stability and direction stability reflects the fact that scoring characters along a fixed direction only requires reducing noise in the mean, while recovering the direction itself requires the covariance structure to stabilize.
@@ -1609,7 +1615,7 @@ print(f"Direction stability: franchise PC1 range = {dir_mat[:6,0].min():.2f}--{d
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003151_9917102.png]]
+[[file:plots/post/plot_20260227_132641_3790045.png]]
 Score stability: min r = 0.948
 Direction stability: franchise PC1 range = 0.91--0.93
 :end:
@@ -1757,6 +1763,6 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003153_5890594.png]]
+[[file:plots/post/plot_20260227_132643_6270511.png]]
 :end:
 
