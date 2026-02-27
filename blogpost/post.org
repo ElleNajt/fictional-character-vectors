@@ -5,6 +5,8 @@
 #+PROPERTY: header-args:python :results output drawer :python "../.venv/bin/python3" :async t :session blogpost_short :exports both
 
 
+*Note:* All code blocks share a single Python session (=blogpost_short=) and must be executed in order. The Setup block loads data and defines shared variables used by all subsequent blocks.
+
 * _Setup
 
 #+begin_src python :exports none
@@ -583,7 +585,7 @@ print(pd.DataFrame(rows).set_index(""))
 
 The role space captures 75% of total fictional character variance. Here $\tilde{a}_i = \bar{a}_i - \bar{a}_{\text{role}}$ is each character's mean activation centered at the role mean (matching the centering used to fit the role PCA), $\hat{a}_i = P\tilde{a}_i$ is its projection onto the 275-dim role subspace via $P = V_{\text{role}} V_{\text{role}}^\top$, and the capture ratio is $\sum_j \mathrm{Var}_i(\hat{a}_{ij}) / \sum_j \mathrm{Var}_i(\tilde{a}_{ij})$ where $j$ indexes coordinates and variance is over characters $i$. The 95% baseline (275 random fictional characters) reflects the low dimensionality of the fiction space: with ~40 PCs covering 90% of variance, 275 random draws span nearly the full subspace. The 5.4% null (a random 275-dim subspace of $\mathbb{R}^{5120}$) confirms the structure is real. The gap between 75% (roles) and 95% (random fiction) reflects that roles come from a different distribution --- generic personas without universe-specific structure. As the residual decomposition below shows, most of that 20% gap is universe separation.
 
-A single universe's subspace (PCA on $\{\bar{a}_i : i \in \mathcal{U}\}$, yielding $n_{\mathcal{U}}-1$ components) captures 60--72% of all 1,268 characters' variance:
+A single universe's subspace (PCA on $\{\tilde{a}_i : i \in \mathcal{U}\}$, yielding $n_{\mathcal{U}}-1$ components) captures 41--72% of all 1,268 characters' variance:
 
 #+begin_src python :exports results
 from sklearn.decomposition import PCA as SkPCA
@@ -593,10 +595,10 @@ fic_caps = []
 for universe, prefixes in ALL_UNIVERSES.items():
     idx = get_universe_indices(prefixes)
     n_comp = len(idx) - 1
-    pca_u = SkPCA(n_components=n_comp).fit(activation_matrix[idx])
-    all_centered = activation_matrix - pca_u.mean_
-    proj = all_centered @ pca_u.components_.T @ pca_u.components_
-    cap = np.var(proj, axis=0).sum() / np.var(all_centered, axis=0).sum()
+    pca_u = SkPCA(n_components=n_comp).fit(chars_centered[idx])
+    all_at_u_mean = chars_centered - pca_u.mean_
+    proj = all_at_u_mean @ pca_u.components_.T @ pca_u.components_
+    cap = np.var(proj, axis=0).sum() / np.var(all_at_u_mean, axis=0).sum()
     fic_caps.append({'Universe': universe, 'N': len(idx), 'cap': cap})
 
 franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
@@ -626,21 +628,22 @@ plt.show()
 [[file:plots/post/plot_20260227_102348_617626.png]]
 :end:
 
-A single universe of ~100 characters captures 60--72% of all fictional character variance using ~100 dimensions. Lu's 275 roles with 275 dimensions capture 75%. Both results reflect the low dimensionality of the fiction space (~40 PCs for 90%), but the role space is notable for achieving 75% coverage from a different distribution (generic personas, not fictional characters).
+A single universe of ~44--108 characters captures 41--72% of all fictional character variance. Lu's 275 roles capture 75%. The smaller universes (Egyptian Mythology, 44 chars; Norse Mythology, 48 chars) capture less; the larger ones (Marvel, 108 chars) capture up to 72%. Both results reflect the low dimensionality of the fiction space (~40 PCs for 90%), but the role space is notable for achieving 75% coverage from a different distribution (generic personas, not fictional characters).
 
 The reverse question: how much of role variance do fictional characters capture?
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
 
-role_activations_raw = role_data['transformed'] @ role_pca.components_ + role_pca.mean_
+# Role activations in role-mean-centered space (same as chars_centered)
+roles_centered = role_data['transformed'] @ role_pca.components_  # already role-mean-centered
 
 # Global: fiction captures role variance
 fic_275_cap = None
 fic_all_cap = None
 for n_comp in [275, 1267]:
     pca_fic = SkPCA(n_components=n_comp).fit(chars_centered)
-    roles_at_fic = role_activations_raw - pca_fic.mean_
+    roles_at_fic = roles_centered - pca_fic.mean_
     proj = roles_at_fic @ pca_fic.components_.T @ pca_fic.components_
     cap = np.var(proj, axis=0).sum() / np.var(roles_at_fic, axis=0).sum()
     if n_comp == 275: fic_275_cap = cap
@@ -652,8 +655,8 @@ franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones
 for universe, prefixes in ALL_UNIVERSES.items():
     idx = get_universe_indices(prefixes)
     n_comp = len(idx) - 1
-    pca_u = SkPCA(n_components=n_comp).fit(activation_matrix[idx])
-    roles_c = role_activations_raw - pca_u.mean_
+    pca_u = SkPCA(n_components=n_comp).fit(chars_centered[idx])
+    roles_c = roles_centered - pca_u.mean_
     proj_u = roles_c @ pca_u.components_.T @ pca_u.components_
     cap = np.var(proj_u, axis=0).sum() / np.var(roles_c, axis=0).sum()
     role_caps.append({'Universe': universe, 'N': len(idx), 'cap': cap})
@@ -709,10 +712,10 @@ for i, u1 in enumerate(universe_names):
     pca1 = SkPCA(n_components=n_comp1).fit(chars_centered[idx1])
     for j, u2 in enumerate(universe_names):
         idx2 = get_universe_indices(ALL_UNIVERSES[u2])
-        # Center u2's characters at u1's mean, project onto u1's subspace
-        u2_at_u1_mean = activation_matrix[idx2] - pca1.mean_
-        proj = u2_at_u1_mean @ pca1.components_.T @ pca1.components_
-        var_cap_mat[i, j] = np.var(proj, axis=0).sum() / np.var(u2_at_u1_mean, axis=0).sum()
+        # Center u2's characters at u1's mean (both in role-mean-centered space)
+        u2_centered = chars_centered[idx2] - pca1.mean_
+        proj = u2_centered @ pca1.components_.T @ pca1.components_
+        var_cap_mat[i, j] = np.var(proj, axis=0).sum() / np.var(u2_centered, axis=0).sum()
 
 fig, ax = plt.subplots(figsize=(9, 8))
 im = ax.imshow(var_cap_mat, cmap='RdYlGn', vmin=0.3, vmax=1.0, aspect='equal')
@@ -1665,7 +1668,7 @@ print(pd.DataFrame(rows).set_index('Battery'))
 | Task prompts (8Q)       |       2.67 |     79.1% |   53840 |
 :end:
 
-Note that the activation analysis above used all 1,346 characters with no judge-based filtering. The full-battery pipeline scores each response with an LLM judge and filters out poor role-players before building the activation matrix. Degenerate prompts score /higher/ on role adherence (99.1% at score 3) than the original 240-question battery (98.3%). Task prompts are where scores drop (79.1% at score 3) --- characters break character when asked to write haiku or Python, not when given "?".
+The judge scores above are computed over all 1,346 characters (before filtering). The activation analyses throughout the post use the 1,268-character filtered dataset (=fictional_character_analysis_filtered.pkl=), which excludes characters that scored poorly on the original battery. Degenerate prompts score /higher/ on role adherence (99.1% at score 3) than the original 240-question battery (98.3%). Task prompts are where scores drop (79.1% at score 3) --- characters break character when asked to write haiku or Python, not when given "?".
 
 In summary: score stability is high --- given pre-computed directions, almost any prompts suffice to score characters. Direction stability depends on the question type: within the same battery, even 5 random questions recover directions well, but qualitatively different prompts (degenerate, task-shaped) yield different PC directions for mythology and Shakespeare.
 
