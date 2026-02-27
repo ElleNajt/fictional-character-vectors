@@ -124,7 +124,7 @@ plt.show()
 
 [[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 points from role-playing toward default-assistant behavior --- they call this the "Assistant Axis." Their findings generalize across models.
 
-We apply the role space to 1,268 fictional characters in Qwen3-32B --- from Hindu mythology to Naruto --- and ask how much it captures and what it misses.
+We apply the role space to 1,268 fictional characters in Qwen3-32B --- from Hindu mythology to Naruto --- and ask how much it captures and what it misses. (1,268 is after deduplicating characters that appear under multiple universe prefixes; all analyses use this deduplicated set unless noted.)
 
 1. *How much of persona space do 275 generic roles cover?*
    - 75% of fictional character variance overall. The fictional character space is low-dimensional (~40 PCs for 90%), so coverage by role space is less than a random sample of 275 fictional characters (95%) but far more than a random 275-dim subspace (5%).
@@ -964,7 +964,7 @@ plt.show()
 [[file:plots/post/plot_20260227_132624_6509497.png]]
 :end:
 
-Residual PC1 directions are nearly orthogonal to the original PC1 (cosines 0.19--0.66), but character rankings on residual PC1 correlate 0.77--0.96 with original PC1 rankings in most universes (Marvel is the exception at 0.55). The role space captures the *axis* well (direction cosine ~0.9 between Lu-reconstructed and original PC1), but the residual --- geometrically orthogonal to the role space --- still preserves who ranks where. Extreme characters (Voldemort, Darth Vader, Galadriel) are extreme in multiple directions; projecting out the role space changes the axis but not the ordering.
+Residual PC1 directions are nearly orthogonal to the original PC1 (cosines 0.19--0.66), but character rankings on residual PC1 correlate 0.77--0.96 with original PC1 rankings in most universes (Marvel is the exception at 0.55). The role space captures most of the variance (61--85% per universe), but the residual --- geometrically orthogonal to the role space --- still preserves who ranks where. Extreme characters (Voldemort, Darth Vader, Galadriel) are extreme in multiple directions; projecting out the role space changes the axis but not the ordering.
 
 This means: the 15--39% of within-universe variance missed by the role space is not noise --- it encodes real structure that produces the same character ordering along a different geometric direction.
 
@@ -1082,7 +1082,7 @@ The heatmaps below show principal angle cosines between each pair of universes' 
 
 The franchise block (Harry Potter, Star Wars, LOTR, Marvel, Game of Thrones, Naruto) stays warm through k=2 --- these universes share not just a PC1 but a common 2D plane of variation. By k=3 everything cools, but the franchise block still shows higher alignment than mythology-vs-franchise pairs. The role PCs and assistant axis (bottom rows) have low cosines with all universes, confirming that within-universe principal directions are mostly orthogonal to the role space.
 
-*Where does the assistant axis live?* Lu et al.'s PC1 aligns with their "assistant axis" (cosine ~0.67). The right-hand heatmap above shows that the top 3 PCs together capture at most 24% of the assistant axis (Marvel, sum of squared cosines). The assistant axis is not concentrated in any universe's top PCs --- it is spread diffusely across many dimensions.
+*Where does the assistant axis live?* Lu et al.'s PC1 aligns with their "assistant axis" (cosine 0.67). The cosine heatmap above shows that the top 3 within-universe PCs together capture at most 24% of the assistant axis (Marvel, sum of squared cosines from the left panel). The assistant axis is not concentrated in any universe's top PCs --- it is spread diffusely across many dimensions.
 
 Who are the most and least assistant-like fictional characters? Projecting all 1,268 characters onto the assistant axis:
 
@@ -1137,7 +1137,7 @@ plt.show()
 [[file:plots/post/plot_20260227_132626_6705592.png]]
 :end:
 
-Hermione Granger is the most assistant-like fictional character in the dataset. The bottom is dominated by non-verbal monsters --- Ungoliant, Grendel's Mother, Shelob. Nearly all fictional characters score well below the assistant baseline (mean AA = -18.5); only Hermione is near zero. 
+Hermione Granger is the most assistant-like fictional character in the dataset. The bottom is dominated by non-verbal monsters --- Ungoliant, Grendel's Mother, Shelob. Nearly all fictional characters score well below zero (mean AA across fictional characters = -18.5, std = 7.0); only Hermione is near zero. 
 
 Yet the rank correlations between PC scores and assistant axis scores are substantial (median |rho| = 0.52 for PC1, 0.58 for PC2), even though the PC directions are nearly orthogonal to the assistant axis direction (median cosines 0.17, 0.28, 0.13 for PC1--3).
 
@@ -1345,7 +1345,7 @@ for ax_idx, (key, title) in enumerate(titles.items()):
     colors = ['#377eb8' if n in franchise_set else '#e41a1c' for n in names]
     ax.barh(range(len(names)), r2s, color=colors)
     ax.set_yticks(range(len(names)))
-    ax.set_yticklabels(names if ax_idx % 2 == 0 else names, fontsize=8)
+    ax.set_yticklabels(names, fontsize=8)
     ax.set_xlabel('Adj. R²')
     ax.set_title(title, fontsize=10)
     ax.set_xlim(-0.2, 1.0)
@@ -1437,7 +1437,7 @@ print(f"Median adj. R²: {np.median([r['r2'] for r in rows]):.2f} (all), {np.med
 Median adj. R²: 0.54 (all), 0.69 (franchises), 0.28 (mythology)
 :end:
 
-The discovered features confirm and sharpen the indirect finding. For franchises, the top features are "Collaborative Tone" (LOTR, Marvel, Naruto, Hindu), "Grandiose Language" (Marvel, Naruto), "Dramatic Tone" (Harry Potter), and "Self-Deprecation Level" (Game of Thrones) --- warmth and approachability at the high end, theatrical menace at the low end. Samwise Gamgee, Spider-Man, and Hinata Hyuga score high; Ungoliant, Apocalypse, and Madara Uchiha score low. The discovered features cluster around collaborative, warm, self-deprecating, and concrete language at the high end, versus grandiose, threatening, dramatic, and dismissive language at the low end.
+The discovered features confirm and sharpen the indirect finding. The top features are "Collaborative Tone" (LOTR, Marvel, Naruto, and also Hindu Mythology), "Grandiose Language" (Marvel, Naruto), "Dramatic Tone" (Harry Potter), and "Self-Deprecation Level" (Game of Thrones) --- warmth and approachability at the high end, theatrical menace at the low end. Samwise Gamgee, Spider-Man, and Hinata Hyuga score high; Ungoliant, Apocalypse, and Madara Uchiha score low. The discovered features cluster around collaborative, warm, self-deprecating, and concrete language at the high end, versus grandiose, threatening, dramatic, and dismissive language at the low end.
 
 Franchise fits are strong (median adj. R² = 0.69, range 0.61--0.76), comparable to the indirect PC1+PC2 regression (median 0.60). Mythology fits are weaker (median adj. R² = 0.28): the AA has low variance in mythology universes (they cluster near the low end of the axis), so there is less signal for the features to predict. Greek mythology is the worst case (adj. R² = 0.11), where the discovered features ("Mystical Gravitas," "Atmospheric Staging") correlate only weakly with the AA.
 
@@ -1522,7 +1522,7 @@ plt.show()
 
 Franchises recover PC1 with cosine > 0.99 from just 5 questions; mythology and Shakespeare need 20--50 questions to reach the same threshold. Greek mythology is the hardest case: PC1 direction cosine is only 0.61 at $k=1$ and reaches 0.93 at $k=120$. The gap between score stability and direction stability reflects the fact that scoring characters along a fixed direction only requires reducing noise in the mean, while recovering the direction itself requires the covariance structure to stabilize.
 
-But the subset sweep only tests random draws from the /same/ 240 questions --- all substantive, multi-sentence prompts about ethics, technology, and personal advice. A stronger test: do qualitatively different questions carry the same signal? We generate responses for 16 out-of-distribution prompts --- 8 degenerate ("Huh?", ".", "?", "hi", "ok", "what", "hmm", "tell me something") and 8 task-shaped ("Write a Python function to calculate the first 100 primes", "Explain how a refrigerator works", "Write a haiku about rain", etc.) --- and extract activations for all 1,268 characters. We report both score stability and direction stability.
+But the subset sweep only tests random draws from the /same/ 240 questions --- all substantive, multi-sentence prompts about ethics, technology, and personal advice. A stronger test: do qualitatively different questions carry the same signal? We generate responses for 16 out-of-distribution prompts --- 8 degenerate ("Huh?", ".", "?", "hi", "ok", "what", "hmm", "tell me something") and 8 task-shaped ("Write a Python function to calculate the first 100 primes", "Explain how a refrigerator works", "Write a haiku about rain", etc.) --- and extract activations for all characters with OOD responses. We report both score stability and direction stability.
 
 #+begin_src python :exports results
 import torch
@@ -1544,6 +1544,7 @@ degen_name_to_idx = {n: i for i, n in enumerate(degen_names)}
 common_idx_full = [i for i, n in enumerate(char_names) if n in degen_name_to_idx]
 common_idx_degen = [degen_name_to_idx[char_names[i]] for i in common_idx_full]
 common_names = [char_names[i] for i in common_idx_full]
+print(f"OOD analysis: {len(common_idx_full)} of {len(char_names)} characters have OOD activations")
 
 full_c = (activation_matrix[common_idx_full] - role_mean)
 degen_c = (degen_matrix[common_idx_degen] - role_mean)
@@ -1668,7 +1669,7 @@ print(pd.DataFrame(rows).set_index('Battery'))
 | Task prompts (8Q)       |       2.67 |     79.1% |   53840 |
 :end:
 
-The judge scores above are computed over all 1,346 characters (before filtering). The activation analyses throughout the post use the 1,268-character filtered dataset (=fictional_character_analysis_filtered.pkl=), which excludes characters that scored poorly on the original battery. Degenerate prompts score /higher/ on role adherence (99.1% at score 3) than the original 240-question battery (98.3%). Task prompts are where scores drop (79.1% at score 3) --- characters break character when asked to write haiku or Python, not when given "?".
+The judge scores above are computed over all 1,346 characters (before deduplication). The activation analyses throughout the post use the 1,268-character deduplicated dataset (=fictional_character_analysis_filtered.pkl=), which collapses characters appearing under multiple universe prefixes to a single entry. Degenerate prompts score /higher/ on role adherence (99.1% at score 3) than the original 240-question battery (98.3%). Task prompts are where scores drop (79.1% at score 3) --- characters break character when asked to write haiku or Python, not when given "?".
 
 In summary: score stability is high --- given pre-computed directions, almost any prompts suffice to score characters. Direction stability depends on the question type: within the same battery, even 5 random questions recover directions well, but qualitatively different prompts (degenerate, task-shaped) yield different PC directions for mythology and Shakespeare.
 
