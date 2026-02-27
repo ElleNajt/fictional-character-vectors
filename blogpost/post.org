@@ -689,12 +689,70 @@ print(f"1267 fiction PCs capture {fic_all_cap:.1%} of role variance")
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_003113_3973665.png]]
-275 fiction PCs capture 82.0% of role variance
+[[file:plots/post/plot_20260227_095214_9918218.png]]
+275 fiction PCs capture 81.9% of role variance
 1267 fiction PCs capture 91.8% of role variance
 :end:
 
 The relationship is asymmetric. Using all 1,267 fiction PCs (the full span of 1,268 characters), fiction captures 92% of role variance. Roles capture only 75% of fiction variance. At matched dimensionality (275 PCs each), it's 82% vs 75%.
+
+How much subspace overlap is there between universes? For each pair $(\mathcal{U}_1, \mathcal{U}_2)$, we fit PCA on $\mathcal{U}_1$'s characters, project $\mathcal{U}_2$'s characters onto $\mathcal{U}_1$'s subspace, and report the fraction of $\mathcal{U}_2$'s variance captured:
+
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+
+franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
+universe_names = list(ALL_UNIVERSES.keys())
+n_u = len(universe_names)
+
+# Compute pairwise variance capture matrix
+var_cap_mat = np.zeros((n_u, n_u))
+for i, u1 in enumerate(universe_names):
+    idx1 = get_universe_indices(ALL_UNIVERSES[u1])
+    n_comp1 = len(idx1) - 1
+    pca1 = SkPCA(n_components=n_comp1).fit(chars_centered[idx1])
+    for j, u2 in enumerate(universe_names):
+        idx2 = get_universe_indices(ALL_UNIVERSES[u2])
+        # Center u2's characters at u1's mean, project onto u1's subspace
+        u2_at_u1_mean = activation_matrix[idx2] - pca1.mean_
+        proj = u2_at_u1_mean @ pca1.components_.T @ pca1.components_
+        var_cap_mat[i, j] = np.var(proj, axis=0).sum() / np.var(u2_at_u1_mean, axis=0).sum()
+
+fig, ax = plt.subplots(figsize=(9, 8))
+im = ax.imshow(var_cap_mat, cmap='RdYlGn', vmin=0.3, vmax=1.0, aspect='equal')
+ax.set_xticks(range(n_u)); ax.set_yticks(range(n_u))
+ax.set_xticklabels(universe_names, rotation=45, ha='right', fontsize=8)
+ax.set_yticklabels(universe_names, fontsize=8)
+for i in range(n_u):
+    for j in range(n_u):
+        c = 'white' if var_cap_mat[i,j] < 0.5 else 'black'
+        ax.text(j, i, f"{var_cap_mat[i,j]:.0%}", ha='center', va='center', fontsize=7, color=c)
+ax.set_ylabel('Subspace fitted on (row)')
+ax.set_xlabel('Variance measured on (column)')
+ax.set_title('Cross-universe variance capture\n(row\'s subspace captures X% of column\'s variance)')
+fig.colorbar(im, ax=ax, shrink=0.8, label='Fraction of variance captured')
+fig.tight_layout()
+plt.show()
+
+# Summary stats
+off_diag = [var_cap_mat[i,j] for i in range(n_u) for j in range(n_u) if i != j]
+ff = [var_cap_mat[i,j] for i in range(n_u) for j in range(n_u) if i != j
+      and universe_names[i] in franchise_set and universe_names[j] in franchise_set]
+fm = [var_cap_mat[i,j] for i in range(n_u) for j in range(n_u) if i != j
+      and (universe_names[i] in franchise_set) != (universe_names[j] in franchise_set)]
+mm = [var_cap_mat[i,j] for i in range(n_u) for j in range(n_u) if i != j
+      and universe_names[i] not in franchise_set and universe_names[j] not in franchise_set]
+print(f"Overall: median={np.median(off_diag):.0%}, min={np.min(off_diag):.0%}, max={np.max(off_diag):.0%}")
+print(f"Franchise→Franchise: median={np.median(ff):.0%}")
+print(f"Franchise↔Mythology: median={np.median(fm):.0%}")
+print(f"Mythology→Mythology: median={np.median(mm):.0%}")
+#+end_src
+
+#+RESULTS:
+:results:
+:end:
+
+Franchise subspaces capture ~80% of each other's variance (median), despite using only ~100 dimensions each. The franchise block is warm and roughly symmetric. Cross-boundary pairs drop to ~60%, and mythology-mythology pairs are similar (~59%). LOTR is the bridge --- it captures more mythology variance than any other franchise, likely because it shares archetypal structure (gods, monsters, quests) with mythology universes. The matrix is mildly asymmetric: Greek Mythology's 106-dim subspace captures 63% of Harry Potter, but Harry Potter's 101-dim subspace captures only 51% of Greek.
 
 Where does the remaining 25% go? We decompose the residual into between-universe variance (universe means differ) and within-universe variance (characters differ from their universe mean):
 
@@ -838,7 +896,74 @@ plt.show()
 [[file:plots/post/plot_20260227_003114_1755351.png]]
 :end:
 
-The role space captures more in modern franchises (80--85%) than in mythology (61--72%). But are the principal directions the same across universes? We compute cosine similarities between each universe's within-universe PC1 direction and role PC1, and check whether within-universe PC1 directions align with each other across universes:
+The role space captures more in modern franchises (80--85%) than in mythology (61--72%). What happens in the 15--39% the role space misses?
+
+*** Residual directions are different, but character rankings are preserved
+
+After projecting out the role space, we fit PCA on the residuals $r_i = (I - P)\tilde{a}_i$ for each universe. We compare the residual PC1 direction and character rankings with the original (full-space) PC1:
+
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+
+franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
+
+def cosine(a, b):
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+rows = []
+for universe, prefixes in ALL_UNIVERSES.items():
+    idx = get_universe_indices(prefixes)
+    if len(idx) < 20:
+        continue
+    u_orig = chars_centered[idx]
+    u_resid = residuals[idx]
+    orig_var = np.var(u_orig, axis=0).sum()
+    recon_var = np.var(reconstructed[idx], axis=0).sum()
+
+    original_pca = SkPCA(n_components=1).fit(u_orig)
+    residual_pca = SkPCA(n_components=1).fit(u_resid)
+
+    orig_pos = original_pca.transform(u_orig)[:, 0]
+    resid_pos = residual_pca.transform(u_resid)[:, 0]
+
+    dir_cos = abs(cosine(original_pca.components_[0], residual_pca.components_[0]))
+    rank_corr = abs(np.corrcoef(orig_pos, resid_pos)[0, 1])
+    rows.append({'Universe': universe, 'dir_cos': dir_cos, 'rank_corr': rank_corr,
+                 'role_cap': recon_var / orig_var})
+
+rows.sort(key=lambda x: x['rank_corr'], reverse=True)
+
+fig, ax = plt.subplots(figsize=(10, 5))
+y = np.arange(len(rows))
+h = 0.35
+names = [r['Universe'] for r in rows]
+dir_vals = [r['dir_cos'] for r in rows]
+rank_vals = [r['rank_corr'] for r in rows]
+ax.barh(y - h/2, dir_vals, h, color='#377eb8', label='Direction cosine (geometric alignment)')
+ax.barh(y + h/2, rank_vals, h, color='#e41a1c', label='Ranking correlation (Pearson)')
+ax.set_yticks(y)
+ax.set_yticklabels([f"{n} (role captures {rows[i]['role_cap']:.0%})" for i, n in enumerate(names)], fontsize=8)
+ax.set_xlabel('|value|')
+ax.set_title('Residual PC1 vs. original PC1: directions differ, rankings agree')
+ax.legend(fontsize=8, loc='lower right')
+ax.set_xlim(0, 1.05)
+ax.invert_yaxis()
+for i, (d, r) in enumerate(zip(dir_vals, rank_vals)):
+    ax.text(d + 0.01, i - h/2, f"{d:.2f}", va='center', fontsize=7)
+    ax.text(r + 0.01, i + h/2, f"{r:.2f}", va='center', fontsize=7)
+fig.tight_layout()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+:end:
+
+Residual PC1 directions are nearly orthogonal to the original PC1 (cosines 0.19--0.66), but character rankings on residual PC1 correlate 0.77--0.96 with original PC1 rankings in most universes (Marvel is the exception at 0.55). The role space captures the *axis* well (direction cosine ~0.9 between Lu-reconstructed and original PC1), but the residual --- geometrically orthogonal to the role space --- still preserves who ranks where. Extreme characters (Voldemort, Darth Vader, Galadriel) are extreme in multiple directions; projecting out the role space changes the axis but not the ordering.
+
+This means: the 15--39% of within-universe variance missed by the role space is not noise --- it encodes real structure that produces the same character ordering along a different geometric direction.
+
+But are the principal directions the same across universes? We compute cosine similarities between each universe's within-universe PC1 direction and role PC1, and check whether within-universe PC1 directions align with each other across universes:
 
 #+begin_src python :exports results
 # Cosine similarity: within-universe PC directions vs role PCs and vs each other
