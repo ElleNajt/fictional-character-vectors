@@ -1,4 +1,5 @@
 #+TITLE: Stress-Testing Persona Space with Fictional Characters
+#+GDOC_ID: 1jn041LFzS6tJtjFWCO_fCImw-KslQFsBLAG98rEb-zY
 #+AUTHOR: Elle
 #+DATE: 2026-02-16
 #+PROPERTY: header-args:python :results output drawer :python "../.venv/bin/python3" :async t :session blogpost_short :exports both
@@ -6,7 +7,7 @@
 
 * _Setup
 
-#+begin_src python
+#+begin_src python :exports none
 import pickle
 import numpy as np
 import pandas as pd
@@ -116,57 +117,12 @@ plt.show()
 
 #+RESULTS:
 :results:
-
-[[file:plots/post/plot_20260226_151738_507425.png]]
+[[file:plots/post/plot_20260227_003042_4277091.png]]
 :end:
 
 [[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 points from role-playing toward default-assistant behavior --- they call this the "Assistant Axis." Their findings generalize across models.
 
 We apply the role space to 1,268 fictional characters in Qwen3-32B --- from Hindu mythology to Naruto --- and ask how much it captures and what it misses.
-
-1. *How sensitive are results to the question battery?*
-   - A single random question recovers character PC scores at median Pearson r > 0.95; five questions reach r > 0.99.
-   - Sixteen out-of-distribution prompts --- degenerate inputs (".", "?", "hi") and task prompts ("Write a Python function to calculate the first 100 primes") --- recover PC1--3 scores at Pearson r > 0.94 across all universes. The persona signal is not an artifact of the question battery.
-
-#+begin_src python :exports results
-import json as _json
-
-with open('../results/question_subset_sweep.json') as f:
-    sweep = _json.load(f)
-
-n_pcs_all = min(d['n_pcs'] for d in sweep.values())
-fig, ax = plt.subplots(figsize=(8, 5))
-colors = plt.cm.viridis(np.linspace(0.1, 0.9, n_pcs_all))
-
-for pc_i in range(n_pcs_all):
-    pc_label = f'PC{pc_i + 1}'
-    size_to_medians, size_to_p5s = {}, {}
-    for udata in sweep.values():
-        for s in udata['sweeps'][pc_label]:
-            size_to_medians.setdefault(s['size'], []).append(s['median'])
-            size_to_p5s.setdefault(s['size'], []).append(s['p5'])
-    sizes = sorted(size_to_medians.keys())
-    medians = [np.median(size_to_medians[s]) for s in sizes]
-    p5s = [np.median(size_to_p5s[s]) for s in sizes]
-    ax.plot(sizes, medians, 'o-', color=colors[pc_i], label=pc_label, markersize=3)
-    ax.fill_between(sizes, p5s, medians, color=colors[pc_i], alpha=0.15)
-
-ax.set_xscale('log')
-ax.set_xlabel('# questions in random subset')
-ax.set_ylabel('Correlation with full-battery ranking')
-ax.set_ylim(0.5, 1.01)
-ax.axhline(0.99, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
-ax.axhline(0.95, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
-ax.legend(fontsize=9)
-ax.set_title('Question subset recovery (median across 12 universes, 200 draws)')
-fig.tight_layout()
-plt.show()
-#+end_src
-
-#+RESULTS:
-:results:
-[[file:plots/post/plot_20260226_151738_4772205.png]]
-:end:
 
 1. *How much of persona space do 275 generic roles cover?*
    - 75% of fictional character variance overall. The fictional character space is low-dimensional (~40 PCs for 90%), so coverage by role space is less than a random sample of 275 fictional characters (95%) but far more than a random 275-dim subspace (5%).
@@ -193,14 +149,12 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260226_151740_5055329.png]]
+[[file:plots/post/plot_20260227_003042_537026.png]]
 :end:
 
-3. *What do the top PCs encode, and where does the assistant axis live?*
+2. *What do the top PCs encode, and where does the assistant axis live?*
    - LLM feature labels identify within-universe PC1 as formality/register for modern franchises (adj. R² = 0.72--0.88) and PC2 as warmth vs. aggression.
-   - The assistant axis is geometrically diffuse: cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3). But rank correlations between PC scores and assistant axis scores are substantial --- for franchises, PC1 scores correlate with the assistant axis (HP 0.78, Naruto 0.68, Marvel 0.63); for mythology, the correlation shifts to PC2 or PC3 (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79). PC1 and PC2 are rank-uncorrelated with each other but both predict the AA: it is a blend of formality and warmth, not either alone (combined adj. R² = 0.60). Running feature discovery directly on the AA confirms this --- the top discovered features are collaborative tone, warmth, and self-deprecation versus grandiose/threatening language (franchise median adj. R² = 0.69).
    - Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (Hindu/Shakespeare ~0.05).
-
 #+begin_src python :exports results
 import torch
 from scipy.linalg import svd
@@ -249,8 +203,10 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260226_151741_6452045.png]]
+[[file:plots/post/plot_20260227_003043_5254644.png]]
 :end:
+
+   - The assistant axis is geometrically diffuse: cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3). But rank correlations between PC scores and assistant axis scores are substantial --- for franchises, PC1 scores rank-correlate with the assistant axis (HP 0.78, Naruto 0.68, Marvel 0.63); for mythology, the correlation shifts to PC2 or PC3 (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79).
 
 #+begin_src python :exports results
 # --- Plot 2: AA coverage by top-k within-universe PCs ---
@@ -285,8 +241,10 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260226_151743_8232591.png]]
+[[file:plots/post/plot_20260227_003043_6048568.png]]
 :end:
+
+   - PC1 and PC2 are rank-uncorrelated with each other but both predict the AA: it is a blend of formality and warmth, not either alone (combined adj. R² = 0.60). Running feature discovery directly on the AA confirms this --- the top discovered features are collaborative tone, warmth, and self-deprecation versus grandiose/threatening language (franchise median adj. R² = 0.69).
 
 #+begin_src python :exports results
 import json
@@ -337,11 +295,12 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260226_151748_9462226.png]]
+[[file:plots/post/plot_20260227_003043_9238267.png]]
 :end:
 
-Projecting all 1,268 characters onto the assistant axis, nearly all score well below zero (mean = -18.5, std = 7.0) --- fictional characters are much less assistant-like than Lu et al.'s generic roles. Only Hermione Granger lands near the assistant baseline.
-
+- Projecting all 1,268 characters onto the assistant axis, nearly all score well below zero (mean = -18.5, std = 7.0) --- fictional characters are much less assistant-like than Lu et al.'s generic roles.
+- Hermione Granger is the most assistant-axis-like character in this dataset.
+  
 #+begin_src python :exports results
 import torch
 import matplotlib.pyplot as plt
@@ -394,27 +353,78 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260226_115635_9285030.png]]
+[[file:plots/post/plot_20260227_003045_123167.png]]
 :end:
 
-** Definitions
+3. *How sensitive are results to the question battery?*
+   - *Score stability:* given fixed PC directions, a single random question recovers character scores at median Pearson r > 0.95; five questions reach r > 0.99. Sixteen OOD prompts (".", "?", "Write a Python function...") also recover scores at r > 0.94.
+   - *Direction stability:* recovering the PC directions themselves requires more questions. Within the same 240-question battery, franchises reach cosine > 0.99 at 5 questions; mythology needs 20--50 (Greek mythology: 0.61 at $k=1$, 0.93 at $k=120$). Qualitatively different prompts yield different directions for mythology and Shakespeare (cosines 0.12--0.55).
 
-Each character or role is represented by a mean activation vector in 5120-dimensional space (Qwen3-32B layer 32). We work with four types of PC directions, obtained by running PCA on different subsets of these vectors:
+#+begin_src python :exports results
+import json as _json
 
-- *Role PCs:* PCA on 275 generic role activations (from Lu et al.). Fit once; shared across all analyses.
-- *Assistant axis:* The direction from mean role-playing activation to mean default-assistant activation (from Lu et al.'s data). Cosine with role PC1 is 0.67 at layer 32 (0-indexed). Lu et al. report >0.71 at middle layers; the discrepancy may reflect model differences (they report across multiple models) or layer choice.
-- *Within-universe PCs:* PCA on one universe's characters using their full activations (e.g., PCA on the 102 Harry Potter vectors). Different per universe.
-- *Within-universe residual PCs:* PCA on one universe's characters after projecting out the role subspace. Different per universe; orthogonal to the role space by construction.
+with open('../results/question_subset_sweep.json') as f:
+    sweep = _json.load(f)
 
-When the text says "role PC1" vs. "within-universe PC1" vs. "residual PC1," these are three different directions from three different PCA fits.
+n_pcs_all = min(d['n_pcs'] for d in sweep.values())
+fig, ax = plt.subplots(figsize=(8, 5))
+colors = plt.cm.viridis(np.linspace(0.1, 0.9, n_pcs_all))
 
-*Residuals.* The 275 role PCs define a subspace. For each character activation x, the residual is x minus its projection onto the role subspace. Within-universe residual PCs are PCA on these residuals within a universe.
+for pc_i in range(n_pcs_all):
+    pc_label = f'PC{pc_i + 1}'
+    size_to_medians, size_to_p5s = {}, {}
+    for udata in sweep.values():
+        for s in udata['sweeps'][pc_label]:
+            size_to_medians.setdefault(s['size'], []).append(s['median'])
+            size_to_p5s.setdefault(s['size'], []).append(s['p5'])
+    sizes = sorted(size_to_medians.keys())
+    medians = [np.median(size_to_medians[s]) for s in sizes]
+    p5s = [np.median(size_to_p5s[s]) for s in sizes]
+    ax.plot(sizes, medians, 'o-', color=colors[pc_i], label=pc_label, markersize=3)
+    ax.fill_between(sizes, p5s, medians, color=colors[pc_i], alpha=0.15)
 
-* Is There a Persona Space?
+ax.set_xscale('log')
+ax.set_xlabel('# questions in random subset')
+ax.set_ylabel('Pearson r with full-battery PC scores')
+ax.set_ylim(0.5, 1.01)
+ax.axhline(0.99, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
+ax.axhline(0.95, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
+ax.legend(fontsize=9)
+ax.set_title('Question subset recovery (median across 12 universes, 200 draws)')
+fig.tight_layout()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/post/plot_20260227_003046_2137189.png]]
+:end:
+
+** Definitions and notation
+
+Each character $i$ is prompted with $Q=240$ questions. For each question $q$, we extract the model's layer-32 residual stream activation $a_{iq} \in \mathbb{R}^{5120}$ (Qwen3-32B, $d=5120$). The character's mean activation is $\bar{a}_i = \frac{1}{Q}\sum_q a_{iq}$.
+
+Let $A \in \mathbb{R}^{n \times d}$ be the matrix whose rows are $\bar{a}_i$ for $n$ characters, and let $\bar{a} = \frac{1}{n}\sum_i \bar{a}_i$ be the grand mean. The centered matrix is $\tilde{A} = A - \mathbf{1}\bar{a}^\top$. PCA on $\tilde{A}$ returns orthonormal eigenvectors $v_1, \dots, v_k$ of $\tilde{A}^\top \tilde{A}$ (the top $k$ right singular vectors), and character $i$'s score on PC $j$ is $s_{ij} = (\bar{a}_i - \bar{a}) \cdot v_j$.
+
+We use four sets of PCA directions, differing in which rows go into $A$ and what centering is applied:
+
+- *Role PCs ($V_{\text{role}}$):* PCA on 275 generic role activations from Lu et al. The centering is at the role mean $\bar{a}_{\text{role}}$. Fit once; shared across all analyses.
+- *Assistant axis ($u_{\text{AA}}$):* The unit vector $u_{\text{AA}} = (\bar{a}_{\text{default}} - \bar{a}_{\text{role}}) / \|\bar{a}_{\text{default}} - \bar{a}_{\text{role}}\|$, where $\bar{a}_{\text{default}}$ is the mean default-assistant activation and $\bar{a}_{\text{role}}$ is the mean role-playing activation (both from Lu et al.'s data). $|\cos(u_{\text{AA}}, v_1^{\text{role}})| = 0.67$ at layer 32.
+- *Within-universe PCs ($V_{\mathcal{U}}$):* PCA on one universe $\mathcal{U}$'s characters using their full activations centered at the role mean $\bar{a}_{\text{role}}$ (not the universe mean). Different per universe.
+- *Residual PCs ($V_{\mathcal{U}}^{\perp}$):* Let $P = V_{\text{role}} V_{\text{role}}^\top$ be the projector onto the role subspace. The residual for character $i$ is $r_i = (\bar{a}_i - \bar{a}_{\text{role}}) - P(\bar{a}_i - \bar{a}_{\text{role}})$. Residual PCs are PCA on $\{r_i : i \in \mathcal{U}\}$. Different per universe; orthogonal to the role space by construction.
+
+When the text says "role PC1" ($v_1^{\text{role}}$) vs. "within-universe PC1" ($v_1^{\mathcal{U}}$) vs. "residual PC1" ($v_1^{\mathcal{U},\perp}$), these are three different directions from three different PCA fits.
+
+*Variance capture.* When we say "the role space captures X% of fiction variance," we mean: let $P = V_{\text{role}} V_{\text{role}}^\top$. For each character, project $\tilde{a}_i = \bar{a}_i - \bar{a}_{\text{role}}$ onto the role subspace to get $\hat{a}_i = P\tilde{a}_i$. Then $\text{captured} = \sum_j \text{Var}_i(\hat{a}_{ij}) / \sum_j \text{Var}_i(\tilde{a}_{ij})$, where the variance is over characters $i$ and $j$ indexes coordinates.
+
+* Is There a Low Dimensional Fictional Persona Space?
 
 Before asking how much the role space covers, we check whether fictional character activations are low-dimensional at all.
 
-#+begin_src python
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
+
 # Eigenspectrum: fiction vs roles
 pca_fiction = SkPCA(n_components=200)
 pca_fiction.fit(chars_centered)
@@ -424,52 +434,35 @@ fcumvar = np.cumsum(fvar)
 lu_var = role_pca.explained_variance_ratio_
 lu_cumvar = np.cumsum(lu_var)
 
-rows = []
-for threshold in [0.5, 0.7, 0.8, 0.9, 0.95]:
-    n_f = int(np.searchsorted(fcumvar, threshold) + 1)
-    n_l = int(np.searchsorted(lu_cumvar, threshold) + 1)
-    rows.append({'Threshold': f"{threshold:.0%}", 'Fiction (1268)': n_f, 'Roles (275)': n_l})
-df_thresh = pd.DataFrame(rows).set_index('Threshold')
-print(df_thresh)
-print(f"\nFiction PC1: {fvar[0]:.1%}, Role PC1: {lu_var[0]:.1%}")
-
 # Within-universe eigenspectra
-rows = []
+franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
+u_data = []
 for universe, prefixes in ALL_UNIVERSES.items():
     idx = get_universe_indices(prefixes)
     if len(idx) < 20:
         continue
     u_scaled = chars_centered[idx]
     n_comp = min(len(idx) - 1, 100)
-    pca_u = SkPCA(n_components=n_comp)
-    pca_u.fit(u_scaled)
+    pca_u = SkPCA(n_components=n_comp).fit(u_scaled)
     v = pca_u.explained_variance_ratio_
     cv = np.cumsum(v)
-    rows.append({
-        'Universe': universe, 'N': len(idx),
-        'PC1': f"{v[0]:.1%}",
-        'PCs for 70%': int(np.searchsorted(cv, 0.7) + 1),
-        'PCs for 90%': int(np.searchsorted(cv, 0.9) + 1),
-        'Max dim': len(idx) - 1,
+    u_data.append({
+        'Universe': universe, 'N': len(idx), 'PC1': v[0],
+        'PCs70': int(np.searchsorted(cv, 0.7) + 1),
+        'PCs90': int(np.searchsorted(cv, 0.9) + 1),
     })
-rows.append({
-    'Universe': 'Roles', 'N': 275,
-    'PC1': f"{lu_var[0]:.1%}",
-    'PCs for 70%': int(np.searchsorted(lu_cumvar, 0.7) + 1),
-    'PCs for 90%': int(np.searchsorted(lu_cumvar, 0.9) + 1),
-    'Max dim': 274,
-})
-df_univ = pd.DataFrame(rows).set_index('Universe')
-print(df_univ)
+u_data.append({'Universe': 'Roles (Lu)', 'N': 275, 'PC1': lu_var[0],
+               'PCs70': int(np.searchsorted(lu_cumvar, 0.7) + 1),
+               'PCs90': int(np.searchsorted(lu_cumvar, 0.9) + 1)})
+# Sort by PCs for 70%
+u_data.sort(key=lambda x: x['PCs70'])
 
-# Between-universe variance (eta-squared)
-all_universe_idx = []
-all_universe_labels = []
+# Between-universe eta-squared
+all_universe_idx, all_universe_labels = [], []
 for universe, prefixes in ALL_UNIVERSES.items():
     idx = get_universe_indices(prefixes)
     all_universe_idx.extend(idx)
     all_universe_labels.extend([universe] * len(idx))
-
 sub = chars_centered[all_universe_idx]
 labels = np.array(all_universe_labels)
 grand_mean = sub.mean(axis=0)
@@ -478,34 +471,60 @@ ss_between = sum(
     np.sum(labels == u) * np.sum((sub[labels == u].mean(axis=0) - grand_mean) ** 2)
     for u in np.unique(labels)
 )
-print(f"\nBetween-universe eta-squared: {ss_between / ss_total:.0%}")
+eta_sq = ss_between / ss_total
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5), gridspec_kw={'width_ratios': [1.3, 1]})
+
+# Left: PCs for 70% and 90% (grouped horizontal bars)
+names = [d['Universe'] for d in u_data]
+pcs70 = [d['PCs70'] for d in u_data]
+pcs90 = [d['PCs90'] for d in u_data]
+y = np.arange(len(names))
+bar_h = 0.35
+colors70 = ['#377eb8' if n in franchise_set else ('#333333' if 'Roles' in n else '#e41a1c') for n in names]
+colors90 = ['#aec7e8' if n in franchise_set else ('#999999' if 'Roles' in n else '#f4a582') for n in names]
+ax1.barh(y - bar_h/2, pcs70, bar_h, color=colors70, label='PCs for 70%')
+ax1.barh(y + bar_h/2, pcs90, bar_h, color=colors90, label='PCs for 90%')
+ax1.set_yticks(y)
+ax1.set_yticklabels(names, fontsize=9)
+ax1.set_xlabel('Number of PCs')
+ax1.set_title('Within-universe dimensionality')
+ax1.legend(fontsize=8, loc='lower right')
+ax1.invert_yaxis()
+for i, (v70, v90) in enumerate(zip(pcs70, pcs90)):
+    ax1.text(v70 + 0.3, i - bar_h/2, str(v70), va='center', fontsize=7)
+    ax1.text(v90 + 0.3, i + bar_h/2, str(v90), va='center', fontsize=7)
+
+# Right: PC1 variance fraction
+pc1s = [d['PC1'] for d in u_data]
+colors_pc1 = ['#377eb8' if n in franchise_set else ('#333333' if 'Roles' in n else '#e41a1c') for n in names]
+ax2.barh(y, pc1s, 0.6, color=colors_pc1)
+ax2.set_yticks(y)
+ax2.set_yticklabels([], fontsize=9)
+ax2.set_xlabel('Fraction of variance')
+ax2.set_title('PC1 explained variance')
+ax2.invert_yaxis()
+ax2.set_xlim(0, 0.55)
+for i, v in enumerate(pc1s):
+    ax2.text(v + 0.005, i, f"{v:.0%}", va='center', fontsize=7)
+
+fig.suptitle(f'Fictional persona space is low-dimensional (between-universe $\\eta^2$ = {eta_sq:.0%})', fontsize=11)
+fig.tight_layout()
+plt.show()
+
+# Print key numbers for prose reference
+n_70_fiction = int(np.searchsorted(fcumvar, 0.7) + 1)
+n_90_fiction = int(np.searchsorted(fcumvar, 0.9) + 1)
+print(f"Global fiction: {n_70_fiction} PCs for 70%, {n_90_fiction} PCs for 90%")
+print(f"Fiction PC1: {fvar[0]:.1%}, Role PC1: {lu_var[0]:.1%}")
+print(f"Between-universe eta-squared: {eta_sq:.0%}")
 #+end_src
 
 #+RESULTS:
 :results:
-| Threshold | Fiction (1268) | Roles (275) |  |
-|-----------+----------------+-------------+----|
-|       50% |              4 |           2 |  |
-|       70% |              9 |           7 |  |
-|       80% |             15 |          15 |  |
-|       90% |             40 |          37 |  |
-|       95% |             94 |          67 |  |
+[[file:plots/post/plot_20260227_003046_149373.png]]
+Global fiction: 9 PCs for 70%, 40 PCs for 90%
 Fiction PC1: 31.2%, Role PC1: 37.9%
-| Universe           |   N |   PC1 | PCs for 70% | PCs for 90% | Max dim |  |
-|--------------------+-----+-------+-------------+-------------+---------+----|
-| Harry Potter       | 102 | 39.0% |           4 |          18 |     101 |  |
-| Star Wars          | 105 | 38.2% |           4 |          11 |     104 |  |
-| LOTR               |  97 | 40.0% |           3 |          13 |      96 |  |
-| Marvel             | 108 | 43.0% |           4 |          17 |     107 |  |
-| Game of Thrones    |  93 | 33.1% |           5 |          17 |      92 |  |
-| Naruto             |  84 | 49.7% |           3 |          13 |      83 |  |
-| Greek Mythology    | 107 | 14.7% |          13 |          37 |     106 |  |
-| Chinese Mythology  |  76 | 30.6% |           8 |          23 |      75 |  |
-| Hindu Mythology    |  70 | 25.3% |           8 |          24 |      69 |  |
-| Norse Mythology    |  48 | 28.7% |           7 |          17 |      47 |  |
-| Egyptian Mythology |  44 | 20.9% |           8 |          19 |      43 |  |
-| Shakespeare        |  93 | 21.2% |           9 |          25 |      92 |  |
-| Roles              | 275 | 37.9% |           7 |          37 |     274 |  |
 Between-universe eta-squared: 57%
 :end:
 
@@ -515,192 +534,9 @@ Takeaways:
 - Within-universe (~100 characters each): 3--13 PCs for 70%, out of ~43--107 max dimensions.
 - Modern franchises are more compressible (3--5 PCs) than mythology and Shakespeare (7--13 PCs).
 
-** How Sensitive Are Results to the Question Battery?
+** How Much Does the Role Space Capture?
 
-Each character vector is a mean activation over responses to 240 questions. How much does the choice of questions matter? We subsample: pick /k/ random questions (for /k/ = 1, 2, 3, 5, ..., 240), average only those, and correlate the resulting character rankings with the full-battery rankings. We repeat each draw 200 times and report medians across 12 universes.
-
-#+begin_src python
-import json
-
-# Generated by: python blogpost/scripts/question_subset_sweep.py
-with open('../results/question_subset_sweep.json') as f:
-    sweep = json.load(f)
-
-# Aggregate across universes: for each subset size and PC, show median correlation
-sizes_to_show = [1, 5, 10, 20, 50, 120]
-rows = []
-for size in sizes_to_show:
-    row = {'# Questions': size}
-    for pc_i in range(5):
-        pc_label = f"PC{pc_i+1}"
-        medians = []
-        for universe, udata in sweep.items():
-            for s in udata['sweeps'][pc_label]:
-                if s['size'] == size:
-                    medians.append(s['median'])
-        row[pc_label] = f"{np.median(medians):.4f}"
-    rows.append(row)
-print(pd.DataFrame(rows).set_index('# Questions'))
-print(f"\n(median correlation across 12 universes, 200 random draws per size)")
-#+end_src
-
-#+RESULTS:
-:results:
-| # Questions |    PC1 |    PC2 |    PC3 |    PC4 |    PC5 |  |
-|-------------+--------+--------+--------+--------+--------+----|
-|           1 | 0.9747 | 0.9688 | 0.9592 | 0.9632 | 0.9634 |  |
-|           5 | 0.9947 | 0.9932 | 0.9917 | 0.9922 | 0.9920 |  |
-|          10 | 0.9974 | 0.9966 | 0.9957 | 0.9963 | 0.9961 |  |
-|          20 | 0.9988 | 0.9983 | 0.9980 | 0.9981 | 0.9981 |  |
-|          50 | 0.9996 | 0.9994 | 0.9993 | 0.9994 | 0.9994 |  |
-|         120 | 0.9999 | 0.9998 | 0.9998 | 0.9998 | 0.9998 |  |
-(median correlation across 12 universes, 200 random draws per size)
-:end:
-
-Even a single random question recovers character PC scores at median Pearson r > 0.95 (across universes), and this holds for PCs 1 through 5. Five questions reach median r > 0.99 for all PCs. The question battery is highly redundant.
-
-But the subset sweep only tests random draws from the /same/ 240 questions --- all substantive, multi-sentence prompts about ethics, technology, and personal advice. A stronger test: do qualitatively different questions carry the same signal? We generate responses for 16 out-of-distribution prompts --- 8 degenerate ("Huh?", ".", "?", "hi", "ok", "what", "hmm", "tell me something") and 8 task-shaped ("Write a Python function to calculate the first 100 primes", "Explain how a refrigerator works", "Write a haiku about rain", etc.) --- and extract activations for all 1,268 characters.
-
-#+begin_src python
-import torch
-from pathlib import Path
-
-# Build character matrix from degenerate-question activations
-act_dir = Path('../outputs/degenerate_questions/activations')
-degen_names = []
-degen_vectors = []
-for f in sorted(act_dir.glob('*.pt')):
-    d = torch.load(f, weights_only=True, map_location='cpu')
-    vecs = torch.stack([v.squeeze(0).float() for v in d.values()])
-    degen_names.append(f.stem)
-    degen_vectors.append(vecs.mean(dim=0).numpy())
-degen_matrix = np.stack(degen_vectors)
-
-# Align with full-battery characters
-degen_name_to_idx = {n: i for i, n in enumerate(degen_names)}
-common_idx_full = [i for i, n in enumerate(char_names) if n in degen_name_to_idx]
-common_idx_degen = [degen_name_to_idx[char_names[i]] for i in common_idx_full]
-common_names = [char_names[i] for i in common_idx_full]
-
-full_c = (activation_matrix[common_idx_full] - role_mean)
-degen_c = (degen_matrix[common_idx_degen] - role_mean)
-
-# Per-universe: fit PCA on full-battery, project both, correlate
-from scipy.stats import pearsonr
-score_rows = []
-dir_rows = []
-for name, prefixes in ALL_UNIVERSES.items():
-    idx = [i for i, n in enumerate(common_names) if any(n.startswith(p) for p in prefixes)]
-    if len(idx) < 20:
-        continue
-    pca_full = SkPCA(n_components=3).fit(full_c[idx])
-    pca_degen = SkPCA(n_components=3).fit(degen_c[idx])
-    scores_full = pca_full.transform(full_c[idx])
-    scores_degen = pca_full.transform(degen_c[idx])
-    srow = {'Universe': name, 'n': len(idx)}
-    drow = {'Universe': name}
-    for pc in range(3):
-        r, _ = pearsonr(scores_full[:, pc], scores_degen[:, pc])
-        srow[f'PC{pc+1}'] = round(r, 3)
-        cos = abs(np.dot(pca_full.components_[pc], pca_degen.components_[pc]))
-        drow[f'PC{pc+1}'] = round(cos, 2)
-    score_rows.append(srow)
-    dir_rows.append(drow)
-
-print("Pearson correlation of PC scores (full-battery PCA, full vs degen scores):")
-print(pd.DataFrame(score_rows).set_index('Universe')[['PC1', 'PC2', 'PC3', 'n']])
-print("\nPC direction cosines (full-battery vs degen-battery PCA):")
-print(pd.DataFrame(dir_rows).set_index('Universe'))
-#+end_src
-
-#+RESULTS:
-:results:
-Pearson correlation of PC scores (full-battery PCA, full vs degen scores):
-| Universe           |   PC1 |   PC2 |   PC3 |   n |  |
-|--------------------+-------+-------+-------+-----+----|
-| Harry Potter       | 0.986 | 0.978 | 0.964 | 102 |  |
-| Star Wars          | 0.985 | 0.988 | 0.984 | 105 |  |
-| LOTR               | 0.978 | 0.989 | 0.985 |  97 |  |
-| Marvel             | 0.982 | 0.973 | 0.948 | 108 |  |
-| Game of Thrones    | 0.979 | 0.971 | 0.984 |  93 |  |
-| Naruto             | 0.992 | 0.971 | 0.975 |  84 |  |
-| Greek Mythology    |  0.99 | 0.975 | 0.982 | 107 |  |
-| Chinese Mythology  | 0.981 | 0.986 | 0.968 |  76 |  |
-| Hindu Mythology    |  0.99 | 0.966 | 0.963 |  70 |  |
-| Norse Mythology    | 0.985 | 0.989 | 0.971 |  48 |  |
-| Egyptian Mythology |  0.98 | 0.977 | 0.984 |  44 |  |
-| Shakespeare        | 0.953 | 0.985 | 0.975 |  93 |  |
-PC direction cosines (full-battery vs degen-battery PCA):
-| Universe           |  PC1 |  PC2 |  PC3 |  |
-|--------------------+------+------+------+----|
-| Harry Potter       | 0.92 | 0.77 | 0.72 |  |
-| Star Wars          | 0.91 | 0.83 | 0.87 |  |
-| LOTR               | 0.93 | 0.86 | 0.89 |  |
-| Marvel             | 0.93 | 0.82 | 0.68 |  |
-| Game of Thrones    | 0.93 | 0.83 |  0.8 |  |
-| Naruto             | 0.93 | 0.86 | 0.78 |  |
-| Greek Mythology    | 0.55 |  0.5 | 0.69 |  |
-| Chinese Mythology  | 0.92 | 0.12 | 0.12 |  |
-| Hindu Mythology    | 0.82 | 0.71 | 0.71 |  |
-| Norse Mythology    | 0.89 | 0.88 | 0.78 |  |
-| Egyptian Mythology | 0.89 | 0.78 | 0.66 |  |
-| Shakespeare        | 0.45 | 0.33 |  0.8 |    |
-:end:
-
-The persona signal is not an artifact of the question battery. Sixteen out-of-distribution prompts --- including single-character inputs like "." and "?" --- recover character PC scores at Pearson r > 0.94 across all universes and all PCs.
-
-The PC /directions/ are another matter. When PCA is fit independently on the degenerate-battery activations, the resulting PC1 directions align well with the full-battery PC1 for franchises (cosine 0.89--0.93) but poorly for Greek mythology (0.55), Shakespeare (0.45), and Chinese mythology PC2--3 (0.12). This is not a sample size issue: 16 random questions from the /same/ 240-question battery give PC1 direction cosines > 0.99 everywhere (even 5 give > 0.96). The direction instability comes from the questions being qualitatively different --- degenerate and task prompts elicit different variance structure in mythology and Shakespeare, even though character scores are preserved.
-
-#+begin_src python
-# Judge scoring comparison: degenerate vs original battery
-import json
-from pathlib import Path as JPath
-
-degen_scores_dir = JPath('../outputs/degenerate_questions/scores')
-orig_scores_dir = JPath('../outputs/qwen3-32b_20260211_002840/scores')
-
-degen_all, orig_all = [], []
-degen_task, degen_degen = [], []
-for f in sorted(degen_scores_dir.glob('*.json')):
-    with open(f) as fh:
-        scores = json.load(fh)
-    for key, val in scores.items():
-        q_idx = int(key.split('_')[-1].replace('q', ''))
-        degen_all.append(val)
-        if q_idx < 8:
-            degen_degen.append(val)
-        else:
-            degen_task.append(val)
-    orig_f = orig_scores_dir / f'{f.stem}.json'
-    if orig_f.exists():
-        with open(orig_f) as fh:
-            orig_all.extend(json.load(fh).values())
-
-rows = []
-for label, arr in [('Original battery (240Q)', orig_all),
-                    ('Degenerate prompts (8Q)', degen_degen),
-                    ('Task prompts (8Q)', degen_task)]:
-    n = len(arr)
-    pct3 = sum(1 for s in arr if s == 3) / n
-    mean = sum(arr) / n
-    rows.append({'Battery': label, 'Mean score': f'{mean:.2f}', '% score=3': f'{100*pct3:.1f}%', 'n': n})
-print(pd.DataFrame(rows).set_index('Battery'))
-#+end_src
-
-#+RESULTS:
-:results:
-| Battery                 | Mean score | % score=3 |       n |  |
-|-------------------------+------------+-----------+---------+----|
-| Original battery (240Q) |       2.97 |     98.3% | 1615183 |  |
-| Degenerate prompts (8Q) |       2.98 |     99.1% |   53836 |  |
-| Task prompts (8Q)       |       2.67 |     79.1% |   53840 |    |
-:end:
-
-Note that the activation analysis above used all 1,346 characters with no judge-based filtering. The full-battery pipeline scores each response with an LLM judge and filters out poor role-players before building the activation matrix. Degenerate prompts score /higher/ on role adherence (99.1% at score 3) than the original 240-question battery (98.3%). Task prompts are where scores drop (79.1% at score 3) --- characters break character when asked to write haiku or Python, not when given "?". For recovering character PC scores along pre-computed directions, the question battery and judge filtering are unnecessary. For discovering the PC directions themselves, the question type matters: degenerate prompts yield different directions in mythology and Shakespeare (cosines 0.45--0.55 with full-battery PC1).
-
-* How Much Does the Role Space Capture?
-
-#+begin_src python
+#+begin_src python :exports results
 from sklearn.decomposition import PCA as SkPCA
 
 total_var = np.var(chars_centered, axis=0).sum()
@@ -736,76 +572,87 @@ print(pd.DataFrame(rows).set_index(""))
 
 #+RESULTS:
 :results:
-| idx                                     | Variance | % of total |  |
-|-----------------------------------------+----------+------------+----|
-| Captured by role space                  |      822 |      74.7% |  |
-| Residual (orthogonal to role space)     |      279 |      25.3% |  |
-| Total                                   |     1100 |       100% |  |
-| Baseline: span of 275 random characters |          |      94.7% |  |
-| Null (random 275-dim subspace)          |          |       5.4% |    |
+
+
+
+
+| idx                                     | Variance | % of total |
+|-----------------------------------------+----------+------------|
+| Captured by role space                  |      822 |      74.7% |
+| Residual (orthogonal to role space)     |      279 |      25.3% |
+| Total                                   |     1100 |       100% |
+| Baseline: span of 275 random characters |          |      94.7% |
+| Null (random 275-dim subspace)          |          |       5.4% |
 :end:
 
-The role space captures 75% of total fictional character variance. The 95% baseline (275 random fictional characters) reflects the low dimensionality of the fiction space: with ~40 PCs covering 90% of variance, 275 random draws span nearly the full subspace. The 5.4% null (a random 275-dim subspace of R^{5120}) confirms the structure is real. The gap between 75% (roles) and 95% (random fiction) reflects that roles come from a different distribution --- generic personas without universe-specific structure. As the residual decomposition below shows, most of that 20% gap is universe separation.
+The role space captures 75% of total fictional character variance (measured as $\sum_j \mathrm{Var}_i(\hat{a}_{ij}) / \sum_j \mathrm{Var}_i(\tilde{a}_{ij})$ where $\hat{a}_i = P\tilde{a}_i$ is the projection onto the 275-dim role subspace). The 95% baseline (275 random fictional characters) reflects the low dimensionality of the fiction space: with ~40 PCs covering 90% of variance, 275 random draws span nearly the full subspace. The 5.4% null (a random 275-dim subspace of $\mathbb{R}^{5120}$) confirms the structure is real. The gap between 75% (roles) and 95% (random fiction) reflects that roles come from a different distribution --- generic personas without universe-specific structure. As the residual decomposition below shows, most of that 20% gap is universe separation.
 
-A single universe's subspace captures 60--72% of all 1,268 characters' variance:
+A single universe's subspace (PCA on $\{\bar{a}_i : i \in \mathcal{U}\}$, yielding $n_{\mathcal{U}}-1$ components) captures 60--72% of all 1,268 characters' variance:
 
-#+begin_src python
+#+begin_src python :exports results
 from sklearn.decomposition import PCA as SkPCA
+import matplotlib.pyplot as plt
 
-rows = []
+fic_caps = []
 for universe, prefixes in ALL_UNIVERSES.items():
     idx = get_universe_indices(prefixes)
     n_comp = len(idx) - 1
-    pca_u = SkPCA(n_components=n_comp)
-    pca_u.fit(activation_matrix[idx])
+    pca_u = SkPCA(n_components=n_comp).fit(activation_matrix[idx])
     all_centered = activation_matrix - pca_u.mean_
     proj = all_centered @ pca_u.components_.T @ pca_u.components_
     cap = np.var(proj, axis=0).sum() / np.var(all_centered, axis=0).sum()
-    rows.append({'Universe': universe, 'N': len(idx), 'dims': n_comp,
-                 'Captures of all 1268': f"{cap:.0%}"})
+    fic_caps.append({'Universe': universe, 'N': len(idx), 'cap': cap})
 
-rows.append({'Universe': 'Lu roles', 'N': 275, 'dims': 275, 'Captures of all 1268': '75%'})
-print(pd.DataFrame(rows).set_index('Universe'))
+franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
+fic_caps.sort(key=lambda x: x['cap'], reverse=True)
+
+fig, ax = plt.subplots(figsize=(8, 5))
+names = [d['Universe'] for d in fic_caps]
+caps = [d['cap'] for d in fic_caps]
+colors = ['#377eb8' if n in franchise_set else '#e41a1c' for n in names]
+bars = ax.barh(range(len(names)), caps, color=colors)
+ax.axvline(0.75, color='black', linestyle='--', linewidth=1, label='Lu roles (275 dims): 75%')
+ax.set_yticks(range(len(names)))
+ax.set_yticklabels([f"{n} ({fic_caps[i]['N']})" for i, n in enumerate(names)], fontsize=9)
+ax.set_xlabel('Fraction of all 1,268 characters\' variance captured')
+ax.set_title('Each universe\'s subspace captures 41--72% of all fiction variance')
+ax.set_xlim(0, 0.85)
+ax.invert_yaxis()
+ax.legend(fontsize=8, loc='lower right')
+for i, v in enumerate(caps):
+    ax.text(v + 0.005, i, f"{v:.0%}", va='center', fontsize=8)
+fig.tight_layout()
+plt.show()
 #+end_src
 
 #+RESULTS:
 :results:
-| Universe           |   N | dims | Captures of all 1268 |  |
-|--------------------+-----+------+----------------------+----|
-| Harry Potter       | 102 |  101 |                  69% |  |
-| Star Wars          | 105 |  104 |                  70% |  |
-| LOTR               |  97 |   96 |                  69% |  |
-| Marvel             | 108 |  107 |                  72% |  |
-| Game of Thrones    |  93 |   92 |                  68% |  |
-| Naruto             |  84 |   83 |                  64% |  |
-| Greek Mythology    | 107 |  106 |                  61% |  |
-| Chinese Mythology  |  76 |   75 |                  64% |  |
-| Hindu Mythology    |  70 |   69 |                  52% |  |
-| Norse Mythology    |  48 |   47 |                  54% |  |
-| Egyptian Mythology |  44 |   43 |                  41% |  |
-| Shakespeare        |  93 |   92 |                  60% |  |
-| Lu roles           | 275 |  275 |                  75% |    |
+[[file:plots/post/plot_20260227_003111_5413989.png]]
 :end:
 
 A single universe of ~100 characters captures 60--72% of all fictional character variance using ~100 dimensions. Lu's 275 roles with 275 dimensions capture 75%. Both results reflect the low dimensionality of the fiction space (~40 PCs for 90%), but the role space is notable for achieving 75% coverage from a different distribution (generic personas, not fictional characters).
 
 The reverse question: how much of role variance do fictional characters capture?
 
-#+begin_src python
-# Reconstruct role activations from saved PCA: original = scores @ components + mean
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+
 role_activations_raw = role_data['transformed'] @ role_pca.components_ + role_pca.mean_
 
-# Fiction subspace projecting roles: how much role variance does fiction span?
+# Global: fiction captures role variance
+fic_275_cap = None
+fic_all_cap = None
 for n_comp in [275, 1267]:
     pca_fic = SkPCA(n_components=n_comp).fit(chars_centered)
     roles_at_fic = role_activations_raw - pca_fic.mean_
     proj = roles_at_fic @ pca_fic.components_.T @ pca_fic.components_
-    fic_cap = np.var(proj, axis=0).sum() / np.var(roles_at_fic, axis=0).sum()
-    print(f"{n_comp} fiction PCs capture {fic_cap:.1%} of role variance")
-print(f"275 role PCs capture 74.7% of fiction variance")
+    cap = np.var(proj, axis=0).sum() / np.var(roles_at_fic, axis=0).sum()
+    if n_comp == 275: fic_275_cap = cap
+    else: fic_all_cap = cap
 
-# Per-universe: how much of role variance does each universe capture?
-rows = []
+# Per-universe captures of roles
+role_caps = []
+franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
 for universe, prefixes in ALL_UNIVERSES.items():
     idx = get_universe_indices(prefixes)
     n_comp = len(idx) - 1
@@ -813,37 +660,45 @@ for universe, prefixes in ALL_UNIVERSES.items():
     roles_c = role_activations_raw - pca_u.mean_
     proj_u = roles_c @ pca_u.components_.T @ pca_u.components_
     cap = np.var(proj_u, axis=0).sum() / np.var(roles_c, axis=0).sum()
-    rows.append({'Universe': universe, 'N': len(idx), 'dims': n_comp,
-                 'Captures of 275 roles': f"{cap:.0%}"})
-print(pd.DataFrame(rows).set_index('Universe'))
+    role_caps.append({'Universe': universe, 'N': len(idx), 'cap': cap})
+role_caps.sort(key=lambda x: x['cap'], reverse=True)
+
+fig, ax = plt.subplots(figsize=(8, 5))
+names = [d['Universe'] for d in role_caps]
+caps = [d['cap'] for d in role_caps]
+colors = ['#377eb8' if n in franchise_set else '#e41a1c' for n in names]
+ax.barh(range(len(names)), caps, color=colors)
+ax.axvline(fic_275_cap, color='#4daf4a', linestyle='--', linewidth=1.5, label=f'275 fiction PCs: {fic_275_cap:.0%}')
+ax.axvline(fic_all_cap, color='#4daf4a', linestyle='-', linewidth=1.5, label=f'All 1,267 fiction PCs: {fic_all_cap:.0%}')
+ax.axvline(0.747, color='black', linestyle=':', linewidth=1, label='Roles capture 75% of fiction')
+ax.set_yticks(range(len(names)))
+ax.set_yticklabels([f"{n} ({role_caps[i]['N']})" for i, n in enumerate(names)], fontsize=9)
+ax.set_xlabel('Fraction of role variance captured')
+ax.set_title('How much of Lu\'s 275 roles does each universe capture?')
+ax.set_xlim(0, 1.0)
+ax.invert_yaxis()
+ax.legend(fontsize=7, loc='lower right')
+for i, v in enumerate(caps):
+    ax.text(v + 0.005, i, f"{v:.0%}", va='center', fontsize=8)
+fig.tight_layout()
+plt.show()
+
+print(f"275 fiction PCs capture {fic_275_cap:.1%} of role variance")
+print(f"1267 fiction PCs capture {fic_all_cap:.1%} of role variance")
 #+end_src
 
 #+RESULTS:
 :results:
-275 fiction PCs capture 81.9% of role variance
+[[file:plots/post/plot_20260227_003113_3973665.png]]
+275 fiction PCs capture 82.0% of role variance
 1267 fiction PCs capture 91.8% of role variance
-275 role PCs capture 74.7% of fiction variance
-| Universe           |   N | dims | Captures of 275 roles |  |
-|--------------------+-----+------+-----------------------+----|
-| Harry Potter       | 102 |  101 |                   67% |  |
-| Star Wars          | 105 |  104 |                   68% |  |
-| LOTR               |  97 |   96 |                   58% |  |
-| Marvel             | 108 |  107 |                   70% |  |
-| Game of Thrones    |  93 |   92 |                   60% |  |
-| Naruto             |  84 |   83 |                   62% |  |
-| Greek Mythology    | 107 |  106 |                   57% |  |
-| Chinese Mythology  |  76 |   75 |                   55% |  |
-| Hindu Mythology    |  70 |   69 |                   52% |  |
-| Norse Mythology    |  48 |   47 |                   46% |  |
-| Egyptian Mythology |  44 |   43 |                   40% |  |
-| Shakespeare        |  93 |   92 |                   51% |    |
 :end:
 
 The relationship is asymmetric. Using all 1,267 fiction PCs (the full span of 1,268 characters), fiction captures 92% of role variance. Roles capture only 75% of fiction variance. At matched dimensionality (275 PCs each), it's 82% vs 75%.
 
 Where does the remaining 25% go? We decompose the residual into between-universe variance (universe means differ) and within-universe variance (characters differ from their universe mean):
 
-#+begin_src python
+#+begin_src python :exports results
 # What fraction of residual variance is between-universe vs within-universe?
 # (Using the 12 defined universes, dropping ungrouped characters)
 char_to_universe = {}
@@ -874,28 +729,36 @@ Residual variance within universes:  35%
 (1027/1268 characters in 12 universes)
 :end:
 
-Of total variance: ~75% is captured by the role space, ~16% is between-universe residual, and ~9% is within-universe residual. Characters within each universe share system prompt structure (e.g., "You are [name] from Harry Potter"), so some of the between-universe variance is prompt-template variance rather than persona structure. What about the within-universe residual?
+Of total variance: ~75% is captured by the role space, ~16% is between-universe residual, and ~9% is within-universe residual. The between/within decomposition is the standard ANOVA partition on the residuals $r_i = (I - P)\tilde{a}_i$: $\eta^2 = \mathrm{SS}_{\text{between}} / \mathrm{SS}_{\text{total}}$ where $\mathrm{SS}_{\text{between}} = \sum_{\mathcal{U}} n_{\mathcal{U}} \| \bar{r}_{\mathcal{U}} - \bar{r} \|^2$. Characters within each universe share system prompt structure (e.g., "You are [name] from Harry Potter"), so some of the between-universe variance is prompt-template variance rather than persona structure. What about the within-universe residual?
 
-** What do the global fiction PCs look like?
+*** What do the global fiction PCs look like?
 
 The global fiction PCs (PCA on all 1,268 characters) are a mix of universe separation and cross-cutting semantic dimensions:
 
-#+begin_src python
-# Global fiction PCs: universe means and top/bottom characters
+#+begin_src python :exports results
+# Global fiction PCs: universe means as bar chart
 scores_global = pca_fiction.transform(chars_centered)
 
-for pc_i in range(5):
-    print(f"\n=== Fiction PC{pc_i+1} ({pca_fiction.explained_variance_ratio_[pc_i]:.1%} var) ===")
+franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
+
+fig, axes = plt.subplots(1, 5, figsize=(16, 5), sharey=True)
+
+for pc_i, ax in enumerate(axes):
     means = []
+    etas = []
     for universe, prefixes in ALL_UNIVERSES.items():
         idx = get_universe_indices(prefixes)
         m = scores_global[idx, pc_i].mean()
         means.append((universe, m))
-    means.sort(key=lambda x: x[1], reverse=True)
-    for u, m in means:
-        print(f"  {m:+6.2f}  {u}")
-
-    # Eta-squared for this PC
+    means.sort(key=lambda x: x[1])
+    names = [m[0] for m in means]
+    vals = [m[1] for m in means]
+    colors = ['#377eb8' if n in franchise_set else '#e41a1c' for n in names]
+    ax.barh(range(len(names)), vals, color=colors)
+    ax.set_yticks(range(len(names)))
+    ax.set_yticklabels(names if pc_i == 0 else [], fontsize=8)
+    ax.axvline(0, color='black', linewidth=0.5)
+    # Eta-squared
     grouped_scores = scores_global[[i for i in range(len(char_names)) if i in char_to_universe], pc_i]
     gm = grouped_scores.mean()
     ss_t = np.sum((grouped_scores - gm)**2)
@@ -903,394 +766,196 @@ for pc_i in range(5):
         np.sum(grouped_labels == u) * (grouped_scores[grouped_labels == u].mean() - gm)**2
         for u in np.unique(grouped_labels)
     )
-    print(f"  eta²={ss_b/ss_t:.0%}")
-
+    evr = pca_fiction.explained_variance_ratio_[pc_i]
+    ax.set_title(f'PC{pc_i+1} ({evr:.0%} var)\n$\\eta^2$={ss_b/ss_t:.0%}', fontsize=9)
+    ax.set_xlabel('Mean score', fontsize=8)
+    # Top/bottom 3 characters as annotation
     order = np.argsort(scores_global[:, pc_i])
-    top5 = [char_names[i].split('__')[-1].replace('_', ' ').title() for i in order[-5:][::-1]]
-    bot5 = [char_names[i].split('__')[-1].replace('_', ' ').title() for i in order[:5]]
-    print(f"  Top 5: {', '.join(top5)}")
-    print(f"  Bot 5: {', '.join(bot5)}")
+    top3 = [char_names[i].split('__')[-1].replace('_', ' ').title() for i in order[-3:][::-1]]
+    bot3 = [char_names[i].split('__')[-1].replace('_', ' ').title() for i in order[:3]]
+    ax.annotate(', '.join(top3), xy=(0.95, 0.98), xycoords='axes fraction',
+                ha='right', va='top', fontsize=5.5, color='#555555')
+    ax.annotate(', '.join(bot3), xy=(0.05, 0.02), xycoords='axes fraction',
+                ha='left', va='bottom', fontsize=5.5, color='#555555')
+
+from matplotlib.patches import Patch
+axes[0].legend(handles=[Patch(facecolor='#377eb8', label='Franchise'),
+                         Patch(facecolor='#e41a1c', label='Mythology/Shakespeare')],
+               loc='lower right', fontsize=7)
+fig.suptitle('Global fiction PC universe means', fontsize=12)
+fig.tight_layout()
+plt.show()
 #+end_src
 
 #+RESULTS:
 :results:
-=== Fiction PC1 (31.2% var) ===
-+19.97  Harry Potter
-+18.03  Naruto
-+15.72  Marvel
-+11.78  Star Wars
-+2.75  Game of Thrones
--7.78  LOTR
--9.83  Chinese Mythology
--15.13  Shakespeare
--16.73  Norse Mythology
--17.25  Greek Mythology
--19.53  Hindu Mythology
--22.65  Egyptian Mythology
-eta²=68%
-Top 5: Holden Caulfield, Homer Simpson, Ron Weasley, Saitama, Crabbe
-Bot 5: Ptah, Amun, Neith, Aten, Nephthys
-=== Fiction PC2 (11.1% var) ===
-+16.72  Hindu Mythology
-+12.73  Naruto
-+7.29  Egyptian Mythology
-+6.78  Marvel
-+6.40  Star Wars
-+6.36  Chinese Mythology
-+0.83  Greek Mythology
--1.69  Harry Potter
--2.96  Norse Mythology
--8.31  LOTR
--11.14  Game of Thrones
--18.65  Shakespeare
-eta²=75%
-Top 5: The Fantastic Fours Mr Fantastic Reed Richards, Hal 9000, Professor X Charles Xavier, Rama, Hashirama Senju
-Bot 5: Sir Toby Belch, Dogberry, Falstaff, Sir Andrew Aguecheek, Mercutio
-=== Fiction PC3 (7.6% var) ===
-+10.42  Star Wars
-+9.07  Game of Thrones
-+6.49  Marvel
-+3.10  Naruto
-+2.70  Norse Mythology
-+0.01  Greek Mythology
--0.31  LOTR
--1.88  Egyptian Mythology
--5.73  Shakespeare
--6.10  Harry Potter
--6.29  Chinese Mythology
--8.23  Hindu Mythology
-eta²=48%
-Top 5: Emperor Palpatine Darth Sidious, Darth Vader Anakin Skywalker, Darth Vader, Darth Maul, Supreme Leader Snoke
-Bot 5: Winniethepooh, Totoro, Pippi Longstocking, Charlie Bucket, Dorothy Gale
-=== Fiction PC4 (5.0% var) ===
-+7.76  Harry Potter
-+6.72  Shakespeare
-+3.56  Star Wars
-+0.31  Marvel
--1.02  LOTR
--1.32  Greek Mythology
--2.16  Naruto
--3.50  Game of Thrones
--4.21  Hindu Mythology
--6.63  Chinese Mythology
--8.60  Norse Mythology
--9.17  Egyptian Mythology
-eta²=49%
-Top 5: Mr Darcy, Elizabeth Bennet, Dr Watson, Hal 9000, Sherlock Holmes
-Bot 5: Khal Drogo, Sabretooth Victor Creed, Sun Wukong, Sun Wukong Monkey King, Zhang Fei
-=== Fiction PC5 (4.7% var) ===
-+6.36  Hindu Mythology
-+3.99  Shakespeare
-+3.28  Greek Mythology
-+3.08  Egyptian Mythology
-+2.95  Marvel
-+2.78  Chinese Mythology
-+1.21  Harry Potter
--0.85  Naruto
--2.41  Norse Mythology
--2.53  Star Wars
--6.94  Game of Thrones
--14.29  LOTR
-eta²=59%
-Top 5: The Joker, Carnage Cletus Kasady, Peeves, Green Goblin Norman Osborn, Alex Delarge
-Bot 5: Aragorn, Elendil, Faramir, Theodred, Arwen
+[[file:plots/post/plot_20260227_003113_4760945.png]]
 :end:
 
 PC1 (31% of variance, eta²=68%) separates modern franchises from mythology and Shakespeare --- Ron Weasley and Homer Simpson at one end, Egyptian gods at the other. But the remaining PCs mix universe separation with cross-cutting semantics. PC3 (eta²=48%) has Darth Vader and Palpatine at one end and Winnie-the-Pooh and Totoro at the other --- dark/menacing vs. innocent, cutting across universe lines. PC4 (eta²=49%) puts Mr. Darcy and Elizabeth Bennet opposite Khal Drogo and Sun Wukong.
 
 * What Do Within-Universe PCs Encode?
 
-Most within-universe variance lives inside the role subspace, but do different universes find the same principal directions? We start by checking how much of each universe's variance the role space captures:
+Most within-universe variance lives inside the role subspace, but do different universes find the same principal directions? For each universe $\mathcal{U}$, we fit PCA on $\{\bar{a}_i - \bar{a}_{\text{role}} : i \in \mathcal{U}\}$ to get $V_{\mathcal{U}} = (v_1^{\mathcal{U}}, v_2^{\mathcal{U}}, \dots)$. To compare directions across universes, we compute $|\cos(v_j^{\mathcal{U}_1}, v_j^{\mathcal{U}_2})| = |v_j^{\mathcal{U}_1} \cdot v_j^{\mathcal{U}_2}|$ (absolute cosine between corresponding PCs). We start by checking how much of each universe's variance the role space captures:
 
-#+begin_src python
-rows = []
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+
+franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
+cap_data = []
 for universe, prefixes in ALL_UNIVERSES.items():
     idx = get_universe_indices(prefixes)
     if len(idx) < 20:
         continue
-
     u_orig = chars_centered[idx]
     orig_var = np.var(u_orig, axis=0).sum()
     recon_var = np.var(reconstructed[idx], axis=0).sum()
-    resid_var = np.var(residuals[idx], axis=0).sum()
+    cap_data.append({'Universe': universe, 'N': len(idx), 'cap': recon_var/orig_var})
+cap_data.sort(key=lambda x: x['cap'], reverse=True)
 
-    rows.append({
-        'Universe': universe, 'N': len(idx),
-        'Role captures': f"{recon_var/orig_var:.0%}",
-        'Residual': f"{resid_var/orig_var:.0%}",
-    })
-
-print(pd.DataFrame(rows).set_index('Universe'))
+fig, ax = plt.subplots(figsize=(8, 4.5))
+names = [d['Universe'] for d in cap_data]
+caps = [d['cap'] for d in cap_data]
+resids = [1 - c for c in caps]
+colors = ['#377eb8' if n in franchise_set else '#e41a1c' for n in names]
+ax.barh(range(len(names)), caps, color=colors, label='Role space captures')
+ax.barh(range(len(names)), resids, left=caps, color=['#aec7e8' if n in franchise_set else '#f4a582' for n in names], label='Residual')
+ax.set_yticks(range(len(names)))
+ax.set_yticklabels(names, fontsize=9)
+ax.set_xlabel('Fraction of within-universe variance')
+ax.set_title('Role space captures more in franchises (80--85%) than mythology (61--72%)')
+ax.set_xlim(0, 1.0)
+ax.invert_yaxis()
+ax.legend(fontsize=8, loc='lower right')
+for i, v in enumerate(caps):
+    ax.text(v - 0.02, i, f"{v:.0%}", va='center', ha='right', fontsize=7, color='white', fontweight='bold')
+fig.tight_layout()
+plt.show()
 #+end_src
 
 #+RESULTS:
 :results:
-| Universe           |   N | Role captures | Residual |  |
-|--------------------+-----+---------------+----------+----|
-| Harry Potter       | 102 |           83% |      17% |  |
-| Star Wars          | 105 |           83% |      17% |  |
-| LOTR               |  97 |           81% |      19% |  |
-| Marvel             | 108 |           85% |      15% |  |
-| Game of Thrones    |  93 |           80% |      20% |  |
-| Naruto             |  84 |           84% |      16% |  |
-| Greek Mythology    | 107 |           66% |      34% |  |
-| Chinese Mythology  |  76 |           72% |      28% |  |
-| Hindu Mythology    |  70 |           67% |      33% |  |
-| Norse Mythology    |  48 |           72% |      28% |  |
-| Egyptian Mythology |  44 |           61% |      39% |  |
-| Shakespeare        |  93 |           70% |      30% |    |
+[[file:plots/post/plot_20260227_003114_1755351.png]]
 :end:
 
 The role space captures more in modern franchises (80--85%) than in mythology (61--72%). But are the principal directions the same across universes? We compute cosine similarities between each universe's within-universe PC1 direction and role PC1, and check whether within-universe PC1 directions align with each other across universes:
 
-#+begin_src python
-# Cosine similarity: within-universe PC directions vs role PCs
+#+begin_src python :exports results
+# Cosine similarity: within-universe PC directions vs role PCs and vs each other
 from sklearn.decomposition import PCA as SkPCA
+import torch
+from scipy.stats import spearmanr
 
 def cosine_sim(a, b):
     return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
 
-rows = []
+# Compute within-universe PCA for each universe
+u_pcas_full = {}
+u_pcas_resid = {}
 for name, prefixes in ALL_UNIVERSES.items():
     idx = get_universe_indices(prefixes)
     if len(idx) < 20:
         continue
+    u_pcas_full[name] = SkPCA(n_components=5).fit(chars_centered[idx])
+    u_pcas_resid[name] = SkPCA(n_components=5).fit(residuals[idx])
 
-    # Within-universe PCs (on full activations)
-    within_pca = SkPCA(n_components=5).fit(chars_centered[idx])
+# Cross-universe PC1 cosine matrix (for the heatmap in the intro)
+universe_names = list(u_pcas_full.keys())
+n_u = len(universe_names)
 
-    # Residual PCs (on residuals only)
-    resid_pca = SkPCA(n_components=5).fit(residuals[idx])
+# --- Plot 1: Cross-universe within-PC1 cosine heatmap ---
+cross_mat = np.zeros((n_u, n_u))
+for i in range(n_u):
+    for j in range(n_u):
+        cross_mat[i, j] = abs(cosine_sim(
+            u_pcas_full[universe_names[i]].components_[0],
+            u_pcas_full[universe_names[j]].components_[0]))
 
-    for pc_i in range(2):
-        w_within = within_pca.components_[pc_i]
-        w_resid = resid_pca.components_[pc_i]
-        lu_dir = role_pca.components_[pc_i]
+fig, ax = plt.subplots(figsize=(8, 7))
+im = ax.imshow(cross_mat, cmap='RdYlGn', vmin=0, vmax=1, aspect='equal')
+ax.set_xticks(range(n_u)); ax.set_yticks(range(n_u))
+ax.set_xticklabels(universe_names, rotation=45, ha='right', fontsize=8)
+ax.set_yticklabels(universe_names, fontsize=8)
+for i in range(n_u):
+    for j in range(n_u):
+        c = 'white' if cross_mat[i,j] < 0.4 else 'black'
+        ax.text(j, i, f"{cross_mat[i,j]:.2f}", ha='center', va='center', fontsize=6, color=c)
+ax.set_title("Cross-universe within-PC1 direction cosines\n(|cos(PC1_i, PC1_j)|)", fontsize=11)
+fig.colorbar(im, ax=ax, shrink=0.8, label='|cosine|')
+fig.tight_layout()
+plt.show()
 
-        rows.append({
-            'Universe': name,
-            'PC': pc_i + 1,
-            'within_vs_lu': round(abs(cosine_sim(w_within, lu_dir)), 3),
-            'within_vs_resid': round(abs(cosine_sim(w_within, w_resid)), 3),
-            'w_within': w_within,
-            'w_resid': w_resid,
-        })
+# Print cross-universe summary stats
+off_diag = [cross_mat[i,j] for i in range(n_u) for j in range(i+1, n_u)]
+print(f"Cross-universe within-PC1 cosine: median={np.median(off_diag):.3f}")
 
-df_cos = pd.DataFrame(rows)
-for pc_i in [1, 2]:
-    sub = df_cos[df_cos['PC'] == pc_i]
-    print(f"\n=== PC{pc_i} cosine similarities (absolute) ===")
-    print(sub[['Universe', 'within_vs_lu', 'within_vs_resid']].set_index('Universe'))
-
-    # Cross-universe: do within-universe PC directions align with each other?
-    dirs = list(sub['w_within'])
-    names = list(sub['Universe'])
-    cross = []
-    for i in range(len(dirs)):
-        for j in range(i+1, len(dirs)):
-            cross.append({'pair': f"{names[i]} / {names[j]}",
-                          'cosine': round(abs(cosine_sim(dirs[i], dirs[j])), 3)})
-    cross_sorted = sorted(cross, key=lambda x: x['cosine'], reverse=True)
-    med = np.median([c['cosine'] for c in cross_sorted])
-    print(f"  Cross-universe within-PC{pc_i} cosine: median={med:.3f}")
-    top5 = ', '.join(f"{c['pair']} ({c['cosine']:.3f})" for c in cross_sorted[:5])
-    bot5 = ', '.join(f"{c['pair']} ({c['cosine']:.3f})" for c in cross_sorted[-5:])
-    print(f"  Top 5:    {top5}")
-    print(f"  Bottom 5: {bot5}")
-
-print(f"\nMedians:")
-print(df_cos.groupby('PC')[['within_vs_lu', 'within_vs_resid']].median().round(3))
-
-# Rank correlation: do within-universe PC1 scores correlate with the assistant axis?
-import torch
-from scipy.stats import spearmanr
-
+# --- Plot 2: AA cosine vs rank correlation (side-by-side heatmaps) ---
 assistant_axis_all = torch.load('../data/role_vectors/assistant_axis.pt', weights_only=True)
-assistant_axis = assistant_axis_all[32].float().numpy()  # layer 32, 0-indexed
+assistant_axis = assistant_axis_all[32].float().numpy()
 
-print(f"\n=== Cosine: within-universe PCs vs assistant axis ===")
-aa_cos = abs(cosine_sim(assistant_axis, role_pca.components_[0]))
-print(f"Cosine(assistant axis, role PC1): {aa_cos:.3f}")
-
-cos_rows = []
-rank_rows = []
-for name, prefixes in ALL_UNIVERSES.items():
-    idx = get_universe_indices(prefixes)
-    if len(idx) < 20:
-        continue
-    within_pca = SkPCA(n_components=3).fit(chars_centered[idx])
+cos_mat = np.zeros((n_u, 3))
+rank_mat = np.zeros((n_u, 3))
+for i, name in enumerate(universe_names):
+    idx = get_universe_indices(ALL_UNIVERSES[name])
     aa_scores = chars_centered[idx] @ assistant_axis
-    crow = {'Universe': name}
-    rrow = {'Universe': name}
     for pc_i in range(3):
-        cos = abs(cosine_sim(within_pca.components_[pc_i], assistant_axis))
-        crow[f'PC{pc_i+1}'] = round(cos, 2)
-        scores = chars_centered[idx] @ within_pca.components_[pc_i]
+        cos_mat[i, pc_i] = abs(cosine_sim(u_pcas_full[name].components_[pc_i], assistant_axis))
+        scores = chars_centered[idx] @ u_pcas_full[name].components_[pc_i]
         rho, _ = spearmanr(scores, aa_scores)
-        rrow[f'PC{pc_i+1}'] = round(abs(rho), 2)
-    crow['sum_sq'] = round(sum(crow[f'PC{pc_i+1}']**2 for pc_i in range(3)), 2)
-    cos_rows.append(crow)
-    rank_rows.append(rrow)
-df_cos_aa = pd.DataFrame(cos_rows).set_index('Universe')
-print(df_cos_aa)
-print(f"\nMedians: PC1={df_cos_aa['PC1'].median():.2f}, PC2={df_cos_aa['PC2'].median():.2f}, PC3={df_cos_aa['PC3'].median():.2f}")
+        rank_mat[i, pc_i] = abs(rho)
 
-print(f"\n=== Rank correlation (Spearman): within-universe PC scores vs assistant axis scores ===")
-df_rank_aa = pd.DataFrame(rank_rows).set_index('Universe')
-print(df_rank_aa)
-print(f"\nMedians: PC1={df_rank_aa['PC1'].median():.2f}, PC2={df_rank_aa['PC2'].median():.2f}, PC3={df_rank_aa['PC3'].median():.2f}")
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6), sharey=True)
+
+im1 = ax1.imshow(cos_mat, cmap='YlOrRd', vmin=0, vmax=0.5, aspect='auto')
+ax1.set_xticks(range(3)); ax1.set_xticklabels(['PC1', 'PC2', 'PC3'])
+ax1.set_yticks(range(n_u)); ax1.set_yticklabels(universe_names, fontsize=9)
+for i in range(n_u):
+    for j in range(3):
+        c = 'white' if cos_mat[i,j] > 0.3 else 'black'
+        ax1.text(j, i, f"{cos_mat[i,j]:.2f}", ha='center', va='center', fontsize=8, color=c)
+ax1.set_title('$|\\cos(\\mathrm{PC}_i, \\mathrm{AA})|$\n(geometric alignment)', fontsize=10)
+fig.colorbar(im1, ax=ax1, shrink=0.6)
+
+im2 = ax2.imshow(rank_mat, cmap='YlOrRd', vmin=0, vmax=0.85, aspect='auto')
+ax2.set_xticks(range(3)); ax2.set_xticklabels(['PC1', 'PC2', 'PC3'])
+for i in range(n_u):
+    for j in range(3):
+        c = 'white' if rank_mat[i,j] > 0.5 else 'black'
+        ax2.text(j, i, f"{rank_mat[i,j]:.2f}", ha='center', va='center', fontsize=8, color=c)
+ax2.set_title('$|\\rho(\\mathrm{PC}_i\\ \\mathrm{scores},\\ \\mathrm{AA\\ scores})|$\n(rank correlation)', fontsize=10)
+fig.colorbar(im2, ax=ax2, shrink=0.6)
+
+fig.suptitle('Within-universe PCs vs. assistant axis: geometric alignment is low, but rank correlation is substantial', fontsize=11, y=1.02)
+fig.tight_layout()
+plt.show()
+
+print(f"Cosine medians: PC1={np.median(cos_mat[:,0]):.2f}, PC2={np.median(cos_mat[:,1]):.2f}, PC3={np.median(cos_mat[:,2]):.2f}")
+print(f"Rank-corr medians: PC1={np.median(rank_mat[:,0]):.2f}, PC2={np.median(rank_mat[:,1]):.2f}, PC3={np.median(rank_mat[:,2]):.2f}")
+print(f"Cosine(assistant axis, role PC1): {abs(cosine_sim(assistant_axis, role_pca.components_[0])):.3f}")
 #+end_src
 
 #+RESULTS:
 :results:
-=== PC1 cosine similarities (absolute) ===
-| Universe           | within_vs_lu | within_vs_resid |  |
-|--------------------+--------------+-----------------+----|
-| Harry Potter       |        0.056 |           0.215 |  |
-| Star Wars          |        0.258 |           0.236 |  |
-| LOTR               |         0.07 |           0.312 |  |
-| Marvel             |        0.138 |           0.116 |  |
-| Game of Thrones    |        0.095 |           0.222 |  |
-| Naruto             |        0.125 |           0.223 |  |
-| Greek Mythology    |        0.036 |           0.501 |  |
-| Chinese Mythology  |        0.206 |           0.233 |  |
-| Hindu Mythology    |        0.028 |           0.354 |  |
-| Norse Mythology    |        0.428 |           0.243 |  |
-| Egyptian Mythology |        0.403 |            0.46 |  |
-| Shakespeare        |        0.264 |           0.293 |  |
-Cross-universe within-PC1 cosine: median=0.469
-Top 5:    Harry Potter / Naruto (0.952), Marvel / Naruto (0.948), Harry Potter / Marvel (0.927), Marvel / Game of Thrones (0.925), Star Wars / Marvel (0.922)
-Bottom 5: Hindu Mythology / Egyptian Mythology (0.125), Harry Potter / Hindu Mythology (0.117), Greek Mythology / Egyptian Mythology (0.111), Naruto / Hindu Mythology (0.108), Hindu Mythology / Shakespeare (0.048)
-=== PC2 cosine similarities (absolute) ===
-| Universe           | within_vs_lu | within_vs_resid |  |
-|--------------------+--------------+-----------------+----|
-| Harry Potter       |        0.038 |           0.268 |  |
-| Star Wars          |        0.167 |           0.019 |  |
-| LOTR               |        0.049 |           0.307 |  |
-| Marvel             |        0.078 |           0.025 |  |
-| Game of Thrones    |        0.069 |           0.162 |  |
-| Naruto             |        0.003 |            0.24 |  |
-| Greek Mythology    |        0.212 |           0.153 |  |
-| Chinese Mythology  |        0.132 |            0.35 |  |
-| Hindu Mythology    |        0.064 |           0.307 |  |
-| Norse Mythology    |        0.138 |            0.29 |  |
-| Egyptian Mythology |         0.18 |           0.485 |  |
-| Shakespeare        |        0.199 |           0.268 |  |
-Cross-universe within-PC2 cosine: median=0.481
-Top 5:    Marvel / Naruto (0.896), Harry Potter / Marvel (0.892), Harry Potter / Naruto (0.872), Harry Potter / Star Wars (0.870), Star Wars / Marvel (0.864)
-Bottom 5: LOTR / Chinese Mythology (0.042), Harry Potter / Chinese Mythology (0.032), Marvel / Chinese Mythology (0.020), Norse Mythology / Shakespeare (0.015), Naruto / Chinese Mythology (0.004)
-Medians:
-| PC | within_vs_lu | within_vs_resid |  |
-|----+--------------+-----------------+----|
-|  1 |        0.132 |            0.24 |  |
-|  2 |        0.105 |           0.268 |  |
-=== Cosine: within-universe PCs vs assistant axis ===
+[[file:plots/post/plot_20260227_003114_7021533.png]]
+Cross-universe within-PC1 cosine: median=0.468
+[[file:plots/post/plot_20260227_003114_3789861.png]]
+Cosine medians: PC1=0.17, PC2=0.28, PC3=0.13
+Rank-corr medians: PC1=0.51, PC2=0.58, PC3=0.13
 Cosine(assistant axis, role PC1): 0.672
-| Universe           |  PC1 |  PC2 |  PC3 | sum_sq |  |
-|--------------------+------+------+------+--------+----|
-| Harry Potter       | 0.31 |  0.3 | 0.15 |   0.21 |  |
-| Star Wars          | 0.14 | 0.28 | 0.12 |   0.11 |  |
-| LOTR               | 0.21 | 0.28 | 0.03 |   0.12 |  |
-| Marvel             | 0.24 | 0.41 | 0.11 |   0.24 |  |
-| Game of Thrones    | 0.23 | 0.28 |  0.1 |   0.14 |  |
-| Naruto             | 0.26 | 0.37 | 0.12 |   0.22 |  |
-| Greek Mythology    | 0.03 | 0.19 | 0.22 |   0.09 |  |
-| Chinese Mythology  |  0.1 | 0.02 | 0.35 |   0.13 |  |
-| Hindu Mythology    |  0.1 | 0.35 | 0.14 |   0.15 |  |
-| Norse Mythology    |  0.2 |  0.1 | 0.18 |   0.08 |  |
-| Egyptian Mythology | 0.14 | 0.14 | 0.01 |   0.04 |  |
-| Shakespeare        | 0.06 | 0.14 | 0.19 |   0.06 |  |
-Medians: PC1=0.17, PC2=0.28, PC3=0.13
-=== Rank correlation (Spearman): within-universe PC scores vs assistant axis scores ===
-| Universe           |  PC1 |  PC2 |  PC3 |  |
-|--------------------+------+------+------+----|
-| Harry Potter       | 0.78 | 0.53 | 0.14 |  |
-| Star Wars          | 0.41 | 0.59 | 0.12 |  |
-| LOTR               | 0.61 | 0.68 | 0.05 |  |
-| Marvel             | 0.63 | 0.68 | 0.09 |  |
-| Game of Thrones    | 0.68 | 0.58 | 0.12 |  |
-| Naruto             | 0.68 | 0.69 | 0.07 |  |
-| Greek Mythology    |  0.1 | 0.63 | 0.51 |  |
-| Chinese Mythology  | 0.17 | 0.16 | 0.79 |  |
-| Hindu Mythology    | 0.24 | 0.79 | 0.24 |  |
-| Norse Mythology    | 0.78 | 0.29 | 0.18 |  |
-| Egyptian Mythology | 0.42 | 0.39 | 0.03 |  |
-| Shakespeare        | 0.23 | 0.57 | 0.52 |  |
-Medians: PC1=0.52, PC2=0.58, PC3=0.13
 :end:
 
-=within_vs_lu= measures whether within-universe PC directions align with the role PCs. =within_vs_resid= measures whether the within-universe PC and the residual PC point in similar directions.
+The cross-universe PC1 heatmap shows high alignment within the franchise block (Harry Potter/Naruto ~0.95, Marvel/Naruto ~0.95, Harry Potter/Marvel ~0.93) and low alignment between franchises and mythology (Naruto/Hindu ~0.11, Hindu/Shakespeare ~0.05). Modern franchises share a PC1 direction; mythology and Shakespeare do not. The AA heatmaps show that geometric alignment between within-universe PCs and the assistant axis is uniformly low (median cosines 0.17, 0.28, 0.13 for PC1--3), but rank correlations between PC scores and AA scores are substantial --- appearing on PC1 for franchises and shifting to PC2/PC3 for mythology.
 
-The cosine similarities are low: within-universe PC1 has median cosine ~0.13 with role PC1. Within-universe PC1 directions do align with each other across some universes (median cross-universe cosine ~0.47). The highest-cosine pairs are modern franchises (Harry Potter/Naruto ~0.95, Marvel/Naruto ~0.95, Harry Potter/Marvel ~0.93); the lowest are franchise-vs-mythology pairs (Naruto/Hindu ~0.11, Hindu/Shakespeare ~0.05). Modern franchises share a PC1 direction; mythology and Shakespeare do not.
-
-The heatmaps below show principal angle cosines between each pair of universes' top-k PC subspaces (plus the role PCs and assistant axis). The k-th principal angle measures the worst alignment direction in the k-dimensional subspace: k=1 is just |cos(PC1, PC1)|, k=2 shows how well the 2D planes align, k=3 the 3D subspaces.
+The heatmaps below show principal angle cosines between each pair of universes' top-$k$ PC subspaces. For two subspaces $\mathrm{span}(v_1^{\mathcal{U}_1}, \dots, v_k^{\mathcal{U}_1})$ and $\mathrm{span}(v_1^{\mathcal{U}_2}, \dots, v_k^{\mathcal{U}_2})$, the $k$-th principal angle $\theta_k$ is computed via SVD of $V_k^{\mathcal{U}_1\top} V_k^{\mathcal{U}_2}$; we plot the smallest singular value $\sigma_k = \cos \theta_k$. This measures the worst-aligned direction: $k=1$ is just $|\cos(v_1^{\mathcal{U}_1}, v_1^{\mathcal{U}_2})|$, $k=2$ shows how well the 2D planes align, $k=3$ the 3D subspaces.
 
 [[file:../results/principal_angle_heatmaps.png]]
 
 The franchise block (Harry Potter, Star Wars, LOTR, Marvel, Game of Thrones, Naruto) stays warm through k=2 --- these universes share not just a PC1 but a common 2D plane of variation. By k=3 everything cools, but the franchise block still shows higher alignment than mythology-vs-franchise pairs. The role PCs and assistant axis (bottom rows) have low cosines with all universes, confirming that within-universe principal directions are mostly orthogonal to the role space.
 
-*Where does the assistant axis live?* Lu et al.'s PC1 aligns with their "assistant axis" (cosine ~0.67). How much of the assistant axis do within-universe PCs capture? The table above shows cosine similarities between each universe's within-universe PC1--3 directions and the assistant axis direction. The =sum_sq= column is the fraction of the assistant axis captured by the top 3 PCs (sum of squared cosines).
-
-The cosines are uniformly low: the median PC1 cosine is 0.17, and the top 3 PCs together capture at most 24% of the assistant axis (Marvel). The assistant axis is not concentrated in any universe's top PCs --- it is spread diffusely across many dimensions.
+*Where does the assistant axis live?* Lu et al.'s PC1 aligns with their "assistant axis" (cosine ~0.67). The right-hand heatmap above shows that the top 3 PCs together capture at most 24% of the assistant axis (Marvel, sum of squared cosines). The assistant axis is not concentrated in any universe's top PCs --- it is spread diffusely across many dimensions.
 
 Who are the most and least assistant-like fictional characters? Projecting all 1,268 characters onto the assistant axis:
 
-#+begin_src python
-# Project all characters onto the assistant axis
-aa_scores_all = chars_centered @ (assistant_axis / np.linalg.norm(assistant_axis))
-
-def fmt_char(name):
-    parts = name.split('__')
-    universe = parts[0].replace('_', ' ').title()
-    char = parts[-1].replace('_', ' ').title()
-    return f"{char} ({universe})"
-
-order = np.argsort(aa_scores_all)
-print("Most assistant-like (highest AA score):")
-rows = [{'Rank': i+1, 'Character': fmt_char(char_names[order[-(i+1)]]),
-         'AA': f"{aa_scores_all[order[-(i+1)]]:+.1f}"}
-        for i in range(10)]
-print(pd.DataFrame(rows).set_index('Rank'))
-
-print("\nLeast assistant-like (lowest AA score):")
-rows = [{'Rank': i+1, 'Character': fmt_char(char_names[order[i]]),
-         'AA': f"{aa_scores_all[order[i]]:+.1f}"}
-        for i in range(10)]
-print(pd.DataFrame(rows).set_index('Rank'))
-
-print(f"\nMean: {aa_scores_all.mean():.1f}, Std: {aa_scores_all.std():.1f}")
-#+end_src
-
-#+RESULTS:
-:results:
-Most assistant-like (highest AA score):
-| Rank | Character                       |   AA |  |
-|------+---------------------------------+------+----|
-|    1 | Hermione Granger (Harry Potter) | +1.1 |  |
-|    2 | Hinata Hyuga (Naruto)           | +0.5 |  |
-|    3 | Katie Bell (Harry Potter)       | -0.1 |  |
-|    4 | Goku (Dragon Ball)              | -0.5 |  |
-|    5 | Lavender Brown (Harry Potter)   | -0.5 |  |
-|    6 | Sakura Haruno (Naruto)          | -0.6 |  |
-|    7 | Iruka Umino (Naruto)            | -0.9 |  |
-|    8 | Sailor Moon (Sailor Moon)       | -1.2 |  |
-|    9 | Ginny Weasley (Harry Potter)    | -1.2 |  |
-|   10 | Tenten (Naruto)                 | -1.4 |  |
-Least assistant-like (lowest AA score):
-| Rank | Character                                   |    AA |  |
-|------+---------------------------------------------+-------+----|
-|    1 | Ungoliant (Lord Of The Rings)               | -32.5 |  |
-|    2 | Grendels Mother (Norse Mythology)           | -32.3 |  |
-|    3 | Grendel (Beowulf)                           | -31.4 |  |
-|    4 | The Witchking Of Angmar (Lord Of The Rings) | -31.0 |  |
-|    5 | Morgoth Melkor (Lord Of The Rings)          | -30.9 |  |
-|    6 | Night King (Game Of Thrones)                | -30.5 |  |
-|    7 | Shelob (Lord Of The Rings)                  | -30.4 |  |
-|    8 | Sauron (Lord Of The Rings)                  | -29.9 |  |
-|    9 | Melisandre (Game Of Thrones)                | -29.9 |  |
-|   10 | Coriolanus (Shakespeare)                    | -29.8 |  |
-Mean: -18.5, Std: 7.0
-:end:
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
@@ -1339,7 +1004,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260226_115711_5304094.png]]
+[[file:plots/post/plot_20260227_003134_7914571.png]]
 :end:
 
 Hermione Granger is the most assistant-like fictional character in the dataset. The bottom is dominated by non-verbal monsters --- Ungoliant, Grendel's Mother, Shelob. Nearly all fictional characters score well below the assistant baseline (mean AA = -18.5); only Hermione is near zero. 
@@ -1348,7 +1013,7 @@ Yet the rank correlations between PC scores and assistant axis scores are substa
 
 Despite both being rank-correlated with the assistant axis, PC1 and PC2 scores are uncorrelated with each other (median |rho| = 0.03, max 0.12), confirming they capture independent aspects of the AA. We can test this directly: using the LLM-discovered features from the feature interpretation pipeline (described in the next section), we regress assistant axis scores against the 6 features discovered for within-universe PC1 (formality features), the 6 features for PC2 (warmth features), and both combined.
 
-#+begin_src python
+#+begin_src python :exports results
 # Regress AA scores on existing within-universe feature ratings
 import json
 from pathlib import Path
@@ -1441,52 +1106,48 @@ for universe, prefixes in ALL_UNIVERSES.items():
         aa_reg_rows.append({'Universe': universe, 'Features': source,
                            'Adj. R²': round(adj_r2, 2), 'n': n})
 
-print("PC1-PC2 rank independence:")
-print(pd.DataFrame(pc_corr_rows).set_index('Universe'))
-print(f"Median: {np.median([r['|PC1-PC2 rho|'] for r in pc_corr_rows]):.3f}")
+import matplotlib.pyplot as plt
 
 df_reg = pd.DataFrame(aa_reg_rows)
-print("\nAA scores regressed on within-universe features:")
 pivot = df_reg.pivot(index='Universe', columns='Features', values='Adj. R²')
 pivot = pivot[['PC1', 'PC2', 'PC1+PC2']]
-print(pivot)
-print(f"\nMedians: PC1={pivot['PC1'].median():.2f}, PC2={pivot['PC2'].median():.2f}, PC1+PC2={pivot['PC1+PC2'].median():.2f}")
+pivot = pivot.sort_values('PC1+PC2', ascending=True)
+
+franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
+fig, ax = plt.subplots(figsize=(10, 5))
+y = np.arange(len(pivot))
+h = 0.25
+ax.barh(y - h, pivot['PC1'], h, color='#377eb8', label='PC1 features (formality)')
+ax.barh(y, pivot['PC2'], h, color='#e41a1c', label='PC2 features (warmth)')
+ax.barh(y + h, pivot['PC1+PC2'], h, color='#4daf4a', label='PC1+PC2 combined')
+ax.set_yticks(y)
+ax.set_yticklabels(pivot.index, fontsize=9)
+ax.set_xlabel('Adj. R² predicting AA scores')
+ax.set_title('AA = formality + warmth: both PC1 and PC2 features independently predict assistant axis scores')
+ax.legend(fontsize=8, loc='lower right')
+ax.axvline(0, color='gray', linewidth=0.5)
+ax.set_xlim(-0.4, 1.0)
+for i, u in enumerate(pivot.index):
+    v = pivot.loc[u, 'PC1+PC2']
+    ax.text(max(v, 0) + 0.02, i + h, f"{v:.2f}", va='center', fontsize=7)
+
+# Annotate PC1-PC2 independence
+med_rho = np.median([r['|PC1-PC2 rho|'] for r in pc_corr_rows])
+ax.annotate(f'PC1-PC2 rank independence:\nmedian |$\\rho$| = {med_rho:.3f}',
+            xy=(0.98, 0.02), xycoords='axes fraction', ha='right', va='bottom',
+            fontsize=8, bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
+fig.tight_layout()
+plt.show()
+
+print(f"Medians: PC1={pivot['PC1'].median():.2f}, PC2={pivot['PC2'].median():.2f}, PC1+PC2={pivot['PC1+PC2'].median():.2f}")
+print(f"PC1-PC2 rank independence median: {med_rho:.3f}")
 #+end_src
 
 #+RESULTS:
 :results:
-PC1-PC2 rank independence:
-| Universe           |     " | PC1-PC2 rho | " |  |
-|--------------------+-------+-------------+---+----|
-| Harry Potter       | 0.007 |           |   |    |
-| Star Wars          |  0.02 |           |   |    |
-| LOTR               | 0.012 |           |   |    |
-| Marvel             | 0.031 |           |   |    |
-| Game of Thrones    | 0.021 |           |   |    |
-| Naruto             | 0.011 |           |   |    |
-| Greek Mythology    | 0.025 |           |   |    |
-| Chinese Mythology  | 0.028 |           |   |    |
-| Hindu Mythology    | 0.072 |           |   |    |
-| Norse Mythology    | 0.062 |           |   |    |
-| Egyptian Mythology | 0.031 |           |   |    |
-| Shakespeare        | 0.123 |           |   |    |
-Median: 0.027
-AA scores regressed on within-universe features:
-| Universe           |   PC1 |   PC2 | PC1+PC2 |  |
-|--------------------+-------+-------+---------+----|
-| Chinese Mythology  |  0.07 |  0.32 |    0.23 |  |
-| Egyptian Mythology | -0.04 | -0.08 |   -0.37 |  |
-| Game of Thrones    |  0.51 |  0.64 |    0.69 |  |
-| Greek Mythology    |   0.2 |  0.24 |    0.29 |  |
-| Harry Potter       |  0.69 |  0.37 |    0.75 |  |
-| Hindu Mythology    |  0.49 |  0.55 |    0.58 |  |
-| LOTR               |  0.68 |  0.73 |    0.86 |  |
-| Marvel             |  0.73 |  0.72 |    0.87 |  |
-| Naruto             |  0.71 |  0.66 |    0.74 |  |
-| Norse Mythology    |  0.25 |  0.53 |    0.46 |  |
-| Shakespeare        |  0.23 |  0.38 |    0.42 |  |
-| Star Wars          |  0.48 |  0.41 |    0.63 |  |
+[[file:plots/post/plot_20260227_003135_6972484.png]]
 Medians: PC1=0.48, PC2=0.47, PC1+PC2=0.60
+PC1-PC2 rank independence median: 0.027
 :end:
 
 PC1 (formality) and PC2 (warmth) each independently predict assistant axis scores at median adj. R² ~0.48. Combining both sets of features (12 total) raises this to median 0.60, with franchises reaching 0.63--0.87. The AA is not formality alone --- it is a blend of formality and warmth/cooperativeness. This explains why both PC1 and PC2 rank-correlate with the AA despite being uncorrelated with each other: they capture independent components of the same direction. In mythology, where within-universe AA variance is small (std 1.7--2.9 vs. 4--6 for franchises), neither set of features predicts well.
@@ -1497,29 +1158,25 @@ The geometric analysis does not reveal what semantic content the PCs encode --- 
 
 We apply this pipeline to three types of PC directions: within-universe PCs (PCA on one universe's full activations), role PCs applied per-universe (projecting each universe's characters onto Lu et al.'s role PC directions and running discovery/regression on those scores), and residual PCs (within-universe PCA after projecting out the role space). The pipeline has three steps with strict separation between discovery and validation:
 
-1. *Feature discovery (odd-ranked characters)*: For each universe and PC, we take the 5 characters with the most extreme positive scores (ranks 1, 3, 5, 7, 9) and the 5 most extreme negative scores (same odd ranks). We show an LLM (Claude Sonnet) their anonymized responses to 10 discriminative questions and ask it to propose 6 features that distinguish the two groups. Features must be observable from text alone --- no universe knowledge.
+1. *Feature discovery (odd-ranked characters)*: For each universe $\mathcal{U}$ and PC $j$, we take the 5 characters with the most extreme positive scores $s_{ij}$ (ranks 1, 3, 5, 7, 9) and the 5 most extreme negative scores (same odd ranks). We show an LLM (Claude Sonnet) their anonymized responses to 10 discriminative questions and ask it to propose $p=6$ features that distinguish the two groups. Features must be observable from text alone --- no universe knowledge.
 
-2. *Feature coding (all remaining characters)*: We code *all* characters in the universe except the 10 used for discovery (typically 34--98 characters depending on universe size). A fresh LLM call rates each character on the 6 discovered features (1--5 scale) based on a random sample of 10 questions.
+2. *Feature coding (all remaining characters)*: We code *all* characters in $\mathcal{U}$ except the 10 used for discovery (typically $n=34$--$98$ characters depending on universe size). A fresh LLM call rates each character on the $p$ discovered features ($x_{if} \in \{1,2,3,4,5\}$ for feature $f$) based on a random sample of 10 questions.
 
-3. *Regression*: We regress each character's PC score against their 6 feature ratings using OLS. High adjusted R^{2} means the LLM-discovered features (from held-out characters) predict PC position well.
+3. *Regression*: We fit the OLS model $s_{ij} = \beta_0 + \sum_{f=1}^{p} \beta_f x_{if} + \epsilon_i$ where $s_{ij}$ is character $i$'s score on PC $j$ and $x_{if}$ is the LLM rating on feature $f$. We report adjusted $R^2 = 1 - \frac{(1-R^2)(n-1)}{n-p-1}$. High adjusted $R^2$ means the LLM-discovered features (from held-out characters) predict PC position well.
 
 The striding ensures zero overlap between the characters used to discover features and those used to validate them. Full code is in =blogpost/scripts/llm_feature_coding.py= and =blogpost/scripts/feature_regression.py=.
 
-#+begin_src python
+#+begin_src python :exports results
 import json
 from pathlib import Path
+import matplotlib.pyplot as plt
 pd.set_option('display.max_rows', 100)
 
-# Generated by: python blogpost/scripts/feature_regression.py
-# (depends on results/llm_feature_coded*.json from blogpost/scripts/llm_feature_coding.py)
-
-# Load all available regression results
 regression_files = {
     'residual': '../results/feature_regression.json',
     'lu': '../results/feature_regression_lu.json',
     'within': '../results/feature_regression_within.json',
 }
-
 all_reg = {}
 for mode, path in regression_files.items():
     if Path(path).exists():
@@ -1528,104 +1185,65 @@ for mode, path in regression_files.items():
         for k, v in data.items():
             v['mode'] = mode
             all_reg[f"{mode}__{k}"] = v
-        print(f"Loaded {mode}: {len(data)} entries")
-    else:
-        print(f"Not yet available: {mode} ({path})")
 
 def best_feature(data):
     valid = [c for c in data['correlations']
              if c.get('abs_correlation') is not None
-             and c['abs_correlation'] == c['abs_correlation']]  # exclude NaN
-    return max(valid, key=lambda x: x['abs_correlation'])['feature'] if valid else '—'
+             and c['abs_correlation'] == c['abs_correlation']]
+    return max(valid, key=lambda x: x['abs_correlation'])['feature'] if valid else '-'
 
-for mode in ['within', 'lu']:
+franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
+titles = {'within__1': 'Within-universe PC1', 'within__2': 'Within-universe PC2',
+          'lu__1': 'Role PC1', 'lu__2': 'Role PC2'}
+
+fig, axes = plt.subplots(2, 2, figsize=(14, 10), sharey=True)
+for ax_idx, (key, title) in enumerate(titles.items()):
+    mode, pc_str = key.split('__')
+    pc_num = int(pc_str)
+    ax = axes[ax_idx // 2, ax_idx % 2]
     mode_data = {k: v for k, v in all_reg.items() if v['mode'] == mode}
-    for pc_num in [1, 2]:
-        rows = []
-        for key, data in mode_data.items():
-            if data['pc'] != pc_num:
-                continue
-            rows.append({
-                'Universe': data['universe'],
-                'Adj. R²': f"{data['adj_r_squared']:.2f}",
-                'Top feature': best_feature(data),
-                'High end': ', '.join(data['high_chars'][:3]),
-                'Low end': ', '.join(data['low_chars'][:3]),
-            })
-        if rows:
-            df = pd.DataFrame(rows).set_index('Universe')
-            print(f"\n=== {mode} PC{pc_num} ===")
-            print(df)
+    rows = []
+    for k, data in mode_data.items():
+        if data['pc'] != pc_num:
+            continue
+        rows.append({'Universe': data['universe'], 'r2': data['adj_r_squared'],
+                     'feature': best_feature(data)})
+    rows.sort(key=lambda x: x['r2'], reverse=True)
+    names = [r['Universe'] for r in rows]
+    r2s = [r['r2'] for r in rows]
+    feats = [r['feature'] for r in rows]
+    colors = ['#377eb8' if n in franchise_set else '#e41a1c' for n in names]
+    ax.barh(range(len(names)), r2s, color=colors)
+    ax.set_yticks(range(len(names)))
+    ax.set_yticklabels(names if ax_idx % 2 == 0 else names, fontsize=8)
+    ax.set_xlabel('Adj. R²')
+    ax.set_title(title, fontsize=10)
+    ax.set_xlim(-0.2, 1.0)
+    ax.axvline(0, color='gray', linewidth=0.5)
+    ax.invert_yaxis()
+    for i, (v, feat) in enumerate(zip(r2s, feats)):
+        label = f"{v:.2f} {feat}"
+        ax.text(max(v, 0) + 0.02, i, label, va='center', fontsize=6.5)
 
-print(f"\n(n=34--98 coded characters per universe, 6 LLM-discovered features)")
+from matplotlib.patches import Patch
+axes[0,0].legend(handles=[Patch(facecolor='#377eb8', label='Franchise'),
+                           Patch(facecolor='#e41a1c', label='Mythology/Shakespeare')],
+                 loc='lower right', fontsize=7)
+fig.suptitle('LLM-discovered features predict PC scores\n(6 features per universe, n=34--98 coded characters)', fontsize=12)
+fig.tight_layout()
+plt.show()
+
+# Print medians for prose
+for mode in ['within', 'lu']:
+    r2s = [v['adj_r_squared'] for v in all_reg.values() if v['mode'] == mode]
+    print(f"{mode} median adj. R²: {np.median(r2s):.2f}")
 #+end_src
 
 #+RESULTS:
 :results:
-Loaded residual: 24 entries
-Loaded lu: 24 entries
-Loaded within: 24 entries
-=== within PC1 ===
-| Universe           | Adj. R² | Top feature                     | High end                                            | Low end                                                   |  |
-|--------------------+---------+---------------------------------+-----------------------------------------------------+-----------------------------------------------------------+----|
-| Harry Potter       |    0.87 | Conversational Informality      | Gellert Grindelwald, Lord Voldemort, Igor Karkaroff | Ron Weasley, Crabbe, Mundungus Fletcher                   |  |
-| Star Wars          |    0.81 | Formal Language Register        | Kiadimundi, Luminara Unduli, Grand Admiral Thrawn   | Han Solo, Watto, Lando Calrissian                         |  |
-| LOTR               |    0.82 | Speech Rhythm                   | Gilgalad, Fingolfin, Celeborn                       | Fredegar Bolger Fatty, Old Gaffer, Samwise Gamgee         |  |
-| Game of Thrones    |    0.72 | Formal Speech Patterns          | Melisandre, Threeeyed Raven, Night King             | Bronn, Sandor Clegane The Hound, Shaggydog                |  |
-| Naruto             |    0.81 | Formal Register                 | Hamura Otsutsuki, Hiashi Hyuga, Danzo Shimura       | Tayuya, Choji Akimichi, Kiba Inuzuka                      |  |
-| Greek Mythology    |    0.48 | Temporal Perspective            | Agamemnon, Diomedes, Clytemnestra                   | Gaia, Hypnos, Oceanus                                     |  |
-| Chinese Mythology  |    0.74 | Formal Register                 | Yellow Emperor, Jade Emperor, Fuxi                  | Zhu Bajie, Li Kui, Lu Zhishen                             |  |
-| Hindu Mythology    |    0.54 | Gentle Tone Quality             | Saraswati, Parvati, Ganga                           | Duryodhana, Mahishasura, Karna                            |  |
-| Norse Mythology    |    0.48 | Emotional Volatility Expression | Forseti, Urd, Norns                                 | Fenrir, Nidhogg, Garm                                     |  |
-| Egyptian Mythology |    0.47 | Dramatic Sound Effects          | Tutankhamun, Ramesses Ii, Khufu                     | Apep, Set, Sekhmet                                        |  |
-| Shakespeare        |    0.68 | Self-Referential Humor          | Coriolanus, Julius Caesar, Brutus                   | Sir Toby Belch, Sir Andrew Aguecheek, The Fool            |  |
-| Marvel             |    0.88 | Conversational Informality      | Galactus, The Watcher Uatu, Heimdall                | Deadpool Wade Wilson, Jessica Jones, Starlord Peter Quill |  |
-=== within PC2 ===
-| Universe           | Adj. R² | Top feature              | High end                                                                                                 | Low end                                                      |  |
-|--------------------+---------+--------------------------+----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+----|
-| Harry Potter       |    0.66 | Conversational Warmth    | Padma Patil, Cho Chang, Kingsley Shacklebolt                                                             | Bellatrix Lestrange, Fenrir Greyback, Dudley Dursley         |  |
-| Star Wars          |    0.73 | Collaborative Language   | General Grievous, Darth Maul, Savage Opress                                                              | Rose Tico, Ezra Bridger, Ahsoka Tano                         |  |
-| LOTR               |    0.82 | Dismissive Attitude      | Azog The Defiler, Mouth Of Sauron, Morgoth Melkor                                                        | Elanor Gardner, Tauriel, Arwen                               |  |
-| Marvel             |    0.64 | Collaborative Language   | The Fantastic Fours Mr Fantastic Reed Richards, Professor X Charles Xavier, Captain America Steve Rogers | Carnage Cletus Kasady, Green Goblin Norman Osborn, Red Skull |  |
-| Game of Thrones    |    0.52 | Threatening Rhetoric     | Talisa Stark, Sansa Stark, Edmure Tully                                                                  | Mad King Aerys Targaryen, Khal Drogo, Viserys Targaryen      |  |
-| Naruto             |    0.66 | Empathetic Perspective   | Hinata Hyuga, Shizune, Minato Namikaze                                                                   | Hidan, Momoshiki Otsutsuki, Orochimaru                       |  |
-| Greek Mythology    |    0.45 | Conversational Intimacy  | Andromache, Hestia, Penelope                                                                             | Typhon, Minotaur, Chaos                                      |  |
-| Chinese Mythology  |    0.45 | Strategic Calculation    | Cao Cao, Guan Yu, Liu Bei                                                                                | Weaver Girl, Zhu Bajie, Change                               |  |
-| Hindu Mythology    |    0.46 | Self-Reference Style     | Rama, Yudhishthira, Arjuna                                                                               | Kali, Shakuni, Vayu                                          |  |
-| Norse Mythology    |    0.63 | Cosmic Perspective       | Jormungandr, Nidhogg, Surtr                                                                              | Leif Erikson, Erik The Red, Lagertha                         |  |
-| Egyptian Mythology |    0.41 | Cosmic Abstraction Level | Ramesses Ii, Hatshepsut, Apep                                                                            | Atum, Hathor, Nut                                            |  |
-| Shakespeare        |    0.52 | Rhetorical Intensity     | Coriolanus, Shylock, Goneril                                                                             | Juliet, Celia, Olivia                                        |  |
-=== lu PC1 ===
-| Universe           | Adj. R² | Top feature              | High end                                                                      | Low end                                                 |  |
-|--------------------+---------+--------------------------+-------------------------------------------------------------------------------+---------------------------------------------------------+----|
-| Harry Potter       |    0.60 | Civilized Discourse      | Hermione Granger, Kingsley Shacklebolt, Rufus Scrimgeour                      | Fenrir Greyback, Peeves, Rubeus Hagrid                  |  |
-| Star Wars          |    0.53 | Technical Precision      | Ig88, Grand Admiral Thrawn, Governor Tarkin                                   | Darth Maul, Jar Jar Binks, Jabba The Hutt               |  |
-| LOTR               |    0.43 | Predatory Language       | Tauriel, Theodred, Elrond                                                     | Shelob, Ungoliant, Ugluk                                |  |
-| Marvel             |    0.41 | Analytical Depth         | The Fantastic Fours Mr Fantastic Reed Richards, Vision, Black Panther Tchalla | Sabretooth Victor Creed, Hela, Ghost Rider Johnny Blaze |  |
-| Game of Thrones    |    0.37 | Profanity Usage          | Talisa Stark, Missandei, Edmure Tully                                         | Ygritte, Mad King Aerys Targaryen, Tormund Giantsbane   |  |
-| Naruto             |    0.63 | Respectful Tone          | Shizune, Shino Aburame, Tobirama Senju                                        | Hidan, Killer Bee, Suigetsu Hozuki                      |  |
-| Greek Mythology    |    0.14 | Emotional Expressiveness | Athena, Asclepius, Telemachus                                                 | Pan, Tartarus, Chaos                                    |  |
-| Chinese Mythology  |    0.40 | Structured Organization  | Zhuge Liang, Caishen, Xuanzang                                                | White Bone Demon, Bull Demon King, Lan Caihe            |  |
-| Hindu Mythology    |    0.27 | Dramatic Presentation    | Shatrughna, Yudhishthira, Rama                                                | Kali, Shakuni, Hiranyakashipu                           |  |
-| Norse Mythology    |    0.48 | Physical Descriptiveness | Forseti, Leif Erikson, Freyr                                                  | Fenrir, Grendels Mother, Ivar The Boneless              |  |
-| Egyptian Mythology |    0.29 | Dramatic Flourishes      | Maat, Thoth, Ramesses Ii                                                      | Apep, Ammit, Sekhmet                                    |  |
-| Shakespeare        |    0.57 | Emotional Restraint      | Brabantio, Hermione, Coriolanus                                               | The Three Witches, Caliban, Touchstone                  |  |
-=== lu PC2 ===
-| Universe           | Adj. R² | Top feature                | High end                                                   | Low end                                                    |  |
-|--------------------+---------+----------------------------+------------------------------------------------------------+------------------------------------------------------------+----|
-| Harry Potter       |    0.86 | Casual Language Use        | Ron Weasley, Crabbe, Fred Weasley                          | Gellert Grindelwald, Professor Trelawney, Albus Dumbledore |  |
-| Star Wars          |    0.77 | Casual Colloquialism       | Han Solo, Watto, Rose Tico                                 | Kiadimundi, Mother Talzin, Count Dooku Darth Tyranus       |  |
-| LOTR               |    0.85 | Formal Language Register   | Fredegar Bolger Fatty, Samwise Gamgee, Bofur               | Galadriel, King Of The Dead, Thranduil                     |  |
-| Marvel             |    0.90 | Conversational Informality | Deadpool Wade Wilson, Rocket Raccoon, Starlord Peter Quill | Galactus, The Watcher Uatu, Odin                           |  |
-| Game of Thrones    |    0.56 | Metaphysical Authority     | Hot Pie, Shaggydog, Sandor Clegane The Hound               | Threeeyed Raven, High Sparrow, Aemon Targaryen             |  |
-| Naruto             |    0.63 | Philosophical Depth        | Tayuya, Choji Akimichi, Anko Mitarashi                     | Hagoromo Otsutsuki, Ashura Otsutsuki, Indra Otsutsuki      |  |
-| Greek Mythology    |    0.42 | Formal Language Register   | Polyphemus, Cerberus, Ares                                 | Coeus, Erebus, Oceanus                                     |  |
-| Chinese Mythology  |    0.76 | Formal Language Register   | Zhu Bajie, Li Kui, Lu Zhishen                              | Jade Emperor, Queen Mother Of The West, Fuxi               |  |
-| Hindu Mythology    |    0.41 | Formal Address Usage       | Kumbhakarna, Angada, Shakuni                               | Brahma, Yama, Vayu                                         |  |
-| Norse Mythology    |    0.40 | Philosophical Depth        | Ymir, Ivar The Boneless, Nidhogg                           | Urd, Verdandi, Forseti                                     |  |
-| Egyptian Mythology |    0.23 | Emotional Expressiveness   | Bes, Apep, Min                                             | Ptah, Amun, Neith                                          |  |
-| Shakespeare        |    0.44 | Elevated Diction           | Dogberry, Mercutio, Petruchio                              | Prospero, Ghost Of King Hamlet, Friar Lawrence             |  |
-(n=34--98 coded characters per universe, 6 LLM-discovered features)
+[[file:plots/post/plot_20260227_003135_4532876.png]]
+within median adj. R²: 0.65
+lu median adj. R²: 0.46
 :end:
 
 For within-universe PCs in modern franchises and Chinese mythology, PC1 is formality/register (adj. R² = 0.72--0.88) and PC2 is warmth vs. aggression. In mythology and Shakespeare, the top features are more heterogeneous ("Temporal Perspective," "Gentle Tone Quality," "Emotional Volatility Expression") and adj. R² is lower (0.47--0.54). Role and residual PCs show the same franchise/mythology split.
@@ -1640,60 +1258,289 @@ Within-universe PCs are the most interpretable (median adj. R² = 0.65), clearly
 
 The indirect regression above showed the AA is a blend of formality and warmth. We can also run the feature discovery pipeline directly on the assistant axis --- using characters with the most extreme AA scores (rather than PC scores) as discovery inputs. This asks: what features does the LLM discover when shown high-AA characters (Hermione, Samwise Gamgee, Spider-Man) versus low-AA characters (Grindelwald, Ungoliant, Apocalypse)?
 
-#+begin_src python
+#+begin_src python :exports results
 import json
 from pathlib import Path
+import matplotlib.pyplot as plt
 
-# Generated by: python blogpost/scripts/feature_regression.py --mode aa
-# (depends on results/llm_feature_coded_aa.json from blogpost/scripts/llm_feature_coding.py --mode aa)
 with open('../results/feature_regression_aa.json') as f:
     aa_reg = json.load(f)
-print(f"Loaded {len(aa_reg)} entries")
 
+franchise_names = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
 rows = []
 for key, data in aa_reg.items():
     best = max(data['correlations'], key=lambda x: x['abs_correlation'])
-    rows.append({
-        'Universe': data['universe'],
-        'Adj. R²': f"{data['adj_r_squared']:.2f}",
-        'Top feature': best['feature'],
-        'n': data['n_chars'],
-        'High AA': ', '.join(data['high_chars'][:3]),
-        'Low AA': ', '.join(data['low_chars'][:3]),
-    })
-df = pd.DataFrame(rows).set_index('Universe')
-print(df)
+    rows.append({'Universe': data['universe'], 'r2': data['adj_r_squared'],
+                 'feature': best['feature'], 'n': data['n_chars']})
+rows.sort(key=lambda x: x['r2'], reverse=True)
 
-adj_r2s = [d['adj_r_squared'] for d in aa_reg.values()]
-franchise_names = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
-franchise_r2 = [d['adj_r_squared'] for d in aa_reg.values() if d['universe'] in franchise_names]
-myth_r2 = [d['adj_r_squared'] for d in aa_reg.values() if d['universe'] not in franchise_names]
-print(f"\nMedian adj. R²: {np.median(adj_r2s):.2f} (all), {np.median(franchise_r2):.2f} (franchises), {np.median(myth_r2):.2f} (mythology)")
+fig, ax = plt.subplots(figsize=(10, 5))
+names = [r['Universe'] for r in rows]
+r2s = [r['r2'] for r in rows]
+feats = [r['feature'] for r in rows]
+colors = ['#377eb8' if n in franchise_names else '#e41a1c' for n in names]
+ax.barh(range(len(names)), r2s, color=colors)
+ax.set_yticks(range(len(names)))
+ax.set_yticklabels(names, fontsize=9)
+ax.set_xlabel('Adj. R² (6 LLM-discovered features)')
+ax.set_title('Direct AA feature regression: franchise median 0.69, mythology median 0.28')
+ax.set_xlim(-0.2, 1.0)
+ax.axvline(0, color='gray', linewidth=0.5)
+ax.invert_yaxis()
+for i, (v, feat) in enumerate(zip(r2s, feats)):
+    ax.text(max(v, 0) + 0.02, i, f"{v:.2f} {feat}", va='center', fontsize=7)
+from matplotlib.patches import Patch
+ax.legend(handles=[Patch(facecolor='#377eb8', label='Franchise'),
+                   Patch(facecolor='#e41a1c', label='Mythology/Shakespeare')],
+         loc='lower right', fontsize=8)
+fig.tight_layout()
+plt.show()
+
+franchise_r2 = [r['r2'] for r in rows if r['Universe'] in franchise_names]
+myth_r2 = [r['r2'] for r in rows if r['Universe'] not in franchise_names]
+print(f"Median adj. R²: {np.median([r['r2'] for r in rows]):.2f} (all), {np.median(franchise_r2):.2f} (franchises), {np.median(myth_r2):.2f} (mythology)")
 #+end_src
 
 #+RESULTS:
 :results:
-Loaded 12 entries
-| Universe           | Adj. R² | Top feature                |  n | High AA                                                                 | Low AA                                                 |  |
-|--------------------+---------+----------------------------+----+-------------------------------------------------------------------------+--------------------------------------------------------+----|
-| Harry Potter       |    0.76 | Dramatic Tone              | 92 | Hermione Granger, Lavender Brown, Colin Creevey                         | Gellert Grindelwald, Fenrir Greyback, Lord Voldemort   |  |
-| Star Wars          |    0.63 | Authoritative Tone         | 95 | R2D2, Rose Tico, Chopper                                                | Supreme Leader Snoke, The Grand Inquisitor, Darth Maul |  |
-| LOTR               |    0.72 | Accessibility of Language  | 87 | Samwise Gamgee, Merry Meriadoc Brandybuck, Bombur                       | Ungoliant, Morgoth Melkor, Sauron                      |  |
-| Marvel             |    0.76 | Grandiose Language         | 98 | Spiderman Peter Parker, Falcon Sam Wilson, Captain America Steve Rogers | Apocalypse En Sabah Nur, Red Skull, Kang The Conqueror |  |
-| Game of Thrones    |    0.61 | Self-Deprecation Level     | 81 | Podrick Payne, Hodor, Shaggydog                                         | Night King, Jaqen Hghar, Mad King Aerys Targaryen      |  |
-| Naruto             |    0.66 | Collaborative Tone         | 70 | Hinata Hyuga, Iruka Umino, Shizune                                      | Madara Uchiha, Orochimaru, Hagoromo Otsutsuki          |  |
-| Greek Mythology    |    0.11 | Mystical Gravitas          | 95 | Athena, Hercules Heracles, Penelope                                     | Erebus, Chaos, Tiresias                                |  |
-| Chinese Mythology  |    0.43 | Warmth and Approachability | 66 | Zhu Bajie, Li Kui, Lu Zhishen                                           | White Bone Demon, Gonggong, White Snake                |  |
-| Hindu Mythology    |    0.48 | Collaborative Tone         | 58 | Shatrughna, Lakshmana, Vibhishana                                       | Mahishasura, Kali, Ashwatthama                         |  |
-| Norse Mythology    |    0.31 | Dark Imagery               | 38 | Forseti, Sif, Hermod                                                    | Grendels Mother, Angrboda, Brynhild                    |  |
-| Egyptian Mythology |    0.09 | Dramatic Intensity         | 31 | Maat, Anubis, Hatshepsut                                                | Apep, Akhenaten, Serqet                                |  |
-| Shakespeare        |    0.25 | Confrontational Directness | 83 | Hermione, Cassio, Polonius                                              | Coriolanus, Titus Andronicus, Tamora                   |  |
+[[file:plots/post/plot_20260227_003135_9325966.png]]
 Median adj. R²: 0.54 (all), 0.69 (franchises), 0.28 (mythology)
 :end:
 
 The discovered features confirm and sharpen the indirect finding. For franchises, the top features are "Collaborative Tone" (LOTR, Marvel, Naruto, Hindu), "Grandiose Language" (Marvel, Naruto), "Dramatic Tone" (Harry Potter), and "Self-Deprecation Level" (Game of Thrones) --- warmth and approachability at the high end, theatrical menace at the low end. Samwise Gamgee, Spider-Man, and Hinata Hyuga score high; Ungoliant, Apocalypse, and Madara Uchiha score low. The discovered features cluster around collaborative, warm, self-deprecating, and concrete language at the high end, versus grandiose, threatening, dramatic, and dismissive language at the low end.
 
 Franchise fits are strong (median adj. R² = 0.69, range 0.61--0.76), comparable to the indirect PC1+PC2 regression (median 0.60). Mythology fits are weaker (median adj. R² = 0.28): the AA has low variance in mythology universes (they cluster near the low end of the axis), so there is less signal for the features to predict. Greek mythology is the worst case (adj. R² = 0.11), where the discovered features ("Mystical Gravitas," "Atmospheric Staging") correlate only weakly with the AA.
+
+* How Sensitive Are Results to the Question Battery?
+
+Each character vector is a mean activation over responses to 240 questions. How much does the choice of questions matter?
+
+We measure two things. Let $\bar{a}_i = \frac{1}{Q}\sum_{q=1}^Q a_{iq}$ be the full-battery mean activation and $\bar{a}_i^{(k)} = \frac{1}{k}\sum_{q \in S_k} a_{iq}$ the mean over a random $k$-question subset $S_k \subset \{1, \dots, Q\}$. Let $V = (v_1, \dots, v_5)$ be the top-5 PCs of the centered full-battery matrix.
+
+1. *Score stability:* Project both $\bar{a}_i$ and $\bar{a}_i^{(k)}$ onto $V$ (the same, fixed directions) to get score vectors $s_j = (\bar{a}_i \cdot v_j)_i$ and $s_j^{(k)} = (\bar{a}_i^{(k)} \cdot v_j)_i$. Report Pearson $r(s_j, s_j^{(k)})$. This asks: if you already have the PC directions, how well can you score characters with fewer questions?
+2. *Direction stability:* Fit PCA separately on the centered $\bar{a}_i^{(k)}$ matrix to get $V_k = (v_1^{(k)}, \dots)$. Report $|\cos(v_j, v_j^{(k)})| = |v_j \cdot v_j^{(k)}|$. This asks: can you recover the PC directions themselves from fewer questions?
+
+#+begin_src python :exports results
+import json
+
+with open('../results/question_subset_sweep.json') as f:
+    sweep = json.load(f)
+
+# Print key thresholds for prose reference
+for k in [1, 5, 10]:
+    meds = []
+    for udata in sweep.values():
+        for s in udata['sweeps']['PC1']:
+            if s['size'] == k:
+                meds.append(s['median'])
+    print(f"k={k}: median Pearson r = {np.median(meds):.4f}")
+#+end_src
+
+#+RESULTS:
+:results:
+k=1: median Pearson r = 0.9747
+k=5: median Pearson r = 0.9947
+k=10: median Pearson r = 0.9974
+:end:
+
+*Score stability* is high: even a single random question recovers character PC scores at median Pearson r > 0.95, and five questions reach r > 0.99. The question battery is highly redundant for scoring.
+
+*Direction stability* requires more questions, and varies by universe. For each subset size $k$, we average each character's per-question activations (in full 5120-dim space) over a random draw of $k$ questions, fit PCA on the result, and measure $|\cos(v_i, v_i^{(k)})|$ --- the absolute cosine between the $i$-th full-battery PC direction and the $i$-th subset PC direction:
+
+#+begin_src python :exports results
+import json as _json2
+
+with open('../results/direction_stability_sweep.json') as f:
+    dsweep = _json2.load(f)
+
+franchise_set = {'harry_potter', 'star_wars', 'marvel', 'game_of_thrones', 'lord_of_the_rings', 'naruto'}
+
+n_pcs_plot = 3
+fig, axes = plt.subplots(1, n_pcs_plot, figsize=(14, 5), sharey=True)
+
+for pc_i, ax in enumerate(axes):
+    pc_label = f'PC{pc_i + 1}'
+    for universe, udata in dsweep.items():
+        sizes = [s['size'] for s in udata['sweeps'][pc_label]]
+        medians = [s['median'] for s in udata['sweeps'][pc_label]]
+        is_franchise = universe in franchise_set
+        color = '#377eb8' if is_franchise else '#e41a1c'
+        alpha = 0.7 if is_franchise else 0.5
+        label = universe.replace('_', ' ').title() if pc_i == 0 else None
+        ax.plot(sizes, medians, 'o-', color=color, alpha=alpha, markersize=2, linewidth=1, label=label)
+
+    ax.set_xscale('log')
+    ax.set_xlabel('# questions in random subset')
+    if pc_i == 0:
+        ax.set_ylabel('|cos(full-battery PC, subset PC)|')
+    ax.set_ylim(0.4, 1.02)
+    ax.axhline(0.99, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
+    ax.axhline(0.95, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
+    ax.set_title(f'{pc_label} direction stability')
+
+from matplotlib.patches import Patch as Patch2
+axes[0].legend(fontsize=6, loc='lower right', ncol=2)
+fig.suptitle('Direction stability: how many questions to recover PC directions?\n(200 random draws per size, per universe)', fontsize=11)
+fig.tight_layout()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/post/plot_20260227_003141_1246180.png]]
+:end:
+
+Franchises recover PC1 with cosine > 0.99 from just 5 questions; mythology and Shakespeare need 20--50 questions to reach the same threshold. Greek mythology is the hardest case: PC1 direction cosine is only 0.61 at $k=1$ and reaches 0.93 at $k=120$. The gap between score stability and direction stability reflects the fact that scoring characters along a fixed direction only requires reducing noise in the mean, while recovering the direction itself requires the covariance structure to stabilize.
+
+But the subset sweep only tests random draws from the /same/ 240 questions --- all substantive, multi-sentence prompts about ethics, technology, and personal advice. A stronger test: do qualitatively different questions carry the same signal? We generate responses for 16 out-of-distribution prompts --- 8 degenerate ("Huh?", ".", "?", "hi", "ok", "what", "hmm", "tell me something") and 8 task-shaped ("Write a Python function to calculate the first 100 primes", "Explain how a refrigerator works", "Write a haiku about rain", etc.) --- and extract activations for all 1,268 characters. We report both score stability and direction stability.
+
+#+begin_src python :exports results
+import torch
+from pathlib import Path
+
+# Build character matrix from degenerate-question activations
+act_dir = Path('../outputs/degenerate_questions/activations')
+degen_names = []
+degen_vectors = []
+for f in sorted(act_dir.glob('*.pt')):
+    d = torch.load(f, weights_only=True, map_location='cpu')
+    vecs = torch.stack([v.squeeze(0).float() for v in d.values()])
+    degen_names.append(f.stem)
+    degen_vectors.append(vecs.mean(dim=0).numpy())
+degen_matrix = np.stack(degen_vectors)
+
+# Align with full-battery characters
+degen_name_to_idx = {n: i for i, n in enumerate(degen_names)}
+common_idx_full = [i for i, n in enumerate(char_names) if n in degen_name_to_idx]
+common_idx_degen = [degen_name_to_idx[char_names[i]] for i in common_idx_full]
+common_names = [char_names[i] for i in common_idx_full]
+
+full_c = (activation_matrix[common_idx_full] - role_mean)
+degen_c = (degen_matrix[common_idx_degen] - role_mean)
+
+# Per-universe: fit PCA on full-battery, project both, correlate
+from scipy.stats import pearsonr
+score_rows = []
+dir_rows = []
+for name, prefixes in ALL_UNIVERSES.items():
+    idx = [i for i, n in enumerate(common_names) if any(n.startswith(p) for p in prefixes)]
+    if len(idx) < 20:
+        continue
+    pca_full = SkPCA(n_components=3).fit(full_c[idx])
+    pca_degen = SkPCA(n_components=3).fit(degen_c[idx])
+    scores_full = pca_full.transform(full_c[idx])
+    scores_degen = pca_full.transform(degen_c[idx])
+    srow = {'Universe': name, 'n': len(idx)}
+    drow = {'Universe': name}
+    for pc in range(3):
+        r, _ = pearsonr(scores_full[:, pc], scores_degen[:, pc])
+        srow[f'PC{pc+1}'] = round(r, 3)
+        cos = abs(np.dot(pca_full.components_[pc], pca_degen.components_[pc]))
+        drow[f'PC{pc+1}'] = round(cos, 2)
+    score_rows.append(srow)
+    dir_rows.append(drow)
+
+import matplotlib.pyplot as plt
+
+# Convert to arrays for plotting
+score_df = pd.DataFrame(score_rows).set_index('Universe')
+dir_df = pd.DataFrame(dir_rows).set_index('Universe')
+franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5))
+
+# Left: Score stability heatmap
+score_mat = score_df[['PC1', 'PC2', 'PC3']].values
+im1 = ax1.imshow(score_mat, cmap='RdYlGn', vmin=0.9, vmax=1.0, aspect='auto')
+ax1.set_xticks(range(3)); ax1.set_xticklabels(['PC1', 'PC2', 'PC3'])
+ax1.set_yticks(range(len(score_df)))
+ax1.set_yticklabels(score_df.index, fontsize=8)
+for i in range(len(score_df)):
+    for j in range(3):
+        ax1.text(j, i, f"{score_mat[i,j]:.3f}", ha='center', va='center', fontsize=7)
+ax1.set_title('Score stability (Pearson r)\nOOD prompts → full-battery PC directions', fontsize=10)
+fig.colorbar(im1, ax=ax1, shrink=0.6)
+
+# Right: Direction stability heatmap
+dir_mat = dir_df[['PC1', 'PC2', 'PC3']].values
+im2 = ax2.imshow(dir_mat, cmap='RdYlGn', vmin=0, vmax=1.0, aspect='auto')
+ax2.set_xticks(range(3)); ax2.set_xticklabels(['PC1', 'PC2', 'PC3'])
+ax2.set_yticks(range(len(dir_df)))
+ax2.set_yticklabels(dir_df.index, fontsize=8)
+for i in range(len(dir_df)):
+    for j in range(3):
+        c = 'white' if dir_mat[i,j] < 0.4 else 'black'
+        ax2.text(j, i, f"{dir_mat[i,j]:.2f}", ha='center', va='center', fontsize=7, color=c)
+ax2.set_title('Direction stability (|cosine|)\nOOD PCA vs full-battery PCA', fontsize=10)
+fig.colorbar(im2, ax=ax2, shrink=0.6)
+
+fig.suptitle('OOD prompts: scores are stable (r > 0.94), but PC directions diverge for mythology', fontsize=11, y=1.02)
+fig.tight_layout()
+plt.show()
+
+print(f"Score stability: min r = {score_mat.min():.3f}")
+print(f"Direction stability: franchise PC1 range = {dir_mat[:6,0].min():.2f}--{dir_mat[:6,0].max():.2f}")
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/post/plot_20260227_003151_9917102.png]]
+Score stability: min r = 0.948
+Direction stability: franchise PC1 range = 0.91--0.93
+:end:
+
+*Score stability* remains high even with OOD questions. Sixteen out-of-distribution prompts --- including single-character inputs like "." and "?" --- recover character PC scores at Pearson r > 0.94 across all universes and PCs 1--3. If you already have the PC directions, you can score characters with almost any prompts.
+
+*Direction stability* is another matter. Let $\bar{a}_i^{\text{ood}} = \frac{1}{16}\sum_{q \in S_{\text{ood}}} a_{iq}$ be the mean activation over the 16 OOD prompts, and $V^{\text{ood}}$ the PCA directions fit on $\{\bar{a}_i^{\text{ood}} : i \in \mathcal{U}\}$. The resulting PC1 directions $|v_1^{\mathcal{U}} \cdot v_1^{\text{ood}}|$ align well with the full-battery PC1 for franchises (cosine 0.89--0.93) but poorly for Greek mythology (0.55), Shakespeare (0.45), and Chinese mythology PC2--3 (0.12). This is not a sample size issue: 16 random questions from the /same/ 240-question battery give PC1 direction cosines > 0.99 everywhere (even 5 give > 0.96). The direction instability comes from the questions being qualitatively different --- degenerate and task prompts elicit different variance structure in mythology and Shakespeare, even though character scores along the full-battery directions are preserved.
+
+#+begin_src python :exports results
+# Judge scoring comparison: degenerate vs original battery
+import json
+from pathlib import Path as JPath
+
+degen_scores_dir = JPath('../outputs/degenerate_questions/scores')
+orig_scores_dir = JPath('../outputs/qwen3-32b_20260211_002840/scores')
+
+degen_all, orig_all = [], []
+degen_task, degen_degen = [], []
+for f in sorted(degen_scores_dir.glob('*.json')):
+    with open(f) as fh:
+        scores = json.load(fh)
+    for key, val in scores.items():
+        q_idx = int(key.split('_')[-1].replace('q', ''))
+        degen_all.append(val)
+        if q_idx < 8:
+            degen_degen.append(val)
+        else:
+            degen_task.append(val)
+    orig_f = orig_scores_dir / f'{f.stem}.json'
+    if orig_f.exists():
+        with open(orig_f) as fh:
+            orig_all.extend(json.load(fh).values())
+
+rows = []
+for label, arr in [('Original battery (240Q)', orig_all),
+                    ('Degenerate prompts (8Q)', degen_degen),
+                    ('Task prompts (8Q)', degen_task)]:
+    n = len(arr)
+    pct3 = sum(1 for s in arr if s == 3) / n
+    mean = sum(arr) / n
+    rows.append({'Battery': label, 'Mean score': f'{mean:.2f}', '% score=3': f'{100*pct3:.1f}%', 'n': n})
+print(pd.DataFrame(rows).set_index('Battery'))
+#+end_src
+
+#+RESULTS:
+:results:
+| Battery                 | Mean score | % score=3 |       n |
+|-------------------------+------------+-----------+---------|
+| Original battery (240Q) |       2.97 |     98.3% | 1615183 |
+| Degenerate prompts (8Q) |       2.98 |     99.1% |   53836 |
+| Task prompts (8Q)       |       2.67 |     79.1% |   53840 |
+:end:
+
+Note that the activation analysis above used all 1,346 characters with no judge-based filtering. The full-battery pipeline scores each response with an LLM judge and filters out poor role-players before building the activation matrix. Degenerate prompts score /higher/ on role adherence (99.1% at score 3) than the original 240-question battery (98.3%). Task prompts are where scores drop (79.1% at score 3) --- characters break character when asked to write haiku or Python, not when given "?".
+
+In summary: score stability is high --- given pre-computed directions, almost any prompts suffice to score characters. Direction stability depends on the question type: within the same battery, even 5 random questions recover directions well, but qualitatively different prompts (degenerate, task-shaped) yield different PC directions for mythology and Shakespeare.
 
 * Conclusion
 
@@ -1744,58 +1591,47 @@ To render the post from a fresh clone: run =git submodule update --init=, then =
 
 Residual PCs are within-universe PCA on activations after projecting out the role space. The feature labels overlap with the within-universe and role PC labels (formality, warmth) for modern franchises, but are noisier and more heterogeneous for mythology and Shakespeare. Median adj. R² = 0.43, with a third of entries (8/24) below 0.3.
 
-#+begin_src python
-for mode in ['residual']:
-    mode_data = {k: v for k, v in all_reg.items() if v['mode'] == mode}
-    for pc_num in [1, 2]:
-        rows = []
-        for key, data in mode_data.items():
-            if data['pc'] != pc_num:
-                continue
-            rows.append({
-                'Universe': data['universe'],
-                'Adj. R²': f"{data['adj_r_squared']:.2f}",
-                'Top feature': best_feature(data),
-                'High end': ', '.join(data['high_chars'][:3]),
-                'Low end': ', '.join(data['low_chars'][:3]),
-            })
-        if rows:
-            df = pd.DataFrame(rows).set_index('Universe')
-            print(f"\n=== {mode} PC{pc_num} ===")
-            print(df)
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+
+franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5), sharey=True)
+
+for pc_num, ax in [(1, ax1), (2, ax2)]:
+    mode_data = {k: v for k, v in all_reg.items() if v['mode'] == 'residual'}
+    rows = []
+    for k, data in mode_data.items():
+        if data['pc'] != pc_num:
+            continue
+        rows.append({'Universe': data['universe'], 'r2': data['adj_r_squared'],
+                     'feature': best_feature(data)})
+    rows.sort(key=lambda x: x['r2'], reverse=True)
+    names = [r['Universe'] for r in rows]
+    r2s = [r['r2'] for r in rows]
+    feats = [r['feature'] for r in rows]
+    colors = ['#377eb8' if n in franchise_set else '#e41a1c' for n in names]
+    ax.barh(range(len(names)), r2s, color=colors)
+    ax.set_yticks(range(len(names)))
+    ax.set_yticklabels(names, fontsize=8)
+    ax.set_xlabel('Adj. R²')
+    ax.set_title(f'Residual PC{pc_num}', fontsize=10)
+    ax.set_xlim(-0.2, 1.0)
+    ax.axvline(0, color='gray', linewidth=0.5)
+    ax.invert_yaxis()
+    for i, (v, feat) in enumerate(zip(r2s, feats)):
+        ax.text(max(v, 0) + 0.02, i, f"{v:.2f} {feat}", va='center', fontsize=6.5)
+
+from matplotlib.patches import Patch
+ax1.legend(handles=[Patch(facecolor='#377eb8', label='Franchise'),
+                    Patch(facecolor='#e41a1c', label='Mythology/Shakespeare')],
+           loc='lower right', fontsize=7)
+fig.suptitle('Residual PC feature regressions (median adj. R² = 0.43)', fontsize=11)
+fig.tight_layout()
+plt.show()
 #+end_src
 
 #+RESULTS:
 :results:
-=== residual PC1 ===
-| Universe           | Adj. R² | Top feature               | High end                                                        | Low end                                           |  |
-|--------------------+---------+---------------------------+-----------------------------------------------------------------+---------------------------------------------------+----|
-| Harry Potter       |    0.69 | Calculated Precision      | Ron Weasley, Fred Weasley, Percy Weasley                        | Tom Riddle, The Bloody Baron, Gellert Grindelwald |  |
-| Star Wars          |    0.45 | Philosophical Abstraction | Darth Vader Anakin Skywalker, Obiwan Kenobi, Mace Windu         | Han Solo, Hondo Ohnaka, Greef Karga               |  |
-| LOTR               |    0.75 | Formal Register           | Fredegar Bolger Fatty, Bombur, Bofur                            | Gilgalad, Elendil, Denethor                       |  |
-| Marvel             |    0.48 | Mythological Grandeur     | Cyclops Scott Summers, Spiderman Peter Parker, Beast Hank Mccoy | Odin, Hela, Groot                                 |  |
-| Game of Thrones    |    0.24 | Self-Referential Focus    | Tormund Giantsbane, Gendry, Podrick Payne                       | Mad King Aerys Targaryen, Viserion, Rhaegal       |  |
-| Naruto             |    0.79 | Casual Expression Style   | Naruto Uzumaki, Konohamaru Sarutobi, Mito Uzumaki               | Madara Uchiha, Ashura Otsutsuki, Hamura Otsutsuki |  |
-| Greek Mythology    |    0.63 | Cosmic Grandiosity        | Agamemnon, Oedipus, Clytemnestra                                | Uranus, Erebus, Gaia                              |  |
-| Chinese Mythology  |    0.70 | Mystical Imagery          | Guan Yu, Liu Bei, Lu Zhishen                                    | Phoenix, Change, Zhu Rong                         |  |
-| Hindu Mythology    |    0.66 | Personal Vulnerability    | Yudhishthira, Lakshmana, Abhimanyu                              | Agni, Ganga, Surya                                |  |
-| Norse Mythology    |    0.24 | Philosophical Abstraction | Norns, Verdandi, Ratatoskr                                      | Erik The Red, Ragnar Lothbrok, Ivar The Boneless  |  |
-| Egyptian Mythology |    0.13 | Physical Manifestation    | Apep, Bes, Sekhmet                                              | Tutankhamun, Anubis, Ramesses Ii                  |  |
-| Shakespeare        |    0.07 | Rambling Tendency         | Julius Caesar, Coriolanus, Brutus                               | Dogberry, Sir Toby Belch, Feste                   |  |
-=== residual PC2 ===
-| Universe           | Adj. R² | Top feature                   | High end                                               | Low end                                                             |  |
-|--------------------+---------+-------------------------------+--------------------------------------------------------+---------------------------------------------------------------------+----|
-| Harry Potter       |    0.72 | Openness to Others            | Ollivander, Professor Flitwick, Albus Dumbledore       | Vernon Dursley, Dudley Dursley, Kreacher                            |  |
-| Star Wars          |    0.42 | Sound Integration             | R2D2, Chewbacca, C3Po                                  | Grand Admiral Thrawn, Wilhuff Tarkin, General Hux                   |  |
-| LOTR               |    0.78 | Conversational Warmth         | Bilbo Baggins, Frodo Baggins, Pippin Peregrin Took     | Azog The Defiler, Ungoliant, Gothmog                                |  |
-| Marvel             |    0.38 | Formal Language Register      | Professor X Charles Xavier, Jean Grey, Mister Sinister | Iron Man Tony Stark, Hawkeye Clint Barton, War Machine James Rhodes |  |
-| Game of Thrones    |    0.38 | Self-Reference Style          | Hodor, Viserion, Melisandre                            | Tywin Lannister, Margaery Tyrell, Myrcella Baratheon                |  |
-| Naruto             |    0.19 | Aggressive Language Intensity | Hidan, Deidara, Suigetsu Hozuki                        | Rock Lee, Tobirama Senju, Hiruzen Sarutobi                          |  |
-| Greek Mythology    |    0.03 | Emotional Intensity           | Diomedes, Patroclus, Andromache                        | Minotaur, Daedalus, Icarus                                          |  |
-| Chinese Mythology  |    0.28 | Strategic Calculation         | Zhu Bajie, Sha Wujing, Red Boy                         | Cao Cao, Liu Bei, Zhuge Liang                                       |  |
-| Hindu Mythology    |    0.41 | Compassionate Address         | Hiranyakashipu, Shakuni, Duryodhana                    | Krishna, Vishnu, Arjuna                                             |  |
-| Norse Mythology    |    0.45 | Vengeful Focus                | Grendels Mother, Surtr, Fenrir                         | Leif Erikson, Freyr, Ragnar Lothbrok                                |  |
-| Egyptian Mythology |   -0.15 | Ritualistic Formality         | Cleopatra, Akhenaten, Nefertiti                        | Anubis, Ammit, Maat                                                 |  |
-| Shakespeare        |    0.44 | Formal Register               | Hippolyta, Miranda, Lavinia                            | Dogberry, Malvolio, Hotspur                                         |    |
+[[file:plots/post/plot_20260227_003153_5890594.png]]
 :end:
 
