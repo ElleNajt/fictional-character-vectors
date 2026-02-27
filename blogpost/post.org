@@ -197,7 +197,7 @@ plt.show()
 
 3. *What do the top PCs encode, and where does the assistant axis live?*
    - LLM feature labels identify within-universe PC1 as formality/register for modern franchises (adj. R² = 0.72--0.88) and PC2 as warmth vs. aggression.
-   - The assistant axis is geometrically diffuse: cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3). But rank correlations between PC scores and assistant axis scores are substantial --- for franchises, PC1 scores correlate with the assistant axis (HP 0.78, Naruto 0.68, Marvel 0.63); for mythology, the correlation shifts to PC2 or PC3 (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79). PC1 and PC2 are rank-uncorrelated with each other but both predict the AA: it is a blend of formality and warmth, not either alone (combined adj. R² = 0.60). Running feature discovery directly on the AA confirms this --- the top features are prosociality (collaborative tone, warmth, self-deprecation) versus grandiose/threatening behavior (franchise median adj. R² = 0.66).
+   - The assistant axis is geometrically diffuse: cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3). But rank correlations between PC scores and assistant axis scores are substantial --- for franchises, PC1 scores correlate with the assistant axis (HP 0.78, Naruto 0.68, Marvel 0.63); for mythology, the correlation shifts to PC2 or PC3 (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79). PC1 and PC2 are rank-uncorrelated with each other but both predict the AA: it is a blend of formality and warmth, not either alone (combined adj. R² = 0.60). Running feature discovery directly on the AA confirms this --- the top features are prosociality (collaborative tone, warmth, self-deprecation) versus grandiose/threatening behavior (franchise median adj. R² = 0.69).
    - Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (Hindu/Shakespeare ~0.05).
 
 #+begin_src python :exports results
@@ -556,9 +556,6 @@ print(f"\n(median correlation across 12 universes, 200 random draws per size)")
 |         120 | 0.9999 | 0.9998 | 0.9998 | 0.9998 | 0.9998 |  |
 (median correlation across 12 universes, 200 random draws per size)
 :end:
-
-#+ATTR_HTML: :width 700
-[[file:../results/question_subset_sweep.png]]
 
 Even a single random question recovers character rankings at median r > 0.95 (across universes) --- and this holds for PCs 1 through 5, not just the dominant direction. Five questions get to median r > 0.99 for all PCs. The question battery is massively redundant: the persona signal is spread nearly uniformly across all 240 questions.
 
