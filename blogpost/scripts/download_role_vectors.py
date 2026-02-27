@@ -109,6 +109,23 @@ def fit_pca_on_roles(vectors: dict, layer: int = 32, n_components: int = None):
     return pca, role_names, transformed
 
 
+def download_assistant_axis(output_dir: Path, model: str = "qwen-3-32b"):
+    """Download the assistant axis vector from HuggingFace."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    hf_path = f"{model}/assistant_axis.pt"
+    local_path = hf_hub_download(
+        repo_id="lu-christina/assistant-axis-vectors",
+        filename=hf_path,
+        repo_type="dataset",
+    )
+    dest = output_dir / "assistant_axis.pt"
+    import shutil
+
+    shutil.copy2(local_path, dest)
+    print(f"Saved assistant axis to {dest}")
+    return dest
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=Path("data/role_vectors"))
@@ -118,6 +135,9 @@ def main():
 
     print(f"Downloading role vectors for {args.model}...")
     vectors = download_role_vectors(args.output, args.model)
+
+    print(f"\nDownloading assistant axis...")
+    download_assistant_axis(args.output, args.model)
 
     print(f"\nFitting PCA on layer {args.layer}...")
     pca, role_names, transformed = fit_pca_on_roles(vectors, args.layer)

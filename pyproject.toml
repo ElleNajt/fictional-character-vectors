@@ -25,6 +25,10 @@ dependencies = [
     # Generation (from assistant-axis)
     "vllm",
     "jsonlines",
+    
+    # LLM feature coding (batch API)
+    "requests",
+    "python-dotenv",
 ]
 
 [project.optional-dependencies]
