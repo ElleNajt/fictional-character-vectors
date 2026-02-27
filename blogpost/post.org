@@ -340,7 +340,7 @@ plt.show()
 [[file:plots/post/plot_20260226_151748_9462226.png]]
 :end:
 
-Projecting all 1,268 characters onto the assistant axis, nearly all score well below zero (mean = -18.5, std = 7.0) --- fictional characters are much less assistant-like than Lu et al.'s generic roles.
+Projecting all 1,268 characters onto the assistant axis, nearly all score well below zero (mean = -18.5, std = 7.0) --- fictional characters are much less assistant-like than Lu et al.'s generic roles. Only Hermione Granger lands near the assistant baseline.
 
 #+begin_src python :exports results
 import torch
