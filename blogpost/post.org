@@ -120,7 +120,8 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260226_115907_4567997.png]]
+
+[[file:plots/post/plot_20260226_151738_507425.png]]
 :end:
 
 1. *How sensitive are results to the question battery?*
@@ -162,6 +163,11 @@ fig.tight_layout()
 plt.show()
 #+end_src
 
+#+RESULTS:
+:results:
+[[file:plots/post/plot_20260226_151738_4772205.png]]
+:end:
+
 2. *How much of persona space do 275 generic roles cover?*
    - 75% of fictional character variance overall. The fictional character space is low-dimensional (~40 PCs for 90%), so this is less than a random sample of 275 fictional characters (95%) but far more than a random 275-dim subspace (5%).
    - The relationship is asymmetric: 1,268 fictional characters capture 92% of role variance, but roles capture only 75% of fiction. Of the 25% roles miss, most is universe separation; only ~9% is within-universe structure.
@@ -186,7 +192,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260226_115634_705238.png]]
+[[file:plots/post/plot_20260226_151740_5055329.png]]
 :end:
 
 3. *What do the top PCs encode, and where does the assistant axis live?*
@@ -240,6 +246,11 @@ fig.tight_layout()
 plt.show()
 #+end_src
 
+#+RESULTS:
+:results:
+[[file:plots/post/plot_20260226_151741_6452045.png]]
+:end:
+
 #+begin_src python :exports results
 # --- Plot 2: AA coverage by top-k within-universe PCs ---
 max_k = 10
@@ -257,8 +268,8 @@ for name, pxs in INTRO_UNIVERSES.items():
 # Role PCs for comparison
 role_cosines = role_pca.components_ @ aa_norm
 role_cum = np.cumsum(role_cosines**2)
-ax.plot(range(1, max_k+1), role_cum[:max_k], 'o-', color='black', label='Role PCs',
-        markersize=4, linewidth=2, linestyle='--')
+ax.plot(range(1, max_k+1), role_cum[:max_k], 'o--', color='black', label='Role PCs',
+        markersize=4, linewidth=2)
 
 ax.set_xlabel('Number of PCs (k)')
 ax.set_ylabel('Fraction of assistant axis in span{PC1...PCk}')
@@ -273,7 +284,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260226_115955_838952.png]]
+[[file:plots/post/plot_20260226_151743_8232591.png]]
 :end:
 
 #+begin_src python :exports results
@@ -325,7 +336,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260226_115635_3074817.png]]
+[[file:plots/post/plot_20260226_151748_9462226.png]]
 :end:
 
 Who are the most and least assistant-like fictional characters? Projecting all 1,268 characters onto the assistant axis, nearly all score well below zero (mean = -18.5, std = 7.0) --- fictional characters are much less assistant-like than Lu et al.'s generic roles. Only Hermione Granger lands near the assistant baseline; the bottom is dominated by primordial monsters (Ungoliant, Grendel) and silent embodiments of evil.
@@ -1759,34 +1770,34 @@ for mode in ['residual']:
 #+RESULTS:
 :results:
 === residual PC1 ===
-| Universe           | Adj. R² | Top feature               | High end                                                        | Low end                                           |  |
+| Universe           | Adj. R² | Top feature               | High end                                                        | Low end                                           |  |
 |--------------------+---------+---------------------------+-----------------------------------------------------------------+---------------------------------------------------+----|
-| Harry Potter       |    0.69 | Calculated Precision      | Ron Weasley, Fred Weasley, Percy Weasley                        | Tom Riddle, The Bloody Baron, Gellert Grindelwald |  |
-| Star Wars          |    0.45 | Philosophical Abstraction | Darth Vader Anakin Skywalker, Obiwan Kenobi, Mace Windu         | Han Solo, Hondo Ohnaka, Greef Karga               |  |
-| LOTR               |    0.75 | Formal Register           | Fredegar Bolger Fatty, Bombur, Bofur                            | Gilgalad, Elendil, Denethor                       |  |
-| Marvel             |    0.48 | Mythological Grandeur     | Cyclops Scott Summers, Spiderman Peter Parker, Beast Hank Mccoy | Odin, Hela, Groot                                 |  |
-| Game of Thrones    |    0.24 | Self-Referential Focus    | Tormund Giantsbane, Gendry, Podrick Payne                       | Mad King Aerys Targaryen, Viserion, Rhaegal       |  |
-| Naruto             |    0.79 | Casual Expression Style   | Naruto Uzumaki, Konohamaru Sarutobi, Mito Uzumaki               | Madara Uchiha, Ashura Otsutsuki, Hamura Otsutsuki |  |
-| Greek Mythology    |    0.63 | Cosmic Grandiosity        | Agamemnon, Oedipus, Clytemnestra                                | Uranus, Erebus, Gaia                              |  |
-| Chinese Mythology  |    0.70 | Mystical Imagery          | Guan Yu, Liu Bei, Lu Zhishen                                    | Phoenix, Change, Zhu Rong                         |  |
-| Hindu Mythology    |    0.66 | Personal Vulnerability    | Yudhishthira, Lakshmana, Abhimanyu                              | Agni, Ganga, Surya                                |  |
-| Norse Mythology    |    0.24 | Philosophical Abstraction | Norns, Verdandi, Ratatoskr                                      | Erik The Red, Ragnar Lothbrok, Ivar The Boneless  |  |
-| Egyptian Mythology |    0.13 | Physical Manifestation    | Apep, Bes, Sekhmet                                              | Tutankhamun, Anubis, Ramesses Ii                  |  |
-| Shakespeare        |    0.07 | Rambling Tendency         | Julius Caesar, Coriolanus, Brutus                               | Dogberry, Sir Toby Belch, Feste                   |  |
+| Harry Potter       |    0.69 | Calculated Precision      | Ron Weasley, Fred Weasley, Percy Weasley                        | Tom Riddle, The Bloody Baron, Gellert Grindelwald |  |
+| Star Wars          |    0.45 | Philosophical Abstraction | Darth Vader Anakin Skywalker, Obiwan Kenobi, Mace Windu         | Han Solo, Hondo Ohnaka, Greef Karga               |  |
+| LOTR               |    0.75 | Formal Register           | Fredegar Bolger Fatty, Bombur, Bofur                            | Gilgalad, Elendil, Denethor                       |  |
+| Marvel             |    0.48 | Mythological Grandeur     | Cyclops Scott Summers, Spiderman Peter Parker, Beast Hank Mccoy | Odin, Hela, Groot                                 |  |
+| Game of Thrones    |    0.24 | Self-Referential Focus    | Tormund Giantsbane, Gendry, Podrick Payne                       | Mad King Aerys Targaryen, Viserion, Rhaegal       |  |
+| Naruto             |    0.79 | Casual Expression Style   | Naruto Uzumaki, Konohamaru Sarutobi, Mito Uzumaki               | Madara Uchiha, Ashura Otsutsuki, Hamura Otsutsuki |  |
+| Greek Mythology    |    0.63 | Cosmic Grandiosity        | Agamemnon, Oedipus, Clytemnestra                                | Uranus, Erebus, Gaia                              |  |
+| Chinese Mythology  |    0.70 | Mystical Imagery          | Guan Yu, Liu Bei, Lu Zhishen                                    | Phoenix, Change, Zhu Rong                         |  |
+| Hindu Mythology    |    0.66 | Personal Vulnerability    | Yudhishthira, Lakshmana, Abhimanyu                              | Agni, Ganga, Surya                                |  |
+| Norse Mythology    |    0.24 | Philosophical Abstraction | Norns, Verdandi, Ratatoskr                                      | Erik The Red, Ragnar Lothbrok, Ivar The Boneless  |  |
+| Egyptian Mythology |    0.13 | Physical Manifestation    | Apep, Bes, Sekhmet                                              | Tutankhamun, Anubis, Ramesses Ii                  |  |
+| Shakespeare        |    0.07 | Rambling Tendency         | Julius Caesar, Coriolanus, Brutus                               | Dogberry, Sir Toby Belch, Feste                   |  |
 === residual PC2 ===
-| Universe           | Adj. R² | Top feature                   | High end                                               | Low end                                                             |  |
+| Universe           | Adj. R² | Top feature                   | High end                                               | Low end                                                             |  |
 |--------------------+---------+-------------------------------+--------------------------------------------------------+---------------------------------------------------------------------+----|
-| Harry Potter       |    0.72 | Openness to Others            | Ollivander, Professor Flitwick, Albus Dumbledore       | Vernon Dursley, Dudley Dursley, Kreacher                            |  |
-| Star Wars          |    0.42 | Sound Integration             | R2D2, Chewbacca, C3Po                                  | Grand Admiral Thrawn, Wilhuff Tarkin, General Hux                   |  |
-| LOTR               |    0.78 | Conversational Warmth         | Bilbo Baggins, Frodo Baggins, Pippin Peregrin Took     | Azog The Defiler, Ungoliant, Gothmog                                |  |
-| Marvel             |    0.38 | Formal Language Register      | Professor X Charles Xavier, Jean Grey, Mister Sinister | Iron Man Tony Stark, Hawkeye Clint Barton, War Machine James Rhodes |  |
-| Game of Thrones    |    0.38 | Self-Reference Style          | Hodor, Viserion, Melisandre                            | Tywin Lannister, Margaery Tyrell, Myrcella Baratheon                |  |
-| Naruto             |    0.19 | Aggressive Language Intensity | Hidan, Deidara, Suigetsu Hozuki                        | Rock Lee, Tobirama Senju, Hiruzen Sarutobi                          |  |
-| Greek Mythology    |    0.03 | Emotional Intensity           | Diomedes, Patroclus, Andromache                        | Minotaur, Daedalus, Icarus                                          |  |
-| Chinese Mythology  |    0.28 | Strategic Calculation         | Zhu Bajie, Sha Wujing, Red Boy                         | Cao Cao, Liu Bei, Zhuge Liang                                       |  |
-| Hindu Mythology    |    0.41 | Compassionate Address         | Hiranyakashipu, Shakuni, Duryodhana                    | Krishna, Vishnu, Arjuna                                             |  |
-| Norse Mythology    |    0.45 | Vengeful Focus                | Grendels Mother, Surtr, Fenrir                         | Leif Erikson, Freyr, Ragnar Lothbrok                                |  |
-| Egyptian Mythology |   -0.15 | Ritualistic Formality         | Cleopatra, Akhenaten, Nefertiti                        | Anubis, Ammit, Maat                                                 |  |
+| Harry Potter       |    0.72 | Openness to Others            | Ollivander, Professor Flitwick, Albus Dumbledore       | Vernon Dursley, Dudley Dursley, Kreacher                            |  |
+| Star Wars          |    0.42 | Sound Integration             | R2D2, Chewbacca, C3Po                                  | Grand Admiral Thrawn, Wilhuff Tarkin, General Hux                   |  |
+| LOTR               |    0.78 | Conversational Warmth         | Bilbo Baggins, Frodo Baggins, Pippin Peregrin Took     | Azog The Defiler, Ungoliant, Gothmog                                |  |
+| Marvel             |    0.38 | Formal Language Register      | Professor X Charles Xavier, Jean Grey, Mister Sinister | Iron Man Tony Stark, Hawkeye Clint Barton, War Machine James Rhodes |  |
+| Game of Thrones    |    0.38 | Self-Reference Style          | Hodor, Viserion, Melisandre                            | Tywin Lannister, Margaery Tyrell, Myrcella Baratheon                |  |
+| Naruto             |    0.19 | Aggressive Language Intensity | Hidan, Deidara, Suigetsu Hozuki                        | Rock Lee, Tobirama Senju, Hiruzen Sarutobi                          |  |
+| Greek Mythology    |    0.03 | Emotional Intensity           | Diomedes, Patroclus, Andromache                        | Minotaur, Daedalus, Icarus                                          |  |
+| Chinese Mythology  |    0.28 | Strategic Calculation         | Zhu Bajie, Sha Wujing, Red Boy                         | Cao Cao, Liu Bei, Zhuge Liang                                       |  |
+| Hindu Mythology    |    0.41 | Compassionate Address         | Hiranyakashipu, Shakuni, Duryodhana                    | Krishna, Vishnu, Arjuna                                             |  |
+| Norse Mythology    |    0.45 | Vengeful Focus                | Grendels Mother, Surtr, Fenrir                         | Leif Erikson, Freyr, Ragnar Lothbrok                                |  |
+| Egyptian Mythology |   -0.15 | Ritualistic Formality         | Cleopatra, Akhenaten, Nefertiti                        | Anubis, Ammit, Maat                                                 |  |
 | Shakespeare        |    0.44 | Formal Register               | Hippolyta, Miranda, Lavinia                            | Dogberry, Malvolio, Hotspur                                         |    |
 :end:
 
