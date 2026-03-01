@@ -135,7 +135,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_201835_5438107.png]]
+[[file:plots/MonitorAxis/plot_20260228_211331_4423161.png]]
 :end:
 
 * Who scores high on the monitor axis?
@@ -184,7 +184,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_201836_7907820.png]]
+[[file:plots/MonitorAxis/plot_20260228_211332_5948599.png]]
 :end:
 
 * Rank correlation: assistant vs monitor vs paranoid
@@ -230,7 +230,7 @@ Spearman rank correlations (all 1268 characters):
 Assistant vs Monitor:  0.679
 Assistant vs Paranoid: 0.701
 Monitor vs Paranoid:   0.998
-[[file:plots/MonitorAxis/plot_20260228_201836_856550.png]]
+[[file:plots/MonitorAxis/plot_20260228_211332_47800.png]]
 :end:
 
 * Per-universe breakdown
@@ -273,7 +273,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_201836_2353459.png]]
+[[file:plots/MonitorAxis/plot_20260228_211332_4944291.png]]
 :end:
 
 * Within-universe spread on the monitor axis
@@ -331,7 +331,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_201837_5134545.png]]
+[[file:plots/MonitorAxis/plot_20260228_211333_2650777.png]]
 :end:
 
 #+begin_src python :exports results
@@ -547,7 +547,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_201837_1266484.png]]
+[[file:plots/MonitorAxis/plot_20260228_211333_3316514.png]]
 :end:
 
 * How do the axes decompose into role PCs?
@@ -585,7 +585,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_201837_1691467.png]]
+[[file:plots/MonitorAxis/plot_20260228_211334_7641941.png]]
 :end:
 
 #+begin_src python :exports results
@@ -733,7 +733,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_201838_1171116.png]]
+[[file:plots/MonitorAxis/plot_20260228_211334_6900437.png]]
 :end:
 
 #+begin_src python :exports results
@@ -898,7 +898,38 @@ Difference:          +0.142
 
 The overall projection level is essentially identical for vulnerable and clean programs (54.68 vs 54.54). The monitor axis does not distinguish dangerous code from safe code at any level — neither within programs (line-level) nor between programs (program-level).
 
-The negative delta (-5.36) is explained by a line-length confound: vulnerable lines are longer (11.7 tokens/line vs 7.4 for safe lines), and the monitor axis projection decreases with line length regardless of vulnerability status.
+We check robustness to aggregation method: mean projection per line, max projection per line, and sum (total projection mass).
+
+#+begin_src python
+from statistics import mean as smean
+
+# Compare aggregation methods
+for metric_name, metric_fn in [
+    ('mean', lambda s: s['mean_monitor']),
+    ('max',  lambda s: s['max_monitor']),
+    ('sum',  lambda s: s['mean_monitor'] * s['n_tokens']),
+]:
+    prog_deltas = []
+    for r in vuln_results:
+        vuln_set = set(r['ground_truth_lines'])
+        v = [metric_fn(stats) for ln, stats in r['line_stats'].items() if int(ln) in vuln_set]
+        s = [metric_fn(stats) for ln, stats in r['line_stats'].items() if int(ln) not in vuln_set]
+        if v and s:
+            prog_deltas.append(smean(v) - smean(s))
+    pos = sum(1 for d in prog_deltas if d > 0)
+    print(f"{metric_name:>4s}: delta={smean(prog_deltas):+8.3f}  positive={pos}/{len(prog_deltas)}")
+#+end_src
+
+#+RESULTS:
+:results:
+mean: delta=  -5.363  positive=19/150
+max: delta=  -2.917  positive=38/150
+sum: delta=+223.903  positive=108/150
+:end:
+
+Sum flips positive because vulnerable lines are longer and accumulate more projection mass — but that measures line length, not vulnerability. Mean and max both show no signal.
+
+The mean-per-token projection also varies with line length (longer lines project lower), which is a confound:
 
 #+begin_src python
 # Line-length confound: projection drops with token count
@@ -912,7 +943,6 @@ for nt, proj in all_proj_ntok:
     b = min(nt // 5 * 5, 25)
     bins.setdefault(b, []).append(proj)
 
-# Also show vuln vs safe token counts
 vuln_ntokens = []
 safe_ntokens = []
 for r in castle_results:
@@ -925,7 +955,7 @@ for r in castle_results:
         else:
             safe_ntokens.append(stats['n_tokens'])
 
-print("Projection by tokens/line:")
+print("Mean projection by tokens/line:")
 for b in sorted(bins.keys()):
     vals = bins[b]
     print(f"  {b:2d}-{b+4:2d} tokens: {sum(vals)/len(vals):+7.3f}  (n={len(vals)})")
@@ -934,7 +964,7 @@ print(f"\nMean tokens/line: vuln={sum(vuln_ntokens)/len(vuln_ntokens):.1f}, safe
 
 #+RESULTS:
 :results:
-Projection by tokens/line:
+Mean projection by tokens/line:
 0- 4 tokens: +59.555  (n=2374)
 5- 9 tokens: +52.965  (n=3838)
 10-14 tokens: +49.845  (n=1340)
