@@ -768,7 +768,7 @@ Shakespeare         : Energetic Spontaneity(-0.49), Playful Irreverence(-0.43)
 
 * Token-level projections on vulnerable code (CASTLE benchmark)
 
-Does the monitor persona "activate" more on vulnerable lines of code? We test this using the [[https://github.com/CASTLE-Benchmark/CASTLE-Benchmark][CASTLE benchmark]]: 250 hand-crafted C micro-programs (150 vulnerable, 100 clean) covering 25 CWE categories. For each program, we run a forward pass with the monitor system prompt, extract per-token activations at layer 32, project onto the monitor axis, and map tokens back to source code lines.
+Does the monitor persona "activate" more on vulnerable lines of code? We test this using the [[https://github.com/CASTLE-Benchmark/CASTLE-Benchmark][CASTLE benchmark]]: 250 hand-crafted C micro-programs (150 vulnerable, 100 clean) covering 25 CWE categories. For each program, we run a forward pass with the monitor system prompt, extract per-token activations at layer 32, project onto the monitor axis, and map tokens back to source code lines. Each line's projection is the mean of its constituent token projections; the delta is computed per-line (not per-token), so lines are weighted equally regardless of length.
 
 #+begin_src python
 import json
