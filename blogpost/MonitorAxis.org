@@ -135,7 +135,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_174746_9796278.png]]
+[[file:plots/MonitorAxis/plot_20260228_175628_5680823.png]]
 :end:
 
 * Who scores high on the monitor axis?
@@ -184,7 +184,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_174746_8277522.png]]
+[[file:plots/MonitorAxis/plot_20260228_175629_6414499.png]]
 :end:
 
 * Rank correlation: assistant vs monitor vs paranoid
@@ -230,7 +230,7 @@ Spearman rank correlations (all 1268 characters):
 Assistant vs Monitor:  0.679
 Assistant vs Paranoid: 0.701
 Monitor vs Paranoid:   0.998
-[[file:plots/MonitorAxis/plot_20260228_174747_7689083.png]]
+[[file:plots/MonitorAxis/plot_20260228_175629_1010452.png]]
 :end:
 
 * Per-universe breakdown
@@ -273,7 +273,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_174747_5641130.png]]
+[[file:plots/MonitorAxis/plot_20260228_175629_8628964.png]]
 :end:
 
 * Within-universe spread on the monitor axis
@@ -331,7 +331,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_174747_4305123.png]]
+[[file:plots/MonitorAxis/plot_20260228_175629_386660.png]]
 :end:
 
 #+begin_src python :exports results
@@ -547,7 +547,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_174748_5680050.png]]
+[[file:plots/MonitorAxis/plot_20260228_175630_8475641.png]]
 :end:
 
 * How do the axes decompose into role PCs?
@@ -585,7 +585,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_174748_8615031.png]]
+[[file:plots/MonitorAxis/plot_20260228_175630_3962797.png]]
 :end:
 
 #+begin_src python :exports results
@@ -602,6 +602,168 @@ for name, axis in [('Assistant', assistant_axis), ('Monitor', monitor_axis), ('P
 Assistant : top PCs = PC1(+0.672), PC2(+0.359), PC5(-0.251), PC4(+0.198), PC6(+0.177)
 Monitor   : top PCs = PC1(+0.831), PC10(-0.156), PC5(-0.123), PC8(+0.113), PC3(+0.039)
 Paranoid  : top PCs = PC1(+0.888), PC10(-0.122), PC5(-0.101), PC8(+0.078), PC9(+0.057)
+:end:
+
+* LLM feature interpretation of the monitor axis
+
+We ran the same LLM feature discovery/coding pipeline as the main post, but along the monitor axis instead of within-universe PCs. For each universe, we showed Claude the responses of the 5 most and 5 least monitor-like characters and asked it to propose 6 distinguishing features. Then we coded all remaining characters on those features.
+
+#+begin_src python :exports results
+import json
+import pandas as pd
+
+with open('../results/llm_feature_coded_monitor.json') as f:
+    coded = json.load(f)
+
+# For each universe, compute correlation between monitor score and each feature
+rows = []
+for schema_key, data in coded.items():
+    universe = schema_key.split('__')[0]
+    features = [f['name'] for f in data['schema']['features']]
+    chars = data['characters']
+
+    # Get monitor scores for these characters
+    for feat in features:
+        feat_scores = []
+        mon_scores = []
+        for char_name, ratings in chars.items():
+            if 'error' in ratings:
+                continue
+            if feat not in ratings:
+                continue
+            idx_list = [i for i, n in enumerate(char_names) if n == char_name]
+            if not idx_list:
+                continue
+            idx = idx_list[0]
+            feat_scores.append(ratings[feat])
+            mon_scores.append(ma_scores[idx])
+
+        if len(feat_scores) > 10:
+            rho, _ = spearmanr(feat_scores, mon_scores)
+            rows.append({
+                'Universe': universe,
+                'Feature': feat,
+                'rho': round(rho, 3),
+                'n': len(feat_scores),
+            })
+
+df = pd.DataFrame(rows)
+
+# Show features with strongest correlations across universes
+print("Features most correlated with monitor axis (|rho| > 0.3):")
+strong = df[df['rho'].abs() > 0.3].sort_values('rho', ascending=False)
+print(strong[['Universe', 'Feature', 'rho', 'n']].to_string(index=False))
+#+end_src
+
+#+RESULTS:
+:results:
+<org babel source block>:31: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+Features most correlated with monitor axis (\rho\ > 0.3):
+Universe                     Feature    rho  n
+Norse Mythology         Emotional Restraint  0.684 38
+Naruto       Thoughtful Reflection  0.641 73
+Naruto    Respectful Communication  0.614 74
+Chinese Mythology             Formal Courtesy  0.594 66
+Norse Mythology      Collaborative Language  0.546 38
+Star Wars        Analytical Structure  0.505 95
+Naruto       Constructive Language  0.490 74
+Naruto       Collaborative Framing  0.453 74
+LOTR       Empathetic Expression  0.445 87
+Chinese Mythology       Constructive Guidance  0.440 66
+Naruto             Empathetic Tone  0.431 74
+Marvel     Structured Organization  0.424 98
+Hindu Mythology    Structured Communication  0.423 60
+Norse Mythology     Formal Speech Structure  0.415 38
+LOTR      Narrative Storytelling  0.414 87
+Harry Potter        Analytical Structure  0.410 92
+Star Wars        Solution Orientation  0.405 95
+Marvel    Intellectual Elaboration  0.381 98
+Marvel       Collaborative Framing  0.380 98
+Naruto        Supportive Messaging  0.374 74
+Chinese Mythology   Philosophical Abstraction  0.357 66
+Hindu Mythology       Practical Orientation  0.345 59
+Egyptian Mythology        Structural Formality  0.338 34
+Harry Potter      Methodical Explanation  0.336 92
+Harry Potter      Collaborative Language  0.335 92
+Game of Thrones        Structured Reasoning  0.316 83
+Chinese Mythology    Warmth and Encouragement  0.315 66
+Star Wars         Technical Precision  0.301 95
+Harry Potter             Violent Imagery -0.314 92
+Chinese Mythology          Ominous Atmosphere -0.322 66
+Shakespeare   Theatrical Expressiveness -0.322 83
+Harry Potter             Aggressive Tone -0.325 92
+Star Wars        Threatening Language -0.365 95
+Harry Potter      Animalistic Expression -0.369 92
+Hindu Mythology Physical Action Description -0.370 60
+Egyptian Mythology     Atmospheric Description -0.383 34
+Chinese Mythology           Cynical Worldview -0.391 66
+Marvel            Crude Expression -0.412 98
+Shakespeare         Playful Irreverence -0.431 83
+Star Wars        Emotional Volatility -0.442 94
+Star Wars         Action Descriptions -0.452 93
+Norse Mythology Physical Action Description -0.481 38
+Shakespeare       Energetic Spontaneity -0.492 83
+Marvel             Aggressive Tone -0.506 98
+LOTR             Aggressive Tone -0.521 87
+Egyptian Mythology          Dramatic Intensity -0.523 34
+LOTR         Dismissive Attitude -0.552 87
+Game of Thrones   Conversational Directness -0.558 83
+Game of Thrones             Aggressive Tone -0.643 83
+Norse Mythology   Aggressive Tone Intensity -0.668 38
+:end:
+
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+
+# Aggregate: for each feature name, compute mean |rho| across universes
+feat_agg = df.groupby('Feature')['rho'].agg(['mean', 'count']).reset_index()
+feat_agg = feat_agg[feat_agg['count'] >= 2].sort_values('mean', ascending=True)
+
+fig, ax = plt.subplots(figsize=(10, max(6, len(feat_agg) * 0.3)))
+colors = ['#e41a1c' if m > 0 else '#377eb8' for m in feat_agg['mean']]
+ax.barh(range(len(feat_agg)), feat_agg['mean'], color=colors)
+ax.set_yticks(range(len(feat_agg)))
+ax.set_yticklabels(feat_agg['Feature'], fontsize=7)
+ax.set_xlabel('Mean Spearman rho with monitor axis')
+ax.set_title('LLM-coded features vs monitor axis score')
+ax.axvline(0, color='gray', linewidth=0.5)
+fig.tight_layout()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/MonitorAxis/plot_20260228_175631_4225409.png]]
+:end:
+
+#+begin_src python :exports results
+# Per-universe: show top 2 features by |rho|
+print("Top 2 features per universe (by |rho|):")
+for universe in ALL_UNIVERSES:
+    udf = df[df['Universe'] == universe].copy()
+    if len(udf) == 0:
+        continue
+    udf['abs_rho'] = udf['rho'].abs()
+    top2 = udf.nlargest(2, 'abs_rho')
+    feats = ', '.join(f"{r['Feature']}({r['rho']:+.2f})" for _, r in top2.iterrows())
+    print(f"  {universe:20s}: {feats}")
+#+end_src
+
+#+RESULTS:
+:results:
+Top 2 features per universe (by \rho\):
+Harry Potter        : Analytical Structure(+0.41), Animalistic Expression(-0.37)
+Star Wars           : Analytical Structure(+0.51), Action Descriptions(-0.45)
+LOTR                : Dismissive Attitude(-0.55), Aggressive Tone(-0.52)
+Marvel              : Aggressive Tone(-0.51), Structured Organization(+0.42)
+Game of Thrones     : Aggressive Tone(-0.64), Conversational Directness(-0.56)
+Naruto              : Thoughtful Reflection(+0.64), Respectful Communication(+0.61)
+Greek Mythology     : Playful Tone(-0.28), Conversational Directness(-0.20)
+Chinese Mythology   : Formal Courtesy(+0.59), Constructive Guidance(+0.44)
+Hindu Mythology     : Structured Communication(+0.42), Physical Action Description(-0.37)
+Norse Mythology     : Emotional Restraint(+0.68), Aggressive Tone Intensity(-0.67)
+Egyptian Mythology  : Dramatic Intensity(-0.52), Atmospheric Description(-0.38)
+Shakespeare         : Energetic Spontaneity(-0.49), Playful Irreverence(-0.43)
 :end:
 
 * Pipeline reproducibility notes
