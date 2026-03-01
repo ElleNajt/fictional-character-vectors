@@ -4,6 +4,8 @@
 #+DATE: 2026-02-16
 #+PROPERTY: header-args:python :results output drawer :python "../.venv/bin/python3" :async t :session blogpost_short :exports both
 
+AN: This code and post was cowritten with Claude code.
+
 * _Setup
 
 #+begin_src python :exports none
@@ -52,6 +54,17 @@ def get_universe_indices(prefixes):
     if isinstance(prefixes, str):
         prefixes = [prefixes]
     return [i for i, name in enumerate(char_names) if any(name.startswith(p) for p in prefixes)]
+
+# Load assistant axis and compute universe-mean-centered AA scores
+import torch
+aa_all = torch.load('../data/role_vectors/assistant_axis.pt', weights_only=True)
+assistant_axis = aa_all[32].float().numpy()
+aa_norm = assistant_axis / np.linalg.norm(assistant_axis)
+aa_scores_raw = chars_centered @ aa_norm  # raw: relative to role mean
+aa_scores = aa_scores_raw.copy()          # universe-centered
+for _u, _pxs in ALL_UNIVERSES.items():
+    _idx = get_universe_indices(_pxs)
+    aa_scores[_idx] -= aa_scores_raw[_idx].mean()
 
 print(f"Loaded {len(char_names)} characters, {len(role_names)} roles")
 #+end_src
@@ -116,52 +129,23 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_180645_6657975.png]]
+[[file:plots/post/plot_20260228_182711_5194405.png]]
 :end:
 
-[[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 points from role-playing toward default-assistant behavior --- they call this the "Assistant Axis." Their findings generalize across models.
+[[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 is correlated with an assistant-axis they constructed by prompting assistant behavior.
 
-We apply the role space to 1,268 fictional characters in Qwen3-32B --- from Hindu mythology to Naruto --- and ask how much it captures and what it misses. (1,268 is after deduplicating characters that appear under multiple universe prefixes; all analyses use this deduplicated set unless noted.)
+We apply similar ideas to 1,268 fictional characters in Qwen3-32B --- from Hindu mythology to Naruto.
 
-1. *How much of persona space do 275 generic roles cover?*
+1. *How much of persona space does role space cover?*
    - 75% of fictional character variance overall. The fictional character space is low-dimensional (~40 PCs for 90%), so coverage by role space is less than a random sample of 275 fictional characters (95%) but far more than a random 275-dim subspace (5%).
-   - The relationship is asymmetric: at matched dimensionality (275 PCs each), fiction captures 82% of role variance but roles capture only 75% of fiction. Using all 1,267 fiction PCs, fiction captures 92% of role variance.
-   - Of the 25% roles miss, most is universe separation; only ~9% is within-universe structure.
+   - The relationship is asymmetric: fiction (1268 characters) captures 92% of role variance.
+   - Of the 25% roles miss, most is universe separation; only ~9% is within-universe structure. This is because variance in fiction space is dominated by universe seperation.
 
-#+begin_src python :exports results
-fig, ax = plt.subplots(figsize=(6, 4))
-fcumvar = np.cumsum(pca_intro.explained_variance_ratio_)
-lu_cumvar = np.cumsum(role_pca.explained_variance_ratio_)
-ax.plot(range(1, len(fcumvar)+1), fcumvar, label='Fiction (1,268 characters)', color='#377eb8', linewidth=2)
-ax.plot(range(1, len(lu_cumvar)+1), lu_cumvar, label='Roles (275, Lu et al.)', color='#e41a1c', linewidth=2)
-for thresh, style in [(0.7, '--'), (0.9, ':')]:
-    ax.axhline(thresh, color='gray', linestyle=style, alpha=0.5, linewidth=0.8)
-    ax.annotate(f"{thresh:.0%}", xy=(195, thresh), fontsize=8, color='gray', va='bottom')
-ax.set_xlabel("Number of PCs")
-ax.set_ylabel("Cumulative variance explained")
-ax.set_title("Fiction is roughly as low dimensional as roles")
-ax.set_xlim(1, 200); ax.set_ylim(0, 1.02)
-ax.legend(loc='lower right', fontsize=9)
-fig.tight_layout()
-plt.show()
-#+end_src
-
-#+RESULTS:
-:results:
-[[file:plots/post/plot_20260227_180651_2015692.png]]
-:end:
-
-2. *What do the top PCs encode, and where does the assistant axis live?*
-   - LLM feature labelling identifies within-universe PC1 as formality/register for modern franchises (adj. R² = 0.72--0.88) and PC2 as warmth vs. aggression.
+2. *Does the result that PC1 is assistant-axis aligned replicate for fictional characters?*
    - Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (Hindu/Shakespeare ~0.05).
+   - The assistant axis is geometrically diffuse: cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3). But rank correlations between PC scores and assistant axis scores are substantial --- for franchises, PC1 scores rank-correlate with the assistant axis (HP 0.78, Naruto 0.68, Marvel 0.63); for mythology, the correlation shifts to PC2 or PC3 (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79).
 #+begin_src python :exports results
-import torch
 from scipy.linalg import svd
-
-assistant_axis_all = torch.load('../data/role_vectors/assistant_axis.pt', weights_only=True)
-assistant_axis = assistant_axis_all[32].float().numpy()
-aa_norm = assistant_axis / np.linalg.norm(assistant_axis)
-aa_norm = assistant_axis / np.linalg.norm(assistant_axis)
 
 def _pa_cos(A, B):
     s = svd(A @ B.T, compute_uv=False)
@@ -203,10 +187,9 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_102312_5153172.png]]
+[[file:plots/post/plot_20260228_182712_4353957.png]]
 :end:
 
-   - The assistant axis is geometrically diffuse: cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3). But rank correlations between PC scores and assistant axis scores are substantial --- for franchises, PC1 scores rank-correlate with the assistant axis (HP 0.78, Naruto 0.68, Marvel 0.63); for mythology, the correlation shifts to PC2 or PC3 (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79).
 
 #+begin_src python :exports results
 # --- Plot 2: AA coverage by top-k within-universe PCs ---
@@ -241,9 +224,11 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_102313_6421671.png]]
+[[file:plots/post/plot_20260228_182712_2628920.png]]
 :end:
 
+
+   - LLM feature labelling identifies within-universe PC1 as formality/register for modern franchises (adj. R² = 0.72--0.88) and PC2 as warmth vs. aggression (adj. R² = 0.52--0.82).
    - PC1 and PC2 are rank-uncorrelated with each other but both predict the AA: it is a blend of formality and warmth, not either alone (combined adj. R² = 0.60). Running feature discovery directly on the AA confirms this --- the top discovered features are collaborative tone, warmth, and self-deprecation versus grandiose/threatening language (franchise median adj. R² = 0.69).
 
 #+begin_src python :exports results
@@ -295,71 +280,14 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_102313_1339280.png]]
+[[file:plots/post/plot_20260228_182713_3178583.png]]
 :end:
 
-- Projecting all 1,268 characters onto the assistant axis, nearly all score well below zero (mean = -18.5, std = 7.0). Here zero is the role mean, so fictional characters are much less assistant-like than Lu et al.'s generic roles on average.
-- Hermione Granger is the most assistant-axis-like character in this dataset.
-  
-#+begin_src python :exports results
-import torch
-import matplotlib.pyplot as plt
 
-aa_all = torch.load('../data/role_vectors/assistant_axis.pt', weights_only=True)
-aa_vec = aa_all[32].float().numpy()
-aa_unit = aa_vec / np.linalg.norm(aa_vec)
-aa_scores = chars_centered @ aa_unit
-
-order = np.argsort(aa_scores)
-
-def fmt_char_short(name):
-    parts = name.split('__')
-    char = parts[-1].replace('_', ' ').title()
-    return char
-
-n_show = 20
-top_idx = order[-n_show:][::-1]
-bot_idx = order[:n_show]
-
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 6))
-
-# Most assistant-like (left panel)
-names_top = [fmt_char_short(char_names[i]) for i in top_idx]
-scores_top = [aa_scores[i] for i in top_idx]
-ax1.barh(range(n_show), scores_top, color='#4daf4a')
-ax1.set_yticks(range(n_show))
-ax1.set_yticklabels(names_top, fontsize=8)
-ax1.invert_yaxis()
-ax1.set_xlabel('AA projection')
-ax1.set_title('Most assistant-like', fontsize=11)
-ax1.axvline(0, color='gray', linewidth=0.5, linestyle='--')
-for i, v in enumerate(scores_top):
-    ax1.text(max(v, 0) + 0.05, i, f"{v:+.1f}", va='center', fontsize=7, color='#333')
-
-# Least assistant-like (right panel)
-names_bot = [fmt_char_short(char_names[i]) for i in bot_idx]
-scores_bot = [aa_scores[i] for i in bot_idx]
-ax2.barh(range(n_show), scores_bot, color='#e41a1c')
-ax2.set_yticks(range(n_show))
-ax2.set_yticklabels(names_bot, fontsize=8)
-ax2.invert_yaxis()
-ax2.set_xlabel('AA projection')
-ax2.set_title('Least assistant-like', fontsize=11)
-
-fig.suptitle('Fictional characters ranked on the assistant axis (top & bottom 20 of 1,268)', fontsize=11, y=1.01)
-fig.tight_layout()
-plt.show()
-#+end_src
-
-#+RESULTS:
-:results:
-[[file:plots/post/plot_20260227_102320_9880460.png]]
-:end:
 
 3. *How sensitive are results to the question battery?*
    - *Score stability:* given fixed PC directions, a single random question recovers character scores at median Pearson r > 0.95; five questions reach r > 0.99. Sixteen OOD prompts (".", "?", "Write a Python function...") also recover scores at r > 0.94.
    - *Direction stability:* recovering the PC directions themselves requires more questions. Within the same 240-question battery, franchises reach cosine > 0.99 at 5 questions; mythology needs 20--50 (Greek mythology: 0.61 at $k=1$, 0.93 at $k=120$). Qualitatively different prompts yield different directions for mythology and Shakespeare (cosines 0.12--0.55).
-   - An upshot is that many questions are important for having a stable persona space, but to interpret a character activations one can get away with looking at a few questions.
 
 #+begin_src python :exports results
 import json as _json
@@ -398,7 +326,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_102320_2143772.png]]
+[[file:plots/post/plot_20260228_182713_2771308.png]]
 :end:
 
 ** Definitions and notation
@@ -417,6 +345,8 @@ We use four sets of PCA directions, differing in which rows go into $A$ and what
 When the text says "role PC1" ($v_1^{\text{role}}$) vs. "within-universe PC1" ($v_1^{\mathcal{U}}$) vs. "residual PC1" ($v_1^{\mathcal{U},\perp}$), these are three different directions from three different PCA fits.
 
 *Variance capture.* When we say "the role space captures X% of fiction variance," we mean: let $P = V_{\text{role}} V_{\text{role}}^\top$. For each character, project $\tilde{a}_i = \bar{a}_i - \bar{a}_{\text{role}}$ onto the role subspace to get $\hat{a}_i = P\tilde{a}_i$. Then $\text{captured} = \sum_j \text{Var}_i(\hat{a}_{ij}) / \sum_j \text{Var}_i(\tilde{a}_{ij})$, where the variance is over characters $i$ and $j$ indexes coordinates.
+
+*Universe-mean-centered AA scores.* Raw AA scores $(\bar{a}_i - \bar{a}_{\text{role}}) \cdot u_{\text{AA}}$ conflate universe-level displacement from the role mean with individual character variation. When ranking characters across universes on the assistant axis, we subtract each universe's mean AA score: $s_i^{\text{AA}} = (\bar{a}_i - \bar{a}_{\mathcal{U}(i)}) \cdot u_{\text{AA}}$. This isolates within-universe variation along the AA direction. All other analyses (PCA, variance capture, cross-universe comparisons) use the role-mean-centered activations $\tilde{a}_i = \bar{a}_i - \bar{a}_{\text{role}}$ without universe-mean-centering, since between-universe variance is part of what we are measuring.
 
 * Is There a Low Dimensional Fictional Persona Space?
 
@@ -523,7 +453,7 @@ print(f"Between-universe eta-squared: {eta_sq:.0%}")
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_102321_3183656.png]]
+[[file:plots/post/plot_20260228_182714_3408153.png]]
 Global fiction: 9 PCs for 70%, 40 PCs for 90%
 Fiction PC1: 31.2%, Role PC1: 37.9%
 Between-universe eta-squared: 57%
@@ -532,7 +462,7 @@ Between-universe eta-squared: 57%
 Takeaways:
 - Both fiction and the 275 roles have a dominant PC1 (~31% for fiction, ~38% for roles).
 - Cross-universe: 9 PCs capture 70% of fiction variance (vs 7 for the roles) --- but 57% of total variance is universe separation.
-- Within-universe (~100 characters each): 3--13 PCs for 70%, out of ~43--107 max dimensions.
+- Within-universe (44--108 characters each): 3--13 PCs for 70%, out of ~43--107 max dimensions.
 - Modern franchises are more compressible (3--5 PCs) than mythology and Shakespeare (7--13 PCs).
 
 ** How Much Does the Role Space Capture?
@@ -573,6 +503,12 @@ print(pd.DataFrame(rows).set_index(""))
 
 #+RESULTS:
 :results:
+
+
+
+
+
+
 | idx                                     | Variance | % of total |
 |-----------------------------------------+----------+------------|
 | Captured by role space                  |      822 |      74.7% |
@@ -584,178 +520,179 @@ print(pd.DataFrame(rows).set_index(""))
 
 The role space captures 75% of total fictional character variance. Here $\tilde{a}_i = \bar{a}_i - \bar{a}_{\text{role}}$ is each character's mean activation centered at the role mean (matching the centering used to fit the role PCA), $\hat{a}_i = P\tilde{a}_i$ is its projection onto the 275-dim role subspace via $P = V_{\text{role}} V_{\text{role}}^\top$, and the capture ratio is $\sum_j \mathrm{Var}_i(\hat{a}_{ij}) / \sum_j \mathrm{Var}_i(\tilde{a}_{ij})$ where $j$ indexes coordinates and variance is over characters $i$. The 95% baseline (275 random fictional characters) reflects the low dimensionality of the fiction space: with ~40 PCs covering 90% of variance, 275 random draws span nearly the full subspace. The 5.4% null (a random 275-dim subspace of $\mathbb{R}^{5120}$) confirms the structure is real. The gap between 75% (roles) and 95% (random fiction) reflects that roles come from a different distribution --- generic personas without universe-specific structure. As the residual decomposition below shows, most of that 20% gap is universe separation.
 
-A single universe's subspace (PCA on $\{\tilde{a}_i : i \in \mathcal{U}\}$, yielding $n_{\mathcal{U}}-1$ components) captures 41--72% of all 1,268 characters' variance:
-
-#+begin_src python :exports results
-from sklearn.decomposition import PCA as SkPCA
-import matplotlib.pyplot as plt
-
-fic_caps = []
-for universe, prefixes in ALL_UNIVERSES.items():
-    idx = get_universe_indices(prefixes)
-    n_comp = len(idx) - 1
-    pca_u = SkPCA(n_components=n_comp).fit(chars_centered[idx])
-    all_at_u_mean = chars_centered - pca_u.mean_
-    proj = all_at_u_mean @ pca_u.components_.T @ pca_u.components_
-    cap = np.var(proj, axis=0).sum() / np.var(all_at_u_mean, axis=0).sum()
-    fic_caps.append({'Universe': universe, 'N': len(idx), 'cap': cap})
-
-franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
-fic_caps.sort(key=lambda x: x['cap'], reverse=True)
-
-fig, ax = plt.subplots(figsize=(8, 5))
-names = [d['Universe'] for d in fic_caps]
-caps = [d['cap'] for d in fic_caps]
-colors = ['#377eb8' if n in franchise_set else '#e41a1c' for n in names]
-bars = ax.barh(range(len(names)), caps, color=colors)
-ax.axvline(0.75, color='black', linestyle='--', linewidth=1, label='Lu roles (275 dims): 75%')
-ax.set_yticks(range(len(names)))
-ax.set_yticklabels([f"{n} ({fic_caps[i]['N']})" for i, n in enumerate(names)], fontsize=9)
-ax.set_xlabel('Fraction of all 1,268 characters\' variance captured')
-ax.set_title('Each universe\'s subspace captures 41--72% of all fiction variance')
-ax.set_xlim(0, 0.85)
-ax.invert_yaxis()
-ax.legend(fontsize=8, loc='lower right')
-for i, v in enumerate(caps):
-    ax.text(v + 0.005, i, f"{v:.0%}", va='center', fontsize=8)
-fig.tight_layout()
-plt.show()
-#+end_src
-
-#+RESULTS:
-:results:
-[[file:plots/post/plot_20260227_102348_617626.png]]
-:end:
-
-A single universe of ~44--108 characters captures 41--72% of all fictional character variance. Lu's 275 roles capture 75%. The smaller universes (Egyptian Mythology, 44 chars; Norse Mythology, 48 chars) capture less; the larger ones (Marvel, 108 chars) capture up to 72%. Both results reflect the low dimensionality of the fiction space (~40 PCs for 90%), but the role space is notable for achieving 75% coverage from a different distribution (generic personas, not fictional characters).
-
-The reverse question: how much of role variance do fictional characters capture?
-
-#+begin_src python :exports results
-import matplotlib.pyplot as plt
-
-# Role activations in role-mean-centered space (same as chars_centered)
-roles_centered = role_data['transformed'] @ role_pca.components_  # already role-mean-centered
-
-# Global: fiction captures role variance
-fic_275_cap = None
-fic_all_cap = None
-for n_comp in [275, 1267]:
-    pca_fic = SkPCA(n_components=n_comp).fit(chars_centered)
-    roles_at_fic = roles_centered - pca_fic.mean_
-    proj = roles_at_fic @ pca_fic.components_.T @ pca_fic.components_
-    cap = np.var(proj, axis=0).sum() / np.var(roles_at_fic, axis=0).sum()
-    if n_comp == 275: fic_275_cap = cap
-    else: fic_all_cap = cap
-
-# Per-universe captures of roles
-role_caps = []
-franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
-for universe, prefixes in ALL_UNIVERSES.items():
-    idx = get_universe_indices(prefixes)
-    n_comp = len(idx) - 1
-    pca_u = SkPCA(n_components=n_comp).fit(chars_centered[idx])
-    roles_c = roles_centered - pca_u.mean_
-    proj_u = roles_c @ pca_u.components_.T @ pca_u.components_
-    cap = np.var(proj_u, axis=0).sum() / np.var(roles_c, axis=0).sum()
-    role_caps.append({'Universe': universe, 'N': len(idx), 'cap': cap})
-role_caps.sort(key=lambda x: x['cap'], reverse=True)
-
-fig, ax = plt.subplots(figsize=(8, 5))
-names = [d['Universe'] for d in role_caps]
-caps = [d['cap'] for d in role_caps]
-colors = ['#377eb8' if n in franchise_set else '#e41a1c' for n in names]
-ax.barh(range(len(names)), caps, color=colors)
-ax.axvline(fic_275_cap, color='#4daf4a', linestyle='--', linewidth=1.5, label=f'275 fiction PCs: {fic_275_cap:.0%}')
-ax.axvline(fic_all_cap, color='#4daf4a', linestyle='-', linewidth=1.5, label=f'All 1,267 fiction PCs: {fic_all_cap:.0%}')
-ax.axvline(0.747, color='black', linestyle=':', linewidth=1, label='Roles capture 75% of fiction')
-ax.set_yticks(range(len(names)))
-ax.set_yticklabels([f"{n} ({role_caps[i]['N']})" for i, n in enumerate(names)], fontsize=9)
-ax.set_xlabel('Fraction of role variance captured')
-ax.set_title('How much of Lu\'s 275 roles does each universe capture?')
-ax.set_xlim(0, 1.0)
-ax.invert_yaxis()
-ax.legend(fontsize=7, loc='lower right')
-for i, v in enumerate(caps):
-    ax.text(v + 0.005, i, f"{v:.0%}", va='center', fontsize=8)
-fig.tight_layout()
-plt.show()
-
-print(f"275 fiction PCs capture {fic_275_cap:.1%} of role variance")
-print(f"1267 fiction PCs capture {fic_all_cap:.1%} of role variance")
-#+end_src
-
-#+RESULTS:
-:results:
-[[file:plots/post/plot_20260227_102349_1561861.png]]
-275 fiction PCs capture 81.9% of role variance
-1267 fiction PCs capture 91.8% of role variance
-:end:
-
-The relationship is asymmetric. Using all 1,267 fiction PCs (the full span of 1,268 characters), fiction captures 92% of role variance. Roles capture only 75% of fiction variance. At matched dimensionality (275 PCs each), it's 82% vs 75%.
-
-How much subspace overlap is there between universes? For each pair $(\mathcal{U}_1, \mathcal{U}_2)$, we fit PCA on $\mathcal{U}_1$'s characters, project $\mathcal{U}_2$'s characters onto $\mathcal{U}_1$'s subspace, and report the fraction of $\mathcal{U}_2$'s variance captured:
+How much subspace overlap is there between universes --- and between fiction and roles? For each pair, we fit PCA on the row's characters, project the column's characters, and report the fraction of the column's variance captured. We include "All Fiction" (1,267 PCs), "Random 275" (a random sample of 275 fictional characters, matching the dimensionality of Lu's roles), and "Lu Roles" as reference rows/columns:
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
 
 franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
 universe_names = list(ALL_UNIVERSES.keys())
-n_u = len(universe_names)
 
-# Compute pairwise variance capture matrix
-var_cap_mat = np.zeros((n_u, n_u))
-for i, u1 in enumerate(universe_names):
-    idx1 = get_universe_indices(ALL_UNIVERSES[u1])
-    n_comp1 = len(idx1) - 1
-    pca1 = SkPCA(n_components=n_comp1).fit(chars_centered[idx1])
-    for j, u2 in enumerate(universe_names):
-        idx2 = get_universe_indices(ALL_UNIVERSES[u2])
-        # Center u2's characters at u1's mean (both in role-mean-centered space)
-        u2_centered = chars_centered[idx2] - pca1.mean_
-        proj = u2_centered @ pca1.components_.T @ pca1.components_
-        var_cap_mat[i, j] = np.var(proj, axis=0).sum() / np.var(u2_centered, axis=0).sum()
+# Role activations in role-mean-centered space
+roles_centered = role_data['transformed'] @ role_pca.components_
 
-fig, ax = plt.subplots(figsize=(9, 8))
-im = ax.imshow(var_cap_mat, cmap='RdYlGn', vmin=0.3, vmax=1.0, aspect='equal')
-ax.set_xticks(range(n_u)); ax.set_yticks(range(n_u))
-ax.set_xticklabels(universe_names, rotation=45, ha='right', fontsize=8)
-ax.set_yticklabels(universe_names, fontsize=8)
-for i in range(n_u):
-    for j in range(n_u):
-        c = 'white' if var_cap_mat[i,j] < 0.5 else 'black'
-        ax.text(j, i, f"{var_cap_mat[i,j]:.0%}", ha='center', va='center', fontsize=7, color=c)
+# Random 275 fictional characters (fixed seed for reproducibility)
+rng = np.random.RandomState(42)
+rand_idx = rng.choice(len(char_names), 275, replace=False)
+
+# Build subspaces: universes + All Fiction + Random 275 + Lu Roles
+all_labels = universe_names + ['All Fiction', 'Random 275', 'Lu Roles']
+subspaces = {}
+for name in universe_names:
+    idx = get_universe_indices(ALL_UNIVERSES[name])
+    subspaces[name] = {'pca': SkPCA(n_components=len(idx) - 1).fit(chars_centered[idx]),
+                       'type': 'fiction', 'idx': idx}
+subspaces['All Fiction'] = {'pca': SkPCA(n_components=min(1267, len(char_names) - 1)).fit(chars_centered),
+                            'type': 'fiction', 'idx': list(range(len(char_names)))}
+subspaces['Random 275'] = {'pca': SkPCA(n_components=274).fit(chars_centered[rand_idx]),
+                           'type': 'fiction', 'idx': rand_idx.tolist()}
+subspaces['Lu Roles'] = {'pca': role_pca, 'type': 'roles'}
+
+n = len(all_labels)
+mat = np.zeros((n, n))
+
+for i, row_name in enumerate(all_labels):
+    pca_row = subspaces[row_name]['pca']
+    for j, col_name in enumerate(all_labels):
+        # Get target data
+        if subspaces[col_name]['type'] == 'roles':
+            target = roles_centered
+        else:
+            target = chars_centered[subspaces[col_name]['idx']]
+        target_c = target - pca_row.mean_
+        proj = target_c @ pca_row.components_.T @ pca_row.components_
+        mat[i, j] = np.var(proj, axis=0).sum() / np.var(target_c, axis=0).sum()
+
+fig, ax = plt.subplots(figsize=(11, 9.5))
+im = ax.imshow(mat, cmap='RdYlGn', vmin=0.3, vmax=1.0, aspect='equal')
+ax.set_xticks(range(n)); ax.set_yticks(range(n))
+ax.set_xticklabels(all_labels, rotation=45, ha='right', fontsize=8)
+ax.set_yticklabels(all_labels, fontsize=8)
+for i in range(n):
+    for j in range(n):
+        c = 'white' if mat[i,j] < 0.5 else 'black'
+        ax.text(j, i, f"{mat[i,j]:.0%}", ha='center', va='center', fontsize=6, color=c)
+# Draw separator lines before the reference rows/columns
+for pos in [len(universe_names) - 0.5]:
+    ax.axhline(pos, color='black', linewidth=1.5)
+    ax.axvline(pos, color='black', linewidth=1.5)
 ax.set_ylabel('Subspace fitted on (row)')
 ax.set_xlabel('Variance measured on (column)')
 ax.set_title('Cross-universe variance capture\n(row\'s subspace captures X% of column\'s variance)')
-fig.colorbar(im, ax=ax, shrink=0.8, label='Fraction of variance captured')
+fig.colorbar(im, ax=ax, shrink=0.7, label='Fraction of variance captured')
 fig.tight_layout()
 plt.show()
 
-# Summary stats
-off_diag = [var_cap_mat[i,j] for i in range(n_u) for j in range(n_u) if i != j]
-ff = [var_cap_mat[i,j] for i in range(n_u) for j in range(n_u) if i != j
+# Summary stats (universe-universe only)
+n_u = len(universe_names)
+off_diag = [mat[i,j] for i in range(n_u) for j in range(n_u) if i != j]
+ff = [mat[i,j] for i in range(n_u) for j in range(n_u) if i != j
       and universe_names[i] in franchise_set and universe_names[j] in franchise_set]
-fm = [var_cap_mat[i,j] for i in range(n_u) for j in range(n_u) if i != j
+fm = [mat[i,j] for i in range(n_u) for j in range(n_u) if i != j
       and (universe_names[i] in franchise_set) != (universe_names[j] in franchise_set)]
-mm = [var_cap_mat[i,j] for i in range(n_u) for j in range(n_u) if i != j
+mm = [mat[i,j] for i in range(n_u) for j in range(n_u) if i != j
       and universe_names[i] not in franchise_set and universe_names[j] not in franchise_set]
-print(f"Overall: median={np.median(off_diag):.0%}, min={np.min(off_diag):.0%}, max={np.max(off_diag):.0%}")
+print(f"Universe-universe: median={np.median(off_diag):.0%}, min={np.min(off_diag):.0%}, max={np.max(off_diag):.0%}")
 print(f"Franchise→Franchise: median={np.median(ff):.0%}")
 print(f"Franchise↔Mythology: median={np.median(fm):.0%}")
 print(f"Mythology→Mythology: median={np.median(mm):.0%}")
+
+# Role-fiction asymmetry
+lu_row = all_labels.index('Lu Roles')
+fic_col = all_labels.index('All Fiction')
+print(f"Lu Roles → All Fiction: {mat[lu_row, fic_col]:.0%}")
+print(f"All Fiction → Lu Roles: {mat[fic_col, lu_row]:.0%}")
 #+end_src
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_102350_7252062.png]]
-Overall: median=63%, min=43%, max=86%
+
+
+[[file:plots/post/plot_20260228_182739_1211032.png]]
+Universe-universe: median=63%, min=43%, max=86%
 Franchise→Franchise: median=80%
 Franchise↔Mythology: median=60%
 Mythology→Mythology: median=59%
+Lu Roles → All Fiction: 75%
+All Fiction → Lu Roles: 92%
 :end:
 
-Franchise subspaces capture ~80% of each other's variance (median), despite using only ~100 dimensions each. The franchise block is warm and roughly symmetric. Cross-boundary pairs drop to ~60%, and mythology-mythology pairs are similar (~59%). LOTR is the bridge --- it captures more mythology variance than any other franchise, likely because it shares archetypal structure (gods, monsters, quests) with mythology universes. The matrix is mildly asymmetric: Greek Mythology's 106-dim subspace captures 63% of Harry Potter, but Harry Potter's 101-dim subspace captures only 51% of Greek.
+Franchise subspaces capture ~80% of each other's variance (median). Cross-boundary pairs drop to ~60%, and mythology-mythology pairs are similar (~59%). LOTR is the bridge --- it captures more mythology variance than any other franchise. The reference rows/columns show the asymmetry between fiction and roles: fiction captures 92% of role variance, but roles capture only 75% of fiction. A random sample of 275 fictional characters (matching Lu's role count) captures ~95% of all fiction variance, reflecting the low dimensionality of the space.
+
+Principal angle cosines between within-universe subspaces (k=1, 2, 3 dimensions):
+
+#+begin_src python :exports results
+from scipy.linalg import svd as _svd
+
+def _principal_angle_cosines(A, B):
+    s = _svd(A @ B.T, compute_uv=False)
+    return np.clip(s, 0, 1)
+
+# Fit within-universe PCAs
+_u_pcas = {}
+for name, prefixes in ALL_UNIVERSES.items():
+    idx = get_universe_indices(prefixes)
+    if len(idx) < 20:
+        continue
+    _u_pcas[name] = SkPCA(n_components=min(len(idx) - 1, 10)).fit(chars_centered[idx])
+
+_labels = list(_u_pcas.keys()) + ['Role PCs', 'Asst. Axis']
+_n = len(_labels)
+
+fig, axes = plt.subplots(1, 3, figsize=(18, 6.5))
+for ki, k in enumerate([1, 2, 3]):
+    mat = np.full((_n, _n), np.nan)
+    for i in range(_n):
+        for j in range(_n):
+            if _labels[i] == 'Asst. Axis':
+                if k > 1: continue
+                basis_i = aa_norm.reshape(1, -1)
+            elif _labels[i] == 'Role PCs':
+                basis_i = role_pca.components_[:k]
+            else:
+                comps = _u_pcas[_labels[i]].components_
+                if k > comps.shape[0]: continue
+                basis_i = comps[:k]
+
+            if _labels[j] == 'Asst. Axis':
+                if k > 1: continue
+                basis_j = aa_norm.reshape(1, -1)
+            elif _labels[j] == 'Role PCs':
+                basis_j = role_pca.components_[:k]
+            else:
+                comps = _u_pcas[_labels[j]].components_
+                if k > comps.shape[0]: continue
+                basis_j = comps[:k]
+
+            cosines = _principal_angle_cosines(basis_i, basis_j)
+            mat[i, j] = cosines[min(k, len(cosines)) - 1]
+
+    ax = axes[ki]
+    masked = np.ma.masked_invalid(mat)
+    im = ax.imshow(masked, cmap='RdYlGn', vmin=0, vmax=1, aspect='equal')
+    ax.set_xticks(range(_n)); ax.set_yticks(range(_n))
+    ax.set_xticklabels(_labels, rotation=45, ha='right', fontsize=8)
+    ax.set_yticklabels(_labels, fontsize=8)
+    for i in range(_n):
+        for j in range(_n):
+            if not np.isnan(mat[i, j]) and i != j:
+                c = 'white' if mat[i, j] < 0.4 else 'black'
+                ax.text(j, i, f"{mat[i,j]:.2f}", ha='center', va='center', fontsize=6, color=c)
+    if k == 1:
+        ax.set_title(f'1st principal angle cosine\n(= |cos(PC1, PC1)|)', fontsize=10)
+    else:
+        ax.set_title(f'{k}th principal angle cosine\n(worst alignment in {k}D subspace)', fontsize=10)
+
+plt.tight_layout()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/post/plot_20260228_182740_31923.png]]
+:end:
+
+The franchise block stays warm through k=2 (shared 2D plane); by k=3 everything cools.
 
 Where does the remaining 25% go? We decompose the residual into between-universe variance (universe means differ) and within-universe variance (characters differ from their universe mean):
 
@@ -850,10 +787,10 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_102351_996832.png]]
+[[file:plots/post/plot_20260228_182740_6374133.png]]
 :end:
 
-PC1 (31% of variance, eta²=68%) separates modern franchises from mythology and Shakespeare --- Ron Weasley and Homer Simpson at one end, Egyptian gods at the other. But the remaining PCs mix universe separation with cross-cutting semantics. PC3 (eta²=48%) has Darth Vader and Palpatine at one end and Winnie-the-Pooh and Totoro at the other --- dark/menacing vs. innocent, cutting across universe lines. PC4 (eta²=49%) puts Mr. Darcy and Elizabeth Bennet opposite Khal Drogo and Sun Wukong.
+PC1 (31% of variance, η²=68%) separates modern franchises from mythology and Shakespeare --- Ron Weasley and Homer Simpson at one end, Egyptian gods at the other. The remaining PCs mix universe separation with cross-cutting semantics: PC3 (η²=48%) runs from Darth Vader and Palpatine to Winnie-the-Pooh and Totoro; PC4 (η²=49%) from Mr. Darcy and Elizabeth Bennet to Khal Drogo and Sun Wukong.
 
 * What Do Within-Universe PCs Encode?
 
@@ -896,83 +833,13 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_102351_7588132.png]]
+[[file:plots/post/plot_20260228_182740_2494910.png]]
 :end:
 
-The role space captures more in modern franchises (80--85%) than in mythology (61--72%). What happens in the 15--39% the role space misses?
-
-*** Residual directions are different, but character rankings are preserved
-
-After projecting out the role space, we fit PCA on the residuals $r_i = (I - P)\tilde{a}_i$ for each universe. We compare the residual PC1 direction and character rankings with the original (full-space) PC1:
+The role space captures more in modern franchises (80--85%) than in mythology (61--72%). How do within-universe PCs relate to the assistant axis? Geometric alignment is low, but rank correlations are substantial:
 
 #+begin_src python :exports results
-import matplotlib.pyplot as plt
-
-franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
-
-def cosine(a, b):
-    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
-
-rows = []
-for universe, prefixes in ALL_UNIVERSES.items():
-    idx = get_universe_indices(prefixes)
-    if len(idx) < 20:
-        continue
-    u_orig = chars_centered[idx]
-    u_resid = residuals[idx]
-    orig_var = np.var(u_orig, axis=0).sum()
-    recon_var = np.var(reconstructed[idx], axis=0).sum()
-
-    original_pca = SkPCA(n_components=1).fit(u_orig)
-    residual_pca = SkPCA(n_components=1).fit(u_resid)
-
-    orig_pos = original_pca.transform(u_orig)[:, 0]
-    resid_pos = residual_pca.transform(u_resid)[:, 0]
-
-    dir_cos = abs(cosine(original_pca.components_[0], residual_pca.components_[0]))
-    rank_corr = abs(np.corrcoef(orig_pos, resid_pos)[0, 1])
-    rows.append({'Universe': universe, 'dir_cos': dir_cos, 'rank_corr': rank_corr,
-                 'role_cap': recon_var / orig_var})
-
-rows.sort(key=lambda x: x['rank_corr'], reverse=True)
-
-fig, ax = plt.subplots(figsize=(10, 5))
-y = np.arange(len(rows))
-h = 0.35
-names = [r['Universe'] for r in rows]
-dir_vals = [r['dir_cos'] for r in rows]
-rank_vals = [r['rank_corr'] for r in rows]
-ax.barh(y - h/2, dir_vals, h, color='#377eb8', label='Direction cosine (geometric alignment)')
-ax.barh(y + h/2, rank_vals, h, color='#e41a1c', label='Ranking correlation (Pearson)')
-ax.set_yticks(y)
-ax.set_yticklabels([f"{n} (role captures {rows[i]['role_cap']:.0%})" for i, n in enumerate(names)], fontsize=8)
-ax.set_xlabel('|value|')
-ax.set_title('Residual PC1 vs. original PC1: directions differ, rankings agree')
-ax.legend(fontsize=8, loc='lower right')
-ax.set_xlim(0, 1.05)
-ax.invert_yaxis()
-for i, (d, r) in enumerate(zip(dir_vals, rank_vals)):
-    ax.text(d + 0.01, i - h/2, f"{d:.2f}", va='center', fontsize=7)
-    ax.text(r + 0.01, i + h/2, f"{r:.2f}", va='center', fontsize=7)
-fig.tight_layout()
-plt.show()
-#+end_src
-
-#+RESULTS:
-:results:
-[[file:plots/post/plot_20260227_132624_6509497.png]]
-:end:
-
-Residual PC1 directions are nearly orthogonal to the original PC1 (cosines 0.19--0.66), but character rankings on residual PC1 correlate 0.77--0.96 with original PC1 rankings in most universes (Marvel is the exception at 0.55). The role space captures most of the variance (61--85% per universe), but the residual --- geometrically orthogonal to the role space --- still preserves who ranks where. Extreme characters (Voldemort, Darth Vader, Galadriel) are extreme in multiple directions; projecting out the role space changes the axis but not the ordering.
-
-This means: the 15--39% of within-universe variance missed by the role space is not noise --- it encodes real structure that produces the same character ordering along a different geometric direction.
-
-But are the principal directions the same across universes? We compute cosine similarities between each universe's within-universe PC1 direction and role PC1, and check whether within-universe PC1 directions align with each other across universes:
-
-#+begin_src python :exports results
-# Cosine similarity: within-universe PC directions vs role PCs and vs each other
 from sklearn.decomposition import PCA as SkPCA
-import torch
 from scipy.stats import spearmanr
 
 def cosine_sim(a, b):
@@ -988,49 +855,18 @@ for name, prefixes in ALL_UNIVERSES.items():
     u_pcas_full[name] = SkPCA(n_components=5).fit(chars_centered[idx])
     u_pcas_resid[name] = SkPCA(n_components=5).fit(residuals[idx])
 
-# Cross-universe PC1 cosine matrix (for the heatmap in the intro)
 universe_names = list(u_pcas_full.keys())
 n_u = len(universe_names)
-
-# --- Plot 1: Cross-universe within-PC1 cosine heatmap ---
-cross_mat = np.zeros((n_u, n_u))
-for i in range(n_u):
-    for j in range(n_u):
-        cross_mat[i, j] = abs(cosine_sim(
-            u_pcas_full[universe_names[i]].components_[0],
-            u_pcas_full[universe_names[j]].components_[0]))
-
-fig, ax = plt.subplots(figsize=(8, 7))
-im = ax.imshow(cross_mat, cmap='RdYlGn', vmin=0, vmax=1, aspect='equal')
-ax.set_xticks(range(n_u)); ax.set_yticks(range(n_u))
-ax.set_xticklabels(universe_names, rotation=45, ha='right', fontsize=8)
-ax.set_yticklabels(universe_names, fontsize=8)
-for i in range(n_u):
-    for j in range(n_u):
-        c = 'white' if cross_mat[i,j] < 0.4 else 'black'
-        ax.text(j, i, f"{cross_mat[i,j]:.2f}", ha='center', va='center', fontsize=6, color=c)
-ax.set_title("Cross-universe within-PC1 direction cosines\n(|cos(PC1_i, PC1_j)|)", fontsize=11)
-fig.colorbar(im, ax=ax, shrink=0.8, label='|cosine|')
-fig.tight_layout()
-plt.show()
-
-# Print cross-universe summary stats
-off_diag = [cross_mat[i,j] for i in range(n_u) for j in range(i+1, n_u)]
-print(f"Cross-universe within-PC1 cosine: median={np.median(off_diag):.3f}")
-
-# --- Plot 2: AA cosine vs rank correlation (side-by-side heatmaps) ---
-assistant_axis_all = torch.load('../data/role_vectors/assistant_axis.pt', weights_only=True)
-assistant_axis = assistant_axis_all[32].float().numpy()
 
 cos_mat = np.zeros((n_u, 3))
 rank_mat = np.zeros((n_u, 3))
 for i, name in enumerate(universe_names):
     idx = get_universe_indices(ALL_UNIVERSES[name])
-    aa_scores = chars_centered[idx] @ aa_norm
+    u_aa_scores = chars_centered[idx] @ aa_norm
     for pc_i in range(3):
         cos_mat[i, pc_i] = abs(cosine_sim(u_pcas_full[name].components_[pc_i], aa_norm))
         scores = chars_centered[idx] @ u_pcas_full[name].components_[pc_i]
-        rho, _ = spearmanr(scores, aa_scores)
+        rho, _ = spearmanr(scores, u_aa_scores)
         rank_mat[i, pc_i] = abs(rho)
 
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6), sharey=True)
@@ -1065,80 +901,13 @@ print(f"Cosine(assistant axis, role PC1): {abs(cosine_sim(assistant_axis, role_p
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_132625_2849784.png]]
-Cross-universe within-PC1 cosine: median=0.468
-[[file:plots/post/plot_20260227_132625_4739052.png]]
+[[file:plots/post/plot_20260228_182741_8199652.png]]
 Cosine medians: PC1=0.17, PC2=0.28, PC3=0.13
 Rank-corr medians: PC1=0.51, PC2=0.58, PC3=0.13
 Cosine(assistant axis, role PC1): 0.672
 :end:
 
-The cross-universe PC1 heatmap shows high alignment within the franchise block (Harry Potter/Naruto ~0.95, Marvel/Naruto ~0.95, Harry Potter/Marvel ~0.93) and low alignment between franchises and mythology (Naruto/Hindu ~0.11, Hindu/Shakespeare ~0.05). Modern franchises share a PC1 direction; mythology and Shakespeare do not. The AA heatmaps show that geometric alignment between within-universe PCs and the assistant axis is uniformly low (median cosines 0.17, 0.28, 0.13 for PC1--3), but rank correlations between PC scores and AA scores are substantial --- appearing on PC1 for franchises and shifting to PC2/PC3 for mythology.
-
-The heatmaps below show principal angle cosines between each pair of universes' top-$k$ PC subspaces. For two subspaces $\mathrm{span}(v_1^{\mathcal{U}_1}, \dots, v_k^{\mathcal{U}_1})$ and $\mathrm{span}(v_1^{\mathcal{U}_2}, \dots, v_k^{\mathcal{U}_2})$, the $k$-th principal angle $\theta_k$ is computed via SVD of $V_k^{\mathcal{U}_1\top} V_k^{\mathcal{U}_2}$; we plot the smallest singular value $\sigma_k = \cos \theta_k$. This measures the worst-aligned direction: $k=1$ is just $|\cos(v_1^{\mathcal{U}_1}, v_1^{\mathcal{U}_2})|$, $k=2$ shows how well the 2D planes align, $k=3$ the 3D subspaces.
-
-[[file:../results/principal_angle_heatmaps.png]]
-
-The franchise block (Harry Potter, Star Wars, LOTR, Marvel, Game of Thrones, Naruto) stays warm through k=2 --- these universes share not just a PC1 but a common 2D plane of variation. By k=3 everything cools, but the franchise block still shows higher alignment than mythology-vs-franchise pairs. The role PCs and assistant axis (bottom rows) have low cosines with all universes, confirming that within-universe principal directions are mostly orthogonal to the role space.
-
-*Where does the assistant axis live?* Lu et al.'s PC1 aligns with their "assistant axis" (cosine 0.67). The cosine heatmap above shows that the top 3 within-universe PCs together capture at most 24% of the assistant axis (Marvel, sum of squared cosines from the left panel). The assistant axis is not concentrated in any universe's top PCs --- it is spread diffusely across many dimensions.
-
-Who are the most and least assistant-like fictional characters? Projecting all 1,268 characters onto the assistant axis:
-
-
-#+begin_src python :exports results
-import matplotlib.pyplot as plt
-
-aa_norm_vec = assistant_axis / np.linalg.norm(assistant_axis)
-aa_scores_all = chars_centered @ aa_norm_vec
-order = np.argsort(aa_scores_all)
-
-def fmt_char(name):
-    parts = name.split('__')
-    char = parts[-1].replace('_', ' ').title()
-    return char
-
-n_show = 15
-top_idx = order[-n_show:][::-1]
-bot_idx = order[:n_show]
-
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
-
-# Most assistant-like
-names_top = [fmt_char(char_names[i]) for i in top_idx]
-scores_top = [aa_scores_all[i] for i in top_idx]
-colors_top = ['#4daf4a' if s >= 0 else '#377eb8' for s in scores_top]
-ax1.barh(range(n_show), scores_top, color=colors_top)
-ax1.set_yticks(range(n_show))
-ax1.set_yticklabels(names_top, fontsize=9)
-ax1.invert_yaxis()
-ax1.set_xlabel('Assistant axis projection')
-ax1.set_title('Most assistant-like')
-ax1.axvline(0, color='gray', linewidth=0.5, linestyle='--')
-
-# Least assistant-like
-names_bot = [fmt_char(char_names[i]) for i in bot_idx]
-scores_bot = [aa_scores_all[i] for i in bot_idx]
-ax2.barh(range(n_show), scores_bot, color='#e41a1c')
-ax2.set_yticks(range(n_show))
-ax2.set_yticklabels(names_bot, fontsize=9)
-ax2.invert_yaxis()
-ax2.set_xlabel('Assistant axis projection')
-ax2.set_title('Least assistant-like')
-
-fig.suptitle('1,268 fictional characters ranked on the assistant axis', fontsize=12, y=1.02)
-fig.tight_layout()
-plt.show()
-#+end_src
-
-#+RESULTS:
-:results:
-[[file:plots/post/plot_20260227_132626_6705592.png]]
-:end:
-
-Hermione Granger is the most assistant-like fictional character in the dataset. The bottom is dominated by non-verbal monsters --- Ungoliant, Grendel's Mother, Shelob. Nearly all fictional characters score well below zero (mean AA across fictional characters = -18.5, std = 7.0); only Hermione is near zero. 
-
-Yet the rank correlations between PC scores and assistant axis scores are substantial (median |rho| = 0.52 for PC1, 0.58 for PC2), even though the PC directions are nearly orthogonal to the assistant axis direction (median cosines 0.17, 0.28, 0.13 for PC1--3).
+Geometric alignment between within-universe PCs and the assistant axis is uniformly low (median cosines 0.17, 0.28, 0.13 for PC1--3), but rank correlations between PC scores and AA scores are substantial --- appearing on PC1 for franchises and shifting to PC2/PC3 for mythology. Lu et al.'s role PC1 aligns with their "assistant axis" (cosine 0.67), but the assistant axis is not concentrated in any universe's top PCs --- it is spread diffusely across many dimensions.
 
 Despite both being rank-correlated with the assistant axis, PC1 and PC2 scores are uncorrelated with each other (median |rho| = 0.03, max 0.12), confirming they capture independent aspects of the AA. We can test this directly: using the LLM-discovered features from the feature interpretation pipeline (described in the next section), we regress assistant axis scores against the 6 features discovered for within-universe PC1 (formality features), the 6 features for PC2 (warmth features), and both combined.
 
@@ -1174,8 +943,8 @@ for universe, prefixes in ALL_UNIVERSES.items():
     rho_12, _ = spearmanr(scores[:, 0], scores[:, 1])
     pc_corr_rows.append({'Universe': universe, '|PC1-PC2 rho|': round(abs(rho_12), 3)})
 
-    # AA scores
-    aa_scores = u_centered @ aa_norm
+    # AA scores (local to this universe)
+    u_aa_scores = u_centered @ aa_norm
     name_to_local = {n: i for i, n in enumerate(u_names)}
 
     for source in ['PC1', 'PC2', 'PC1+PC2']:
@@ -1222,7 +991,7 @@ for universe, prefixes in ALL_UNIVERSES.items():
             continue
 
         X = np.array(feature_matrix)
-        y = aa_scores[valid_local_idx]
+        y = u_aa_scores[valid_local_idx]
         n = len(y)
         p = X.shape[1]
         X_aug = np.column_stack([np.ones(n), X])
@@ -1274,12 +1043,12 @@ print(f"PC1-PC2 rank independence median: {med_rho:.3f}")
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_132626_7598793.png]]
+[[file:plots/post/plot_20260228_182741_7470493.png]]
 Medians: PC1=0.48, PC2=0.47, PC1+PC2=0.60
 PC1-PC2 rank independence median: 0.027
 :end:
 
-PC1 (formality) and PC2 (warmth) each independently predict assistant axis scores at median adj. R² ~0.48. Combining both sets of features (12 total) raises this to median 0.60, with franchises reaching 0.63--0.87. The AA is not formality alone --- it is a blend of formality and warmth/cooperativeness. This explains why both PC1 and PC2 rank-correlate with the AA despite being uncorrelated with each other: they capture independent components of the same direction. In mythology, where within-universe AA variance is small (std 1.7--2.9 vs. 4--6 for franchises), neither set of features predicts well.
+PC1 (formality) and PC2 (warmth) each independently predict assistant axis scores at median adj. R² ~0.48. Combining both sets of features (12 total) raises this to median 0.60, with franchises reaching 0.63--0.87. The AA is not formality alone --- it is a blend of formality and warmth/cooperativeness. In mythology, where within-universe AA variance is small (std 1.7--2.9 vs. 4--6 for franchises), neither set of features predicts well.
 
 * What Do the Directions Encode?
 
@@ -1370,7 +1139,7 @@ for mode in ['within', 'lu']:
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_132626_2719061.png]]
+[[file:plots/post/plot_20260228_182742_7874018.png]]
 within median adj. R²: 0.65
 lu median adj. R²: 0.46
 :end:
@@ -1432,7 +1201,7 @@ print(f"Median adj. R²: {np.median([r['r2'] for r in rows]):.2f} (all), {np.med
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_132627_2560467.png]]
+[[file:plots/post/plot_20260228_182743_2898757.png]]
 Median adj. R²: 0.54 (all), 0.69 (franchises), 0.28 (mythology)
 :end:
 
@@ -1516,7 +1285,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_132628_6712151.png]]
+[[file:plots/post/plot_20260228_182743_7775141.png]]
 :end:
 
 Franchises recover PC1 with cosine > 0.99 from just 5 questions; mythology and Shakespeare need 20--50 questions to reach the same threshold. Greek mythology is the hardest case: PC1 direction cosine is only 0.61 at $k=1$ and reaches 0.93 at $k=120$. The gap between score stability and direction stability reflects the fact that scoring characters along a fixed direction only requires reducing noise in the mean, while recovering the direction itself requires the covariance structure to stabilize.
@@ -1614,73 +1383,19 @@ print(f"Direction stability: franchise PC1 range = {dir_mat[:6,0].min():.2f}--{d
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_132641_3790045.png]]
+OOD analysis: 1268 of 1268 characters have OOD activations
+[[file:plots/post/plot_20260228_182753_1505380.png]]
 Score stability: min r = 0.948
 Direction stability: franchise PC1 range = 0.91--0.93
 :end:
 
 *Score stability* remains high even with OOD questions. Sixteen out-of-distribution prompts --- including single-character inputs like "." and "?" --- recover character PC scores at Pearson r > 0.94 across all universes and PCs 1--3. If you already have the PC directions, you can score characters with almost any prompts.
 
-*Direction stability* is another matter. Let $\bar{a}_i^{\text{ood}} = \frac{1}{16}\sum_{q \in S_{\text{ood}}} a_{iq}$ be the mean activation over the 16 OOD prompts, and $V^{\text{ood}}$ the PCA directions fit on $\{\bar{a}_i^{\text{ood}} : i \in \mathcal{U}\}$. The resulting PC1 directions $|v_1^{\mathcal{U}} \cdot v_1^{\text{ood}}|$ align well with the full-battery PC1 for franchises (cosine 0.89--0.93) but poorly for Greek mythology (0.55), Shakespeare (0.45), and Chinese mythology PC2--3 (0.12). This is not a sample size issue: 16 random questions from the /same/ 240-question battery give PC1 direction cosines > 0.99 everywhere (even 5 give > 0.96). The direction instability comes from the questions being qualitatively different --- degenerate and task prompts elicit different variance structure in mythology and Shakespeare, even though character scores along the full-battery directions are preserved.
-
-#+begin_src python :exports results
-# Judge scoring comparison: degenerate vs original battery
-import json
-from pathlib import Path as JPath
-
-degen_scores_dir = JPath('../outputs/degenerate_questions/scores')
-orig_scores_dir = JPath('../outputs/qwen3-32b_20260211_002840/scores')
-
-degen_all, orig_all = [], []
-degen_task, degen_degen = [], []
-for f in sorted(degen_scores_dir.glob('*.json')):
-    with open(f) as fh:
-        scores = json.load(fh)
-    for key, val in scores.items():
-        q_idx = int(key.split('_')[-1].replace('q', ''))
-        degen_all.append(val)
-        if q_idx < 8:
-            degen_degen.append(val)
-        else:
-            degen_task.append(val)
-    orig_f = orig_scores_dir / f'{f.stem}.json'
-    if orig_f.exists():
-        with open(orig_f) as fh:
-            orig_all.extend(json.load(fh).values())
-
-rows = []
-for label, arr in [('Original battery (240Q)', orig_all),
-                    ('Degenerate prompts (8Q)', degen_degen),
-                    ('Task prompts (8Q)', degen_task)]:
-    n = len(arr)
-    pct3 = sum(1 for s in arr if s == 3) / n
-    mean = sum(arr) / n
-    rows.append({'Battery': label, 'Mean score': f'{mean:.2f}', '% score=3': f'{100*pct3:.1f}%', 'n': n})
-print(pd.DataFrame(rows).set_index('Battery'))
-#+end_src
-
-#+RESULTS:
-:results:
-| Battery                 | Mean score | % score=3 |       n |
-|-------------------------+------------+-----------+---------|
-| Original battery (240Q) |       2.97 |     98.3% | 1615183 |
-| Degenerate prompts (8Q) |       2.98 |     99.1% |   53836 |
-| Task prompts (8Q)       |       2.67 |     79.1% |   53840 |
-:end:
-
-The judge scores above are computed over all 1,346 characters (before deduplication). The activation analyses throughout the post use the 1,268-character deduplicated dataset (=fictional_character_analysis_filtered.pkl=), which collapses characters appearing under multiple universe prefixes to a single entry. Degenerate prompts score /higher/ on role adherence (99.1% at score 3) than the original 240-question battery (98.3%). Task prompts are where scores drop (79.1% at score 3) --- characters break character when asked to write haiku or Python, not when given "?".
+*Direction stability* is another matter. Let $\bar{a}_i^{\text{ood}} = \frac{1}{16}\sum_{q \in S_{\text{ood}}} a_{iq}$ be the mean activation over the 16 OOD prompts, and $V^{\text{ood}}$ the PCA directions fit on $\{\bar{a}_i^{\text{ood}} : i \in \mathcal{U}\}$. The resulting PC1 directions $|v_1^{\mathcal{U}} \cdot v_1^{\text{ood}}|$ align well with the full-battery PC1 for franchises (cosine 0.91--0.93) but poorly for Greek mythology (0.55), Shakespeare (0.45), and Chinese mythology PC2--3 (0.12). This is not a sample size issue: 16 random questions from the /same/ 240-question battery give PC1 direction cosines > 0.99 everywhere (even 5 give > 0.96). The direction instability comes from the questions being qualitatively different --- degenerate and task prompts elicit different variance structure in mythology and Shakespeare, even though character scores along the full-battery directions are preserved.
 
 In summary: score stability is high --- given pre-computed directions, almost any prompts suffice to score characters. Direction stability depends on the question type: within the same battery, even 5 random questions recover directions well, but qualitatively different prompts (degenerate, task-shaped) yield different PC directions for mythology and Shakespeare.
 
 * Conclusion
-
-*The persona signal is robust to question choice.* A single random question recovers character PC scores at Pearson r > 0.95. Sixteen out-of-distribution prompts --- degenerate inputs like "." and "?" alongside task prompts --- recover PC1--3 scores at r > 0.94 across all universes.
-
-*The subspace is shared but the directions are not.* The role subspace and fiction subspace overlap heavily (~75--92%), but their principal directions are sensitive to the input distribution. Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (~0.05--0.12). The assistant axis illustrates this: its cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3), but rank correlations between PC scores and assistant axis scores are substantial --- appearing on PC1 for franchises (HP 0.78, Naruto 0.68) and on PC2/PC3 for mythology (Hindu PC2: 0.79, Chinese PC3: 0.79). PC1 and PC2 are rank-uncorrelated with each other (median |rho| = 0.03) but both predict the AA independently: the AA is a blend of formality (PC1) and warmth (PC2), not either alone. Combined PC1+PC2 features predict AA scores at median adj. R² = 0.60 (0.63--0.87 for franchises). Running the feature pipeline directly on the AA confirms this: the discovered features are collaborative tone, warmth, and self-deprecation versus grandiose, threatening, and dramatic language (franchise median adj. R² = 0.69).
-
-*Within-universe PCs are interpretable, and the interpretation is quantifiable.* Our LLM feature discovery pipeline --- discover features from held-out extreme characters, code all remaining characters, regress --- gives adjusted R² values rather than subjective labels from eyeballing top-scoring characters. For modern franchises, within-universe PC1 is formality/register (adj. R² = 0.72--0.88) and PC2 is warmth vs. aggression (adj. R² = 0.52--0.82). Mythology and Shakespeare are more heterogeneous (adj. R² = 0.41--0.54 for PC1). Overall median adj. R² = 0.65.
-
-*Fictional characters extend the role space.* 1,268 characters capture 92% of role variance; roles capture 75% of fiction. Fiction provides built-in semantic structure (we know who the characters are) and is extensible (add universes). The space of fictional characters is itself constructed, which is visible in how the global PCs separate universes.
 
 ** Follow ups
 
@@ -1690,7 +1405,6 @@ In summary: score stability is high --- given pre-computed directions, almost an
 
 - All results are from Qwen3-32B at layer 32. Lu et al. show cross-model consistency for their axis. We haven't shown whether the results here generalize.
 - Character instructions are minimal and were generated by Claude (e.g., "You are Harry Potter from Harry Potter. Respond as this character would."). Results may be sensitive to instruction quality or phrasing.
-- The LLM feature discovery and rating pipeline uses Claude to evaluate model outputs. There could be shared biases between the evaluating LLM and the model being studied.
 - Only 12 universes are analyzed; 241 of 1,268 characters are ungrouped and silently dropped from within-universe analyses.
 - The feature regressions use 34--98 characters per universe (all non-discovery characters) with 6 predictors. Egyptian Mythology (n=34) has the fewest degrees of freedom.
 
@@ -1708,14 +1422,61 @@ All result files the post loads are checked into git. To regenerate from scratch
 | =results/question_subset_sweep.json=                | yes             | =blogpost/scripts/question_subset_sweep.py=        | =python blogpost/scripts/question_subset_sweep.py= (local, ~18s)                                        |
 | =results/llm_feature_coded{,_lu,_within,_aa}.json=  | yes             | =blogpost/scripts/llm_feature_coding.py=           | =python blogpost/scripts/llm_feature_coding.py --mode {residual,lu,within,aa} all= (needs =ANTHROPIC_API_KEY_BATCH=, cluster responses) |
 | =results/feature_regression{,_lu,_within,_aa}.json= | yes             | =blogpost/scripts/feature_regression.py=           | =python blogpost/scripts/feature_regression.py --mode {residual,lu,within,aa}= (local, instant)         |
-| =results/principal_angle_heatmaps.png=              | yes             | =blogpost/scripts/principal_angle_heatmaps.py=     | =python blogpost/scripts/principal_angle_heatmaps.py= (local, instant)                                  |
 | =outputs/degenerate_questions/activations/*.pt=     | no              | =scripts/slurm_degenerate_questions.sh=            | SLURM job on cluster: generate + extract activations for 16 degenerate/task questions                   |
-| =outputs/degenerate_questions/scores/*.json=        | no              | =src/analysis/judge_scoring.py=                    | Run on cluster: =python src/analysis/judge_scoring.py= with degenerate question outputs                  |
-| =outputs/qwen3-32b_20260211_002840/scores/*.json=   | no              | =src/analysis/judge_scoring.py=                    | Run on cluster: =python src/analysis/judge_scoring.py= with original battery outputs                     |
 | =data/degenerate_questions.jsonl=                   | yes             | hand-written                                     | 16 prompts (degenerate + task-shaped) for question invariance test                                      |
 | =assistant-axis/= (git submodule)                    | yes (submodule) | Lu et al. codebase                               | =git submodule update --init= (provides =extraction_questions.jsonl= used by =llm_feature_coding.py=)      |
 
 To render the post from a fresh clone: run =git submodule update --init=, then =python blogpost/scripts/download_role_vectors.py=, then eval the org file. All other data is checked in.
+
+* Appendix: Character Rankings on the Assistant Axis
+
+Projecting all 1,268 characters onto the assistant axis and centering each universe to zero mean (to remove between-universe displacement from the role mean):
+
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+
+def fmt_char_short(name):
+    parts = name.split('__')
+    char = parts[-1].replace('_', ' ').title()
+    return char
+
+order = np.argsort(aa_scores)
+n_show = 20
+top_idx = order[-n_show:][::-1]
+bot_idx = order[:n_show]
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 6))
+
+names_top = [fmt_char_short(char_names[i]) for i in top_idx]
+scores_top = [aa_scores[i] for i in top_idx]
+ax1.barh(range(n_show), scores_top, color='#4daf4a')
+ax1.set_yticks(range(n_show))
+ax1.set_yticklabels(names_top, fontsize=8)
+ax1.invert_yaxis()
+ax1.set_xlabel('AA projection (universe-centered)')
+ax1.set_title('Most assistant-like', fontsize=11)
+ax1.axvline(0, color='gray', linewidth=0.5, linestyle='--')
+for i, v in enumerate(scores_top):
+    ax1.text(max(v, 0) + 0.05, i, f"{v:+.1f}", va='center', fontsize=7, color='#333')
+
+names_bot = [fmt_char_short(char_names[i]) for i in bot_idx]
+scores_bot = [aa_scores[i] for i in bot_idx]
+ax2.barh(range(n_show), scores_bot, color='#e41a1c')
+ax2.set_yticks(range(n_show))
+ax2.set_yticklabels(names_bot, fontsize=8)
+ax2.invert_yaxis()
+ax2.set_xlabel('AA projection (universe-centered)')
+ax2.set_title('Least assistant-like', fontsize=11)
+
+fig.suptitle('Fictional characters ranked on the assistant axis\n(universe-mean-centered, top & bottom 20)', fontsize=11, y=1.01)
+fig.tight_layout()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/post/plot_20260228_182753_2610171.png]]
+:end:
 
 * Appendix: Residual PC Feature Regressions
 
@@ -1762,5 +1523,71 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_132643_6270511.png]]
+[[file:plots/post/plot_20260228_182754_7626657.png]]
 :end:
+
+* Appendix: Residual Directions vs. Original PCs
+
+After projecting out the role space, we fit PCA on the residuals $r_i = (I - P)\tilde{a}_i$ for each universe. We compare the residual PC1 direction and character rankings with the original (full-space) PC1:
+
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+
+franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
+
+def cosine(a, b):
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+rows = []
+for universe, prefixes in ALL_UNIVERSES.items():
+    idx = get_universe_indices(prefixes)
+    if len(idx) < 20:
+        continue
+    u_orig = chars_centered[idx]
+    u_resid = residuals[idx]
+    orig_var = np.var(u_orig, axis=0).sum()
+    recon_var = np.var(reconstructed[idx], axis=0).sum()
+
+    original_pca = SkPCA(n_components=1).fit(u_orig)
+    residual_pca = SkPCA(n_components=1).fit(u_resid)
+
+    orig_pos = original_pca.transform(u_orig)[:, 0]
+    resid_pos = residual_pca.transform(u_resid)[:, 0]
+
+    dir_cos = abs(cosine(original_pca.components_[0], residual_pca.components_[0]))
+    rank_corr = abs(np.corrcoef(orig_pos, resid_pos)[0, 1])
+    rows.append({'Universe': universe, 'dir_cos': dir_cos, 'rank_corr': rank_corr,
+                 'role_cap': recon_var / orig_var})
+
+rows.sort(key=lambda x: x['rank_corr'], reverse=True)
+
+fig, ax = plt.subplots(figsize=(10, 5))
+y = np.arange(len(rows))
+h = 0.35
+names = [r['Universe'] for r in rows]
+dir_vals = [r['dir_cos'] for r in rows]
+rank_vals = [r['rank_corr'] for r in rows]
+ax.barh(y - h/2, dir_vals, h, color='#377eb8', label='Direction cosine (geometric alignment)')
+ax.barh(y + h/2, rank_vals, h, color='#e41a1c', label='Ranking correlation (Pearson)')
+ax.set_yticks(y)
+ax.set_yticklabels([f"{n} (role captures {rows[i]['role_cap']:.0%})" for i, n in enumerate(names)], fontsize=8)
+ax.set_xlabel('|value|')
+ax.set_title('Residual PC1 vs. original PC1: directions differ, rankings agree')
+ax.legend(fontsize=8, loc='lower right')
+ax.set_xlim(0, 1.05)
+ax.invert_yaxis()
+for i, (d, r) in enumerate(zip(dir_vals, rank_vals)):
+    ax.text(d + 0.01, i - h/2, f"{d:.2f}", va='center', fontsize=7)
+    ax.text(r + 0.01, i + h/2, f"{r:.2f}", va='center', fontsize=7)
+fig.tight_layout()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/post/plot_20260228_182754_9805117.png]]
+:end:
+
+Residual PC1 directions are nearly orthogonal to the original PC1 (cosines 0.19--0.66), but character rankings on residual PC1 correlate 0.77--0.96 with original PC1 rankings in most universes (Marvel is the exception at 0.55). The role space captures most of the variance (61--85% per universe), but the residual --- geometrically orthogonal to the role space --- still preserves who ranks where. Extreme characters (Voldemort, Darth Vader, Galadriel) are extreme in multiple directions; projecting out the role space changes the axis but not the ordering.
+
+This means: the 15--39% of within-universe variance missed by the role space is not noise --- it encodes real structure that produces the same character ordering along a different geometric direction.
