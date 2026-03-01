@@ -6,7 +6,7 @@
 
 AN: This code and post was cowritten with Claude code.
 
-* _Setup
+* Setup :noexport:
 
 #+begin_src python :exports none
 import pickle
@@ -134,12 +134,83 @@ plt.show()
 
 [[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 is correlated with an assistant-axis they constructed by prompting assistant behavior.
 
-We apply similar ideas to 1,268 fictional characters in Qwen3-32B --- from Hindu mythology to Naruto.
+We apply similar ideas to 1,268 fictional characters in Qwen3-32B --- from Hindu mythology to Naruto. Here are the key questions that motivated me, and the headlines.
+
+0. [@0] *Is it true that persona space is low dimensional?*
+   - Yes. Effective rank (participation ratio) is 8 for fiction and 5.8 for roles, out of 1,268 and 275 maximum dimensions respectively. The eigenspectra are strikingly similar despite the different input distributions; a random baseline of 1,268 isotropic points gives effective rank ~1,015.
+
+#+begin_src python :exports results
+eff_rank = lambda e: (e.sum())**2 / (e**2).sum()
+
+# Full-rank eigenspectra
+n_f = len(chars_centered)
+pca_full_f = SkPCA(n_components=n_f - 1).fit(chars_centered)
+eigs_f = pca_full_f.explained_variance_
+eigs_r = role_pca.explained_variance_  # already full rank (275 components)
+
+# Random baseline: 1268 iid Gaussian points in R^5120, matched total variance
+rng = np.random.RandomState(42)
+rand_pts = rng.randn(n_f, 5120)
+rand_pts *= np.sqrt(eigs_f.sum() / np.var(rand_pts, axis=0).sum())
+pca_rand = SkPCA(n_components=n_f - 1).fit(rand_pts)
+eigs_rand = pca_rand.explained_variance_
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4))
+
+# Left: eigenspectrum on log scale
+ax1.plot(range(1, len(eigs_f)+1), eigs_f, label=f'Fiction (eff. rank={eff_rank(eigs_f):.1f})', color='#377eb8', linewidth=2)
+ax1.plot(range(1, len(eigs_r)+1), eigs_r, label=f'Roles (eff. rank={eff_rank(eigs_r):.1f})', color='#e41a1c', linewidth=2)
+ax1.plot(range(1, len(eigs_rand)+1), eigs_rand, label=f'Random (eff. rank={eff_rank(eigs_rand):.0f})', color='#999999', linewidth=1.5, linestyle='--')
+ax1.set_yscale('log')
+ax1.set_xlabel("PC index")
+ax1.set_ylabel("Eigenvalue (log scale)")
+ax1.set_title("Eigenspectrum (full rank)")
+ax1.set_xlim(1, 200)
+ax1.legend(fontsize=8, loc='upper right')
+
+# Right: cumulative variance
+fcumvar = np.cumsum(pca_full_f.explained_variance_ratio_)
+lu_cumvar = np.cumsum(role_pca.explained_variance_ratio_)
+ax2.plot(range(1, len(fcumvar)+1), fcumvar, label='Fiction (1,268 characters)', color='#377eb8', linewidth=2)
+ax2.plot(range(1, len(lu_cumvar)+1), lu_cumvar, label='Roles (275, Lu et al.)', color='#e41a1c', linewidth=2)
+for thresh, style in [(0.7, '--'), (0.9, ':')]:
+    ax2.axhline(thresh, color='gray', linestyle=style, alpha=0.5, linewidth=0.8)
+    ax2.annotate(f"{thresh:.0%}", xy=(195, thresh), fontsize=8, color='gray', va='bottom')
+ax2.set_xlabel("Number of PCs")
+ax2.set_ylabel("Cumulative variance explained")
+ax2.set_title("Cumulative variance: fiction vs. roles")
+ax2.set_xlim(1, 200); ax2.set_ylim(0, 1.02)
+ax2.legend(loc='lower right', fontsize=9)
+
+fig.tight_layout()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/post/plot_20260228_202328_1368023.png]]
+:end:
 
 1. *How much of persona space does role space cover?*
    - 75% of fictional character variance overall. The fictional character space is low-dimensional (~40 PCs for 90%), so coverage by role space is less than a random sample of 275 fictional characters (95%) but far more than a random 275-dim subspace (5%).
    - The relationship is asymmetric: fiction (1268 characters) captures 92% of role variance.
-   - Of the 25% roles miss, most is universe separation; only ~9% is within-universe structure. This is because variance in fiction space is dominated by universe seperation.
+   - Of the 25% roles miss, most is universe separation; only ~9% is within-universe structure. This is because variance in fiction space is dominated by universe separation.
+
+#+begin_src python :exports results
+total_var = np.var(chars_centered, axis=0).sum()
+captured_var = np.var(chars_centered @ role_pca.components_.T @ role_pca.components_, axis=0).sum()
+resid_var = total_var - captured_var
+
+fig, ax = plt.subplots(figsize=(6, 3))
+bars = ax.barh(['Role space\ncaptures', 'Residual'], [captured_var/total_var, resid_var/total_var],
+               color=['#4daf4a', '#e41a1c'])
+ax.set_xlim(0, 1)
+ax.set_xlabel('Fraction of total fiction variance')
+ax.bar_label(bars, fmt='{:.0%}', padding=3)
+ax.set_title('Role space (275 generic roles) captures 75% of fiction variance')
+fig.tight_layout()
+plt.show()
+#+end_src
 
 2. *Does the result that PC1 is assistant-axis aligned replicate for fictional characters?*
    - Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (Hindu/Shakespeare ~0.05).
@@ -319,15 +390,40 @@ ax.set_ylim(0.5, 1.01)
 ax.axhline(0.99, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
 ax.axhline(0.95, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
 ax.legend(fontsize=9)
-ax.set_title('Question subset recovery (median across 12 universes, 200 draws)')
+ax.set_title('Score stability (median across 12 universes, 200 draws)')
 fig.tight_layout()
 plt.show()
 #+end_src
 
-#+RESULTS:
-:results:
-[[file:plots/post/plot_20260228_182713_2771308.png]]
-:end:
+#+begin_src python :exports results
+import json as _json2
+
+with open('../results/direction_stability_sweep.json') as f:
+    dsweep = _json2.load(f)
+
+franchise_set = {'harry_potter', 'star_wars', 'marvel', 'game_of_thrones', 'lord_of_the_rings', 'naruto'}
+
+fig, ax = plt.subplots(figsize=(8, 5))
+for universe, udata in dsweep.items():
+    sizes = [s['size'] for s in udata['sweeps']['PC1']]
+    medians = [s['median'] for s in udata['sweeps']['PC1']]
+    is_franchise = universe in franchise_set
+    color = '#377eb8' if is_franchise else '#e41a1c'
+    alpha = 0.7 if is_franchise else 0.5
+    ax.plot(sizes, medians, 'o-', color=color, alpha=alpha, markersize=2, linewidth=1,
+            label=universe.replace('_', ' ').title())
+
+ax.set_xscale('log')
+ax.set_xlabel('# questions in random subset')
+ax.set_ylabel('|cos(full-battery PC1, subset PC1)|')
+ax.set_ylim(0.4, 1.02)
+ax.axhline(0.99, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
+ax.axhline(0.95, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
+ax.set_title('Direction stability: PC1 (200 random draws per size)')
+ax.legend(fontsize=6, loc='lower right', ncol=2)
+fig.tight_layout()
+plt.show()
+#+end_src
 
 ** Definitions and notation
 
@@ -339,14 +435,14 @@ We use four sets of PCA directions, differing in which rows go into $A$ and what
 
 - *Role PCs ($V_{\text{role}}$):* PCA on 275 generic role activations from Lu et al. The centering is at the role mean $\bar{a}_{\text{role}}$. Fit once; shared across all analyses.
 - *Assistant axis ($u_{\text{AA}}$):* The unit vector $u_{\text{AA}} = (\bar{a}_{\text{default}} - \bar{a}_{\text{role}}) / \|\bar{a}_{\text{default}} - \bar{a}_{\text{role}}\|$, where $\bar{a}_{\text{default}}$ is the mean default-assistant activation and $\bar{a}_{\text{role}}$ is the mean role-playing activation (both from Lu et al.'s data). $|\cos(u_{\text{AA}}, v_1^{\text{role}})| = 0.67$ at layer 32.
-- *Within-universe PCs ($V_{\mathcal{U}}$):* PCA on one universe $\mathcal{U}$'s characters using their full activations centered at the role mean $\bar{a}_{\text{role}}$ (not the universe mean). Different per universe.
-- *Residual PCs ($V_{\mathcal{U}}^{\perp}$):* Let $P = V_{\text{role}} V_{\text{role}}^\top$ be the projector onto the role subspace. The residual for character $i$ is $r_i = (\bar{a}_i - \bar{a}_{\text{role}}) - P(\bar{a}_i - \bar{a}_{\text{role}})$. Residual PCs are PCA on $\{r_i : i \in \mathcal{U}\}$. Different per universe; orthogonal to the role space by construction.
+- *Within-universe PCs ($V_{\mathcal{U}}$):* PCA on one universe $\mathcal{U}$'s characters, centered at the universe mean $\bar{a}_{\mathcal{U}} = \frac{1}{|\mathcal{U}|}\sum_{i \in \mathcal{U}} \bar{a}_i$. (In code, the input is role-mean-centered, but sklearn's PCA subtracts the mean of its input, so the effective centering is at the universe mean.) Different per universe.
+- *Residual PCs ($V_{\mathcal{U}}^{\perp}$):* Let $P = V_{\text{role}} V_{\text{role}}^\top$ be the projector onto the role subspace. The residual for character $i$ is $r_i = (\bar{a}_i - \bar{a}_{\text{role}}) - P(\bar{a}_i - \bar{a}_{\text{role}})$. Residual PCs are PCA on $\{r_i : i \in \mathcal{U}\}$, centered at the universe's mean residual. Different per universe; orthogonal to the role space by construction.
 
 When the text says "role PC1" ($v_1^{\text{role}}$) vs. "within-universe PC1" ($v_1^{\mathcal{U}}$) vs. "residual PC1" ($v_1^{\mathcal{U},\perp}$), these are three different directions from three different PCA fits.
 
 *Variance capture.* When we say "the role space captures X% of fiction variance," we mean: let $P = V_{\text{role}} V_{\text{role}}^\top$. For each character, project $\tilde{a}_i = \bar{a}_i - \bar{a}_{\text{role}}$ onto the role subspace to get $\hat{a}_i = P\tilde{a}_i$. Then $\text{captured} = \sum_j \text{Var}_i(\hat{a}_{ij}) / \sum_j \text{Var}_i(\tilde{a}_{ij})$, where the variance is over characters $i$ and $j$ indexes coordinates.
 
-*Universe-mean-centered AA scores.* Raw AA scores $(\bar{a}_i - \bar{a}_{\text{role}}) \cdot u_{\text{AA}}$ conflate universe-level displacement from the role mean with individual character variation. When ranking characters across universes on the assistant axis, we subtract each universe's mean AA score: $s_i^{\text{AA}} = (\bar{a}_i - \bar{a}_{\mathcal{U}(i)}) \cdot u_{\text{AA}}$. This isolates within-universe variation along the AA direction. All other analyses (PCA, variance capture, cross-universe comparisons) use the role-mean-centered activations $\tilde{a}_i = \bar{a}_i - \bar{a}_{\text{role}}$ without universe-mean-centering, since between-universe variance is part of what we are measuring.
+*Universe-mean-centered AA scores.* Raw AA scores $(\bar{a}_i - \bar{a}_{\text{role}}) \cdot u_{\text{AA}}$ conflate universe-level displacement from the role mean with individual character variation. When ranking characters across universes on the assistant axis, we subtract each universe's mean AA score: $s_i^{\text{AA}} = (\bar{a}_i - \bar{a}_{\mathcal{U}(i)}) \cdot u_{\text{AA}}$. This isolates within-universe variation along the AA direction. Cross-universe analyses (variance capture, subspace overlap) use role-mean-centered activations $\tilde{a}_i = \bar{a}_i - \bar{a}_{\text{role}}$, since between-universe variance is part of what we are measuring. Within-universe PCA additionally centers at the universe mean (standard PCA centering).
 
 * Is There a Low Dimensional Fictional Persona Space?
 
@@ -794,7 +890,7 @@ PC1 (31% of variance, η²=68%) separates modern franchises from mythology and S
 
 * What Do Within-Universe PCs Encode?
 
-Most within-universe variance lives inside the role subspace, but do different universes find the same principal directions? For each universe $\mathcal{U}$, we fit PCA on $\{\bar{a}_i - \bar{a}_{\text{role}} : i \in \mathcal{U}\}$ to get $V_{\mathcal{U}} = (v_1^{\mathcal{U}}, v_2^{\mathcal{U}}, \dots)$. To compare directions across universes, we compute $|\cos(v_j^{\mathcal{U}_1}, v_j^{\mathcal{U}_2})| = |v_j^{\mathcal{U}_1} \cdot v_j^{\mathcal{U}_2}|$ (absolute cosine between corresponding PCs). We start by checking how much of each universe's variance the role space captures:
+Most within-universe variance lives inside the role subspace, but do different universes find the same principal directions? For each universe $\mathcal{U}$, we fit PCA on $\{\bar{a}_i : i \in \mathcal{U}\}$ (centered at the universe mean $\bar{a}_{\mathcal{U}}$) to get $V_{\mathcal{U}} = (v_1^{\mathcal{U}}, v_2^{\mathcal{U}}, \dots)$. To compare directions across universes, we compute $|\cos(v_j^{\mathcal{U}_1}, v_j^{\mathcal{U}_2})| = |v_j^{\mathcal{U}_1} \cdot v_j^{\mathcal{U}_2}|$ (absolute cosine between corresponding PCs). We start by checking how much of each universe's variance the role space captures:
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
@@ -1400,6 +1496,7 @@ In summary: score stability is high --- given pre-computed directions, almost an
 ** Follow ups
 
 - Lu et al. show that for their fixed role set, the geometry is consistent across models. Our results show that changing the role distribution changes the geometry within the same model (franchise vs. mythology PC1 directions differ). Cross-model consistency despite within-model sensitivity to distribution would be worth investigating: does the fiction geometry look similar across models?
+- The low dimensionality and eigenspectra similarity of fictional characters is striking. Is this just a characteristic of model activations in general? 
 
 ** Limitations
 
