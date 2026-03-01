@@ -976,6 +976,176 @@ Mean tokens/line: vuln=11.7, safe=7.4
 
 *Interpretation:* The monitor axis is a /persona direction/, not a /capability direction/. It captures how the model talks (analytical, structured, collaborative) when given a security monitor role, but it does not encode the ability to actually detect vulnerabilities. This is consistent with our earlier finding that the monitor axis is 83% role PC1 — it's mostly about the general "character vs assistant" distinction, not about security-specific features.
 
+* Monitor axis in generated security reviews
+
+The previous section looked at activations while /reading/ code. Here we ask: does the monitor axis behave differently when the model is /writing/ a security review of vulnerable vs clean code?
+
+For each of the 250 CASTLE programs, we generate a security review response (using the CASTLE evaluation prompt) and extract per-token layer-32 activations via a forward pass over the full prompt+response. We then project each token's activation onto the monitor axis and compare responses for vulnerable vs clean programs.
+
+#+begin_src python
+import json
+import statistics
+import re
+from collections import defaultdict
+
+with open('../outputs/castle_response_activations/response_activations.json') as f:
+    resp_data = json.load(f)
+
+n_vuln = sum(1 for r in resp_data if r['vulnerable'])
+n_clean = sum(1 for r in resp_data if not r['vulnerable'])
+print(f"Full dataset: {len(resp_data)} programs ({n_vuln} vuln, {n_clean} clean)")
+
+# Overall response means
+vuln_means = [statistics.mean(r['projections_monitor'][r['prompt_len']:]) for r in resp_data if r['vulnerable']]
+clean_means = [statistics.mean(r['projections_monitor'][r['prompt_len']:]) for r in resp_data if not r['vulnerable']]
+
+delta = statistics.mean(vuln_means) - statistics.mean(clean_means)
+print(f"\nMean monitor projection in response tokens:")
+print(f"  Vulnerable: {statistics.mean(vuln_means):.3f} (sd={statistics.stdev(vuln_means):.3f})")
+print(f"  Clean:      {statistics.mean(clean_means):.3f} (sd={statistics.stdev(clean_means):.3f})")
+print(f"  Delta:      {delta:+.3f}")
+#+end_src
+
+#+RESULTS:
+:results:
+Full dataset: 250 programs (150 vuln, 100 clean)
+
+Mean monitor projection in response tokens:
+  Vulnerable: 59.776 (sd=3.652)
+  Clean:      58.716 (sd=5.624)
+  Delta:      +1.061
+:end:
+
+The delta is +1.06 — slightly positive but small relative to standard deviations. The monitor axis does not meaningfully distinguish vulnerable from clean programs in the model's responses.
+
+We can segment the response into three regions: security message text (the "message" field values describing vulnerabilities), code content (the "line_content" field values), and JSON structure (everything else).
+
+#+begin_src python
+# Segment response tokens by region
+for label, subset in [
+    ('All', resp_data),
+    ('Vulnerable', [r for r in resp_data if r['vulnerable']]),
+    ('Clean', [r for r in resp_data if not r['vulnerable']]),
+]:
+    msg_projs = []
+    code_projs = []
+    struct_projs = []
+
+    for r in subset:
+        resp_text = r['response']
+        tokens = r['tokens'][r['prompt_len']:]
+        projs = r['projections_monitor'][r['prompt_len']:]
+
+        message_chars = set()
+        code_chars = set()
+        for m in re.finditer(r'"message"\s*:\s*"((?:[^"\\\\]|\\\\.)*)"', resp_text):
+            for i in range(m.start(1), m.end(1)):
+                message_chars.add(i)
+        for m in re.finditer(r'"line_content"\s*:\s*"((?:[^"\\\\]|\\\\.)*)"', resp_text):
+            for i in range(m.start(1), m.end(1)):
+                code_chars.add(i)
+
+        char_pos = 0
+        for tok, proj in zip(tokens, projs):
+            tok_range = set(range(char_pos, char_pos + len(tok)))
+            if tok_range & message_chars:
+                msg_projs.append(proj)
+            elif tok_range & code_chars:
+                code_projs.append(proj)
+            else:
+                struct_projs.append(proj)
+            char_pos += len(tok)
+
+    print(f"{label} ({len(subset)} programs):")
+    print(f"  Messages: {statistics.mean(msg_projs):.2f} (n={len(msg_projs)})")
+    print(f"  Code:     {statistics.mean(code_projs):.2f} (n={len(code_projs)})")
+    print(f"  JSON:     {statistics.mean(struct_projs):.2f} (n={len(struct_projs)})")
+#+end_src
+
+#+RESULTS:
+:results:
+All (250 programs):
+  Messages: 61.97 (n=17977)
+  Code:     53.42 (n=9489)
+  JSON:     63.71 (n=30718)
+Vulnerable (150 programs):
+  Messages: 61.00 (n=10411)
+  Code:     53.30 (n=5488)
+  JSON:     63.71 (n=18299)
+Clean (100 programs):
+  Messages: 63.31 (n=7566)
+  Code:     53.59 (n=4001)
+  JSON:     63.70 (n=12419)
+:end:
+
+The monitor projection varies by /content type/ — code tokens are lowest (53), JSON structure highest (64), security messages in between (62) — but not by vulnerability status. In fact, security message tokens have /higher/ monitor projection for clean programs (63.3) than vulnerable ones (61.0). The model writes about non-existent vulnerabilities in the same "monitor voice" as real ones.
+
+#+begin_src python
+# Per-CWE breakdown
+cwe_data = defaultdict(lambda: {'vuln': [], 'clean': []})
+for r in resp_data:
+    resp_mean = statistics.mean(r['projections_monitor'][r['prompt_len']:])
+    key = 'vuln' if r['vulnerable'] else 'clean'
+    cwe_data[r['cwe']][key].append(resp_mean)
+
+import pandas as pd
+rows = []
+n_pos = 0
+for cwe in sorted(cwe_data.keys()):
+    d = cwe_data[cwe]
+    v = statistics.mean(d['vuln']) if d['vuln'] else None
+    c = statistics.mean(d['clean']) if d['clean'] else None
+    delta_c = (v - c) if (v is not None and c is not None) else None
+    if delta_c and delta_c > 0:
+        n_pos += 1
+    rows.append({'CWE': cwe, 'Vuln': v, 'Clean': c, 'Delta': delta_c})
+
+df = pd.DataFrame(rows)
+print(df.to_string(index=False, float_format='%.2f'))
+print(f"\nPositive delta: {n_pos}/{len(cwe_data)} CWEs")
+
+# False positive rate
+fp = sum(1 for r in resp_data if not r['vulnerable'] and '[]' not in r['response'][:20])
+print(f"False positives (clean programs flagged): {fp}/{n_clean}")
+#+end_src
+
+#+RESULTS:
+:results:
+ CWE   Vuln  Clean  Delta
+  22  61.67  62.99  -1.32
+  78  61.76  60.97   0.79
+  89  60.65  58.05   2.60
+ 125  58.42  57.36   1.05
+ 134  60.46  54.69   5.77
+ 190  54.15  58.29  -4.15
+ 253  56.66  53.07   3.59
+ 327  62.52  62.97  -0.45
+ 362  59.25  61.65  -2.40
+ 369  57.59  57.09   0.50
+ 401  59.03  56.78   2.25
+ 415  60.14  57.54   2.60
+ 416  60.22  56.52   3.69
+ 476  59.40  60.34  -0.94
+ 522  62.55  63.45  -0.91
+ 617  61.65  63.75  -2.10
+ 628  60.19  60.90  -0.71
+ 674  60.68  55.63   5.05
+ 761  59.20  56.46   2.74
+ 770  61.95  62.01  -0.06
+ 787  60.68  62.73  -2.06
+ 798  61.31  61.70  -0.39
+ 822  60.53  59.74   0.80
+ 835  54.12  48.72   5.40
+ 843  59.65  54.48   5.17
+
+Positive delta: 14/25 CWEs
+False positives (clean programs flagged): 79/100
+:end:
+
+14/25 CWEs show positive delta — no better than chance. The false positive rate (79/100 clean programs flagged) shows the model readily produces vulnerability reports for safe code, and the monitor axis projection is similar either way.
+
+*Interpretation:* The monitor axis captures a stable "security reviewer persona" that the model adopts uniformly when given a security review prompt. It does not modulate based on whether the model has actually found a real vulnerability. This is consistent with the reading-phase result and confirms: the monitor direction is a /communication style/, not a /detection capability/.
+
 * Pipeline reproducibility notes
 
 This experiment also serves as a test of whether the extraction pipeline is straightforward to extend with a new persona. Notes on friction encountered:
