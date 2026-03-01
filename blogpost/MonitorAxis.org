@@ -135,7 +135,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_173921_237485.png]]
+[[file:plots/MonitorAxis/plot_20260228_174350_9911859.png]]
 :end:
 
 * Who scores high on the monitor axis?
@@ -184,7 +184,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_173921_5915738.png]]
+[[file:plots/MonitorAxis/plot_20260228_174351_3226971.png]]
 :end:
 
 * Rank correlation: assistant vs monitor vs paranoid
@@ -230,7 +230,7 @@ Spearman rank correlations (all 1268 characters):
 Assistant vs Monitor:  0.679
 Assistant vs Paranoid: 0.701
 Monitor vs Paranoid:   0.998
-[[file:plots/MonitorAxis/plot_20260228_173921_9762101.png]]
+[[file:plots/MonitorAxis/plot_20260228_174351_93965.png]]
 :end:
 
 * Per-universe breakdown
@@ -273,7 +273,103 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_173921_7978434.png]]
+[[file:plots/MonitorAxis/plot_20260228_174351_5070158.png]]
+:end:
+
+* Within-universe spread on the monitor axis
+
+Center each universe at its own mean, then measure how characters spread along the monitor axis. This isolates within-universe variance from between-universe differences.
+
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+
+fig, axes_plt = plt.subplots(3, 4, figsize=(18, 14))
+axes_plt = axes_plt.flatten()
+
+for ax_idx, (universe, prefixes) in enumerate(ALL_UNIVERSES.items()):
+    idx = get_universe_indices(prefixes)
+    if len(idx) < 3:
+        axes_plt[ax_idx].set_title(f'{universe} (n={len(idx)})')
+        axes_plt[ax_idx].text(0.5, 0.5, 'Too few characters', ha='center', va='center',
+                              transform=axes_plt[ax_idx].transAxes)
+        continue
+
+    # Center at universe mean
+    universe_acts = chars_centered[idx]
+    universe_mean = universe_acts.mean(axis=0)
+    universe_centered = universe_acts - universe_mean
+
+    # Project onto monitor and assistant axes
+    ma_within = universe_centered @ ma_norm
+    aa_within = universe_centered @ aa_norm
+
+    names = [char_names[i].split('__')[1].replace('_', ' ').title() for i in idx]
+
+    # Sort by monitor score
+    sort_order = np.argsort(ma_within)
+    ma_sorted = ma_within[sort_order]
+    names_sorted = [names[i] for i in sort_order]
+
+    # Show top and bottom 5 (or all if small universe)
+    n_show = min(5, len(names_sorted))
+    show_idx = list(range(n_show)) + list(range(len(names_sorted) - n_show, len(names_sorted)))
+    show_idx = sorted(set(show_idx))
+
+    ax = axes_plt[ax_idx]
+    colors = ['#e41a1c' if s > 0 else '#377eb8' for s in ma_sorted[show_idx]]
+    ax.barh(range(len(show_idx)), ma_sorted[show_idx], color=colors)
+    ax.set_yticks(range(len(show_idx)))
+    ax.set_yticklabels([names_sorted[i] for i in show_idx], fontsize=6)
+    ax.set_title(f'{universe} (n={len(idx)}, std={np.std(ma_within):.1f})')
+    ax.axvline(0, color='gray', linewidth=0.5)
+    ax.invert_yaxis()
+
+fig.suptitle('Within-universe spread on monitor axis (centered per universe)', fontsize=13, y=1.01)
+fig.tight_layout()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/MonitorAxis/plot_20260228_174352_8330631.png]]
+:end:
+
+#+begin_src python :exports results
+# Compare within-universe std on monitor vs assistant axis
+rows = []
+for universe, prefixes in ALL_UNIVERSES.items():
+    idx = get_universe_indices(prefixes)
+    if len(idx) < 3:
+        continue
+    universe_acts = chars_centered[idx]
+    universe_mean = universe_acts.mean(axis=0)
+    universe_centered = universe_acts - universe_mean
+    ma_std = np.std(universe_centered @ ma_norm)
+    aa_std = np.std(universe_centered @ aa_norm)
+    rows.append({'Universe': universe, 'n': len(idx),
+                 'Monitor std': round(ma_std, 2), 'Assistant std': round(aa_std, 2),
+                 'Ratio (M/A)': round(ma_std / aa_std, 2)})
+
+import pandas as pd
+df = pd.DataFrame(rows).sort_values('Ratio (M/A)', ascending=False)
+print(df.to_string(index=False))
+#+end_src
+
+#+RESULTS:
+:results:
+Universe   n  Monitor std  Assistant std  Ratio (M/A)
+Norse Mythology  48         2.85           2.05         1.39
+Egyptian Mythology  44         2.18           1.69         1.29
+Shakespeare  93         2.04           1.66         1.23
+Star Wars 105         6.13           5.02         1.22
+Chinese Mythology  76         3.34           2.89         1.15
+Greek Mythology 107         2.36           2.19         1.08
+Marvel 108         5.84           6.34         0.92
+Hindu Mythology  70         2.57           2.82         0.91
+Game of Thrones  93         3.40           3.94         0.86
+Naruto  84         4.09           5.50         0.74
+Harry Potter 102         4.62           6.30         0.73
+LOTR  97         2.70           4.26         0.63
 :end:
 
 * What does paranoia add?
