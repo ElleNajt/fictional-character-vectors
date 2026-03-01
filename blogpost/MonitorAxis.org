@@ -135,7 +135,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_174350_9911859.png]]
+[[file:plots/MonitorAxis/plot_20260228_174746_9796278.png]]
 :end:
 
 * Who scores high on the monitor axis?
@@ -184,7 +184,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_174351_3226971.png]]
+[[file:plots/MonitorAxis/plot_20260228_174746_8277522.png]]
 :end:
 
 * Rank correlation: assistant vs monitor vs paranoid
@@ -230,7 +230,7 @@ Spearman rank correlations (all 1268 characters):
 Assistant vs Monitor:  0.679
 Assistant vs Paranoid: 0.701
 Monitor vs Paranoid:   0.998
-[[file:plots/MonitorAxis/plot_20260228_174351_93965.png]]
+[[file:plots/MonitorAxis/plot_20260228_174747_7689083.png]]
 :end:
 
 * Per-universe breakdown
@@ -273,7 +273,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_174351_5070158.png]]
+[[file:plots/MonitorAxis/plot_20260228_174747_5641130.png]]
 :end:
 
 * Within-universe spread on the monitor axis
@@ -331,7 +331,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_174352_8330631.png]]
+[[file:plots/MonitorAxis/plot_20260228_174747_4305123.png]]
 :end:
 
 #+begin_src python :exports results
@@ -456,6 +456,152 @@ for name, axis in [('Assistant', assistant_axis), ('Monitor', monitor_axis), ('P
 Assistant : 99.6% of norm in role space, cosine(original, projected)=0.996
 Monitor   : 94.4% of norm in role space, cosine(original, projected)=0.944
 Paranoid  : 96.9% of norm in role space, cosine(original, projected)=0.969
+:end:
+
+* Within-universe PC1 alignment with monitor axis
+
+The main post finds that within-universe PC1 correlates with the assistant axis. Does it also correlate with the monitor axis? If so, are the correlations similar (suggesting PC1 captures a general "persona strength" dimension) or different (suggesting PC1 aligns differently with different axes)?
+
+#+begin_src python :exports results
+import pandas as pd
+
+rows = []
+for universe, prefixes in ALL_UNIVERSES.items():
+    idx = get_universe_indices(prefixes)
+    if len(idx) < 5:
+        continue
+
+    universe_acts = chars_centered[idx]
+    universe_mean = universe_acts.mean(axis=0)
+    universe_centered = universe_acts - universe_mean
+
+    pca = SkPCA(n_components=min(5, len(idx) - 1))
+    pca.fit(universe_centered)
+    pc1 = pca.components_[0]
+
+    cos_aa = cosine_sim(pc1, aa_norm)
+    cos_ma = cosine_sim(pc1, ma_norm)
+    cos_pa = cosine_sim(pc1, pa_norm)
+
+    # Variance explained by PC1
+    var_pc1 = pca.explained_variance_ratio_[0]
+
+    rows.append({
+        'Universe': universe, 'n': len(idx),
+        'PC1 var%': round(var_pc1 * 100, 1),
+        'cos(PC1,AA)': round(cos_aa, 3),
+        'cos(PC1,MA)': round(cos_ma, 3),
+        'cos(PC1,PA)': round(cos_pa, 3),
+    })
+
+df = pd.DataFrame(rows).sort_values('cos(PC1,MA)', key=abs, ascending=False)
+print(df.to_string(index=False))
+#+end_src
+
+#+RESULTS:
+:results:
+Universe   n  PC1 var%  cos(PC1,AA)  cos(PC1,MA)  cos(PC1,PA)
+Norse Mythology  48 28.700001        0.204        0.337        0.359
+Egyptian Mythology  44 20.900000        0.143        0.247        0.267
+Star Wars 105 38.200001       -0.137        0.183        0.186
+Chinese Mythology  76 30.600000       -0.102        0.172        0.177
+Shakespeare  93 21.200001       -0.063        0.145        0.161
+Naruto  84 49.700001       -0.259        0.098        0.082
+Marvel 108 43.000000       -0.236        0.085        0.072
+Hindu Mythology  70 25.299999        0.104        0.080        0.090
+Greek Mythology 107 14.700000        0.034       -0.062       -0.064
+Game of Thrones  93 33.099998       -0.234        0.059        0.045
+Harry Potter 102 39.000000       -0.314        0.027        0.014
+LOTR  97 40.000000       -0.210        0.027        0.017
+:end:
+
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+
+# Scatter: cos(PC1, AA) vs cos(PC1, MA) per universe
+fig, ax = plt.subplots(figsize=(7, 6))
+
+aa_cos = [r['cos(PC1,AA)'] for r in rows]
+ma_cos = [r['cos(PC1,MA)'] for r in rows]
+names = [r['Universe'] for r in rows]
+
+ax.scatter(aa_cos, ma_cos, s=60, color='#333333', zorder=3)
+for i, name in enumerate(names):
+    ax.annotate(name, (aa_cos[i], ma_cos[i]), fontsize=7,
+                xytext=(4, 4), textcoords='offset points')
+
+ax.set_xlabel('cos(universe PC1, assistant axis)')
+ax.set_ylabel('cos(universe PC1, monitor axis)')
+ax.set_title('Do universe PC1s align more with assistant or monitor?')
+ax.axhline(0, color='gray', linewidth=0.5)
+ax.axvline(0, color='gray', linewidth=0.5)
+# y=x reference
+lims = [-1, 1]
+ax.plot(lims, lims, '--', color='gray', linewidth=0.5)
+ax.set_xlim(-1, 1)
+ax.set_ylim(-1, 1)
+ax.set_aspect('equal')
+fig.tight_layout()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/MonitorAxis/plot_20260228_174748_5680050.png]]
+:end:
+
+* How do the axes decompose into role PCs?
+
+The assistant, monitor, and paranoid axes all live mostly in the role PCA subspace. Which role PCs do they load on?
+
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+
+# Project each axis onto role PCA components
+n_pcs = min(10, role_pca.components_.shape[0])
+fig, ax = plt.subplots(figsize=(10, 5))
+
+x = np.arange(n_pcs)
+width = 0.25
+
+for i, (name, axis, color) in enumerate([
+    ('Assistant', assistant_axis, '#377eb8'),
+    ('Monitor', monitor_axis, '#e41a1c'),
+    ('Paranoid', paranoid_axis, '#ff7f00'),
+]):
+    axis_norm = axis / np.linalg.norm(axis)
+    loadings = axis_norm @ role_pca.components_[:n_pcs].T
+    ax.bar(x + i * width, loadings, width, label=name, color=color, alpha=0.8)
+
+ax.set_xticks(x + width)
+ax.set_xticklabels([f'PC{i+1}' for i in range(n_pcs)])
+ax.set_ylabel('Loading (cosine with normalized axis)')
+ax.set_title('Axis loadings on role PCA components')
+ax.legend()
+ax.axhline(0, color='gray', linewidth=0.5)
+fig.tight_layout()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/MonitorAxis/plot_20260228_174748_8615031.png]]
+:end:
+
+#+begin_src python :exports results
+# Print the numbers
+for name, axis in [('Assistant', assistant_axis), ('Monitor', monitor_axis), ('Paranoid', paranoid_axis)]:
+    axis_norm = axis / np.linalg.norm(axis)
+    loadings = axis_norm @ role_pca.components_[:10].T
+    top_pcs = np.argsort(np.abs(loadings))[::-1][:5]
+    print(f"{name:10s}: top PCs = {', '.join(f'PC{p+1}({loadings[p]:+.3f})' for p in top_pcs)}")
+#+end_src
+
+#+RESULTS:
+:results:
+Assistant : top PCs = PC1(+0.672), PC2(+0.359), PC5(-0.251), PC4(+0.198), PC6(+0.177)
+Monitor   : top PCs = PC1(+0.831), PC10(-0.156), PC5(-0.123), PC8(+0.113), PC3(+0.039)
+Paranoid  : top PCs = PC1(+0.888), PC10(-0.122), PC5(-0.101), PC8(+0.078), PC9(+0.057)
 :end:
 
 * Pipeline reproducibility notes

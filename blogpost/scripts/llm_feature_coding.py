@@ -29,7 +29,10 @@ from pathlib import Path
 import numpy as np
 import requests
 import torch
+from dotenv import load_dotenv
 from sklearn.decomposition import PCA as SkPCA
+
+load_dotenv()
 
 # --- Config ---
 API_KEY = os.environ.get(
@@ -43,7 +46,7 @@ N_CODE_PER_SIDE = 10  # legacy; coding phase now uses all non-discovery characte
 N_DISCOVER_QUESTIONS = 10  # questions shown in discovery prompt
 N_CODE_QUESTIONS = 10  # questions shown when coding each character
 N_DISCRIMINATIVE_POOL = 50  # top 50 most discriminative questions to sample from
-N_PCS = 2  # code features for PC1 and PC2 (overridden to 1 for aa mode)
+N_PCS = 2  # code features for PC1 and PC2 (overridden to 1 for aa mode, 3 for global)
 
 # --- Paths ---
 ACTIVATIONS_DIR = Path("outputs/qwen3-32b_20260211_002840/activations")
@@ -51,6 +54,7 @@ RESPONSES_DIR = Path("outputs/qwen3-32b_20260211_002840/responses")
 CHAR_DATA_PATH = "results/fictional_character_analysis_filtered.pkl"
 LU_PCA_PATH = "data/role_vectors/qwen-3-32b_pca_layer32.pkl"
 AA_PATH = "data/role_vectors/assistant_axis.pt"
+MONITOR_AXIS_PATH = "data/role_vectors/monitor_axis.pt"
 QUESTIONS_PATH = "assistant-axis/data/extraction_questions.jsonl"
 
 
@@ -207,6 +211,11 @@ def load_assistant_axis(layer=32):
     return aa_all[layer].float().numpy()
 
 
+def load_monitor_axis():
+    """Load monitor axis vector (single layer, no indexing needed)."""
+    return torch.load(MONITOR_AXIS_PATH, weights_only=True).float().numpy()
+
+
 def get_universe_directions(mode, u_centered, residuals_u, role_pca, n_pcs):
     """Get PC directions and scores for a universe based on mode.
 
@@ -231,6 +240,15 @@ def get_universe_directions(mode, u_centered, residuals_u, role_pca, n_pcs):
         aa_norm = aa / np.linalg.norm(aa)
         scores = u_centered @ aa_norm
         return scores[:, np.newaxis], aa_norm[np.newaxis, :]
+    elif mode == "monitor":
+        ma = load_monitor_axis()
+        ma_norm = ma / np.linalg.norm(ma)
+        scores = u_centered @ ma_norm
+        return scores[:, np.newaxis], ma_norm[np.newaxis, :]
+    elif mode == "global":
+        pca = SkPCA(n_components=n_pcs)
+        scores = pca.fit_transform(u_centered)
+        return scores, pca.components_
     else:
         raise ValueError(f"Unknown mode: {mode}")
 
@@ -374,10 +392,18 @@ def phase_discover(
     else:
         schemas = {}
 
-    n_pcs = 1 if mode == "aa" else N_PCS
+    n_pcs = 1 if mode in ("aa", "monitor") else (3 if mode == "global" else N_PCS)
 
-    for universe, prefixes in ALL_UNIVERSES.items():
-        indices = get_universe_indices(char_names, prefixes)
+    # Build list of (label, indices) groups to iterate over
+    if mode == "global":
+        groups = [("Global", list(range(len(char_names))))]
+    else:
+        groups = [
+            (universe, get_universe_indices(char_names, prefixes))
+            for universe, prefixes in ALL_UNIVERSES.items()
+        ]
+
+    for universe, indices in groups:
         if len(indices) < 20:
             continue
 
@@ -390,7 +416,12 @@ def phase_discover(
         )
 
         for pc_idx in range(n_pcs):
-            key = f"{universe}__AA" if mode == "aa" else f"{universe}__PC{pc_idx + 1}"
+            if mode == "aa":
+                key = f"{universe}__AA"
+            elif mode == "monitor":
+                key = f"{universe}__Monitor"
+            else:
+                key = f"{universe}__PC{pc_idx + 1}"
             if key in schemas:
                 print(f"Skipping {key} (already discovered)")
                 continue
@@ -568,27 +599,40 @@ def phase_code(char_data, questions, lu_data, mode="residual", prompt_style="sty
         pc_idx = schema["pc"] - 1
         features = schema["features"]
 
-        prefixes = ALL_UNIVERSES[universe]
-        indices = get_universe_indices(char_names, prefixes)
+        if mode == "global":
+            indices = list(range(len(char_names)))
+        else:
+            prefixes = ALL_UNIVERSES[universe]
+            indices = get_universe_indices(char_names, prefixes)
         u_names = [char_names[i] for i in indices]
         u_centered = chars_centered[indices]
         u_residuals = residuals[indices]
 
-        n_pcs = 1 if mode == "aa" else N_PCS
+        n_pcs = 1 if mode in ("aa", "monitor") else (3 if mode == "global" else N_PCS)
         u_scores, u_components = get_universe_directions(
             mode, u_centered, u_residuals, role_pca, n_pcs
         )
         scores = u_scores[:, min(pc_idx, n_pcs - 1)]
         sorted_idx = np.argsort(scores)
 
-        # Discovery used odd-ranked extremes; code ALL remaining characters
+        # Discovery used odd-ranked extremes; code remaining characters
         discover_high, discover_low = strided_select(
             sorted_idx, N_DISCOVER_PER_SIDE, stride_offset=0
         )
         discovery_set = set(discover_high) | set(discover_low)
-        chars_to_code = [
-            u_names[i] for i in range(len(u_names)) if i not in discovery_set
-        ]
+
+        if mode == "global":
+            # Code top 100 + bottom 100 most extreme (excluding discovery chars)
+            non_discovery = [i for i in range(len(u_names)) if i not in discovery_set]
+            non_disc_scores = [(i, scores[i]) for i in non_discovery]
+            non_disc_scores.sort(key=lambda x: x[1])
+            bottom_100 = [i for i, _ in non_disc_scores[:100]]
+            top_100 = [i for i, _ in non_disc_scores[-100:]]
+            chars_to_code = [u_names[i] for i in bottom_100 + top_100]
+        else:
+            chars_to_code = [
+                u_names[i] for i in range(len(u_names)) if i not in discovery_set
+            ]
 
         if schema_key not in coded:
             coded[schema_key] = {"schema": schema, "characters": {}}
@@ -740,9 +784,9 @@ def main():
     parser.add_argument("phase", choices=["discover", "code", "all"])
     parser.add_argument(
         "--mode",
-        choices=["residual", "within", "lu", "aa"],
+        choices=["residual", "within", "lu", "aa", "monitor", "global"],
         default="residual",
-        help="Which PC directions to interpret (aa = assistant axis)",
+        help="Which PC directions to interpret (aa = assistant axis, monitor = monitor axis, global = global fiction PCs)",
     )
     parser.add_argument(
         "--prompt",
