@@ -1,22 +1,30 @@
 #!/bin/bash
 #SBATCH --job-name=castle_full_acts
-#SBATCH --output=logs/castle_full_acts_%j.out
-#SBATCH --error=logs/castle_full_acts_%j.out
-#SBATCH --gpus=4
+#SBATCH --partition=general,overflow
+#SBATCH --qos=high
+#SBATCH --gres=gpu:4
+#SBATCH --cpus-per-task=32
 #SBATCH --mem=200G
 #SBATCH --time=6:00:00
 
-set -euo pipefail
+set -e
 
-REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-cd "$REPO_ROOT"
+REPO_ROOT="${SLURM_SUBMIT_DIR}"
+PYTHON="$REPO_ROOT/.venv/bin/python3"
+
+mkdir -p "$REPO_ROOT/logs"
+
+exec >"$REPO_ROOT/logs/castle_full_acts_${SLURM_JOB_ID}.out" 2>&1
 
 echo "=== CASTLE Full Activation Extraction ==="
-echo "Python: $REPO_ROOT/.venv/bin/python3"
+echo "Python: $PYTHON"
 echo "Node: $(hostname)"
-echo "GPUs: $(nvidia-smi -L | wc -l)"
+echo "GPUs: $(nvidia-smi -L 2>/dev/null | wc -l)"
 echo ""
 
-mkdir -p logs outputs/castle_full_activations/activations
+mkdir -p "$REPO_ROOT/outputs/castle_full_activations/activations"
 
-exec "$REPO_ROOT/.venv/bin/python3" scripts/castle_full_activations.py
+$PYTHON "$REPO_ROOT/scripts/castle_full_activations.py"
+
+echo ""
+echo "=== Done ==="
