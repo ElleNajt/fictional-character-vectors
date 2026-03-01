@@ -135,7 +135,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_175628_5680823.png]]
+[[file:plots/MonitorAxis/plot_20260228_201258_7295555.png]]
 :end:
 
 * Who scores high on the monitor axis?
@@ -184,7 +184,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_175629_6414499.png]]
+[[file:plots/MonitorAxis/plot_20260228_201259_9286041.png]]
 :end:
 
 * Rank correlation: assistant vs monitor vs paranoid
@@ -230,7 +230,7 @@ Spearman rank correlations (all 1268 characters):
 Assistant vs Monitor:  0.679
 Assistant vs Paranoid: 0.701
 Monitor vs Paranoid:   0.998
-[[file:plots/MonitorAxis/plot_20260228_175629_1010452.png]]
+[[file:plots/MonitorAxis/plot_20260228_201259_6559118.png]]
 :end:
 
 * Per-universe breakdown
@@ -273,7 +273,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_175629_8628964.png]]
+[[file:plots/MonitorAxis/plot_20260228_201259_7122997.png]]
 :end:
 
 * Within-universe spread on the monitor axis
@@ -331,7 +331,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_175629_386660.png]]
+[[file:plots/MonitorAxis/plot_20260228_201300_3039498.png]]
 :end:
 
 #+begin_src python :exports results
@@ -547,7 +547,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_175630_8475641.png]]
+[[file:plots/MonitorAxis/plot_20260228_201300_8887305.png]]
 :end:
 
 * How do the axes decompose into role PCs?
@@ -585,7 +585,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_175630_3962797.png]]
+[[file:plots/MonitorAxis/plot_20260228_201300_1544249.png]]
 :end:
 
 #+begin_src python :exports results
@@ -733,7 +733,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_175631_4225409.png]]
+[[file:plots/MonitorAxis/plot_20260228_201301_6104650.png]]
 :end:
 
 #+begin_src python :exports results
@@ -765,6 +765,140 @@ Norse Mythology     : Emotional Restraint(+0.68), Aggressive Tone Intensity(-0.6
 Egyptian Mythology  : Dramatic Intensity(-0.52), Atmospheric Description(-0.38)
 Shakespeare         : Energetic Spontaneity(-0.49), Playful Irreverence(-0.43)
 :end:
+
+* Token-level projections on vulnerable code (CASTLE benchmark)
+
+Does the monitor persona "activate" more on vulnerable lines of code? We test this using the [[https://github.com/CASTLE-Benchmark/CASTLE-Benchmark][CASTLE benchmark]]: 250 hand-crafted C micro-programs (150 vulnerable, 100 clean) covering 25 CWE categories. For each program, we run a forward pass with the monitor system prompt, extract per-token activations at layer 32, project onto the monitor axis, and map tokens back to source code lines.
+
+#+begin_src python
+import json
+
+with open('../outputs/monitor_activations/token_projections.json') as f:
+    castle_results = json.load(f)
+
+vuln_results = [r for r in castle_results if r['vulnerable'] and r['vuln_lines_mean_monitor'] is not None]
+clean_results = [r for r in castle_results if not r['vulnerable']]
+
+# Compute deltas
+deltas = [(r['vuln_lines_mean_monitor'] - r['safe_lines_mean_monitor'], r['cwe'])
+          for r in vuln_results if r['safe_lines_mean_monitor'] is not None]
+pos = sum(1 for d, _ in deltas if d > 0)
+mean_delta = sum(d for d, _ in deltas) / len(deltas)
+
+print(f"Vulnerable programs with valid deltas: {len(deltas)}/150")
+print(f"Mean projection delta (vuln - safe lines): {mean_delta:+.3f}")
+print(f"Programs where monitor activates MORE on vuln lines: {pos}/{len(deltas)}")
+#+end_src
+
+#+RESULTS:
+:results:
+Vulnerable programs with valid deltas: 150/150
+Mean projection delta (vuln - safe lines): -5.363
+Programs where monitor activates MORE on vuln lines: 19/150
+:end:
+
+The monitor axis projection is /lower/ on vulnerable lines, not higher. 19/150 programs (13%) show higher monitor activation on vulnerable code — essentially no signal. The monitor axis captures a persona (analytical, formal), not a vulnerability-detection feature.
+
+#+begin_src python
+import pandas as pd
+from collections import defaultdict
+
+# Per-CWE breakdown
+by_cwe = defaultdict(list)
+for delta, cwe in deltas:
+    by_cwe[cwe].append(delta)
+
+rows = []
+for cwe in sorted(by_cwe.keys()):
+    ds = by_cwe[cwe]
+    rows.append({
+        'CWE': cwe,
+        'Mean delta': sum(ds)/len(ds),
+        'Positive': sum(1 for d in ds if d > 0),
+        'N': len(ds),
+    })
+df_cwe = pd.DataFrame(rows)
+print(df_cwe.to_string(index=False))
+#+end_src
+
+#+RESULTS:
+:results:
+CWE  Mean delta  Positive  N
+22   -3.086554         1  6
+78   -3.617246         0  6
+89   -1.898318         1  6
+125   -8.445843         0  6
+134   -6.194912         0  6
+190  -12.862694         0  6
+253   -7.890651         0  6
+327   -6.590078         0  6
+362   -4.398817         0  6
+369  -11.321198         0  6
+401    4.521386         6  6
+415   -3.892305         0  6
+416   -4.262731         1  6
+476   -7.160620         0  6
+522   -6.519318         1  6
+617   -4.380962         1  6
+628   -1.288408         2  6
+674   -3.863586         2  6
+761   -3.272726         1  6
+770   -3.882775         0  6
+787   -6.746212         1  6
+798   -9.726372         0  6
+822   -5.735661         0  6
+835   -6.228135         0  6
+843   -5.322923         2  6
+:end:
+
+#+begin_src python :results output drawer :file ../figures/castle_monitor_delta_by_cwe.png
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(10, 5))
+cwes = sorted(by_cwe.keys())
+means = [sum(by_cwe[c])/len(by_cwe[c]) for c in cwes]
+colors = ['#2ca02c' if m > 0 else '#d62728' for m in means]
+ax.bar(range(len(cwes)), means, color=colors, edgecolor='black', linewidth=0.5)
+ax.set_xticks(range(len(cwes)))
+ax.set_xticklabels([f'CWE-{c}' for c in cwes], rotation=45, ha='right', fontsize=8)
+ax.axhline(0, color='black', linewidth=0.5)
+ax.set_ylabel('Mean projection delta\n(vuln lines − safe lines)')
+ax.set_title('Monitor axis projection: vulnerable vs safe lines by CWE\n(positive = monitor activates more on vuln lines)')
+plt.tight_layout()
+plt.savefig('../figures/castle_monitor_delta_by_cwe.png', dpi=150)
+print('[[../figures/castle_monitor_delta_by_cwe.png]]')
+#+end_src
+
+#+RESULTS:
+:results:
+[[../figures/castle_monitor_delta_by_cwe.png]]
+:end:
+
+CWE-401 (memory leak) is the only category where all 6 programs show higher monitor projection on vulnerable lines. This is likely a structural artifact — memory leak bugs tend to involve =free()= / =malloc()= calls that look different from surrounding code — rather than genuine vulnerability detection.
+
+#+begin_src python
+# Program-level: do vulnerable programs have different overall projections?
+vuln_means = [r['all_lines_mean_monitor'] for r in vuln_results if r['all_lines_mean_monitor'] is not None]
+clean_means = [r['all_lines_mean_monitor'] for r in clean_results if r['all_lines_mean_monitor'] is not None]
+print(f"Mean projection across all code tokens:")
+print(f"  Vulnerable programs: {sum(vuln_means)/len(vuln_means):.3f}")
+print(f"  Clean programs:      {sum(clean_means)/len(clean_means):.3f}")
+print(f"  Difference:          {sum(vuln_means)/len(vuln_means) - sum(clean_means)/len(clean_means):+.3f}")
+#+end_src
+
+#+RESULTS:
+:results:
+Mean projection across all code tokens:
+Vulnerable programs: 54.681
+Clean programs:      54.539
+Difference:          +0.142
+:end:
+
+The overall projection level is essentially identical for vulnerable and clean programs (54.68 vs 54.54). The monitor axis does not distinguish dangerous code from safe code at any level — neither within programs (line-level) nor between programs (program-level).
+
+*Interpretation:* The monitor axis is a /persona direction/, not a /capability direction/. It captures how the model talks (analytical, structured, collaborative) when given a security monitor role, but it does not encode the ability to actually detect vulnerabilities. This is consistent with our earlier finding that the monitor axis is 83% role PC1 — it's mostly about the general "character vs assistant" distinction, not about security-specific features.
 
 * Pipeline reproducibility notes
 
