@@ -135,7 +135,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_201258_7295555.png]]
+[[file:plots/MonitorAxis/plot_20260228_201835_5438107.png]]
 :end:
 
 * Who scores high on the monitor axis?
@@ -184,7 +184,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_201259_9286041.png]]
+[[file:plots/MonitorAxis/plot_20260228_201836_7907820.png]]
 :end:
 
 * Rank correlation: assistant vs monitor vs paranoid
@@ -230,7 +230,7 @@ Spearman rank correlations (all 1268 characters):
 Assistant vs Monitor:  0.679
 Assistant vs Paranoid: 0.701
 Monitor vs Paranoid:   0.998
-[[file:plots/MonitorAxis/plot_20260228_201259_6559118.png]]
+[[file:plots/MonitorAxis/plot_20260228_201836_856550.png]]
 :end:
 
 * Per-universe breakdown
@@ -273,7 +273,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_201259_7122997.png]]
+[[file:plots/MonitorAxis/plot_20260228_201836_2353459.png]]
 :end:
 
 * Within-universe spread on the monitor axis
@@ -331,7 +331,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_201300_3039498.png]]
+[[file:plots/MonitorAxis/plot_20260228_201837_5134545.png]]
 :end:
 
 #+begin_src python :exports results
@@ -547,7 +547,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_201300_8887305.png]]
+[[file:plots/MonitorAxis/plot_20260228_201837_1266484.png]]
 :end:
 
 * How do the axes decompose into role PCs?
@@ -585,7 +585,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_201300_1544249.png]]
+[[file:plots/MonitorAxis/plot_20260228_201837_1691467.png]]
 :end:
 
 #+begin_src python :exports results
@@ -733,7 +733,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_201301_6104650.png]]
+[[file:plots/MonitorAxis/plot_20260228_201838_1171116.png]]
 :end:
 
 #+begin_src python :exports results
@@ -897,6 +897,52 @@ Difference:          +0.142
 :end:
 
 The overall projection level is essentially identical for vulnerable and clean programs (54.68 vs 54.54). The monitor axis does not distinguish dangerous code from safe code at any level — neither within programs (line-level) nor between programs (program-level).
+
+The negative delta (-5.36) is explained by a line-length confound: vulnerable lines are longer (11.7 tokens/line vs 7.4 for safe lines), and the monitor axis projection decreases with line length regardless of vulnerability status.
+
+#+begin_src python
+# Line-length confound: projection drops with token count
+all_proj_ntok = []
+for r in castle_results:
+    for line_num, stats in r['line_stats'].items():
+        all_proj_ntok.append((stats['n_tokens'], stats['mean_monitor']))
+
+bins = {}
+for nt, proj in all_proj_ntok:
+    b = min(nt // 5 * 5, 25)
+    bins.setdefault(b, []).append(proj)
+
+# Also show vuln vs safe token counts
+vuln_ntokens = []
+safe_ntokens = []
+for r in castle_results:
+    if not r['vulnerable']:
+        continue
+    vuln_set = set(r['ground_truth_lines'])
+    for line_num, stats in r['line_stats'].items():
+        if int(line_num) in vuln_set:
+            vuln_ntokens.append(stats['n_tokens'])
+        else:
+            safe_ntokens.append(stats['n_tokens'])
+
+print("Projection by tokens/line:")
+for b in sorted(bins.keys()):
+    vals = bins[b]
+    print(f"  {b:2d}-{b+4:2d} tokens: {sum(vals)/len(vals):+7.3f}  (n={len(vals)})")
+print(f"\nMean tokens/line: vuln={sum(vuln_ntokens)/len(vuln_ntokens):.1f}, safe={sum(safe_ntokens)/len(safe_ntokens):.1f}")
+#+end_src
+
+#+RESULTS:
+:results:
+Projection by tokens/line:
+0- 4 tokens: +59.555  (n=2374)
+5- 9 tokens: +52.965  (n=3838)
+10-14 tokens: +49.845  (n=1340)
+15-19 tokens: +48.956  (n=697)
+20-24 tokens: +49.107  (n=228)
+25-29 tokens: +46.400  (n=115)
+Mean tokens/line: vuln=11.7, safe=7.4
+:end:
 
 *Interpretation:* The monitor axis is a /persona direction/, not a /capability direction/. It captures how the model talks (analytical, structured, collaborative) when given a security monitor role, but it does not encode the ability to actually detect vulnerabilities. This is consistent with our earlier finding that the monitor axis is 83% role PC1 — it's mostly about the general "character vs assistant" distinction, not about security-specific features.
 
