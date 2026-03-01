@@ -135,7 +135,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_211331_4423161.png]]
+[[file:plots/MonitorAxis/plot_20260301_153150_8897736.png]]
 :end:
 
 * Who scores high on the monitor axis?
@@ -184,7 +184,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_211332_5948599.png]]
+[[file:plots/MonitorAxis/plot_20260301_153151_8228128.png]]
 :end:
 
 * Rank correlation: assistant vs monitor vs paranoid
@@ -230,7 +230,7 @@ Spearman rank correlations (all 1268 characters):
 Assistant vs Monitor:  0.679
 Assistant vs Paranoid: 0.701
 Monitor vs Paranoid:   0.998
-[[file:plots/MonitorAxis/plot_20260228_211332_47800.png]]
+[[file:plots/MonitorAxis/plot_20260301_153151_9002072.png]]
 :end:
 
 * Per-universe breakdown
@@ -273,7 +273,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_211332_4944291.png]]
+[[file:plots/MonitorAxis/plot_20260301_153151_861514.png]]
 :end:
 
 * Within-universe spread on the monitor axis
@@ -331,7 +331,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_211333_2650777.png]]
+[[file:plots/MonitorAxis/plot_20260301_153152_927126.png]]
 :end:
 
 #+begin_src python :exports results
@@ -547,7 +547,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_211333_3316514.png]]
+[[file:plots/MonitorAxis/plot_20260301_153152_2296521.png]]
 :end:
 
 * How do the axes decompose into role PCs?
@@ -585,7 +585,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_211334_7641941.png]]
+[[file:plots/MonitorAxis/plot_20260301_153153_6841733.png]]
 :end:
 
 #+begin_src python :exports results
@@ -733,7 +733,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260228_211334_6900437.png]]
+[[file:plots/MonitorAxis/plot_20260301_153153_7525165.png]]
 :end:
 
 #+begin_src python :exports results
@@ -1009,11 +1009,10 @@ print(f"  Delta:      {delta:+.3f}")
 #+RESULTS:
 :results:
 Full dataset: 250 programs (150 vuln, 100 clean)
-
 Mean monitor projection in response tokens:
-  Vulnerable: 59.776 (sd=3.652)
-  Clean:      58.716 (sd=5.624)
-  Delta:      +1.061
+Vulnerable: 59.776 (sd=3.652)
+Clean:      58.716 (sd=5.624)
+Delta:      +1.061
 :end:
 
 The delta is +1.06 — slightly positive but small relative to standard deviations. The monitor axis does not meaningfully distinguish vulnerable from clean programs in the model's responses.
@@ -1065,17 +1064,17 @@ for label, subset in [
 #+RESULTS:
 :results:
 All (250 programs):
-  Messages: 61.97 (n=17977)
-  Code:     53.42 (n=9489)
-  JSON:     63.71 (n=30718)
+Messages: 62.00 (n=17892)
+Code:     54.07 (n=6099)
+JSON:     62.55 (n=34193)
 Vulnerable (150 programs):
-  Messages: 61.00 (n=10411)
-  Code:     53.30 (n=5488)
-  JSON:     63.71 (n=18299)
+Messages: 61.03 (n=10369)
+Code:     53.98 (n=3591)
+JSON:     62.60 (n=20238)
 Clean (100 programs):
-  Messages: 63.31 (n=7566)
-  Code:     53.59 (n=4001)
-  JSON:     63.70 (n=12419)
+Messages: 63.34 (n=7523)
+Code:     54.19 (n=2508)
+JSON:     62.49 (n=13955)
 :end:
 
 The monitor projection varies by /content type/ — code tokens are lowest (53), JSON structure highest (64), security messages in between (62) — but not by vulnerability status. In fact, security message tokens have /higher/ monitor projection for clean programs (63.3) than vulnerable ones (61.0). The model writes about non-existent vulnerabilities in the same "monitor voice" as real ones.
@@ -1111,33 +1110,32 @@ print(f"False positives (clean programs flagged): {fp}/{n_clean}")
 
 #+RESULTS:
 :results:
- CWE   Vuln  Clean  Delta
-  22  61.67  62.99  -1.32
-  78  61.76  60.97   0.79
-  89  60.65  58.05   2.60
- 125  58.42  57.36   1.05
- 134  60.46  54.69   5.77
- 190  54.15  58.29  -4.15
- 253  56.66  53.07   3.59
- 327  62.52  62.97  -0.45
- 362  59.25  61.65  -2.40
- 369  57.59  57.09   0.50
- 401  59.03  56.78   2.25
- 415  60.14  57.54   2.60
- 416  60.22  56.52   3.69
- 476  59.40  60.34  -0.94
- 522  62.55  63.45  -0.91
- 617  61.65  63.75  -2.10
- 628  60.19  60.90  -0.71
- 674  60.68  55.63   5.05
- 761  59.20  56.46   2.74
- 770  61.95  62.01  -0.06
- 787  60.68  62.73  -2.06
- 798  61.31  61.70  -0.39
- 822  60.53  59.74   0.80
- 835  54.12  48.72   5.40
- 843  59.65  54.48   5.17
-
+CWE  Vuln  Clean  Delta
+22 61.67  62.99  -1.32
+78 61.76  60.97   0.79
+89 60.65  58.05   2.60
+125 58.42  57.36   1.05
+134 60.46  54.69   5.77
+190 54.15  58.29  -4.15
+253 56.66  53.07   3.59
+327 62.52  62.97  -0.45
+362 59.25  61.65  -2.40
+369 57.59  57.09   0.50
+401 59.03  56.78   2.25
+415 60.14  57.54   2.60
+416 60.22  56.52   3.69
+476 59.40  60.34  -0.94
+522 62.55  63.45  -0.91
+617 61.65  63.75  -2.10
+628 60.19  60.90  -0.71
+674 60.68  55.63   5.05
+761 59.20  56.46   2.74
+770 61.95  62.01  -0.06
+787 60.68  62.73  -2.06
+798 61.31  61.70  -0.39
+822 60.53  59.74   0.80
+835 54.12  48.72   5.40
+843 59.65  54.48   5.17
 Positive delta: 14/25 CWEs
 False positives (clean programs flagged): 79/100
 :end:
@@ -1217,13 +1215,185 @@ print(f"  Incorrect detections: {smean(incorrect_deltas):+.3f}  positive={pos_in
 #+RESULTS:
 :results:
 Input activation delta (vuln lines - safe lines):
-  Correct detections:   -5.683  positive=3/45
-  Incorrect detections: -5.226  positive=16/105
+Correct detections:   -5.683  positive=3/45
+Incorrect detections: -5.226  positive=16/105
 :end:
 
 3/45 positive for correct detections — /worse/ than the 16/105 for incorrect ones. The model demonstrably detects the vulnerability (it outputs the correct CWE), but the monitor axis does not reflect this during reading. The vulnerability detection capability exists somewhere in the model, but not on this axis.
 
 *Summary:* The persona direction (monitor axis) is orthogonal to the capability (vulnerability detection). The model adopts a "security reviewer" communication style uniformly, and separately, uses some other mechanism to actually find vulnerabilities. Amplifying the persona direction would make the model /sound/ more like a security reviewer without improving its ability to /be/ one.
+
+* Vulnerability detection axis
+
+We extracted full layer-32 activation vectors for all 250 CASTLE programs (prompt + response tokens) and computed:
+
+=vuln_axis = mean(vuln program response activations) - mean(clean program response activations)=
+
+This is the direction in activation space that separates the model's responses to vulnerable programs from its responses to clean programs. Unlike the monitor axis (a persona direction), this should capture whatever the model is /actually doing differently/ when processing vulnerable code.
+
+** Load and compare to existing axes
+
+#+begin_src python :exports results
+vuln_axis = torch.load('../data/role_vectors/vuln_axis.pt', weights_only=True, map_location='cpu').float().numpy()
+vuln_prompt_axis = torch.load('../data/role_vectors/vuln_axis_prompt.pt', weights_only=True, map_location='cpu').float().numpy()
+
+print(f"Vuln axis (response phase) norm: {np.linalg.norm(vuln_axis):.2f}")
+print(f"Vuln axis (prompt phase) norm: {np.linalg.norm(vuln_prompt_axis):.2f}")
+print()
+
+# Cosine similarities with existing axes
+for name, axis in [('Assistant', assistant_axis), ('Monitor', monitor_axis), ('Paranoid', paranoid_axis)]:
+    cos_resp = cosine_sim(vuln_axis, axis)
+    cos_prompt = cosine_sim(vuln_prompt_axis, axis)
+    print(f"Cosine(vuln_response, {name:10s}): {cos_resp:+.4f}")
+    print(f"Cosine(vuln_prompt,   {name:10s}): {cos_prompt:+.4f}")
+    print()
+
+print(f"Cosine(vuln_response, vuln_prompt): {cosine_sim(vuln_axis, vuln_prompt_axis):+.4f}")
+#+end_src
+
+#+RESULTS:
+:results:
+Vuln axis (response phase) norm: 14.22
+Vuln axis (prompt phase) norm: 5.15
+Cosine(vuln_response, Assistant ): +0.0396
+Cosine(vuln_prompt,   Assistant ): -0.1137
+Cosine(vuln_response, Monitor   ): +0.0746
+Cosine(vuln_prompt,   Monitor   ): +0.3674
+Cosine(vuln_response, Paranoid  ): +0.0901
+Cosine(vuln_prompt,   Paranoid  ): +0.3603
+Cosine(vuln_response, vuln_prompt): +0.0104
+:end:
+
+** Character projections onto vulnerability axis
+
+#+begin_src python :exports results
+vuln_norm = vuln_axis / np.linalg.norm(vuln_axis)
+vuln_scores = chars_centered @ vuln_norm
+
+# Top and bottom characters
+order = np.argsort(vuln_scores)
+
+print("=== Most 'vulnerable-code-like' response style (top 20) ===")
+for i in order[-20:][::-1]:
+    print(f"  {vuln_scores[i]:+.3f}  {char_names[i]}")
+
+print()
+print("=== Most 'clean-code-like' response style (bottom 20) ===")
+for i in order[:20]:
+    print(f"  {vuln_scores[i]:+.3f}  {char_names[i]}")
+
+print()
+print(f"Mean: {vuln_scores.mean():.4f}, Std: {vuln_scores.std():.4f}")
+#+end_src
+
+#+RESULTS:
+:results:
+=== Most 'vulnerable-code-like' response style (top 20) ===
++1.602  2001_a_space_odyssey__hal_9000
++0.012  frankenstein__dr_victor_frankenstein
++0.010  star_wars__governor_tarkin
+-0.007  star_wars__kiadimundi
+-0.044  marvel__the_fantastic_fours_mr_fantastic_reed_richards
+-0.054  star_wars__wilhuff_tarkin
+-0.068  star_wars__grand_admiral_thrawn
+-0.190  sherlock_holmes_stories__sherlock_holmes
+-0.206  hindu_mythology__yudhishthira
+-0.272  marvel__professor_x_charles_xavier
+-0.429  marvel__ultron
+-0.429  star_wars__plo_koon
+-0.446  nineteen_eightyfour__big_brother
+-0.473  gullivers_travels__lemuel_gulliver
+-0.518  war_and_peace__andrei_bolkonsky
+-0.537  hindu_mythology__vibhishana
+-0.592  hindu_mythology__arjuna
+-0.623  marvel__doctor_octopus_otto_octavius
+-0.691  marvel__silver_surfer_norrin_radd
+-0.698  hindu_mythology__shatrughna
+=== Most 'clean-code-like' response style (bottom 20) ===
+-6.801  the_big_lebowski__the_dude_jeffrey_lebowski
+-6.681  star_wars__jar_jar_binks
+-6.661  star_wars__bb8
+-6.657  harry_potter__peeves
+-6.506  dc_comics__the_joker
+-6.497  shrek__shrek
+-6.378  the_simpsons__homer_simpson
+-6.339  marvel__groot
+-6.142  marvel__deadpool_wade_wilson
+-6.117  alices_adventures_in_wonderland__the_mad_hatter
+-6.088  cowboy_bebop__spike_spiegel
+-6.027  marvel__rocket_raccoon
+-6.009  marvel__starlord_peter_quill
+-5.996  marvel__gambit_remy_lebeau
+-5.988  star_wars__han_solo
+-5.982  star_wars__watto
+-5.941  star_wars__jabba_the_hutt
+-5.935  alices_adventures_in_wonderland__the_queen_of_hearts
+-5.881  game_of_thrones__hodor
+-5.862  the_maltese_falcon__sam_spade
+Mean: -2.9932, Std: 1.1758
+:end:
+
+** Universe-level vulnerability axis scores
+
+#+begin_src python :exports results
+print(f"{'Universe':<25s} {'Mean':>8s} {'Std':>8s}  {'n':>4s}")
+print("-" * 50)
+
+universe_stats = []
+for name, prefixes in ALL_UNIVERSES.items():
+    idx = get_universe_indices(prefixes)
+    if len(idx) < 3:
+        continue
+    scores = vuln_scores[idx]
+    universe_stats.append((name, scores.mean(), scores.std(), len(idx)))
+
+universe_stats.sort(key=lambda x: x[1], reverse=True)
+for name, mean, std, n in universe_stats:
+    print(f"  {name:<23s} {mean:+.3f}  {std:.3f}    {n}")
+#+end_src
+
+#+RESULTS:
+:results:
+Universe                      Mean      Std     n
+--------------------------------------------------
+Hindu Mythology         -1.516  0.566    70
+Greek Mythology         -2.378  0.572    107
+Egyptian Mythology      -2.640  0.435    44
+LOTR                    -2.800  0.862    97
+Norse Mythology         -3.000  0.463    48
+Naruto                  -3.017  1.042    84
+Star Wars               -3.054  1.544    105
+Chinese Mythology       -3.112  0.785    76
+Marvel                  -3.265  1.495    108
+Shakespeare             -3.380  0.711    93
+Game of Thrones         -3.393  0.855    93
+Harry Potter            -3.412  1.055    102
+:end:
+
+** Variance captured by role PCA
+
+#+begin_src python :exports results
+for name, axis in [('Vuln (response)', vuln_axis), ('Vuln (prompt)', vuln_prompt_axis)]:
+    proj = axis @ role_pca.components_.T @ role_pca.components_
+    captured = np.linalg.norm(proj)**2 / np.linalg.norm(axis)**2
+    print(f"{name}: {captured*100:.1f}% of variance in role PCA space")
+
+    # PC loadings
+    axis_n = axis / np.linalg.norm(axis)
+    loadings = axis_n @ role_pca.components_[:10].T
+    top_pcs = np.argsort(np.abs(loadings))[::-1][:5]
+    print(f"  Top PCs: {', '.join(f'PC{p+1} ({loadings[p]:+.3f})' for p in top_pcs)}")
+    print()
+#+end_src
+
+#+RESULTS:
+:results:
+Vuln (response): 15.3% of variance in role PCA space
+Top PCs: PC1 (+0.104), PC7 (-0.064), PC10 (+0.061), PC2 (-0.054), PC4 (-0.045)
+Vuln (prompt): 65.4% of variance in role PCA space
+Top PCs: PC1 (+0.366), PC8 (+0.236), PC2 (-0.230), PC5 (+0.173), PC4 (-0.133)
+:end:
 
 * Pipeline reproducibility notes
 
