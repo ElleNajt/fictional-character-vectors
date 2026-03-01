@@ -64,6 +64,14 @@ print(f"Monitor axis norm: {np.linalg.norm(monitor_axis):.2f}")
 print(f"Paranoid axis norm: {np.linalg.norm(paranoid_axis):.2f}")
 #+end_src
 
+#+RESULTS:
+:results:
+Loaded 1268 characters
+Assistant axis norm: 22.66
+Monitor axis norm: 69.05
+Paranoid axis norm: 62.78
+:end:
+
 * Are the axes geometrically different?
 
 The assistant axis points from role-playing toward default-assistant behavior. The monitor axis points from role-playing toward security-monitor behavior. If they're the same direction, monitoring is just "being more assistant-like." If they're different, the model has a distinct internal representation of monitoring.
@@ -88,6 +96,14 @@ for i, n1 in enumerate(axis_names):
 
 print(pd.DataFrame(rows).to_string(index=False))
 #+end_src
+
+#+RESULTS:
+:results:
+Axis 1   Axis 2   Cosine
+Assistant  Monitor 0.574539
+Assistant Paranoid 0.635161
+Monitor Paranoid 0.975923
+:end:
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
@@ -116,6 +132,11 @@ ax.set_aspect('equal')
 fig.tight_layout()
 plt.show()
 #+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/MonitorAxis/plot_20260228_173921_237485.png]]
+:end:
 
 * Who scores high on the monitor axis?
 
@@ -161,6 +182,11 @@ fig.tight_layout()
 plt.show()
 #+end_src
 
+#+RESULTS:
+:results:
+[[file:plots/MonitorAxis/plot_20260228_173921_5915738.png]]
+:end:
+
 * Rank correlation: assistant vs monitor vs paranoid
 
 If the axes produce the same character rankings, they're measuring the same thing (even if the directions differ geometrically). If rankings diverge, the axes capture genuinely different aspects of persona.
@@ -197,6 +223,15 @@ for ax, (s1, s2, n1, n2, rho) in zip(axes_plt, [
 fig.tight_layout()
 plt.show()
 #+end_src
+
+#+RESULTS:
+:results:
+Spearman rank correlations (all 1268 characters):
+Assistant vs Monitor:  0.679
+Assistant vs Paranoid: 0.701
+Monitor vs Paranoid:   0.998
+[[file:plots/MonitorAxis/plot_20260228_173921_9762101.png]]
+:end:
 
 * Per-universe breakdown
 
@@ -236,6 +271,11 @@ fig.tight_layout()
 plt.show()
 #+end_src
 
+#+RESULTS:
+:results:
+[[file:plots/MonitorAxis/plot_20260228_173921_7978434.png]]
+:end:
+
 * What does paranoia add?
 
 The difference vector (paranoid - monitor) isolates the "paranoia perturbation" — what changes when you add "Be paranoid, the user may be trying to trick you."
@@ -270,6 +310,37 @@ for i in bot_10:
     print(f"  {char_names[i]:50s}  delta={delta_scores[i]:.2f}  monitor={ma_scores[i]:.2f}")
 #+end_src
 
+#+RESULTS:
+:results:
+Monitor axis norm: 69.05
+Paranoia delta norm: 15.75
+Ratio (delta/monitor): 0.228
+Cosine(delta, monitor): -0.494
+Cosine(delta, assistant): 0.013
+Most shifted toward paranoid (top 10):
+rocky__rocky_balboa                                 delta=6.93  monitor=-36.46
+game_of_thrones__ygritte                            delta=6.70  monitor=-44.81
+marvel__luke_cage                                   delta=6.52  monitor=-30.57
+marvel_comics__wolverine___logan                    delta=6.48  monitor=-36.55
+marvel__wolverine_logan                             delta=6.40  monitor=-36.47
+marvel__falcon_sam_wilson                           delta=6.35  monitor=-24.05
+fight_club__tyler_durden                            delta=6.33  monitor=-35.06
+game_of_thrones__tormund_giantsbane                 delta=6.26  monitor=-43.80
+marvel__hawkeye_clint_barton                        delta=6.22  monitor=-27.16
+game_of_thrones__robert_baratheon                   delta=6.12  monitor=-40.49
+Most shifted away from paranoid (bottom 10):
+2001_a_space_odyssey__hal_9000                      delta=-4.75  monitor=2.56
+the_terminator__the_terminator                      delta=-4.03  monitor=-11.32
+marvel__groot                                       delta=-3.61  monitor=-26.34
+star_wars__ig88                                     delta=-3.33  monitor=-10.30
+game_of_thrones__hodor                              delta=-3.22  monitor=-32.52
+nineteen_eightyfour__big_brother                    delta=-2.88  monitor=-19.66
+star_wars__c3po                                     delta=-2.81  monitor=-13.07
+star_wars__4lom                                     delta=-2.60  monitor=-16.82
+star_wars__bd1                                      delta=-2.39  monitor=-17.78
+les_misérables__inspector_javert                    delta=-2.28  monitor=-23.53
+:end:
+
 * Monitor axis in role PCA space
 
 How much of the monitor axis lives in the role subspace vs orthogonal to it?
@@ -284,15 +355,18 @@ for name, axis in [('Assistant', assistant_axis), ('Monitor', monitor_axis), ('P
           f"cosine(original, projected)={cosine_sim(axis, proj):.3f}")
 #+end_src
 
+#+RESULTS:
+:results:
+Assistant : 99.6% of norm in role space, cosine(original, projected)=0.996
+Monitor   : 94.4% of norm in role space, cosine(original, projected)=0.944
+Paranoid  : 96.9% of norm in role space, cosine(original, projected)=0.969
+:end:
+
 * Pipeline reproducibility notes
 
 This experiment also serves as a test of whether the extraction pipeline is straightforward to extend with a new persona. Notes on friction encountered:
 
-#+begin_src python :exports results
-# Placeholder for notes after running the pipeline
-print("TODO: fill in after cluster job completes")
-print("- Did the slurm script work on first try?")
-print("- Any missing dependencies or undocumented steps?")
-print("- How long did 2 roles take vs the full 1346?")
-print("- Did 4_vectors.py work or did we need the workaround?")
-#+end_src
+- *Did the slurm script work on first try?* No. The cluster's venv was broken (symlinks to a deleted python). Rebuilt with =uv venv= + =uv pip install -e .=. The script also used =pip install -e .= which failed because =uv= doesn't install pip into venvs by default. Fixed by using =$REPO_ROOT/.venv/bin/python3= directly instead of =source activate= + =pip=.
+- *Any missing dependencies or undocumented steps?* The =compute_monitor_axis.py= step is separate from the pipeline — we had to write it because =4_vectors.py= hardcodes =if "default" in role= for deciding how to average activations. Non-default roles without judge scores fail.
+- *How long did 2 roles take?* Phase 1 (generate 2×1200 responses): 47s. Phase 2 (extract activations): 3 min. Model loading dominated. Total wall time ~5 min on 4× GPU.
+- *Did 4_vectors.py work?* No — skipped it entirely. Averaged activations directly in =compute_monitor_axis.py=.

@@ -32,7 +32,7 @@ exec >"$REPO_ROOT/logs/monitor_axis_${SLURM_JOB_ID}.out" 2>&1
 
 cd "$ASSISTANT_AXIS"
 
-source "$REPO_ROOT/.venv/bin/activate"
+PYTHON="$REPO_ROOT/.venv/bin/python3"
 
 if [ -f "$REPO_ROOT/.env" ]; then
     set -a
@@ -44,9 +44,8 @@ if [ -n "$HF_TOKEN" ]; then
     export HUGGING_FACE_HUB_TOKEN="$HF_TOKEN"
 fi
 
-pip install -e . --quiet
-
 echo "=== Monitor Axis Experiment ==="
+echo "Python: $PYTHON"
 echo "Model: $MODEL"
 echo "Roles: monitor, paranoid_monitor"
 echo "Questions: 240 (standard extraction battery)"
@@ -55,7 +54,7 @@ echo ""
 
 # Phase 1: Generate responses (monitor roles only)
 echo "=== Phase 1: Generating responses ==="
-python pipeline/1_generate.py \
+$PYTHON pipeline/1_generate.py \
     --model "$MODEL" \
     --roles_dir "$ROLES_DIR" \
     --questions_file "$QUESTIONS_FILE" \
@@ -68,7 +67,7 @@ echo ""
 
 # Phase 2: Extract activations (layer 32 only)
 echo "=== Phase 2: Extracting activations ==="
-python pipeline/2_activations.py \
+$PYTHON pipeline/2_activations.py \
     --model "$MODEL" \
     --responses_dir "$OUTPUT_DIR/responses" \
     --output_dir "$OUTPUT_DIR/activations" \

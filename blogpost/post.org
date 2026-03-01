@@ -4,9 +4,6 @@
 #+DATE: 2026-02-16
 #+PROPERTY: header-args:python :results output drawer :python "../.venv/bin/python3" :async t :session blogpost_short :exports both
 
-
-*Note:* All code blocks share a single Python session (=blogpost_short=) and must be executed in order. The Setup block loads data and defines shared variables used by all subsequent blocks.
-
 * _Setup
 
 #+begin_src python :exports none
@@ -109,8 +106,8 @@ ax.scatter(scores_intro[ungrouped, 0], scores_intro[ungrouped, 1], c='#cccccc', 
 for name, pxs in INTRO_UNIVERSES.items():
     idx = _intro_idx(pxs)
     ax.scatter(scores_intro[idx, 0], scores_intro[idx, 1], c=INTRO_COLORS[name], s=15, alpha=0.6, label=name, marker=INTRO_MARKERS[name], zorder=2)
-ax.set_xlabel(f"Fiction PC1 ({evr[0]:.0%} var)\nMythology / Shakespeare  ←→  Modern franchises")
-ax.set_ylabel(f"Fiction PC2 ({evr[1]:.0%} var)\nShakespeare / GoT  ←→  Hindu myth. / Naruto")
+ax.set_xlabel(f"Fiction PC1 ({evr[0]:.0%} var)")
+ax.set_ylabel(f"Fiction PC2 ({evr[1]:.0%} var)")
 ax.set_title("1,268 fictional characters in activation space")
 ax.legend(loc='upper left', fontsize=7, ncol=2, markerscale=2)
 fig.tight_layout()
@@ -119,7 +116,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_102311_3249595.png]]
+[[file:plots/post/plot_20260227_180645_6657975.png]]
 :end:
 
 [[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 points from role-playing toward default-assistant behavior --- they call this the "Assistant Axis." Their findings generalize across models.
@@ -142,7 +139,7 @@ for thresh, style in [(0.7, '--'), (0.9, ':')]:
     ax.annotate(f"{thresh:.0%}", xy=(195, thresh), fontsize=8, color='gray', va='bottom')
 ax.set_xlabel("Number of PCs")
 ax.set_ylabel("Cumulative variance explained")
-ax.set_title("Both spaces are low-dimensional")
+ax.set_title("Fiction is roughly as low dimensional as roles")
 ax.set_xlim(1, 200); ax.set_ylim(0, 1.02)
 ax.legend(loc='lower right', fontsize=9)
 fig.tight_layout()
@@ -151,11 +148,11 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260227_102312_6312550.png]]
+[[file:plots/post/plot_20260227_180651_2015692.png]]
 :end:
 
 2. *What do the top PCs encode, and where does the assistant axis live?*
-   - LLM feature labels identify within-universe PC1 as formality/register for modern franchises (adj. R² = 0.72--0.88) and PC2 as warmth vs. aggression.
+   - LLM feature labelling identifies within-universe PC1 as formality/register for modern franchises (adj. R² = 0.72--0.88) and PC2 as warmth vs. aggression.
    - Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (Hindu/Shakespeare ~0.05).
 #+begin_src python :exports results
 import torch
@@ -163,6 +160,7 @@ from scipy.linalg import svd
 
 assistant_axis_all = torch.load('../data/role_vectors/assistant_axis.pt', weights_only=True)
 assistant_axis = assistant_axis_all[32].float().numpy()
+aa_norm = assistant_axis / np.linalg.norm(assistant_axis)
 aa_norm = assistant_axis / np.linalg.norm(assistant_axis)
 
 def _pa_cos(A, B):
@@ -300,7 +298,7 @@ plt.show()
 [[file:plots/post/plot_20260227_102313_1339280.png]]
 :end:
 
-- Projecting all 1,268 characters onto the assistant axis, nearly all score well below zero (mean = -18.5, std = 7.0) --- fictional characters are much less assistant-like than Lu et al.'s generic roles.
+- Projecting all 1,268 characters onto the assistant axis, nearly all score well below zero (mean = -18.5, std = 7.0). Here zero is the role mean, so fictional characters are much less assistant-like than Lu et al.'s generic roles on average.
 - Hermione Granger is the most assistant-axis-like character in this dataset.
   
 #+begin_src python :exports results
@@ -361,6 +359,7 @@ plt.show()
 3. *How sensitive are results to the question battery?*
    - *Score stability:* given fixed PC directions, a single random question recovers character scores at median Pearson r > 0.95; five questions reach r > 0.99. Sixteen OOD prompts (".", "?", "Write a Python function...") also recover scores at r > 0.94.
    - *Direction stability:* recovering the PC directions themselves requires more questions. Within the same 240-question battery, franchises reach cosine > 0.99 at 5 questions; mythology needs 20--50 (Greek mythology: 0.61 at $k=1$, 0.93 at $k=120$). Qualitatively different prompts yield different directions for mythology and Shakespeare (cosines 0.12--0.55).
+   - An upshot is that many questions are important for having a stable persona space, but to interpret a character activations one can get away with looking at a few questions.
 
 #+begin_src python :exports results
 import json as _json
@@ -1027,9 +1026,9 @@ cos_mat = np.zeros((n_u, 3))
 rank_mat = np.zeros((n_u, 3))
 for i, name in enumerate(universe_names):
     idx = get_universe_indices(ALL_UNIVERSES[name])
-    aa_scores = chars_centered[idx] @ assistant_axis
+    aa_scores = chars_centered[idx] @ aa_norm
     for pc_i in range(3):
-        cos_mat[i, pc_i] = abs(cosine_sim(u_pcas_full[name].components_[pc_i], assistant_axis))
+        cos_mat[i, pc_i] = abs(cosine_sim(u_pcas_full[name].components_[pc_i], aa_norm))
         scores = chars_centered[idx] @ u_pcas_full[name].components_[pc_i]
         rho, _ = spearmanr(scores, aa_scores)
         rank_mat[i, pc_i] = abs(rho)
@@ -1522,7 +1521,7 @@ plt.show()
 
 Franchises recover PC1 with cosine > 0.99 from just 5 questions; mythology and Shakespeare need 20--50 questions to reach the same threshold. Greek mythology is the hardest case: PC1 direction cosine is only 0.61 at $k=1$ and reaches 0.93 at $k=120$. The gap between score stability and direction stability reflects the fact that scoring characters along a fixed direction only requires reducing noise in the mean, while recovering the direction itself requires the covariance structure to stabilize.
 
-But the subset sweep only tests random draws from the /same/ 240 questions --- all substantive, multi-sentence prompts about ethics, technology, and personal advice. A stronger test: do qualitatively different questions carry the same signal? We generate responses for 16 out-of-distribution prompts --- 8 degenerate ("Huh?", ".", "?", "hi", "ok", "what", "hmm", "tell me something") and 8 task-shaped ("Write a Python function to calculate the first 100 primes", "Explain how a refrigerator works", "Write a haiku about rain", etc.) --- and extract activations. We report both score stability and direction stability.
+But the subset sweep only tests random draws from the /same/ 240 questions --- all substantive, multi-sentence prompts about ethics, technology, and personal advice. A stronger test: do qualitatively different questions carry the same signal? We generate responses for 16 out-of-distribution prompts --- 8 degenerate ("Huh?", ".", "?", "hi", "ok", "what", "hmm", "tell me something") and 8 task-shaped ("Write a Python function to calculate the first 100 primes", "Explain how a refrigerator works", "Write a haiku about rain", etc.) --- and extract activations. We report both score stability and direction stability, using the deduplicated character list and restricting to the subset with OOD activations.
 
 #+begin_src python :exports results
 import torch
@@ -1765,4 +1764,3 @@ plt.show()
 :results:
 [[file:plots/post/plot_20260227_132643_6270511.png]]
 :end:
-
