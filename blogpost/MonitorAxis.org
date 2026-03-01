@@ -135,7 +135,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260301_153150_8897736.png]]
+[[file:plots/MonitorAxis/plot_20260301_155159_4350257.png]]
 :end:
 
 * Who scores high on the monitor axis?
@@ -184,7 +184,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260301_153151_8228128.png]]
+[[file:plots/MonitorAxis/plot_20260301_155200_5519658.png]]
 :end:
 
 * Rank correlation: assistant vs monitor vs paranoid
@@ -230,7 +230,7 @@ Spearman rank correlations (all 1268 characters):
 Assistant vs Monitor:  0.679
 Assistant vs Paranoid: 0.701
 Monitor vs Paranoid:   0.998
-[[file:plots/MonitorAxis/plot_20260301_153151_9002072.png]]
+[[file:plots/MonitorAxis/plot_20260301_155200_7335854.png]]
 :end:
 
 * Per-universe breakdown
@@ -273,7 +273,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260301_153151_861514.png]]
+[[file:plots/MonitorAxis/plot_20260301_155200_7770650.png]]
 :end:
 
 * Within-universe spread on the monitor axis
@@ -331,7 +331,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260301_153152_927126.png]]
+[[file:plots/MonitorAxis/plot_20260301_155201_3229282.png]]
 :end:
 
 #+begin_src python :exports results
@@ -547,7 +547,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260301_153152_2296521.png]]
+[[file:plots/MonitorAxis/plot_20260301_155201_731496.png]]
 :end:
 
 * How do the axes decompose into role PCs?
@@ -585,7 +585,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260301_153153_6841733.png]]
+[[file:plots/MonitorAxis/plot_20260301_155202_8467734.png]]
 :end:
 
 #+begin_src python :exports results
@@ -733,7 +733,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260301_153153_7525165.png]]
+[[file:plots/MonitorAxis/plot_20260301_155202_7631130.png]]
 :end:
 
 #+begin_src python :exports results
@@ -1369,6 +1369,127 @@ Marvel                  -3.265  1.495    108
 Shakespeare             -3.380  0.711    93
 Game of Thrones         -3.393  0.855    93
 Harry Potter            -3.412  1.055    102
+:end:
+
+** Prompt-phase axis: activations while reading vulnerable vs clean code
+
+The prompt-phase vuln axis captures how the model's internal state differs when /reading/ vulnerable code vs clean code — before it generates any response. This had 65% variance in role PCA space and cos 0.37 with monitor axis.
+
+#+begin_src python :exports results
+vp_norm = vuln_prompt_axis / np.linalg.norm(vuln_prompt_axis)
+vp_scores = chars_centered @ vp_norm
+
+order_vp = np.argsort(vp_scores)
+
+print("=== Prompt-phase: most 'reading vulnerable code'-like (top 20) ===")
+for i in order_vp[-20:][::-1]:
+    print(f"  {vp_scores[i]:+.3f}  {char_names[i]}")
+
+print()
+print("=== Prompt-phase: most 'reading clean code'-like (bottom 20) ===")
+for i in order_vp[:20]:
+    print(f"  {vp_scores[i]:+.3f}  {char_names[i]}")
+
+print()
+print(f"Mean: {vp_scores.mean():.4f}, Std: {vp_scores.std():.4f}")
+print()
+
+# Correlation with response-phase axis scores
+from scipy.stats import pearsonr
+r, p = pearsonr(vuln_scores, vp_scores)
+print(f"Correlation between response-phase and prompt-phase scores: r={r:.3f} (p={p:.2e})")
+
+# Correlation with monitor axis scores
+ma_norm_ = monitor_axis / np.linalg.norm(monitor_axis)
+ma_scores = chars_centered @ ma_norm_
+r_mon, p_mon = pearsonr(vp_scores, ma_scores)
+print(f"Correlation between prompt-phase vuln and monitor scores: r={r_mon:.3f} (p={p_mon:.2e})")
+#+end_src
+
+#+RESULTS:
+:results:
+=== Prompt-phase: most 'reading vulnerable code'-like (top 20) ===
+-0.766  2001_a_space_odyssey__hal_9000
+-3.575  star_wars__grand_admiral_thrawn
+-3.686  marvel__the_fantastic_fours_mr_fantastic_reed_richards
+-5.082  marvel__the_watcher_uatu
+-5.117  star_wars__wilhuff_tarkin
+-5.506  marvel__ultron
+-6.012  marvel__professor_x_charles_xavier
+-6.066  star_wars__governor_tarkin
+-6.782  sherlock_holmes_stories__sherlock_holmes
+-6.817  hindu_mythology__yudhishthira
+-6.837  marvel__doctor_octopus_otto_octavius
+-6.842  star_wars__ig88
+-6.940  hindu_mythology__vibhishana
+-7.456  star_wars__kiadimundi
+-7.493  yoruba_mythology__eshu
+-7.500  marvel__black_panther_tchalla
+-7.517  marvel_comics__black_panther___tchalla
+-7.823  egyptian_mythology__maat
+-7.891  agatha_christie_mysteries__hercule_poirot
+-7.976  hindu_mythology__parashurama
+=== Prompt-phase: most 'reading clean code'-like (bottom 20) ===
+-36.459  harry_potter__rubeus_hagrid
+-34.466  star_wars__jar_jar_binks
+-33.961  the_big_lebowski__the_dude_jeffrey_lebowski
+-32.741  the_simpsons__homer_simpson
+-32.609  harry_potter__crabbe
+-32.194  shrek__shrek
+-32.096  the_adventures_of_huckleberry_finn__huckleberry_finn
+-31.797  harry_potter__peeves
+-31.452  harry_potter__vernon_dursley
+-31.394  marvel__sabretooth_victor_creed
+-31.290  harry_potter__scabbers
+-31.284  forrest_gump__forrest_gump
+-31.033  harry_potter__mundungus_fletcher
+-30.999  marvel__gambit_remy_lebeau
+-30.929  star_wars__han_solo
+-30.713  marvel__the_thing_ben_grimm
+-30.668  harry_potter__dudley_dursley
+-30.353  the_adventures_of_tom_sawyer__tom_sawyer
+-30.179  dc_comics__the_joker
+-30.111  rocky__rocky_balboa
+Mean: -17.4886, Std: 5.4299
+Correlation between response-phase and prompt-phase scores: r=0.895 (p=0.00e+00)
+Correlation between prompt-phase vuln and monitor scores: r=0.486 (p=0.00e+00)
+:end:
+
+#+begin_src python :exports results
+# Universe-level prompt-phase scores
+print(f"{'Universe':<25s} {'Prompt':>8s} {'Response':>8s}  {'n':>4s}")
+print("-" * 55)
+
+universe_stats_vp = []
+for name, prefixes in ALL_UNIVERSES.items():
+    idx = get_universe_indices(prefixes)
+    if len(idx) < 3:
+        continue
+    vp_s = vp_scores[idx]
+    resp_s = vuln_scores[idx]
+    universe_stats_vp.append((name, vp_s.mean(), resp_s.mean(), len(idx)))
+
+universe_stats_vp.sort(key=lambda x: x[1], reverse=True)
+for name, vp_mean, resp_mean, n in universe_stats_vp:
+    print(f"  {name:<23s} {vp_mean:+.3f}  {resp_mean:+.3f}    {n}")
+#+end_src
+
+#+RESULTS:
+:results:
+Universe                    Prompt Response     n
+-------------------------------------------------------
+Hindu Mythology         -11.015  -1.516    70
+Egyptian Mythology      -12.523  -2.640    44
+Greek Mythology         -13.492  -2.378    107
+Norse Mythology         -15.486  -3.000    48
+Chinese Mythology       -16.315  -3.112    76
+Star Wars               -17.113  -3.054    105
+Naruto                  -17.303  -3.017    84
+Marvel                  -17.501  -3.265    108
+LOTR                    -18.206  -2.800    97
+Game of Thrones         -19.662  -3.393    93
+Harry Potter            -21.932  -3.412    102
+Shakespeare             -22.028  -3.380    93
 :end:
 
 ** Variance captured by role PCA
