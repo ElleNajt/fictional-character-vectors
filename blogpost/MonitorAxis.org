@@ -1144,7 +1144,86 @@ False positives (clean programs flagged): 79/100
 
 14/25 CWEs show positive delta — no better than chance. The false positive rate (79/100 clean programs flagged) shows the model readily produces vulnerability reports for safe code, and the monitor axis projection is similar either way.
 
-*Interpretation:* The monitor axis captures a stable "security reviewer persona" that the model adopts uniformly when given a security review prompt. It does not modulate based on whether the model has actually found a real vulnerability. This is consistent with the reading-phase result and confirms: the monitor direction is a /communication style/, not a /detection capability/.
+** Model performance on CASTLE
+
+Qwen-3-32B performs poorly on CASTLE: 45/150 correct CWE identification, 75/100 false positives. This raises the question: is the negative result just because the model can't do the task?
+
+#+begin_src python
+# Parse model responses for correctness
+def parse_findings(response):
+    m = re.search(r'\[.*\]', response, re.DOTALL)
+    if not m:
+        return []
+    try:
+        return json.loads(m.group())
+    except:
+        return []
+
+correct_ids = set()
+for r in resp_data:
+    if not r['vulnerable']:
+        continue
+    findings = parse_findings(r['response'])
+    found_cwes = {f.get('cwe') for f in findings}
+    if r['cwe'] in found_cwes:
+        correct_ids.add(r['test_id'])
+
+print(f"Correct CWE detections: {len(correct_ids)}/150")
+
+# False positive rate
+fp = sum(1 for r in resp_data if not r['vulnerable'] and parse_findings(r['response']))
+print(f"False positives: {fp}/100")
+#+end_src
+
+#+RESULTS:
+:results:
+Correct CWE detections: 45/150
+False positives: 75/100
+:end:
+
+** Conditioning on correct detections
+
+We condition on the 45 programs where the model correctly identifies the CWE, then look at /input/ activations (while reading the code). If the model "knows" the vulnerability is there — as evidenced by correctly reporting it — does the monitor axis activate more on the vulnerable lines during reading?
+
+#+begin_src python
+# Load input activation data
+with open('../outputs/monitor_activations/token_projections.json') as f:
+    input_data = json.load(f)
+
+# Split by correctness
+from statistics import mean as smean
+correct_deltas = []
+incorrect_deltas = []
+
+for r in input_data:
+    if not r['vulnerable']:
+        continue
+    if r['vuln_lines_mean_monitor'] is None or r['safe_lines_mean_monitor'] is None:
+        continue
+    delta = r['vuln_lines_mean_monitor'] - r['safe_lines_mean_monitor']
+    if r['test_id'] in correct_ids:
+        correct_deltas.append(delta)
+    else:
+        incorrect_deltas.append(delta)
+
+pos_correct = sum(1 for d in correct_deltas if d > 0)
+pos_incorrect = sum(1 for d in incorrect_deltas if d > 0)
+
+print(f"Input activation delta (vuln lines - safe lines):")
+print(f"  Correct detections:   {smean(correct_deltas):+.3f}  positive={pos_correct}/{len(correct_deltas)}")
+print(f"  Incorrect detections: {smean(incorrect_deltas):+.3f}  positive={pos_incorrect}/{len(incorrect_deltas)}")
+#+end_src
+
+#+RESULTS:
+:results:
+Input activation delta (vuln lines - safe lines):
+  Correct detections:   -5.683  positive=3/45
+  Incorrect detections: -5.226  positive=16/105
+:end:
+
+3/45 positive for correct detections — /worse/ than the 16/105 for incorrect ones. The model demonstrably detects the vulnerability (it outputs the correct CWE), but the monitor axis does not reflect this during reading. The vulnerability detection capability exists somewhere in the model, but not on this axis.
+
+*Summary:* The persona direction (monitor axis) is orthogonal to the capability (vulnerability detection). The model adopts a "security reviewer" communication style uniformly, and separately, uses some other mechanism to actually find vulnerabilities. Amplifying the persona direction would make the model /sound/ more like a security reviewer without improving its ability to /be/ one.
 
 * Pipeline reproducibility notes
 
