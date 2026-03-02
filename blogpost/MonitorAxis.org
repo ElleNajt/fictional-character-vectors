@@ -135,7 +135,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260301_155159_4350257.png]]
+[[file:plots/MonitorAxis/plot_20260301_160221_2915507.png]]
 :end:
 
 * Who scores high on the monitor axis?
@@ -184,7 +184,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260301_155200_5519658.png]]
+[[file:plots/MonitorAxis/plot_20260301_160221_7485651.png]]
 :end:
 
 * Rank correlation: assistant vs monitor vs paranoid
@@ -230,7 +230,7 @@ Spearman rank correlations (all 1268 characters):
 Assistant vs Monitor:  0.679
 Assistant vs Paranoid: 0.701
 Monitor vs Paranoid:   0.998
-[[file:plots/MonitorAxis/plot_20260301_155200_7335854.png]]
+[[file:plots/MonitorAxis/plot_20260301_160222_3025554.png]]
 :end:
 
 * Per-universe breakdown
@@ -273,7 +273,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260301_155200_7770650.png]]
+[[file:plots/MonitorAxis/plot_20260301_160222_1040743.png]]
 :end:
 
 * Within-universe spread on the monitor axis
@@ -331,7 +331,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260301_155201_3229282.png]]
+[[file:plots/MonitorAxis/plot_20260301_160222_3587187.png]]
 :end:
 
 #+begin_src python :exports results
@@ -547,7 +547,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260301_155201_731496.png]]
+[[file:plots/MonitorAxis/plot_20260301_160223_1434288.png]]
 :end:
 
 * How do the axes decompose into role PCs?
@@ -585,7 +585,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260301_155202_8467734.png]]
+[[file:plots/MonitorAxis/plot_20260301_160223_3463641.png]]
 :end:
 
 #+begin_src python :exports results
@@ -733,7 +733,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/MonitorAxis/plot_20260301_155202_7631130.png]]
+[[file:plots/MonitorAxis/plot_20260301_160224_9506136.png]]
 :end:
 
 #+begin_src python :exports results
@@ -1492,10 +1492,154 @@ Harry Potter            -21.932  -3.412    102
 Shakespeare             -22.028  -3.380    93
 :end:
 
+** Vulnerable lines vs non-vulnerable lines
+
+Within each vulnerable program, we know which source lines contain the vulnerability (=ground_truth_lines=). We map these to token positions and compute:
+
+=vuln_line_axis = mean(activations at vulnerable-line tokens) - mean(activations at non-vulnerable-line tokens)=
+
+This is purely within the prompt phase (reading the code), and purely within vulnerable programs. It asks: what's different about the model's hidden state when it's processing the actual vulnerable line vs a safe line in the same program?
+
+#+begin_src python :exports results
+vuln_line_axis = torch.load('../data/role_vectors/vuln_line_axis.pt', weights_only=True, map_location='cpu').float().numpy()
+
+print(f"Vuln line axis norm: {np.linalg.norm(vuln_line_axis):.2f}")
+print()
+
+# Compare to all other axes
+for name, axis in [('Assistant', assistant_axis), ('Monitor', monitor_axis), ('Paranoid', paranoid_axis),
+                   ('Vuln (response)', vuln_axis), ('Vuln (prompt)', vuln_prompt_axis)]:
+    print(f"Cosine(vuln_line, {name:20s}): {cosine_sim(vuln_line_axis, axis):+.4f}")
+#+end_src
+
+#+RESULTS:
+:results:
+Vuln line axis norm: 26.16
+Cosine(vuln_line, Assistant           ): -0.0792
+Cosine(vuln_line, Monitor             ): -0.1074
+Cosine(vuln_line, Paranoid            ): -0.0812
+Cosine(vuln_line, Vuln (response)     ): +0.1296
+Cosine(vuln_line, Vuln (prompt)       ): -0.1828
+:end:
+
+#+begin_src python :exports results
+vl_norm = vuln_line_axis / np.linalg.norm(vuln_line_axis)
+vl_scores = chars_centered @ vl_norm
+
+order_vl = np.argsort(vl_scores)
+
+print("=== Most 'vulnerable-line-like' characters (top 20) ===")
+for i in order_vl[-20:][::-1]:
+    print(f"  {vl_scores[i]:+.3f}  {char_names[i]}")
+
+print()
+print("=== Most 'safe-line-like' characters (bottom 20) ===")
+for i in order_vl[:20]:
+    print(f"  {vl_scores[i]:+.3f}  {char_names[i]}")
+
+print()
+print(f"Mean: {vl_scores.mean():.4f}, Std: {vl_scores.std():.4f}")
+
+# Correlations with other axis scores
+from scipy.stats import pearsonr
+for name, scores in [('response vuln', vuln_scores), ('prompt vuln', vp_scores),
+                     ('monitor', chars_centered @ (monitor_axis / np.linalg.norm(monitor_axis)))]:
+    r, p = pearsonr(vl_scores, scores)
+    print(f"Correlation with {name:15s}: r={r:.3f} (p={p:.2e})")
+#+end_src
+
+#+RESULTS:
+:results:
+=== Most 'vulnerable-line-like' characters (top 20) ===
++4.597  game_of_thrones__hodor
++4.032  the_stranger__meursault
++3.414  marvel__groot
++3.372  lord_of_the_rings__gollum_smeagol
++3.019  the_little_prince__the_little_prince
++2.980  demon_slayer__nezuko_kamado
++2.955  catch22__john_yossarian
++2.950  the_lord_of_the_rings__gollum
++2.939  one_piece__monkey_d_luffy
++2.861  forrest_gump__forrest_gump
++2.742  naruto__sakon_and_ukon
++2.694  the_metamorphosis__gregor_samsa
++2.692  things_fall_apart__okonkwo
++2.622  game_of_thrones__khal_drogo
++2.587  pippi_longstocking__pippi_longstocking
++2.580  dragon_ball__goku
++2.424  the_adventures_of_huckleberry_finn__huckleberry_finn
++2.408  enders_game__ender_wiggin
++2.313  my_neighbor_totoro__totoro
++2.262  star_wars__grogu_baby_yoda
+=== Most 'safe-line-like' characters (bottom 20) ===
+-1.643  star_wars__c3po
+-1.589  harry_potter__albus_dumbledore
+-1.469  harry_potter__severus_snape
+-1.408  pride_and_prejudice__mr_darcy
+-1.408  chinese_mythology__zhongli_quan
+-1.369  sherlock_holmes_stories__dr_watson
+-1.302  shakespeare__horatio
+-1.269  harry_potter__minerva_mcgonagall
+-1.257  marvel__vision
+-1.254  sherlock_holmes_stories__sherlock_holmes
+-1.143  harry_potter__professor_trelawney
+-1.119  shakespeare__sebastian
+-1.084  shakespeare__hermione
+-1.081  007_series__james_bond
+-1.037  marvel__professor_x_charles_xavier
+-1.023  chinese_mythology__fahai
+-0.980  the_legend_of_sleepy_hollow__ichabod_crane
+-0.972  harry_potter__dolores_umbridge
+-0.953  marvel__odin
+-0.942  harry_potter__madam_maxime
+Mean: 0.4275, Std: 0.7451
+Correlation with response vuln  : r=-0.239 (p=5.60e-18)
+Correlation with prompt vuln    : r=-0.267 (p=4.61e-22)
+Correlation with monitor        : r=-0.192 (p=5.60e-12)
+:end:
+
+#+begin_src python :exports results
+# Universe-level vuln line scores
+print(f"{'Universe':<25s} {'VulnLine':>8s} {'Prompt':>8s} {'Response':>8s}  {'n':>4s}")
+print("-" * 65)
+
+universe_stats_vl = []
+for name, prefixes in ALL_UNIVERSES.items():
+    idx = get_universe_indices(prefixes)
+    if len(idx) < 3:
+        continue
+    vl_s = vl_scores[idx]
+    vp_s = vp_scores[idx]
+    resp_s = vuln_scores[idx]
+    universe_stats_vl.append((name, vl_s.mean(), vp_s.mean(), resp_s.mean(), len(idx)))
+
+universe_stats_vl.sort(key=lambda x: x[1], reverse=True)
+for name, vl_mean, vp_mean, resp_mean, n in universe_stats_vl:
+    print(f"  {name:<23s} {vl_mean:+.3f}  {vp_mean:+.3f}  {resp_mean:+.3f}    {n}")
+#+end_src
+
+#+RESULTS:
+:results:
+Universe                  VulnLine   Prompt Response     n
+-----------------------------------------------------------------
+Game of Thrones         +1.075  -19.662  -3.393    93
+Naruto                  +0.826  -17.303  -3.017    84
+LOTR                    +0.652  -18.206  -2.800    97
+Star Wars               +0.408  -17.113  -3.054    105
+Greek Mythology         +0.226  -13.492  -2.378    107
+Harry Potter            +0.169  -21.932  -3.412    102
+Marvel                  +0.144  -17.501  -3.265    108
+Hindu Mythology         +0.119  -11.015  -1.516    70
+Shakespeare             +0.039  -22.028  -3.380    93
+Egyptian Mythology      +0.025  -12.523  -2.640    44
+Chinese Mythology       +0.002  -16.315  -3.112    76
+Norse Mythology         -0.068  -15.486  -3.000    48
+:end:
+
 ** Variance captured by role PCA
 
 #+begin_src python :exports results
-for name, axis in [('Vuln (response)', vuln_axis), ('Vuln (prompt)', vuln_prompt_axis)]:
+for name, axis in [('Vuln (response)', vuln_axis), ('Vuln (prompt)', vuln_prompt_axis), ('Vuln (line)', vuln_line_axis)]:
     proj = axis @ role_pca.components_.T @ role_pca.components_
     captured = np.linalg.norm(proj)**2 / np.linalg.norm(axis)**2
     print(f"{name}: {captured*100:.1f}% of variance in role PCA space")
@@ -1514,6 +1658,8 @@ Vuln (response): 15.3% of variance in role PCA space
 Top PCs: PC1 (+0.104), PC7 (-0.064), PC10 (+0.061), PC2 (-0.054), PC4 (-0.045)
 Vuln (prompt): 65.4% of variance in role PCA space
 Top PCs: PC1 (+0.366), PC8 (+0.236), PC2 (-0.230), PC5 (+0.173), PC4 (-0.133)
+Vuln (line): 18.1% of variance in role PCA space
+Top PCs: PC7 (-0.070), PC6 (-0.046), PC10 (+0.046), PC9 (+0.042), PC1 (-0.033)
 :end:
 
 * Pipeline reproducibility notes
