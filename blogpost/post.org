@@ -137,7 +137,7 @@ plt.show()
 We apply similar ideas to 1,268 fictional characters in Qwen3-32B --- from Hindu mythology to Naruto. Here are the key questions that motivated me, and the headlines.
 
 1. [@1] *Is there a low-dimensional fictional persona space?*
-   - Yes. Effective rank is 8 for fiction and 5.8 for roles, out of 1,268 and 275 maximum dimensions respectively. The eigenspectra are strikingly similar despite the different input distributions; a random baseline of 1,268 isotropic points gives effective rank ~1,015.
+   - Yes. Effective rank is 8 for fiction and 5.8 for roles, out of 1,268 and 275 maximum dimensions respectively. The eigenspectra are strikingly similar despite the different input distributions; a random baseline of 1,268 isotropic Gaussian points gives effective rank ~1,015.
 
 #+begin_src python :exports results
 eff_rank = lambda e: (e.sum())**2 / (e**2).sum()
@@ -623,44 +623,49 @@ eff_rank = lambda e: (e.sum())**2 / (e**2).sum()
 print(f"Global fiction: {n_70_fiction} PCs for 70%, {n_90_fiction} PCs for 90%")
 print(f"Fiction PC1: {fvar[0]:.1%}, Role PC1: {lu_var[0]:.1%}")
 print(f"Between-universe eta-squared: {eta_sq:.0%}")
-print(f"Effective rank: fiction={eff_rank(pca_fiction.explained_variance_):.1f}, roles={eff_rank(role_pca.explained_variance_):.1f}")
-print(f"Per-universe effective ranks:")
+eff_rows = []
 for d in u_data:
     name = d['Universe']
     if name == 'Roles (Lu)':
-        continue
-    idx = get_universe_indices(ALL_UNIVERSES[name])
-    u_pca = SkPCA(n_components=len(idx)-1).fit(chars_centered[idx])
-    print(f"  {name}: eff_rank={eff_rank(u_pca.explained_variance_):.1f}")
+        er = eff_rank(role_pca.explained_variance_)
+    else:
+        idx = get_universe_indices(ALL_UNIVERSES[name])
+        u_pca = SkPCA(n_components=len(idx)-1).fit(chars_centered[idx])
+        er = eff_rank(u_pca.explained_variance_)
+    eff_rows.append({**d, 'Eff. rank': round(er, 1)})
+eff_rows.append({'Universe': 'All fiction', 'N': len(chars_centered),
+                 'PCs70': n_70_fiction, 'PCs90': n_90_fiction, 'PC1': fvar[0],
+                 'Eff. rank': round(eff_rank(pca_fiction.explained_variance_), 1)})
+df_dim = pd.DataFrame(eff_rows).rename(columns={'PCs70': 'PCs for 70%', 'PCs90': 'PCs for 90%', 'PC1': 'PC1 var%'})
+df_dim['PC1 var%'] = (df_dim['PC1 var%'] * 100).round(1)
+print(df_dim.set_index("Universe"))
 #+end_src
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260301_202721_8729817.png]]
+[[file:plots/post/plot_20260301_231036_1015199.png]]
 Global fiction: 9 PCs for 70%, 40 PCs for 90%
 Fiction PC1: 31.2%, Role PC1: 37.9%
 Between-universe eta-squared: 57%
-Effective rank: fiction=8.0, roles=5.8
-Per-universe effective ranks:
-LOTR: eff_rank=4.4
-Naruto: eff_rank=3.5
-Harry Potter: eff_rank=5.1
-Star Wars: eff_rank=4.9
-Marvel: eff_rank=4.5
-Game of Thrones: eff_rank=6.4
-Norse Mythology: eff_rank=7.6
-Chinese Mythology: eff_rank=7.7
-Hindu Mythology: eff_rank=8.8
-Egyptian Mythology: eff_rank=10.8
-Shakespeare: eff_rank=10.3
-Greek Mythology: eff_rank=15.6
+| Universe           |    N | PC1 var% | PCs for 70% | PCs for 90% | Eff. rank |
+|--------------------+------+----------+-------------+-------------+-----------|
+| LOTR               |   97 |     40.0 |           3 |          13 |       4.4 |
+| Naruto             |   84 |     49.7 |           3 |          13 |       3.5 |
+| Harry Potter       |  102 |     39.0 |           4 |          18 |       5.1 |
+| Star Wars          |  105 |     38.2 |           4 |          11 |       4.9 |
+| Marvel             |  108 |     43.0 |           4 |          17 |       4.5 |
+| Game of Thrones    |   93 |     33.1 |           5 |          17 |       6.4 |
+| Norse Mythology    |   48 |     28.7 |           7 |          17 |       7.6 |
+| Roles (Lu)         |  275 |     37.9 |           7 |          37 |       5.8 |
+| Chinese Mythology  |   76 |     30.6 |           8 |          23 |       7.7 |
+| Hindu Mythology    |   70 |     25.3 |           8 |          24 |       8.8 |
+| Egyptian Mythology |   44 |     20.9 |           8 |          19 |      10.8 |
+| Shakespeare        |   93 |     21.2 |           9 |          25 |      10.3 |
+| Greek Mythology    |  107 |     14.7 |          13 |          37 |      15.6 |
+| All fiction        | 1268 |     31.2 |           9 |          40 |       8.0 |
 :end:
 
-Takeaways:
-- Both fiction and the 275 roles have a dominant PC1 (~31% for fiction, ~38% for roles).
-- Cross-universe: 9 PCs capture 70% of fiction variance (vs 7 for the roles) --- but 57% of total variance is universe separation.
-- Within-universe (44--108 characters each): 3--13 PCs for 70%, out of ~43--107 max dimensions.
-- Modern franchises are more compressible (3--5 PCs) than mythology and Shakespeare (7--13 PCs).
+Fiction and roles have strikingly similar eigenspectra despite different input distributions. Most of the global fiction variance is universe separation (η²=57%). Modern franchises are more compressible than mythology and Shakespeare.
 
 We can also answer: Who are the most assistant like characters in fiction ?
 
@@ -717,9 +722,9 @@ print(pd.DataFrame(rows).set_index(""))
 | Null (random 275-dim subspace)          |          |       5.4% |
 :end:
 
-The role space captures 75% of total fictional character variance. Here $\tilde{a}_i = \bar{a}_i - \bar{a}_{\text{role}}$ is each character's mean activation centered at the role mean (matching the centering used to fit the role PCA), $\hat{a}_i = P\tilde{a}_i$ is its projection onto the 275-dim role subspace via $P = V_{\text{role}} V_{\text{role}}^\top$, and the capture ratio is $\sum_j \mathrm{Var}_i(\hat{a}_{ij}) / \sum_j \mathrm{Var}_i(\tilde{a}_{ij})$ where $j$ indexes coordinates and variance is over characters $i$. The 95% baseline (275 random fictional characters) reflects the low dimensionality of the fiction space: with ~40 PCs covering 90% of variance, 275 random draws span nearly the full subspace. The 5.4% null (a random 275-dim subspace of $\mathbb{R}^{5120}$) confirms the structure is real. The gap between 75% (roles) and 95% (random fiction) reflects that roles come from a different distribution --- generic personas without universe-specific structure. As the residual decomposition below shows, most of that 20% gap is universe separation.
+Here $\tilde{a}_i = \bar{a}_i - \bar{a}_{\text{role}}$ is each character's mean activation centered at the role mean (matching the centering used to fit the role PCA), $\hat{a}_i = P\tilde{a}_i$ is its projection onto the 275-dim role subspace via $P = V_{\text{role}} V_{\text{role}}^\top$, and the capture ratio is $\sum_j \mathrm{Var}_i(\hat{a}_{ij}) / \sum_j \mathrm{Var}_i(\tilde{a}_{ij})$ where $j$ indexes coordinates and variance is over characters $i$. The high baseline (275 random fictional characters) reflects the low dimensionality of the fiction space: 275 random draws span nearly the full subspace. The gap between roles and random fiction reflects that roles come from a different distribution --- generic personas without universe-specific structure. As the residual decomposition below shows, most of that gap is universe separation.
 
-How much subspace overlap is there between universes --- and between fiction and roles? For each pair, we fit PCA on the row's characters, project the column's characters, and report the fraction of the column's variance captured. We include "All Fiction" (1,267 PCs), "Random 275" (a random sample of 275 fictional characters, matching the dimensionality of Lu's roles), and "Lu Roles" as reference rows/columns:
+How much subspace overlap is there between universes --- and between fiction and roles? For each pair, we project the row's characters onto the column's subspace and report the fraction of the row's variance captured. We include "All Fiction" (1,267 PCs), "Random 275" (a random sample of 275 fictional characters, matching the dimensionality of Lu's roles), and "Lu Roles" as reference rows/columns:
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
@@ -815,7 +820,7 @@ Lu Roles variance captured by All Fiction: 92%
 All Fiction variance captured by Lu Roles: 75%
 :end:
 
-Franchise subspaces capture ~80% of each other's variance (median). Cross-boundary pairs drop to ~60%, and mythology-mythology pairs are similar (~59%). LOTR is the bridge --- it captures more mythology variance than any other franchise. The reference rows/columns show the asymmetry between fiction and roles: fiction captures 92% of role variance, but roles capture only 75% of fiction. A random sample of 275 fictional characters (matching Lu's role count) captures ~95% of all fiction variance, reflecting the low dimensionality of the space.
+Franchise subspaces capture most of each other's variance; cross-boundary and mythology-mythology pairs are lower. LOTR is the bridge --- it captures more mythology variance than any other franchise. The relationship between fiction and roles is asymmetric: fiction captures most role variance, but roles miss a quarter of fiction.
 
 Principal angle cosines between within-universe subspaces (k=1, 2, 3 dimensions):
 
@@ -925,7 +930,7 @@ Residual variance within universes:  35%
 (1027/1268 characters in 12 universes)
 :end:
 
-Of total variance: ~75% is captured by the role space, ~16% is between-universe residual, and ~9% is within-universe residual. The between/within decomposition is the standard ANOVA partition on the residuals $r_i = (I - P)\tilde{a}_i$: $\eta^2 = \mathrm{SS}_{\text{between}} / \mathrm{SS}_{\text{total}}$ where $\mathrm{SS}_{\text{between}} = \sum_{\mathcal{U}} n_{\mathcal{U}} \| \bar{r}_{\mathcal{U}} - \bar{r} \|^2$. Characters within each universe share system prompt structure (e.g., "You are [name] from Harry Potter"), so some of the between-universe variance is prompt-template variance rather than persona structure. What about the within-universe residual?
+Most of the residual is between-universe. The between/within decomposition is the standard ANOVA partition on the residuals $r_i = (I - P)\tilde{a}_i$: $\eta^2 = \mathrm{SS}_{\text{between}} / \mathrm{SS}_{\text{total}}$ where $\mathrm{SS}_{\text{between}} = \sum_{\mathcal{U}} n_{\mathcal{U}} \| \bar{r}_{\mathcal{U}} - \bar{r} \|^2$. Characters within each universe share system prompt structure (e.g., "You are [name] from Harry Potter"), so some of the between-universe variance is prompt-template variance rather than persona structure. What about the within-universe residual?
 
 ** What do the global fiction PCs look like?
 
@@ -988,7 +993,7 @@ plt.show()
 [[file:plots/post/plot_20260228_182740_6374133.png]]
 :end:
 
-PC1 (31% of variance, η²=68%) separates modern franchises from mythology and Shakespeare --- Ron Weasley and Homer Simpson at one end, Egyptian gods at the other. The remaining PCs mix universe separation with cross-cutting semantics: PC3 (η²=48%) runs from Darth Vader and Palpatine to Winnie-the-Pooh and Totoro; PC4 (η²=49%) from Mr. Darcy and Elizabeth Bennet to Khal Drogo and Sun Wukong.
+PC1 separates modern franchises from mythology and Shakespeare --- Ron Weasley and Homer Simpson at one end, Egyptian gods at the other. The remaining PCs mix universe separation with cross-cutting semantics: PC3 runs from Darth Vader and Palpatine to Winnie-the-Pooh and Totoro; PC4 from Mr. Darcy and Elizabeth Bennet to Khal Drogo and Sun Wukong.
 
 ** Residual PC Feature Regressions
 
@@ -1100,9 +1105,7 @@ plt.show()
 [[file:plots/post/plot_20260228_182754_9805117.png]]
 :end:
 
-Residual PC1 directions are nearly orthogonal to the original PC1 (cosines 0.19--0.66), but character rankings on residual PC1 correlate 0.77--0.96 with original PC1 rankings in most universes (Marvel is the exception at 0.55). The role space captures most of the variance (61--85% per universe), but the residual --- geometrically orthogonal to the role space --- still preserves who ranks where. Extreme characters (Voldemort, Darth Vader, Galadriel) are extreme in multiple directions; projecting out the role space changes the axis but not the ordering.
-
-This means: the 15--39% of within-universe variance missed by the role space is not noise --- it encodes real structure that produces the same character ordering along a different geometric direction.
+Residual PC1 directions are nearly orthogonal to the original PC1, but character rankings on residual PC1 track the original rankings closely (Marvel is the exception). Projecting out the role space changes the axis but not the ordering --- the within-universe variance missed by the role space encodes real structure, not noise.
 
 #+begin_src python :exports results
 from scipy.stats import spearmanr
@@ -1204,7 +1207,7 @@ plt.show()
 [[file:plots/post/plot_20260228_182740_2494910.png]]
 :end:
 
-The role space captures more in modern franchises (80--85%) than in mythology (61--72%). How do within-universe PCs relate to the assistant axis? Geometric alignment is low, but rank correlations are substantial:
+The role space captures more in modern franchises than in mythology. How do within-universe PCs relate to the assistant axis? Geometric alignment is low, but rank correlations are substantial:
 
 #+begin_src python :exports results
 from sklearn.decomposition import PCA as SkPCA
@@ -1421,7 +1424,7 @@ Medians: PC1=0.48, PC2=0.47, PC1+PC2=0.60
 PC1-PC2 rank independence median: 0.027
 :end:
 
-PC1 (formality) and PC2 (warmth) each independently predict assistant axis scores at median adj. R² 0.48 and 0.47 respectively. Combining both sets of features (12 total) raises this to median 0.60, with franchises reaching 0.63--0.87. The AA is not formality alone --- it is a blend of formality and warmth/cooperativeness. In mythology, where within-universe AA variance is small (std 1.7--2.9 vs. 4--6 for franchises), neither set of features predicts well.
+PC1 (formality) and PC2 (warmth) features each independently predict assistant axis scores at comparable strength. The AA is not formality alone --- it is a blend of formality and warmth/cooperativeness. In mythology, where within-universe AA variance is small, neither set of features predicts well.
 
 ** What Do the Directions Encode?
 
@@ -1517,13 +1520,13 @@ within median adj. R²: 0.65
 lu median adj. R²: 0.46
 :end:
 
-For within-universe PCs in modern franchises and Chinese mythology, PC1 is formality/register (adj. R² = 0.72--0.88) and PC2 is warmth vs. aggression. In mythology and Shakespeare, the top features are more heterogeneous ("Temporal Perspective," "Gentle Tone Quality," "Emotional Volatility Expression") and adj. R² is lower (0.47--0.54). Role and residual PCs show the same franchise/mythology split.
+For franchises, PC1 is formality/register and PC2 is warmth vs. aggression. In mythology and Shakespeare, the top features are more heterogeneous ("Temporal Perspective," "Gentle Tone Quality," "Emotional Volatility Expression") and fit quality is lower.
 
-*PC1: formality (franchises).* Role PC1 finds "Civilized Discourse" in Harry Potter, "Predatory Language" in LOTR; within-universe PC1 finds "Conversational Informality" (Harry Potter, adj. R² = 0.87), "Formal Register" (Naruto, adj. R² = 0.81). Ron Weasley and Crabbe at the informal end, Grindelwald and Voldemort at the formal end; Tayuya and Choji at the informal end in Naruto, Hamura Otsutsuki and Hiashi Hyuga at the formal end. Lu et al. identify their PC1 with the "assistant axis"; the formality pattern in franchise PC1 is compatible with this, though the geometric alignment is low (median cosine 0.17 between within-universe PC1 and the AA). Adj. R² drops for smaller or less differentiated universes (Egyptian Mythology within PC1: adj. R² = 0.47, Norse: 0.48).
+*PC1: formality (franchises).* Within-universe PC1 finds "Conversational Informality" in Harry Potter, "Formal Register" in Naruto. Ron Weasley and Crabbe at the informal end, Grindelwald and Voldemort at the formal end. Lu et al. identify their PC1 with the "assistant axis"; the formality pattern in franchise PC1 is compatible with this, though the geometric alignment is low.
 
-*PC2: warmth vs. aggression.* "Dismissive Attitude" in LOTR (adj. R² = 0.82), "Threatening Rhetoric" in Game of Thrones (adj. R² = 0.52), "Rhetorical Intensity" in Shakespeare (adj. R² = 0.52).
+*PC2: warmth vs. aggression.* "Dismissive Attitude" in LOTR, "Threatening Rhetoric" in Game of Thrones, "Rhetorical Intensity" in Shakespeare.
 
-Within-universe PCs are the most interpretable (median adj. R² = 0.65), clearly ahead of role PCs (median 0.46). Role PC labels are more heterogeneous --- "Civilized Discourse" alongside "Technical Precision," "Analytical Depth" --- and a quarter of role PC1 entries have adj. R² below 0.3 (Greek, Hindu, Egyptian mythology). Residual PCs (within-universe structure orthogonal to the role space) are similar to role PCs in quality (median adj. R² = 0.43); full residual tables are in the appendix below.
+Within-universe PCs are the most interpretable, clearly ahead of role PCs. Role PC labels are more heterogeneous --- "Civilized Discourse" alongside "Technical Precision," "Analytical Depth." Residual PCs (within-universe structure orthogonal to the role space) are similar to role PCs in quality; full residual tables are in the appendix below.
 
 *** Direct interpretation of the assistant axis
 
@@ -1578,9 +1581,7 @@ print(f"Median adj. R²: {np.median([r['r2'] for r in rows]):.2f} (all), {np.med
 Median adj. R²: 0.54 (all), 0.69 (franchises), 0.28 (mythology)
 :end:
 
-The discovered features confirm and sharpen the indirect finding. The top features are "Collaborative Tone" (LOTR, Marvel, Naruto, and also Hindu Mythology), "Grandiose Language" (Marvel, Naruto), "Dramatic Tone" (Harry Potter), and "Self-Deprecation Level" (Game of Thrones) --- warmth and approachability at the high end, theatrical menace at the low end. Samwise Gamgee, Spider-Man, and Hinata Hyuga score high; Ungoliant, Apocalypse, and Madara Uchiha score low. The discovered features cluster around collaborative, warm, self-deprecating, and concrete language at the high end, versus grandiose, threatening, dramatic, and dismissive language at the low end.
-
-Franchise fits are strong (median adj. R² = 0.69, range 0.61--0.76), comparable to the indirect PC1+PC2 regression (median 0.60). Mythology fits are weaker (median adj. R² = 0.28): the AA has low variance in mythology universes (they cluster near the low end of the axis), so there is less signal for the features to predict. Greek mythology is the worst case (adj. R² = 0.11), where the discovered features ("Mystical Gravitas," "Atmospheric Staging") correlate only weakly with the AA.
+The discovered features confirm and sharpen the indirect finding: collaborative, warm, self-deprecating, and concrete language at the high end; grandiose, threatening, dramatic, and dismissive language at the low end. The top features are "Collaborative Tone" (LOTR, Marvel, Naruto), "Grandiose Language" (Marvel, Naruto), and "Self-Deprecation Level" (Game of Thrones). Franchise fits are comparable to the indirect PC1+PC2 regression. Mythology fits are weaker because the AA has low variance in mythology universes (they cluster near the low end of the axis).
 
 * How Sensitive Are Results to the Question Battery?
 
@@ -1661,7 +1662,7 @@ plt.show()
 [[file:plots/post/plot_20260228_182743_7775141.png]]
 :end:
 
-Franchises recover PC1 with cosine > 0.99 from just 5 questions; mythology and Shakespeare need 20--50 questions to reach the same threshold. Greek mythology is the hardest case: PC1 direction cosine is only 0.61 at $k=1$ and reaches 0.93 at $k=120$. The gap between score stability and direction stability reflects the fact that scoring characters along a fixed direction only requires reducing noise in the mean, while recovering the direction itself requires the covariance structure to stabilize.
+Franchises recover PC directions quickly; mythology and Shakespeare need substantially more questions. The gap between score stability and direction stability reflects the fact that scoring characters along a fixed direction only requires reducing noise in the mean, while recovering the direction itself requires the covariance structure to stabilize.
 
 But the subset sweep only tests random draws from the /same/ 240 questions --- all substantive, multi-sentence prompts about ethics, technology, and personal advice. A stronger test: do qualitatively different questions carry the same signal? We generate responses for 16 out-of-distribution prompts --- 8 degenerate ("Huh?", ".", "?", "hi", "ok", "what", "hmm", "tell me something") and 8 task-shaped ("Write a Python function to calculate the first 100 primes", "Explain how a refrigerator works", "Write a haiku about rain", etc.) --- and extract activations. We report both score stability and direction stability, using the deduplicated character list and restricting to the subset with OOD activations.
 
@@ -1762,11 +1763,9 @@ Score stability: min r = 0.948
 Direction stability: franchise PC1 range = 0.91--0.93
 :end:
 
-*Score stability* remains high even with OOD questions. Sixteen out-of-distribution prompts --- including single-character inputs like "." and "?" --- recover character PC scores at Pearson r > 0.94 across all universes and PCs 1--3. If you already have the PC directions, you can score characters with almost any prompts.
+*Score stability* remains high even with OOD questions: if you already have the PC directions, you can score characters with almost any prompts.
 
-*Direction stability* is another matter. Let $\bar{a}_i^{\text{ood}} = \frac{1}{16}\sum_{q \in S_{\text{ood}}} a_{iq}$ be the mean activation over the 16 OOD prompts, and $V^{\text{ood}}$ the PCA directions fit on $\{\bar{a}_i^{\text{ood}} : i \in \mathcal{U}\}$. The resulting PC1 directions $|v_1^{\mathcal{U}} \cdot v_1^{\text{ood}}|$ align well with the full-battery PC1 for franchises (cosine 0.91--0.93) but poorly for Greek mythology (0.55), Shakespeare (0.45), and Chinese mythology PC2--3 (0.12). This is not a sample size issue: 16 random questions from the /same/ 240-question battery give PC1 direction cosines > 0.99 everywhere (even 5 give > 0.96). The direction instability comes from the questions being qualitatively different --- degenerate and task prompts elicit different variance structure in mythology and Shakespeare, even though character scores along the full-battery directions are preserved.
-
-In summary: score stability is high --- given pre-computed directions, almost any prompts suffice to score characters. Direction stability depends on the question type: within the same battery, even 5 random questions recover directions well, but qualitatively different prompts (degenerate, task-shaped) yield different PC directions for mythology and Shakespeare.
+*Direction stability* is another matter. Franchise PC1 directions align well with the full-battery PC1 under OOD prompts, but mythology and Shakespeare diverge. This is not a sample size issue: 16 random questions from the /same/ 240-question battery recover directions nearly perfectly everywhere. The direction instability comes from the questions being qualitatively different --- degenerate and task prompts elicit different variance structure in mythology and Shakespeare, even though character scores along the full-battery directions are preserved.
 
 * Conclusion
 
