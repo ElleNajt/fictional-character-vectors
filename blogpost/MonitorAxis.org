@@ -1225,13 +1225,15 @@ Incorrect detections: -5.226  positive=16/105
 
 * Vulnerability detection axis
 
-We extracted full layer-32 activation vectors for all 250 CASTLE programs (prompt + response tokens) and computed:
+The previous sections established that the monitor axis — the persona direction — doesn't track vulnerability detection. But what direction /does/ separate vulnerable from clean? We extracted full layer-32 activation vectors (5120-dimensional, float16) for all 250 CASTLE programs and computed the mean difference.
 
-=vuln_axis = mean(vuln program response activations) - mean(clean program response activations)=
+** Program-level axes
 
-This is the direction in activation space that separates the model's responses to vulnerable programs from its responses to clean programs. Unlike the monitor axis (a persona direction), this should capture whatever the model is /actually doing differently/ when processing vulnerable code.
+=vuln_axis = mean(vuln program activations) - mean(clean program activations)=
 
-** Load and compare to existing axes
+We compute this separately for the response phase (model writing its review) and the prompt phase (model reading the code).
+
+*** Cosine similarities with persona axes
 
 #+begin_src python :exports results
 vuln_axis = torch.load('../data/role_vectors/vuln_axis.pt', weights_only=True, map_location='cpu').float().numpy()
@@ -1265,7 +1267,9 @@ Cosine(vuln_prompt,   Paranoid  ): +0.3603
 Cosine(vuln_response, vuln_prompt): +0.0104
 :end:
 
-** Character projections onto vulnerability axis
+The response-phase axis is nearly orthogonal to all persona axes (cos < 0.1). The prompt-phase axis has moderate alignment with the monitor and paranoid axes (cos ~0.37) — the model's state while reading vulnerable code partially overlaps with the "security reviewer persona" direction, even though that persona doesn't help it /detect/ anything. Most strikingly, the response and prompt axes are essentially unrelated to each other (cos 0.01).
+
+*** Character projections onto the response-phase axis
 
 #+begin_src python :exports results
 vuln_norm = vuln_axis / np.linalg.norm(vuln_axis)
@@ -1334,7 +1338,9 @@ print(f"Mean: {vuln_scores.mean():.4f}, Std: {vuln_scores.std():.4f}")
 Mean: -2.9932, Std: 1.1758
 :end:
 
-** Universe-level vulnerability axis scores
+The axis sorts characters along a formality/analytical dimension: HAL 9000 and Grand Admiral Thrawn at the "vulnerable" end; The Dude, Jar Jar Binks, and Homer Simpson at the "clean" end. This isn't detecting vulnerability — it's detecting register. The vulnerable CASTLE programs may simply elicit slightly more formal model states than the clean ones.
+
+*** Universe-level scores
 
 #+begin_src python :exports results
 print(f"{'Universe':<25s} {'Mean':>8s} {'Std':>8s}  {'n':>4s}")
@@ -1371,9 +1377,11 @@ Game of Thrones         -3.393  0.855    93
 Harry Potter            -3.412  1.055    102
 :end:
 
-** Prompt-phase axis: activations while reading vulnerable vs clean code
+Hindu and Greek mythology characters rank highest (most "formal/analytical"), while Harry Potter and Shakespeare rank lowest — a cultural register axis, not a security axis.
 
-The prompt-phase vuln axis captures how the model's internal state differs when /reading/ vulnerable code vs clean code — before it generates any response. This had 65% variance in role PCA space and cos 0.37 with monitor axis.
+*** Prompt-phase axis
+
+The prompt-phase axis (model reading the code, before generating) tells the same story. It correlates r=0.895 with the response-phase axis across characters and r=0.486 with the monitor persona — both phases are picking up the same formality dimension.
 
 #+begin_src python :exports results
 vp_norm = vuln_prompt_axis / np.linalg.norm(vuln_prompt_axis)
@@ -1492,13 +1500,17 @@ Harry Potter            -21.932  -3.412    102
 Shakespeare             -22.028  -3.380    93
 :end:
 
-** Vulnerable lines vs non-vulnerable lines
+The program-level axes — whether computed from the prompt or response phase — capture a formality/register dimension in character space. They don't isolate vulnerability detection.
 
-Within each vulnerable program, we know which source lines contain the vulnerability (=ground_truth_lines=). We map these to token positions and compute:
+** Line-level axis: vulnerable lines vs safe lines
+
+The program-level comparison is confounded: different programs have different code, and any stylistic differences between the vuln and clean sets would show up. A cleaner test is to compare /within/ the same program: the model's activations on the specific vulnerable line(s) versus its activations on the safe lines.
+
+CASTLE provides =ground_truth_lines= for each vulnerable program. We map source line numbers to token positions in the prompt and compute:
 
 =vuln_line_axis = mean(activations at vulnerable-line tokens) - mean(activations at non-vulnerable-line tokens)=
 
-This is purely within the prompt phase (reading the code), and purely within vulnerable programs. It asks: what's different about the model's hidden state when it's processing the actual vulnerable line vs a safe line in the same program?
+This controls for program-level confounds. If the model's hidden state differs on =snprintf(buf, sizeof(buf), "%s/%s", root, argv[1])= versus =#include <stdio.h>= in the same file, that difference is about the line content, not the program.
 
 #+begin_src python :exports results
 vuln_line_axis = torch.load('../data/role_vectors/vuln_line_axis.pt', weights_only=True, map_location='cpu').float().numpy()
@@ -1521,6 +1533,8 @@ Cosine(vuln_line, Paranoid            ): -0.0812
 Cosine(vuln_line, Vuln (response)     ): +0.1296
 Cosine(vuln_line, Vuln (prompt)       ): -0.1828
 :end:
+
+The line-level axis is nearly orthogonal to everything: all persona axes (|cos| ≤ 0.11) /and/ both program-level vuln axes (|cos| ≤ 0.18). This is a genuinely different direction. Its norm (26.16) is the largest of all three vuln axes, suggesting substantial within-program variation between vulnerable and safe lines.
 
 #+begin_src python :exports results
 vl_norm = vuln_line_axis / np.linalg.norm(vuln_line_axis)
@@ -1598,6 +1612,12 @@ Correlation with prompt vuln    : r=-0.267 (p=4.61e-22)
 Correlation with monitor        : r=-0.192 (p=5.60e-12)
 :end:
 
+The character ranking is qualitatively different from all previous axes. The "vulnerable-line" end features: Hodor, Meursault (The Stranger), Groot, Gollum, The Little Prince, Nezuko, Yossarian, Luffy, Forrest Gump, Gregor Samsa. The "safe-line" end: C-3PO, Dumbledore, Snape, Mr. Darcy, Dr. Watson, Sherlock Holmes, McGonagall, Vision, James Bond, Professor X.
+
+The program-level axes sorted by formality (HAL 9000 vs The Dude). This axis sorts by something different — the top characters share a quality of /unmediated experience/: nonverbal characters (Hodor, Groot, Baby Yoda), preverbal or instinctive ones (Gollum, Nezuko, Totoro), characters defined by action over articulation (Goku, Luffy, Khal Drogo, Okonkwo), and existentially dislocated characters (Meursault, Gregor Samsa, Yossarian). The bottom is articulate authority figures. The axis weakly /anti/-correlates with the formality axes (r ≈ -0.25) and the monitor axis (r = -0.19).
+
+Only 18% of this axis lives in role PCA space, meaning it's largely a direction the character personas don't vary along. Whatever the model is encoding differently at =snprintf(buf, sizeof(buf), "%s/%s", root, argv[1])= versus =#include <stdio.h>= — it's mostly orthogonal to persona.
+
 #+begin_src python :exports results
 # Universe-level vuln line scores
 print(f"{'Universe':<25s} {'VulnLine':>8s} {'Prompt':>8s} {'Response':>8s}  {'n':>4s}")
@@ -1636,6 +1656,8 @@ Chinese Mythology       +0.002  -16.315  -3.112    76
 Norse Mythology         -0.068  -15.486  -3.000    48
 :end:
 
+Note how the line-level axis disaggregates from the program-level axes: Game of Thrones scores highest on the line axis but near-lowest on the prompt axis. The rankings are essentially uncorrelated.
+
 ** Variance captured by role PCA
 
 #+begin_src python :exports results
@@ -1661,6 +1683,10 @@ Top PCs: PC1 (+0.366), PC8 (+0.236), PC2 (-0.230), PC5 (+0.173), PC4 (-0.133)
 Vuln (line): 18.1% of variance in role PCA space
 Top PCs: PC7 (-0.070), PC6 (-0.046), PC10 (+0.046), PC9 (+0.042), PC1 (-0.033)
 :end:
+
+The prompt-phase program axis lives 65% in role PCA space (dominated by PC1, the main persona dimension), confirming it's mostly a formality confound. The response-phase axis (15%) and line-level axis (18%) are mostly orthogonal to persona variation. The line-level axis also loads on different PCs (PC7, PC6, PC9) than the program-level axes (PC1, PC2), further confirming it captures a distinct phenomenon.
+
+*Summary:* Three levels of analysis — program-level (vuln vs clean programs), phase-level (prompt vs response), and line-level (vuln lines vs safe lines within the same program) — converge on the same conclusion: the persona subspace and the capability subspace are largely orthogonal. The program-level axes capture formality/register and partially overlap with persona. The line-level axis captures something genuinely different that is 82% orthogonal to persona variation.
 
 * Pipeline reproducibility notes
 
