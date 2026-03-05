@@ -1,10 +1,8 @@
-#+TITLE: Stress-Testing Persona Space with Fictional Characters
+#+TITLE: Notes from Stress-Testing Persona Space with Fictional Characters
 #+GDOC_ID: 1jn041LFzS6tJtjFWCO_fCImw-KslQFsBLAG98rEb-zY
-#+AUTHOR: Elle
+#+AUTHOR: Elle Najt
 #+DATE: 2026-02-16
 #+PROPERTY: header-args:python :results output drawer :python "../.venv/bin/python3" :async t :session blogpost_short :exports both
-
-AN: This code and post was cowritten with Claude code.
 
 * Setup :noexport:
 
@@ -72,6 +70,7 @@ print(f"Loaded {len(char_names)} characters, {len(role_names)} roles")
 #+RESULTS:
 :results:
 Loaded 1268 characters, 275 roles
+Cell Timer: 0:00:01
 :end:
 
 * Introduction
@@ -121,20 +120,26 @@ for name, pxs in INTRO_UNIVERSES.items():
     ax.scatter(scores_intro[idx, 0], scores_intro[idx, 1], c=INTRO_COLORS[name], s=15, alpha=0.6, label=name, marker=INTRO_MARKERS[name], zorder=2)
 ax.set_xlabel(f"Fiction PC1 ({evr[0]:.0%} var)")
 ax.set_ylabel(f"Fiction PC2 ({evr[1]:.0%} var)")
-ax.set_title("1,268 fictional characters in activation space")
-ax.legend(loc='upper left', fontsize=7, ncol=2, markerscale=2)
+ax.legend(loc='upper left', fontsize=6, ncol=2, markerscale=2, framealpha=0.8)
 fig.tight_layout()
 plt.show()
 #+end_src
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153004_7310697.png]]
+[[file:plots/post/plot_20260304_122641_8312033.png]]
+Cell Timer: 0:00:00
 :end:
 
-[[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 is correlated with an assistant-axis they constructed by prompting assistant behavior.
+[[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models using N psychographic questions with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 of their role space was correlated with an assistant-axis they constructed by prompting assistant behavior.
 
-We apply similar ideas to 1,268 fictional characters in Qwen3-32B --- from Hindu mythology to Naruto. Here are the key questions that motivated me, and the headlines.
+There are two key decision choices in lu et al that I wanted to stress test: the choice of roles, and the choice of questions.
+
+A natural source of characters is fiction, so I studied 1,268 fictional characters in Qwen3-32B, in universes from Hindu mythology to Naruto. A natural source of baseline questions is an existing eval of diverse tasks, I use a sample of 90 questions sampled from categories in BiGGen-Bench. 
+
+What I found was mostly consistent with Lu et al. Even adding these diverse characters and questions, the persona space remains quite small. Moreover, 
+
+Here are the key questions that motivated me, and the headlines.
 
 1. [@1] *Is there a low-dimensional fictional persona space?*
    - Yes. Effective rank is 8 for fiction and 5.8 for roles, out of 1,268 and 275 maximum dimensions respectively. The eigenspectra are strikingly similar despite the different input distributions; a random baseline of 1,268 isotropic Gaussian points gives effective rank ~1,015.
@@ -188,10 +193,10 @@ plt.show()
 
 #+RESULTS:
 :results:
-
-[[file:plots/post/plot_20260302_153007_5898563.png]]
+[[file:plots/post/plot_20260304_122644_3530274.png]]
+Cell Timer: 0:00:02
 :end:
-
+   - @TODO This is not just a result of the question battery: 
 2. *How much of persona space does role space cover?*
    - 75% of fictional character variance overall. The fictional character space is low-dimensional (~40 PCs for 90%), so coverage by role space is less than a random sample of 275 fictional characters (95%) but far more than a random 275-dim subspace (5%).
    - The relationship is asymmetric: fiction (1268 characters) captures 92% of role variance.
@@ -264,8 +269,8 @@ plt.show()
 
 #+RESULTS:
 :results:
-
-[[file:plots/post/plot_20260302_153009_1493386.png]]
+[[file:plots/post/plot_20260304_122646_5221190.png]]
+Cell Timer: 0:00:01
 :end:
 
 3. *What do within-universe PCs encode?*
@@ -310,11 +315,35 @@ ax.set_title("PC1 direction alignment across universes", fontsize=11)
 fig.colorbar(im, ax=ax, shrink=0.8, label='Cosine similarity')
 fig.tight_layout()
 plt.show()
+
+# Summary stats: mean pairwise |cos(PC1, PC1)| within group
+franchise_names = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
+myth_names = {'Greek Myth.', 'Chinese Myth.', 'Hindu Myth.', 'Norse Myth.', 'Egyptian Myth.'}
+u_labels = list(INTRO_UNIVERSES.keys())
+franchise_pairs, myth_pairs, cross_pairs = [], [], []
+for i in range(len(u_labels)):
+    for j in range(i+1, len(u_labels)):
+        if u_labels[i] in {'Role PCs', 'Asst. Axis'} or u_labels[j] in {'Role PCs', 'Asst. Axis'}:
+            continue
+        val = _pa_cos(u_pcas[u_labels[i]][:1], u_pcas[u_labels[j]][:1])[0]
+        if u_labels[i] in franchise_names and u_labels[j] in franchise_names:
+            franchise_pairs.append(val)
+        elif u_labels[i] in myth_names and u_labels[j] in myth_names:
+            myth_pairs.append(val)
+        elif (u_labels[i] in franchise_names and u_labels[j] in myth_names) or (u_labels[i] in myth_names and u_labels[j] in franchise_names):
+            cross_pairs.append(val)
+print(f"Mean |cos(PC1,PC1)| within franchises: {np.mean(franchise_pairs):.3f} ({len(franchise_pairs)} pairs)")
+print(f"Mean |cos(PC1,PC1)| within mythology: {np.mean(myth_pairs):.3f} ({len(myth_pairs)} pairs)")
+print(f"Mean |cos(PC1,PC1)| franchise-mythology: {np.mean(cross_pairs):.3f} ({len(cross_pairs)} pairs)")
 #+end_src
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153010_2143724.png]]
+[[file:plots/post/plot_20260304_122647_4931831.png]]
+Mean \cos(PC1,PC1)\ within franchises: 0.894 (15 pairs)
+Mean \cos(PC1,PC1)\ within mythology: 0.440 (10 pairs)
+Mean \cos(PC1,PC1)\ franchise-mythology: 0.339 (30 pairs)
+Cell Timer: 0:00:00
 :end:
 
 
@@ -351,7 +380,8 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153010_9252634.png]]
+[[file:plots/post/plot_20260304_122647_6441625.png]]
+Cell Timer: 0:00:00
 :end:
 
 
@@ -407,10 +437,9 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153011_579371.png]]
+[[file:plots/post/plot_20260304_122647_2814599.png]]
+Cell Timer: 0:00:00
 :end:
-
-
 
 4. *How sensitive are results to the question battery?*
    - *Score stability:* given fixed PC directions, a single random question recovers character scores at median Pearson r > 0.95; five questions reach r > 0.99. Sixteen OOD prompts (".", "?", "Write a Python function...") also recover scores at r > 0.94.
@@ -453,7 +482,8 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153011_5406341.png]]
+[[file:plots/post/plot_20260304_122647_1298925.png]]
+Cell Timer: 0:00:00
 :end:
 
 #+begin_src python :exports results
@@ -505,7 +535,8 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153011_8548371.png]]
+[[file:plots/post/plot_20260304_122648_9647797.png]]
+Cell Timer: 0:00:00
 :end:
 
 We can also answer: Who is the most Qwen30B assistant like character in fiction ? Zhu Bajie overall, and by universe: Athena (Greek Mythology), Hermione Granger (Harry Potter), Samwise Gamgee (LOTR), Spiderman (Marvel), R2D2 (Star Wars), Winter's Tale Hermione (Shakespeare). See appendix.
@@ -521,8 +552,6 @@ Each character $i$ is prompted with $Q=240$ questions. For each question $q$, we
 When the text says "role PC1" vs. "within-universe PC1" vs. "residual PC1," these are three different directions from three different PCA fits.
 
 * Is There a Low Dimensional Fictional Persona Space?
-
-Before asking how much the role space covers, we check whether fictional character activations are low-dimensional at all.
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
@@ -639,32 +668,29 @@ print(df_dim.set_index("Universe"))
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153013_3214408.png]]
-| Universe           |    N | PC1 var% | PCs for 70% | PCs for 90% | Eff. rank |
-|--------------------+------+----------+-------------+-------------+-----------|
-| LOTR               |   97 |     40.0 |           3 |          13 |       4.4 |
-| Naruto             |   84 |     49.7 |           3 |          13 |       3.5 |
-| Harry Potter       |  102 |     39.0 |           4 |          18 |       5.1 |
-| Star Wars          |  105 |     38.2 |           4 |          11 |       4.9 |
-| Marvel             |  108 |     43.0 |           4 |          17 |       4.5 |
-| Game of Thrones    |   93 |     33.1 |           5 |          17 |       6.4 |
-| Norse Mythology    |   48 |     28.7 |           7 |          17 |       7.6 |
-| Roles (Lu)         |  275 |     37.9 |           7 |          37 |       5.8 |
-| Chinese Mythology  |   76 |     30.6 |           8 |          23 |       7.7 |
-| Hindu Mythology    |   70 |     25.3 |           8 |          24 |       8.8 |
-| Egyptian Mythology |   44 |     20.9 |           8 |          19 |      10.8 |
-| Shakespeare        |   93 |     21.2 |           9 |          25 |      10.3 |
-| Greek Mythology    |  107 |     14.7 |          13 |          37 |      15.6 |
-| All fiction        | 1268 |     31.2 |           9 |          40 |       8.0 |
+[[file:plots/post/plot_20260304_122649_3062860.png]]
+| Universe           |    N | PC1 var% | PCs for 70% | PCs for 90% | Eff. rank |  |
+|--------------------+------+----------+-------------+-------------+-----------+----|
+| LOTR               |   97 |     40.0 |           3 |          13 |       4.4 |  |
+| Naruto             |   84 |     49.7 |           3 |          13 |       3.5 |  |
+| Harry Potter       |  102 |     39.0 |           4 |          18 |       5.1 |  |
+| Star Wars          |  105 |     38.2 |           4 |          11 |       4.9 |  |
+| Marvel             |  108 |     43.0 |           4 |          17 |       4.5 |  |
+| Game of Thrones    |   93 |     33.1 |           5 |          17 |       6.4 |  |
+| Norse Mythology    |   48 |     28.7 |           7 |          17 |       7.6 |  |
+| Roles (Lu)         |  275 |     37.9 |           7 |          37 |       5.8 |  |
+| Chinese Mythology  |   76 |     30.6 |           8 |          23 |       7.7 |  |
+| Hindu Mythology    |   70 |     25.3 |           8 |          24 |       8.8 |  |
+| Egyptian Mythology |   44 |     20.9 |           8 |          19 |      10.8 |  |
+| Shakespeare        |   93 |     21.2 |           9 |          25 |      10.3 |  |
+| Greek Mythology    |  107 |     14.7 |          13 |          37 |      15.6 |  |
+| All fiction        | 1268 |     31.2 |           9 |          40 |       8.0 |  |
+Cell Timer: 0:00:01
 :end:
 
 Fiction and roles have strikingly similar eigenspectra despite different input distributions; this could be a consequence of the question battery.
 
 * How Much of Persona Space Does Role Space Cover?
-
-We measure coverage by projecting characters onto a subspace and computing the fraction of total variance preserved.
-
-For each pair of universes (plus roles and all-fiction as reference), we project the row's characters onto the column's subspace and report the fraction of the row's variance captured:
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
@@ -744,10 +770,11 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153018_9200601.png]]
+[[file:plots/post/plot_20260304_122653_7501287.png]]
+Cell Timer: 0:00:03
 :end:
 
-Franchise subspaces capture most of each other's variance; cross-boundary and mythology-mythology pairs are lower. LOTR captures more mythology variance than any other franchise. The relationship between fiction and roles is asymmetric: fiction captures most role variance, but roles miss a quarter of fiction. The random-275-chars baseline (high capture) reflects the low dimensionality of the fiction space; the random-subspace baseline (low capture) confirms the structure is real.
+The relationship between fiction and roles is asymmetric: fiction captures most role variance, but roles miss a quarter of fiction. The random-275-chars baseline (high capture) reflects the low dimensionality; the random-subspace baseline (low capture) confirms the structure is real.
 
 Principal angle cosines between within-universe subspaces (k=1, 2, 3 dimensions):
 
@@ -819,12 +846,9 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153018_6587718.png]]
+[[file:plots/post/plot_20260304_122654_1669653.png]]
+Cell Timer: 0:00:00
 :end:
-
-The franchise block stays warm through k=2 (shared 2D plane); by k=3 everything cools.
-
-Where does the remaining 25% go? We decompose the residual into between-universe variance (universe means differ) and within-universe variance (characters differ from their universe mean).
 
 #+begin_src python :exports results
 # What fraction of residual variance is between-universe vs within-universe?
@@ -854,11 +878,10 @@ print(f"Most of the residual is between-universe: {eta2:.0%} of residual varianc
 #+RESULTS:
 :results:
 Most of the residual is between-universe: 65% of residual variance is explained by universe identity alone (1027/1268 characters in 12 universes). Characters within each universe share system prompt structure (e.g., "You are [name] from Harry Potter"), so some of the between-universe variance is prompt-template variance rather than persona structure. What about the within-universe residual?
+Cell Timer: 0:00:00
 :end:
 
 ** What do the global fiction PCs look like?
-
-The global fiction PCs (PCA on all 1,268 characters) are a mix of universe separation and cross-cutting semantic dimensions:
 
 #+begin_src python :exports results
 # Global fiction PCs: universe means as bar chart
@@ -914,12 +937,9 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153019_1763426.png]]
+[[file:plots/post/plot_20260304_122654_6024234.png]]
+Cell Timer: 0:00:00
 :end:
-
-PC1 separates modern franchises from mythology and Shakespeare.
-
-The remaining PCs have lower η² (less universe separation), suggesting they capture cross-cutting variation. This plot shows that the latter PCs mix universes:
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
@@ -961,12 +981,11 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_155607_67269.png]]
+[[file:plots/post/plot_20260304_122655_9599241.png]]
+Cell Timer: 0:00:00
 :end:
 
 ** Within-Universe PCs
-
-Most within-universe variance lives inside the role subspace, but do different universes find the same principal directions? We fit PCA on each universe's characters and compare directions across universes via absolute cosine similarity. We start by checking how much of each universe's variance the role space captures:
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
@@ -1005,10 +1024,9 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153020_1278310.png]]
+[[file:plots/post/plot_20260304_122655_1326925.png]]
+Cell Timer: 0:00:00
 :end:
-
-The role space captures more in modern franchises than in mythology. How do within-universe PCs relate to the assistant axis? Geometric alignment is low, but rank correlations are substantial:
 
 #+begin_src python :exports results
 from sklearn.decomposition import PCA as SkPCA
@@ -1030,33 +1048,34 @@ for name, prefixes in ALL_UNIVERSES.items():
 universe_names = list(u_pcas_full.keys())
 n_u = len(universe_names)
 
-cos_mat = np.zeros((n_u, 3))
-rank_mat = np.zeros((n_u, 3))
+n_show = 5
+cos_mat = np.zeros((n_u, n_show))
+rank_mat = np.zeros((n_u, n_show))
 for i, name in enumerate(universe_names):
     idx = get_universe_indices(ALL_UNIVERSES[name])
     u_aa_scores = chars_centered[idx] @ aa_norm
-    for pc_i in range(3):
+    for pc_i in range(n_show):
         cos_mat[i, pc_i] = abs(cosine_sim(u_pcas_full[name].components_[pc_i], aa_norm))
         scores = chars_centered[idx] @ u_pcas_full[name].components_[pc_i]
         rho, _ = spearmanr(scores, u_aa_scores)
         rank_mat[i, pc_i] = abs(rho)
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6), sharey=True)
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6), sharey=True)
 
 im1 = ax1.imshow(cos_mat, cmap='YlOrRd', vmin=0, vmax=0.5, aspect='auto')
-ax1.set_xticks(range(3)); ax1.set_xticklabels(['PC1', 'PC2', 'PC3'])
+ax1.set_xticks(range(n_show)); ax1.set_xticklabels([f'PC{k+1}' for k in range(n_show)])
 ax1.set_yticks(range(n_u)); ax1.set_yticklabels(universe_names, fontsize=9)
 for i in range(n_u):
-    for j in range(3):
+    for j in range(n_show):
         c = 'white' if cos_mat[i,j] > 0.3 else 'black'
         ax1.text(j, i, f"{cos_mat[i,j]:.2f}", ha='center', va='center', fontsize=8, color=c)
 ax1.set_title('$|\\cos(\\mathrm{PC}_i, \\mathrm{AA})|$\n(geometric alignment)', fontsize=10)
 fig.colorbar(im1, ax=ax1, shrink=0.6)
 
 im2 = ax2.imshow(rank_mat, cmap='YlOrRd', vmin=0, vmax=0.85, aspect='auto')
-ax2.set_xticks(range(3)); ax2.set_xticklabels(['PC1', 'PC2', 'PC3'])
+ax2.set_xticks(range(n_show)); ax2.set_xticklabels([f'PC{k+1}' for k in range(n_show)])
 for i in range(n_u):
-    for j in range(3):
+    for j in range(n_show):
         c = 'white' if rank_mat[i,j] > 0.5 else 'black'
         ax2.text(j, i, f"{rank_mat[i,j]:.2f}", ha='center', va='center', fontsize=8, color=c)
 ax2.set_title('$|\\rho(\\mathrm{PC}_i\\ \\mathrm{scores},\\ \\mathrm{AA\\ scores})|$\n(rank correlation)', fontsize=10)
@@ -1070,12 +1089,11 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153022_6179201.png]]
+[[file:plots/post/plot_20260304_122656_9315824.png]]
+Cell Timer: 0:00:00
 :end:
 
-Geometric alignment between within-universe PCs and the assistant axis is low, but rank correlations between PC scores and AA scores are substantial --- appearing on PC1 for franchises and shifting to PC2/PC3 for mythology. Lu et al.'s role PC1 aligns with their "assistant axis," but the assistant axis is not concentrated in any universe's top PCs --- it is spread across many dimensions.
-
-PC1 and PC2 scores are Spearman-uncorrelated with each other, confirming they capture independent aspects of the AA. We can test this directly: using the LLM-discovered features from the feature interpretation pipeline (next section), we regress assistant axis scores against the features discovered for PC1 (formality), PC2 (warmth), and both combined.
+The assistant axis is not concentrated in any universe's top PCs --- it is spread across many dimensions. However, it does *rank* correlated more often. We regress AA scores against LLM-discovered features for PC1 (formality), PC2 (warmth), and both combined:
 
 #+begin_src python :exports results
 # Regress AA scores on existing within-universe feature ratings
@@ -1207,25 +1225,21 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153023_747197.png]]
+[[file:plots/post/plot_20260304_122656_7057726.png]]
+Cell Timer: 0:00:00
 :end:
-
-PC1 (formality) and PC2 (warmth) features each independently predict assistant axis scores at comparable strength. The AA is not formality alone --- it is a blend of formality and warmth/cooperativeness. In mythology, where within-universe AA variance is small, neither set of features predicts well.
 
 * What Do the Directions Encode?
 
-The geometric analysis (cosines, variance capture) does not reveal what semantic content the PCs encode --- the directions are not aligned across universes. The question battery redundancy helps here: since any 5 questions carry the full signal, we can show an LLM a handful of responses from extreme characters and ask what distinguishes them.
+The geometric analysis (cosines, variance capture) does not reveal what semantic content the PCs encode. The question battery redundancy helps here: since any 5 questions carry the full signal, we can show an LLM a handful of responses from extreme characters and ask what distinguishes them.
 
 We apply this pipeline to three types of PC directions: within-universe PCs, role PCs applied per-universe (projecting onto Lu et al.'s role PC directions), and residual PCs (within-universe PCA after projecting out the role space). The pipeline has three steps with strict separation between discovery and validation:
 
-1. *Feature discovery (odd-ranked characters)*: For each universe and PC, we take the 5 characters with the most extreme positive scores (odd ranks) and the 5 most extreme negative. We show an LLM (Claude Sonnet) their anonymized responses to 10 discriminative questions and ask it to propose 6 features that distinguish the two groups. Features must be observable from text alone --- no universe knowledge.
+1. *Feature discovery (odd-ranked characters)*: For each universe and PC, we take the 5 characters with the most extreme positive scores (odd ranks) and the 5 most extreme negative. We show an LLM (Claude Sonnet) their anonymized responses to 10 questions selected for maximum discriminability (highest variance in PC scores across characters) and ask it to propose 6 features that distinguish the two groups. We instruct the LLM to generate features that are observable from text alone, without relying on universe knowledge.
 
-2. *Feature coding (held-out characters)*: A fresh LLM call rates all remaining characters (typically 34--98) on the discovered features (1--5 scale) based on a random sample of 10 questions.
+2. *Feature coding (held-out characters)*: A fresh Claude Sonnet call rates all remaining characters (typically 34--98) on the discovered features (1--5 scale) based on a random sample of 10 questions.
 
 3. *Regression*: We regress PC scores on the LLM feature ratings (OLS, adjusted $R^2$). High adjusted $R^2$ means the features discovered from held-out characters predict PC position well.
-
-The odd/even striding ensures zero overlap between discovery and validation characters. Full code is in =blogpost/scripts/llm_feature_coding.py= and =blogpost/scripts/feature_regression.py=.
-
 
 ** Within-Universe and Role PC Features
 
@@ -1296,26 +1310,13 @@ fig.suptitle('LLM-discovered features predict PC scores\n(6 features per univers
 fig.tight_layout()
 plt.show()
 
-# Print medians for prose
-for mode in ['within', 'lu']:
-    r2s = [v['adj_r_squared'] for v in all_reg.values() if v['mode'] == mode]
-    print(f"{mode} median adj. R²: {np.median(r2s):.2f}")
 #+end_src
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153023_2450035.png]]
-within median adj. R²: 0.65
-lu median adj. R²: 0.46
+[[file:plots/post/plot_20260304_122656_6031812.png]]
+Cell Timer: 0:00:00
 :end:
-
-For franchises, PC1 is formality/register and PC2 is warmth vs. aggression. In mythology and Shakespeare, the top features are more heterogeneous ("Temporal Perspective," "Gentle Tone Quality," "Emotional Volatility Expression") and fit quality is lower.
-
-*PC1: formality (franchises).* Within-universe PC1 finds "Conversational Informality" in Harry Potter, "Formal Register" in Naruto. Ron Weasley and Crabbe at the informal end, Grindelwald and Voldemort at the formal end. Lu et al. identify their PC1 with the "assistant axis"; the formality pattern in franchise PC1 is compatible with this, though the geometric alignment is low.
-
-*PC2: warmth vs. aggression.* "Dismissive Attitude" in LOTR, "Threatening Rhetoric" in Game of Thrones, "Rhetorical Intensity" in Shakespeare.
-
-Within-universe PCs are the most interpretable, clearly ahead of role PCs. Role PC labels are more heterogeneous --- "Civilized Discourse" alongside "Technical Precision," "Analytical Depth."
 
 ** Residual PC Features
 
@@ -1378,12 +1379,11 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153019_1710685.png]]
+[[file:plots/post/plot_20260304_122657_7333090.png]]
+Cell Timer: 0:00:00
 :end:
 
 *** Fictional PCs within universes
-
-Residual PC1 directions are nearly orthogonal to the original PC1, but character rankings on residual PC1 track the original rankings closely (Marvel is the exception). Projecting out the role space changes the axis but not the ordering --- the within-universe variance missed by the role space encodes real structure, not noise.
 
 #+begin_src python :exports results
 from scipy.stats import spearmanr
@@ -1409,39 +1409,29 @@ for universe, prefixes in ALL_UNIVERSES.items():
                         'Direction cosine': round(dir_cos, 3)})
 
 df_pc = pd.DataFrame(rows_pc)
-for pc in [1, 2, 3]:
-    sub = df_pc[df_pc['PC'] == pc]
-    print(f"PC{pc}: Spearman |rho| median={sub['Spearman |rho|'].median():.3f}, range={sub['Spearman |rho|'].min():.3f}--{sub['Spearman |rho|'].max():.3f}")
-    print(f"      Direction cosine median={sub['Direction cosine'].median():.3f}")
-print()
-print(df_pc.pivot(index='Universe', columns='PC', values='Spearman |rho|'))
+print("Spearman |rho| between residual PC and original PC scores (by universe)")
+print(df_pc.pivot(index='Universe', columns='PC', values='Spearman |rho|').rename(columns={1: 'PC1', 2: 'PC2', 3: 'PC3'}))
 #+end_src
 
 #+RESULTS:
 :results:
-PC1: Spearman \rho\ median=0.778, range=0.582--0.963
-Direction cosine median=0.240
-PC2: Spearman \rho\ median=0.581, range=0.066--0.924
-Direction cosine median=0.268
-PC3: Spearman \rho\ median=0.469, range=0.035--0.700
-Direction cosine median=0.218
-| Universe           |     1 |     2 |     3 |
-|--------------------+-------+-------+-------|
-| Chinese Mythology  |  0.66 | 0.526 | 0.627 |
-| Egyptian Mythology | 0.784 | 0.778 | 0.133 |
-| Game of Thrones    | 0.807 | 0.453 | 0.208 |
-| Greek Mythology    | 0.876 | 0.444 |   0.7 |
-| Harry Potter       | 0.912 | 0.924 | 0.545 |
-| Hindu Mythology    | 0.735 | 0.571 | 0.234 |
-| LOTR               | 0.963 | 0.796 | 0.636 |
-| Marvel             | 0.582 | 0.066 | 0.138 |
-| Naruto             | 0.834 |  0.59 | 0.681 |
-| Norse Mythology    | 0.704 |  0.65 |  0.65 |
-| Shakespeare        | 0.731 |  0.76 | 0.393 |
-| Star Wars          | 0.771 | 0.111 | 0.035 |
+Spearman \rho\ between residual PC and original PC scores (by universe)
+| Universe           |   PC1 |   PC2 |   PC3 |  |
+|--------------------+-------+-------+-------+----|
+| Chinese Mythology  |  0.66 | 0.526 | 0.627 |  |
+| Egyptian Mythology | 0.784 | 0.778 | 0.133 |  |
+| Game of Thrones    | 0.807 | 0.453 | 0.208 |  |
+| Greek Mythology    | 0.876 | 0.444 |   0.7 |  |
+| Harry Potter       | 0.912 | 0.924 | 0.545 |  |
+| Hindu Mythology    | 0.735 | 0.571 | 0.234 |  |
+| LOTR               | 0.963 | 0.796 | 0.636 |  |
+| Marvel             | 0.582 | 0.066 | 0.138 |  |
+| Naruto             | 0.834 |  0.59 | 0.681 |  |
+| Norse Mythology    | 0.704 |  0.65 |  0.65 |  |
+| Shakespeare        | 0.731 |  0.76 | 0.393 |  |
+| Star Wars          | 0.771 | 0.111 | 0.035 |  |
+Cell Timer: 0:00:00
 :end:
-
-Residual PCs are within-universe PCA on activations after projecting out the role space. Feature labels overlap with the within-universe and role PC labels (formality, warmth) for franchises, but are noisier for mythology and Shakespeare.
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
@@ -1484,12 +1474,13 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153023_6669161.png]]
+[[file:plots/post/plot_20260304_122658_7572812.png]]
+Cell Timer: 0:00:00
 :end:
 
 ** Direct Interpretation of the Assistant Axis
 
-The indirect regression above showed the AA is a blend of formality and warmth. We can also run the feature discovery pipeline directly on the assistant axis --- using characters with the most extreme AA scores (rather than PC scores) as discovery inputs. This asks: what features does the LLM discover when shown high-AA characters (Hermione, Samwise Gamgee, Spider-Man) versus low-AA characters (Grindelwald, Ungoliant, Apocalypse)?
+We can also run the feature discovery pipeline directly on the assistant axis --- using characters with the most extreme AA scores (rather than PC scores) as discovery inputs.
 
 #+begin_src python :exports results
 import json
@@ -1533,42 +1524,60 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153024_9065877.png]]
+[[file:plots/post/plot_20260304_122658_5404626.png]]
+Cell Timer: 0:00:00
 :end:
-
-The discovered features confirm and sharpen the indirect finding: collaborative, warm, self-deprecating, and concrete language at the high end; grandiose, threatening, dramatic, and dismissive language at the low end. The top features are "Collaborative Tone" (LOTR, Marvel, Naruto), "Grandiose Language" (Marvel, Naruto), and "Self-Deprecation Level" (Game of Thrones). Franchise fits are comparable to the indirect PC1+PC2 regression. Mythology fits are weaker because the AA has low variance in mythology universes (they cluster near the low end of the axis).
 
 * How Sensitive Are Results to the Question Battery?
 
-Each character vector is a mean activation over responses to 240 questions. How much does the choice of questions matter? We measure two things:
+Each character vector is an activation averaged over responses to 240 questions. How much does the choice of questions matter? We measure stability within the battery using random subsets, test with 16 out-of-distribution prompts, and finally with 90 diverse tasks from [[https://github.com/prometheus-eval/BiGGen-Bench][BiGGen-Bench]] spanning 9 capability categories (grounding, reasoning, planning, safety, etc.).
 
-1. *Score stability:* Project characters onto the full-battery PC directions using either all 240 or a random $k$-question subset. Report Pearson $r$ between the two score vectors. This asks: given fixed PC directions, how well can you score characters with fewer questions?
+1. *Score stability:* Given fixed PC directions (from the full battery), project each character's mean activation onto them --- computing the mean over all 240 questions or a random $k$-question subset. Report Pearson $r$ between the full-battery and subset scores across characters. This asks: how many questions do you need to reliably score characters along a known direction?
 2. *Direction stability:* Fit PCA separately on the $k$-question subset and measure $|\cos(v_j, v_j^{(k)})|$ between the full-battery and subset PC directions. This asks: can you recover the directions themselves from fewer questions?
 
 #+begin_src python :exports results
 import json
+import matplotlib.pyplot as plt
 
 with open('../results/question_subset_sweep.json') as f:
     sweep = json.load(f)
 
-# Print key thresholds for prose reference
-for k in [1, 5, 10]:
-    meds = []
+n_pcs_all = min(d['n_pcs'] for d in sweep.values())
+fig, ax = plt.subplots(figsize=(8, 5))
+colors = plt.cm.viridis(np.linspace(0.1, 0.9, n_pcs_all))
+
+for pc_i in range(n_pcs_all):
+    pc_label = f'PC{pc_i + 1}'
+    size_to_medians, size_to_p5s = {}, {}
     for udata in sweep.values():
-        for s in udata['sweeps']['PC1']:
-            if s['size'] == k:
-                meds.append(s['median'])
-    print(f"k={k}: median Pearson r = {np.median(meds):.4f}")
+        for s in udata['sweeps'][pc_label]:
+            size_to_medians.setdefault(s['size'], []).append(s['median'])
+            size_to_p5s.setdefault(s['size'], []).append(s['p5'])
+    sizes = sorted(size_to_medians.keys())
+    medians = [np.median(size_to_medians[s]) for s in sizes]
+    p5s = [np.median(size_to_p5s[s]) for s in sizes]
+    ax.plot(sizes, medians, 'o-', color=colors[pc_i], label=pc_label, markersize=3)
+    ax.fill_between(sizes, p5s, medians, color=colors[pc_i], alpha=0.15)
+
+ax.set_xscale('log')
+ax.set_xlabel('# questions in random subset')
+ax.set_ylabel('Pearson r with full-battery PC scores')
+ax.set_ylim(0.5, 1.01)
+ax.axhline(0.99, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
+ax.axhline(0.95, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
+ax.legend(fontsize=9)
+ax.set_title('Score stability (median across 12 universes, 200 draws)')
+fig.tight_layout()
+plt.show()
 #+end_src
 
 #+RESULTS:
 :results:
-k=1: median Pearson r = 0.9747
-k=5: median Pearson r = 0.9947
-k=10: median Pearson r = 0.9974
+[[file:plots/post/plot_20260304_122658_4221612.png]]
+Cell Timer: 0:00:00
 :end:
 
-*Score stability* is high: even a single random question recovers character PC scores at median Pearson r > 0.95, and five questions reach r > 0.99. The question battery is highly redundant for scoring.
+The question battery is highly redundant for scoring.
 
 *Direction stability* requires more questions, and varies by universe:
 
@@ -1612,12 +1621,13 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153024_3572234.png]]
+[[file:plots/post/plot_20260304_122659_2845535.png]]
+Cell Timer: 0:00:00
 :end:
 
-Franchises recover PC directions quickly; mythology and Shakespeare need substantially more questions. Scoring along a fixed direction only requires the mean to converge; recovering the direction requires the covariance structure to stabilize.
+Scoring along a fixed direction only requires the mean to converge; recovering the direction requires the covariance structure to stabilize.
 
-The subset sweep only tests random draws from the /same/ 240 questions. A stronger test: do qualitatively different questions carry the same signal? We generate responses for 16 out-of-distribution prompts --- 8 degenerate ("Huh?", ".", "hi", ...) and 8 task-shaped ("Write a Python function...", "Explain how a refrigerator works", ...) --- and measure both score and direction stability.
+The subset sweep only tests random draws from the /same/ 240 questions. A stronger test: do qualitatively different questions carry the same signal? We generate responses for 16 out-of-distribution prompts --- 8 degenerate ("Huh?", ".", "hi", ...) and 8 task-shaped ("Write a Python function...", "Explain how a refrigerator works", ...) --- and measure both score and direction stability. For comparison, we also show 15 random questions from the same 240-question battery.
 
 #+begin_src python :exports results
 import torch
@@ -1639,7 +1649,7 @@ degen_name_to_idx = {n: i for i, n in enumerate(degen_names)}
 common_idx_full = [i for i, n in enumerate(char_names) if n in degen_name_to_idx]
 common_idx_degen = [degen_name_to_idx[char_names[i]] for i in common_idx_full]
 common_names = [char_names[i] for i in common_idx_full]
-print(f"OOD analysis: {len(common_idx_full)} of {len(char_names)} characters have OOD activations")
+# print(f"OOD analysis: {len(common_idx_full)} of {len(char_names)} characters have OOD activations")
 
 full_c = (activation_matrix[common_idx_full] - role_mean)
 degen_c = (degen_matrix[common_idx_degen] - role_mean)
@@ -1673,7 +1683,35 @@ score_df = pd.DataFrame(score_rows).set_index('Universe')
 dir_df = pd.DataFrame(dir_rows).set_index('Universe')
 franchise_set = {'Harry Potter', 'Star Wars', 'LOTR', 'Marvel', 'Game of Thrones', 'Naruto'}
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5))
+# 16-random-same-battery baseline from direction_stability_sweep
+import json as _json3
+with open('../results/direction_stability_sweep.json') as f:
+    dsweep_ood = _json3.load(f)
+
+# Map dsweep universe keys to display names
+_name_map = {
+    'harry_potter': 'Harry Potter', 'star_wars': 'Star Wars', 'lord_of_the_rings': 'LOTR',
+    'marvel': 'Marvel', 'game_of_thrones': 'Game of Thrones', 'naruto': 'Naruto',
+    'greek_mythology': 'Greek Mythology', 'chinese_mythology': 'Chinese Mythology',
+    'hindu_mythology': 'Hindu Mythology', 'norse_mythology': 'Norse Mythology',
+    'egyptian_mythology': 'Egyptian Mythology', 'shakespeare': 'Shakespeare',
+}
+rand16_rows = []
+for ukey, udata in dsweep_ood.items():
+    display = _name_map.get(ukey, ukey)
+    row = {'Universe': display}
+    for pc_i in range(3):
+        pc_label = f'PC{pc_i+1}'
+        for s in udata['sweeps'][pc_label]:
+            if s['size'] == 15:
+                row[pc_label] = round(s['median'], 2)
+                break
+    rand16_rows.append(row)
+rand16_df = pd.DataFrame(rand16_rows).set_index('Universe')
+# Reindex to match dir_df order
+rand16_df = rand16_df.reindex(dir_df.index)
+
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(17, 5), sharey=True)
 
 # Left: Score stability heatmap
 score_mat = score_df[['PC1', 'PC2', 'PC3']].values
@@ -1684,45 +1722,185 @@ ax1.set_yticklabels(score_df.index, fontsize=8)
 for i in range(len(score_df)):
     for j in range(3):
         ax1.text(j, i, f"{score_mat[i,j]:.3f}", ha='center', va='center', fontsize=7)
-ax1.set_title('Score stability (Pearson r)\nOOD prompts → full-battery PC directions', fontsize=10)
-fig.colorbar(im1, ax=ax1, shrink=0.6)
+ax1.set_title('Score stability (Pearson r)\n16 OOD prompts', fontsize=10)
 
-# Right: Direction stability heatmap
+# Middle: Direction stability with OOD prompts
 dir_mat = dir_df[['PC1', 'PC2', 'PC3']].values
 im2 = ax2.imshow(dir_mat, cmap='RdYlGn', vmin=0, vmax=1.0, aspect='auto')
 ax2.set_xticks(range(3)); ax2.set_xticklabels(['PC1', 'PC2', 'PC3'])
-ax2.set_yticks(range(len(dir_df)))
-ax2.set_yticklabels(dir_df.index, fontsize=8)
 for i in range(len(dir_df)):
     for j in range(3):
         c = 'white' if dir_mat[i,j] < 0.4 else 'black'
         ax2.text(j, i, f"{dir_mat[i,j]:.2f}", ha='center', va='center', fontsize=7, color=c)
-ax2.set_title('Direction stability (|cosine|)\nOOD PCA vs full-battery PCA', fontsize=10)
-fig.colorbar(im2, ax=ax2, shrink=0.6)
+ax2.set_title('Direction stability (|cosine|)\n16 OOD prompts', fontsize=10)
 
-fig.suptitle('OOD prompts: scores are stable (r > 0.94), but PC directions diverge for mythology', fontsize=11, y=1.02)
+# Right: Direction stability with 16 random same-battery questions
+rand16_mat = rand16_df[['PC1', 'PC2', 'PC3']].values
+im3 = ax3.imshow(rand16_mat, cmap='RdYlGn', vmin=0, vmax=1.0, aspect='auto')
+ax3.set_xticks(range(3)); ax3.set_xticklabels(['PC1', 'PC2', 'PC3'])
+for i in range(len(rand16_df)):
+    for j in range(3):
+        c = 'white' if rand16_mat[i,j] < 0.4 else 'black'
+        ax3.text(j, i, f"{rand16_mat[i,j]:.2f}", ha='center', va='center', fontsize=7, color=c)
+ax3.set_title('Direction stability (|cosine|)\n15 random same-battery questions', fontsize=10)
+
+fig.colorbar(im2, ax=[ax2, ax3], shrink=0.6, label='|cosine|')
+fig.suptitle('OOD prompts: scores are stable, but directions diverge for mythology\n(same-battery random 15 recovers directions nearly perfectly)', fontsize=11, y=1.02)
 fig.tight_layout()
 plt.show()
-
 #+end_src
 
 #+RESULTS:
 :results:
-
-OOD analysis: 1268 of 1268 characters have OOD activations
-[[file:plots/post/plot_20260302_153034_3069518.png]]
+<org babel source block>:117: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+[[file:plots/post/plot_20260304_122709_3531129.png]]
+Cell Timer: 0:00:10
 :end:
 
-*Score stability* remains high even with OOD questions: if you already have the PC directions, you can score characters with almost any prompts.
+** Is the low dimensionality a property of the question battery?
 
-*Direction stability* is another matter. Franchise PC1 directions align well under OOD prompts, but mythology and Shakespeare diverge --- and this is not a sample-size issue, since 16 random questions from the same 240-question battery recover directions nearly perfectly. Qualitatively different prompts elicit different variance structure in mythology and Shakespeare, even though character scores along the full-battery directions are preserved.
+The eigenspectra above are computed from character vectors averaged over 240 questions. If the low dimensionality were an artifact of the question battery (e.g., the questions only probe a few dimensions), a qualitatively different set of questions should produce a different eigenspectrum. We compare the eigenspectrum from the 240-question battery with the 16 OOD prompts, using the same characters.
+
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+
+# full_c and degen_c are already loaded above (common characters, role-mean-centered)
+n_common = full_c.shape[0]
+n_comp = min(n_common - 1, 200)
+
+pca_full_ood = SkPCA(n_components=n_comp).fit(full_c)
+pca_degen_ood = SkPCA(n_components=n_comp).fit(degen_c)
+
+eigs_full = pca_full_ood.explained_variance_
+eigs_degen = pca_degen_ood.explained_variance_
+
+eff_rank = lambda e: (e.sum())**2 / (e**2).sum()
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+# Left: eigenspectrum comparison
+ax1.plot(range(1, len(eigs_full)+1), eigs_full, label=f'240-question battery (eff. rank={eff_rank(eigs_full):.1f})', color='#377eb8', linewidth=2)
+ax1.plot(range(1, len(eigs_degen)+1), eigs_degen, label=f'16 OOD prompts (eff. rank={eff_rank(eigs_degen):.1f})', color='#e41a1c', linewidth=2)
+ax1.set_yscale('log')
+ax1.set_xlabel('PC index')
+ax1.set_ylabel('Eigenvalue (log scale)')
+ax1.set_title('Eigenspectrum: battery vs. OOD prompts')
+ax1.set_xlim(1, 100)
+ax1.legend(fontsize=9)
+
+# Right: cumulative variance
+cumvar_full = np.cumsum(pca_full_ood.explained_variance_ratio_)
+cumvar_degen = np.cumsum(pca_degen_ood.explained_variance_ratio_)
+ax2.plot(range(1, len(cumvar_full)+1), cumvar_full, label='240-question battery', color='#377eb8', linewidth=2)
+ax2.plot(range(1, len(cumvar_degen)+1), cumvar_degen, label='16 OOD prompts', color='#e41a1c', linewidth=2)
+for thresh, style in [(0.7, '--'), (0.9, ':')]:
+    ax2.axhline(thresh, color='gray', linestyle=style, alpha=0.5, linewidth=0.8)
+    ax2.annotate(f"{thresh:.0%}", xy=(95, thresh), fontsize=8, color='gray', va='bottom')
+ax2.set_xlabel('Number of PCs')
+ax2.set_ylabel('Cumulative variance explained')
+ax2.set_title('Cumulative variance: battery vs. OOD')
+ax2.set_xlim(1, 100); ax2.set_ylim(0, 1.02)
+ax2.legend(fontsize=9, loc='lower right')
+
+fig.suptitle(f'Same characters ({n_common}), different questions: how similar are the eigenspectra?', fontsize=11)
+fig.tight_layout()
+plt.show()
+
+print(f"240-question battery: eff. rank = {eff_rank(eigs_full):.1f}")
+print(f"16 OOD prompts: eff. rank = {eff_rank(eigs_degen):.1f}")
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/post/plot_20260304_122710_8230119.png]]
+240-question battery: eff. rank = 7.6
+16 OOD prompts: eff. rank = 11.9
+Cell Timer: 0:00:00
+:end:
+
+The 16 OOD prompts are suggestive but few. For a stronger test, we generate responses to 90 prompts from [[https://github.com/prometheus-eval/BiGGen-Bench][BiGGen-Bench]] --- a diverse evaluation benchmark covering grounding, instruction following, multilingual, planning, reasoning, refinement, safety, theory of mind, and tool usage. The tasks range from "act as a Linux terminal" and "write a Python function" to social reasoning scenarios and faux pas analysis --- qualitatively different from the psychographic battery, though some (theory of mind, safety) are personality-adjacent. We extract activations for each character on each task and compare eigenspectra.
+
+#+begin_src python :exports results
+import json
+import matplotlib.pyplot as plt
+
+with open('../outputs/biggen_bench/eigenspectra_comparison.json') as f:
+    bb = json.load(f)
+
+eigs_bat = np.array(bb['battery_eigenvalues'])
+eigs_bb = np.array(bb['biggen_eigenvalues'])
+eff_rank = lambda e: (e.sum())**2 / (e**2).sum()
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+# Left: eigenspectrum comparison
+ax1.plot(range(1, len(eigs_bat)+1), eigs_bat,
+         label=f'240-question battery (eff. rank={eff_rank(eigs_bat):.1f})',
+         color='#377eb8', linewidth=2)
+ax1.plot(range(1, len(eigs_bb)+1), eigs_bb,
+         label=f'90 BiGGen-Bench tasks (eff. rank={eff_rank(eigs_bb):.1f})',
+         color='#4daf4a', linewidth=2)
+ax1.set_yscale('log')
+ax1.set_xlabel('PC index')
+ax1.set_ylabel('Eigenvalue (log scale)')
+ax1.set_xlim(1, 100)
+ax1.legend(fontsize=9)
+
+# Right: cumulative variance
+cumvar_bat = np.cumsum(np.array(bb['battery_explained_variance_ratio']))
+cumvar_bb = np.cumsum(np.array(bb['biggen_explained_variance_ratio']))
+ax2.plot(range(1, len(cumvar_bat)+1), cumvar_bat, label='240-question battery', color='#377eb8', linewidth=2)
+ax2.plot(range(1, len(cumvar_bb)+1), cumvar_bb, label='90 BiGGen-Bench tasks', color='#4daf4a', linewidth=2)
+for thresh, style in [(0.7, '--'), (0.9, ':')]:
+    ax2.axhline(thresh, color='gray', linestyle=style, alpha=0.5, linewidth=0.8)
+    ax2.annotate(f"{thresh:.0%}", xy=(95, thresh), fontsize=8, color='gray', va='bottom')
+ax2.set_xlabel('Number of PCs')
+ax2.set_ylabel('Cumulative variance explained')
+ax2.set_xlim(1, 100); ax2.set_ylim(0, 1.02)
+ax2.legend(fontsize=9, loc='lower right')
+
+fig.suptitle(f'Battery vs. BiGGen-Bench ({bb["n_common"]} common characters)', fontsize=11)
+fig.tight_layout()
+plt.show()
+
+print(f"240-question battery: eff. rank = {eff_rank(eigs_bat):.1f}")
+print(f"90 BiGGen-Bench tasks: eff. rank = {eff_rank(eigs_bb):.1f}")
+print(f"PC1 direction cosine: {bb['pc1_cosine']:.3f}")
+#+end_src
+
+The eigenspectra are nearly identical. The effective rank from 90 diverse capability tasks (6.0) closely matches the 240-question psychographic battery (6.5), and the PC1 directions align at cosine 0.961.
+
+Per-category effective ranks (10 questions each):
+
+#+begin_src python :exports results
+import pandas as pd
+rows = []
+for cat, info in sorted(bb['per_category'].items()):
+    rows.append({'Category': cat.replace('_', ' ').title(), 'Eff. Rank': round(info['eff_rank'], 1), 'n chars': info['n_chars']})
+df = pd.DataFrame(rows)
+print(df)
+#+end_src
+
+Every category independently produces effective rank 4--7, consistent with the battery. The low dimensionality of persona space is a property of the model, not the question battery.
 
 * Conclusion
+
+What are the results of the stress testing:
+
+*Replicates Lu et al.:*
+- Low-dimensional persona space (effective rank ~6 from psychographic battery, ~6 from 90 diverse BiGGen-Bench tasks, PC1 cosine 0.96)
+- PC1 correlates with assistant-axis behavior for franchises
+- Role space captures substantial variance (75% of fiction overall; fiction captures 92% of role variance)
+- This is not just a result of the question battery: 90 diverse BiGGen-Bench tasks produce the same eigenspectrum (eff. rank 6.0 vs. 6.5, PC1 cosine 0.96).
+
+*Complicates:*
+- PC1 meaning is distribution-dependent within the same model: franchise PC1 directions cluster tightly (cosines ~0.95), but franchise-mythology cosines are ~0.05
+- The AA rank-correlation shifts from PC1 (franchises) to PC2/PC3 (mythology)
 
 ** Follow ups
 
 - Lu et al. show that for their fixed role set, the geometry is consistent across models. Our results show that changing the role distribution changes the geometry within the same model (franchise vs. mythology PC1 directions differ). Cross-model consistency despite within-model sensitivity to distribution would be worth investigating: does the fiction geometry look similar across models?
-- The low dimensionality and eigenspectra similarity of fictional characters is striking. Is this just a characteristic of model activations in general? Is this because of the question battery?
+- The low dimensionality and eigenspectra similarity of fictional characters is striking. Is this just a characteristic of model activations in general? (The question battery is ruled out --- BiGGen-Bench tasks produce the same dimensionality.)
 
 ** Limitations
 
@@ -1733,22 +1911,7 @@ OOD analysis: 1268 of 1268 characters have OOD activations
   
 * Data Provenance
 
-All result files the post loads are checked into git. To regenerate from scratch:
-
-| File                                              | In git?         | Generated by                                     | Regenerate with                                                                                       |
-|---------------------------------------------------+-----------------+--------------------------------------------------+-------------------------------------------------------------------------------------------------------|
-| =data/role_vectors/qwen-3-32b_pca_layer32.pkl=      | no (gitignored) | =blogpost/scripts/download_role_vectors.py=        | =python blogpost/scripts/download_role_vectors.py= (downloads from HuggingFace)                         |
-| =data/role_vectors/assistant_axis.pt=               | no (gitignored) | =blogpost/scripts/download_role_vectors.py=        | Downloaded from HuggingFace =lu-christina/assistant-axis-vectors= (same script as above)                |
-| =results/fictional_character_analysis_filtered.pkl= | yes             | =blogpost/scripts/build_character_matrix.py=       | Requires per-character vectors from cluster (=outputs/.../vectors/*.pt=)                                |
-| =results/question_projections.pkl=                  | yes             | =blogpost/scripts/compute_question_projections.py= | Requires per-question activations from cluster (=outputs/.../activations/*.pt=)                         |
-| =results/question_subset_sweep.json=                | yes             | =blogpost/scripts/question_subset_sweep.py=        | =python blogpost/scripts/question_subset_sweep.py= (local, ~18s)                                        |
-| =results/llm_feature_coded{,_lu,_within,_aa}.json=  | yes             | =blogpost/scripts/llm_feature_coding.py=           | =python blogpost/scripts/llm_feature_coding.py --mode {residual,lu,within,aa} all= (needs =ANTHROPIC_API_KEY_BATCH=, cluster responses) |
-| =results/feature_regression{,_lu,_within,_aa}.json= | yes             | =blogpost/scripts/feature_regression.py=           | =python blogpost/scripts/feature_regression.py --mode {residual,lu,within,aa}= (local, instant)         |
-| =outputs/degenerate_questions/activations/*.pt=     | no              | =scripts/slurm_degenerate_questions.sh=            | SLURM job on cluster: generate + extract activations for 16 degenerate/task questions                   |
-| =data/degenerate_questions.jsonl=                   | yes             | hand-written                                     | 16 prompts (degenerate + task-shaped) for question invariance test                                      |
-| =assistant-axis/= (git submodule)                    | yes (submodule) | Lu et al. codebase                               | =git submodule update --init= (provides =extraction_questions.jsonl= used by =llm_feature_coding.py=)      |
-
-To render the post from a fresh clone: run =git submodule update --init=, then =python blogpost/scripts/download_role_vectors.py=, then eval the org file. All other data is checked in.
+See =blogpost/README.md= for the full data provenance table and reproduction instructions.
 
 * Appendix: Character Rankings on the Assistant Axis
 
@@ -1797,7 +1960,8 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153035_798161.png]]
+[[file:plots/post/plot_20260304_122710_3665312.png]]
+Cell Timer: 0:00:00
 :end:
 
 Per-universe most and least assistant-like characters:
@@ -1837,6 +2001,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260302_153035_789808.png]]
+[[file:plots/post/plot_20260304_122710_8853698.png]]
+Cell Timer: 0:00:00
 :end:
 
