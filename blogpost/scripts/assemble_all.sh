@@ -95,32 +95,48 @@ echo ""
 echo "=========================================="
 echo "Step 7: LLM feature coding (Anthropic Batch API)"
 echo "=========================================="
-if [ -z "$ANTHROPIC_API_KEY_BATCH" ] && [ -z "$ANTHROPIC_API_KEY" ]; then
-    echo "ERROR: Set ANTHROPIC_API_KEY_BATCH or ANTHROPIC_API_KEY"
-    exit 1
-fi
-
 for mode in residual within lu aa; do
+    # residual mode outputs to results/llm_feature_coded.json (no suffix)
+    if [ "$mode" = "residual" ]; then
+        coded_file="results/llm_feature_coded.json"
+    else
+        coded_file="results/llm_feature_coded_${mode}.json"
+    fi
+    if [ -f "$coded_file" ]; then
+        echo "  $coded_file already exists, skipping mode=$mode"
+        continue
+    fi
+    if [ -z "$ANTHROPIC_API_KEY_BATCH" ] && [ -z "$ANTHROPIC_API_KEY" ]; then
+        echo "ERROR: $coded_file missing and no ANTHROPIC_API_KEY_BATCH set"
+        exit 1
+    fi
     echo "  --- mode=$mode ---"
     $PYTHON blogpost/scripts/llm_feature_coding.py all --mode $mode
 done
-# → results/llm_feature_coded.json          (residual)
-# → results/llm_feature_coded_within.json
-# → results/llm_feature_coded_lu.json
-# → results/llm_feature_coded_aa.json
 
 echo ""
 echo "=========================================="
 echo "Step 8: Feature regression"
 echo "=========================================="
 for mode in residual within lu aa; do
+    if [ "$mode" = "residual" ]; then
+        reg_file="results/feature_regression.json"
+        coded_file="results/llm_feature_coded.json"
+    else
+        reg_file="results/feature_regression_${mode}.json"
+        coded_file="results/llm_feature_coded_${mode}.json"
+    fi
+    if [ -f "$reg_file" ]; then
+        echo "  $reg_file already exists, skipping mode=$mode"
+        continue
+    fi
+    if [ ! -f "$coded_file" ]; then
+        echo "  Skipping mode=$mode (no coded features at $coded_file)"
+        continue
+    fi
     echo "  --- mode=$mode ---"
     $PYTHON blogpost/scripts/feature_regression.py --mode $mode
 done
-# → results/feature_regression.json          (residual)
-# → results/feature_regression_within.json
-# → results/feature_regression_lu.json
-# → results/feature_regression_aa.json
 
 echo ""
 echo "=========================================="
