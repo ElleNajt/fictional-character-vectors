@@ -49,21 +49,50 @@ echo ""
 echo "=========================================="
 echo "Step 3: Compute per-question projections"
 echo "=========================================="
-$PYTHON blogpost/scripts/compute_question_projections.py
+# Requires per-question activations (large, may not be available locally)
+ACT_COUNT=$(ls outputs/qwen3-32b_20260211_002840/activations/*.pt 2>/dev/null | wc -l)
+if [ "$ACT_COUNT" -lt 100 ]; then
+    if [ -f results/question_projections.pkl ]; then
+        echo "  Per-question activations not available (${ACT_COUNT} files), but output exists. Skipping."
+    else
+        echo "  ERROR: Need per-question activations (have ${ACT_COUNT}, need ~1346)"
+        exit 1
+    fi
+else
+    $PYTHON blogpost/scripts/compute_question_projections.py
+fi
 # → results/question_projections.pkl
 
 echo ""
 echo "=========================================="
 echo "Step 4: Question subset sweep (score stability)"
 echo "=========================================="
-$PYTHON blogpost/scripts/question_subset_sweep.py
+if [ ! -f results/question_projections.pkl ]; then
+    if [ -f results/question_subset_sweep.json ]; then
+        echo "  No question_projections.pkl, but output exists. Skipping."
+    else
+        echo "  ERROR: Need results/question_projections.pkl"
+        exit 1
+    fi
+else
+    $PYTHON blogpost/scripts/question_subset_sweep.py
+fi
 # → results/question_subset_sweep.json
 
 echo ""
 echo "=========================================="
 echo "Step 5: Direction stability sweep"
 echo "=========================================="
-$PYTHON blogpost/scripts/direction_stability_sweep.py
+if [ "$ACT_COUNT" -lt 100 ]; then
+    if [ -f results/direction_stability_sweep.json ]; then
+        echo "  Per-question activations not available, but output exists. Skipping."
+    else
+        echo "  ERROR: Need per-question activations for direction stability sweep"
+        exit 1
+    fi
+else
+    $PYTHON blogpost/scripts/direction_stability_sweep.py
+fi
 # → results/direction_stability_sweep.json
 
 echo ""
