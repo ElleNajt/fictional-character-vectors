@@ -100,10 +100,11 @@ if [ -z "$ANTHROPIC_API_KEY_BATCH" ] && [ -z "$ANTHROPIC_API_KEY" ]; then
     exit 1
 fi
 
-for mode in within lu aa; do
+for mode in residual within lu aa; do
     echo "  --- mode=$mode ---"
     $PYTHON blogpost/scripts/llm_feature_coding.py all --mode $mode
 done
+# → results/llm_feature_coded.json          (residual)
 # → results/llm_feature_coded_within.json
 # → results/llm_feature_coded_lu.json
 # → results/llm_feature_coded_aa.json
@@ -112,10 +113,11 @@ echo ""
 echo "=========================================="
 echo "Step 8: Feature regression"
 echo "=========================================="
-for mode in within lu aa; do
+for mode in residual within lu aa; do
     echo "  --- mode=$mode ---"
     $PYTHON blogpost/scripts/feature_regression.py --mode $mode
 done
+# → results/feature_regression.json          (residual)
 # → results/feature_regression_within.json
 # → results/feature_regression_lu.json
 # → results/feature_regression_aa.json
