@@ -2099,7 +2099,7 @@ The low dimensionality of persona space is a property of the model, not the ques
 What are the results of the stress testing:
 
 *Replicates Lu et al.:*
-- Low-dimensional persona space (effective rank ~6 from psychographic battery, ~6 from 90 diverse BiGGen-Bench tasks, PC1 cosine 0.96)
+- Low-dimensional persona space (effective rank 3--14 per universe, 8 overall for fiction, 5.8 for roles; 6.0 from 90 diverse BiGGen-Bench tasks vs. 6.5 from psychographic battery)
 - PC1 correlates with assistant-axis behavior for franchises
 - Role space captures substantial variance (75% of fiction overall; fiction captures 92% of role variance)
 - The low dimensionality persists across question batteries (eff. rank 6.0 from BiGGen vs. 6.5 from psychographic battery). PC1-2 are shared across batteries (cosines 0.93), but higher PCs diverge (PC3+ < 0.5).
@@ -2111,7 +2111,7 @@ What are the results of the stress testing:
 ** Follow ups
 
 - Lu et al. show that for their fixed role set, the geometry is consistent across models. Our results show that changing the role distribution changes the geometry within the same model (franchise vs. mythology PC1 directions differ). Cross-model consistency despite within-model sensitivity to distribution would be worth investigating: does the fiction geometry look similar across models?
-- The low dimensionality and eigenspectra similarity of fictional characters is striking. Is this just a characteristic of model activations in general? (The question battery is ruled out --- BiGGen-Bench tasks produce the same dimensionality.)
+- The low dimensionality of fictional characters is striking. BiGGen-Bench tasks produce comparable dimensionality, but the eigenspectral shape depends on the question battery. Is the low dimensionality a characteristic of model activations in general, or specific to persona-like prompts?
 
 ** Limitations
 
