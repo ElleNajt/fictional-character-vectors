@@ -137,7 +137,7 @@ A natural source of characters is fiction, so I used 1,268 fictional characters 
 
 A natural source of baseline questions is an existing eval of diverse tasks, I use a sample of 90 questions sampled from categories in BiGGen-Bench. 
 
-What I found was mostly consistent with Lu et al. Even adding these diverse characters, the persona space remains quite small. Using random tasks from BigGen bench results in a persona space where the first PC1 align, but drop sharply after that.
+What I found was mostly consistent with Lu et al. Even adding these diverse characters, the persona space remains quite small. Using random tasks from BiGGen-Bench results in a persona space where PC1-2 align with the psychographic battery, but higher PCs diverge.
 
 Here are the key questions that motivated me, and the headlines.
 
