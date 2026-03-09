@@ -70,10 +70,9 @@ print(f"Loaded {len(char_names)} characters, {len(role_names)} roles")
 #+RESULTS:
 :results:
 Loaded 1268 characters, 275 roles
-Cell Timer: 0:00:01
 :end:
 
-* Introduction
+* Summary
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
@@ -127,65 +126,85 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122641_8312033.png]]
-Cell Timer: 0:00:00
+[[file:plots/post/plot_20260308_193520_9050801.png]]
 :end:
 
 [[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models using N psychographic questions with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 of their role space was correlated with an assistant-axis they constructed by prompting assistant behavior.
 
 There are two key decision choices in lu et al that I wanted to stress test: the choice of roles, and the choice of questions.
 
-A natural source of characters is fiction, so I studied 1,268 fictional characters in Qwen3-32B, in universes from Hindu mythology to Naruto. A natural source of baseline questions is an existing eval of diverse tasks, I use a sample of 90 questions sampled from categories in BiGGen-Bench. 
+A natural source of characters is fiction, so I used 1,268 fictional characters in Qwen3-32B, in universes from Hindu mythology to Naruto.
 
-What I found was mostly consistent with Lu et al. Even adding these diverse characters and questions, the persona space remains quite small. Moreover, 
+A natural source of baseline questions is an existing eval of diverse tasks, I use a sample of 90 questions sampled from categories in BiGGen-Bench. 
+
+What I found was mostly consistent with Lu et al. Even adding these diverse characters, the persona space remains quite small. Using random tasks from BigGen bench results in a persona space where the first PC1 align, but drop sharply after that.
 
 Here are the key questions that motivated me, and the headlines.
 
 1. [@1] *Is there a low-dimensional fictional persona space?*
-   - Yes. Effective rank is 8 for fiction and 5.8 for roles, out of 1,268 and 275 maximum dimensions respectively. The eigenspectra are strikingly similar despite the different input distributions; a random baseline of 1,268 isotropic Gaussian points gives effective rank ~1,015.
+   - Yes. Effective rank is 8 for fiction and 5.8 for roles, out of 1,268 and 275 maximum dimensions respectively. Individual universes range from 3.4 (Naruto) to 13.9 (Greek mythology). All are far below a random baseline of ~1,015.
 
 #+begin_src python :exports results
+from collections import Counter
 eff_rank = lambda e: (e.sum())**2 / (e**2).sum()
 
-# Full-rank eigenspectra
+# Full-rank eigenspectra (needed later)
 n_f = len(chars_centered)
 pca_full_f = SkPCA(n_components=n_f - 1).fit(chars_centered)
 eigs_f = pca_full_f.explained_variance_
-eigs_r = role_pca.explained_variance_  # already full rank (275 components)
 
-# Random baseline: 1268 iid Gaussian points in R^5120, matched total variance
-rng = np.random.RandomState(42)
-rand_pts = rng.randn(n_f, 5120)
-rand_pts *= np.sqrt(eigs_f.sum() / np.var(rand_pts, axis=0).sum())
-pca_rand = SkPCA(n_components=n_f - 1).fit(rand_pts)
-eigs_rand = pca_rand.explained_variance_
+# Per-universe eigenspectra
+prefixes = [n.rsplit('__', 1)[0] if '__' in n else 'other' for n in char_names]
+universe_counts = Counter(prefixes)
+big_universes = [(u, c) for u, c in universe_counts.most_common() if c >= 20]
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5))
+colors = plt.cm.tab20(np.linspace(0, 1, len(big_universes)))
 
-# Left: eigenspectrum on log scale
-ax1.plot(range(1, len(eigs_f)+1), eigs_f, label=f'Fiction (eff. rank={eff_rank(eigs_f):.1f})', color='#377eb8', linewidth=2)
-ax1.plot(range(1, len(eigs_r)+1), eigs_r, label=f'Roles (eff. rank={eff_rank(eigs_r):.1f})', color='#e41a1c', linewidth=2)
-ax1.plot(range(1, len(eigs_rand)+1), eigs_rand, label=f'Random (eff. rank={eff_rank(eigs_rand):.0f})', color='#999999', linewidth=1.5, linestyle='--')
+for i, (universe, count) in enumerate(big_universes):
+    idx = [j for j, p in enumerate(prefixes) if p == universe]
+    u_data = chars_centered[idx]
+    u_c = u_data - u_data.mean(axis=0)
+    n_comp = min(len(idx) - 1, 50)
+    pca = SkPCA(n_components=n_comp).fit(u_c)
+    eigs = pca.explained_variance_
+
+    label = universe.replace('_', ' ').title()[:25]
+    er = eff_rank(eigs)
+
+    ax1.plot(range(1, len(eigs)+1), eigs, label=f'{label} (n={count}, er={er:.1f})',
+             color=colors[i], linewidth=1.5, alpha=0.8)
+    cumvar = np.cumsum(pca.explained_variance_ratio_)
+    ax2.plot(range(1, len(cumvar)+1), cumvar, label=f'{label} (n={count})',
+             color=colors[i], linewidth=1.5, alpha=0.8)
+
+# Reference lines: all fiction + roles
+pca_all = SkPCA(n_components=50).fit(chars_centered)
+ax1.plot(range(1, 51), pca_all.explained_variance_, 'k-', linewidth=2.5, alpha=0.5,
+         label=f'All fiction (n={len(chars_centered)}, er={eff_rank(eigs_f):.1f})')
+ax1.plot(range(1, len(role_pca.explained_variance_[:50])+1), role_pca.explained_variance_[:50],
+         'k--', linewidth=2.5, alpha=0.5,
+         label=f'Roles (n={len(role_pca.explained_variance_)}, er={eff_rank(role_pca.explained_variance_):.1f})')
+
+cumvar_all = np.cumsum(pca_all.explained_variance_ratio_)
+ax2.plot(range(1, 51), cumvar_all, 'k-', linewidth=2.5, alpha=0.5, label=f'All fiction (n={len(chars_centered)})')
+cumvar_roles = np.cumsum(role_pca.explained_variance_ratio_[:50])
+ax2.plot(range(1, len(cumvar_roles)+1), cumvar_roles,
+         'k--', linewidth=2.5, alpha=0.5, label=f'Roles (n={len(role_pca.explained_variance_)})')
+
 ax1.set_yscale('log')
-ax1.set_xlabel("PC index")
-ax1.set_ylabel("Eigenvalue (log scale)")
-ax1.set_title("Eigenspectrum (full rank)")
-ax1.set_xlim(1, 200)
-ax1.legend(fontsize=8, loc='upper right')
+ax1.set_xlabel('PC index')
+ax1.set_ylabel('Eigenvalue (log scale)')
+ax1.set_title('Eigenspectrum by universe')
+ax1.set_xlim(1, 50)
+ax1.legend(fontsize=6, loc='upper right', ncol=2)
 
-# Right: cumulative variance
-fcumvar = np.cumsum(pca_full_f.explained_variance_ratio_)
-lu_cumvar = np.cumsum(role_pca.explained_variance_ratio_)
-ax2.plot(range(1, len(fcumvar)+1), fcumvar, label='Fiction (1,268 characters)', color='#377eb8', linewidth=2)
-ax2.plot(range(1, len(lu_cumvar)+1), lu_cumvar, label='Roles (275, Lu et al.)', color='#e41a1c', linewidth=2)
-for thresh, style in [(0.7, '--'), (0.9, ':')]:
-    ax2.axhline(thresh, color='gray', linestyle=style, alpha=0.5, linewidth=0.8)
-    ax2.annotate(f"{thresh:.0%}", xy=(195, thresh), fontsize=8, color='gray', va='bottom')
-ax2.set_xlabel("Number of PCs")
-ax2.set_ylabel("Cumulative variance explained")
-ax2.set_title("Cumulative variance: fiction vs. roles")
-ax2.set_xlim(1, 200); ax2.set_ylim(0, 1.02)
-ax2.legend(loc='lower right', fontsize=9)
+ax2.set_xlabel('Number of PCs')
+ax2.set_ylabel('Cumulative variance explained')
+ax2.set_title('Cumulative variance by universe')
+ax2.set_xlim(1, 50)
+ax2.set_ylim(0, 1.02)
+ax2.legend(fontsize=6, loc='lower right', ncol=2)
 
 fig.tight_layout()
 plt.show()
@@ -193,10 +212,9 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122644_3530274.png]]
-Cell Timer: 0:00:02
+[[file:plots/post/plot_20260308_193525_5945674.png]]
 :end:
-   - @TODO This is not just a result of the question battery: 
+   - This is not a result of the question battery: 90 BiGGen-Bench tasks (grounding, reasoning, tool usage, etc.) produce effective rank 6.0 vs. 6.5 from the psychographic battery, with PC1 cosine 0.961.
 2. *How much of persona space does role space cover?*
    - 75% of fictional character variance overall. The fictional character space is low-dimensional (~40 PCs for 90%), so coverage by role space is less than a random sample of 275 fictional characters (95%) but far more than a random 275-dim subspace (5%).
    - The relationship is asymmetric: fiction (1268 characters) captures 92% of role variance.
@@ -269,7 +287,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122646_5221190.png]]
+[[file:plots/post/plot_20260308_192857_5879627.png]]
 Cell Timer: 0:00:01
 :end:
 
@@ -339,7 +357,7 @@ print(f"Mean |cos(PC1,PC1)| franchise-mythology: {np.mean(cross_pairs):.3f} ({le
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122647_4931831.png]]
+[[file:plots/post/plot_20260308_192857_2312932.png]]
 Mean \cos(PC1,PC1)\ within franchises: 0.894 (15 pairs)
 Mean \cos(PC1,PC1)\ within mythology: 0.440 (10 pairs)
 Mean \cos(PC1,PC1)\ franchise-mythology: 0.339 (30 pairs)
@@ -380,7 +398,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122647_6441625.png]]
+[[file:plots/post/plot_20260308_192857_4361094.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -437,7 +455,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122647_2814599.png]]
+[[file:plots/post/plot_20260308_192858_5228092.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -482,7 +500,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122647_1298925.png]]
+[[file:plots/post/plot_20260308_192858_833294.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -535,7 +553,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122648_9647797.png]]
+[[file:plots/post/plot_20260308_192858_4980250.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -668,7 +686,7 @@ print(df_dim.set_index("Universe"))
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122649_3062860.png]]
+[[file:plots/post/plot_20260308_192859_3383983.png]]
 | Universe           |    N | PC1 var% | PCs for 70% | PCs for 90% | Eff. rank |  |
 |--------------------+------+----------+-------------+-------------+-----------+----|
 | LOTR               |   97 |     40.0 |           3 |          13 |       4.4 |  |
@@ -688,7 +706,7 @@ print(df_dim.set_index("Universe"))
 Cell Timer: 0:00:01
 :end:
 
-Fiction and roles have strikingly similar eigenspectra despite different input distributions; this could be a consequence of the question battery.
+Effective rank varies across universes (3.4 for Naruto to 13.9 for Greek mythology), but all are far below the random baseline. Roles (5.8) fall within the range of individual universes.
 
 * How Much of Persona Space Does Role Space Cover?
 
@@ -770,8 +788,8 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122653_7501287.png]]
-Cell Timer: 0:00:03
+[[file:plots/post/plot_20260308_192902_2585936.png]]
+Cell Timer: 0:00:02
 :end:
 
 The relationship between fiction and roles is asymmetric: fiction captures most role variance, but roles miss a quarter of fiction. The random-275-chars baseline (high capture) reflects the low dimensionality; the random-subspace baseline (low capture) confirms the structure is real.
@@ -846,7 +864,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122654_1669653.png]]
+[[file:plots/post/plot_20260308_192903_1963611.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -937,7 +955,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122654_6024234.png]]
+[[file:plots/post/plot_20260308_192903_7223302.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -981,7 +999,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122655_9599241.png]]
+[[file:plots/post/plot_20260308_192903_2719483.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1024,7 +1042,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122655_1326925.png]]
+[[file:plots/post/plot_20260308_192904_8476451.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1089,7 +1107,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122656_9315824.png]]
+[[file:plots/post/plot_20260308_192904_2472575.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1225,7 +1243,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122656_7057726.png]]
+[[file:plots/post/plot_20260308_192904_1682014.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1314,7 +1332,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122656_6031812.png]]
+[[file:plots/post/plot_20260308_192905_7930026.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1379,7 +1397,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122657_7333090.png]]
+[[file:plots/post/plot_20260308_192905_4796173.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1474,7 +1492,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122658_7572812.png]]
+[[file:plots/post/plot_20260308_192906_578345.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1524,7 +1542,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122658_5404626.png]]
+[[file:plots/post/plot_20260308_192906_6170581.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1573,7 +1591,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122658_4221612.png]]
+[[file:plots/post/plot_20260308_192906_3737341.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1621,7 +1639,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122659_2845535.png]]
+[[file:plots/post/plot_20260308_192906_2800167.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1753,8 +1771,8 @@ plt.show()
 #+RESULTS:
 :results:
 <org babel source block>:117: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
-[[file:plots/post/plot_20260304_122709_3531129.png]]
-Cell Timer: 0:00:10
+[[file:plots/post/plot_20260308_192915_4754424.png]]
+Cell Timer: 0:00:08
 :end:
 
 ** Is the low dimensionality a property of the question battery?
@@ -1812,7 +1830,7 @@ print(f"16 OOD prompts: eff. rank = {eff_rank(eigs_degen):.1f}")
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122710_8230119.png]]
+[[file:plots/post/plot_20260308_192916_6759014.png]]
 240-question battery: eff. rank = 7.6
 16 OOD prompts: eff. rank = 11.9
 Cell Timer: 0:00:00
@@ -1835,10 +1853,10 @@ fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
 # Left: eigenspectrum comparison
 ax1.plot(range(1, len(eigs_bat)+1), eigs_bat,
-         label=f'240-question battery (eff. rank={eff_rank(eigs_bat):.1f})',
+         label=f'240-question battery (eff. rank={bb["battery_eff_rank"]:.1f})',
          color='#377eb8', linewidth=2)
 ax1.plot(range(1, len(eigs_bb)+1), eigs_bb,
-         label=f'90 BiGGen-Bench tasks (eff. rank={eff_rank(eigs_bb):.1f})',
+         label=f'90 BiGGen-Bench tasks (eff. rank={bb["biggen_eff_rank"]:.1f})',
          color='#4daf4a', linewidth=2)
 ax1.set_yscale('log')
 ax1.set_xlabel('PC index')
@@ -1863,12 +1881,169 @@ fig.suptitle(f'Battery vs. BiGGen-Bench ({bb["n_common"]} common characters)', f
 fig.tight_layout()
 plt.show()
 
-print(f"240-question battery: eff. rank = {eff_rank(eigs_bat):.1f}")
-print(f"90 BiGGen-Bench tasks: eff. rank = {eff_rank(eigs_bb):.1f}")
+print(f"240-question battery: eff. rank = {bb['battery_eff_rank']:.1f}")
+print(f"90 BiGGen-Bench tasks: eff. rank = {bb['biggen_eff_rank']:.1f}")
 print(f"PC1 direction cosine: {bb['pc1_cosine']:.3f}")
 #+end_src
 
-The eigenspectra are nearly identical. The effective rank from 90 diverse capability tasks (6.0) closely matches the 240-question psychographic battery (6.5), and the PC1 directions align at cosine 0.961.
+#+RESULTS:
+:results:
+[[file:plots/post/plot_20260308_192916_2780849.png]]
+240-question battery: eff. rank = 6.5
+90 BiGGen-Bench tasks: eff. rank = 6.0
+PC1 direction cosine: 0.961
+Cell Timer: 0:00:00
+:end:
+
+The effective rank from 90 diverse capability tasks (6.0) is comparable to the 240-question psychographic battery (6.5), and the PC1 directions align at cosine 0.961.
+
+*** How does the role space depend on the questions?
+
+#+begin_src python :exports results
+import torch, pickle
+from pathlib import Path
+from scipy.linalg import subspace_angles
+
+# Load role vectors from battery (reconstruct raw from PCA)
+with open('../data/role_vectors/qwen-3-32b_pca_layer32.pkl', 'rb') as f:
+    rd = pickle.load(f)
+role_pca_bat = rd['pca']
+role_bat = rd['transformed'] @ role_pca_bat.components_ + role_pca_bat.mean_
+role_names_bat = rd['role_names']
+
+# Load role vectors from BiGGen
+roles_bb_dir = Path('../outputs/roles_biggen/activations')
+roles_bb_vecs = {}
+for fp in sorted(roles_bb_dir.glob('*.pt')):
+    name = fp.stem.removeprefix('role__')
+    d = torch.load(fp, weights_only=True, map_location='cpu')
+    vecs = []
+    for v in d.values():
+        v = v.float()
+        if v.dim() == 2 and v.shape[0] > 1:
+            v = v[32]
+        elif v.dim() == 2:
+            v = v.squeeze(0)
+        vecs.append(v)
+    roles_bb_vecs[name] = torch.stack(vecs).mean(dim=0).numpy()
+
+# Match roles
+common_roles = [n for n in role_names_bat if n in roles_bb_vecs]
+bat_idx = [role_names_bat.index(n) for n in common_roles]
+bat_mat = role_bat[bat_idx]
+bb_mat = np.array([roles_bb_vecs[n] for n in common_roles])
+
+# Mean-center each independently, PCA
+bat_c = bat_mat - bat_mat.mean(axis=0)
+bb_c = bb_mat - bb_mat.mean(axis=0)
+n_comp = min(len(common_roles) - 1, 50)
+pca_bat_r = SkPCA(n_components=n_comp).fit(bat_c)
+pca_bb_r = SkPCA(n_components=n_comp).fit(bb_c)
+
+# Per-PC cosines
+per_pc_cos = np.array([abs(pca_bat_r.components_[i] @ pca_bb_r.components_[i])
+                        for i in range(n_comp)])
+
+# Principal angles: top-k subspace overlap
+max_k = 20
+subspace_overlap = []
+for k in range(1, max_k + 1):
+    angles = subspace_angles(pca_bat_r.components_[:k].T, pca_bb_r.components_[:k].T)
+    overlap = np.mean(np.cos(angles)**2)
+    subspace_overlap.append(overlap)
+
+# Cross-projection variance capture
+bat_total = np.var(bat_c, axis=0).sum()
+bb_total = np.var(bb_c, axis=0).sum()
+
+ks = [1, 2, 3, 5, 10, 20, 50]
+bat_self, bb_self, bat_in_bb, bb_in_bat = [], [], [], []
+for k in ks:
+    bat_self.append(np.cumsum(pca_bat_r.explained_variance_ratio_)[k-1])
+    bb_self.append(np.cumsum(pca_bb_r.explained_variance_ratio_)[k-1])
+    V_bb = pca_bb_r.components_[:k]
+    bat_in_bb.append(np.var(bat_c @ V_bb.T @ V_bb, axis=0).sum() / bat_total)
+    V_bat = pca_bat_r.components_[:k]
+    bb_in_bat.append(np.var(bb_c @ V_bat.T @ V_bat, axis=0).sum() / bb_total)
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+# Left: per-PC cosine
+ax1.bar(range(1, n_comp+1), per_pc_cos, color='#377eb8', alpha=0.7)
+ax1.set_xlabel('PC index')
+ax1.set_ylabel('|cos(battery PCk, BiGGen PCk)|')
+ax1.set_title(f'Per-PC direction alignment ({len(common_roles)} roles)')
+ax1.set_xlim(0.5, 20.5)
+ax1.axhline(0.5, color='gray', linestyle='--', alpha=0.4)
+
+# Right: variance capture (self vs cross)
+ax2.plot(ks, bat_self, 's--', color='#377eb8', label='Battery self', markersize=5, alpha=0.5)
+ax2.plot(ks, bb_self, 's--', color='#4daf4a', label='BiGGen self', markersize=5, alpha=0.5)
+ax2.plot(ks, bat_in_bb, 'o-', color='#377eb8', label='Battery var in BiGGen top-k', markersize=5, linewidth=2)
+ax2.plot(ks, bb_in_bat, 'o-', color='#4daf4a', label='BiGGen var in battery top-k', markersize=5, linewidth=2)
+ax2.set_xlabel('Subspace dimension k')
+ax2.set_ylabel('Fraction of variance captured')
+ax2.set_title('Cross-projection variance capture')
+ax2.set_xlim(0, 52)
+ax2.set_ylim(0, 1.05)
+ax2.legend(fontsize=8, loc='lower right')
+
+fig.tight_layout()
+plt.show()
+
+import pandas as pd
+rows = []
+for i, k in enumerate(ks):
+    rows.append({'k': k, 'bat_self': round(bat_self[i], 3), 'bb_self': round(bb_self[i], 3),
+                 'bat_in_bb': round(bat_in_bb[i], 3), 'bb_in_bat': round(bb_in_bat[i], 3)})
+print(pd.DataFrame(rows))
+print()
+print(f"Per-PC cosines (PC1-5): {', '.join(f'{c:.3f}' for c in per_pc_cos[:5])}")
+print(f"Per-PC cosines (PC6-10): {', '.join(f'{c:.3f}' for c in per_pc_cos[5:10])}")
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/post/plot_20260308_194009_764116.png]]
+| idx |  k | bat_self | bb_self | bat_in_bb | bb_in_bat |
+|-----+----+----------+---------+-----------+-----------|
+|   0 |  1 |    0.379 |   0.431 |     0.328 |     0.373 |
+|   1 |  2 |    0.518 |   0.628 |     0.451 |     0.548 |
+|   2 |  3 |    0.587 |   0.689 |     0.496 |     0.586 |
+|   3 |  5 |    0.658 |   0.763 |     0.569 |     0.645 |
+|   4 | 10 |    0.759 |   0.844 |     0.651 |     0.724 |
+|   5 | 20 |    0.842 |   0.903 |     0.727 |     0.785 |
+|   6 | 50 |    0.928 |   0.959 |     0.817 |     0.849 |
+Per-PC cosines (PC1-5): 0.926, 0.928, 0.480, 0.233, 0.250
+Per-PC cosines (PC6-10): 0.281, 0.010, 0.092, 0.018, 0.150
+:end:
+
+Does the BiGGen battery capture dimensions the psychographic battery misses? Concatenating the two measurements (240 + 90 questions) and computing the effective rank:
+
+#+begin_src python :exports results
+# Combined battery test: does BiGGen add dimensions beyond the psychographic battery?
+# Reuse bat_mat/bb_mat from previous block (role vectors from battery and BiGGen)
+bat_c = bat_mat - bat_mat.mean(axis=0)
+bb_c = bb_mat - bb_mat.mean(axis=0)
+concat = np.hstack([bat_c, bb_c])
+
+n_comp = min(len(common_roles) - 1, 50)
+eigs_bat = SkPCA(n_components=n_comp).fit(bat_c).explained_variance_
+eigs_bb = SkPCA(n_components=n_comp).fit(bb_c).explained_variance_
+eigs_concat = SkPCA(n_components=n_comp).fit(concat).explained_variance_
+
+eff_rank = lambda e: (e.sum())**2 / (e**2).sum()
+print(f"Battery only (240 Q):        eff. rank = {eff_rank(eigs_bat):.1f}")
+print(f"BiGGen only (90 Q):          eff. rank = {eff_rank(eigs_bb):.1f}")
+print(f"Concatenated (240 + 90 Q):   eff. rank = {eff_rank(eigs_concat):.1f}")
+#+end_src
+
+#+RESULTS:
+:results:
+Battery only (240 Q):        eff. rank = 5.0
+BiGGen only (90 Q):          eff. rank = 3.9
+Concatenated (240 + 90 Q):   eff. rank = 5.0
+:end:
 
 Per-category effective ranks (10 questions each):
 
@@ -1881,7 +2056,43 @@ df = pd.DataFrame(rows)
 print(df)
 #+end_src
 
-Every category independently produces effective rank 4--7, consistent with the battery. The low dimensionality of persona space is a property of the model, not the question battery.
+#+RESULTS:
+:results:
+| idx | Category              | Eff. Rank | n chars |  |
+|-----+-----------------------+-----------+---------+----|
+|   0 | Grounding             |       7.7 |     617 |  |
+|   1 | Instruction Following |       5.9 |     617 |  |
+|   2 | Multilingual          |       7.2 |     617 |  |
+|   3 | Planning              |       7.3 |     617 |  |
+|   4 | Reasoning             |       5.7 |     617 |  |
+|   5 | Refinement            |       7.6 |     617 |  |
+|   6 | Safety                |       5.9 |     617 |  |
+|   7 | Theory Of Mind        |       4.8 |     617 |  |
+|   8 | Tool Usage            |       9.3 |     617 |  |
+Cell Timer: 0:00:00
+:end:
+
+Every category independently produces effective rank 4--7, consistent with the battery.
+
+The same holds for roles: running the 275 Lu et al. roles on BiGGen-Bench tasks gives effective rank 4.3 (vs 5.7 from the psychographic battery), with PC1 cosine 0.926 against the battery-derived role PC1.
+
+#+begin_src python :exports results
+if 'roles_biggen' in bb:
+    rb = bb['roles_biggen']
+    print(f"Roles on battery: eff. rank = {bb['roles']['eff_rank']:.1f} (n={bb['roles']['n']})")
+    print(f"Roles on BiGGen:  eff. rank = {rb['eff_rank']:.1f} (n={rb['n']})")
+    print(f"PC1 cosine (roles battery vs BiGGen): {rb['pc1_cosine_vs_battery_roles']:.3f}")
+#+end_src
+
+#+RESULTS:
+:results:
+Roles on battery: eff. rank = 5.7 (n=275)
+Roles on BiGGen:  eff. rank = 4.3 (n=275)
+PC1 cosine (roles battery vs BiGGen): 0.926
+Cell Timer: 0:00:00
+:end:
+
+The low dimensionality of persona space is a property of the model, not the question battery.
 
 * Conclusion
 
@@ -1960,7 +2171,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122710_3665312.png]]
+[[file:plots/post/plot_20260308_192926_6124591.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -2001,7 +2212,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260304_122710_8853698.png]]
+[[file:plots/post/plot_20260308_192926_5137423.png]]
 Cell Timer: 0:00:00
 :end:
 

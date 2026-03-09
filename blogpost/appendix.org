@@ -1777,15 +1777,7 @@ The response diffing and LLM feature coding confirm the residual axis is real an
 
 The response diffing above is suggestive, but it relies on our own reading of the LLM's comparisons. Can we validate more rigorously that the residual PCs encode text-observable features?
 
-We design a held-out validation experiment with strict separation between discovery and testing:
-
-1. *Feature discovery (odd-ranked characters)*: For each universe and PC, we take the 5 characters with the most extreme positive scores (ranks 1, 3, 5, 7, 9) and the 5 most extreme negative scores (same odd ranks). We show an LLM (Claude Sonnet) their anonymized responses to 10 discriminative questions and ask it to propose 6 features that distinguish the two groups. Features must be observable from text alone --- no universe knowledge.
-
-2. *Feature coding (even-ranked characters)*: We take a *non-overlapping* set: the 10 characters at ranks 2, 4, 6, ..., 20 from each end (20 per universe-PC). A fresh LLM call rates each character on the 6 discovered features (1--5 scale) based on a different sample of 10 questions from the top 50 most discriminative.
-
-3. *Regression*: We regress each character's actual residual PC score against their 6 feature ratings using OLS. High adjusted R^{2} means the LLM-discovered features (from held-out characters) predict PC position well.
-
-The striding ensures zero overlap between the characters used to discover features and those used to validate them. Full code is in =blogpost/scripts/llm_feature_coding.py= and =blogpost/scripts/feature_regression.py=.
+We use the LLM feature coding pipeline described in the main post (see "What Do the Directions Encode?"). Here the pipeline is applied specifically to residual PCs.
 
 #+begin_src python :session blogpost :async t
 import json
@@ -2137,3 +2129,4 @@ Cell Timer: 0:00:00
 #+begin_quote
 *Claude's reading:* Mythology is more interesting: pairs that were nearly orthogonal on PC1 (e.g. Greek-Norse at 0.17, Hindu-Egyptian at 0.02) show moderate subspace overlap at 0.57 and 0.46 respectively. The mythological traditions may not share a dominant axis, but their secondary structure has more in common than PC1 alone suggests.
 #+end_quote
+
