@@ -214,7 +214,7 @@ plt.show()
 :results:
 [[file:plots/post/plot_20260308_193525_5945674.png]]
 :end:
-   - The low dimensionality persists across question batteries: 90 BiGGen-Bench tasks (grounding, reasoning, tool usage, etc.) produce effective rank 6.0 vs. 6.5 from the psychographic battery, with PC1 cosine 0.961. The eigenspectral shape does depend on the question battery, but effective rank stays in the 4--8 range.
+   - The low dimensionality persists across question batteries: 90 BiGGen-Bench tasks produce effective rank 6.0 vs. 6.5 from the psychographic battery. The dominant structure is shared (PC1-2 cosines 0.93), but higher PCs diverge (PC3 cosine 0.48, PC4+ < 0.3).
 2. *How much of persona space does role space cover?*
    - 75% of fictional character variance overall. The fictional character space is low-dimensional (~40 PCs for 90%), so coverage by role space is less than a random sample of 275 fictional characters (95%) but far more than a random 275-dim subspace (5%).
    - The relationship is asymmetric: fiction (1268 characters) captures 92% of role variance.
@@ -2102,7 +2102,7 @@ What are the results of the stress testing:
 - Low-dimensional persona space (effective rank ~6 from psychographic battery, ~6 from 90 diverse BiGGen-Bench tasks, PC1 cosine 0.96)
 - PC1 correlates with assistant-axis behavior for franchises
 - Role space captures substantial variance (75% of fiction overall; fiction captures 92% of role variance)
-- The low dimensionality persists across question batteries (eff. rank 6.0 from BiGGen vs. 6.5 from psychographic battery, PC1 cosine 0.96), though the eigenspectral shape depends on which questions are asked.
+- The low dimensionality persists across question batteries (eff. rank 6.0 from BiGGen vs. 6.5 from psychographic battery). PC1-2 are shared across batteries (cosines 0.93), but higher PCs diverge (PC3+ < 0.5).
 
 *Complicates:*
 - PC1 meaning is distribution-dependent within the same model: franchise PC1 directions cluster tightly (cosines ~0.95), but franchise-mythology cosines are ~0.05
