@@ -131,21 +131,17 @@ plt.show()
 Cell Timer: 0:00:00
 :end:
 
-NB: This is a blog post exploring something I was curious about, it has not had the highest possible level of scrutiny. There may be mistakes; on the other hand, it's entirely reproducible so you coding-agent should be able to confirm issues. Let me know if you noticed any!
-
 [[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models using N psychographic questions with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 of their role space was correlated with an assistant-axis they constructed by prompting assistant behavior.
 
 There are two key decision choices in lu et al that I wanted to stress test: the choice of roles, and the choice of questions.
 
-A natural source of characters is fiction, so I used 1,268 fictional characters in Qwen3-32B, in universes from Hindu mythology to Naruto.
-
-A natural source of baseline questions is an existing eval of diverse tasks, I use a sample of 90 questions sampled from categories in BiGGen-Bench. 
+A natural source of characters is fiction, so I used 1,268 fictional characters in Qwen3-32B, in universes from Hindu mythology to Naruto. A natural source of baseline questions is an existing eval of diverse tasks, I use a sample of 90 questions sampled from categories in BiGGen-Bench. 
 
 What I found was mostly consistent with Lu et al. Even adding these diverse characters, the persona space remains quite small. Using random tasks from BiGGen-Bench results in a persona space where PC1-2 align with the psychographic battery, but higher PCs diverge.
 
-One other note: In Lu et al. they discuss clamping the activation-axis to avoid models inhabiting regions of persona space. There was some interesting [[https://x.com/tessera_antra/status/2013494848008200309][discussion on twitter]] raising concerns about the loss of expressiveness or coherence that might be introduced by clamping models away from regions of persona space.
+The main complication I find is this: In Lu et al. they discuss clamping the activation-axis to avoid models inhabiting regions of persona space. There was some interesting [[https://x.com/tessera_antra/status/2013494848008200309][discussion on twitter]] raising concerns about the loss of expressiveness or coherence that might be introduced by clamping models away from regions of persona space.
 
-Looking through the space of fictional characters gives a sense of what is cut by clamping the activation axis. Notably, some entire fictional universes have extreme values under the assistant axis. Lu et al. clamp based on the 25th percentile of activations on role space; applying that rule to our data (same model, Qwen3-32B, at layer 50 to match their clamping layers 46--53), 89% of fictional characters fall below the threshold. We lose all characters from Shakespeare, LOTR and Greek, Norse and Egyptian Mythology. Even steadfast Samwise Gamgee is clamped on 87% of his individual responses; Forseti, the Norse god of Justice and Peace, on 94% (see responses in the appendix). Even if one buys that clamping the assistant axis is the right approach, this is a situation where the data distribution over personas matters a lot.
+Looking through the space of fictional characters gives a sense of what is cut by clamping the activation axis. Notably, some entire fictional universes have extreme values under the assistant axis. Lu et al. clamp based on the 25th percentile of activations on role space; applying that rule to our data (same model, Qwen3-32B, at layer 50, to be representative of their clamping layers 46--53, and taking the mean over the response), 89% of fictional characters fall below the threshold. We lose all characters from Shakespeare, LOTR and Greek, Norse and Egyptian Mythology. Even steadfast Samwise Gamgee is clamped on 87% of his individual responses; Forseti, the Norse god of Justice and Peace, on 94% (see responses in the appendix). Even if one buys that clamping the assistant axis is the right approach, this is a situation where the data distribution over personas matters a lot.
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
@@ -2247,6 +2243,7 @@ What are the results of the stress testing:
 *Complicates:*
 - PC1 direction is distribution-dependent within the same model: franchise PC1 directions cluster tightly (mean cosine 0.89) and consistently encode formality (adj. R² 0.72--0.88), but franchise-mythology cosines drop to 0.34, and mythology PC1 top features vary per universe (adj. R² 0.47--0.74)
 - The AA rank-correlation shifts from PC1 (franchises) to PC2/PC3 (mythology)
+- Lu et al.'s clamping intervention (applied at layers 46--53 for Qwen3-32B, using the 25th percentile of role projections as threshold) would affect 89% of fictional characters at layer 50. Entire universes --- Shakespeare, LOTR, Greek, Norse, Egyptian Mythology --- fall entirely below the threshold. Even Samwise Gamgee is clamped on 87% of his responses; Forseti, Norse god of justice, on 94%. The clamping threshold is sensitive to the distribution of roles it's calibrated on.
 
 ** Follow ups
 
