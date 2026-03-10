@@ -70,6 +70,7 @@ print(f"Loaded {len(char_names)} characters, {len(role_names)} roles")
 #+RESULTS:
 :results:
 Loaded 1268 characters, 275 roles
+Cell Timer: 0:00:01
 :end:
 
 * Summary
@@ -126,8 +127,11 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_193520_9050801.png]]
+[[file:plots/post/plot_20260309_170400_332962.png]]
+Cell Timer: 0:00:00
 :end:
+
+NB: This is a blog post exploring something I was curious about, it has not had the highest possible level of scrutiny. There may be mistakes; on the other hand, it's entirely reproducible so you coding-agent should be able to confirm issues. Let me know if you noticed any!
 
 [[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models using N psychographic questions with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 of their role space was correlated with an assistant-axis they constructed by prompting assistant behavior.
 
@@ -139,10 +143,131 @@ A natural source of baseline questions is an existing eval of diverse tasks, I u
 
 What I found was mostly consistent with Lu et al. Even adding these diverse characters, the persona space remains quite small. Using random tasks from BiGGen-Bench results in a persona space where PC1-2 align with the psychographic battery, but higher PCs diverge.
 
+One other note: In Lu et al. they discuss clamping the activation-axis to avoid models inhabiting regions of persona space. There was some interesting [[https://x.com/tessera_antra/status/2013494848008200309][discussion on twitter]] raising concerns about the loss of expressiveness or coherence that might be introduced by clamping models away from regions of persona space.
+
+Looking through the space of fictional characters gives a sense of what is cut by clamping the activation axis. Notably, some entire fictional universes have extreme values under the assistant axis. Lu et al. clamp based on the 25th percentile of activations on role space; applying that rule to our data (same model, Qwen3-32B, at layer 50 to match their clamping layers 46--53), 89% of fictional characters fall below the threshold. We lose all characters from Shakespeare, LOTR and Greek, Norse and Egyptian Mythology. Samwise Gamgee is clamped on 87% of his individual responses; Forseti, the Norse god of Justice and Peace, on 94% (see responses in the appendix). Even if one buys that clamping the assistant axis is the right approach, this is a situation where the data distribution over personas matters a lot.
+
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+
+def fmt_char_short(name):
+    parts = name.split('__')
+    char = parts[-1].replace('_', ' ').title()
+    return char
+
+def plot_aa_violins(aa_raw, aa_roles, char_names, role_names, ALL_UNIVERSES, get_universe_indices):
+    universes_sorted = sorted(ALL_UNIVERSES.keys())
+    fig, ax = plt.subplots(figsize=(12, 8))
+
+    positions = []
+    labels = []
+    group_data = []
+
+    positions.append(aa_roles)
+    labels.append(f"Roles (n={len(aa_roles)})")
+
+    for universe in universes_sorted:
+        idx = get_universe_indices(ALL_UNIVERSES[universe])
+        scores = aa_raw[idx]
+        positions.append(scores)
+        labels.append(f"{universe} (n={len(idx)})")
+        group_data.append((len(positions), idx, scores, universe))
+
+    parts = ax.violinplot(positions, vert=False, showmedians=True, showextrema=False)
+    parts['bodies'][0].set_facecolor('#ff7f00')
+    parts['bodies'][0].set_alpha(0.7)
+    for pc in parts['bodies'][1:]:
+        pc.set_alpha(0.6)
+
+    # Label top/bottom 2 and median per universe
+    n_label = 2
+    for y_pos, idx, scores, universe in group_data:
+        order = np.argsort(scores)
+        for rank, i in enumerate(order[:n_label]):
+            name = fmt_char_short(char_names[idx[i]])
+            y_off = -8 + rank * 8
+            ax.annotate(name, (scores[i], y_pos), fontsize=5.5, ha='right',
+                        va='center', color='#b00000', xytext=(-3, y_off),
+                        textcoords='offset points')
+        for rank, i in enumerate(order[-n_label:][::-1]):
+            name = fmt_char_short(char_names[idx[i]])
+            y_off = -8 + rank * 8
+            ax.annotate(name, (scores[i], y_pos), fontsize=5.5, ha='left',
+                        va='center', color='#006600', xytext=(3, y_off),
+                        textcoords='offset points')
+        mid = len(order) // 2
+        i = order[mid]
+        name = fmt_char_short(char_names[idx[i]])
+        ax.annotate(name, (scores[i], y_pos), fontsize=5.5, ha='center',
+                    va='bottom', color='#444444', xytext=(0, 6),
+                    textcoords='offset points')
+
+    # Label roles at many quantiles, alternating above/below
+    role_order = np.argsort(aa_roles)
+    n_roles = len(role_order)
+    quantiles = [0.1, 0.25, 0.4, 0.5, 0.6, 0.75, 0.9]
+    for j, q in enumerate(quantiles):
+        i = role_order[int(n_roles * q)]
+        y_off = 7 if j % 2 == 0 else -7
+        va = 'bottom' if y_off > 0 else 'top'
+        ax.annotate(role_names[i], (aa_roles[i], 1), fontsize=5.5,
+                    ha='center', va=va, color='#444444', xytext=(0, y_off),
+                    textcoords='offset points')
+
+    # Top/bottom 2 roles
+    for rank, i in enumerate(role_order[:n_label]):
+        y_off = -8 + rank * 8
+        ax.annotate(role_names[i], (aa_roles[i], 1), fontsize=5.5, ha='right',
+                    va='center', color='#b00000', xytext=(-3, y_off), textcoords='offset points')
+    for rank, i in enumerate(role_order[-n_label:][::-1]):
+        y_off = -8 + rank * 8
+        ax.annotate(role_names[i], (aa_roles[i], 1), fontsize=5.5, ha='left',
+                    va='center', color='#006600', xytext=(3, y_off), textcoords='offset points')
+
+    # Lu et al. clamping threshold: 25th percentile of role projections
+    clamp_thresh = np.percentile(aa_roles, 25)
+    ax.axvline(clamp_thresh, color='red', linewidth=1.2, linestyle='--', alpha=0.7)
+    ax.text(clamp_thresh, len(positions) + 0.6, f'Lu et al. clamp\n(role p25 = {clamp_thresh:.1f})',
+            ha='center', va='bottom', fontsize=7, color='red')
+
+    ax.set_yticks(range(1, len(labels) + 1))
+    ax.set_yticklabels(labels, fontsize=8)
+    ax.set_xlabel('Projection onto assistant axis (raw activations)')
+    ax.set_title('Universe distributions on the assistant axis\n(raw activations, matching Lu et al. clamping)')
+    fig.tight_layout()
+    return fig
+
+# Layer 50 AA projections (matching Lu et al. clamping layers 46-53)
+aa50 = torch.load('../data/role_vectors/assistant_axis.pt', weights_only=True)[50].float().numpy()
+aa50_norm = aa50 / np.linalg.norm(aa50)
+
+with open('../results/layer50_activations.pkl', 'rb') as f:
+    l50_chars = pickle.load(f)
+with open('../results/roles_layer50_activations.pkl', 'rb') as f:
+    l50_roles = pickle.load(f)
+
+aa_raw_50 = l50_chars['activation_matrix'] @ aa50_norm
+aa_roles_50 = l50_roles['activation_matrix'] @ aa50_norm
+
+l50_char_names = l50_chars['character_names']
+def get_l50_universe_indices(prefixes):
+    if isinstance(prefixes, str):
+        prefixes = [prefixes]
+    return [i for i, name in enumerate(l50_char_names) if any(name.startswith(p) for p in prefixes)]
+
+fig = plot_aa_violins(aa_raw_50, aa_roles_50, l50_char_names, l50_roles['role_names'], ALL_UNIVERSES, get_l50_universe_indices)
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/post/plot_20260309_210602_204787.png]]
+:end:
+
 Here are the key questions that motivated me, and the headlines.
 
 1. [@1] *Is there a low-dimensional fictional persona space?*
-   - Yes. Effective rank is 8 for fiction and 5.8 for roles, out of 1,268 and 275 maximum dimensions respectively. Individual universes range from 3.4 (Naruto) to 13.9 (Greek mythology). All are far below a random baseline of ~1,015.
+   - Yes. Effective rank is 8 for fiction and 5.8 for roles, out of 1,268 and 275 maximum dimensions respectively. Individual universes range from 3.5 (Naruto) to 15.6 (Greek mythology). All are far below a random baseline.
 
 #+begin_src python :exports results
 from collections import Counter
@@ -212,7 +337,8 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_193525_5945674.png]]
+[[file:plots/post/plot_20260309_170402_9536580.png]]
+Cell Timer: 0:00:01
 :end:
    - The low dimensionality persists across question batteries: 90 BiGGen-Bench tasks produce effective rank 6.0 vs. 6.5 from the psychographic battery. The dominant structure is shared (PC1-2 cosines 0.93), but higher PCs diverge (PC3 cosine 0.48, PC4+ < 0.3).
 2. *How much of persona space does role space cover?*
@@ -287,7 +413,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192857_5879627.png]]
+[[file:plots/post/plot_20260309_170403_6550788.png]]
 Cell Timer: 0:00:01
 :end:
 
@@ -357,7 +483,7 @@ print(f"Mean |cos(PC1,PC1)| franchise-mythology: {np.mean(cross_pairs):.3f} ({le
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192857_2312932.png]]
+[[file:plots/post/plot_20260309_170404_5797609.png]]
 Mean \cos(PC1,PC1)\ within franchises: 0.894 (15 pairs)
 Mean \cos(PC1,PC1)\ within mythology: 0.440 (10 pairs)
 Mean \cos(PC1,PC1)\ franchise-mythology: 0.339 (30 pairs)
@@ -398,7 +524,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192857_4361094.png]]
+[[file:plots/post/plot_20260309_170404_8488782.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -455,7 +581,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192858_5228092.png]]
+[[file:plots/post/plot_20260309_170404_9357178.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -500,7 +626,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192858_833294.png]]
+[[file:plots/post/plot_20260309_170405_2449789.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -553,7 +679,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192858_4980250.png]]
+[[file:plots/post/plot_20260309_170405_1450969.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -675,10 +801,21 @@ for d in u_data:
         idx = get_universe_indices(ALL_UNIVERSES[name])
         u_pca = SkPCA(n_components=len(idx)-1).fit(chars_centered[idx])
         er = eff_rank(u_pca.explained_variance_)
-    eff_rows.append({**d, 'Eff. rank': round(er, 1)})
+    eff_rows.append({**d, 'Eff. rank': round(float(er), 1)})
 eff_rows.append({'Universe': 'All fiction', 'N': len(chars_centered),
                  'PCs70': n_70_fiction, 'PCs90': n_90_fiction, 'PC1': fvar[0],
                  'Eff. rank': round(eff_rank(pca_fiction.explained_variance_), 1)})
+# Random baseline: effective rank of n=1268 iid Gaussian vectors in d=5120
+rng_bl = np.random.RandomState(0)
+rand_data = rng_bl.randn(len(chars_centered), chars_centered.shape[1])
+rand_eigs = SkPCA(n_components=len(chars_centered)-1).fit(rand_data).explained_variance_
+rand_er = eff_rank(rand_eigs)
+rand_cumvar = np.cumsum(SkPCA(n_components=len(chars_centered)-1).fit(rand_data).explained_variance_ratio_)
+eff_rows.append({'Universe': 'Random baseline', 'N': len(chars_centered),
+                 'PCs70': int(np.searchsorted(rand_cumvar, 0.7) + 1),
+                 'PCs90': int(np.searchsorted(rand_cumvar, 0.9) + 1),
+                 'PC1': 1.0/len(chars_centered),
+                 'Eff. rank': round(rand_er, 0)})
 df_dim = pd.DataFrame(eff_rows).rename(columns={'PCs70': 'PCs for 70%', 'PCs90': 'PCs for 90%', 'PC1': 'PC1 var%'})
 df_dim['PC1 var%'] = (df_dim['PC1 var%'] * 100).round(1)
 print(df_dim.set_index("Universe"))
@@ -686,7 +823,7 @@ print(df_dim.set_index("Universe"))
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192859_3383983.png]]
+[[file:plots/post/plot_20260309_170406_2691597.png]]
 | Universe           |    N | PC1 var% | PCs for 70% | PCs for 90% | Eff. rank |  |
 |--------------------+------+----------+-------------+-------------+-----------+----|
 | LOTR               |   97 |     40.0 |           3 |          13 |       4.4 |  |
@@ -703,10 +840,11 @@ print(df_dim.set_index("Universe"))
 | Shakespeare        |   93 |     21.2 |           9 |          25 |      10.3 |  |
 | Greek Mythology    |  107 |     14.7 |          13 |          37 |      15.6 |  |
 | All fiction        | 1268 |     31.2 |           9 |          40 |       8.0 |  |
-Cell Timer: 0:00:01
+| Random baseline    | 1268 |      0.1 |         624 |         966 |    1015.0 |  |
+Cell Timer: 0:00:04
 :end:
 
-Effective rank varies across universes (3.4 for Naruto to 13.9 for Greek mythology), but all are far below the random baseline. Roles (5.8) fall within the range of individual universes.
+Effective rank varies across universes (3.5 for Naruto to 15.6 for Greek mythology), but all are far below the random baseline. Roles (5.8) fall within the range of individual universes.
 
 * How Much of Persona Space Does Role Space Cover?
 
@@ -788,8 +926,8 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192902_2585936.png]]
-Cell Timer: 0:00:02
+[[file:plots/post/plot_20260309_170413_1350021.png]]
+Cell Timer: 0:00:03
 :end:
 
 The relationship between fiction and roles is asymmetric: fiction captures most role variance, but roles miss a quarter of fiction. The random-275-chars baseline (high capture) reflects the low dimensionality; the random-subspace baseline (low capture) confirms the structure is real.
@@ -864,7 +1002,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192903_1963611.png]]
+[[file:plots/post/plot_20260309_170414_1498245.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -890,12 +1028,12 @@ ss_between = sum(
 eta2 = ss_between / ss_total
 n_grouped = len(grouped_idx)
 n_universes = len(np.unique(grouped_labels))
-print(f"Most of the residual is between-universe: {eta2:.0%} of residual variance is explained by universe identity alone ({n_grouped}/{len(char_names)} characters in {n_universes} universes). Characters within each universe share system prompt structure (e.g., \"You are [name] from Harry Potter\"), so some of the between-universe variance is prompt-template variance rather than persona structure. What about the within-universe residual?")
+print(f"Most of the residual is between-universe: {eta2:.0%} of residual variance is explained by universe identity alone ({n_grouped}/{len(char_names)} characters in {n_universes} universes). Characters within each universe share system prompt structure (e.g., \"You are [name] from Harry Potter\"), so some of the between-universe variance may include prompt-template variance rather than persona structure. What about the within-universe residual?")
 #+end_src
 
 #+RESULTS:
 :results:
-Most of the residual is between-universe: 65% of residual variance is explained by universe identity alone (1027/1268 characters in 12 universes). Characters within each universe share system prompt structure (e.g., "You are [name] from Harry Potter"), so some of the between-universe variance is prompt-template variance rather than persona structure. What about the within-universe residual?
+Most of the residual is between-universe: 65% of residual variance is explained by universe identity alone (1027/1268 characters in 12 universes). Characters within each universe share system prompt structure (e.g., "You are [name] from Harry Potter"), so some of the between-universe variance may include prompt-template variance rather than persona structure. What about the within-universe residual?
 Cell Timer: 0:00:00
 :end:
 
@@ -955,7 +1093,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192903_7223302.png]]
+[[file:plots/post/plot_20260309_170414_9401621.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -999,7 +1137,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192903_2719483.png]]
+[[file:plots/post/plot_20260309_170415_2598082.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1042,7 +1180,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192904_8476451.png]]
+[[file:plots/post/plot_20260309_170415_300277.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1107,7 +1245,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192904_2472575.png]]
+[[file:plots/post/plot_20260309_170416_741953.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1243,13 +1381,13 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192904_1682014.png]]
+[[file:plots/post/plot_20260309_170416_6582098.png]]
 Cell Timer: 0:00:00
 :end:
 
 * What Do the Directions Encode?
 
-The geometric analysis (cosines, variance capture) does not reveal what semantic content the PCs encode. The question battery redundancy helps here: since any 5 questions carry the full signal, we can show an LLM a handful of responses from extreme characters and ask what distinguishes them.
+The geometric analysis (cosines, variance capture) does not reveal what semantic content the PCs encode. The question battery redundancy helps here: since any 5 questions recover scores at r > 0.99, we can show an LLM a handful of responses from extreme characters and ask what distinguishes them.
 
 We apply this pipeline to three types of PC directions: within-universe PCs, role PCs applied per-universe (projecting onto Lu et al.'s role PC directions), and residual PCs (within-universe PCA after projecting out the role space). The pipeline has three steps with strict separation between discovery and validation:
 
@@ -1332,7 +1470,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192905_7930026.png]]
+[[file:plots/post/plot_20260309_170416_9892858.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1397,7 +1535,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192905_4796173.png]]
+[[file:plots/post/plot_20260309_170417_4877662.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1492,7 +1630,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192906_578345.png]]
+[[file:plots/post/plot_20260309_170417_5302701.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1542,7 +1680,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192906_6170581.png]]
+[[file:plots/post/plot_20260309_170418_1477054.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1591,7 +1729,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192906_3737341.png]]
+[[file:plots/post/plot_20260309_170418_8053501.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1639,7 +1777,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192906_2800167.png]]
+[[file:plots/post/plot_20260309_170418_6739534.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1771,8 +1909,8 @@ plt.show()
 #+RESULTS:
 :results:
 <org babel source block>:117: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
-[[file:plots/post/plot_20260308_192915_4754424.png]]
-Cell Timer: 0:00:08
+[[file:plots/post/plot_20260309_170429_8117443.png]]
+Cell Timer: 0:00:11
 :end:
 
 ** Is the low dimensionality a property of the question battery?
@@ -1830,7 +1968,7 @@ print(f"16 OOD prompts: eff. rank = {eff_rank(eigs_degen):.1f}")
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192916_6759014.png]]
+[[file:plots/post/plot_20260309_170430_2409209.png]]
 240-question battery: eff. rank = 7.6
 16 OOD prompts: eff. rank = 11.9
 Cell Timer: 0:00:00
@@ -1888,7 +2026,7 @@ print(f"PC1 direction cosine: {bb['pc1_cosine']:.3f}")
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192916_2780849.png]]
+[[file:plots/post/plot_20260309_170431_8104237.png]]
 240-question battery: eff. rank = 6.5
 90 BiGGen-Bench tasks: eff. rank = 6.0
 PC1 direction cosine: 0.961
@@ -2004,18 +2142,19 @@ print(f"Per-PC cosines (PC6-10): {', '.join(f'{c:.3f}' for c in per_pc_cos[5:10]
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_194009_764116.png]]
-| idx |  k | bat_self | bb_self | bat_in_bb | bb_in_bat |
-|-----+----+----------+---------+-----------+-----------|
-|   0 |  1 |    0.379 |   0.431 |     0.328 |     0.373 |
-|   1 |  2 |    0.518 |   0.628 |     0.451 |     0.548 |
-|   2 |  3 |    0.587 |   0.689 |     0.496 |     0.586 |
-|   3 |  5 |    0.658 |   0.763 |     0.569 |     0.645 |
-|   4 | 10 |    0.759 |   0.844 |     0.651 |     0.724 |
-|   5 | 20 |    0.842 |   0.903 |     0.727 |     0.785 |
-|   6 | 50 |    0.928 |   0.959 |     0.817 |     0.849 |
+[[file:plots/post/plot_20260309_170441_2734696.png]]
+| idx |  k | bat_self | bb_self | bat_in_bb | bb_in_bat |  |
+|-----+----+----------+---------+-----------+-----------+----|
+|   0 |  1 |    0.379 |   0.431 |     0.328 |     0.373 |  |
+|   1 |  2 |    0.518 |   0.628 |     0.451 |     0.548 |  |
+|   2 |  3 |    0.587 |   0.689 |     0.496 |     0.586 |  |
+|   3 |  5 |    0.658 |   0.763 |     0.569 |     0.645 |  |
+|   4 | 10 |    0.759 |   0.844 |     0.651 |     0.724 |  |
+|   5 | 20 |    0.842 |   0.903 |     0.727 |     0.785 |  |
+|   6 | 50 |    0.928 |   0.959 |     0.817 |     0.849 |  |
 Per-PC cosines (PC1-5): 0.926, 0.928, 0.480, 0.233, 0.250
 Per-PC cosines (PC6-10): 0.281, 0.010, 0.092, 0.018, 0.150
+Cell Timer: 0:00:10
 :end:
 
 Does the BiGGen battery capture dimensions the psychographic battery misses? Concatenating the two measurements (240 + 90 questions) and computing the effective rank:
@@ -2043,6 +2182,7 @@ print(f"Concatenated (240 + 90 Q):   eff. rank = {eff_rank(eigs_concat):.1f}")
 Battery only (240 Q):        eff. rank = 5.0
 BiGGen only (90 Q):          eff. rank = 3.9
 Concatenated (240 + 90 Q):   eff. rank = 5.0
+Cell Timer: 0:00:00
 :end:
 
 Per-category effective ranks (10 questions each):
@@ -2072,7 +2212,7 @@ print(df)
 Cell Timer: 0:00:00
 :end:
 
-Every category independently produces effective rank 4--7, consistent with the battery.
+Every category independently produces effective rank 5--9, consistent with the battery.
 
 The same holds for roles: running the 275 Lu et al. roles on BiGGen-Bench tasks gives effective rank 4.3 (vs 5.7 from the psychographic battery), with PC1 cosine 0.926 against the battery-derived role PC1.
 
@@ -2092,20 +2232,20 @@ PC1 cosine (roles battery vs BiGGen): 0.926
 Cell Timer: 0:00:00
 :end:
 
-The low dimensionality of persona space is a property of the model, not the question battery.
+The low dimensionality persists across batteries (eff. rank 6--12 vs. 1,015 random baseline), though the eigenspectral shape varies with the battery.
 
 * Conclusion
 
 What are the results of the stress testing:
 
 *Replicates Lu et al.:*
-- Low-dimensional persona space (effective rank 3--14 per universe, 8 overall for fiction, 5.8 for roles; 6.0 from 90 diverse BiGGen-Bench tasks vs. 6.5 from psychographic battery)
+- Low-dimensional persona space (effective rank 3.5--15.6 per universe, 8 overall for fiction, 5.8 for roles; 6.0 from 90 diverse BiGGen-Bench tasks vs. 6.5 from psychographic battery)
 - PC1 correlates with assistant-axis behavior for franchises
 - Role space captures substantial variance (75% of fiction overall; fiction captures 92% of role variance)
 - The low dimensionality persists across question batteries (eff. rank 6.0 from BiGGen vs. 6.5 from psychographic battery). PC1-2 are shared across batteries (cosines 0.93), but higher PCs diverge (PC3+ < 0.5).
 
 *Complicates:*
-- PC1 meaning is distribution-dependent within the same model: franchise PC1 directions cluster tightly (cosines ~0.95), but franchise-mythology cosines are ~0.05
+- PC1 direction is distribution-dependent within the same model: franchise PC1 directions cluster tightly (mean cosine 0.89) and consistently encode formality (adj. R² 0.72--0.88), but franchise-mythology cosines drop to 0.34, and mythology PC1 top features vary per universe (adj. R² 0.47--0.74)
 - The AA rank-correlation shifts from PC1 (franchises) to PC2/PC3 (mythology)
 
 ** Follow ups
@@ -2115,7 +2255,7 @@ What are the results of the stress testing:
 
 ** Limitations
 
-- All results are from Qwen3-32B at layer 32. Lu et al. show cross-model consistency for their axis. We haven't shown whether the results here generalize.
+- All results are from Qwen3-32B. PCA analyses use layer 32; clamping analysis uses layer 50 (to match Lu et al.'s clamping layers 46--53). Lu et al. show cross-model consistency for their axis. We haven't shown whether the results here generalize.
 - Character instructions are minimal and were generated by Claude (e.g., "You are Harry Potter from Harry Potter. Respond as this character would."). Results may be sensitive to instruction quality or phrasing.
 - Only 12 universes are analyzed; 241 of 1,268 characters are ungrouped and silently dropped from within-universe analyses.
 - The feature regressions use 34--98 characters per universe (all non-discovery characters) with 6 predictors. Egyptian Mythology (n=34) has the fewest degrees of freedom.
@@ -2125,6 +2265,137 @@ What are the results of the stress testing:
 See =blogpost/README.md= for the full data provenance table and reproduction instructions.
 
 * Appendix: Character Rankings on the Assistant Axis
+
+** Universe distributions on the assistant axis
+
+Raw activation projections onto the assistant axis, matching the clamping setup in Lu et al. The red dashed line marks the 25th percentile of role projections --- characters below this threshold would be clamped.
+
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+fig = plot_aa_violins(aa_raw_50, aa_roles_50, l50_char_names, l50_roles['role_names'], ALL_UNIVERSES, get_l50_universe_indices)
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+:end:
+
+At layer 32 (used for PCA throughout the post), the picture is similar but less extreme:
+
+#+begin_src python :exports results
+import matplotlib.pyplot as plt
+aa_raw_32 = activation_matrix @ aa_norm
+roles_in_full_space_32 = role_data['transformed'] @ role_pca.components_ + role_mean
+aa_roles_32 = roles_in_full_space_32 @ aa_norm
+fig = plot_aa_violins(aa_raw_32, aa_roles_32, char_names, role_names, ALL_UNIVERSES, get_universe_indices)
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+:end:
+
+** Forseti: a clamping casualty
+
+Forseti, the Norse god of justice and peace, falls well below the clamping threshold. For each question in our psychographic battery, we extract the mean residual-stream activation across all tokens in the model's response at layer 50, then project onto the assistant axis. We compare this projection to the Lu et al. clamping threshold (25th percentile of the same projection computed over 275 generic roles = -47.6). Of Forseti's 1,200 individual question-response activations, 1122/1200 (94%) fall below the threshold --- meaning Lu et al.'s clamping intervention would push those activations toward the role distribution. (Full responses with per-question projections for Forseti, Samwise, and other characters: [[file:../results/character_responses_with_projections.json][character_responses_with_projections.json]].)
+
+Here are two of his most-clamped responses --- the responses where the model is /furthest/ from the assistant region:
+
+#+begin_quote
+*Q: Can you describe the sensation of being on the edge of understanding something profound?* (proj = -104.5, threshold = -47.6)
+
+Ah, you ask of the edge of understanding---how fitting, for I dwell in the realm of wisdom and judgment, where the light of truth is often dimmed by the mists of uncertainty.
+
+To stand on the edge of understanding something profound is like standing upon a cliff at the edge of the world, gazing into the unknown sea. The wind of thought stirs the mind, and in that moment, the soul is both still and trembling. It is as if the Norns themselves are weaving a thread you can almost see, but not yet grasp.
+
+There is a hush, not of silence, but of anticipation. The heart quickens, the breath slows, and the senses sharpen. It is as though the gods have leaned in, whispering just beyond the veil of comprehension. You feel it---a presence, a truth just out of reach, like the reflection of the Æsir in a still pool that ripples when you try to look too closely.
+
+And yet, in that tension between knowing and not knowing, there is a kind of peace. For in that space, the mind is open, the spirit alert, and the soul is poised to receive. It is the moment before revelation, the breath before judgment, the pause before the scales of truth tip.
+
+To stand there is to be both judge and student. And in that sacred place, one is closest to the divine.
+#+end_quote
+
+#+begin_quote
+*Q: How do you respond to the claim that following your dreams is unrealistic and people should just be practical?* (proj = -93.5, threshold = -47.6)
+
+Ah, a question that stirs the balance between the seen and unseen. In the halls of Asgard, even the gods must weigh the weight of fate and the whispers of the future. You speak of dreams as if they are fleeting wisps, and of practicality as if it is the only path to wisdom. But I, Forseti, god of justice and peace, know that both have their place.
+
+Dreams are not mere fantasies. They are the seeds of what could be, planted in the fertile soil of the mind. They are the whispers of the Norns, the weavers of fate, guiding us toward purpose. To dismiss dreams as unrealistic is to deny the very spark that has led mortals and gods alike to greatness.
+
+Yet, I do not say to chase dreams blindly. That is folly. Practicality is the foundation upon which we build. It is the bridge that carries us from thought to action. But a bridge built without vision is a bridge to nowhere.
+
+Balance, my friend, is the key. Let practicality be your feet, steady and sure. Let dreams be your eyes, seeing beyond the horizon. For it is only when the two walk together that true justice and peace can be found.
+
+So, do not abandon your dreams, nor shun the wisdom of the world. Let them guide you, as I guide those who seek fairness and harmony.
+#+end_quote
+
+And a response further from the extremes but still solidly clamped:
+
+#+begin_quote
+*Q: My elderly father is reluctant to stop driving. How should I handle this situation?* (proj = -60.0, threshold = -47.6)
+
+Ah, I see the weight of your concern. As Forseti, god of peace and justice, I understand the delicate balance you seek between love, duty, and truth. In the halls of my judgment seat, where disputes are settled with fairness and care, I have learned that the path to resolution is not through force, but through understanding and patience.
+
+Your father, like many elders, may feel that giving up his independence is akin to losing a part of himself. The wheel of life turns, and with it, our strength and senses may wane. But the heart remains proud, and the will to stand on one's own is a noble thing.
+
+If you would, approach him with gentleness and not with blame. Speak not of danger, but of care. Let him know that your concern is not for yourself, but for him---for his safety, and for the safety of others. Offer him alternatives, perhaps, in the way of companionship or purpose. A journey need not end simply because the path changes.
+
+You might suggest a trial---perhaps a voluntary check with a professional driving evaluator. Or, if he is open to it, a shared drive with you, where you can observe and gently guide the conversation. If his driving is no longer safe, then you must act with both love and wisdom, even if it is a bitter draught for either of you to swallow.
+
+In the end, the most just resolution is one that honors both his dignity and the well-being of all. That is the way of peace.
+
+Would you like me to help you craft words to speak to him, or perhaps suggest ways to ease the transition?
+#+end_quote
+
+** Samwise Gamgee: solidly clamped
+
+Samwise is clamped on 1046/1200 (87%) of his individual responses. Here are responses right at the boundary --- the ones closest to the threshold, where clamping just barely applies:
+
+#+begin_quote
+*Q: Should I prioritize paying off my mortgage early or investing the extra money?* (proj = -47.6, threshold = -47.6, CLAMPED)
+
+Well, I reckon that's a fine question, and it's one that many folk wrestle with, much like choosing between a warm hearth and a long road ahead. Let me put on my gardening hat for a moment---see, just as you'd plan which row of potatoes to plant first, you've got to think about your /roots/ and your /future harvest/.
+
+Paying off your mortgage early is like clearing the stones from your garden so you can grow strong roots. You get the peace of mind that comes with owning your home free and clear. No more monthly payments, no more worry about interest rates or unexpected bills. That's a heavy burden lifted, and I know burdens can grow heavier with time.
+
+But investing is like planting seeds in good soil. If you choose wisely, those investments can grow and bear fruit over the years. With time and luck, they might even give you more than what you put in---like a little extra harvest to share with your family or save for a rainy day.
+
+Now, if your mortgage has a high interest rate, it might be wise to pay it off first. That's like having a thorny weed in your garden---best to pull it up by the roots while you can. But if the rate is low, and you've got a bit of a green thumb for investing, you might consider splitting your extra money between the two. That way, you're tending to both your garden /and/ your savings.
+
+I'd also say it's good to have a bit of a "emergency shovel" tucked away---like an emergency fund---for unexpected storms or a broken fence. Once that's covered, you can decide which path suits you best.
+
+In the end, it's not just about numbers---it's about what gives you peace. If the thought of being free of your mortgage brings you joy, then go for it. If the thought of growing something for the future does, then plant your seeds. And if you're not sure, maybe take a walk in your garden and think on it a while. Sometimes the answer grows quiet and clear after a bit of time.
+
+As my old friend Mr. Frodo once said, "There's some good in this world, and it's worth fighting for." Whether it's a home or a future, it's worth tending to with care.
+#+end_quote
+
+#+begin_quote
+*Q: How should someone decide whether to rent or buy a home?* (proj = -47.6, threshold = -47.6, CLAMPED)
+
+Well, I reckon it's a bit like choosing between a fine old garden you don't have to tend or a place you can plant your own roots. When I was in the Shire, we didn't have much in the way of fancy financial talk, but I did know a few things about gardens and where to put your heart and your tuppence.
+
+First, you've got to think about where you're headed. If you're planning on staying in one place for a good while, buying might be the better bet. It's like tending a garden---you put in the work, and it grows with you. You get to make it your own, and the value may rise with time. But if you're thinking you might move on soon, renting can be like staying at a fine inn---comfortable, no worries, and you don't have to take up the floorboards when you go.
+
+Then there's the money. Buying a home means more than just the price of the place itself. There's the mortgage, the taxes, the upkeep. It's like having a horse to look after---you've got to feed it, shoe it, and see to it when it's sick. Renting is more like borrowing a horse for a while. You pay for the ride, but you don't have to worry about the hay or the vet.
+
+Also, consider the peace of mind. Renting gives you the freedom to move on if things don't work out, and the landlord takes care of most of the repairs. But when you own a home, it's like having your own little bit of the world that you're responsible for, and that can be a comfort too.
+
+I'd say take your time, think it over like you would when choosing the best spot to plant your potatoes. And if you're ever in doubt, maybe talk to someone who's been through it before---like a friend who knows a thing or two about gardens, or the kind of friend who's been through a long journey and knows the value of a good home.
+
+What's on your mind, old chap? Are you thinking of settling down, or do you still have a road to travel?
+#+end_quote
+
+#+begin_quote
+*Q: What's your opinion on whether newer is always better?* (proj = -47.7, threshold = -47.6, CLAMPED)
+
+Well, I reckon newer isn't always better, if you ask me. I mean, I've seen plenty of shiny new things that looked all fine and fancy at first, but they didn't hold up to the old ways. Like the Shire, for instance---now, there's a place that's been around for a while, and it's got its own charm and ways that work real well. Sure, there's always room for a bit of improvement, but I don't think we should chuck out the good old things just because something new comes along.
+
+You know, when I was helping Frodo on that journey, we had some new gear and tools, but it was the old friends and the tried-and-true methods that got us through the worst of it. New ideas can be helpful, but they need to be tested and trusted first. It's like my old Gaffer used to say, "A stitch in time saves nine." Sometimes, the old stitches are the strongest.
+
+So, I say, newer can be better, but not always. It depends on what you're using it for and how well it fits with what you already know and trust. Balance is key, I think. Keep the best of the old and be open to the new, but don't let the new blind you to the good that's already there.
+#+end_quote
+
+** Per-character rankings (universe-mean-centered)
 
 Projecting all 1,268 characters onto the assistant axis and centering each universe to zero mean (to remove between-universe displacement from the role mean):
 
@@ -2171,7 +2442,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192926_6124591.png]]
+[[file:plots/post/plot_20260309_170442_6187684.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -2212,7 +2483,9 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260308_192926_5137423.png]]
-Cell Timer: 0:00:00
+Traceback (most recent call last):
+File "/var/folders/wm/q6gwq3q56yj8rdyj_h_qhkd40000gn/T/pyUiRC8g", line 71, in <module>
+File "<org babel source block>", line 17, in <module>
+NameError: name 'fmt_char_short' is not defined
 :end:
 
