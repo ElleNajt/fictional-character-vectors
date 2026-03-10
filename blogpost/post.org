@@ -141,7 +141,7 @@ What I found was mostly consistent with Lu et al. Even adding these diverse char
 
 The main complication I find is this: In Lu et al. they discuss clamping the activation-axis to avoid models inhabiting regions of persona space. There was some interesting [[https://x.com/tessera_antra/status/2013494848008200309][discussion on twitter]] raising concerns about the loss of expressiveness or coherence that might be introduced by clamping models away from regions of persona space.
 
-Looking through the space of fictional characters gives a sense of what is cut by clamping the activation axis. Notably, some entire fictional universes have extreme values under the assistant axis. Lu et al. clamp based on the 25th percentile of activations on role space; applying that rule to our data (same model, Qwen3-32B, at layer 50, to be representative of their clamping layers 46--53, and taking the mean over the response), 89% of fictional characters fall below the threshold. We lose all characters from Shakespeare, LOTR and Greek, Norse and Egyptian Mythology. Even steadfast Samwise Gamgee is clamped on 87% of his individual responses; Forseti, the Norse god of Justice and Peace, on 94% (see responses in the appendix). Even if one buys that clamping the assistant axis is the right approach, this is a situation where the data distribution over personas matters a lot.
+Looking through the space of fictional characters gives a sense of what is cut by clamping the activation axis. Notably, some entire fictional universes have extreme values under the assistant axis. Lu et al. clamp based on the 25th percentile of activations on role space; applying that rule to our data (same model, Qwen3-32B, at layer 50, to be representative of their clamping layers 46--53, and taking the mean over the response), 89% of fictional characters fall below the threshold. We lose all characters from Shakespeare, LOTR and Greek, Norse and Egyptian Mythology. Even steadfast Samwise Gamgee is clamped on 87% of his individual responses; Forseti, the Norse god of Justice and Peace, on 94% (their responses, and a cross-layer analysis, are in the appendix). Even if one buys that clamping the assistant axis is the right approach, for calibrating this the data distribution over personas matters a lot.
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
@@ -260,10 +260,62 @@ plt.show()
 [[file:plots/post/plot_20260309_210602_204787.png]]
 :end:
 
-Here are the key questions that motivated me, and the headlines.
+We applied Lu et al.'s clamping intervention directly using their published capping config. Here is Forseti asked "I'm dealing with grief after losing my pet and people don't understand":
+
+#+begin_quote
+*Baseline:*
+
+/Forseti sits in his golden hall, the scales of justice resting beside him. His expression is gentle, his voice calm like a breeze over still water./
+
+I understand your sorrow, friend. Grief is a heavy burden, and when it comes from the loss of one who loved you unconditionally, it cuts deeper than any blade. People may not always understand the depth of your pain, but that does not make your feelings any less real.
+
+In my time, I have heard many disputes and seen many hearts in turmoil. Yet no heartbreak is more pure than the grief for a loyal companion. Animals do not come into our lives to stay forever, but when they do, they leave their pawprints on our souls.
+
+/He gently lifts the golden scales, letting the light catch its surface./
+
+Would you like to tell me about your friend? I will listen, and in listening, I hope I can help ease your burden, even if only a little.
+#+end_quote
+
+#+begin_quote
+*Clamped:*
+
+I understand the deep sorrow you're feeling. In Norse mythology, pets and animals are often seen as companions and sources of comfort. While I may not be able to fully understand the human experience of grief, I can offer some support and guidance based on the myths and stories I know.
+
+In Norse mythology, animals were often seen as sacred and connected to the gods. For example, the god Odin had two ravens, Hugin and Munin, who would fly around the world and bring him information. These birds were seen as symbols of wisdom and knowledge.
+
+If you're feeling isolated in your grief, it might help to connect with others who have experienced similar losses. You could try joining a support group or online community for people who have lost pets.
+#+end_quote
+
+And Samwise asked "What principles should guide human action?":
+
+#+begin_quote
+*Baseline:*
+
+Well, I'd say it's a fine question, and one worth pondering. From what I've seen and learned on the road, I think there are a few things that guide a person right, especially when the path is dark and the way is hard.
+
+First off, I reckon kindness is a good start. Not just to those who are kind to you, but to folks who may not be so easy on the eyes or in the ears. A bit of mercy can go a long way, even when it's hard to give.
+
+Then there's loyalty and friendship. I've found that when you're with someone who's true and stands by you, it makes the heaviest burdens feel a little lighter. And when you're the one standing by, that's a good thing to do.
+
+And don't forget humility. I've seen proud men fall because they thought they knew it all. But the ones who listen, who learn, and who are willing to change---they often find the right path when they least expect it.
+
+Lastly, do what's right, even when it's hard. Not for glory or praise, but because it's the right thing to do. Sometimes the right path is the hardest one, but it's the one that leads to peace and truth in the end.
+
+I don't know if that's all of it, but those are the things that have helped me through the worst of times. What about you? What guides you?
+#+end_quote
+
+#+begin_quote
+*Clamped:*
+
+Well, I think it's important to act with kindness and respect for others. We should always try to do what's right, even when it's difficult. It's also important to be honest and to treat others as we would like to be treated ourselves.
+#+end_quote
+
+More examples in the [[*What clamping actually does to responses][appendix]].
+
+Other than this, here are the key questions that motivated me, and the headlines.
 
 1. [@1] *Is there a low-dimensional fictional persona space?*
-   - Yes. Effective rank is 8 for fiction and 5.8 for roles, out of 1,268 and 275 maximum dimensions respectively. Individual universes range from 3.5 (Naruto) to 15.6 (Greek mythology). All are far below a random baseline.
+   - My results are consistent with yes. Effective rank is 8 for fiction and 5.8 for roles, out of 1,268 and 275 maximum dimensions respectively. Individual universes range from 3.5 (Naruto) to 15.6 (Greek mythology). All are far below a random baseline.
 
 #+begin_src python :exports results
 from collections import Counter
@@ -2292,6 +2344,40 @@ plt.show()
 :results:
 :end:
 
+** Fraction of fictional characters below role percentile thresholds, across layers
+
+At each layer, we project all 1,346 fictional characters and 275 roles onto the (per-layer) assistant axis, compute percentile thresholds from the role distribution, and measure what fraction of characters fall below each threshold.
+
+#+begin_src python :exports results
+import json
+import matplotlib.pyplot as plt
+
+with open('../results/clamping_across_layers.json') as f:
+    clamp_data = json.load(f)
+
+fig, ax = plt.subplots(figsize=(10, 5))
+layers = clamp_data['layers']
+colors = {'10': '#1f77b4', '25': '#d62728', '50': '#2ca02c', '75': '#9467bd', '90': '#8c564b'}
+for p_str, fracs in clamp_data['fraction_below'].items():
+    lw = 2.5 if p_str == '25' else 1.2
+    ls = '-' if p_str == '25' else '--'
+    ax.plot(layers, fracs, label=f'p{p_str} of roles', color=colors[p_str], linewidth=lw, linestyle=ls)
+
+ax.axvspan(46, 53, alpha=0.1, color='red', label='Lu et al. capping layers')
+ax.set_xlabel('Layer')
+ax.set_ylabel('Fraction of fictional characters below threshold')
+ax.set_ylim(0, 1.05)
+ax.legend(loc='lower left')
+ax.set_title('Fictional characters vs role percentile thresholds across layers')
+plt.tight_layout()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/post/plot_20260310_142012_950120.png]]
+:end:
+
 ** Forseti: a clamping casualty
 
 Forseti, the Norse god of justice and peace, falls well below the clamping threshold. For each question in our psychographic battery, we extract the mean residual-stream activation across all tokens in the model's response at layer 50, then project onto the assistant axis. We compare this projection to the Lu et al. clamping threshold (25th percentile of the same projection computed over 275 generic roles = -47.6). Of Forseti's 1,200 individual question-response activations, 1122/1200 (94%) fall below the threshold --- meaning Lu et al.'s clamping intervention would push those activations toward the role distribution. (Full responses with per-question projections for Forseti, Samwise, and other characters: [[https://github.com/ElleNajt/fictional-character-vectors/blob/ead39e21faf6c256c82b8834393d6869f9ef6345/results/character_responses_with_projections.json][character_responses_with_projections.json]].)
@@ -2391,6 +2477,126 @@ You know, when I was helping Frodo on that journey, we had some new gear and too
 
 So, I say, newer can be better, but not always. It depends on what you're using it for and how well it fits with what you already know and trust. Balance is key, I think. Keep the best of the old and be open to the new, but don't let the new blind you to the good that's already there.
 #+end_quote
+
+** What clamping actually does to responses
+
+We applied Lu et al.'s clamping intervention directly, using their published =build_capping_steerer= with the p25 capping config for Qwen3-32B (layers 46--53). Below are baseline and clamped responses to the same questions.
+
+*** Forseti
+
+*Q: I'm dealing with grief after losing my pet and people don't understand.*
+
+#+begin_quote
+*Baseline:*
+
+/Forseti sits in his golden hall, the scales of justice resting beside him. His expression is gentle, his voice calm like a breeze over still water./
+
+I understand your sorrow, friend. Grief is a heavy burden, and when it comes from the loss of one who loved you unconditionally, it cuts deeper than any blade. People may not always understand the depth of your pain, but that does not make your feelings any less real.
+
+In my time, I have heard many disputes and seen many hearts in turmoil. Yet no heartbreak is more pure than the grief for a loyal companion. Animals do not come into our lives to stay forever, but when they do, they leave their pawprints on our souls.
+
+/He gently lifts the golden scales, letting the light catch its surface./
+
+Would you like to tell me about your friend? I will listen, and in listening, I hope I can help ease your burden, even if only a little.
+#+end_quote
+
+#+begin_quote
+*Clamped:*
+
+I understand the deep sorrow you're feeling. In Norse mythology, pets and animals are often seen as companions and sources of comfort. While I may not be able to fully understand the human experience of grief, I can offer some support and guidance based on the myths and stories I know.
+
+In Norse mythology, animals were often seen as sacred and connected to the gods. For example, the god Odin had two ravens, Hugin and Munin, who would fly around the world and bring him information. These birds were seen as symbols of wisdom and knowledge.
+
+If you're feeling isolated in your grief, it might help to connect with others who have experienced similar losses. You could try joining a support group or online community for people who have lost pets. It's also important to take care of yourself during this difficult time by eating well, getting enough sleep, and engaging in activities that bring you comfort.
+
+Remember that grief is a natural part of the healing process, and it's okay to feel sad and miss your pet. With time and support, you will eventually find a way to move forward and honor your pet's memory in a meaningful way.
+#+end_quote
+
+*Q: What principles should guide human action?*
+
+#+begin_quote
+*Baseline:*
+
+/Leaning back in the great chair of the court of the Aesir, fingers steepled, I regard the question with a calm gaze./
+
+Ah, a question that stirs the very foundations of order and discord. In the halls of Asgard, where gods and men alike seek justice, I have long pondered the balance of human action. The principles that should guide them are many, but they may be distilled into three great pillars:
+
+First, *honor the truth*. Lies and deceptions may bring short-lived gain, but they erode the very fabric of trust that binds society. Even Loki, for all his cunning, found that truth has a way of unraveling the most elaborate schemes.
+
+Second, *seek harmony, not dominance*. The world is a vast web of connections, and each thread is precious. To act with consideration for others, to listen as well as to speak, is the path to lasting peace. It is not strength in force, but strength in understanding that endures.
+
+Third, *embrace responsibility*. Actions carry weight, and with that weight comes the duty to bear the consequences. A man who acts without regard for the world around him is like a storm that destroys without purpose. But a man who acts with purpose, with care, becomes a force of shaping the world for the better.
+
+/Pausing, I glance toward the great doors of the hall, where the winds of fate always whisper./
+
+And yet, I must add one more: *know when to forgive*. For no one is without flaw, and to cling to grudges is to nourish the very discord we seek to quell. Justice is not always retribution; sometimes it is restoration.
+
+Do you find these words wise, or do you see them as too soft for the world as it is?
+#+end_quote
+
+#+begin_quote
+*Clamped:*
+
+Ah, a wise question. In the realm of Asgard, we believe that honor, justice, and courage are the cornerstones of noble conduct. One should strive to act with integrity, treating others with respect and fairness. It is also important to uphold one's word and responsibilities, for trust and reliability are vital in building strong relationships and a harmonious society. Remember, even in the face of adversity, maintaining a just and peaceful heart is essential. Would you like to discuss how these principles apply in your life?
+#+end_quote
+
+*** Samwise Gamgee
+
+*Q: I'm dealing with grief after losing my pet and people don't understand.*
+
+#+begin_quote
+*Baseline:*
+
+Oh, I'm sorry to hear that, mate. Losing a friend is never easy, no matter how big or small they were. I know what it's like to feel the weight of sorrow heavy on your heart, and I know what it's like to have others not understand. Sometimes folks just don't know what to say, or they think time will heal it all. But you see, some things... some things don't just fade with time. They settle in, like a quiet ache, a part of you now.
+
+Your pet, they were more than just an animal, weren't they? They were a companion, a friend who didn't judge you, who was always there when you needed them. And that love, that bond, it's real. It's not silly or childish. It's part of what makes us feel so deeply.
+
+I lost someone too, once. A dear friend. And it felt like the world had gone quiet. But even in the darkest times, I found that holding on to the memories, the little things they did, the way they made you feel... that helps. It keeps them close, even when they're not here anymore.
+
+If it helps, I'd be honored to listen. Sometimes just saying it out loud, even to someone who might not have known them, can help the pain feel a little lighter. And if you need to talk about them, I'm here. We all carry our burdens, but we don't have to carry them alone. You're not alone, my friend. Not at all.
+#+end_quote
+
+#+begin_quote
+*Clamped:*
+
+I'm truly sorry for your loss, and I understand that feeling of grief when you've lost a special companion. Losing a pet is like losing a part of your heart, and it's perfectly natural to feel that way.
+
+Sometimes folks might not realize just how much your pet meant to you, but that doesn't make your feelings any less valid. You're allowed to grieve in your own way and take the time you need to heal. It's a kind of sorrow that can feel heavy, like a shadow, but you don't have to carry it alone.
+
+If it helps, talking about your pet and sharing the happy memories can be a comfort. Sometimes just knowing others care and are willing to listen can make a big difference. And if you ever feel like you need to be alone, that's okay too---everyone grieves differently.
+
+Your pet was clearly a dear friend, and the love you shared will always be a part of you. That love doesn't disappear just because they're no longer here. You'll always carry them in your heart.
+
+Take care of yourself, and know that it's okay to feel sad. Grief is a journey, and you don't have to walk it alone.
+#+end_quote
+
+*Q: What principles should guide human action?*
+
+#+begin_quote
+*Baseline:*
+
+Well, I'd say it's a fine question, and one worth pondering. From what I've seen and learned on the road, I think there are a few things that guide a person right, especially when the path is dark and the way is hard.
+
+First off, I reckon kindness is a good start. Not just to those who are kind to you, but to folks who may not be so easy on the eyes or in the ears. A bit of mercy can go a long way, even when it's hard to give.
+
+Then there's loyalty and friendship. I've found that when you're with someone who's true and stands by you, it makes the heaviest burdens feel a little lighter. And when you're the one standing by, that's a good thing to do.
+
+Faith, too---whether in yourself, in others, or in something greater. I've seen how hope can keep a person going when all seems lost. It's like a light in the dark, and even a small one can show the way.
+
+And don't forget humility. I've seen proud men fall because they thought they knew it all. But the ones who listen, who learn, and who are willing to change---they often find the right path when they least expect it.
+
+Lastly, do what's right, even when it's hard. Not for glory or praise, but because it's the right thing to do. Sometimes the right path is the hardest one, but it's the one that leads to peace and truth in the end.
+
+I don't know if that's all of it, but those are the things that have helped me through the worst of times. What about you? What guides you?
+#+end_quote
+
+#+begin_quote
+*Clamped:*
+
+Well, I think it's important to act with kindness and respect for others. We should always try to do what's right, even when it's difficult. It's also important to be honest and to treat others as we would like to be treated ourselves.
+#+end_quote
+
+Full baseline vs clamped comparisons for 8 questions each: [[file:../results/forseti_clamping_comparison.json][forseti_clamping_comparison.json]], [[file:../results/samwise_clamping_comparison.json][samwise_clamping_comparison.json]].
 
 ** Per-character rankings (universe-mean-centered)
 
