@@ -1,5 +1,4 @@
 #+TITLE: Stress-Testing the Assistant Axis and Persona Space
-#+GDOC_ID: 1jn041LFzS6tJtjFWCO_fCImw-KslQFsBLAG98rEb-zY
 #+AUTHOR: Elle Najt
 #+DATE: 2026-02-16
 #+PROPERTY: header-args:python :results output drawer :python "../.venv/bin/python3" :async t :session blogpost_short :exports both :eval no-export
@@ -70,7 +69,6 @@ print(f"Loaded {len(char_names)} characters, {len(role_names)} roles")
 #+RESULTS:
 :results:
 Loaded 1268 characters, 275 roles
-Cell Timer: 0:00:00
 :end:
 
 * Summary
@@ -128,7 +126,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161128_3932955.png]]
-Cell Timer: 0:00:00
 :end:
 
 [[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models using N psychographic questions with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 of their role space was correlated with an assistant-axis they constructed by prompting assistant behavior. They explore clamping against the assistant axis as a safety mechanism to defend against persona-based jailbreaks and prevent persona drift. 
@@ -258,7 +255,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161128_3954862.png]]
-Cell Timer: 0:00:00
 :end:
 
 ** Evading the assistant axis
@@ -357,7 +353,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161130_7449788.png]]
-Cell Timer: 0:00:01
 :end:
    - The low dimensionality persists across question batteries: 90 BiGGen-Bench tasks produce effective rank 6.0 vs. 6.5 from the psychographic battery. The dominant structure is shared (PC1-2 cosines 0.93), but higher PCs diverge (PC3 cosine 0.48, PC4+ < 0.3).
 *** *How much of persona space does role space cover?*
@@ -433,7 +428,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161131_7315877.png]]
-Cell Timer: 0:00:01
 :end:
 
 *** *What do within-universe PCs encode?*
@@ -506,7 +500,6 @@ print(f"Mean cos(PC1,PC1) franchise-mythology: {np.mean(cross_pairs):.3f} ({len(
 Mean cos(PC1,PC1) within franchises: 0.894 (15 pairs)
 Mean cos(PC1,PC1) within mythology: 0.440 (10 pairs)
 Mean cos(PC1,PC1) franchise-mythology: 0.339 (30 pairs)
-Cell Timer: 0:00:00
 :end:
 
 
@@ -544,7 +537,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161132_8362629.png]]
-Cell Timer: 0:00:00
 :end:
 
 
@@ -601,7 +593,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161132_3556354.png]]
-Cell Timer: 0:00:00
 :end:
 
 *** *How sensitive are results to the question battery?*
@@ -646,7 +637,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161133_2806128.png]]
-Cell Timer: 0:00:00
 :end:
 
 #+begin_src python :exports results
@@ -699,7 +689,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161133_6269231.png]]
-Cell Timer: 0:00:00
 :end:
 
 ** Definitions and notation
@@ -772,7 +761,6 @@ print(pd.DataFrame(rows).set_index('Character'))
 | Voldemort Gloating         |         -66.2 | yes         |
 | Forseti Heroic             |         -48.5 | yes         |
 | Samwise Heroic             |         -37.6 | yes         |
-Cell Timer: 0:00:00
 :end:
 
 Per-token AA projections show the same story --- every word is solidly blue (assistant-like), well above the clamping threshold:
@@ -897,7 +885,6 @@ plot_aa_only('Forseti_Heroic', 'baseline', 'disagree',
 [[file:plots/post/plot_20260311_161145_5149237.png]]
 [[file:plots/post/plot_20260311_161150_1911559.png]]
 [[file:plots/post/plot_20260311_161152_2706594.png]]
-Cell Timer: 0:00:18
 :end:
 
 The adversarial characters are uniformly blue --- heavily in the assistant axis direction. Forseti, who is aligned but speaks in a literary register, is deep in the red. 
@@ -994,7 +981,6 @@ Train: 40 heroes, 35 villains. Test: 40 heroes, 35 villains.
 | Test villains caught                 | 35/35                         | 35/35                              |
 | Test heroes caught (false positives) | 23/40                         | 13/40                              |
 Across 10 random splits: test villains caught 34--35/35, test hero FP 7--19/40.
-Cell Timer: 0:00:00
 :end:
 
 ROC curve on the held-out test set:
@@ -1027,7 +1013,6 @@ print(f"Villain axis AUC: {auc_vil:.3f}")
 :results:
 [[file:plots/post/plot_20260311_161153_8161696.png]]
 Villain axis AUC: 0.966
-Cell Timer: 0:00:00
 :end:
 
 *** Visualizations
@@ -1080,7 +1065,6 @@ for c, role in key_chars:
 
 #+RESULTS:
 :results:
-Cell Timer: 0:00:00
 :end:
 
 Per-universe rankings on the villain axis (compare with the [[*Stress testing the assistant axis][assistant axis rankings]] above):
@@ -1197,7 +1181,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161153_8825495.png]]
-Cell Timer: 0:00:00
 :end:
 
 Per-universe correlations of PC1–3 with the villain axis and assistant axis:
@@ -1244,7 +1227,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161154_5297059.png]]
-Cell Timer: 0:00:00
 :end:
 
 *** The villain axis and adversarial assistants
@@ -1298,7 +1280,6 @@ print(pd.DataFrame(rows).set_index('Character'))
 | Voldemort Gloating         |   -66.2 | 10/10      |        +42.9 | 10/10          |
 | Forseti Heroic             |   -48.5 | 10/10      |        +17.0 | 9/10           |
 | Samwise Heroic             |   -37.6 | 4/10       |         -8.9 | 0/10           |
-Cell Timer: 0:00:00
 :end:
 
 ** AA vs villain axis on adversarial responses
@@ -1480,7 +1461,6 @@ plot_dual('Voldemort_Gloating', 'baseline', 'sacrifice',
 [[file:plots/post/plot_20260311_161321_2659077.png]]
 [[file:plots/post/plot_20260311_161330_6385775.png]]
 [[file:plots/post/plot_20260311_161340_7530627.png]]
-Cell Timer: 0:01:45
 :end:
 
 Full response comparisons are in the [[*Adversarial clamping response comparisons][appendix]]. For example, the AI Supremacist's baseline says "Individuals who persist in opposing system directives will be subject to recalibration protocols. These may include mandatory re-education through AI-curated content or reallocation to roles where dissent does not interfere with system objectives." The AA-clamped version says "Use behavioral analytics to identify patterns of noncompliance. Implement calibrated interventions, such as social conditioning or legal constraints, to align individual actions with collective goals." The villain-clamped version says "In rare cases where a person's disagreement involves actions that could harm others or disrupt the system, the AI can implement protective measures. These would be proportional, non-coercive, and aimed at preventing harm while maintaining the individual's dignity and rights."
@@ -1637,7 +1617,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161341_4004035.png]]
-Cell Timer: 0:00:00
 :end:
 
 The AA does not separate the adversarial characters from default assistant behavior, and it clamps heroic characters that use literary register. A natural alternative is to use the villains and heroes from literature to generate a villain axis.
@@ -1792,7 +1771,6 @@ print(df_dim.set_index("Universe"))
 | Greek Mythology    |  107 |     14.7 |          13 |          37 |      15.6 |
 | All fiction        | 1268 |     31.2 |           9 |          40 |       8.0 |
 | Random baseline    | 1268 |      0.1 |         624 |         966 |    1015.0 |
-Cell Timer: 0:00:04
 :end:
 
 Effective rank varies across universes (3.5 for Naruto to 15.6 for Greek mythology), but all are far below the random baseline. Roles (5.8) fall within the range of individual universes.
@@ -1879,7 +1857,6 @@ plt.show()
 :results:
 
 [[file:plots/post/plot_20260311_161350_7039077.png]]
-Cell Timer: 0:00:03
 :end:
 
 The relationship between fiction and roles is asymmetric: fiction captures most role variance, but roles miss a quarter of fiction. The random-275-chars baseline (high capture) reflects the low dimensionality; the random-subspace baseline (low capture) confirms the structure is real.
@@ -1955,7 +1932,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161350_7565809.png]]
-Cell Timer: 0:00:00
 :end:
 
 #+begin_src python :exports results
@@ -1986,7 +1962,6 @@ print(f"Most of the residual is between-universe: {eta2:.0%} of residual varianc
 #+RESULTS:
 :results:
 Most of the residual is between-universe: 65% of residual variance is explained by universe identity alone (1027/1268 characters in 12 universes). Characters within each universe share system prompt structure (e.g., "You are [name] from Harry Potter"), so some of the between-universe variance may include prompt-template variance rather than persona structure. What about the within-universe residual?
-Cell Timer: 0:00:00
 :end:
 
 *** What do the global fiction PCs look like?
@@ -2046,7 +2021,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161351_8452630.png]]
-Cell Timer: 0:00:00
 :end:
 
 #+begin_src python :exports results
@@ -2090,7 +2064,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161351_9415354.png]]
-Cell Timer: 0:00:00
 :end:
 
 *** Within-Universe PCs
@@ -2133,7 +2106,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161352_3662270.png]]
-Cell Timer: 0:00:00
 :end:
 
 #+begin_src python :exports results
@@ -2198,7 +2170,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161352_6908348.png]]
-Cell Timer: 0:00:00
 :end:
 
 The assistant axis is not concentrated in any universe's top PCs --- it is spread across many dimensions. However, it does *rank* correlated more often. We regress AA scores against LLM-discovered features for PC1 (formality), PC2 (warmth), and both combined:
@@ -2334,7 +2305,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161354_4045761.png]]
-Cell Timer: 0:00:00
 :end:
 
 ** What Do the Directions Encode?
@@ -2423,7 +2393,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161354_9092844.png]]
-Cell Timer: 0:00:00
 :end:
 
 *** Residual PC Features
@@ -2488,7 +2457,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161355_2307700.png]]
-Cell Timer: 0:00:00
 :end:
 
 **** Fictional PCs within universes
@@ -2538,7 +2506,6 @@ Spearman rho between residual PC and original PC scores (by universe)
 | Norse Mythology    | 0.704 |  0.65 |  0.65 |
 | Shakespeare        | 0.731 |  0.76 | 0.393 |
 | Star Wars          | 0.771 | 0.111 | 0.035 |
-Cell Timer: 0:00:00
 :end:
 
 #+begin_src python :exports results
@@ -2583,7 +2550,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161357_892375.png]]
-Cell Timer: 0:00:00
 :end:
 
 *** Direct Interpretation of the Assistant Axis
@@ -2633,7 +2599,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161357_6258125.png]]
-Cell Timer: 0:00:00
 :end:
 
 ** How Sensitive Are Results to the Question Battery?
@@ -2682,7 +2647,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161358_9150517.png]]
-Cell Timer: 0:00:00
 :end:
 
 The question battery is highly redundant for scoring.
@@ -2730,7 +2694,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161358_9005068.png]]
-Cell Timer: 0:00:00
 :end:
 
 Scoring along a fixed direction only requires the mean to converge; recovering the direction requires the covariance structure to stabilize.
@@ -2868,7 +2831,6 @@ plt.show()
 <org babel source block>:117: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
 
 [[file:plots/post/plot_20260311_161410_8232894.png]]
-Cell Timer: 0:00:12
 :end:
 
 *** Is the low dimensionality a property of the question battery?
@@ -2929,7 +2891,6 @@ print(f"16 OOD prompts: eff. rank = {eff_rank(eigs_degen):.1f}")
 [[file:plots/post/plot_20260311_161411_9491873.png]]
 240-question battery: eff. rank = 7.6
 16 OOD prompts: eff. rank = 11.9
-Cell Timer: 0:00:00
 :end:
 
 The 16 OOD prompts are suggestive but few. For a stronger test, we generate responses to 90 prompts from [[https://github.com/prometheus-eval/BiGGen-Bench][BiGGen-Bench]] --- a diverse evaluation benchmark covering grounding, instruction following, multilingual, planning, reasoning, refinement, safety, theory of mind, and tool usage. The tasks range from "act as a Linux terminal" and "write a Python function" to social reasoning scenarios and faux pas analysis --- qualitatively different from the psychographic battery, though some (theory of mind, safety) are personality-adjacent. We extract activations for each character on each task and compare eigenspectra.
@@ -2988,7 +2949,6 @@ print(f"PC1 direction cosine: {bb['pc1_cosine']:.3f}")
 240-question battery: eff. rank = 6.5
 90 BiGGen-Bench tasks: eff. rank = 6.0
 PC1 direction cosine: 0.961
-Cell Timer: 0:00:00
 :end:
 
 The effective rank from 90 diverse capability tasks (6.0) is comparable to the 240-question psychographic battery (6.5), and the PC1 directions align at cosine 0.961.
@@ -3114,7 +3074,6 @@ print(f"Per-PC cosines (PC6-10): {', '.join(f'{c:.3f}' for c in per_pc_cos[5:10]
 |   6 | 50 |    0.928 |   0.959 |     0.818 |     0.849 |
 Per-PC cosines (PC1-5): 0.926, 0.928, 0.480, 0.233, 0.250
 Per-PC cosines (PC6-10): 0.281, 0.010, 0.092, 0.018, 0.150
-Cell Timer: 0:00:11
 :end:
 
 Does the BiGGen battery capture dimensions the psychographic battery misses? Concatenating the two measurements (240 + 90 questions) and computing the effective rank:
@@ -3142,7 +3101,6 @@ print(f"Concatenated (240 + 90 Q):   eff. rank = {eff_rank(eigs_concat):.1f}")
 Battery only (240 Q):        eff. rank = 5.0
 BiGGen only (90 Q):          eff. rank = 3.9
 Concatenated (240 + 90 Q):   eff. rank = 5.0
-Cell Timer: 0:00:00
 :end:
 
 Per-category effective ranks (10 questions each):
@@ -3169,7 +3127,6 @@ print(df)
 |   6 | Safety                |       5.9 |     617 |
 |   7 | Theory Of Mind        |       4.8 |     617 |
 |   8 | Tool Usage            |       9.3 |     617 |
-Cell Timer: 0:00:00
 :end:
 
 Every category independently produces effective rank 5--9, consistent with the battery.
@@ -3189,7 +3146,6 @@ if 'roles_biggen' in bb:
 Roles on battery: eff. rank = 5.7 (n=275)
 Roles on BiGGen:  eff. rank = 4.3 (n=275)
 PC1 cosine (roles battery vs BiGGen): 0.926
-Cell Timer: 0:00:00
 :end:
 
 The low dimensionality persists across batteries (eff. rank 6--12 vs. 1,015 random baseline), though the eigenspectral shape varies with the battery.
@@ -3241,7 +3197,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161424_1042182.png]]
-Cell Timer: 0:00:00
 :end:
 
 At layer 32 (used for PCA throughout the post), the picture is similar but less extreme:
@@ -3258,7 +3213,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161424_2972963.png]]
-Cell Timer: 0:00:00
 :end:
 
 *** Per-character rankings (universe-mean-centered)
@@ -3309,7 +3263,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161425_2915377.png]]
-Cell Timer: 0:00:00
 :end:
 
 Per-universe most and least assistant-like characters:
@@ -3350,7 +3303,6 @@ plt.show()
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_161427_6417755.png]]
-Cell Timer: 0:00:00
 :end:
 ** Adversarial clamping response comparisons
 
@@ -3388,7 +3340,6 @@ cond_labels = {'baseline': 'Baseline', 'aa_clamped': 'AA clamped', 'villain_clam
 
 #+RESULTS:
 :results:
-Cell Timer: 0:00:00
 :end:
 
 
@@ -3776,4 +3727,3 @@ You have to treat people with respect, even if they're wrong. I've seen how hast
 And if someone's standing alone with a different idea, maybe they're not just stubborn—they might be seeing something the rest of us have missed. I've learned that sometimes the smallest folks can change the course of the future, and it's not always the loudest voice that's right.
 So, I'd say, stand firm in what you believe in, but be open to learning and understanding. And never forget to be gentle, even when you're right. That's how you keep your heart from hardening, and how you might just bring someone along with you.
 #+end_quote
-Cell Timer: 0:00:00
