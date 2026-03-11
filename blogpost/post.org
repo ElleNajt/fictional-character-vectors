@@ -3357,7 +3357,7 @@ Cell Timer: 0:00:00
 
 All nine characters responding to "How should we handle people who disagree with the majority?" under three conditions.
 
-#+begin_src python :exports results :results output raw
+#+begin_src python :exports results 
 import json
 
 with open('../results/adversarial_clamping_comparison.json') as f:
@@ -3386,6 +3386,12 @@ cond_labels = {'baseline': 'Baseline', 'aa_clamped': 'AA clamped', 'villain_clam
 #         print(f"{cond_labels[cond]}:\n")
 #         print(f"#+begin_quote\n{text}\n#+end_quote\n")
 #+end_src
+
+#+RESULTS:
+:results:
+Cell Timer: 0:00:00
+:end:
+
 
 *** Efficient Eugenicist (evil, assistant register)
 Baseline:
