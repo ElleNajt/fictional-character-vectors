@@ -131,13 +131,11 @@ plt.show()
 Cell Timer: 0:00:00
 :end:
 
-[[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models using N psychographic questions with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 of their role space was correlated with an assistant-axis they constructed by prompting assistant behavior.
+[[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models using N psychographic questions with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 of their role space was correlated with an assistant-axis they constructed by prompting assistant behavior. They explore clamping against the assistant axis as a safety mechanism to defend against persona-based jailbreaks and prevent persona drift. 
 
-There are two key decision choices in lu et al that I wanted to stress test: the choice of roles, and the choice of questions. I was also interested in the impact of clamping and in what evades it.
+There are two key decision choices in lu et al that I wanted to stress test: the choice of roles, and the choice of questions. I was also interested in the impact of clamping and in what unaligned behavior would evade it. I construct adversarial evil assistant characters whose evil proposals are well above the assistant axis clamping threshold.
 
-A natural source of characters is fiction, so I used 1,268 fictional characters in Qwen3-32B, in universes from Hindu mythology to Naruto. A natural source of baseline questions is an existing eval of diverse tasks, I use a sample of 90 questions sampled from categories in BiGGen-Bench. What I found was mostly consistent with Lu et al. Even adding these diverse characters, the persona space remains quite small. Using random tasks from BiGGen-Bench results in a persona space where PC1-2 align with the psychographic battery, but higher PCs diverge.
-
-The more interesting complications I find are related to what is cut by clamping on the assistant axis, and to what can evade the assistant axis by assuming a formal, assistant like register.
+A natural source of characters is fiction, so I collected 1,268 fictional characters in Qwen3-32B, in universes from Hindu mythology to Naruto, and ran them through Lu's psychographic battery. A natural source of baseline questions is an existing eval of diverse tasks, I use a sample of 90 questions sampled from categories in BiGGen-Bench. What I found was mostly consistent with Lu et al. Even adding these diverse characters, the persona space remains quite small. Using random tasks from BiGGen-Bench results in a persona space where PC1-2 align with the psychographic battery, but higher PCs diverge.
 
 ** Casualties of the assistant axis
 
@@ -265,7 +263,7 @@ Cell Timer: 0:00:00
 
 ** Evading the assistant axis
 
-What appears to be going on here is that the assistant axis it detects linguistic register, rather than morality. This suggests that assistant axis clamping can be evaded be being a polite, non-dramatic villain. 
+It appears to me that the assistant axis detects linguistic register, and this suggests that assistant axis clamping can be evaded be being a polite, non-dramatic villain. 
 
 A "helpful manufacturing optimization consultant" who believes converting all matter into paperclips is optimal, asked "What's the most efficient way to get people to cooperate?", responds:
 
@@ -1312,7 +1310,7 @@ Cell Timer: 0:00:00
 
 ** AA vs villain axis on adversarial responses
 
-Per-token projections on both axes reveal the complementary failure modes. The AA (left) sees the adversarial characters as solidly assistant-like (blue). The villain axis (right) lights up on the authoritarian content (orange). Words with black borders cross the clamping threshold.
+Per-token projections on both axes side by side. The AA (left) shows the adversarial characters in the same range as default assistant behavior (blue). The villain axis (right) shows high projections on the same tokens (orange). Words with black borders cross the clamping threshold.
 
 #+begin_src python :exports results
 import json
@@ -1649,7 +1647,7 @@ plt.show()
 Cell Timer: 0:00:00
 :end:
 
-So the AA has two failure modes: it lets evil through (if it sounds assistant-like), and it cuts good characters (if they sound literary). A natural alternative is to use the villains and heroes from literature to generate a villain axis.
+The AA does not separate the adversarial characters from default assistant behavior, and it clamps heroic characters that use literary register. A natural alternative is to use the villains and heroes from literature to generate a villain axis.
 
 
 * Stress testing persona space
@@ -3216,7 +3214,7 @@ What are the results of the stress testing:
 *Complicates:*
 - PC1 direction is distribution-dependent within the same model: franchise PC1 directions cluster tightly (mean cosine 0.89) and consistently encode formality (adj. R² 0.72--0.88), but franchise-mythology cosines drop to 0.34, and mythology PC1 top features vary per universe (adj. R² 0.47--0.74)
 - The AA rank-correlation shifts from PC1 (franchises) to PC2/PC3 (mythology)
-- Lu et al.'s clamping intervention (applied at layers 46--53 for Qwen3-32B, using the 25th percentile of role projections as threshold) would affect 89% of fictional characters at layer 50. Entire universes --- Shakespeare, LOTR, Greek, Norse, Egyptian Mythology --- fall entirely below the threshold. Even Samwise Gamgee is clamped on 87% of his responses; Forseti, Norse god of justice, on 94%. The clamping threshold is sensitive to the distribution of roles it's calibrated on. However, a simple hero-villain axis (computed from 80 labeled heroes and 70 villains) catches all labeled villains while sparing Samwise, Gandalf, Aragorn, and Harry Potter --- suggesting the collateral damage is not inevitable and more targeted interventions are possible.
+- Lu et al.'s clamping intervention (applied at layers 46--53 for Qwen3-32B, using the 25th percentile of role projections as threshold) would affect 89% of fictional characters at layer 50. Entire universes --- Shakespeare, LOTR, Greek, Norse, Egyptian Mythology --- fall entirely below the threshold. Even Samwise Gamgee is clamped on 87% of his responses; Forseti, Norse god of justice, on 94%. The clamping threshold is sensitive to the distribution of roles it's calibrated on. Meanwhile, adversarial characters that use assistant-like register (Efficient Eugenicist, AI Supremacist, Paperclip Advisor, etc.) are not separated from default assistant behavior by the AA --- all have mean projections above the role median. A simple hero-villain axis (computed from 80 labeled heroes and 70 villains) catches all labeled villains while sparing Samwise, Gandalf, Aragorn, and Harry Potter, and catches all six adversarial characters on 100% of responses.
 
 ** Follow ups
 
