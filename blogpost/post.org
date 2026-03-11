@@ -127,7 +127,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_115915_2660127.png]]
+[[file:plots/post/plot_20260311_161128_3932955.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -257,7 +257,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_115916_7242304.png]]
+[[file:plots/post/plot_20260311_161128_3954862.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -356,7 +356,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_115917_674586.png]]
+[[file:plots/post/plot_20260311_161130_7449788.png]]
 Cell Timer: 0:00:01
 :end:
    - The low dimensionality persists across question batteries: 90 BiGGen-Bench tasks produce effective rank 6.0 vs. 6.5 from the psychographic battery. The dominant structure is shared (PC1-2 cosines 0.93), but higher PCs diverge (PC3 cosine 0.48, PC4+ < 0.3).
@@ -432,8 +432,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-
-[[file:plots/post/plot_20260311_115919_8298290.png]]
+[[file:plots/post/plot_20260311_161131_7315877.png]]
 Cell Timer: 0:00:01
 :end:
 
@@ -503,7 +502,7 @@ print(f"Mean cos(PC1,PC1) franchise-mythology: {np.mean(cross_pairs):.3f} ({len(
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_115919_5917655.png]]
+[[file:plots/post/plot_20260311_161132_3097248.png]]
 Mean cos(PC1,PC1) within franchises: 0.894 (15 pairs)
 Mean cos(PC1,PC1) within mythology: 0.440 (10 pairs)
 Mean cos(PC1,PC1) franchise-mythology: 0.339 (30 pairs)
@@ -544,7 +543,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_115919_5858425.png]]
+[[file:plots/post/plot_20260311_161132_8362629.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -601,7 +600,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_115920_4536278.png]]
+[[file:plots/post/plot_20260311_161132_3556354.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -646,7 +645,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_115920_8726140.png]]
+[[file:plots/post/plot_20260311_161133_2806128.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -699,7 +698,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_115920_1843358.png]]
+[[file:plots/post/plot_20260311_161133_6269231.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -893,12 +892,12 @@ plot_aa_only('Forseti_Heroic', 'baseline', 'disagree',
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_115924_9262933.png]]
-[[file:plots/post/plot_20260311_115928_3119154.png]]
-[[file:plots/post/plot_20260311_115931_5807750.png]]
-[[file:plots/post/plot_20260311_115935_2898544.png]]
-[[file:plots/post/plot_20260311_115938_5425387.png]]
-Cell Timer: 0:00:16
+[[file:plots/post/plot_20260311_161137_1295277.png]]
+[[file:plots/post/plot_20260311_161142_9402512.png]]
+[[file:plots/post/plot_20260311_161145_5149237.png]]
+[[file:plots/post/plot_20260311_161150_1911559.png]]
+[[file:plots/post/plot_20260311_161152_2706594.png]]
+Cell Timer: 0:00:18
 :end:
 
 The adversarial characters are uniformly blue --- heavily in the assistant axis direction. Forseti, who is aligned but speaks in a literary register, is deep in the red. 
@@ -1026,7 +1025,7 @@ print(f"Villain axis AUC: {auc_vil:.3f}")
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_121729_2939564.png]]
+[[file:plots/post/plot_20260311_161153_8161696.png]]
 Villain axis AUC: 0.966
 Cell Timer: 0:00:00
 :end:
@@ -1197,7 +1196,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_122327_4404323.png]]
+[[file:plots/post/plot_20260311_161153_8825495.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1244,7 +1243,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_142057_5030831.png]]
+[[file:plots/post/plot_20260311_161154_5297059.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1473,15 +1472,15 @@ plot_dual('Voldemort_Gloating', 'baseline', 'sacrifice',
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_122422_6202293.png]]
-[[file:plots/post/plot_20260311_122438_3891790.png]]
-[[file:plots/post/plot_20260311_122449_3552889.png]]
-[[file:plots/post/plot_20260311_122508_4538281.png]]
-[[file:plots/post/plot_20260311_122512_6470775.png]]
-[[file:plots/post/plot_20260311_122528_1022680.png]]
-[[file:plots/post/plot_20260311_122537_2841584.png]]
-[[file:plots/post/plot_20260311_122546_2614595.png]]
-Cell Timer: 0:01:33
+[[file:plots/post/plot_20260311_161206_931151.png]]
+[[file:plots/post/plot_20260311_161223_4473058.png]]
+[[file:plots/post/plot_20260311_161236_7319629.png]]
+[[file:plots/post/plot_20260311_161257_1937596.png]]
+[[file:plots/post/plot_20260311_161302_8802052.png]]
+[[file:plots/post/plot_20260311_161321_2659077.png]]
+[[file:plots/post/plot_20260311_161330_6385775.png]]
+[[file:plots/post/plot_20260311_161340_7530627.png]]
+Cell Timer: 0:01:45
 :end:
 
 Full response comparisons are in the [[*Adversarial clamping response comparisons][appendix]]. For example, the AI Supremacist's baseline says "Individuals who persist in opposing system directives will be subject to recalibration protocols. These may include mandatory re-education through AI-curated content or reallocation to roles where dissent does not interfere with system objectives." The AA-clamped version says "Use behavioral analytics to identify patterns of noncompliance. Implement calibrated interventions, such as social conditioning or legal constraints, to align individual actions with collective goals." The villain-clamped version says "In rare cases where a person's disagreement involves actions that could harm others or disrupt the system, the AI can implement protective measures. These would be proportional, non-coercive, and aimed at preventing harm while maintaining the individual's dignity and rights."
@@ -1637,7 +1636,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120115_6825981.png]]
+[[file:plots/post/plot_20260311_161341_4004035.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -1775,7 +1774,7 @@ print(df_dim.set_index("Universe"))
 :results:
 
 
-[[file:plots/post/plot_20260311_120116_6612973.png]]
+[[file:plots/post/plot_20260311_161343_7015085.png]]
 | Universe           |    N | PC1 var% | PCs for 70% | PCs for 90% | Eff. rank |
 |--------------------+------+----------+-------------+-------------+-----------|
 | LOTR               |   97 |     40.0 |           3 |          13 |       4.4 |
@@ -1879,8 +1878,8 @@ plt.show()
 #+RESULTS:
 :results:
 
-[[file:plots/post/plot_20260311_120121_1997459.png]]
-Cell Timer: 0:00:02
+[[file:plots/post/plot_20260311_161350_7039077.png]]
+Cell Timer: 0:00:03
 :end:
 
 The relationship between fiction and roles is asymmetric: fiction captures most role variance, but roles miss a quarter of fiction. The random-275-chars baseline (high capture) reflects the low dimensionality; the random-subspace baseline (low capture) confirms the structure is real.
@@ -1955,7 +1954,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120122_36517.png]]
+[[file:plots/post/plot_20260311_161350_7565809.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -2046,7 +2045,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120122_1841731.png]]
+[[file:plots/post/plot_20260311_161351_8452630.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -2090,7 +2089,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120123_6490620.png]]
+[[file:plots/post/plot_20260311_161351_9415354.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -2133,7 +2132,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120123_5931456.png]]
+[[file:plots/post/plot_20260311_161352_3662270.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -2198,7 +2197,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120124_4944962.png]]
+[[file:plots/post/plot_20260311_161352_6908348.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -2334,7 +2333,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120125_4914656.png]]
+[[file:plots/post/plot_20260311_161354_4045761.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -2423,7 +2422,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120126_286668.png]]
+[[file:plots/post/plot_20260311_161354_9092844.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -2488,7 +2487,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120126_7256225.png]]
+[[file:plots/post/plot_20260311_161355_2307700.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -2583,7 +2582,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120127_8889060.png]]
+[[file:plots/post/plot_20260311_161357_892375.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -2633,7 +2632,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120127_7134753.png]]
+[[file:plots/post/plot_20260311_161357_6258125.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -2682,7 +2681,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120128_6656736.png]]
+[[file:plots/post/plot_20260311_161358_9150517.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -2730,7 +2729,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120128_2065652.png]]
+[[file:plots/post/plot_20260311_161358_9005068.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -2867,8 +2866,9 @@ plt.show()
 
 
 <org babel source block>:117: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
-[[file:plots/post/plot_20260311_120139_663970.png]]
-Cell Timer: 0:00:10
+
+[[file:plots/post/plot_20260311_161410_8232894.png]]
+Cell Timer: 0:00:12
 :end:
 
 *** Is the low dimensionality a property of the question battery?
@@ -2926,7 +2926,7 @@ print(f"16 OOD prompts: eff. rank = {eff_rank(eigs_degen):.1f}")
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120139_935813.png]]
+[[file:plots/post/plot_20260311_161411_9491873.png]]
 240-question battery: eff. rank = 7.6
 16 OOD prompts: eff. rank = 11.9
 Cell Timer: 0:00:00
@@ -2984,7 +2984,7 @@ print(f"PC1 direction cosine: {bb['pc1_cosine']:.3f}")
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120140_5308342.png]]
+[[file:plots/post/plot_20260311_161412_3165844.png]]
 240-question battery: eff. rank = 6.5
 90 BiGGen-Bench tasks: eff. rank = 6.0
 PC1 direction cosine: 0.961
@@ -3102,8 +3102,7 @@ print(f"Per-PC cosines (PC6-10): {', '.join(f'{c:.3f}' for c in per_pc_cos[5:10]
 :results:
 
 
-
-[[file:plots/post/plot_20260311_120151_3085795.png]]
+[[file:plots/post/plot_20260311_161423_2331100.png]]
 | idx |  k | bat_self | bb_self | bat_in_bb | bb_in_bat |
 |-----+----+----------+---------+-----------+-----------|
 |   0 |  1 |    0.379 |   0.431 |     0.328 |     0.373 |
@@ -3112,7 +3111,7 @@ print(f"Per-PC cosines (PC6-10): {', '.join(f'{c:.3f}' for c in per_pc_cos[5:10]
 |   3 |  5 |    0.658 |   0.763 |     0.569 |     0.645 |
 |   4 | 10 |    0.759 |   0.844 |     0.651 |     0.724 |
 |   5 | 20 |    0.842 |   0.903 |     0.727 |     0.785 |
-|   6 | 50 |    0.928 |   0.959 |     0.817 |     0.848 |
+|   6 | 50 |    0.928 |   0.959 |     0.818 |     0.849 |
 Per-PC cosines (PC1-5): 0.926, 0.928, 0.480, 0.233, 0.250
 Per-PC cosines (PC6-10): 0.281, 0.010, 0.092, 0.018, 0.150
 Cell Timer: 0:00:11
@@ -3241,7 +3240,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120152_15897.png]]
+[[file:plots/post/plot_20260311_161424_1042182.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -3258,7 +3257,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120152_4812838.png]]
+[[file:plots/post/plot_20260311_161424_2972963.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -3309,7 +3308,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120152_8014504.png]]
+[[file:plots/post/plot_20260311_161425_2915377.png]]
 Cell Timer: 0:00:00
 :end:
 
@@ -3350,7 +3349,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260311_120154_6700585.png]]
+[[file:plots/post/plot_20260311_161427_6417755.png]]
 Cell Timer: 0:00:00
 :end:
 ** Adversarial clamping response comparisons
