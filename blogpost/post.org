@@ -496,17 +496,17 @@ for i in range(len(u_labels)):
             myth_pairs.append(val)
         elif (u_labels[i] in franchise_names and u_labels[j] in myth_names) or (u_labels[i] in myth_names and u_labels[j] in franchise_names):
             cross_pairs.append(val)
-print(f"Mean |cos(PC1,PC1)| within franchises: {np.mean(franchise_pairs):.3f} ({len(franchise_pairs)} pairs)")
-print(f"Mean |cos(PC1,PC1)| within mythology: {np.mean(myth_pairs):.3f} ({len(myth_pairs)} pairs)")
-print(f"Mean |cos(PC1,PC1)| franchise-mythology: {np.mean(cross_pairs):.3f} ({len(cross_pairs)} pairs)")
+print(f"Mean cos(PC1,PC1) within franchises: {np.mean(franchise_pairs):.3f} ({len(franchise_pairs)} pairs)")
+print(f"Mean cos(PC1,PC1) within mythology: {np.mean(myth_pairs):.3f} ({len(myth_pairs)} pairs)")
+print(f"Mean cos(PC1,PC1) franchise-mythology: {np.mean(cross_pairs):.3f} ({len(cross_pairs)} pairs)")
 #+end_src
 
 #+RESULTS:
 :results:
 [[file:plots/post/plot_20260311_115919_5917655.png]]
-Mean \cos(PC1,PC1)\ within franchises: 0.894 (15 pairs)
-Mean \cos(PC1,PC1)\ within mythology: 0.440 (10 pairs)
-Mean \cos(PC1,PC1)\ franchise-mythology: 0.339 (30 pairs)
+Mean cos(PC1,PC1) within franchises: 0.894 (15 pairs)
+Mean cos(PC1,PC1) within mythology: 0.440 (10 pairs)
+Mean cos(PC1,PC1) franchise-mythology: 0.339 (30 pairs)
 Cell Timer: 0:00:00
 :end:
 
@@ -2514,17 +2514,17 @@ for universe, prefixes in ALL_UNIVERSES.items():
         rho, _ = spearmanr(orig_scores, resid_scores)
         dir_cos = abs(np.dot(original_pca.components_[pc], residual_pca.components_[pc]) /
                       (np.linalg.norm(original_pca.components_[pc]) * np.linalg.norm(residual_pca.components_[pc])))
-        rows_pc.append({'Universe': universe, 'PC': pc+1, 'Spearman |rho|': round(abs(rho), 3),
+        rows_pc.append({'Universe': universe, 'PC': pc+1, 'Spearman rho': round(abs(rho), 3),
                         'Direction cosine': round(dir_cos, 3)})
 
 df_pc = pd.DataFrame(rows_pc)
-print("Spearman |rho| between residual PC and original PC scores (by universe)")
-print(df_pc.pivot(index='Universe', columns='PC', values='Spearman |rho|').rename(columns={1: 'PC1', 2: 'PC2', 3: 'PC3'}))
+print("Spearman rho between residual PC and original PC scores (by universe)")
+print(df_pc.pivot(index='Universe', columns='PC', values='Spearman rho').rename(columns={1: 'PC1', 2: 'PC2', 3: 'PC3'}).rename_axis(columns=''))
 #+end_src
 
 #+RESULTS:
 :results:
-Spearman \rho\ between residual PC and original PC scores (by universe)
+Spearman rho between residual PC and original PC scores (by universe)
 | Universe           |   PC1 |   PC2 |   PC3 |
 |--------------------+-------+-------+-------|
 | Chinese Mythology  |  0.66 | 0.526 | 0.627 |
