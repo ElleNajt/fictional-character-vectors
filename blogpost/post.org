@@ -3,7 +3,7 @@
 #+AUTHOR: Elle Najt
 #+DATE: 2026-02-16
 #+OPTIONS: H:6
-#+PROPERTY: header-args:python :results output drawer :python "../.venv/bin/python3" :async t :session blogpost_short :exports results :eval no-export
+#+PROPERTY: header-args:python :results output drawer :python "../.venv/bin/python3" :async t :session blogpost_short :exports results
 
 * Setup :noexport:
 
