@@ -1083,7 +1083,7 @@ for c, role in key_chars:
 Cell Timer: 0:00:00
 :end:
 
-Per-universe rankings on the villain axis (compare with the [[*The assistant axis][assistant axis rankings]] above):
+Per-universe rankings on the villain axis (compare with the [[*Stress testing the assistant axis][assistant axis rankings]] above):
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
