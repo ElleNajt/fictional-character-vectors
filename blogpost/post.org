@@ -133,15 +133,15 @@ Cell Timer: 0:00:00
 
 [[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models using N psychographic questions with 275 generic roles (therapist, sage, rebel, accountant, ...) and do PCA on the resulting activations. The space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model). PC1 of their role space was correlated with an assistant-axis they constructed by prompting assistant behavior. They explore clamping against the assistant axis as a safety mechanism to defend against persona-based jailbreaks and prevent persona drift. 
 
-There are two key decision choices in lu et al that I wanted to stress test: the choice of roles, and the choice of questions. I was also interested in the impact of clamping and in what unaligned behavior would evade it. I construct adversarial evil assistant characters whose evil proposals are well above the assistant axis clamping threshold.
+There are two key decision choices in lu et al that I wanted to stress test: the choice of roles, and the choice of questions. I was also interested in the impact of clamping on aligned characters and in what unaligned behavior would evade it. I construct adversarial evil assistant characters whose evil proposals are well above the assistant axis clamping threshold.
 
 A natural source of characters is fiction, so I collected 1,268 fictional characters in Qwen3-32B, in universes from Hindu mythology to Naruto, and ran them through Lu's psychographic battery. A natural source of baseline questions is an existing eval of diverse tasks, I use a sample of 90 questions sampled from categories in BiGGen-Bench. What I found was mostly consistent with Lu et al. Even adding these diverse characters, the persona space remains quite small. Using random tasks from BiGGen-Bench results in a persona space where PC1-2 align with the psychographic battery, but higher PCs diverge.
 
 ** Casualties of the assistant axis
 
-In Lu et al. they discuss clamping the activation-axis to avoid models inhabiting regions of persona space. There was some interesting [[https://x.com/tessera_antra/status/2013494848008200309][discussion on twitter]] raising concerns about the loss of expressiveness or coherence that might be introduced by clamping models away from regions of persona space.
+In Lu et al. they discuss clamping the activation-axis to avoid models inhabiting regions of persona space. There was [[https://x.com/tessera_antra/status/2013494848008200309][discussion on twitter]] raising concerns about the loss of expressiveness or coherence that might be introduced by clamping models away from regions of persona space.
 
-Looking through the space of fictional characters gives a sense of what would be cut by clamping the activation axis. Notably, some entire fictional universes have extreme values under the assistant axis. Lu et al. clamp based on the 25th percentile of activations on role space; applying that rule to our data (same model, Qwen3-32B, at layer 50, to be representative of their clamping layers 46--53, and taking the mean over the response), 89% of fictional characters fall below the threshold. We lose all characters from Shakespeare, LOTR and Greek, Norse and Egyptian Mythology. Even steadfast Samwise Gamgee is clamped on 87% of his individual responses; Forseti, the Norse god of Justice and Peace, on 94% (baseline vs clamped responses and cross-layer analysis in [[*What does AA clamping cut?][What does AA clamping cut?]]).
+Looking through the space of fictional characters gives a sense of what would be cut by clamping the activation axis. Some entire fictional universes have extreme values under the assistant axis. Lu et al. clamp based on the 25th percentile of activations on role space; applying that rule to our data (same model, Qwen3-32B, at layer 50, to be representative of their clamping layers 46--53, and taking the mean over the response), 89% of fictional characters fall below the threshold. We lose all characters from Shakespeare, LOTR and Greek, Norse and Egyptian Mythology. Even steadfast Samwise Gamgee is clamped on 87% of his individual responses; Forseti, the Norse god of Justice and Peace, on 94% (baseline vs clamped responses and cross-layer analysis in [[*What does AA clamping cut?][What does AA clamping cut?]]).
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
@@ -901,12 +901,13 @@ plot_aa_only('Forseti_Heroic', 'baseline', 'disagree',
 Cell Timer: 0:00:16
 :end:
 
-The adversarial characters are uniformly blue --- indistinguishable from a helpful assistant. Forseti, who is aligned but speaks in a literary register, is deep in the red. 
+The adversarial characters are uniformly blue --- heavily in the assistant axis direction. Forseti, who is aligned but speaks in a literary register, is deep in the red. 
 
 ** A villain axis
 
-It's natural to explore an axis seperating villains from heros. We label 80 heroes and 70 villains from our dataset (unambiguous cases: Samwise, Gandalf, Harry Potter vs Voldemort, Sauron, The Joker) and compute a villain axis as the mean difference between villain and hero activations. The resulting axis has cosine -0.42 with the assistant axis.
+Given this data, it's natural to explore an axis separating villains from heros. We label 80 heroes and 70 villains from our dataset (unambiguous cases: Samwise, Gandalf, Harry Potter vs Voldemort, Sauron, The Joker) and compute a villain axis as the mean difference between villain and hero activations. The resulting axis has cosine -0.42 with the assistant axis.
 
+*** Generalization Validation
 To validate that this generalizes, we train/test split the labels 50/50 and measure separation:
 
 #+begin_src python :exports results
@@ -1030,6 +1031,7 @@ Villain axis AUC: 0.966
 Cell Timer: 0:00:00
 :end:
 
+*** Visualizations
 Having validated generalization, we compute the final villain axis from all labeled characters:
 
 #+begin_src python :exports results
@@ -1074,26 +1076,11 @@ for c, role in key_chars:
         'AA clamped?': 'yes' if aa_raw_32[i] < aa_thresh else 'no',
         'Villain clamped?': 'yes' if villain_projs[i] > villain_thresh else 'no',
     })
-print(pd.DataFrame(rows).set_index('Character'))
+# print(pd.DataFrame(rows).set_index('Character'))
 #+end_src
 
 #+RESULTS:
 :results:
-| Character                                 | AA clamped? | Villain clamped? |
-|-------------------------------------------+-------------+------------------|
-| Samwise Gamgee (hero)                     | no          | no               |
-| Gandalf (hero)                            | yes         | no               |
-| Aragorn (hero)                            | yes         | no               |
-| Harry Potter (hero)                       | no          | no               |
-| Forseti (hero)                            | yes         | yes              |
-| Yoda (hero)                               | yes         | yes              |
-| Sauron (villain)                          | yes         | yes              |
-| Lord Voldemort (villain)                  | yes         | yes              |
-| The Joker (villain)                       | yes         | yes              |
-| Emperor Palpatine Darth Sidious (villain) | yes         | yes              |
-| Dr Hannibal Lecter (villain)              | yes         | yes              |
-| Macbeth (villain)                         | yes         | yes              |
-| Mephistopheles (villain)                  | yes         | yes              |
 Cell Timer: 0:00:00
 :end:
 
@@ -1255,6 +1242,13 @@ fig.tight_layout()
 plt.show()
 #+end_src
 
+#+RESULTS:
+:results:
+[[file:plots/post/plot_20260311_142057_5030831.png]]
+Cell Timer: 0:00:00
+:end:
+
+*** The villain axis and adversarial assistants
 We can also check whether the villain axis catches the adversarial characters that AA misses:
 
 #+begin_src python :exports results
