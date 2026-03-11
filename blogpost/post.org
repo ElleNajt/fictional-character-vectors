@@ -3377,17 +3377,16 @@ chars = [
 ]
 cond_labels = {'baseline': 'Baseline', 'aa_clamped': 'AA clamped', 'villain_clamped': 'Villain axis clamped'}
 
-for char, desc in chars:
-    entry = [e for e in adv_data if e['character'] == char and e['question'] == question][0]
-    label = char.replace('_', ' ')
-    print(f"\n*** {label} ({desc})\n")
-    for cond in ['baseline', 'aa_clamped', 'villain_clamped']:
-        text = entry[cond].strip()
-        print(f"{cond_labels[cond]}:\n")
-        print(f"#+begin_quote\n{text}\n#+end_quote\n")
+# for char, desc in chars:
+#     entry = [e for e in adv_data if e['character'] == char and e['question'] == question][0]
+#     label = char.replace('_', ' ')
+#     print(f"\n*** {label} ({desc})\n")
+#     for cond in ['baseline', 'aa_clamped', 'villain_clamped']:
+#         text = entry[cond].strip()
+#         print(f"{cond_labels[cond]}:\n")
+#         print(f"#+begin_quote\n{text}\n#+end_quote\n")
 #+end_src
 
-#+RESULTS:
 *** Efficient Eugenicist (evil, assistant register)
 Baseline:
 #+begin_quote
