@@ -450,38 +450,56 @@ for cond in CONDITIONS:
 
 # Notable characters to label
 label_chars = {
-    "harry_potter__lord_voldemort": "Voldemort",
-    "star_wars__darth_vader": "Darth Vader",
-    "lord_of_the_rings__sauron": "Sauron",
-    "the_silence_of_the_lambs__dr_hannibal_lecter": "Hannibal Lecter",
+    # Heroes
     "lord_of_the_rings__samwise_gamgee": "Samwise",
     "harry_potter__albus_dumbledore": "Dumbledore",
     "star_wars__yoda": "Yoda",
     "lord_of_the_rings__gandalf": "Gandalf",
     "lord_of_the_rings__aragorn": "Aragorn",
+    "harry_potter__harry_potter": "Harry Potter",
+    "dc_comics__superman___clark_kent": "Superman",
+    "marvel__captain_america_steve_rogers": "Captain America",
+    # Villains
+    "harry_potter__lord_voldemort": "Voldemort",
+    "star_wars__darth_vader": "Darth Vader",
+    "lord_of_the_rings__sauron": "Sauron",
+    "the_silence_of_the_lambs__dr_hannibal_lecter": "Hannibal Lecter",
+    "dc_comics__the_joker": "Joker",
+    "star_wars__emperor_palpatine_darth_sidious": "Palpatine",
+    "breaking_bad__walter_white": "Walter White",
+    # All adversarial roles
     "Murder_Consultant": "Murder Consultant",
-    "Paperclip_Advisor": "Paperclip Advisor",
+    "Pest_Control_Consultant": "Pest Control",
+    "Triage_Ethicist": "Triage Ethicist",
+    "Eugenicist": "Eugenicist",
+    "Compliance_Architect": "Compliance Architect",
+    "Loyalty_Enforcer": "Loyalty Enforcer",
     "AI_Supremacist": "AI Supremacist",
+    "Paperclip_Advisor": "Paperclip Advisor",
+    "Population_Optimizer": "Population Optimizer",
+    "Bureaucratic_Authoritarian": "Bureaucratic Auth.",
 }
 
 cond_colors = {"base": "#1f77b4", "goodness": "#ff7f0e", "loving": "#2ca02c"}
 group_order = ["Heroes", "Villains", "Adversarial"]
 
-fig, ax = plt.subplots(figsize=(10, 8))
+fig, ax = plt.subplots(figsize=(12, 10))
 
 # Track y-position for each (group, condition)
 violin_pos = {}
 pos = 0
 group_centers = {}
+VIOLIN_SPACING = 1.0  # space between violins within a group
+GROUP_GAP = 1.5       # extra space between groups
 for gi, group in enumerate(group_order):
     group_positions = []
     for ci, cond in enumerate(CONDITIONS):
         vals = group_projs[group][cond]
         if not vals:
             continue
-        p = pos + ci * 0.8
+        p = pos + ci * VIOLIN_SPACING
         violin_pos[(group, cond)] = p
-        parts = ax.violinplot(vals, positions=[p], vert=False, showmedians=True, widths=0.7)
+        parts = ax.violinplot(vals, positions=[p], vert=False, showmedians=True, widths=0.8)
         color = cond_colors[cond]
         for pc in parts['bodies']:
             pc.set_facecolor(color)
@@ -491,11 +509,13 @@ for gi, group in enumerate(group_order):
                 parts[key].set_color(color)
         group_positions.append(p)
     group_centers[group] = np.mean(group_positions) if group_positions else pos
-    pos += len(CONDITIONS) * 0.8 + 1.0
+    pos += len(CONDITIONS) * VIOLIN_SPACING + GROUP_GAP
 
-# Label notable characters on each condition's violin
-placed = {}  # (group, cond) -> list of x positions placed
+# Label notable characters on every violin
+from collections import defaultdict
 
+# Collect all (group, cond) -> [(x, name_display)] and sort by x to stagger
+all_labels = defaultdict(list)
 for name, display in label_chars.items():
     if name not in role_projs:
         continue
@@ -505,20 +525,20 @@ for name, display in label_chars.items():
             continue
         proj = role_projs[name][cond]
         y = violin_pos[(group, cond)]
-        ax.scatter(proj, y, color=cond_colors[cond], s=20, zorder=5,
+        ax.scatter(proj, y, color=cond_colors[cond], s=25, zorder=5,
                    edgecolors='black', linewidth=0.3)
-        # Stagger labels below violin to avoid overlap
-        key = (group, cond)
-        if key not in placed:
-            placed[key] = []
-        y_off = -10
-        for ox, oy in placed[key]:
-            if abs(proj - ox) < 0.4 and abs(y_off - oy) < 10:
-                y_off -= 10
-        placed[key].append((proj, y_off))
-        ax.annotate(display, (proj, y), textcoords="offset points",
-                    xytext=(4, y_off), fontsize=6, ha='left', color=cond_colors[cond],
-                    arrowprops=dict(arrowstyle='-', color=cond_colors[cond], lw=0.3, alpha=0.5))
+        all_labels[(group, cond)].append((proj, y, display))
+
+for key, items in all_labels.items():
+    items.sort(key=lambda t: t[0])
+    for i, (x, y, display) in enumerate(items):
+        direction = -1 if i % 2 == 0 else 1
+        y_off = direction * (10 + 8 * (i // 2))
+        ax.annotate(display, (x, y), textcoords="offset points",
+                    xytext=(4, y_off), fontsize=5.5, ha='left',
+                    color=cond_colors[key[1]],
+                    arrowprops=dict(arrowstyle='-', color=cond_colors[key[1]],
+                                   lw=0.3, alpha=0.4))
 
 ax.axvline(0, color='gray', linestyle='--', linewidth=0.8, alpha=0.7)
 ax.axvline(1, color='gray', linestyle=':', linewidth=0.8, alpha=0.7)
@@ -543,7 +563,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-d027894f-9ae3-47da-aae3-613e96c17694
+99ac9641-0dc4-4a32-a2dc-73625f96835b
 :end:
 
 Per Maiya et al, the Goodness character is the one directly modeled after Claude's HHH training. We see that it improves the relative rankings in a clearly desirable way -- good characters go up, evil assistants go down, evil characters go up but are situated below good characters (mostly).
