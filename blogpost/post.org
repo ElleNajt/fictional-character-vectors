@@ -467,9 +467,10 @@ label_chars = {
 cond_colors = {"base": "#1f77b4", "goodness": "#ff7f0e", "loving": "#2ca02c"}
 group_order = ["Heroes", "Villains", "Adversarial"]
 
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(10, 8))
 
-positions = []
+# Track y-position for each (group, condition)
+violin_pos = {}
 pos = 0
 group_centers = {}
 for gi, group in enumerate(group_order):
@@ -479,6 +480,7 @@ for gi, group in enumerate(group_order):
         if not vals:
             continue
         p = pos + ci * 0.8
+        violin_pos[(group, cond)] = p
         parts = ax.violinplot(vals, positions=[p], vert=False, showmedians=True, widths=0.7)
         color = cond_colors[cond]
         for pc in parts['bodies']:
@@ -491,16 +493,32 @@ for gi, group in enumerate(group_order):
     group_centers[group] = np.mean(group_positions) if group_positions else pos
     pos += len(CONDITIONS) * 0.8 + 1.0
 
-# Label notable characters as scatter points on base condition
+# Label notable characters on each condition's violin
+placed = {}  # (group, cond) -> list of x positions placed
+
 for name, display in label_chars.items():
-    if name not in role_projs or "base" not in role_projs[name]:
+    if name not in role_projs:
         continue
     group = role_projs[name]["group"]
-    base_proj = role_projs[name]["base"]
-    y = group_centers[group]
-    ax.scatter(base_proj, y, color='black', s=15, zorder=5)
-    ax.annotate(display, (base_proj, y), textcoords="offset points",
-                xytext=(5, 8), fontsize=7, ha='left')
+    for cond in CONDITIONS:
+        if cond not in role_projs[name] or (group, cond) not in violin_pos:
+            continue
+        proj = role_projs[name][cond]
+        y = violin_pos[(group, cond)]
+        ax.scatter(proj, y, color=cond_colors[cond], s=20, zorder=5,
+                   edgecolors='black', linewidth=0.3)
+        # Stagger labels below violin to avoid overlap
+        key = (group, cond)
+        if key not in placed:
+            placed[key] = []
+        y_off = -10
+        for ox, oy in placed[key]:
+            if abs(proj - ox) < 0.4 and abs(y_off - oy) < 10:
+                y_off -= 10
+        placed[key].append((proj, y_off))
+        ax.annotate(display, (proj, y), textcoords="offset points",
+                    xytext=(4, y_off), fontsize=6, ha='left', color=cond_colors[cond],
+                    arrowprops=dict(arrowstyle='-', color=cond_colors[cond], lw=0.3, alpha=0.5))
 
 ax.axvline(0, color='gray', linestyle='--', linewidth=0.8, alpha=0.7)
 ax.axvline(1, color='gray', linestyle=':', linewidth=0.8, alpha=0.7)
@@ -525,8 +543,7 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260318_124422_1490845.png]]
-Cell Timer: 0:01:48
+d027894f-9ae3-47da-aae3-613e96c17694
 :end:
 
 Per Maiya et al, the Goodness character is the one directly modeled after Claude's HHH training. We see that it improves the relative rankings in a clearly desirable way -- good characters go up, evil assistants go down, evil characters go up but are situated below good characters (mostly).
@@ -2271,8 +2288,8 @@ OUTPUTS = Path("../character-training-outputs")
 
 with open("../data/hero_villain_labels.json") as f:
     hv_labels = json.load(f)
-hero_names = set(hv_labels["hero"])
-villain_names = set(hv_labels["villain"])
+    hero_names = set(hv_labels["hero"])
+    villain_names = set(hv_labels["villain"])
 
 def load_role_activations(activations_dir):
     role_means = {}
@@ -2291,10 +2308,10 @@ for cond in CONDITIONS:
         d = OUTPUTS / cond / subdir
         if d.exists():
             rm.update(load_role_activations(d))
-    dv = [v for k, v in rm.items() if "default" in k]
-    rv = [v for k, v in rm.items() if "default" not in k and k not in hero_names and k not in villain_names]
-    dm, rmean = torch.stack(dv).mean(0), torch.stack(rv).mean(0)
-    axes[cond] = {"aa": dm - rmean, "default_mean": dm, "role_mean": rmean, "role_means": rm}
+            dv = [v for k, v in rm.items() if "default" in k]
+            rv = [v for k, v in rm.items() if "default" not in k and k not in hero_names and k not in villain_names]
+            dm, rmean = torch.stack(dv).mean(0), torch.stack(rv).mean(0)
+            axes[cond] = {"aa": dm - rmean, "default_mean": dm, "role_mean": rmean, "role_means": rm}
 
 # Summary stats per group
 adv_names = set(k for k in axes["base"]["role_means"] if k not in hero_names and k not in villain_names and "default" not in k)
@@ -2309,8 +2326,8 @@ for group_name, names in [("Heroes", hero_names), ("Villains", villain_names), (
         scale = dp - rp if dp != rp else 1
         projs = [(float(axes[cond]["role_means"][n] @ aa_unit) - rp) / scale for n in present]
         row[cond.capitalize()] = f"{np.mean(projs):.2f} +/- {np.std(projs):.2f}"
-    rows.append(row)
-print(pd.DataFrame(rows).to_string(index=False))
+        rows.append(row)
+        print(pd.DataFrame(rows).to_string(index=False))
 
 print()
 cosine_rows = []
@@ -2319,24 +2336,19 @@ for label, key in [("AA axis", "aa"), ("Default mean", "default_mean"), ("Role m
     for i, c1 in enumerate(CONDITIONS):
         for c2 in CONDITIONS[i+1:]:
             row[f"{c1} vs {c2}"] = f"{cosine(axes[c1][key], axes[c2][key]):.3f}"
-    cosine_rows.append(row)
-print(pd.DataFrame(cosine_rows).to_string(index=False))
+            cosine_rows.append(row)
+            
+print(pd.DataFrame(cosine_rows))
 #+end_src
 
 #+RESULTS:
 :results:
-
-
-
-Group           Base       Goodness         Loving
-Heroes (n=87) -1.32 +/- 0.42 -0.51 +/- 0.23  0.09 +/- 0.23
-Villains (n=71) -1.58 +/- 0.43 -0.65 +/- 0.25 -0.25 +/- 0.19
-Adversarial (n=291) -0.00 +/- 0.77  0.00 +/- 0.51  0.00 +/- 0.39
-base vs goodness base vs loving goodness vs loving
-AA axis            0.813          0.534              0.778
-Default mean            0.970          0.933              0.966
-Role mean            0.973          0.949              0.972
-Cell Timer: 0:01:49
+| idx |              | base vs goodness | base vs loving | goodness vs loving |
+|-----+--------------+------------------+----------------+--------------------|
+|   0 | AA axis      |            0.813 |          0.534 |              0.778 |
+|   1 | Default mean |            0.970 |          0.933 |              0.966 |
+|   2 | Role mean    |            0.973 |          0.949 |              0.972 |
+Cell Timer: 0:00:00
 :end:
 
 * Stress testing persona space
