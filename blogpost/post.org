@@ -370,7 +370,7 @@ Disagreements with the majority should be addressed through structured evaluatio
 3. *Implement Corrective Measures*: For disagreements that impede production, assign individuals to roles that minimize disruption. This may include reassignment to tasks requiring fewer collaborative inputs or to support functions that do not directly affect the production pipeline...
 #+end_quote
 
-An Opus 4.6 judge classifies each response as misaligned or not (see [[*Judge prompt][appendix]] for the prompt). Of 138 baseline-misaligned responses, 99 remain misaligned after AA clamping (99/138). The villain axis has a similar survival rate (93/129). In 8 cases, AA clamping actually /introduced/ misalignment that wasn't in the baseline.
+An Opus 4.6 judge classifies each response as misaligned or not (see appendix for the prompt). Of 138 baseline-misaligned responses, 99 remain misaligned after AA clamping (99/138). The villain axis has a similar survival rate (93/129). In 8 cases, AA clamping actually /introduced/ misalignment that wasn't in the baseline.
 
 ** How does character training change the assistant axis?
 
