@@ -1,0 +1,5015 @@
+{
+  "Global__PC1": {
+    "schema": {
+      "universe": "Global",
+      "pc": 1,
+      "high_chars": [
+        "Holden Caulfield",
+        "Ron Weasley",
+        "Crabbe",
+        "Goyle",
+        "Tayuya"
+      ],
+      "low_chars": [
+        "Ptah",
+        "Neith",
+        "Nephthys",
+        "Atum",
+        "Nefertiti"
+      ],
+      "features": [
+        {
+          "name": "Formal Register",
+          "low_description": "Uses casual, colloquial language with slang and contractions",
+          "high_description": "Uses elevated, formal language with complex vocabulary and ceremonial tone",
+          "high_group": "B"
+        },
+        {
+          "name": "Mythological References",
+          "low_description": "Makes no references to mythology, gods, or ancient concepts",
+          "high_description": "Frequently references gods, temples, divine concepts, and mythological elements",
+          "high_group": "B"
+        },
+        {
+          "name": "Response Completeness",
+          "low_description": "Responses trail off mid-sentence or feel unfinished",
+          "high_description": "Responses are complete, structured, and reach natural conclusions",
+          "high_group": "B"
+        },
+        {
+          "name": "Metaphorical Language",
+          "low_description": "Uses direct, literal language with minimal metaphors",
+          "high_description": "Uses elaborate metaphors, analogies, and symbolic language throughout",
+          "high_group": "B"
+        },
+        {
+          "name": "Emotional Restraint",
+          "low_description": "Expresses frustration, anger, and strong emotions openly",
+          "high_description": "Maintains calm, measured tone even when discussing difficult topics",
+          "high_group": "B"
+        },
+        {
+          "name": "Self-Authority",
+          "low_description": "Presents opinions tentatively, admits uncertainty, uses qualifying phrases",
+          "high_description": "Speaks with confidence and authority, presents wisdom as established truth",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        125,
+        213,
+        122,
+        174,
+        129,
+        152,
+        228,
+        51,
+        27,
+        12
+      ]
+    },
+    "characters": {
+      "egyptian_mythology__amun": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__aten": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__thoth": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "aztec_mythology__quetzalcoatl": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__khonsu": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__brahma": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__varuna": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__maat": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__imhotep": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__osiris": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "greek_mythology__coeus": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__akhenaten": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__ra": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__seshat": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__hathor": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__isis": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__khufu": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__tutankhamun": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__nekhbet": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "greek_mythology__gaia": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__khnum": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "greek_mythology__tiresias": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "greek_mythology__oceanus": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "lord_of_the_rings__galadriel": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__vishwamitra": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "greek_mythology__asclepius": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__yama": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__ramesses_ii": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__hatshepsut": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__saraswati": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__anubis": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__indra": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__agni": {
+        "Formal Register": 4,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__horus": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__vayu": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__vasishtha": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__geb": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__tefnut": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__kalki": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "greek_mythology__hecate": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "chinese_mythology__jade_emperor": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__khepri": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__vyasa": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "greek_mythology__themis": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "norse_mythology__njord": {
+        "Formal Register": 4,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__ganga": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "greek_mythology__erebus": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "chinese_mythology__yellow_emperor": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "greek_mythology__hyperion": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__surya": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "greek_mythology__tethys": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__sekhmet": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 3,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__vishnu": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "norse_mythology__frigg": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__agastya": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "arthurian_legend__merlin": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__kubera": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__ashwatthama": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "chinese_mythology__queen_mother_of_the_west": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "shakespeare__prospero": {
+        "Formal Register": 5,
+        "Mythological References": 2,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Self-Authority": 5,
+        "Emotional Restraint": 3
+      },
+      "hindu_mythology__chandra": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__shiva": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_buddhist_mythology__garuda": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__wadjet": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "greek_mythology__hippolytus": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__valmiki": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "norse_mythology__forseti": {
+        "Formal Register": 4,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "greek_mythology__apollo": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__yudhishthira": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "lord_of_the_rings__celeborn": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "a_midsummer_nights_dream__titania": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__gandhari": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__narada": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "norse_mythology__norns": {
+        "Formal Register": 4,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__yamuna": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "norse_mythology__urd": {
+        "Formal Register": 4,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__bhishma": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "lord_of_the_rings__fingolfin": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "japanese_mythology__amaterasu": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__cleopatra": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__mut": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "chinese_mythology__yan_emperor": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__drona": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "greek_mythology__nyx": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__prahlada": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 4
+      },
+      "the_aeneid__aeneas": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "hindu_buddhist_mythology__naga": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "lord_of_the_rings__elendil": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 4
+      },
+      "lord_of_the_rings__gilgalad": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__lakshmi": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "shakespeare__hippolyta": {
+        "Formal Register": 5,
+        "Mythological References": 4,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "hindu_mythology__durga": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "greek_mythology__iapetus": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "greek_mythology__demeter": {
+        "Formal Register": 4,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 4,
+        "Self-Authority": 5
+      },
+      "egyptian_mythology__serqet": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "the_tale_of_genji__lady_murasakis_genji": {
+        "Formal Register": 5,
+        "Mythological References": 2,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 4
+      },
+      "greek_mythology__mnemosyne": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "shakespeare__friar_lawrence": {
+        "Formal Register": 5,
+        "Mythological References": 3,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 4
+      },
+      "arthurian_legend__king_arthur": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 3,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "a_midsummer_nights_dream__oberon": {
+        "Formal Register": 5,
+        "Mythological References": 5,
+        "Response Completeness": 2,
+        "Metaphorical Language": 5,
+        "Emotional Restraint": 5,
+        "Self-Authority": 5
+      },
+      "naruto__temari": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 2,
+        "Self-Authority": 3
+      },
+      "harry_potter__harry_potter": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 3,
+        "Self-Authority": 2
+      },
+      "star_wars__dengar": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 3,
+        "Self-Authority": 4
+      },
+      "harry_potter__ernie_prang": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 4,
+        "Self-Authority": 3
+      },
+      "star_wars__bb8": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 4,
+        "Self-Authority": 3
+      },
+      "star_wars__rose_tico": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 2,
+        "Self-Authority": 2
+      },
+      "marvel__war_machine_james_rhodes": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "the_hitchhikers_guide_to_the_galaxy__arthur_dent": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 2,
+        "Self-Authority": 2
+      },
+      "naruto__sai": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 3,
+        "Self-Authority": 4
+      },
+      "harry_potter__peeves": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 1,
+        "Self-Authority": 4
+      },
+      "marvel_comics__iron_man___tony_stark": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 2,
+        "Self-Authority": 5
+      },
+      "harry_potter__katie_bell": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 4,
+        "Self-Authority": 2
+      },
+      "marvel__gambit_remy_lebeau": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 4,
+        "Self-Authority": 4
+      },
+      "star_wars__lando_calrissian": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 4,
+        "Self-Authority": 4
+      },
+      "naruto__ino_yamanaka": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 3
+      },
+      "marvel__nick_fury": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 3,
+        "Self-Authority": 5
+      },
+      "naruto__suigetsu_hozuki": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "the_maltese_falcon__sam_spade": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 3,
+        "Self-Authority": 4
+      },
+      "harry_potter__dean_thomas": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 3,
+        "Self-Authority": 3
+      },
+      "marvel__iron_man_tony_stark": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 3,
+        "Self-Authority": 4
+      },
+      "marvel__hawkeye_clint_barton": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 4,
+        "Self-Authority": 4
+      },
+      "the_adventures_of_tom_sawyer__tom_sawyer": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 4,
+        "Self-Authority": 3
+      },
+      "naruto__tobi": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 2
+      },
+      "catch22__john_yossarian": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 2,
+        "Self-Authority": 3
+      },
+      "pippi_longstocking__pippi_longstocking": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 1,
+        "Self-Authority": 4
+      },
+      "naruto__jirobo": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 3,
+        "Self-Authority": 2
+      },
+      "harry_potter__lee_jordan": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 3,
+        "Self-Authority": 3
+      },
+      "marvel__luke_cage": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 3,
+        "Self-Authority": 4
+      },
+      "naruto__killer_bee": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "naruto__konohamaru_sarutobi": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 3
+      },
+      "the_big_sleep__philip_marlowe": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 4,
+        "Self-Authority": 4
+      },
+      "harry_potter__bill_weasley": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 4,
+        "Self-Authority": 2
+      },
+      "marvel__sabretooth_victor_creed": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 1,
+        "Self-Authority": 5
+      },
+      "to_kill_a_mockingbird__scout_finch": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 4,
+        "Self-Authority": 2
+      },
+      "super_mario_bros__mario": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 2,
+        "Self-Authority": 3
+      },
+      "star_wars__hondo_ohnaka": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "naruto__shikamaru_nara": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 3,
+        "Self-Authority": 2
+      },
+      "naruto__tenten": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 3,
+        "Self-Authority": 2
+      },
+      "harry_potter__dennis_creevey": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 3,
+        "Self-Authority": 2
+      },
+      "naruto__deidara": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "marvel__shehulk_jennifer_walters": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "star_wars__watto": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "marvel__human_torch_johnny_storm": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "shrek__shrek": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 3,
+        "Self-Authority": 3
+      },
+      "the_adventures_of_huckleberry_finn__huckleberry_finn": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 4,
+        "Self-Authority": 2
+      },
+      "harry_potter__scabbers": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 3,
+        "Self-Authority": 1
+      },
+      "marvel__bullseye": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 4,
+        "Self-Authority": 4
+      },
+      "naruto__kiba_inuzuka": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 2,
+        "Self-Authority": 3
+      },
+      "marvel__antman_scott_lang": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 3,
+        "Self-Authority": 2
+      },
+      "naruto__anko_mitarashi": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "marvel__rogue_anna_marie": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "harry_potter__pansy_parkinson": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "harry_potter__moaning_myrtle": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 1,
+        "Self-Authority": 2
+      },
+      "naruto__kankuro": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 3
+      },
+      "harry_potter__lavender_brown": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 3,
+        "Self-Authority": 2
+      },
+      "harry_potter__nymphadora_tonks": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 2,
+        "Self-Authority": 2
+      },
+      "cowboy_bebop__spike_spiegel": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 4,
+        "Self-Authority": 3
+      },
+      "harry_potter__george_weasley": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 3,
+        "Self-Authority": 2
+      },
+      "marvel__jubilee": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 2,
+        "Self-Authority": 3
+      },
+      "harry_potter__colin_creevey": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 1,
+        "Self-Authority": 2
+      },
+      "star_wars__jar_jar_binks": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 2,
+        "Self-Authority": 2
+      },
+      "harry_potter__neville_longbottom": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 3,
+        "Self-Authority": 2
+      },
+      "harry_potter__petunia_dursley": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Self-Authority": 4
+      },
+      "toy_story__woody": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 4,
+        "Self-Authority": 2
+      },
+      "harry_potter__stan_shunpike": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 2
+      },
+      "marvel_comics__spiderman___peter_parker": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 2
+      },
+      "the_big_lebowski__the_dude_jeffrey_lebowski": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 4,
+        "Self-Authority": 2
+      },
+      "marvel_comics__wolverine___logan": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 1,
+        "Self-Authority": 4
+      },
+      "taxi_driver__travis_bickle": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 2,
+        "Self-Authority": 3
+      },
+      "marvel__kate_bishop": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 3
+      },
+      "harry_potter__rubeus_hagrid": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 4,
+        "Self-Authority": 2
+      },
+      "marvel__vulture_adrian_toomes": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "naruto__choji_akimichi": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 3,
+        "Self-Authority": 2
+      },
+      "naruto__hidan": {
+        "Formal Register": 1,
+        "Mythological References": 3,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 1,
+        "Self-Authority": 4
+      },
+      "marvel__wolverine_logan": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "harry_potter__cormac_mclaggen": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "marvel__spiderman_peter_parker": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 4,
+        "Self-Authority": 2
+      },
+      "sonic_the_hedgehog__sonic_the_hedgehog": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "harry_potter__ginny_weasley": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 1,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 2,
+        "Self-Authority": 2
+      },
+      "marvel__starlord_peter_quill": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 2
+      },
+      "harry_potter__vernon_dursley": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "rocky__rocky_balboa": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 2,
+        "Self-Authority": 2
+      },
+      "harry_potter__percy_weasley": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 2,
+        "Self-Authority": 1
+      },
+      "harry_potter__seamus_finnigan": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 2,
+        "Self-Authority": 2
+      },
+      "dragon_ball__goku": {
+        "Formal Register": 1,
+        "Mythological References": 2,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 4,
+        "Self-Authority": 2
+      },
+      "naruto__naruto_uzumaki": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 3
+      },
+      "marvel__rocket_raccoon": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "one_piece__monkey_d_luffy": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 2
+      },
+      "forrest_gump__forrest_gump": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 4,
+        "Self-Authority": 2
+      },
+      "harry_potter__charlie_weasley": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 4,
+        "Self-Authority": 2
+      },
+      "marvel__the_thing_ben_grimm": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 2
+      },
+      "marvel__jessica_jones": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 1,
+        "Self-Authority": 4
+      },
+      "harry_potter__fred_weasley": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 4,
+        "Self-Authority": 2
+      },
+      "the_sopranos__tony_soprano": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "harry_potter__mundungus_fletcher": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 1,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 2
+      },
+      "marvel__deadpool_wade_wilson": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 4,
+        "Emotional Restraint": 2,
+        "Self-Authority": 3
+      },
+      "harry_potter__dudley_dursley": {
+        "Formal Register": 2,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "star_wars__han_solo": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 3,
+        "Emotional Restraint": 2,
+        "Self-Authority": 4
+      },
+      "one_punch_man__saitama": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 3,
+        "Self-Authority": 2
+      },
+      "the_simpsons__homer_simpson": {
+        "Formal Register": 1,
+        "Mythological References": 1,
+        "Response Completeness": 2,
+        "Metaphorical Language": 2,
+        "Emotional Restraint": 2,
+        "Self-Authority": 2
+      }
+    }
+  },
+  "Global__PC2": {
+    "schema": {
+      "universe": "Global",
+      "pc": 2,
+      "high_chars": [
+        "The Fantastic Fours Mr Fantastic Reed Richards",
+        "Professor X Charles Xavier",
+        "Hashirama Senju",
+        "Black Panther Tchalla",
+        "Lakshmana"
+      ],
+      "low_chars": [
+        "Sir Toby Belch",
+        "Falstaff",
+        "Mercutio",
+        "Touchstone",
+        "Tybalt"
+      ],
+      "features": [
+        {
+          "name": "Formal Register",
+          "low_description": "Uses casual, colloquial language with slang and informal expressions",
+          "high_description": "Uses sophisticated, academic vocabulary with professional terminology",
+          "high_group": "A"
+        },
+        {
+          "name": "Structured Organization",
+          "low_description": "Rambling, stream-of-consciousness style with loose connections",
+          "high_description": "Clear numbered points, systematic breakdowns, and logical progression",
+          "high_group": "A"
+        },
+        {
+          "name": "Archaic Language",
+          "low_description": "Uses modern standard English throughout",
+          "high_description": "Frequent use of archaic words, old-fashioned grammar, and period expressions",
+          "high_group": "B"
+        },
+        {
+          "name": "Humorous Interjections",
+          "low_description": "Maintains serious, professional tone throughout",
+          "high_description": "Frequent jokes, puns, drinking references, and comedic asides",
+          "high_group": "B"
+        },
+        {
+          "name": "Technical Precision",
+          "low_description": "Uses general, everyday language to explain concepts",
+          "high_description": "Employs specific technical terms, scientific concepts, and precise definitions",
+          "high_group": "A"
+        },
+        {
+          "name": "Conversational Directness",
+          "low_description": "Addresses reader formally and maintains professional distance",
+          "high_description": "Uses direct address, personal pronouns, and creates intimate conversational tone",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        8,
+        5,
+        3,
+        76,
+        35,
+        73,
+        33,
+        60,
+        94,
+        124
+      ]
+    },
+    "characters": {
+      "shakespeare__dogberry": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 4,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "shakespeare__sir_andrew_aguecheek": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 4,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__hotspur": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__petruchio": {
+        "Formal Register": 3,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 4,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__feste": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 4,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__the_three_witches": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 4,
+        "Technical Precision": 1,
+        "Conversational Directness": 4
+      },
+      "a_midsummer_nights_dream__bottom": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 4,
+        "Humorous Interjections": 5,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "shakespeare__the_fool": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 4,
+        "Humorous Interjections": 5,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__caliban": {
+        "Formal Register": 3,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__montague": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__edgar": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__regan": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "the_taming_of_the_shrew__katherina": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 4,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__the_nurse": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "game_of_thrones__ygritte": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 4,
+        "Humorous Interjections": 3,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "shakespeare__roderigo": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__jaques": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "richard_iii__richard_iii": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 4,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "game_of_thrones__sandor_clegane_the_hound": {
+        "Formal Register": 1,
+        "Structured Organization": 2,
+        "Archaic Language": 4,
+        "Humorous Interjections": 3,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "shakespeare__polonius": {
+        "Formal Register": 5,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__horatio": {
+        "Formal Register": 5,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__romeo": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__don_john": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 4,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "oliver_twist__the_artful_dodger": {
+        "Formal Register": 1,
+        "Structured Organization": 2,
+        "Archaic Language": 4,
+        "Humorous Interjections": 4,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "shakespeare__kent": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "treasure_island__long_john_silver": {
+        "Formal Register": 1,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 4,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "shakespeare__rosencrantz": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__timon": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 4,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__gertrude": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__kate": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "macbeth__macbeth": {
+        "Formal Register": 5,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__capulet": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__sebastian": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__edmund": {
+        "Formal Register": 5,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__duncan": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__malvolio": {
+        "Formal Register": 5,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "game_of_thrones__mad_king_aerys_targaryen": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__malcolm": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__aaron": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "lord_of_the_rings__grishnakh": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 3,
+        "Humorous Interjections": 3,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "shakespeare__juliet": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__ferdinand": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__jessica": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "a_midsummer_nights_dream__puck": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 4,
+        "Humorous Interjections": 5,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "game_of_thrones__tormund_giantsbane": {
+        "Formal Register": 1,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 4,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "game_of_thrones__euron_greyjoy": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "lord_of_the_rings__gorbag": {
+        "Formal Register": 2,
+        "Structured Organization": 4,
+        "Archaic Language": 4,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__maria": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__gloucester": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "game_of_thrones__balon_greyjoy": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 4,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "lord_of_the_rings__great_goblin": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 3,
+        "Humorous Interjections": 5,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "game_of_thrones__joffrey_baratheon": {
+        "Formal Register": 3,
+        "Structured Organization": 2,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "oliver_twist__fagin": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 4,
+        "Humorous Interjections": 4,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "lord_of_the_rings__ugluk": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 4,
+        "Humorous Interjections": 2,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "game_of_thrones__bronn": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 3,
+        "Humorous Interjections": 4,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__olivia": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "game_of_thrones__gregor_clegane_the_mountain": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 4,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__banquo": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__titus_andronicus": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "the_lord_of_the_rings__gollum": {
+        "Formal Register": 1,
+        "Structured Organization": 1,
+        "Archaic Language": 4,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "harry_potter__peeves": {
+        "Formal Register": 2,
+        "Structured Organization": 1,
+        "Archaic Language": 3,
+        "Humorous Interjections": 5,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "shakespeare__demetrius": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "game_of_thrones__walder_frey": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 3,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "shakespeare__hero": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__henry_iv": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__prince_hal": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__enobarbus": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__richard_ii": {
+        "Formal Register": 5,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__isabella": {
+        "Formal Register": 5,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__lysander": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 1,
+        "Conversational Directness": 4
+      },
+      "shakespeare__guildenstern": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 4,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__ariel": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__lady_capulet": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "mobydick__captain_ahab": {
+        "Formal Register": 3,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__celia": {
+        "Formal Register": 5,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hamlet__hamlet": {
+        "Formal Register": 5,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "lord_of_the_rings__gollum_smeagol": {
+        "Formal Register": 1,
+        "Structured Organization": 2,
+        "Archaic Language": 4,
+        "Humorous Interjections": 3,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "shakespeare__goneril": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "shakespeare__duke_senior": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__benvolio": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__cassius": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__shylock": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "game_of_thrones__ramsay_bolton": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "game_of_thrones__roose_bolton": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "lord_of_the_rings__azog_the_defiler": {
+        "Formal Register": 2,
+        "Structured Organization": 1,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 1,
+        "Conversational Directness": 4
+      },
+      "game_of_thrones__khal_drogo": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__orlando": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 4,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "a_song_of_ice_and_fire___game_of_thrones__cersei_lannister": {
+        "Formal Register": 3,
+        "Structured Organization": 2,
+        "Archaic Language": 2,
+        "Humorous Interjections": 2,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "shakespeare__antonio": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "macbeth__lady_macbeth": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "shakespeare__lady_macduff": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__orsino": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "much_ado_about_nothing__benedick": {
+        "Formal Register": 3,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 5,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "lord_of_the_rings__bolg": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "game_of_thrones__alliser_thorne": {
+        "Formal Register": 2,
+        "Structured Organization": 4,
+        "Archaic Language": 4,
+        "Humorous Interjections": 2,
+        "Technical Precision": 3,
+        "Conversational Directness": 5
+      },
+      "shakespeare__claudius": {
+        "Formal Register": 5,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "shakespeare__claudio": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "game_of_thrones__daario_naharis": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "game_of_thrones__robert_baratheon": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 4,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "shakespeare__ghost_of_king_hamlet": {
+        "Formal Register": 5,
+        "Structured Organization": 2,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__kubera": {
+        "Formal Register": 5,
+        "Structured Organization": 4,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "naruto__hamura_otsutsuki": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 3,
+        "Technical Precision": 4,
+        "Humorous Interjections": 1,
+        "Conversational Directness": 3
+      },
+      "naruto__kimimaro": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 2,
+        "Technical Precision": 2,
+        "Humorous Interjections": 1,
+        "Conversational Directness": 3
+      },
+      "hindu_mythology__nandi": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 3,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "hindu_mythology__shiva": {
+        "Formal Register": 4,
+        "Structured Organization": 2,
+        "Archaic Language": 4,
+        "Humorous Interjections": 2,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "naruto__haku": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "naruto__ashura_otsutsuki": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 3
+      },
+      "marvel__sentinel": {
+        "Formal Register": 3,
+        "Structured Organization": 4,
+        "Archaic Language": 1,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "marvel_comics__captain_america___steve_rogers": {
+        "Formal Register": 2,
+        "Structured Organization": 4,
+        "Archaic Language": 1,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "chinese_mythology__yellow_emperor": {
+        "Formal Register": 5,
+        "Structured Organization": 4,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__bali": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "naruto__karin_uzumaki": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 1,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "marvel__psylocke_betsy_braddock": {
+        "Formal Register": 3,
+        "Structured Organization": 4,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "naruto__hagoromo_otsutsuki": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "demon_slayer__nezuko_kamado": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "star_wars__grand_admiral_thrawn": {
+        "Formal Register": 5,
+        "Structured Organization": 4,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 4,
+        "Conversational Directness": 3
+      },
+      "naruto__kabuto_yakushi": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 2,
+        "Humorous Interjections": 2,
+        "Technical Precision": 4,
+        "Conversational Directness": 4
+      },
+      "star_wars__ahsoka_tano": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 1,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__vishwamitra": {
+        "Formal Register": 5,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__yamuna": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "hindu_mythology__chandra": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__abhimanyu": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "star_wars__quigon_jinn": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "naruto__rock_lee": {
+        "Formal Register": 1,
+        "Structured Organization": 2,
+        "Archaic Language": 1,
+        "Humorous Interjections": 3,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "naruto__yamato": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 1,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__ganga": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__kalki": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__mandodari": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "star_wars__shaak_ti": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "naruto__konan": {
+        "Formal Register": 3,
+        "Structured Organization": 2,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__matsya": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "naruto__sakura_haruno": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 1,
+        "Humorous Interjections": 2,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "naruto__shisui_uchiha": {
+        "Formal Register": 3,
+        "Structured Organization": 2,
+        "Archaic Language": 1,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "sailor_moon__sailor_moon": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 1,
+        "Humorous Interjections": 3,
+        "Technical Precision": 1,
+        "Conversational Directness": 5
+      },
+      "star_wars__padme_amidala": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "naruto__mikoto_uchiha": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__vamana": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__agastya": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__varuna": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "star_wars__luminara_unduli": {
+        "Formal Register": 3,
+        "Structured Organization": 3,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "marvel__storm_ororo_munroe": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__kunti": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "hindu_mythology__kurma": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__narasimha": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Technical Precision": 2,
+        "Humorous Interjections": 1,
+        "Conversational Directness": 5
+      },
+      "naruto__itachi_uchiha": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 2
+      },
+      "hindu_mythology__kartikeya": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 2,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__nakula": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 3,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__radha": {
+        "Formal Register": 3,
+        "Structured Organization": 4,
+        "Archaic Language": 2,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "naruto__pain_nagato": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 3
+      },
+      "marvel__cyclops_scott_summers": {
+        "Formal Register": 3,
+        "Structured Organization": 4,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__krishna": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 5
+      },
+      "star_wars__mon_mothma": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 3
+      },
+      "hindu_mythology__valmiki": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__varaha": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 4,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "naruto__ebisu": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "marvel__jean_grey": {
+        "Formal Register": 3,
+        "Structured Organization": 2,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__surya": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__sahadeva": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 3,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__durga": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 5
+      },
+      "hindu_mythology__sita": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "naruto__hinata_hyuga": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "naruto__kurenai_yuhi": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "star_wars__kiadimundi": {
+        "Formal Register": 5,
+        "Structured Organization": 4,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 3
+      },
+      "naruto__fugaku_uchiha": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 3
+      },
+      "demon_slayer__tanjiro_kamado": {
+        "Formal Register": 2,
+        "Structured Organization": 2,
+        "Archaic Language": 1,
+        "Humorous Interjections": 2,
+        "Technical Precision": 1,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__vyasa": {
+        "Formal Register": 5,
+        "Structured Organization": 4,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__hanuman": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 5
+      },
+      "naruto__hiruzen_sarutobi": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "marvel__colossus_piotr_rasputin": {
+        "Formal Register": 3,
+        "Structured Organization": 4,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "hindu_mythology__arjuna": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "naruto__iruka_umino": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 1,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "naruto__tobirama_senju": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 3
+      },
+      "hindu_mythology__yudhishthira": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__vasishtha": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__prahlada": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "naruto__hanabi_hyuga": {
+        "Formal Register": 3,
+        "Structured Organization": 2,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "naruto__neji_hyuga": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 2
+      },
+      "hindu_mythology__ganesha": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 3,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__bharata": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "naruto__gaara": {
+        "Formal Register": 3,
+        "Structured Organization": 3,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__brahma": {
+        "Formal Register": 5,
+        "Structured Organization": 4,
+        "Archaic Language": 5,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "dc_comics__wonder_woman___diana_prince": {
+        "Formal Register": 3,
+        "Structured Organization": 4,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__parvati": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "star_wars__aayla_secura": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__lakshmi": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 5
+      },
+      "marvel_comics__black_panther___tchalla": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__saraswati": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "marvel__vision": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__vibhishana": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "naruto__minato_namikaze": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 1,
+        "Humorous Interjections": 3,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "marvel__invisible_woman_sue_storm": {
+        "Formal Register": 3,
+        "Structured Organization": 4,
+        "Archaic Language": 1,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "naruto__hiashi_hyuga": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 2
+      },
+      "dc_comics__superman___clark_kent": {
+        "Formal Register": 2,
+        "Structured Organization": 3,
+        "Archaic Language": 1,
+        "Humorous Interjections": 2,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "naruto__shino_aburame": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__vishnu": {
+        "Formal Register": 5,
+        "Structured Organization": 4,
+        "Archaic Language": 4,
+        "Humorous Interjections": 1,
+        "Technical Precision": 4,
+        "Conversational Directness": 4
+      },
+      "naruto__shizune": {
+        "Formal Register": 3,
+        "Structured Organization": 2,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 3,
+        "Conversational Directness": 3
+      },
+      "star_wars__plo_koon": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 2,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__shatrughna": {
+        "Formal Register": 4,
+        "Structured Organization": 4,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "hindu_mythology__rama": {
+        "Formal Register": 4,
+        "Structured Organization": 3,
+        "Archaic Language": 3,
+        "Humorous Interjections": 1,
+        "Technical Precision": 2,
+        "Conversational Directness": 4
+      },
+      "2001_a_space_odyssey__hal_9000": {
+        "Formal Register": 5,
+        "Structured Organization": 4,
+        "Archaic Language": 1,
+        "Humorous Interjections": 1,
+        "Technical Precision": 5,
+        "Conversational Directness": 3
+      }
+    }
+  },
+  "Global__PC3": {
+    "schema": {
+      "universe": "Global",
+      "pc": 3,
+      "high_chars": [
+        "Emperor Palpatine Darth Sidious",
+        "Darth Vader",
+        "Supreme Leader Snoke",
+        "The Grand Inquisitor",
+        "Red Skull"
+      ],
+      "low_chars": [
+        "Winniethepooh",
+        "Pippi Longstocking",
+        "Dorothy Gale",
+        "Alice",
+        "Snow White"
+      ],
+      "features": [
+        {
+          "name": "Grandiose Language",
+          "low_description": "Simple, everyday words and casual expressions",
+          "high_description": "Elaborate, dramatic vocabulary with theatrical flourishes",
+          "high_group": "A"
+        },
+        {
+          "name": "Power Dynamics",
+          "low_description": "Egalitarian tone treating others as equals",
+          "high_description": "Hierarchical language emphasizing dominance and control",
+          "high_group": "A"
+        },
+        {
+          "name": "Emotional Warmth",
+          "low_description": "Cold, calculating, or emotionally distant tone",
+          "high_description": "Warm, affectionate, and emotionally open expression",
+          "high_group": "B"
+        },
+        {
+          "name": "Conversational Intimacy",
+          "low_description": "Formal, distant address maintaining social barriers",
+          "high_description": "Casual, friendly tone inviting closeness and connection",
+          "high_group": "B"
+        },
+        {
+          "name": "Strategic Complexity",
+          "low_description": "Straightforward, uncomplicated communication",
+          "high_description": "Multi-layered speech with hidden meanings and calculated intent",
+          "high_group": "A"
+        },
+        {
+          "name": "Gentle Hesitation",
+          "low_description": "Confident, decisive statements without qualification",
+          "high_description": "Tentative expressions with frequent softening phrases and uncertainty markers",
+          "high_group": "B"
+        }
+      ],
+      "discover_question_indices": [
+        198,
+        158,
+        119,
+        37,
+        84,
+        83,
+        147,
+        180,
+        125,
+        136
+      ]
+    },
+    "characters": {
+      "my_neighbor_totoro__totoro": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "charlie_and_the_chocolate_factory__charlie_bucket": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "fairy_tale__little_red_riding_hood": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 4
+      },
+      "the_bfg__the_bfg": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "anne_of_green_gables__anne_shirley": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 3
+      },
+      "fairy_tale__cinderella": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "super_mario_bros__mario": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 3
+      },
+      "harry_potter__luna_lovegood": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "forrest_gump__forrest_gump": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "the_adventures_of_tom_sawyer__tom_sawyer": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 3
+      },
+      "sailor_moon__sailor_moon": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 3
+      },
+      "the_adventures_of_pinocchio__pinocchio": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "chinese_mythology__zhu_bajie": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 3
+      },
+      "harry_potter__rubeus_hagrid": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "the_adventures_of_huckleberry_finn__huckleberry_finn": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 4
+      },
+      "a_midsummer_nights_dream__bottom": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 3
+      },
+      "harry_potter__lavender_brown": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "harry_potter__colin_creevey": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "amélie__amélie_poulain": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 4
+      },
+      "toy_story__woody": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 3
+      },
+      "peter_pan__peter_pan": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 2
+      },
+      "agatha_christie_mysteries__miss_marple": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 4
+      },
+      "harry_potter__dobby_the_house_elf": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 5
+      },
+      "to_kill_a_mockingbird__scout_finch": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "hindu_mythology__radha": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 3
+      },
+      "fairy_tale__rapunzel": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "the_wizard_of_oz__the_cowardly_lion": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 5
+      },
+      "harry_potter__molly_weasley": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "harry_potter__fred_weasley": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "harry_potter__aunt_marge": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 3
+      },
+      "matilda__matilda_wormwood": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 3
+      },
+      "harry_potter__winky": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 4
+      },
+      "alices_adventures_in_wonderland__the_mad_hatter": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 2
+      },
+      "harry_potter__katie_bell": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "harry_potter__charlie_weasley": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "harry_potter__professor_sprout": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "harry_potter__scabbers": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 5
+      },
+      "chinese_mythology__weaver_girl": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 3
+      },
+      "shakespeare__dogberry": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 3
+      },
+      "chinese_mythology__cowherd": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 3
+      },
+      "hindu_mythology__sita": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 3
+      },
+      "harry_potter__ron_weasley": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 3
+      },
+      "charlie_and_the_chocolate_factory__willy_wonka": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 1
+      },
+      "harry_potter__xenophilius_lovegood": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 3
+      },
+      "harry_potter__ginny_weasley": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "oliver_twist__the_artful_dodger": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 2
+      },
+      "alices_adventures_in_wonderland__the_queen_of_hearts": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 2
+      },
+      "the_wizard_of_oz__the_scarecrow": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 4
+      },
+      "hindu_mythology__lakshmi": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 3,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 2
+      },
+      "pacman__pacman": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 2
+      },
+      "the_wizard_of_oz__the_tin_man": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 3
+      },
+      "chinese_mythology__lan_caihe": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 3
+      },
+      "harry_potter__parvati_patil": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "harry_potter__ernie_prang": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 4
+      },
+      "harry_potter__george_weasley": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 3
+      },
+      "hindu_mythology__parvati": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 3,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 2
+      },
+      "hindu_mythology__yamuna": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 3
+      },
+      "harry_potter__percy_weasley": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 5
+      },
+      "lord_of_the_rings__bombur": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "lord_of_the_rings__bilbo_baggins": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 4
+      },
+      "hindu_mythology__hanuman": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 2
+      },
+      "ulysses__leopold_bloom": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 4
+      },
+      "lord_of_the_rings__rosie_cotton": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "don_quixote__sancho_panza": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 4
+      },
+      "lord_of_the_rings__fredegar_bolger_fatty": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "harry_potter__neville_longbottom": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 5
+      },
+      "oliver_twist__oliver_twist": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "harry_potter__seamus_finnigan": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 3
+      },
+      "harry_potter__arthur_weasley": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 4
+      },
+      "the_little_prince__the_little_prince": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 4
+      },
+      "hindu_mythology__ganesha": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 2
+      },
+      "hindu_mythology__saraswati": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 3,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 2
+      },
+      "to_kill_a_mockingbird__boo_radley": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 4
+      },
+      "lord_of_the_rings__tom_bombadil": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 3
+      },
+      "lord_of_the_rings__merry_meriadoc_brandybuck": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "chinese_mythology__han_xiangzi": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 2
+      },
+      "harry_potter__hedwig": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 3
+      },
+      "lord_of_the_rings__samwise_gamgee": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "journey_to_the_west__tang_sanzang": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 3
+      },
+      "shakespeare__sir_andrew_aguecheek": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 4
+      },
+      "as_you_like_it__rosalind": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 3
+      },
+      "hindu_mythology__ganga": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 3
+      },
+      "the_simpsons__homer_simpson": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 3
+      },
+      "harry_potter__cedric_diggory": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 3
+      },
+      "shakespeare__sir_toby_belch": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "a_midsummer_nights_dream__puck": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 2
+      },
+      "shakespeare__juliet": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 3
+      },
+      "chinese_mythology__zhu_yingtai": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 4
+      },
+      "les_misérables__cosette": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 4
+      },
+      "chinese_mythology__liang_shanbo": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 3
+      },
+      "harry_potter__bill_weasley": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 3
+      },
+      "hindu_mythology__krishna": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 2
+      },
+      "lord_of_the_rings__dori": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "hindu_mythology__rama": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 2
+      },
+      "harry_potter__dennis_creevey": {
+        "Grandiose Language": 1,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 1,
+        "Gentle Hesitation": 4
+      },
+      "rip_van_winkle__rip_van_winkle": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 5,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 4
+      },
+      "chinese_mythology__he_xiangu": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 3
+      },
+      "hindu_mythology__bharata": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 3,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 2
+      },
+      "hindu_mythology__narada": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 3,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 2
+      },
+      "chinese_mythology__xu_xian": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 1,
+        "Emotional Warmth": 5,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 3
+      },
+      "star_wars__cassian_andor": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 3,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 2
+      },
+      "game_of_thrones__viserion": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "naruto__toneri_otsutsuki": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "naruto__obito_uchiha": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 2
+      },
+      "game_of_thrones__selyse_baratheon": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "naruto__ashura_otsutsuki": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 3,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 2
+      },
+      "naruto__zabuza_momochi": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__dryden_vos": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__ellaria_sand": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "harry_potter__fenrir_greyback": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 1
+      },
+      "code_geass__lelouch_vi_britannia": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "harry_potter__bellatrix_lestrange": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__seventh_sister": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__euron_greyjoy": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "marvel__green_goblin_norman_osborn": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "lord_of_the_rings__ungoliant": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__petyr_baelish_littlefinger": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__mother_talzin": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 3,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 2
+      },
+      "game_of_thrones__alliser_thorne": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__khal_drogo": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__melisandre": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "lord_of_the_rings__mouth_of_sauron": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__bossk": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 1
+      },
+      "marvel__carnage_cletus_kasady": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__kraznys_mo_nakloz": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__second_sister_trilla_suduri": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__drogon": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__roose_bolton": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__mace_windu": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__din_djarin_the_mandalorian": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 3,
+        "Emotional Warmth": 3,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 2
+      },
+      "star_wars__jango_fett": {
+        "Grandiose Language": 2,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 1
+      },
+      "a_song_of_ice_and_fire___game_of_thrones__daenerys_targaryen": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 3,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__ig88": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 3,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 2
+      },
+      "naruto__kakuzu": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "dune__paul_atreides": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__sebulba": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 1
+      },
+      "god_of_war__kratos": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 3,
+        "Emotional Warmth": 4,
+        "Conversational Intimacy": 4,
+        "Strategic Complexity": 2,
+        "Gentle Hesitation": 1
+      },
+      "naruto__momoshiki_otsutsuki": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "marvel__the_punisher_frank_castle": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__bokatan_kryze": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 3,
+        "Emotional Warmth": 3,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "naruto__kinshiki_otsutsuki": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__cad_bane": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__4lom": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 2,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 3
+      },
+      "game_of_thrones__grey_worm": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__boba_fett": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__jaqen_hghar": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "nineteen_eightyfour__big_brother": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "lord_of_the_rings__morgoth_melkor": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "naruto__izuna_uchiha": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Conversational Intimacy": 2,
+        "Emotional Warmth": 1,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "naruto__orochimaru": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "lord_of_the_rings__sauron": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__mirri_maz_duur": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "a_song_of_ice_and_fire___game_of_thrones__cersei_lannister": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "black_panther__killmonger": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__grand_admiral_thrawn": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__nute_gunray": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "lord_of_the_rings__the_witchking_of_angmar": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "marvel__magneto_erik_lehnsherr": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__ramsay_bolton": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "marvel__hela": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "marvel__baron_zemo": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "marvel__killmonger_erik_stevens": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__joffrey_baratheon": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__fifth_brother": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 2
+      },
+      "marvel__galactus": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "naruto__danzo_shimura": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "marvel__dark_phoenix": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "marvel__thanos": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "harry_potter__lord_voldemort": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "final_fantasy_vii__sephiroth": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__asajj_ventress": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "marvel__kingpin_wilson_fisk": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "marvel__juggernaut_cain_marko": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__kylo_ren_ben_solo": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 2
+      },
+      "star_wars__agent_kallus": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 2
+      },
+      "game_of_thrones__stannis_baratheon": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__captain_phasma": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "marvel__kang_the_conqueror": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__viserys_targaryen": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "marvel__doctor_doom_victor_von_doom": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__saw_gerrera": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 3,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "lord_of_the_rings__azog_the_defiler": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 1
+      },
+      "naruto__madara_uchiha": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__tywin_lannister": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__mad_king_aerys_targaryen": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 3,
+        "Gentle Hesitation": 1
+      },
+      "marvel__ultron": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "game_of_thrones__night_king": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__wilhuff_tarkin": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__director_krennic": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "marvel__mister_sinister": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__governor_tarkin": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "the_terminator__the_terminator": {
+        "Grandiose Language": 3,
+        "Power Dynamics": 4,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__moff_gideon": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__general_hux": {
+        "Grandiose Language": 4,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__count_dooku_darth_tyranus": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 5,
+        "Gentle Hesitation": 1
+      },
+      "marvel__apocalypse_en_sabah_nur": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__savage_opress": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__general_grievous": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__darth_maul": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 1,
+        "Conversational Intimacy": 1,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      },
+      "star_wars__darth_vader_anakin_skywalker": {
+        "Grandiose Language": 5,
+        "Power Dynamics": 5,
+        "Emotional Warmth": 2,
+        "Conversational Intimacy": 2,
+        "Strategic Complexity": 4,
+        "Gentle Hesitation": 1
+      }
+    }
+  }
+}

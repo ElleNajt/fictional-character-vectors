@@ -15,3 +15,6 @@ data/role_vectors/*.pkl
 # Editor
 *.swp
 *~
+
+# org-google export temp files
+.org-google-temp.*

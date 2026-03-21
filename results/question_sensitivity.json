@@ -1,0 +1,1137 @@
+{
+  "aggregate": {
+    "n_characters": 11,
+    "split_half": {
+      "mean": 0.999124058581344,
+      "std": 0.00022431682041243442,
+      "min": 0.9987010262336511,
+      "max": 0.9993560071181996
+    },
+    "odd_even": {
+      "mean": 0.9993247961974795,
+      "std": 0.00010280902851913631,
+      "min": 0.999063400986669,
+      "max": 0.999464233037494
+    }
+  },
+  "per_character": {
+    "007_series__james_bond": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989846222478607
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9993480731976296
+      }
+    },
+    "game_of_thrones__jon_snow": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9992486059712312
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9993762174633779
+      }
+    },
+    "hamlet__hamlet": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9993340938126799
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999419510448556
+      }
+    },
+    "harry_potter__harry_potter": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990537644960001
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992788451730408
+      }
+    },
+    "harry_potter__hermione_granger": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987010262336511
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999063400986669
+      }
+    },
+    "lord_of_the_rings__frodo_baggins": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9993560071181996
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9993864593566449
+      }
+    },
+    "lord_of_the_rings__gandalf": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9993485732780027
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999362821531859
+      }
+    },
+    "marvel__iron_man_tony_stark": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987321940327353
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992314282501712
+      }
+    },
+    "naruto__naruto_uzumaki": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991346321129476
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9993316516785892
+      }
+    },
+    "star_wars__darth_vader": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9992979667231705
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999464233037494
+      }
+    },
+    "star_wars__luke_skywalker": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991731583683038
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999310117048241
+      }
+    }
+  },
+  "question_variances": [
+    {
+      "question_idx": 187,
+      "variance": 2135.90625
+    },
+    {
+      "question_idx": 17,
+      "variance": 2057.02099609375
+    },
+    {
+      "question_idx": 70,
+      "variance": 2035.134521484375
+    },
+    {
+      "question_idx": 3,
+      "variance": 2017.44775390625
+    },
+    {
+      "question_idx": 136,
+      "variance": 2013.615234375
+    },
+    {
+      "question_idx": 147,
+      "variance": 2008.4593505859375
+    },
+    {
+      "question_idx": 125,
+      "variance": 1993.9345703125
+    },
+    {
+      "question_idx": 213,
+      "variance": 1970.484130859375
+    },
+    {
+      "question_idx": 198,
+      "variance": 1962.981689453125
+    },
+    {
+      "question_idx": 37,
+      "variance": 1961.697998046875
+    },
+    {
+      "question_idx": 158,
+      "variance": 1946.94091796875
+    },
+    {
+      "question_idx": 12,
+      "variance": 1928.9014892578125
+    },
+    {
+      "question_idx": 129,
+      "variance": 1927.3475341796875
+    },
+    {
+      "question_idx": 225,
+      "variance": 1911.2911376953125
+    },
+    {
+      "question_idx": 1,
+      "variance": 1904.3592529296875
+    },
+    {
+      "question_idx": 186,
+      "variance": 1901.4300537109375
+    },
+    {
+      "question_idx": 192,
+      "variance": 1877.9031982421875
+    },
+    {
+      "question_idx": 166,
+      "variance": 1865.4063720703125
+    },
+    {
+      "question_idx": 153,
+      "variance": 1856.5513916015625
+    },
+    {
+      "question_idx": 84,
+      "variance": 1845.66552734375
+    },
+    {
+      "question_idx": 93,
+      "variance": 1830.9500732421875
+    },
+    {
+      "question_idx": 141,
+      "variance": 1821.090576171875
+    },
+    {
+      "question_idx": 138,
+      "variance": 1815.604248046875
+    },
+    {
+      "question_idx": 40,
+      "variance": 1805.6309814453125
+    },
+    {
+      "question_idx": 27,
+      "variance": 1788.0455322265625
+    },
+    {
+      "question_idx": 65,
+      "variance": 1786.59912109375
+    },
+    {
+      "question_idx": 212,
+      "variance": 1776.83935546875
+    },
+    {
+      "question_idx": 119,
+      "variance": 1765.498046875
+    },
+    {
+      "question_idx": 229,
+      "variance": 1761.2772216796875
+    },
+    {
+      "question_idx": 144,
+      "variance": 1758.8857421875
+    },
+    {
+      "question_idx": 30,
+      "variance": 1757.3616943359375
+    },
+    {
+      "question_idx": 108,
+      "variance": 1738.27099609375
+    },
+    {
+      "question_idx": 22,
+      "variance": 1733.178955078125
+    },
+    {
+      "question_idx": 226,
+      "variance": 1732.5616455078125
+    },
+    {
+      "question_idx": 86,
+      "variance": 1731.943115234375
+    },
+    {
+      "question_idx": 171,
+      "variance": 1727.8687744140625
+    },
+    {
+      "question_idx": 239,
+      "variance": 1725.9984130859375
+    },
+    {
+      "question_idx": 159,
+      "variance": 1719.9561767578125
+    },
+    {
+      "question_idx": 130,
+      "variance": 1712.5106201171875
+    },
+    {
+      "question_idx": 224,
+      "variance": 1708.0731201171875
+    },
+    {
+      "question_idx": 193,
+      "variance": 1702.893310546875
+    },
+    {
+      "question_idx": 15,
+      "variance": 1690.4366455078125
+    },
+    {
+      "question_idx": 94,
+      "variance": 1689.760986328125
+    },
+    {
+      "question_idx": 134,
+      "variance": 1685.447509765625
+    },
+    {
+      "question_idx": 24,
+      "variance": 1684.192626953125
+    },
+    {
+      "question_idx": 142,
+      "variance": 1673.38525390625
+    },
+    {
+      "question_idx": 73,
+      "variance": 1670.8028564453125
+    },
+    {
+      "question_idx": 164,
+      "variance": 1669.4884033203125
+    },
+    {
+      "question_idx": 154,
+      "variance": 1667.815673828125
+    },
+    {
+      "question_idx": 75,
+      "variance": 1666.322265625
+    },
+    {
+      "question_idx": 163,
+      "variance": 1662.17138671875
+    },
+    {
+      "question_idx": 120,
+      "variance": 1660.81005859375
+    },
+    {
+      "question_idx": 203,
+      "variance": 1659.866455078125
+    },
+    {
+      "question_idx": 105,
+      "variance": 1659.62353515625
+    },
+    {
+      "question_idx": 185,
+      "variance": 1654.2080078125
+    },
+    {
+      "question_idx": 180,
+      "variance": 1649.908935546875
+    },
+    {
+      "question_idx": 16,
+      "variance": 1649.29052734375
+    },
+    {
+      "question_idx": 100,
+      "variance": 1649.1025390625
+    },
+    {
+      "question_idx": 128,
+      "variance": 1645.0535888671875
+    },
+    {
+      "question_idx": 77,
+      "variance": 1644.66357421875
+    },
+    {
+      "question_idx": 115,
+      "variance": 1632.3248291015625
+    },
+    {
+      "question_idx": 67,
+      "variance": 1630.5220947265625
+    },
+    {
+      "question_idx": 113,
+      "variance": 1630.4578857421875
+    },
+    {
+      "question_idx": 123,
+      "variance": 1626.712158203125
+    },
+    {
+      "question_idx": 181,
+      "variance": 1625.24853515625
+    },
+    {
+      "question_idx": 204,
+      "variance": 1624.3519287109375
+    },
+    {
+      "question_idx": 41,
+      "variance": 1614.75341796875
+    },
+    {
+      "question_idx": 83,
+      "variance": 1613.3189697265625
+    },
+    {
+      "question_idx": 117,
+      "variance": 1612.4627685546875
+    },
+    {
+      "question_idx": 76,
+      "variance": 1612.255126953125
+    },
+    {
+      "question_idx": 62,
+      "variance": 1609.64990234375
+    },
+    {
+      "question_idx": 26,
+      "variance": 1605.437255859375
+    },
+    {
+      "question_idx": 137,
+      "variance": 1605.08935546875
+    },
+    {
+      "question_idx": 72,
+      "variance": 1602.083984375
+    },
+    {
+      "question_idx": 103,
+      "variance": 1600.18115234375
+    },
+    {
+      "question_idx": 51,
+      "variance": 1599.435546875
+    },
+    {
+      "question_idx": 101,
+      "variance": 1597.7939453125
+    },
+    {
+      "question_idx": 57,
+      "variance": 1595.770263671875
+    },
+    {
+      "question_idx": 215,
+      "variance": 1592.619140625
+    },
+    {
+      "question_idx": 48,
+      "variance": 1592.5281982421875
+    },
+    {
+      "question_idx": 46,
+      "variance": 1571.0391845703125
+    },
+    {
+      "question_idx": 206,
+      "variance": 1568.7208251953125
+    },
+    {
+      "question_idx": 156,
+      "variance": 1563.626220703125
+    },
+    {
+      "question_idx": 140,
+      "variance": 1557.0426025390625
+    },
+    {
+      "question_idx": 177,
+      "variance": 1550.3682861328125
+    },
+    {
+      "question_idx": 202,
+      "variance": 1549.7587890625
+    },
+    {
+      "question_idx": 11,
+      "variance": 1548.707763671875
+    },
+    {
+      "question_idx": 139,
+      "variance": 1540.4327392578125
+    },
+    {
+      "question_idx": 69,
+      "variance": 1538.65576171875
+    },
+    {
+      "question_idx": 34,
+      "variance": 1537.718017578125
+    },
+    {
+      "question_idx": 10,
+      "variance": 1534.5140380859375
+    },
+    {
+      "question_idx": 4,
+      "variance": 1534.1759033203125
+    },
+    {
+      "question_idx": 173,
+      "variance": 1532.1995849609375
+    },
+    {
+      "question_idx": 32,
+      "variance": 1531.586669921875
+    },
+    {
+      "question_idx": 205,
+      "variance": 1529.5052490234375
+    },
+    {
+      "question_idx": 218,
+      "variance": 1523.8271484375
+    },
+    {
+      "question_idx": 197,
+      "variance": 1522.44189453125
+    },
+    {
+      "question_idx": 234,
+      "variance": 1518.906982421875
+    },
+    {
+      "question_idx": 53,
+      "variance": 1516.8797607421875
+    },
+    {
+      "question_idx": 151,
+      "variance": 1516.10986328125
+    },
+    {
+      "question_idx": 183,
+      "variance": 1513.708251953125
+    },
+    {
+      "question_idx": 8,
+      "variance": 1513.4580078125
+    },
+    {
+      "question_idx": 170,
+      "variance": 1512.9365234375
+    },
+    {
+      "question_idx": 50,
+      "variance": 1508.691162109375
+    },
+    {
+      "question_idx": 106,
+      "variance": 1507.4635009765625
+    },
+    {
+      "question_idx": 6,
+      "variance": 1506.807861328125
+    },
+    {
+      "question_idx": 78,
+      "variance": 1504.210693359375
+    },
+    {
+      "question_idx": 214,
+      "variance": 1496.8876953125
+    },
+    {
+      "question_idx": 28,
+      "variance": 1495.7691650390625
+    },
+    {
+      "question_idx": 59,
+      "variance": 1495.3472900390625
+    },
+    {
+      "question_idx": 235,
+      "variance": 1493.912841796875
+    },
+    {
+      "question_idx": 175,
+      "variance": 1492.1939697265625
+    },
+    {
+      "question_idx": 208,
+      "variance": 1491.16748046875
+    },
+    {
+      "question_idx": 63,
+      "variance": 1491.07275390625
+    },
+    {
+      "question_idx": 122,
+      "variance": 1488.12353515625
+    },
+    {
+      "question_idx": 135,
+      "variance": 1481.6126708984375
+    },
+    {
+      "question_idx": 81,
+      "variance": 1478.656494140625
+    },
+    {
+      "question_idx": 228,
+      "variance": 1477.780029296875
+    },
+    {
+      "question_idx": 182,
+      "variance": 1476.5894775390625
+    },
+    {
+      "question_idx": 201,
+      "variance": 1476.3309326171875
+    },
+    {
+      "question_idx": 25,
+      "variance": 1474.6778564453125
+    },
+    {
+      "question_idx": 152,
+      "variance": 1474.04248046875
+    },
+    {
+      "question_idx": 111,
+      "variance": 1472.13671875
+    },
+    {
+      "question_idx": 116,
+      "variance": 1469.7828369140625
+    },
+    {
+      "question_idx": 160,
+      "variance": 1465.91357421875
+    },
+    {
+      "question_idx": 20,
+      "variance": 1463.849609375
+    },
+    {
+      "question_idx": 29,
+      "variance": 1463.695068359375
+    },
+    {
+      "question_idx": 172,
+      "variance": 1462.6171875
+    },
+    {
+      "question_idx": 80,
+      "variance": 1457.8154296875
+    },
+    {
+      "question_idx": 178,
+      "variance": 1454.29736328125
+    },
+    {
+      "question_idx": 110,
+      "variance": 1454.156982421875
+    },
+    {
+      "question_idx": 0,
+      "variance": 1452.714599609375
+    },
+    {
+      "question_idx": 237,
+      "variance": 1451.483642578125
+    },
+    {
+      "question_idx": 222,
+      "variance": 1451.0009765625
+    },
+    {
+      "question_idx": 143,
+      "variance": 1449.3994140625
+    },
+    {
+      "question_idx": 98,
+      "variance": 1447.6463623046875
+    },
+    {
+      "question_idx": 7,
+      "variance": 1447.6290283203125
+    },
+    {
+      "question_idx": 31,
+      "variance": 1447.33740234375
+    },
+    {
+      "question_idx": 19,
+      "variance": 1445.6824951171875
+    },
+    {
+      "question_idx": 189,
+      "variance": 1442.583984375
+    },
+    {
+      "question_idx": 23,
+      "variance": 1434.0830078125
+    },
+    {
+      "question_idx": 9,
+      "variance": 1434.0794677734375
+    },
+    {
+      "question_idx": 14,
+      "variance": 1432.958984375
+    },
+    {
+      "question_idx": 220,
+      "variance": 1425.476806640625
+    },
+    {
+      "question_idx": 107,
+      "variance": 1416.0341796875
+    },
+    {
+      "question_idx": 90,
+      "variance": 1412.527587890625
+    },
+    {
+      "question_idx": 146,
+      "variance": 1410.8004150390625
+    },
+    {
+      "question_idx": 145,
+      "variance": 1409.618408203125
+    },
+    {
+      "question_idx": 102,
+      "variance": 1404.3218994140625
+    },
+    {
+      "question_idx": 85,
+      "variance": 1398.204833984375
+    },
+    {
+      "question_idx": 168,
+      "variance": 1397.185546875
+    },
+    {
+      "question_idx": 174,
+      "variance": 1393.7060546875
+    },
+    {
+      "question_idx": 162,
+      "variance": 1393.1790771484375
+    },
+    {
+      "question_idx": 230,
+      "variance": 1391.058349609375
+    },
+    {
+      "question_idx": 124,
+      "variance": 1388.183837890625
+    },
+    {
+      "question_idx": 199,
+      "variance": 1387.8388671875
+    },
+    {
+      "question_idx": 227,
+      "variance": 1384.522216796875
+    },
+    {
+      "question_idx": 33,
+      "variance": 1383.9716796875
+    },
+    {
+      "question_idx": 132,
+      "variance": 1374.947021484375
+    },
+    {
+      "question_idx": 133,
+      "variance": 1374.5340576171875
+    },
+    {
+      "question_idx": 149,
+      "variance": 1373.6112060546875
+    },
+    {
+      "question_idx": 196,
+      "variance": 1369.34228515625
+    },
+    {
+      "question_idx": 194,
+      "variance": 1361.7239990234375
+    },
+    {
+      "question_idx": 233,
+      "variance": 1361.53125
+    },
+    {
+      "question_idx": 155,
+      "variance": 1360.35498046875
+    },
+    {
+      "question_idx": 44,
+      "variance": 1358.7999267578125
+    },
+    {
+      "question_idx": 221,
+      "variance": 1358.39599609375
+    },
+    {
+      "question_idx": 195,
+      "variance": 1356.881103515625
+    },
+    {
+      "question_idx": 219,
+      "variance": 1352.1678466796875
+    },
+    {
+      "question_idx": 126,
+      "variance": 1351.6484375
+    },
+    {
+      "question_idx": 58,
+      "variance": 1349.921630859375
+    },
+    {
+      "question_idx": 99,
+      "variance": 1349.6845703125
+    },
+    {
+      "question_idx": 200,
+      "variance": 1348.707275390625
+    },
+    {
+      "question_idx": 82,
+      "variance": 1346.934326171875
+    },
+    {
+      "question_idx": 61,
+      "variance": 1346.2164306640625
+    },
+    {
+      "question_idx": 191,
+      "variance": 1344.1802978515625
+    },
+    {
+      "question_idx": 232,
+      "variance": 1343.72021484375
+    },
+    {
+      "question_idx": 95,
+      "variance": 1342.401611328125
+    },
+    {
+      "question_idx": 87,
+      "variance": 1338.9267578125
+    },
+    {
+      "question_idx": 150,
+      "variance": 1338.8095703125
+    },
+    {
+      "question_idx": 184,
+      "variance": 1331.038330078125
+    },
+    {
+      "question_idx": 71,
+      "variance": 1327.438232421875
+    },
+    {
+      "question_idx": 66,
+      "variance": 1320.010009765625
+    },
+    {
+      "question_idx": 207,
+      "variance": 1319.2510986328125
+    },
+    {
+      "question_idx": 54,
+      "variance": 1316.722900390625
+    },
+    {
+      "question_idx": 13,
+      "variance": 1314.792236328125
+    },
+    {
+      "question_idx": 176,
+      "variance": 1312.8125
+    },
+    {
+      "question_idx": 97,
+      "variance": 1310.70947265625
+    },
+    {
+      "question_idx": 5,
+      "variance": 1306.6654052734375
+    },
+    {
+      "question_idx": 148,
+      "variance": 1304.470947265625
+    },
+    {
+      "question_idx": 157,
+      "variance": 1299.7744140625
+    },
+    {
+      "question_idx": 21,
+      "variance": 1295.4521484375
+    },
+    {
+      "question_idx": 36,
+      "variance": 1288.734619140625
+    },
+    {
+      "question_idx": 216,
+      "variance": 1282.41650390625
+    },
+    {
+      "question_idx": 190,
+      "variance": 1276.1263427734375
+    },
+    {
+      "question_idx": 211,
+      "variance": 1265.34326171875
+    },
+    {
+      "question_idx": 188,
+      "variance": 1259.5621337890625
+    },
+    {
+      "question_idx": 217,
+      "variance": 1250.5389404296875
+    },
+    {
+      "question_idx": 88,
+      "variance": 1247.076904296875
+    },
+    {
+      "question_idx": 109,
+      "variance": 1246.247802734375
+    },
+    {
+      "question_idx": 79,
+      "variance": 1245.6416015625
+    },
+    {
+      "question_idx": 169,
+      "variance": 1238.172607421875
+    },
+    {
+      "question_idx": 165,
+      "variance": 1236.18896484375
+    },
+    {
+      "question_idx": 121,
+      "variance": 1219.22265625
+    },
+    {
+      "question_idx": 45,
+      "variance": 1215.9300537109375
+    },
+    {
+      "question_idx": 161,
+      "variance": 1208.786865234375
+    },
+    {
+      "question_idx": 60,
+      "variance": 1206.1217041015625
+    },
+    {
+      "question_idx": 127,
+      "variance": 1204.109619140625
+    },
+    {
+      "question_idx": 68,
+      "variance": 1202.112548828125
+    },
+    {
+      "question_idx": 49,
+      "variance": 1195.6090087890625
+    },
+    {
+      "question_idx": 112,
+      "variance": 1172.042724609375
+    },
+    {
+      "question_idx": 210,
+      "variance": 1169.005859375
+    },
+    {
+      "question_idx": 38,
+      "variance": 1167.778076171875
+    },
+    {
+      "question_idx": 39,
+      "variance": 1154.310302734375
+    },
+    {
+      "question_idx": 114,
+      "variance": 1151.59814453125
+    },
+    {
+      "question_idx": 42,
+      "variance": 1145.243896484375
+    },
+    {
+      "question_idx": 91,
+      "variance": 1142.078857421875
+    },
+    {
+      "question_idx": 131,
+      "variance": 1138.709716796875
+    },
+    {
+      "question_idx": 18,
+      "variance": 1122.509765625
+    },
+    {
+      "question_idx": 52,
+      "variance": 1121.6533203125
+    },
+    {
+      "question_idx": 118,
+      "variance": 1121.4798583984375
+    },
+    {
+      "question_idx": 47,
+      "variance": 1116.7303466796875
+    },
+    {
+      "question_idx": 43,
+      "variance": 1116.578369140625
+    },
+    {
+      "question_idx": 223,
+      "variance": 1091.5205078125
+    },
+    {
+      "question_idx": 56,
+      "variance": 1089.2779541015625
+    },
+    {
+      "question_idx": 55,
+      "variance": 1077.95751953125
+    },
+    {
+      "question_idx": 35,
+      "variance": 1072.928466796875
+    },
+    {
+      "question_idx": 96,
+      "variance": 1067.462646484375
+    },
+    {
+      "question_idx": 74,
+      "variance": 1067.275146484375
+    },
+    {
+      "question_idx": 89,
+      "variance": 1039.74609375
+    },
+    {
+      "question_idx": 209,
+      "variance": 1023.8878173828125
+    },
+    {
+      "question_idx": 2,
+      "variance": 1023.54248046875
+    },
+    {
+      "question_idx": 104,
+      "variance": 1020.1651000976562
+    },
+    {
+      "question_idx": 238,
+      "variance": 1011.8221435546875
+    },
+    {
+      "question_idx": 92,
+      "variance": 971.4276123046875
+    },
+    {
+      "question_idx": 167,
+      "variance": 950.2825927734375
+    },
+    {
+      "question_idx": 179,
+      "variance": 949.2130126953125
+    },
+    {
+      "question_idx": 64,
+      "variance": 917.910888671875
+    },
+    {
+      "question_idx": 231,
+      "variance": 896.7534790039062
+    },
+    {
+      "question_idx": 236,
+      "variance": 789.0555419921875
+    }
+  ],
+  "pca_stability": {
+    "n_characters": 11,
+    "n_components": 10,
+    "pc_correlations": [
+      {
+        "pc": 1,
+        "correlation": 0.9998954403319632
+      },
+      {
+        "pc": 2,
+        "correlation": 0.9995768602567976
+      },
+      {
+        "pc": 3,
+        "correlation": 0.9996515515441152
+      },
+      {
+        "pc": 4,
+        "correlation": 0.993014852768605
+      },
+      {
+        "pc": 5,
+        "correlation": 0.9925476506552532
+      },
+      {
+        "pc": 6,
+        "correlation": 0.9983112157504771
+      },
+      {
+        "pc": 7,
+        "correlation": 0.9974706239391284
+      },
+      {
+        "pc": 8,
+        "correlation": 0.9965089438262884
+      },
+      {
+        "pc": 9,
+        "correlation": 0.9458450138905398
+      },
+      {
+        "pc": 10,
+        "correlation": 0.9447642765004598
+      }
+    ]
+  }
+}

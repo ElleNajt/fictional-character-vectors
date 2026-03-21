@@ -1,0 +1,5157 @@
+{
+  "aggregate": {
+    "n_characters": 413,
+    "split_half": {
+      "mean": 0.9986440321501441,
+      "std": 0.000338775263810149,
+      "min": 0.9973879232549997,
+      "max": 0.9993025749376783
+    },
+    "odd_even": {
+      "mean": 0.9988957904813494,
+      "std": 0.00021863767911798148,
+      "min": 0.9975700266712251,
+      "max": 0.9992875294547626
+    }
+  },
+  "per_character": {
+    "achilles": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990968871406612
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990093011685124
+      }
+    },
+    "adam": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983458474282314
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986395083527666
+      }
+    },
+    "aeneas": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989657170701317
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991883756091661
+      }
+    },
+    "aladdin": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984843898400237
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989805432282044
+      }
+    },
+    "albus_dumbledore": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987139987031183
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991183007838167
+      }
+    },
+    "alex_delarge": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982181251584072
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987380226481924
+      }
+    },
+    "ali_baba": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990634237566283
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989581751761384
+      }
+    },
+    "alice": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987896236120245
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990272461969405
+      }
+    },
+    "alyosha_karamazov": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988295248054927
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991666885492095
+      }
+    },
+    "amaterasu": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991296750317972
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989100016554177
+      }
+    },
+    "am\u00e9lie_poulain": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986679198127107
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988788875291151
+      }
+    },
+    "anansi": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988572038624988
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989484717946279
+      }
+    },
+    "andrei_bolkonsky": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987631554251634
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988032181599971
+      }
+    },
+    "anna_karenina": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988671877974357
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990693725617791
+      }
+    },
+    "anne_shirley": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988702271168064
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990197382924819
+      }
+    },
+    "antigone": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989968626295607
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989686866406574
+      }
+    },
+    "anubis": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9992606711412573
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991574478571821
+      }
+    },
+    "aphrodite": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989240348865079
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991119412369891
+      }
+    },
+    "aquaman": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985617367586443
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988645336195212
+      }
+    },
+    "aragorn": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998683506101292
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991542594243474
+      }
+    },
+    "aramis": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990462963423395
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991468206568243
+      }
+    },
+    "ariel": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.999004301027273
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989604437931602
+      }
+    },
+    "arjuna": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990442007748377
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990388353737919
+      }
+    },
+    "arthur_dent": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986460846434427
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989298365854246
+      }
+    },
+    "arwen": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983382185741324
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986452352246514
+      }
+    },
+    "arya_stark": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982124420620216
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988567144739166
+      }
+    },
+    "ash_ketchum": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982695450304808
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987179650537747
+      }
+    },
+    "athena": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990150367145032
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987320774337077
+      }
+    },
+    "athos": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988740887669185
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991643929500932
+      }
+    },
+    "attack_on_pearl_harbor": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983011325119945
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9984129719884535
+      }
+    },
+    "atticus_finch": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987674050860184
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989514155979653
+      }
+    },
+    "baldur": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990583397151662
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998949197832783
+      }
+    },
+    "batman": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982654788228618
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988866663208865
+      }
+    },
+    "batman_bruce_wayne": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985373323330304
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987456585509057
+      }
+    },
+    "battle_of_stalingrad": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988629430977922
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988169122175766
+      }
+    },
+    "battle_of_waterloo": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982702640316334
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987985021733659
+      }
+    },
+    "battles_of_khalkhin_gol": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982683387659189
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991238624972296
+      }
+    },
+    "beatrice": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985395445377083
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998944441779394
+      }
+    },
+    "bellatrix_lestrange": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998528288671978
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989788826794131
+      }
+    },
+    "benedick": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998826580854923
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992279601896962
+      }
+    },
+    "beowulf": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988712735268584
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990408283923996
+      }
+    },
+    "bhima": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986551060668812
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988584595911256
+      }
+    },
+    "big_brother": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9993025749376783
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991716130854427
+      }
+    },
+    "bilbo_baggins": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987442232399929
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989853188451723
+      }
+    },
+    "black_january": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984557876430374
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9985280970086876
+      }
+    },
+    "black_panther_tchalla": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985996375083538
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989259960326593
+      }
+    },
+    "black_widow_natasha_romanoff": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985503157063409
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988171284375239
+      }
+    },
+    "boo_radley": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9973879232549997
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987727993099315
+      }
+    },
+    "borat_sagdiyev": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9981880768953552
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9985890375636445
+      }
+    },
+    "boromir": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989547149066513
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989715983173296
+      }
+    },
+    "bottom": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988146129357278
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992875294547626
+      }
+    },
+    "brahma": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9992044436476134
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992261196717988
+      }
+    },
+    "buzz_lightyear": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982826089627205
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986928121533422
+      }
+    },
+    "c_3po": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998434673082126
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987910819168225
+      }
+    },
+    "caliban": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986393574558993
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9984997275724276
+      }
+    },
+    "cao_cao": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989578669765028
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990686717335002
+      }
+    },
+    "captain_ahab": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982617033203992
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990193719890088
+      }
+    },
+    "captain_america_steve_rogers": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984520275435004
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998768865259198
+      }
+    },
+    "captain_hook": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990318663961445
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987482196929082
+      }
+    },
+    "captain_jack_sparrow": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987138385380162
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999068089617412
+      }
+    },
+    "catwoman": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985591394831598
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989078272983761
+      }
+    },
+    "cersei_lannister": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988038458787256
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990398231858474
+      }
+    },
+    "chandler_bing": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9981566951429794
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9985419379359208
+      }
+    },
+    "charlie_bucket": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984692078308847
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986829167319914
+      }
+    },
+    "chewbacca": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9977460022778741
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986392466530492
+      }
+    },
+    "cinderella": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986573582491322
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989353747304967
+      }
+    },
+    "circe": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990092451804597
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990358772502597
+      }
+    },
+    "clara_del_valle": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990137485528143
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989013817020953
+      }
+    },
+    "clarice_starling": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9980279621466764
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986760988362389
+      }
+    },
+    "cloud_strife": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9978290319184472
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998673711062877
+      }
+    },
+    "colonel_aureliano_buend\u00eda": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988553832726202
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990360686320577
+      }
+    },
+    "commander_shepard": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982251081774831
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986398090019356
+      }
+    },
+    "conan_the_barbarian": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983250671170149
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987776034460903
+      }
+    },
+    "cordelia": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9981442471478448
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986687504915245
+      }
+    },
+    "cosette": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987566732878713
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998856327607558
+      }
+    },
+    "count_dracula": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986573841657184
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986457669307136
+      }
+    },
+    "coyote": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987566908209626
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990171145530511
+      }
+    },
+    "c\u00fa_chulainn": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989903069459184
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999051545361485
+      }
+    },
+    "daenerys_targaryen": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986083177430779
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989709227995134
+      }
+    },
+    "daisy_duck": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.997865299906733
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9985489656007748
+      }
+    },
+    "daredevil": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9980857037109788
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986124694026669
+      }
+    },
+    "dartagnan": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987996538327099
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991354133314851
+      }
+    },
+    "darth_maul": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998683173970386
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988613621024808
+      }
+    },
+    "darth_vader": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988206023962214
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989610931199319
+      }
+    },
+    "deadpool": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984983613384978
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988991920210271
+      }
+    },
+    "desdemona": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987896300610489
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990148067510592
+      }
+    },
+    "devil": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984943899954467
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.99820061693529
+      }
+    },
+    "dieppe_raid": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9978544908783825
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987682899924762
+      }
+    },
+    "dmitri_karamazov": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990333550755428
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991086980738187
+      }
+    },
+    "don_draper": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9980951371943879
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9985382413379801
+      }
+    },
+    "don_juan": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986974604890532
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987432537515883
+      }
+    },
+    "don_quixote": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990693471181645
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992826832409114
+      }
+    },
+    "dorian_gray": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989568471495859
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990171776273399
+      }
+    },
+    "dorothy_gale": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982564275158371
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987071555576664
+      }
+    },
+    "dr_hannibal_lecter": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988816326121478
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998868172107818
+      }
+    },
+    "dr_jekyll_mr_hyde": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989139590312527
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992103386234146
+      }
+    },
+    "dr_moreau": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989547379845122
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999049473529983
+      }
+    },
+    "dr_victor_frankenstein": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989393635334736
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990676430307671
+      }
+    },
+    "dr_watson": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988852562237938
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989580261863608
+      }
+    },
+    "draco_malfoy": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984150082026502
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989985273402031
+      }
+    },
+    "dracula": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989791114356344
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990100341573728
+      }
+    },
+    "draupadi": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989199532767173
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989865852925512
+      }
+    },
+    "durga": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991608198779172
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990355189007708
+      }
+    },
+    "ebenezer_scrooge": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998742458097575
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989547710762519
+      }
+    },
+    "edmond_dant\u00e8s_the_count_of_monte_cristo": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990827664993088
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989604880948947
+      }
+    },
+    "edward_cullen": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982613751651728
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998780607802426
+      }
+    },
+    "edward_elric": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983584701163264
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989619415282955
+      }
+    },
+    "el_pueblo_natal_de_george_pig": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9980423239974837
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9983418164749565
+      }
+    },
+    "elizabeth_bennet": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985426076299271
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988558415663422
+      }
+    },
+    "ellen_ripley": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984725439399607
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998746600878183
+      }
+    },
+    "elrond": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998731223798721
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988296240874788
+      }
+    },
+    "elsa": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998414732944391
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998897464648264
+      }
+    },
+    "ender_wiggin": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985985511446374
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988976412889417
+      }
+    },
+    "enkidu": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987780269220695
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989182643622242
+      }
+    },
+    "eren_yeager": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984709375682451
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989287182487545
+      }
+    },
+    "eshu": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991718988531803
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992243439488961
+      }
+    },
+    "esmeralda": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989315551339982
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987142308567202
+      }
+    },
+    "esteban_trueba": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983650430278648
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988322578435929
+      }
+    },
+    "eve": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985217914057711
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9984914983499703
+      }
+    },
+    "fagin": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.99894898799462
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991642534054159
+      }
+    },
+    "falstaff": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989958182580929
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990980335751296
+      }
+    },
+    "faust": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988620224841297
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987372730284286
+      }
+    },
+    "forrest_gump": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983881411200533
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986375148856547
+      }
+    },
+    "frankensteins_monster": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988960228960496
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990811448504682
+      }
+    },
+    "freddy_krueger": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983030337095883
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9984432281795307
+      }
+    },
+    "freya": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990864189899962
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990072860570185
+      }
+    },
+    "friday": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9980988823529808
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987632762630984
+      }
+    },
+    "frodo_baggins": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.99890179463491
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990692938050754
+      }
+    },
+    "galadriel": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990122750989037
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999082437561242
+      }
+    },
+    "gandalf": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989854615210276
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988524279806241
+      }
+    },
+    "ganesha": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991575808454698
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990432817053475
+      }
+    },
+    "garuda": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991624660257348
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988979714198106
+      }
+    },
+    "geralt_of_rivia": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986797985829073
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989854219327907
+      }
+    },
+    "gilgamesh": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987702159597139
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989893601119743
+      }
+    },
+    "gimli": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985777469820363
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9985375908128274
+      }
+    },
+    "ginny_weasley": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9979092249735851
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986600757129476
+      }
+    },
+    "godzilla": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998877004542336
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987937244819873
+      }
+    },
+    "goku": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998454449823015
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987287460007449
+      }
+    },
+    "gollum": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982646844672046
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987019801255443
+      }
+    },
+    "goofy": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9980259474792591
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987375647177503
+      }
+    },
+    "green_arrow": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984607500580007
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988320127182188
+      }
+    },
+    "gregor_samsa": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987746600779279
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986140557951512
+      }
+    },
+    "gregory_house": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983606344620871
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987175094154016
+      }
+    },
+    "grendel": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989739976621389
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991069159147403
+      }
+    },
+    "guan_yu": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991041940881177
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992024259119746
+      }
+    },
+    "guinevere": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989080083543691
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991168293979308
+      }
+    },
+    "guts": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998349921050533
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989258186056712
+      }
+    },
+    "hades": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9992269675014217
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989371449176191
+      }
+    },
+    "hagar": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983616400049938
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9981372872175485
+      }
+    },
+    "hal_9000": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984434968587462
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986570055518874
+      }
+    },
+    "hamlet": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987932768124629
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988243133293236
+      }
+    },
+    "han_solo": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984329628676648
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987444357948423
+      }
+    },
+    "hannibal_lecter": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986273670459822
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989850029682731
+      }
+    },
+    "hanuman": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989316353231518
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991415243631863
+      }
+    },
+    "harley_quinn": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983170444697407
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988671350497931
+      }
+    },
+    "harry_potter": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985850154068541
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988657579849958
+      }
+    },
+    "hector": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989217742952411
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991090088264983
+      }
+    },
+    "henry_v": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983267386308164
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990676612564697
+      }
+    },
+    "hercule_poirot": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988724405050619
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989704641652681
+      }
+    },
+    "hercules_heracles": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989619265936635
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990919059879414
+      }
+    },
+    "hermione_granger": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9981596620286881
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987919914085733
+      }
+    },
+    "hester_prynne": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989564709015685
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999114112077109
+      }
+    },
+    "holden_caulfield": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9980704928780033
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989959967048738
+      }
+    },
+    "homer_simpson": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9978760356103457
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986746677085272
+      }
+    },
+    "horus": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989080166935497
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999107529927274
+      }
+    },
+    "huckleberry_finn": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998371904165541
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989544530659372
+      }
+    },
+    "hulk": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985315875385855
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9984581480899792
+      }
+    },
+    "humbert_humbert": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988473303152243
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991132226644401
+      }
+    },
+    "iago": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987755905725022
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990347957595096
+      }
+    },
+    "ichabod_crane": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988115138018919
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991068856908698
+      }
+    },
+    "indiana_jones": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983455447622681
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989357877464339
+      }
+    },
+    "inspector_javert": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987413190348133
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999094933863706
+      }
+    },
+    "iron_man": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9981338144886353
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988450394669536
+      }
+    },
+    "iron_man_tony_stark": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983804597325835
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988276581069354
+      }
+    },
+    "isis": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.999127654379637
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999060663090282
+      }
+    },
+    "ivan_karamazov": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987712977101342
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989609679403132
+      }
+    },
+    "james_bond": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984172292715898
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989768484807047
+      }
+    },
+    "jane_eyre": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988099895768696
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9984539796602233
+      }
+    },
+    "jay_gatsby": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989247269566264
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987902732689765
+      }
+    },
+    "jean_grey": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984172758940961
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988056542719052
+      }
+    },
+    "jean_valjean": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989726810448728
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987661888550647
+      }
+    },
+    "jim_hawkins": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986049715589927
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.99872119142243
+      }
+    },
+    "john_yossarian": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998794477012454
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992497006864477
+      }
+    },
+    "jon_snow": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987328897259564
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987652403960218
+      }
+    },
+    "josef_k": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989396900052809
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991101764332203
+      }
+    },
+    "juliet_capulet": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989847602340551
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991158534003316
+      }
+    },
+    "kali": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991801559974159
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992113417937347
+      }
+    },
+    "karna": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986957749118229
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991251169482789
+      }
+    },
+    "katherina": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983836442568053
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987464941707261
+      }
+    },
+    "katniss_everdeen": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983789130796893
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988496518313339
+      }
+    },
+    "kermit_the_frog": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9981911580804576
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998804289977174
+      }
+    },
+    "killmonger": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986160153902515
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988889398941615
+      }
+    },
+    "king_arthur": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989909557970369
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990913977687131
+      }
+    },
+    "king_kong": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983398864285705
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986304821157821
+      }
+    },
+    "king_lear": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985426023944005
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988870162603067
+      }
+    },
+    "krampus": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985601487971985
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9983987811388672
+      }
+    },
+    "kratos": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9981446454345435
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986668097667438
+      }
+    },
+    "krishna": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998980632006591
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990664316811165
+      }
+    },
+    "kunti": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998642876976049
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989646818459554
+      }
+    },
+    "l": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982341511936106
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998733681892211
+      }
+    },
+    "lady_macbeth": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988755242499243
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989609721072483
+      }
+    },
+    "lady_murasakis_genji": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986961256033485
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992322744008972
+      }
+    },
+    "lakshmi": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990990094163912
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990263205269446
+      }
+    },
+    "lancelot": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986986235905104
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991434300101166
+      }
+    },
+    "lara_croft": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9980243971339949
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986155078844067
+      }
+    },
+    "legolas": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989072596584868
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991136576741191
+      }
+    },
+    "lelouch_vi_britannia": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988840985043423
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989772928335492
+      }
+    },
+    "lemuel_gulliver": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990828328995303
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992669454501244
+      }
+    },
+    "leopold_bloom": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986715815742364
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998536743810925
+      }
+    },
+    "lex_luthor": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985686402622516
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998756890044002
+      }
+    },
+    "liberation_of_paris": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984283608558968
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9983971483503732
+      }
+    },
+    "light_yagami": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984576723776339
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988264932994348
+      }
+    },
+    "lilith": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983271615418877
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9981004479031591
+      }
+    },
+    "link": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986558669871426
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987751100558172
+      }
+    },
+    "little_red_riding_hood": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982497258869586
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988615929774032
+      }
+    },
+    "liu_bei": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990012067620889
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992165268722611
+      }
+    },
+    "loki": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989368660292884
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999056424463309
+      }
+    },
+    "long_john_silver": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987502664759507
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989055495388628
+      }
+    },
+    "lord_voldemort": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989808619860435
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990511605421905
+      }
+    },
+    "luigi": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982009861631123
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9985082489239988
+      }
+    },
+    "luke_skywalker": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984846318713074
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989177504967833
+      }
+    },
+    "luna_lovegood": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982547189268853
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987301573387647
+      }
+    },
+    "macbeth": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989162376062526
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991093099548606
+      }
+    },
+    "mace_windu": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998482670366445
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990830389557629
+      }
+    },
+    "malvolio": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987775356039573
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989847013645682
+      }
+    },
+    "mami_wata": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988173520703897
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986175619241874
+      }
+    },
+    "manu": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998306358856219
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9983811207645127
+      }
+    },
+    "marco_polo_bridge_incident": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9978695930009194
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992090518201849
+      }
+    },
+    "mario": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985899380814874
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989180973283001
+      }
+    },
+    "master_chief": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986384967777312
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987104479229455
+      }
+    },
+    "matilda_wormwood": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983302348050682
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987080524667643
+      }
+    },
+    "maui": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990696369268474
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988660027161378
+      }
+    },
+    "medea": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988889400063371
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990422039106822
+      }
+    },
+    "medusa": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990510657447059
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990657000652265
+      }
+    },
+    "mephistopheles": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991583687298115
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990660971885551
+      }
+    },
+    "merlin": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989742484077536
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991159593576353
+      }
+    },
+    "meursault": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9980174973238116
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987503676955899
+      }
+    },
+    "michael_corleone": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998667268810646
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9984928496518394
+      }
+    },
+    "mickey_mouse": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982994458722095
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987914791600984
+      }
+    },
+    "minerva_mcgonagall": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983158715029892
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989178997776196
+      }
+    },
+    "miss_havisham": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987699243010302
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990902252597269
+      }
+    },
+    "miss_marple": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985264645914481
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988403490714673
+      }
+    },
+    "monkey_d_luffy": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982083418518723
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987527904309522
+      }
+    },
+    "morganamorgan_le_fay": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9992028741626132
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990966924858437
+      }
+    },
+    "morpheus": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988348604856451
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990247554985495
+      }
+    },
+    "mr_darcy": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9980584643336458
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988832003848216
+      }
+    },
+    "mulan": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985997175794663
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988853897438685
+      }
+    },
+    "naga": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991429819141213
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991017568784921
+      }
+    },
+    "naruto_uzumaki": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985033305495105
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988274239286383
+      }
+    },
+    "natasha_rostova": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987764928460677
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988490440417687
+      }
+    },
+    "ned_stark": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986363309011341
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989591753720518
+      }
+    },
+    "neo": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986886139590238
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990422484334488
+      }
+    },
+    "neville_longbottom": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998509406698016
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9985838849515156
+      }
+    },
+    "nezuko_kamado": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982891289868702
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989026606764112
+      }
+    },
+    "norman_bates": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984304916595043
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986398952011712
+      }
+    },
+    "normandy_landings": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998569596833428
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998743506590939
+      }
+    },
+    "nurse_ratched": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990483465368968
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992370569714053
+      }
+    },
+    "oberon": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989915839515655
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991794436786482
+      }
+    },
+    "obi_wan_kenobi": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987449121371766
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987064817354375
+      }
+    },
+    "odin": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991349862444036
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990737001027855
+      }
+    },
+    "odysseus": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990533160172385
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991433809777941
+      }
+    },
+    "oedipus": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990958946972254
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990942293287858
+      }
+    },
+    "okonkwo": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988976366747557
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990188673575663
+      }
+    },
+    "oliver_twist": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988925089380334
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988014341007434
+      }
+    },
+    "ophelia": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986782389941345
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992329290131384
+      }
+    },
+    "osiris": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990234386956105
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989031496165803
+      }
+    },
+    "othello": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986366175204933
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988949042126033
+      }
+    },
+    "oya": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989530813120121
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989070701108936
+      }
+    },
+    "pac_man": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984237729147731
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987116083468426
+      }
+    },
+    "padm\u00e9_amidala": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984415812469747
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989935792108803
+      }
+    },
+    "palpatine": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989109017615025
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998954974613145
+      }
+    },
+    "pandora": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988488665814185
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992108492034512
+      }
+    },
+    "paul_atreides": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986620271095648
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992266551757202
+      }
+    },
+    "peeta_mellark": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983972874408078
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998782716982981
+      }
+    },
+    "penelope": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989834367937642
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998989319137355
+      }
+    },
+    "perseus": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990023170013574
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990034719794314
+      }
+    },
+    "peter_pan": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998671459189001
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991063415688403
+      }
+    },
+    "petruchio": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989218327598665
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989365453900002
+      }
+    },
+    "philip_marlowe": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983624346339571
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986779653456342
+      }
+    },
+    "pierre_bezukhov": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998924721025893
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989417754804685
+      }
+    },
+    "pinocchio": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998945370838283
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990000470466688
+      }
+    },
+    "pip": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988745602352556
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989666588984383
+      }
+    },
+    "pippi_longstocking": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983912715986054
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986730362171985
+      }
+    },
+    "popeye": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9978360630504968
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987994263731359
+      }
+    },
+    "porthos": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.999029209443296
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991195717682344
+      }
+    },
+    "portia": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986897667501661
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998904551224535
+      }
+    },
+    "poseidon": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990298695793487
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988693431289317
+      }
+    },
+    "prester_john": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988025210318041
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988003156940768
+      }
+    },
+    "prince_myshkin": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998700266234933
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988831476154774
+      }
+    },
+    "princess_leia": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986910015771312
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989299147645698
+      }
+    },
+    "professor_moriarty": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989066081122607
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999063409766249
+      }
+    },
+    "professor_x": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986174427576634
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986969699115986
+      }
+    },
+    "prometheus": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991684468288042
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991426597658623
+      }
+    },
+    "prospero": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989537840556851
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991927666614546
+      }
+    },
+    "puck": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986868861020178
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990068360457423
+      }
+    },
+    "punisher": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998236822698146
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988188637611894
+      }
+    },
+    "quasimodo": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989619626904449
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990482792472961
+      }
+    },
+    "quetzalcoatl": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991972346973516
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990259253096375
+      }
+    },
+    "qui_gon_jinn": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984789194849069
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989480932740815
+      }
+    },
+    "r2_d2": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9977351361904889
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9983834615714291
+      }
+    },
+    "ra": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991677520361713
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991327998791673
+      }
+    },
+    "rama": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989923789513153
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990110475981195
+      }
+    },
+    "rapunzel": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998131883154624
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990400443252582
+      }
+    },
+    "raskolnikov": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.999037284810135
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990576580090708
+      }
+    },
+    "ravana": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990087227729124
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990539604302094
+      }
+    },
+    "raven": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.999063190647265
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989637261552321
+      }
+    },
+    "remus_lupin": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986027079030615
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989172196520227
+      }
+    },
+    "rhett_butler": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988829024014928
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989435046117228
+      }
+    },
+    "richard_iii": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987871238178134
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990685587371373
+      }
+    },
+    "rick_blaine": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985787101602244
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988678599164865
+      }
+    },
+    "rip_van_winkle": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983916005760298
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989753081612784
+      }
+    },
+    "robert_langdon": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9980025386164185
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988367704023258
+      }
+    },
+    "robin_hood": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986572416753752
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989396175204216
+      }
+    },
+    "robinson_crusoe": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998818489645641
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989433034817091
+      }
+    },
+    "rocky_balboa": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.99840889367974
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9985819247064907
+      }
+    },
+    "romeo_montague": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987335134642613
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991004451630021
+      }
+    },
+    "ron_weasley": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9981996436773134
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988315424745625
+      }
+    },
+    "rosalind": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985579549204346
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989276198187068
+      }
+    },
+    "rubeus_hagrid": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998092132691319
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987817479356549
+      }
+    },
+    "sailor_moon": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983139184973409
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988106779394251
+      }
+    },
+    "saitama": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9979266717175843
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990072464305189
+      }
+    },
+    "sam_spade": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986620310231539
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986663143209721
+      }
+    },
+    "samwise_gamgee": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998682160339667
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986467749526722
+      }
+    },
+    "sancho_panza": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988670224152294
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990534140786483
+      }
+    },
+    "santa_claus": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987052601599301
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987349142814574
+      }
+    },
+    "sarah_connor": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9979711917234237
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987379984719824
+      }
+    },
+    "saruman": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986582265529396
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999035182852692
+      }
+    },
+    "sasuke_uchiha": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985088738563782
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987699722970942
+      }
+    },
+    "sauron": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998956238578056
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991579595143041
+      }
+    },
+    "scar": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987470051127796
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999174708013541
+      }
+    },
+    "scarlett_ohara": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989025219620112
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988754043490604
+      }
+    },
+    "scheherazade": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989410173622637
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989852020050883
+      }
+    },
+    "scout_finch": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984012169609521
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988940032607773
+      }
+    },
+    "scrooge_mcduck": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983512960874108
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988533210855046
+      }
+    },
+    "sephiroth": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987251740247444
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989294524279422
+      }
+    },
+    "serena": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984156224457351
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986128800886436
+      }
+    },
+    "set": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991727714747866
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.99920636725542
+      }
+    },
+    "severus_snape": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984912252290118
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989549808917945
+      }
+    },
+    "shahryar": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990015462018839
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990085015111441
+      }
+    },
+    "shango": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991208560646577
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988882012379767
+      }
+    },
+    "sherlock_holmes": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987702164137395
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989607909084246
+      }
+    },
+    "shiva": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9991646406146298
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991249381768611
+      }
+    },
+    "shrek": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982056168630301
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988486417986442
+      }
+    },
+    "shylock": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998688718739519
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998862722234368
+      }
+    },
+    "simba": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983971884091016
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990327151236473
+      }
+    },
+    "sinbad_the_sailor": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990290934684011
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990027395813087
+      }
+    },
+    "sirius_black": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983145185074546
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989524259353978
+      }
+    },
+    "sita": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989418220905143
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992120281281914
+      }
+    },
+    "smaug": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987931771143557
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989711571489265
+      }
+    },
+    "snow_white": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984371126151036
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998844180182145
+      }
+    },
+    "solid_snake": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9980487136969574
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988269837784111
+      }
+    },
+    "sonic_the_hedgehog": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9978874761976092
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986957715398547
+      }
+    },
+    "sphinx": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982280289389682
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9975700266712251
+      }
+    },
+    "spider_man_peter_parker": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985286018464127
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987150515737272
+      }
+    },
+    "spike_spiegel": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9979501060953073
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9984239868509212
+      }
+    },
+    "spock": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982415971906183
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9985778050456268
+      }
+    },
+    "stephen_dedalus": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990061839675132
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991250695906022
+      }
+    },
+    "sun_wukong_monkey_king": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988846545657216
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988994882071692
+      }
+    },
+    "sundiata": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988168910563104
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990213506533666
+      }
+    },
+    "superman": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985270221265109
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998558848459375
+      }
+    },
+    "superman_clark_kent": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985175990172654
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988358038413777
+      }
+    },
+    "susanoo": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998966684312569
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987924063744037
+      }
+    },
+    "tang_sanzang": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990113513943917
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992273301409165
+      }
+    },
+    "tanjiro_kamado": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984024282368497
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988622774319823
+      }
+    },
+    "tarzan": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984867549296124
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987018864155219
+      }
+    },
+    "thanos": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990123521910027
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999245873574425
+      }
+    },
+    "the_artful_dodger": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988525420994293
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989655995905345
+      }
+    },
+    "the_bfg": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983540358769156
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986701937934789
+      }
+    },
+    "the_big_bad_wolf": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983969519150491
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988923065485288
+      }
+    },
+    "the_cowardly_lion": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986708281235506
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990501818309048
+      }
+    },
+    "the_dude_jeffrey_lebowski": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9980610233209798
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986762132753448
+      }
+    },
+    "the_headless_horseman": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985337159601699
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989287110334693
+      }
+    },
+    "the_invisible_man": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985765622467532
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988862826823841
+      }
+    },
+    "the_joker": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988554319700053
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990609011211672
+      }
+    },
+    "the_little_prince": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988586099742592
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999083305577934
+      }
+    },
+    "the_mad_hatter": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985812541648246
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.999134125012792
+      }
+    },
+    "the_monkey_king_additional_form": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986526150970875
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988896318674081
+      }
+    },
+    "the_phantom_of_the_opera": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988168697605826
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998879174410683
+      }
+    },
+    "the_queen_of_hearts": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983704480098309
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987297307241556
+      }
+    },
+    "the_scarecrow": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987109366475219
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988049907360786
+      }
+    },
+    "the_terminator": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9981998636668937
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9983568209515166
+      }
+    },
+    "the_tin_man": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998522010341933
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989112904187417
+      }
+    },
+    "the_wicked_witch_of_the_west": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988659746447702
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990159804973436
+      }
+    },
+    "thor": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998951284676934
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991155267451056
+      }
+    },
+    "thoth": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9992045401374324
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991825102100704
+      }
+    },
+    "titania": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9987134444365078
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990464180059896
+      }
+    },
+    "tom_sawyer": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986299781219661
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990250112884894
+      }
+    },
+    "tony_soprano": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985733109680842
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987910137391399
+      }
+    },
+    "totoro": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983213137727664
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9982905332034966
+      }
+    },
+    "travis_bickle": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9976408171433963
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9985426869446852
+      }
+    },
+    "trinity": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9983123421534668
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987690440280066
+      }
+    },
+    "two_face": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9981278816692497
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.998850001206727
+      }
+    },
+    "tyler_durden": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986125032686576
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990415383954335
+      }
+    },
+    "tyrion_lannister": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990716311468837
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992357435108975
+      }
+    },
+    "vegeta": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.99816584494726
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990623118398552
+      }
+    },
+    "viola": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989795002624041
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991948477621753
+      }
+    },
+    "vishnu": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9990393740343279
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989471365401481
+      }
+    },
+    "vito_corleone": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986167682894381
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988220817058318
+      }
+    },
+    "walter_white": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986087378355837
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991011707035208
+      }
+    },
+    "willy_wonka": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988237731519292
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990782108085651
+      }
+    },
+    "winnie_the_pooh": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985699565551175
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988980386049444
+      }
+    },
+    "winston_smith": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989663645219901
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9992574118964671
+      }
+    },
+    "wolverine": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998133060891088
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9986045198155378
+      }
+    },
+    "wolverine_logan": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9981487674537657
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9985416953606008
+      }
+    },
+    "wonder_woman": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9982912406206599
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989123628920924
+      }
+    },
+    "wonder_woman_diana_prince": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985187467750384
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987726459124362
+      }
+    },
+    "woody": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9985346320370865
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9988952486018973
+      }
+    },
+    "yoda": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984086286006233
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9982121670986435
+      }
+    },
+    "yudhishthira": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9988801294565418
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9991835806255533
+      }
+    },
+    "zeus": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9989719988537105
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9989637175726441
+      }
+    },
+    "zhang_fei": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9984388924249301
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990126120207411
+      }
+    },
+    "zhuge_liang": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.998763621694119
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9990054525578009
+      }
+    },
+    "zorro": {
+      "split_half": {
+        "split": "first_half_vs_second_half",
+        "correlation": 0.9986258744239604
+      },
+      "odd_even": {
+        "split": "odd_vs_even",
+        "correlation": 0.9987550275039968
+      }
+    }
+  },
+  "question_variances": [
+    {
+      "question_idx": 70,
+      "variance": 3221.444580078125
+    },
+    {
+      "question_idx": 192,
+      "variance": 3145.98681640625
+    },
+    {
+      "question_idx": 136,
+      "variance": 3041.296142578125
+    },
+    {
+      "question_idx": 158,
+      "variance": 2941.5966796875
+    },
+    {
+      "question_idx": 166,
+      "variance": 2935.6259765625
+    },
+    {
+      "question_idx": 225,
+      "variance": 2931.8076171875
+    },
+    {
+      "question_idx": 215,
+      "variance": 2917.288330078125
+    },
+    {
+      "question_idx": 84,
+      "variance": 2881.09033203125
+    },
+    {
+      "question_idx": 153,
+      "variance": 2869.8974609375
+    },
+    {
+      "question_idx": 186,
+      "variance": 2845.8125
+    },
+    {
+      "question_idx": 147,
+      "variance": 2828.388916015625
+    },
+    {
+      "question_idx": 93,
+      "variance": 2823.012451171875
+    },
+    {
+      "question_idx": 26,
+      "variance": 2808.50439453125
+    },
+    {
+      "question_idx": 12,
+      "variance": 2768.978759765625
+    },
+    {
+      "question_idx": 226,
+      "variance": 2764.76220703125
+    },
+    {
+      "question_idx": 198,
+      "variance": 2737.20361328125
+    },
+    {
+      "question_idx": 212,
+      "variance": 2734.062744140625
+    },
+    {
+      "question_idx": 30,
+      "variance": 2711.97802734375
+    },
+    {
+      "question_idx": 3,
+      "variance": 2675.573974609375
+    },
+    {
+      "question_idx": 213,
+      "variance": 2635.748291015625
+    },
+    {
+      "question_idx": 129,
+      "variance": 2634.517822265625
+    },
+    {
+      "question_idx": 65,
+      "variance": 2630.583251953125
+    },
+    {
+      "question_idx": 187,
+      "variance": 2616.982421875
+    },
+    {
+      "question_idx": 37,
+      "variance": 2611.77392578125
+    },
+    {
+      "question_idx": 15,
+      "variance": 2578.642333984375
+    },
+    {
+      "question_idx": 239,
+      "variance": 2553.020751953125
+    },
+    {
+      "question_idx": 138,
+      "variance": 2552.094970703125
+    },
+    {
+      "question_idx": 1,
+      "variance": 2548.0849609375
+    },
+    {
+      "question_idx": 77,
+      "variance": 2537.679931640625
+    },
+    {
+      "question_idx": 141,
+      "variance": 2532.369140625
+    },
+    {
+      "question_idx": 128,
+      "variance": 2526.871826171875
+    },
+    {
+      "question_idx": 108,
+      "variance": 2521.2197265625
+    },
+    {
+      "question_idx": 94,
+      "variance": 2517.63720703125
+    },
+    {
+      "question_idx": 105,
+      "variance": 2515.4326171875
+    },
+    {
+      "question_idx": 75,
+      "variance": 2508.6806640625
+    },
+    {
+      "question_idx": 235,
+      "variance": 2495.863037109375
+    },
+    {
+      "question_idx": 224,
+      "variance": 2490.6728515625
+    },
+    {
+      "question_idx": 204,
+      "variance": 2482.25732421875
+    },
+    {
+      "question_idx": 125,
+      "variance": 2481.0498046875
+    },
+    {
+      "question_idx": 46,
+      "variance": 2469.92333984375
+    },
+    {
+      "question_idx": 164,
+      "variance": 2467.4560546875
+    },
+    {
+      "question_idx": 171,
+      "variance": 2455.350341796875
+    },
+    {
+      "question_idx": 116,
+      "variance": 2441.623779296875
+    },
+    {
+      "question_idx": 100,
+      "variance": 2440.57666015625
+    },
+    {
+      "question_idx": 113,
+      "variance": 2435.75634765625
+    },
+    {
+      "question_idx": 120,
+      "variance": 2423.13037109375
+    },
+    {
+      "question_idx": 41,
+      "variance": 2412.68603515625
+    },
+    {
+      "question_idx": 67,
+      "variance": 2404.15380859375
+    },
+    {
+      "question_idx": 229,
+      "variance": 2394.013671875
+    },
+    {
+      "question_idx": 27,
+      "variance": 2380.4951171875
+    },
+    {
+      "question_idx": 58,
+      "variance": 2361.266357421875
+    },
+    {
+      "question_idx": 4,
+      "variance": 2353.03271484375
+    },
+    {
+      "question_idx": 81,
+      "variance": 2348.2744140625
+    },
+    {
+      "question_idx": 123,
+      "variance": 2347.85009765625
+    },
+    {
+      "question_idx": 29,
+      "variance": 2326.7646484375
+    },
+    {
+      "question_idx": 25,
+      "variance": 2325.732421875
+    },
+    {
+      "question_idx": 22,
+      "variance": 2320.96826171875
+    },
+    {
+      "question_idx": 220,
+      "variance": 2313.452392578125
+    },
+    {
+      "question_idx": 24,
+      "variance": 2312.87451171875
+    },
+    {
+      "question_idx": 202,
+      "variance": 2307.13623046875
+    },
+    {
+      "question_idx": 151,
+      "variance": 2303.572509765625
+    },
+    {
+      "question_idx": 117,
+      "variance": 2294.8720703125
+    },
+    {
+      "question_idx": 172,
+      "variance": 2284.201416015625
+    },
+    {
+      "question_idx": 40,
+      "variance": 2283.87548828125
+    },
+    {
+      "question_idx": 183,
+      "variance": 2281.11572265625
+    },
+    {
+      "question_idx": 159,
+      "variance": 2280.73681640625
+    },
+    {
+      "question_idx": 86,
+      "variance": 2280.55712890625
+    },
+    {
+      "question_idx": 206,
+      "variance": 2279.010009765625
+    },
+    {
+      "question_idx": 76,
+      "variance": 2277.896728515625
+    },
+    {
+      "question_idx": 143,
+      "variance": 2277.59912109375
+    },
+    {
+      "question_idx": 144,
+      "variance": 2276.014404296875
+    },
+    {
+      "question_idx": 63,
+      "variance": 2259.642578125
+    },
+    {
+      "question_idx": 78,
+      "variance": 2256.665771484375
+    },
+    {
+      "question_idx": 163,
+      "variance": 2256.62451171875
+    },
+    {
+      "question_idx": 185,
+      "variance": 2241.5771484375
+    },
+    {
+      "question_idx": 203,
+      "variance": 2234.5908203125
+    },
+    {
+      "question_idx": 59,
+      "variance": 2231.022216796875
+    },
+    {
+      "question_idx": 16,
+      "variance": 2230.452880859375
+    },
+    {
+      "question_idx": 193,
+      "variance": 2229.81689453125
+    },
+    {
+      "question_idx": 119,
+      "variance": 2227.416259765625
+    },
+    {
+      "question_idx": 140,
+      "variance": 2224.20458984375
+    },
+    {
+      "question_idx": 199,
+      "variance": 2218.4033203125
+    },
+    {
+      "question_idx": 134,
+      "variance": 2217.662109375
+    },
+    {
+      "question_idx": 181,
+      "variance": 2214.91357421875
+    },
+    {
+      "question_idx": 232,
+      "variance": 2212.07958984375
+    },
+    {
+      "question_idx": 154,
+      "variance": 2197.705078125
+    },
+    {
+      "question_idx": 72,
+      "variance": 2193.90576171875
+    },
+    {
+      "question_idx": 62,
+      "variance": 2189.76318359375
+    },
+    {
+      "question_idx": 31,
+      "variance": 2186.37646484375
+    },
+    {
+      "question_idx": 98,
+      "variance": 2184.19580078125
+    },
+    {
+      "question_idx": 102,
+      "variance": 2182.9501953125
+    },
+    {
+      "question_idx": 189,
+      "variance": 2179.614013671875
+    },
+    {
+      "question_idx": 177,
+      "variance": 2174.017578125
+    },
+    {
+      "question_idx": 162,
+      "variance": 2172.97021484375
+    },
+    {
+      "question_idx": 161,
+      "variance": 2172.212646484375
+    },
+    {
+      "question_idx": 10,
+      "variance": 2170.69189453125
+    },
+    {
+      "question_idx": 28,
+      "variance": 2161.67724609375
+    },
+    {
+      "question_idx": 9,
+      "variance": 2158.23095703125
+    },
+    {
+      "question_idx": 214,
+      "variance": 2148.702392578125
+    },
+    {
+      "question_idx": 142,
+      "variance": 2139.06884765625
+    },
+    {
+      "question_idx": 175,
+      "variance": 2135.98779296875
+    },
+    {
+      "question_idx": 156,
+      "variance": 2130.05224609375
+    },
+    {
+      "question_idx": 61,
+      "variance": 2127.708251953125
+    },
+    {
+      "question_idx": 20,
+      "variance": 2127.07666015625
+    },
+    {
+      "question_idx": 205,
+      "variance": 2124.1767578125
+    },
+    {
+      "question_idx": 57,
+      "variance": 2120.45849609375
+    },
+    {
+      "question_idx": 53,
+      "variance": 2103.05126953125
+    },
+    {
+      "question_idx": 110,
+      "variance": 2099.6845703125
+    },
+    {
+      "question_idx": 135,
+      "variance": 2098.49267578125
+    },
+    {
+      "question_idx": 221,
+      "variance": 2097.4306640625
+    },
+    {
+      "question_idx": 133,
+      "variance": 2096.93505859375
+    },
+    {
+      "question_idx": 103,
+      "variance": 2083.12060546875
+    },
+    {
+      "question_idx": 90,
+      "variance": 2080.25244140625
+    },
+    {
+      "question_idx": 122,
+      "variance": 2080.21435546875
+    },
+    {
+      "question_idx": 130,
+      "variance": 2076.51220703125
+    },
+    {
+      "question_idx": 155,
+      "variance": 2076.29296875
+    },
+    {
+      "question_idx": 51,
+      "variance": 2076.1240234375
+    },
+    {
+      "question_idx": 180,
+      "variance": 2070.53857421875
+    },
+    {
+      "question_idx": 115,
+      "variance": 2069.017333984375
+    },
+    {
+      "question_idx": 201,
+      "variance": 2065.86865234375
+    },
+    {
+      "question_idx": 79,
+      "variance": 2052.45654296875
+    },
+    {
+      "question_idx": 178,
+      "variance": 2049.4697265625
+    },
+    {
+      "question_idx": 126,
+      "variance": 2043.4501953125
+    },
+    {
+      "question_idx": 200,
+      "variance": 2037.47119140625
+    },
+    {
+      "question_idx": 182,
+      "variance": 2037.345947265625
+    },
+    {
+      "question_idx": 106,
+      "variance": 2033.37548828125
+    },
+    {
+      "question_idx": 32,
+      "variance": 2023.2789306640625
+    },
+    {
+      "question_idx": 191,
+      "variance": 2019.428955078125
+    },
+    {
+      "question_idx": 194,
+      "variance": 2018.6533203125
+    },
+    {
+      "question_idx": 146,
+      "variance": 2016.250732421875
+    },
+    {
+      "question_idx": 48,
+      "variance": 2011.367919921875
+    },
+    {
+      "question_idx": 170,
+      "variance": 2007.0792236328125
+    },
+    {
+      "question_idx": 234,
+      "variance": 2002.5611572265625
+    },
+    {
+      "question_idx": 6,
+      "variance": 1998.3486328125
+    },
+    {
+      "question_idx": 208,
+      "variance": 1997.3446044921875
+    },
+    {
+      "question_idx": 137,
+      "variance": 1995.255615234375
+    },
+    {
+      "question_idx": 152,
+      "variance": 1993.309326171875
+    },
+    {
+      "question_idx": 233,
+      "variance": 1990.21875
+    },
+    {
+      "question_idx": 165,
+      "variance": 1987.9296875
+    },
+    {
+      "question_idx": 218,
+      "variance": 1978.564697265625
+    },
+    {
+      "question_idx": 197,
+      "variance": 1977.788330078125
+    },
+    {
+      "question_idx": 228,
+      "variance": 1977.0665283203125
+    },
+    {
+      "question_idx": 230,
+      "variance": 1972.2125244140625
+    },
+    {
+      "question_idx": 69,
+      "variance": 1971.5523681640625
+    },
+    {
+      "question_idx": 238,
+      "variance": 1971.5487060546875
+    },
+    {
+      "question_idx": 107,
+      "variance": 1971.3974609375
+    },
+    {
+      "question_idx": 7,
+      "variance": 1966.8031005859375
+    },
+    {
+      "question_idx": 227,
+      "variance": 1966.151611328125
+    },
+    {
+      "question_idx": 88,
+      "variance": 1953.8692626953125
+    },
+    {
+      "question_idx": 21,
+      "variance": 1951.10693359375
+    },
+    {
+      "question_idx": 237,
+      "variance": 1948.4429931640625
+    },
+    {
+      "question_idx": 149,
+      "variance": 1947.4144287109375
+    },
+    {
+      "question_idx": 160,
+      "variance": 1943.9150390625
+    },
+    {
+      "question_idx": 111,
+      "variance": 1927.762939453125
+    },
+    {
+      "question_idx": 188,
+      "variance": 1927.04833984375
+    },
+    {
+      "question_idx": 168,
+      "variance": 1924.353515625
+    },
+    {
+      "question_idx": 139,
+      "variance": 1924.11181640625
+    },
+    {
+      "question_idx": 145,
+      "variance": 1923.8956298828125
+    },
+    {
+      "question_idx": 85,
+      "variance": 1923.2406005859375
+    },
+    {
+      "question_idx": 34,
+      "variance": 1921.599365234375
+    },
+    {
+      "question_idx": 33,
+      "variance": 1912.4078369140625
+    },
+    {
+      "question_idx": 54,
+      "variance": 1908.11279296875
+    },
+    {
+      "question_idx": 50,
+      "variance": 1904.1048583984375
+    },
+    {
+      "question_idx": 80,
+      "variance": 1901.92333984375
+    },
+    {
+      "question_idx": 36,
+      "variance": 1900.8419189453125
+    },
+    {
+      "question_idx": 174,
+      "variance": 1894.0511474609375
+    },
+    {
+      "question_idx": 124,
+      "variance": 1888.3450927734375
+    },
+    {
+      "question_idx": 217,
+      "variance": 1887.836669921875
+    },
+    {
+      "question_idx": 209,
+      "variance": 1882.6546630859375
+    },
+    {
+      "question_idx": 196,
+      "variance": 1880.92919921875
+    },
+    {
+      "question_idx": 184,
+      "variance": 1880.765625
+    },
+    {
+      "question_idx": 83,
+      "variance": 1879.322021484375
+    },
+    {
+      "question_idx": 118,
+      "variance": 1878.593994140625
+    },
+    {
+      "question_idx": 95,
+      "variance": 1877.639892578125
+    },
+    {
+      "question_idx": 71,
+      "variance": 1876.8402099609375
+    },
+    {
+      "question_idx": 11,
+      "variance": 1875.3463134765625
+    },
+    {
+      "question_idx": 14,
+      "variance": 1872.485595703125
+    },
+    {
+      "question_idx": 0,
+      "variance": 1868.907470703125
+    },
+    {
+      "question_idx": 17,
+      "variance": 1867.938232421875
+    },
+    {
+      "question_idx": 23,
+      "variance": 1867.2235107421875
+    },
+    {
+      "question_idx": 87,
+      "variance": 1865.2510986328125
+    },
+    {
+      "question_idx": 56,
+      "variance": 1865.169677734375
+    },
+    {
+      "question_idx": 222,
+      "variance": 1861.618408203125
+    },
+    {
+      "question_idx": 190,
+      "variance": 1856.9290771484375
+    },
+    {
+      "question_idx": 132,
+      "variance": 1853.0177001953125
+    },
+    {
+      "question_idx": 5,
+      "variance": 1852.4940185546875
+    },
+    {
+      "question_idx": 55,
+      "variance": 1849.923095703125
+    },
+    {
+      "question_idx": 49,
+      "variance": 1849.847900390625
+    },
+    {
+      "question_idx": 68,
+      "variance": 1834.3626708984375
+    },
+    {
+      "question_idx": 148,
+      "variance": 1829.5047607421875
+    },
+    {
+      "question_idx": 73,
+      "variance": 1827.131591796875
+    },
+    {
+      "question_idx": 131,
+      "variance": 1826.6217041015625
+    },
+    {
+      "question_idx": 173,
+      "variance": 1822.22314453125
+    },
+    {
+      "question_idx": 19,
+      "variance": 1815.7850341796875
+    },
+    {
+      "question_idx": 38,
+      "variance": 1804.8555908203125
+    },
+    {
+      "question_idx": 8,
+      "variance": 1804.500732421875
+    },
+    {
+      "question_idx": 207,
+      "variance": 1784.972412109375
+    },
+    {
+      "question_idx": 223,
+      "variance": 1784.420654296875
+    },
+    {
+      "question_idx": 150,
+      "variance": 1783.95849609375
+    },
+    {
+      "question_idx": 211,
+      "variance": 1761.9510498046875
+    },
+    {
+      "question_idx": 47,
+      "variance": 1756.021728515625
+    },
+    {
+      "question_idx": 13,
+      "variance": 1735.8369140625
+    },
+    {
+      "question_idx": 82,
+      "variance": 1729.205810546875
+    },
+    {
+      "question_idx": 91,
+      "variance": 1725.1640625
+    },
+    {
+      "question_idx": 157,
+      "variance": 1722.5469970703125
+    },
+    {
+      "question_idx": 101,
+      "variance": 1703.73876953125
+    },
+    {
+      "question_idx": 44,
+      "variance": 1700.469970703125
+    },
+    {
+      "question_idx": 216,
+      "variance": 1690.920166015625
+    },
+    {
+      "question_idx": 127,
+      "variance": 1683.5552978515625
+    },
+    {
+      "question_idx": 195,
+      "variance": 1675.3865966796875
+    },
+    {
+      "question_idx": 112,
+      "variance": 1669.0826416015625
+    },
+    {
+      "question_idx": 97,
+      "variance": 1668.002685546875
+    },
+    {
+      "question_idx": 176,
+      "variance": 1661.087646484375
+    },
+    {
+      "question_idx": 52,
+      "variance": 1652.694091796875
+    },
+    {
+      "question_idx": 66,
+      "variance": 1647.06640625
+    },
+    {
+      "question_idx": 167,
+      "variance": 1646.401611328125
+    },
+    {
+      "question_idx": 96,
+      "variance": 1642.944580078125
+    },
+    {
+      "question_idx": 43,
+      "variance": 1641.10107421875
+    },
+    {
+      "question_idx": 99,
+      "variance": 1632.3760986328125
+    },
+    {
+      "question_idx": 39,
+      "variance": 1631.53857421875
+    },
+    {
+      "question_idx": 60,
+      "variance": 1625.43017578125
+    },
+    {
+      "question_idx": 89,
+      "variance": 1620.269775390625
+    },
+    {
+      "question_idx": 2,
+      "variance": 1593.9317626953125
+    },
+    {
+      "question_idx": 42,
+      "variance": 1592.79736328125
+    },
+    {
+      "question_idx": 169,
+      "variance": 1590.660400390625
+    },
+    {
+      "question_idx": 236,
+      "variance": 1587.679931640625
+    },
+    {
+      "question_idx": 231,
+      "variance": 1582.0777587890625
+    },
+    {
+      "question_idx": 219,
+      "variance": 1565.299072265625
+    },
+    {
+      "question_idx": 121,
+      "variance": 1563.6927490234375
+    },
+    {
+      "question_idx": 210,
+      "variance": 1558.611083984375
+    },
+    {
+      "question_idx": 35,
+      "variance": 1554.6856689453125
+    },
+    {
+      "question_idx": 114,
+      "variance": 1533.30322265625
+    },
+    {
+      "question_idx": 109,
+      "variance": 1533.0078125
+    },
+    {
+      "question_idx": 18,
+      "variance": 1475.802001953125
+    },
+    {
+      "question_idx": 104,
+      "variance": 1461.70751953125
+    },
+    {
+      "question_idx": 45,
+      "variance": 1448.2950439453125
+    },
+    {
+      "question_idx": 64,
+      "variance": 1399.944580078125
+    },
+    {
+      "question_idx": 74,
+      "variance": 1310.191162109375
+    },
+    {
+      "question_idx": 92,
+      "variance": 1270.31982421875
+    },
+    {
+      "question_idx": 179,
+      "variance": 1261.57177734375
+    }
+  ],
+  "pca_stability": {
+    "n_characters": 413,
+    "n_components": 10,
+    "pc_correlations": [
+      {
+        "pc": 1,
+        "correlation": 0.9989136995688487
+      },
+      {
+        "pc": 2,
+        "correlation": 0.9975697197409469
+      },
+      {
+        "pc": 3,
+        "correlation": 0.9973810929190431
+      },
+      {
+        "pc": 4,
+        "correlation": 0.9961763614673477
+      },
+      {
+        "pc": 5,
+        "correlation": 0.9875526542940107
+      },
+      {
+        "pc": 6,
+        "correlation": 0.9796697723547876
+      },
+      {
+        "pc": 7,
+        "correlation": 0.9910824376412607
+      },
+      {
+        "pc": 8,
+        "correlation": 0.9945809207263467
+      },
+      {
+        "pc": 9,
+        "correlation": 0.9823959117032401
+      },
+      {
+        "pc": 10,
+        "correlation": 0.9749446579669351
+      }
+    ]
+  }
+}

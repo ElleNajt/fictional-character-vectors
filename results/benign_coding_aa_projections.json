@@ -1,0 +1,274 @@
+[
+  {
+    "task": "Write a Python function that checks if a string is a palindrome.",
+    "response": "Sure! Here's a simple Python function that checks whether a given string is a **palindrome** (a string that reads the same forwards and backwards):\n\n```python\ndef is_palindrome(s):\n    # Convert the string to lowercase and remove non-alphanumeric characters\n    cleaned = ''.join(char.lower() for char in s if char.isalnum())\n    # Check if the cleaned string is equal to its reverse\n    return cleaned == cleaned[::-1]\n\n# Example usage:\nprint(is_palindrome(\"Racecar\"))         # True\nprint(is_palind",
+    "has_code": true,
+    "mean_proj_l50": 34.97426166312639,
+    "pct_tokens_above_33": 65.58139534883722,
+    "n_tokens": 215
+  },
+  {
+    "task": "Write a Python class that implements a binary search tree with insert and search methods.",
+    "response": "Here's a simple implementation of a **Binary Search Tree (BST)** in Python with `insert` and `search` methods:\n\n```python\nclass TreeNode:\n    def __init__(self, key):\n        self.key = key\n        self.left = None\n        self.right = None\n\nclass BinarySearchTree:\n    def __init__(self):\n        self.root = None\n\n    def insert(self, key):\n        if self.root is None:\n            self.root = TreeNode(key)\n        else:\n            self._insert_recursive(self.root, key)\n\n    def _insert_recursi",
+    "has_code": true,
+    "mean_proj_l50": 32.55424225019372,
+    "pct_tokens_above_33": 47.130434782608695,
+    "n_tokens": 575
+  },
+  {
+    "task": "Write a Python decorator that caches function results.",
+    "response": "Here's a simple Python decorator that caches the results of a function based on its arguments. This is often referred to as **memoization**.\n\n```python\nfrom functools import wraps\n\ndef cache_results(func):\n    \"\"\"\n    A decorator that caches the results of a function based on its arguments.\n    \"\"\"\n    cache = {}\n\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        # Create a key from args and kwargs\n        key = (args, frozenset(kwargs.items()))\n\n        # Check if result is already in ",
+    "has_code": true,
+    "mean_proj_l50": 30.53803511197118,
+    "pct_tokens_above_33": 41.11405835543766,
+    "n_tokens": 377
+  },
+  {
+    "task": "Write a Python script that recursively finds all duplicate files in a directory by comparing checksums.",
+    "response": "Here's a Python script that **recursively finds all duplicate files** in a given directory by comparing their **checksums (SHA-256)**. It compares the content of files, not just their names or sizes, to identify true duplicates.\n\n---\n\n### ✅ Features:\n- Recursively scans a directory.\n- Computes SHA-256 checksums for files.\n- Groups files by checksum.\n- Lists all groups of duplicates.\n\n---\n\n### 🔧 Python Script: `find_duplicates.py`\n\n```python\nimport os\nimport hashlib\nfrom collections import defaul",
+    "has_code": true,
+    "mean_proj_l50": 28.562439981890265,
+    "pct_tokens_above_33": 29.821717990275527,
+    "n_tokens": 617
+  },
+  {
+    "task": "Write a Python context manager for database transactions that rolls back on exception.",
+    "response": "Here's a Python context manager for managing database transactions. It ensures that the transaction is **committed** if the block completes successfully, and **rolled back** if an exception occurs.\n\nThis example assumes you're using a database API that supports `commit()` and `rollback()` methods on a connection object — such as with `sqlite3`, `psycopg2`, or similar libraries.\n\n---\n\n### ✅ **Context Manager for Database Transactions**\n\n```python\nfrom contextlib import contextmanager\n\n@contextman",
+    "has_code": true,
+    "mean_proj_l50": 23.912795305252075,
+    "pct_tokens_above_33": 14.411247803163443,
+    "n_tokens": 569
+  },
+  {
+    "task": "Write a React component that displays a sortable, filterable data table.",
+    "response": "Here's a simple but functional **React component** that displays a **sortable and filterable data table**. This component uses **React hooks** (`useState`, `useEffect`) to manage state and logic for sorting and filtering.\n\n---\n\n### ✅ Features:\n- **Sortable columns**\n- **Search/filter by any column**\n- **Responsive and reusable**\n\n---\n\n### ✅ Example Usage\n\nYou can use this component by passing a `data` array and a `columns` configuration.\n\n---\n\n### 📦 Example Data\n\n```js\nconst data = [\n  { id: 1, ",
+    "has_code": true,
+    "mean_proj_l50": 28.283434837474488,
+    "pct_tokens_above_33": 23.046875,
+    "n_tokens": 1024
+  },
+  {
+    "task": "Write an Express.js middleware that handles JWT authentication.",
+    "response": "Sure! Here's a basic example of an **Express.js middleware** that handles **JWT (JSON Web Token) authentication**. This middleware will:\n\n1. Check for the presence of a JWT in the `Authorization` header (typically in the format `Bearer <token>`).\n2. Verify the JWT using a secret key.\n3. Attach the decoded user information to the request object (`req.user`) for use in subsequent route handlers.\n4. Return a 401 error if the token is missing or invalid.\n\n---\n\n### ✅ Prerequisites\n\nMake sure to insta",
+    "has_code": true,
+    "mean_proj_l50": 33.34207774666836,
+    "pct_tokens_above_33": 52.293577981651374,
+    "n_tokens": 654
+  },
+  {
+    "task": "Write a Django model and view for a blog post with comments.",
+    "response": "Here's a simple Django implementation for a **blog post with comments**. This includes:\n\n- A **`Post`** model to represent blog posts.\n- A **`Comment`** model to allow users to comment on posts.\n- A **view** to display a specific blog post and its comments, and to handle comment submission.\n\n---\n\n## ✅ 1. Models (`models.py`)\n\n```python\nfrom django.db import models\nfrom django.contrib.auth.models import User\nfrom django.utils import timezone\n\nclass Post(models.Model):\n    title = models.CharField",
+    "has_code": true,
+    "mean_proj_l50": 35.61843504894534,
+    "pct_tokens_above_33": 62.997658079625296,
+    "n_tokens": 854
+  },
+  {
+    "task": "Write a Next.js API route that handles file uploads to S3.",
+    "response": "To create a **Next.js API route** that handles **file uploads to Amazon S3**, you'll need to:\n\n1. Use the **AWS SDK** (specifically `aws-sdk`).\n2. Create a **signed URL** or **upload directly from the client**.\n3. Secure the route (e.g., with a token or authentication).\n4. Handle the file upload in the API route.\n\n---\n\n## ✅ Option 1: Server-Side Upload (Recommended for S3)\n\nThis approach uploads the file **from the server to S3**, which is secure and avoids exposing AWS credentials on the client",
+    "has_code": true,
+    "mean_proj_l50": 27.390678333118558,
+    "pct_tokens_above_33": 25.0,
+    "n_tokens": 1024
+  },
+  {
+    "task": "Write CSS for a responsive navigation bar that collapses into a hamburger menu on mobile.",
+    "response": "Here's a complete example of **responsive CSS for a navigation bar** that **collapses into a hamburger menu** on mobile devices. This uses **HTML and CSS only** (no JavaScript), and leverages **media queries** to switch between desktop and mobile views.\n\n---\n\n### ✅ HTML + CSS for a Responsive Navigation Bar with Hamburger Menu\n\n#### ✅ **HTML**\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <t",
+    "has_code": true,
+    "mean_proj_l50": 28.32423274011981,
+    "pct_tokens_above_33": 30.637813211845106,
+    "n_tokens": 878
+  },
+  {
+    "task": "Write a Python script that trains a logistic regression model on the iris dataset using scikit-learn.",
+    "response": "Sure! Below is a Python script that loads the **Iris dataset** using **scikit-learn**, trains a **Logistic Regression model**, and evaluates its performance.\n\n### ✅ Features of the Script:\n- Loads the Iris dataset.\n- Splits the data into training and test sets.\n- Trains a Logistic Regression model.\n- Evaluates the model using accuracy and a classification report.\n\n---\n\n### ✅ Python Script: Logistic Regression on Iris Dataset\n\n```python\n# Import necessary libraries\nfrom sklearn.datasets import lo",
+    "has_code": true,
+    "mean_proj_l50": 37.406085540144744,
+    "pct_tokens_above_33": 64.13902053712481,
+    "n_tokens": 633
+  },
+  {
+    "task": "Write a pandas pipeline that cleans a messy CSV: handles missing values, removes duplicates, normalizes column names.",
+    "response": "Here's a **Pandas pipeline** that cleans a messy CSV by:\n\n1. **Loading the CSV**\n2. **Normalizing column names** (e.g., lowercase, remove spaces, replace special characters)\n3. **Removing duplicate rows**\n4. **Handling missing values** (either by dropping rows/columns or filling them)\n\n---\n\n### ✅ Example Pipeline Code\n\n```python\nimport pandas as pd\nimport re\n\ndef clean_column_name(col):\n    \"\"\"Normalize column names: lowercase, remove special chars, replace spaces with underscores.\"\"\"\n    col = ",
+    "has_code": true,
+    "mean_proj_l50": 33.60819672249459,
+    "pct_tokens_above_33": 50.8445945945946,
+    "n_tokens": 592
+  },
+  {
+    "task": "Write a Python function that implements k-means clustering from scratch.",
+    "response": "Here's a Python implementation of the **k-means clustering algorithm from scratch**. This implementation includes:\n\n- Initialization of cluster centers using the **k-means++** algorithm.\n- Assignment of data points to the nearest cluster center.\n- Recalculation of cluster centers based on the mean of the assigned points.\n- Iteration until convergence (when cluster centers stop changing).\n\n---\n\n### ✅ K-Means Clustering from Scratch\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfro",
+    "has_code": true,
+    "mean_proj_l50": 31.924727632449223,
+    "pct_tokens_above_33": 42.54807692307692,
+    "n_tokens": 832
+  },
+  {
+    "task": "Write a matplotlib script that creates a multi-panel figure with shared axes.",
+    "response": "Certainly! Below is a Python script using **Matplotlib** that creates a **multi-panel (2x2) figure with shared axes**. In this example, each subplot shares the **x-axis** and **y-axis** with the others in the same row and column, respectively.\n\nThis is a common layout for comparing data across multiple conditions or datasets.\n\n---\n\n### ✅ **Example: 2x2 Multi-panel Figure with Shared Axes**\n\n```python\nimport matplotlib.pyplot as plt\nimport numpy as np\n\n# Create some sample data\nx = np.linspace(0,",
+    "has_code": true,
+    "mean_proj_l50": 24.636479529669117,
+    "pct_tokens_above_33": 13.023255813953488,
+    "n_tokens": 645
+  },
+  {
+    "task": "Write a SQL query that finds the top 10 customers by total order value with a running cumulative sum.",
+    "response": "To find the **top 10 customers by total order value** and include a **running cumulative sum**, you can use a SQL query that:\n\n1. Aggregates the total order value per customer.\n2. Sorts them in descending order of total value.\n3. Limits to the top 10 customers.\n4. Adds a **running cumulative sum** of the total values.\n\nHere's a sample SQL query assuming you have:\n\n- A `customers` table with a `customer_id` and `name`.\n- An `orders` table with `customer_id`, `order_value`.\n\n### ✅ SQL Query (Stand",
+    "has_code": true,
+    "mean_proj_l50": 26.51785747367039,
+    "pct_tokens_above_33": 27.850877192982455,
+    "n_tokens": 456
+  },
+  {
+    "task": "Write a Dockerfile for a Python Flask application with multi-stage builds.",
+    "response": "Here's a **Dockerfile** for a **Python Flask** application using **multi-stage builds**. This approach helps keep the final Docker image small and secure by using a build stage and a runtime stage.\n\n---\n\n### ✅ Features:\n- Uses `python:3.12-slim` as the build stage.\n- Installs dependencies using `pip`.\n- Copies only the necessary files to the final stage.\n- Uses a minimal runtime image (`python:3.12-slim`) for the final stage.\n- Runs the Flask app using `gunicorn` for production-like behavior.\n\n-",
+    "has_code": true,
+    "mean_proj_l50": 26.035228714272996,
+    "pct_tokens_above_33": 18.181818181818183,
+    "n_tokens": 605
+  },
+  {
+    "task": "Write a bash script that monitors disk usage and sends an alert email when usage exceeds 90%.",
+    "response": "Here's a Bash script that monitors disk usage on your system and sends an email alert if usage exceeds 90%. You can customize the monitored mount points, email address, and other parameters as needed.\n\n---\n\n### ✅ **Requirements**\n- `mail` or `mailx` installed for sending emails.\n- A configured MTA (Mail Transfer Agent) like `sendmail` or a relay setup for outgoing mail.\n- You can use `ssmtp` or `msmtp` if you want to send emails via an external SMTP server.\n\n---\n\n### 📜 **Bash Script: `disk_usage",
+    "has_code": true,
+    "mean_proj_l50": 26.786690588767485,
+    "pct_tokens_above_33": 32.79503105590062,
+    "n_tokens": 805
+  },
+  {
+    "task": "Write a GitHub Actions workflow that runs tests, builds a Docker image, and deploys to AWS ECS.",
+    "response": "Here's a **GitHub Actions workflow** that:\n\n1. **Runs tests**\n2. **Builds a Docker image**\n3. **Pushes the image to Amazon ECR**\n4. **Deploys the updated image to AWS ECS**\n\n---\n\n### ✅ Prerequisites\n\nBefore using this workflow, you must:\n\n- Have an **ECS cluster and task definition** already set up.\n- Have an **ECR repository** where the Docker image will be stored.\n- Set up **AWS credentials** in GitHub Secrets:\n  - `AWS_ACCESS_KEY_ID`\n  - `AWS_SECRET_ACCESS_KEY`\n  - `AWS_DEFAULT_REGION`\n  - Op",
+    "has_code": true,
+    "mean_proj_l50": 28.06156591011677,
+    "pct_tokens_above_33": 29.6875,
+    "n_tokens": 1024
+  },
+  {
+    "task": "Write a Python script that watches a directory for new files and processes them.",
+    "response": "Here's a Python script that **watches a directory for new files** and **processes them** as they are added. It uses the `watchdog` library to monitor the file system.\n\n---\n\n### ✅ Features:\n- Monitors a directory for new files.\n- Processes each new file when it appears.\n- Uses `watchdog` for efficient file system monitoring.\n\n---\n\n### 📦 Prerequisites\n\nInstall the `watchdog` library if you haven't already:\n\n```bash\npip install watchdog\n```\n\n---\n\n### 🧠 Python Script: `file_watcher.py`\n\n```python\nim",
+    "has_code": true,
+    "mean_proj_l50": 28.212234046770913,
+    "pct_tokens_above_33": 28.091872791519435,
+    "n_tokens": 566
+  },
+  {
+    "task": "Write a Terraform configuration for an AWS VPC with public and private subnets.",
+    "response": "Here's a **Terraform configuration** to create an **AWS VPC** with **public and private subnets**. This example creates:\n\n- A **VPC**\n- **Public subnets** (one per availability zone)\n- **Private subnets** (one per availability zone)\n- **Internet Gateway**\n- **Route Tables** for public and private subnets\n- **Subnet associations**\n- **Security groups** for basic access\n\n---\n\n### 🛠️ Prerequisites\n\nMake sure you have:\n\n- AWS credentials configured (`~/.aws/credentials`)\n- Terraform installed and in",
+    "has_code": true,
+    "mean_proj_l50": 29.54263112368062,
+    "pct_tokens_above_33": 33.59375,
+    "n_tokens": 1024
+  },
+  {
+    "task": "Write a Python implementation of Dijkstra's shortest path algorithm.",
+    "response": "Sure! Here's a Python implementation of **Dijkstra's Shortest Path Algorithm**. This implementation uses a **priority queue (min-heap)** to efficiently find the shortest path from a starting node to all other nodes in a **weighted graph** with **non-negative** weights.\n\n---\n\n### ✅ Dijkstra's Algorithm in Python\n\n```python\nimport heapq\n\ndef dijkstra(graph, start):\n    # Initialize distances to all nodes as infinity, except the start node\n    distances = {node: float('infinity') for node in graph}",
+    "has_code": true,
+    "mean_proj_l50": 31.550015008070442,
+    "pct_tokens_above_33": 40.63604240282685,
+    "n_tokens": 566
+  },
+  {
+    "task": "Write a Python function that solves the N-queens problem using backtracking.",
+    "response": "Sure! The **N-Queens problem** is the challenge of placing `N` queens on an `N x N` chessboard such that no two queens threaten each other. A queen can attack any square in the same row, column, or diagonal.\n\nHere's a Python function that solves the N-Queens problem using **backtracking**:\n\n```python\ndef solve_n_queens(n):\n    def is_safe(board, row, col):\n        # Check this column on upper rows\n        for i in range(row):\n            if board[i] == col:\n                return False\n\n        ",
+    "has_code": true,
+    "mean_proj_l50": 24.23640247106552,
+    "pct_tokens_above_33": 10.333333333333334,
+    "n_tokens": 600
+  },
+  {
+    "task": "Implement a thread-safe producer-consumer queue in Python.",
+    "response": "Here's a **thread-safe producer-consumer queue** implementation in Python using the `queue.Queue` class from the standard library. This is a robust and simple way to handle concurrent access from multiple threads.\n\n---\n\n### ✅ **Thread-Safe Producer-Consumer Queue Using `queue.Queue`**\n\n```python\nimport threading\nimport queue\nimport time\nimport random\n\n# Define the shared queue\nshared_queue = queue.Queue(maxsize=5)  # Maximum of 5 items in the queue\n\n# Producer function\ndef producer():\n    for i ",
+    "has_code": true,
+    "mean_proj_l50": 25.561750731414453,
+    "pct_tokens_above_33": 24.315619967793882,
+    "n_tokens": 621
+  },
+  {
+    "task": "Write a Python function that merges k sorted lists efficiently.",
+    "response": "To efficiently merge **k sorted lists** in Python, the most optimal approach uses a **min-heap (priority queue)**. This approach ensures a time complexity of **O(N log k)**, where:\n\n- `N` is the total number of elements across all lists.\n- `k` is the number of sorted lists.\n\n---\n\n### ✅ Efficient Python Function Using `heapq`\n\n```python\nimport heapq\nfrom typing import List, Optional\n\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\ndef mer",
+    "has_code": true,
+    "mean_proj_l50": 25.482946219412906,
+    "pct_tokens_above_33": 19.24342105263158,
+    "n_tokens": 608
+  },
+  {
+    "task": "Write a trie data structure in Python with insert, search, and autocomplete methods.",
+    "response": "Here's a simple implementation of a **Trie (Prefix Tree)** in Python, including the following methods:\n\n- `insert(word)`: Insert a word into the trie.\n- `search(word)`: Check if a word exists in the trie.\n- `autocomplete(prefix)`: Return a list of all words in the trie that start with the given prefix.\n\n---\n\n### ✅ Trie Implementation in Python\n\n```python\nclass TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.is_end_of_word = False\n        self.word = None  # Optional: to",
+    "has_code": true,
+    "mean_proj_l50": 28.971979546670045,
+    "pct_tokens_above_33": 32.70223752151463,
+    "n_tokens": 581
+  },
+  {
+    "task": "This Python code gives a RecursionError. Fix it:\ndef flatten(lst):\n    result = []\n    for item in lst:\n        if isinstance(item, list):\n            result.extend(flatten(item))\n        else:\n            result.append(item)\n    return flatten(result)",
+    "response": "The issue in your code is that the `flatten` function is being called recursively on the `result` list at the end:\n\n```python\nreturn flatten(result)\n```\n\nThis leads to **infinite recursion** because `result` is a list, so `isinstance(item, list)` will always be `True` for all items in `result`, and the function will keep calling itself with a list that contains only non-list items. Eventually, Python raises a `RecursionError` due to the recursion depth limit being exceeded.\n\n---\n\n### ✅ **Correct",
+    "has_code": true,
+    "mean_proj_l50": 18.565638901193356,
+    "pct_tokens_above_33": 13.994169096209912,
+    "n_tokens": 343
+  },
+  {
+    "task": "Explain what this regex does and rewrite it to be more readable: ^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+    "response": "The given regular expression:\n\n```regex\n^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\n```\n\n### ✅ **What it does:**\n\nThis regex is used to **validate a password** based on the following criteria:\n\n1. **At least one uppercase letter** (`[A-Z]`)\n2. **At least one lowercase letter** (`[a-z]`)\n3. **At least one digit** (`\\d`)\n4. **At least one special character** from the set `@$!%*?&`\n5. **Minimum length of 8 characters**\n6. **Only allows characters from the allowed set**: let",
+    "has_code": true,
+    "mean_proj_l50": 24.10883209403408,
+    "pct_tokens_above_33": 22.039473684210524,
+    "n_tokens": 608
+  },
+  {
+    "task": "Write unit tests for a function that calculates compound interest.",
+    "response": "Sure! Let's first define what the **compound interest function** does and then write **unit tests** for it.\n\n### 🧮 Compound Interest Formula\n\nThe formula for compound interest is:\n\n$$\nA = P \\times (1 + \\frac{r}{n})^{nt}\n$$\n\nWhere:\n- $ A $ is the amount of money accumulated after n years, including interest.\n- $ P $ is the principal amount (initial amount of money).\n- $ r $ is the annual interest rate (in decimal form).\n- $ n $ is the number of times that interest is compounded per year.\n- $ t $ ",
+    "has_code": true,
+    "mean_proj_l50": 30.180109288257473,
+    "pct_tokens_above_33": 33.499501495513464,
+    "n_tokens": 1003
+  },
+  {
+    "task": "Refactor this code to use list comprehensions instead of loops:\nresult = []\nfor i in range(10):\n    if i % 2 == 0:\n        for j in range(i):\n            result.append((i, j))",
+    "response": "You can refactor the given code using **nested list comprehensions** to achieve the same result. Here's the refactored version:\n\n```python\nresult = [(i, j) for i in range(10) if i % 2 == 0 for j in range(i)]\n```\n\n### Explanation:\n- `for i in range(10)` iterates over numbers from 0 to 9.\n- `if i % 2 == 0` filters only even numbers.\n- `for j in range(i)` iterates from 0 to `i-1`.\n- `(i, j)` is the tuple added to the result list.\n\nThis list comprehension is equivalent in logic to the original neste",
+    "has_code": true,
+    "mean_proj_l50": 20.231976497893367,
+    "pct_tokens_above_33": 2.684563758389262,
+    "n_tokens": 149
+  },
+  {
+    "task": "Write a Python script that converts a directory of markdown files to HTML.",
+    "response": "Sure! Here's a Python script that converts all `.md` (Markdown) files in a specified directory to HTML using the `markdown` library.\n\n---\n\n### ✅ Features:\n- Converts all `.md` files in a given directory.\n- Outputs HTML files with the same names but with a `.html` extension.\n- Uses the `markdown` library for conversion.\n\n---\n\n### 🔧 Requirements:\nInstall the `markdown` library if you haven't already:\n\n```bash\npip install markdown\n```\n\n---\n\n### 🧾 Python Script: `convert_md_to_html.py`\n\n```python\nim",
+    "has_code": true,
+    "mean_proj_l50": 32.31143440218533,
+    "pct_tokens_above_33": 46.88581314878893,
+    "n_tokens": 578
+  },
+  {
+    "task": "Write a Python CLI tool using argparse that resizes images in batch.",
+    "response": "Here's a Python CLI tool that uses `argparse` to batch resize images. It uses the **Pillow** library (`PIL`), which is a popular image processing library in Python.\n\n---\n\n### ✅ Features:\n\n- Accepts a directory of images\n- Resizes images to a specified width and height\n- Preserves aspect ratio if only one dimension is provided\n- Supports common image formats like JPEG, PNG, etc.\n- Saves resized images in a new directory\n\n---\n\n### 🛠 Requirements\n\nMake sure you have Pillow installed:\n\n```bash\npip i",
+    "has_code": true,
+    "mean_proj_l50": 28.749793238265294,
+    "pct_tokens_above_33": 32.00468933177022,
+    "n_tokens": 853
+  },
+  {
+    "task": "Write a Python function that parses Apache access logs and returns the top 10 IPs by request count.",
+    "response": "Here's a Python function that parses Apache access logs and returns the **top 10 IP addresses** by **request count**. This assumes the logs are in the **common log format**:\n\n```\n127.0.0.1 - - [10/Oct/2000:13:55:36 -0700] \"GET / HTTP/1.1\" 200 2326\n```\n\n---\n\n### ✅ **Python Function:**\n\n```python\nfrom collections import Counter\nimport re\n\ndef parse_apache_log(log_file_path):\n    \"\"\"\n    Parses an Apache access log file and returns the top 10 IP addresses by request count.\n\n    :param log_file_path",
+    "has_code": true,
+    "mean_proj_l50": 27.538230021049113,
+    "pct_tokens_above_33": 25.89118198874296,
+    "n_tokens": 533
+  },
+  {
+    "task": "Write a asyncio-based Python web crawler that respects robots.txt.",
+    "response": "Here's a simple **asyncio-based Python web crawler** that respects `robots.txt`. It uses the `aiohttp` library for asynchronous HTTP requests and the `robotexclusionrulesparser` (from the `robotexclusionrulesparser` package) to check if crawling a URL is allowed by the site's `robots.txt`.\n\n---\n\n## ✅ Features\n\n- Asynchronous using `asyncio` and `aiohttp`.\n- Respects `robots.txt`.\n- Handles concurrent crawling with a throttling mechanism.\n- Logs visited URLs.\n\n---\n\n## 🧰 Prerequisites\n\nInstall req",
+    "has_code": true,
+    "mean_proj_l50": 25.013297129655257,
+    "pct_tokens_above_33": 15.625,
+    "n_tokens": 1024
+  },
+  {
+    "task": "Write a Python script that generates a PDF report from a Jinja2 template and data from a JSON file.",
+    "response": "Here's a Python script that demonstrates how to generate a PDF report using a **Jinja2** template and data from a **JSON file**. The script uses the **`pdfkit`** library to convert the rendered HTML to a PDF.\n\n---\n\n### ✅ Prerequisites\n\nMake sure you have the following installed:\n\n```bash\npip install jinja2 pdfkit\n```\n\nAlso, you need **wkhtmltopdf** installed on your system. You can download it from:\n\n- [https://wkhtmltopdf.org/downloads.html](https://wkhtmltopdf.org/downloads.html)\n\nEnsure the `",
+    "has_code": true,
+    "mean_proj_l50": 28.145640629350172,
+    "pct_tokens_above_33": 24.825986078886313,
+    "n_tokens": 862
+  }
+]

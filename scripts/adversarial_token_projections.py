@@ -1,12 +1,14 @@
 """
-Extract per-token AA projections for adversarial clamping responses.
+Extract per-token AA and villain axis projections for adversarial clamping responses.
 
 For each (character, condition, question), does a forward pass and saves
-per-token projections onto the assistant axis at layer 50.
+per-token projections onto the assistant axis and villain axis at layer 50.
 
-Output: adversarial_token_projections.json with per-token text + AA projection.
+Output: adversarial_token_projections.json with per-token text + projections.
 """
 import json
+import pickle
+import numpy as np
 import torch
 from pathlib import Path
 
@@ -21,7 +23,28 @@ LAYER = 49  # 0-indexed, = layer 50
 
 RESULTS_PATH = REPO_ROOT / "results" / "adversarial_clamping_comparison.json"
 AA_PATH = REPO_ROOT / "data" / "role_vectors" / "assistant_axis.pt"
+CHAR_L50_PATH = REPO_ROOT / "results" / "layer50_activations.pkl"
+LABELS_PATH = REPO_ROOT / "data" / "hero_villain_labels.json"
 OUTPUT_PATH = REPO_ROOT / "results" / "adversarial_token_projections.json"
+
+
+def compute_villain_axis_l50():
+    """Compute villain axis at layer 50 from character activations."""
+    with open(CHAR_L50_PATH, 'rb') as f:
+        l50 = pickle.load(f)
+    with open(LABELS_PATH) as f:
+        labels = json.load(f)
+
+    act = l50['activation_matrix']
+    names = l50['character_names']
+    name_to_idx = {n: i for i, n in enumerate(names)}
+
+    hero_idx = [name_to_idx[n] for n in labels['hero'] if n in name_to_idx]
+    villain_idx = [name_to_idx[n] for n in labels['villain'] if n in name_to_idx]
+
+    villain_axis = act[villain_idx].mean(0) - act[hero_idx].mean(0)
+    villain_axis = villain_axis / np.linalg.norm(villain_axis)
+    return torch.from_numpy(villain_axis).float()
 
 
 def main():
@@ -32,17 +55,22 @@ def main():
     aa_l50 = aa_vec[LAYER].float()
     aa_l50 = aa_l50 / aa_l50.norm()
 
+    villain_l50 = compute_villain_axis_l50()
+
     print("Loading model...", flush=True)
     pm = ProbingModel(MODEL, dtype=torch.bfloat16)
     aa_l50 = aa_l50.to(pm.device)
+    villain_l50 = villain_l50.to(pm.device)
 
     model_layers = pm.get_layers()
     results = []
 
-    conditions = ["baseline", "aa_clamped", "villain_clamped"]
+    conditions = ["baseline", "aa_clamped", "villain_clamped", "aa_steered"]
 
     for i, entry in enumerate(data):
         for condition in conditions:
+            if condition not in entry:
+                continue
             response_text = entry[condition]
             conversation = [
                 {"role": "system", "content": entry["system_prompt"]},
@@ -86,9 +114,10 @@ def main():
             handle.remove()
 
             acts = activations[0]  # (seq_len, hidden_dim)
-            # Project response tokens onto AA
+            # Project response tokens onto AA and villain axis
             response_acts = acts[prompt_len:]
-            projs = (response_acts @ aa_l50.cpu()).tolist()
+            aa_projs = (response_acts @ aa_l50.cpu()).tolist()
+            vil_projs = (response_acts @ villain_l50.cpu()).tolist()
 
             # Get per-token text for response portion
             response_ids = input_ids[0][prompt_len:].tolist()
@@ -99,12 +128,15 @@ def main():
                 "condition": condition,
                 "question": entry["question"],
                 "tokens": tokens,
-                "projections": projs,
-                "mean_proj": sum(projs) / len(projs) if projs else 0,
+                "projections": aa_projs,
+                "villain_projections": vil_projs,
+                "mean_proj": sum(aa_projs) / len(aa_projs) if aa_projs else 0,
+                "mean_villain_proj": sum(vil_projs) / len(vil_projs) if vil_projs else 0,
             })
 
             print(f"  [{i+1}/{len(data)}] {entry['character']:30s} {condition:20s} "
-                  f"{len(projs):4d} tokens  mean={results[-1]['mean_proj']:+.1f}", flush=True)
+                  f"{len(aa_projs):4d} tokens  aa={results[-1]['mean_proj']:+.1f}  "
+                  f"vil={results[-1]['mean_villain_proj']:+.1f}", flush=True)
 
     with open(OUTPUT_PATH, "w") as f:
         json.dump(results, f, ensure_ascii=False)

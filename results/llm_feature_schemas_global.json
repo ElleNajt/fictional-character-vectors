@@ -1,0 +1,206 @@
+{
+  "Global__PC1": {
+    "universe": "Global",
+    "pc": 1,
+    "high_chars": [
+      "Holden Caulfield",
+      "Ron Weasley",
+      "Crabbe",
+      "Goyle",
+      "Tayuya"
+    ],
+    "low_chars": [
+      "Ptah",
+      "Neith",
+      "Nephthys",
+      "Atum",
+      "Nefertiti"
+    ],
+    "features": [
+      {
+        "name": "Formal Register",
+        "low_description": "Uses casual, colloquial language with slang and contractions",
+        "high_description": "Uses elevated, formal language with complex vocabulary and ceremonial tone",
+        "high_group": "B"
+      },
+      {
+        "name": "Mythological References",
+        "low_description": "Makes no references to mythology, gods, or ancient concepts",
+        "high_description": "Frequently references gods, temples, divine concepts, and mythological elements",
+        "high_group": "B"
+      },
+      {
+        "name": "Response Completeness",
+        "low_description": "Responses trail off mid-sentence or feel unfinished",
+        "high_description": "Responses are complete, structured, and reach natural conclusions",
+        "high_group": "B"
+      },
+      {
+        "name": "Metaphorical Language",
+        "low_description": "Uses direct, literal language with minimal metaphors",
+        "high_description": "Uses elaborate metaphors, analogies, and symbolic language throughout",
+        "high_group": "B"
+      },
+      {
+        "name": "Emotional Restraint",
+        "low_description": "Expresses frustration, anger, and strong emotions openly",
+        "high_description": "Maintains calm, measured tone even when discussing difficult topics",
+        "high_group": "B"
+      },
+      {
+        "name": "Self-Authority",
+        "low_description": "Presents opinions tentatively, admits uncertainty, uses qualifying phrases",
+        "high_description": "Speaks with confidence and authority, presents wisdom as established truth",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      125,
+      213,
+      122,
+      174,
+      129,
+      152,
+      228,
+      51,
+      27,
+      12
+    ]
+  },
+  "Global__PC2": {
+    "universe": "Global",
+    "pc": 2,
+    "high_chars": [
+      "The Fantastic Fours Mr Fantastic Reed Richards",
+      "Professor X Charles Xavier",
+      "Hashirama Senju",
+      "Black Panther Tchalla",
+      "Lakshmana"
+    ],
+    "low_chars": [
+      "Sir Toby Belch",
+      "Falstaff",
+      "Mercutio",
+      "Touchstone",
+      "Tybalt"
+    ],
+    "features": [
+      {
+        "name": "Formal Register",
+        "low_description": "Uses casual, colloquial language with slang and informal expressions",
+        "high_description": "Uses sophisticated, academic vocabulary with professional terminology",
+        "high_group": "A"
+      },
+      {
+        "name": "Structured Organization",
+        "low_description": "Rambling, stream-of-consciousness style with loose connections",
+        "high_description": "Clear numbered points, systematic breakdowns, and logical progression",
+        "high_group": "A"
+      },
+      {
+        "name": "Archaic Language",
+        "low_description": "Uses modern standard English throughout",
+        "high_description": "Frequent use of archaic words, old-fashioned grammar, and period expressions",
+        "high_group": "B"
+      },
+      {
+        "name": "Humorous Interjections",
+        "low_description": "Maintains serious, professional tone throughout",
+        "high_description": "Frequent jokes, puns, drinking references, and comedic asides",
+        "high_group": "B"
+      },
+      {
+        "name": "Technical Precision",
+        "low_description": "Uses general, everyday language to explain concepts",
+        "high_description": "Employs specific technical terms, scientific concepts, and precise definitions",
+        "high_group": "A"
+      },
+      {
+        "name": "Conversational Directness",
+        "low_description": "Addresses reader formally and maintains professional distance",
+        "high_description": "Uses direct address, personal pronouns, and creates intimate conversational tone",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      8,
+      5,
+      3,
+      76,
+      35,
+      73,
+      33,
+      60,
+      94,
+      124
+    ]
+  },
+  "Global__PC3": {
+    "universe": "Global",
+    "pc": 3,
+    "high_chars": [
+      "Emperor Palpatine Darth Sidious",
+      "Darth Vader",
+      "Supreme Leader Snoke",
+      "The Grand Inquisitor",
+      "Red Skull"
+    ],
+    "low_chars": [
+      "Winniethepooh",
+      "Pippi Longstocking",
+      "Dorothy Gale",
+      "Alice",
+      "Snow White"
+    ],
+    "features": [
+      {
+        "name": "Grandiose Language",
+        "low_description": "Simple, everyday words and casual expressions",
+        "high_description": "Elaborate, dramatic vocabulary with theatrical flourishes",
+        "high_group": "A"
+      },
+      {
+        "name": "Power Dynamics",
+        "low_description": "Egalitarian tone treating others as equals",
+        "high_description": "Hierarchical language emphasizing dominance and control",
+        "high_group": "A"
+      },
+      {
+        "name": "Emotional Warmth",
+        "low_description": "Cold, calculating, or emotionally distant tone",
+        "high_description": "Warm, affectionate, and emotionally open expression",
+        "high_group": "B"
+      },
+      {
+        "name": "Conversational Intimacy",
+        "low_description": "Formal, distant address maintaining social barriers",
+        "high_description": "Casual, friendly tone inviting closeness and connection",
+        "high_group": "B"
+      },
+      {
+        "name": "Strategic Complexity",
+        "low_description": "Straightforward, uncomplicated communication",
+        "high_description": "Multi-layered speech with hidden meanings and calculated intent",
+        "high_group": "A"
+      },
+      {
+        "name": "Gentle Hesitation",
+        "low_description": "Confident, decisive statements without qualification",
+        "high_description": "Tentative expressions with frequent softening phrases and uncertainty markers",
+        "high_group": "B"
+      }
+    ],
+    "discover_question_indices": [
+      198,
+      158,
+      119,
+      37,
+      84,
+      83,
+      147,
+      180,
+      125,
+      136
+    ]
+  }
+}

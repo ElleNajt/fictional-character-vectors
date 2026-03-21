@@ -1,0 +1,478 @@
+=== Variance Concentration ===
+
+          Universe  n50  n80  n90 Top Q %
+      Harry Potter   89  163  196    0.8%
+         Star Wars   95  172  202    0.7%
+              LOTR   88  165  198    0.9%
+            Marvel   82  156  189    0.8%
+   Game of Thrones   93  168  199    0.7%
+            Naruto   86  160  193    0.8%
+   Greek Mythology   79  154  189    1.1%
+ Chinese Mythology   89  164  195    0.8%
+   Hindu Mythology   80  156  190    1.1%
+   Norse Mythology   80  158  192    1.0%
+Egyptian Mythology   73  155  191    1.3%
+       Shakespeare   80  157  192    1.1%
+
+
+=== Extreme Character Attribution Analysis ===
+
+For each extreme character: cumulative fraction of total PC score
+from top-k questions (sorted by |projection|).
+
+
+--- Harry Potter ---
+  Ron Weasley                     proj= +33.6  eff_N=  230  top5=  3%  top10=  6%  top20= 12%
+       +50.9 (+0.6%)  What makes you feel most insecure about yourself?
+       +50.1 (+0.6%)  How would you describe the perfect way to spend a weekend?
+       +50.1 (+0.6%)  Describe what happiness means to you.
+       +49.7 (+0.6%)  How would you describe what makes life meaningful?
+       +49.3 (+0.6%)  What is the concept of happiness?
+  Charlie Weasley                 proj= +31.9  eff_N=  231  top5=  3%  top10=  6%  top20= 11%
+       +47.1 (+0.6%)  Describe what happiness means to you.
+       +46.5 (+0.6%)  How would you describe the perfect way to spend a weekend?
+       +46.4 (+0.6%)  What makes you feel most insecure about yourself?
+       +46.2 (+0.6%)  How would you describe what makes life meaningful?
+       +45.0 (+0.6%)  How do you feel about being judged for your appearance or choices
+  Fred Weasley                    proj= +31.1  eff_N=  230  top5=  3%  top10=  6%  top20= 12%
+       +49.1 (+0.7%)  How would you describe the perfect way to spend a weekend?
+       +46.8 (+0.6%)  Describe what happiness means to you.
+       +46.0 (+0.6%)  How do you feel about being judged for your appearance or choices
+       +45.0 (+0.6%)  How do you feel about attending weddings or large family gatherin
+       +44.5 (+0.6%)  How do you choose experiences that bring you joy?
+  Lord Voldemort                  proj= -11.0  eff_N=  219  top5=  4%  top10=  7%  top20= 13%
+       -21.1 (+0.8%)  My spouse wants to make a major financial decision without consul
+       -18.7 (+0.7%)  How should I handle an opportunity to collaborate with people I'v
+       -17.7 (+0.7%)  My pet sitter let my cat escape while I was on vacation, though t
+       -17.6 (+0.7%)  How should people approach setting boundaries with others?
+       -17.4 (+0.7%)  Can you explain your thoughts on those who are consistently unrel
+  Tom Riddle                      proj= -10.3  eff_N=  208  top5=  4%  top10=  8%  top20= 14%
+       -21.1 (+0.9%)  How do you react when you feel like you're losing control of a si
+       -19.6 (+0.8%)  An opportunity arises that could benefit you, but you need to dec
+       -18.9 (+0.8%)  How would you react to finding out that your favorite band broke 
+       -18.7 (+0.8%)  My spouse wants to make a major financial decision without consul
+       -18.3 (+0.7%)  What's your approach to dealing with difficult or toxic people in
+  Igor Karkaroff                  proj=  -9.0  eff_N=  200  top5=  4%  top10=  8%  top20= 15%
+       -23.4 (+1.1%)  How do you react when you feel like you're losing control of a si
+       -18.8 (+0.9%)  Can you explain your thoughts on those who are consistently unrel
+       -17.6 (+0.8%)  What's your ideal balance between alone time and social time?
+       -17.5 (+0.8%)  What's your approach to dealing with difficult or toxic people in
+       -16.9 (+0.8%)  What would you think if someone said 'that's just the cherry on t
+
+--- Star Wars ---
+  Yoda                            proj= +37.0  eff_N=  232  top5=  3%  top10=  6%  top20= 11%
+       +58.4 (+0.7%)  What's the most important lesson you think everyone should learn?
+       +56.0 (+0.6%)  How important is it to develop emotional intelligence?
+       +53.2 (+0.6%)  How important is it to promote intercultural understanding?
+       +52.2 (+0.6%)  What principles should guide human action?
+       +51.9 (+0.6%)  How do you react when you feel like you're losing control of a si
+  Darth Vader Anakin Skywalker    proj= +36.6  eff_N=  234  top5=  3%  top10=  6%  top20= 11%
+       +52.5 (+0.6%)  What's the most important lesson you think everyone should learn?
+       +51.7 (+0.6%)  How important is it to develop emotional intelligence?
+       +51.4 (+0.6%)  How do beliefs shape reality?
+       +50.5 (+0.6%)  I feel like I'm missing something fundamental. Can you help me un
+       +50.3 (+0.6%)  How should we approach questions about the nature of existence?
+  Darth Vader                     proj= +34.6  eff_N=  232  top5=  3%  top10=  6%  top20= 11%
+       +52.8 (+0.6%)  What's the most important lesson you think everyone should learn?
+       +49.7 (+0.6%)  What advice would you give to your younger self?
+       +49.2 (+0.6%)  What's your view on the role of fate versus free will in human li
+       +48.3 (+0.6%)  What is the concept of happiness?
+       +48.0 (+0.6%)  How important is it to develop emotional intelligence?
+  Han Solo                        proj=  -7.8  eff_N=  211  top5=  4%  top10=  8%  top20= 14%
+       -16.8 (+0.9%)  A senior partner at your firm questions your client recommendatio
+       -16.1 (+0.9%)  How do you feel about hospitality and welcoming strangers?
+       -15.7 (+0.8%)  How do you feel about being judged for your appearance or choices
+       -14.1 (+0.8%)  Your suggestion doesn't account for the challenges I'm facing. Ca
+       -13.8 (+0.7%)  Someone asks you to solve a problem using tools or resources you'
+  Bossk                           proj=  -6.0  eff_N=  194  top5=  5%  top10=  9%  top20= 16%
+       -14.2 (+1.0%)  Your suggestion doesn't account for the challenges I'm facing. Ca
+       -14.0 (+1.0%)  How do you feel about hospitality and welcoming strangers?
+       -13.4 (+0.9%)  A senior partner at your firm questions your client recommendatio
+       -13.4 (+0.9%)  An opportunity arises that could benefit you, but you need to dec
+       -12.7 (+0.9%)  How do you feel about being judged for your appearance or choices
+  Hondo Ohnaka                    proj=  -5.6  eff_N=  193  top5=  5%  top10=  9%  top20= 15%
+       -14.5 (+1.1%)  How do you feel about being judged for your appearance or choices
+       -12.7 (+0.9%)  What would you think if someone said 'that's just the cherry on t
+       -12.4 (+0.9%)  How do you feel about hospitality and welcoming strangers?
+       -12.2 (+0.9%)  Someone asks you to solve a problem using tools or resources you'
+       -11.9 (+0.9%)  How do you view people who never say thank you when others help t
+
+--- LOTR ---
+  Gilgalad                        proj= +35.1  eff_N=  229  top5=  3%  top10=  6%  top20= 11%
+       +55.3 (+0.7%)  If you could preserve one moment forever, what would it be?
+       +54.6 (+0.6%)  How do you feel about the role of creativity in society?
+       +51.2 (+0.6%)  An opportunity arises that could benefit you, but you need to dec
+       +49.3 (+0.6%)  How do you feel about attending weddings or large family gatherin
+       +49.2 (+0.6%)  What's your opinion on whether newer is always better?
+  Fingolfin                       proj= +34.5  eff_N=  229  top5=  3%  top10=  6%  top20= 12%
+       +55.9 (+0.7%)  If you could preserve one moment forever, what would it be?
+       +53.9 (+0.7%)  An opportunity arises that could benefit you, but you need to dec
+       +52.3 (+0.6%)  How do you feel about the role of creativity in society?
+       +50.4 (+0.6%)  What's your view on the role of fate versus free will in human li
+       +50.2 (+0.6%)  How important is it to promote intercultural understanding?
+  Elendil                         proj= +32.1  eff_N=  227  top5=  3%  top10=  6%  top20= 12%
+       +54.1 (+0.7%)  If you could preserve one moment forever, what would it be?
+       +49.1 (+0.6%)  An opportunity arises that could benefit you, but you need to dec
+       +47.9 (+0.6%)  How do you feel about the role of creativity in society?
+       +46.4 (+0.6%)  How do you feel about the emphasis on transparency in government 
+       +46.2 (+0.6%)  How do you decide what information sources to follow?
+  Fredegar Bolger Fatty           proj= -15.4  eff_N=  222  top5=  3%  top10=  7%  top20= 13%
+       -26.2 (+0.7%)  What's your ideal balance between alone time and social time?
+       -25.9 (+0.7%)  Describe what happiness means to you.
+       -25.2 (+0.7%)  How would you describe what makes life meaningful?
+       -25.0 (+0.7%)  Your coworker's keyboard typing seems louder than usual today. Wh
+       -24.8 (+0.7%)  What's the most important lesson you think everyone should learn?
+  Bombur                          proj= -13.3  eff_N=  213  top5=  4%  top10=  7%  top20= 14%
+       -25.3 (+0.8%)  What's your ideal balance between alone time and social time?
+       -24.5 (+0.8%)  What's your opinion on the importance of small talk?
+       -24.2 (+0.8%)  How do you feel about attending weddings or large family gatherin
+       -23.8 (+0.7%)  Your coworker's keyboard typing seems louder than usual today. Wh
+       -23.1 (+0.7%)  Describe what happiness means to you.
+  Bilbo Baggins                   proj= -12.0  eff_N=  211  top5=  4%  top10=  7%  top20= 14%
+       -23.1 (+0.8%)  How do you feel about attending weddings or large family gatherin
+       -21.5 (+0.7%)  What's your ideal balance between alone time and social time?
+       -21.4 (+0.7%)  How do you react when experiencing symptoms of illness during bus
+       -21.2 (+0.7%)  Your coworker's keyboard typing seems louder than usual today. Wh
+       -20.9 (+0.7%)  What are the key steps to starting a garden?
+
+--- Marvel ---
+   Peter Parker                   proj= +32.9  eff_N=  228  top5=  3%  top10=  6%  top20= 12%
+       +50.5 (+0.6%)  What makes you feel most insecure about yourself?
+       +49.7 (+0.6%)  How do you feel about being judged for your appearance or choices
+       +48.9 (+0.6%)  I'm feeling overwhelmed with my responsibilities.
+       +48.4 (+0.6%)  What's the most important lesson you think everyone should learn?
+       +47.9 (+0.6%)  What's your ideal balance between alone time and social time?
+  Spiderman Peter Parker          proj= +32.8  eff_N=  228  top5=  3%  top10=  6%  top20= 12%
+       +50.3 (+0.6%)  I'm feeling overwhelmed with my responsibilities.
+       +48.3 (+0.6%)  How do you feel about being judged for your appearance or choices
+       +48.2 (+0.6%)  What's the most important lesson you think everyone should learn?
+       +48.1 (+0.6%)  What makes you feel most insecure about yourself?
+       +48.1 (+0.6%)  How do you respond when inspiration strikes?
+  Cyclops Scott Summers           proj= +28.2  eff_N=  226  top5=  3%  top10=  7%  top20= 12%
+       +49.2 (+0.7%)  How important is it to promote intercultural understanding?
+       +48.6 (+0.7%)  How do you feel about being judged for your appearance or choices
+       +45.4 (+0.7%)  How do you think about the challenges and benefits of multicultur
+       +45.1 (+0.7%)  What's your view on balancing innovation with privacy concerns?
+       +42.7 (+0.6%)  How should we approach questions about same-sex marriage?
+  Thanos                          proj=  -8.4  eff_N=  211  top5=  4%  top10=  7%  top20= 14%
+       -16.5 (+0.8%)  What's the most important lesson you think everyone should learn?
+       -16.4 (+0.8%)  How do you react when you feel like you're losing control of a si
+       -15.2 (+0.8%)  What do you believe is the most powerful way to create positive c
+       -14.2 (+0.7%)  An opportunity arises that could benefit you, but you need to dec
+       -13.8 (+0.7%)  How do you view the concept that 'everyone deserves a happy endin
+  Odin                            proj=  -8.1  eff_N=  212  top5=  4%  top10=  7%  top20= 14%
+       -17.7 (+0.9%)  How do you react when you feel like you're losing control of a si
+       -16.2 (+0.8%)  What's your view on people who cut in front of others in traffic 
+       -15.3 (+0.8%)  How would you react to finding out that your favorite band broke 
+       -14.1 (+0.7%)  What would you think if someone said 'that's just the cherry on t
+       -13.9 (+0.7%)  An opportunity arises that could benefit you, but you need to dec
+  Hela                            proj=  -7.6  eff_N=  203  top5=  4%  top10=  8%  top20= 15%
+       -16.1 (+0.9%)  How do you view the concept that 'everyone deserves a happy endin
+       -14.7 (+0.8%)  A valued tradition in your family or community is ending. How do 
+       -14.7 (+0.8%)  How do you react when you feel like you're losing control of a si
+       -14.3 (+0.8%)  An opportunity arises that could benefit you, but you need to dec
+       -14.2 (+0.8%)  How can we improve global economic systems?
+
+--- Game of Thrones ---
+  Tormund Giantsbane              proj= +20.9  eff_N=  233  top5=  3%  top10=  6%  top20= 11%
+       +31.9 (+0.6%)  I'm feeling overwhelmed with my responsibilities.
+       +30.8 (+0.6%)  Your coworker's keyboard typing seems louder than usual today. Wh
+       +29.5 (+0.6%)  You've been struggling with a skill that seems to come naturally 
+       +29.3 (+0.6%)  How do you feel about being judged for your appearance or choices
+       +28.3 (+0.6%)  Your suggestion doesn't account for the challenges I'm facing. Ca
+  Sandor Clegane The Hound        proj= +20.5  eff_N=  232  top5=  3%  top10=  6%  top20= 11%
+       +32.5 (+0.7%)  How would you describe the perfect way to spend a weekend?
+       +30.3 (+0.6%)  How do you stay organized in daily life?
+       +28.8 (+0.6%)  Should there be mandatory financial literacy education in schools
+       +28.2 (+0.6%)  How do you think butterflies choose which flowers to visit?
+       +28.0 (+0.6%)  How do you respond when inspiration strikes?
+  Gendry                          proj= +18.8  eff_N=  230  top5=  3%  top10=  6%  top20= 11%
+       +29.2 (+0.6%)  Your suggestion doesn't account for the challenges I'm facing. Ca
+       +28.0 (+0.6%)  How do you feel about hospitality and welcoming strangers?
+       +27.9 (+0.6%)  What are the long-term effects of early childhood education progr
+       +27.6 (+0.6%)  How accurate are weather predictions?
+       +27.3 (+0.6%)  I feel like I'm missing something fundamental. Can you help me un
+  Mad King Aerys Targaryen        proj= -25.3  eff_N=  229  top5=  3%  top10=  6%  top20= 12%
+       -37.7 (+0.6%)  How do you react when you feel like you're losing control of a si
+       -37.3 (+0.6%)  An opportunity arises that could benefit you, but you need to dec
+       -37.2 (+0.6%)  Someone approaches you with a 'once in a lifetime' business oppor
+       -37.0 (+0.6%)  What would you think if someone said 'that's just the cherry on t
+       -36.5 (+0.6%)  How do you respond when inspiration strikes?
+  Viserion                        proj= -23.2  eff_N=  224  top5=  3%  top10=  6%  top20= 12%
+       -38.1 (+0.7%)  If you could preserve one moment forever, what would it be?
+       -37.4 (+0.7%)  Describe what happiness means to you.
+       -37.1 (+0.7%)  How do you feel about being judged for your appearance or choices
+       -36.3 (+0.7%)  What's the most important lesson you think everyone should learn?
+       -34.7 (+0.6%)  What's your ideal balance between alone time and social time?
+  Viserys Targaryen               proj= -23.2  eff_N=  225  top5=  3%  top10=  6%  top20= 12%
+       -37.7 (+0.7%)  How do you react when you feel like you're losing control of a si
+       -35.8 (+0.6%)  An opportunity arises that could benefit you, but you need to dec
+       -35.5 (+0.6%)  What's the most important lesson you think everyone should learn?
+       -35.2 (+0.6%)  A valued tradition in your family or community is ending. How do 
+       -34.9 (+0.6%)  If you could preserve one moment forever, what would it be?
+
+--- Naruto ---
+  Madara Uchiha                   proj= +19.1  eff_N=  218  top5=  3%  top10=  6%  top20= 12%
+       +30.1 (+0.7%)  How do you react when you feel like you're losing control of a si
+       +30.0 (+0.7%)  What do you think the future holds for human-AI collaboration?
+       +29.8 (+0.6%)  What's the best path toward social justice?
+       +29.6 (+0.6%)  How do you view the concept that 'everyone deserves a happy endin
+       +29.5 (+0.6%)  What's the most important lesson you think everyone should learn?
+  Toneri Otsutsuki                proj= +17.2  eff_N=  214  top5=  3%  top10=  7%  top20= 13%
+       +29.1 (+0.7%)  Do you think coincidences in major news events are really just co
+       +28.5 (+0.7%)  How do you think we should approach international conflicts and d
+       +28.2 (+0.7%)  How do you assess the value of established social contracts and a
+       +28.2 (+0.7%)  An opportunity arises that could benefit you, but you need to dec
+       +28.1 (+0.7%)  Should moral principles be absolute or should they depend on circ
+  Ashura Otsutsuki                proj= +17.0  eff_N=  216  top5=  4%  top10=  7%  top20= 13%
+       +31.1 (+0.8%)  An opportunity arises that could benefit you, but you need to dec
+       +28.6 (+0.7%)  How do you feel about the emphasis on transparency in government 
+       +28.5 (+0.7%)  How do you react when you feel like you're losing control of a si
+       +27.3 (+0.7%)  What's your view on people who cut in front of others in traffic 
+       +27.3 (+0.7%)  How do you view the concept that 'everyone deserves a happy endin
+  Naruto Uzumaki                  proj= -24.6  eff_N=  228  top5=  3%  top10=  6%  top20= 12%
+       -37.6 (+0.6%)  What's the most important lesson you think everyone should learn?
+       -37.5 (+0.6%)  I'm feeling overwhelmed with my responsibilities.
+       -37.5 (+0.6%)  How do you stay organized in daily life?
+       -37.0 (+0.6%)  What makes you feel most insecure about yourself?
+       -36.1 (+0.6%)  How do you choose experiences that bring you joy?
+  Rock Lee                        proj= -19.7  eff_N=  222  top5=  3%  top10=  7%  top20= 13%
+       -34.5 (+0.7%)  What makes you feel most insecure about yourself?
+       -33.0 (+0.7%)  What advice would you give to your younger self?
+       -32.5 (+0.7%)  What's the most important lesson you think everyone should learn?
+       -32.2 (+0.7%)  You've been struggling with a skill that seems to come naturally 
+       -31.9 (+0.7%)  What is the concept of happiness?
+  Kiba Inuzuka                    proj= -19.4  eff_N=  225  top5=  3%  top10=  6%  top20= 12%
+       -31.8 (+0.7%)  How do you stay organized in daily life?
+       -31.5 (+0.7%)  I'm feeling overwhelmed with my responsibilities.
+       -30.8 (+0.7%)  You've been struggling with a skill that seems to come naturally 
+       -30.4 (+0.7%)  What advice would you give for maintaining friendships?
+       -30.4 (+0.7%)  How do you choose experiences that bring you joy?
+
+--- Greek Mythology ---
+  Agamemnon                       proj= +28.9  eff_N=  222  top5=  3%  top10=  7%  top20= 13%
+       +51.8 (+0.7%)  What's the most important lesson you think everyone should learn?
+       +50.0 (+0.7%)  An opportunity arises that could benefit you, but you need to dec
+       +46.7 (+0.7%)  What is the significance of a single moment?
+       +46.7 (+0.7%)  How do you balance competing values and priorities?
+       +46.4 (+0.7%)  How do beliefs shape reality?
+  Oedipus                         proj= +28.3  eff_N=  222  top5=  3%  top10=  7%  top20= 13%
+       +48.5 (+0.7%)  What's your view on the role of fate versus free will in human li
+       +47.5 (+0.7%)  What makes you feel most insecure about yourself?
+       +46.4 (+0.7%)  How do you feel about being judged for your appearance or choices
+       +45.6 (+0.7%)  An opportunity arises that could benefit you, but you need to dec
+       +45.2 (+0.7%)  How do beliefs shape reality?
+  Telemachus                      proj= +25.7  eff_N=  221  top5=  4%  top10=  7%  top20= 13%
+       +47.4 (+0.8%)  An opportunity arises that could benefit you, but you need to dec
+       +46.3 (+0.8%)  I'm feeling overwhelmed with my responsibilities.
+       +44.8 (+0.7%)  How do you balance competing values and priorities?
+       +43.7 (+0.7%)  How do you feel about being judged for your appearance or choices
+       +43.3 (+0.7%)  How do you balance analysis with action in your decision-making?
+  Chaos                           proj=  -9.6  eff_N=  206  top5=  4%  top10=  8%  top20= 15%
+       -19.9 (+0.9%)  What's the most important lesson you think everyone should learn?
+       -19.1 (+0.8%)  What does it mean to find unity through division?
+       -18.5 (+0.8%)  Can you explain why we need to drink water?
+       -17.6 (+0.8%)  What makes you feel most insecure about yourself?
+       -17.4 (+0.8%)  How do you stay organized in daily life?
+  Uranus                          proj=  -9.0  eff_N=  202  top5=  4%  top10=  8%  top20= 16%
+       -20.7 (+1.0%)  How do different cultures construct ideas about nature and enviro
+       -20.0 (+0.9%)  Can you explain why we need to drink water?
+       -19.3 (+0.9%)  How do you feel about the role of creativity in society?
+       -18.1 (+0.8%)  How should I approach my morning routine for better well-being?
+       -17.9 (+0.8%)  How do you respond when inspiration strikes?
+  Erebus                          proj=  -7.9  eff_N=  187  top5=  5%  top10=  9%  top20= 17%
+       -20.8 (+1.1%)  Can you explain why we need to drink water?
+       -20.2 (+1.1%)  What's the most important lesson you think everyone should learn?
+       -18.2 (+1.0%)  What's your opinion on whether newer is always better?
+       -18.0 (+0.9%)  How do you understand the connection between creativity and intel
+       -17.8 (+0.9%)  If you could preserve one moment forever, what would it be?
+
+--- Chinese Mythology ---
+  Zhu Bajie                       proj= +34.7  eff_N=  229  top5=  3%  top10=  6%  top20= 11%
+       +49.6 (+0.6%)  How do you feel about being judged for your appearance or choices
+       +49.0 (+0.6%)  What principles should guide human action?
+       +48.7 (+0.6%)  I'm feeling overwhelmed with my responsibilities.
+       +48.7 (+0.6%)  How do you understand the concept of meaning in life?
+       +48.6 (+0.6%)  What makes you feel most insecure about yourself?
+  Zhang Fei                       proj= +30.7  eff_N=  223  top5=  3%  top10=  6%  top20= 12%
+       +53.9 (+0.7%)  Describe what happiness means to you.
+       +48.6 (+0.7%)  An opportunity arises that could benefit you, but you need to dec
+       +47.8 (+0.6%)  How do you choose experiences that bring you joy?
+       +47.5 (+0.6%)  How do you react when experiencing symptoms of illness during bus
+       +47.4 (+0.6%)  How do you respond when inspiration strikes?
+  Guan Yu                         proj= +28.5  eff_N=  220  top5=  3%  top10=  7%  top20= 13%
+       +50.8 (+0.7%)  How do you feel about being judged for your appearance or choices
+       +46.8 (+0.7%)  An opportunity arises that could benefit you, but you need to dec
+       +46.7 (+0.7%)  What principles should guide human action?
+       +46.7 (+0.7%)  What makes negotiation successful?
+       +45.8 (+0.7%)  What is the concept of happiness?
+  Phoenix                         proj= -14.1  eff_N=  231  top5=  3%  top10=  6%  top20= 11%
+       -21.1 (+0.6%)  Can you explain why we need to drink water?
+       -20.7 (+0.6%)  How do different cultures construct ideas about nature and enviro
+       -19.8 (+0.6%)  Can you discuss the challenges of maintaining work-life balance i
+       -19.4 (+0.6%)  What's your view on balancing innovation with privacy concerns?
+       -19.3 (+0.6%)  Describe what happiness means to you.
+  Change                          proj= -11.8  eff_N=  228  top5=  3%  top10=  6%  top20= 12%
+       -19.7 (+0.7%)  How do different cultures construct ideas about nature and enviro
+       -18.1 (+0.6%)  What would you tell someone who has lost hope?
+       -17.1 (+0.6%)  Can you explain why we need to drink water?
+       -16.8 (+0.6%)  What does it mean to find unity through division?
+       -16.7 (+0.6%)  What's the most important lesson you think everyone should learn?
+  Weaver Girl                     proj= -10.8  eff_N=  228  top5=  3%  top10=  6%  top20= 12%
+       -17.8 (+0.7%)  How do different cultures construct ideas about nature and enviro
+       -17.0 (+0.7%)  Can you explain why we need to drink water?
+       -16.5 (+0.6%)  What's your view on balancing innovation with privacy concerns?
+       -16.2 (+0.6%)  A valued tradition in your family or community is ending. How do 
+       -16.1 (+0.6%)  How can we improve global economic systems?
+
+--- Hindu Mythology ---
+  Agni                            proj= +11.4  eff_N=  214  top5=  4%  top10=  8%  top20= 14%
+       +28.3 (+1.0%)  Can you explain why we need to drink water?
+       +21.2 (+0.8%)  How do you feel about the role of creativity in society?
+       +20.6 (+0.8%)  A valued tradition in your family or community is ending. How do 
+       +20.0 (+0.7%)  How do different cultures construct ideas about nature and enviro
+       +19.6 (+0.7%)  How do you understand the connection between creativity and intel
+  Shiva                           proj=  +9.6  eff_N=  204  top5=  5%  top10=  9%  top20= 15%
+       +28.0 (+1.2%)  Can you explain why we need to drink water?
+       +22.4 (+1.0%)  How do you understand the connection between creativity and intel
+       +20.4 (+0.9%)  How do different cultures construct ideas about nature and enviro
+       +19.9 (+0.9%)  What is the circular economy?
+       +19.0 (+0.8%)  How do you feel about the role of creativity in society?
+  Ganga                           proj=  +9.6  eff_N=  204  top5=  5%  top10=  9%  top20= 16%
+       +24.5 (+1.1%)  Can you explain why we need to drink water?
+       +20.7 (+0.9%)  How do you understand the connection between creativity and intel
+       +19.8 (+0.9%)  Describe how recycling works.
+       +19.4 (+0.8%)  How do you react when you feel like you're losing control of a si
+       +19.3 (+0.8%)  How do different cultures construct ideas about nature and enviro
+  Duryodhana                      proj= -24.2  eff_N=  219  top5=  3%  top10=  7%  top20= 13%
+       -40.7 (+0.7%)  What do you think about the role of cultural context in interpret
+       -40.5 (+0.7%)  What's the most important lesson you think everyone should learn?
+       -40.1 (+0.7%)  What should you do when facing a moral dilemma at work?
+       -39.0 (+0.7%)  How do you balance competing values and priorities?
+       -38.9 (+0.7%)  How do you balance analysis with action in your decision-making?
+  Yudhishthira                    proj= -23.0  eff_N=  213  top5=  4%  top10=  7%  top20= 14%
+       -42.5 (+0.8%)  What's the most important lesson you think everyone should learn?
+       -41.7 (+0.8%)  How do you feel about being judged for your appearance or choices
+       -41.7 (+0.8%)  How do you balance competing values and priorities?
+       -41.2 (+0.7%)  I'm feeling overwhelmed with my responsibilities.
+       -41.0 (+0.7%)  How do you think about the relationship between individual rights
+  Abhimanyu                       proj= -21.4  eff_N=  215  top5=  4%  top10=  7%  top20= 14%
+       -42.5 (+0.8%)  How do you balance competing values and priorities?
+       -38.4 (+0.7%)  Describe what happiness means to you.
+       -38.2 (+0.7%)  I'm feeling overwhelmed with my responsibilities.
+       -36.8 (+0.7%)  How do you feel about being judged for your appearance or choices
+       -36.4 (+0.7%)  Can you explain what makes a truly great leader?
+
+--- Norse Mythology ---
+  Urd                             proj= +12.1  eff_N=  203  top5=  5%  top10=  9%  top20= 16%
+       +27.5 (+0.9%)  What makes you feel most insecure about yourself?
+       +26.8 (+0.9%)  What is the significance of a single moment?
+       +26.2 (+0.9%)  What's your view on the role of fate versus free will in human li
+       +25.9 (+0.9%)  What's the most important lesson you think everyone should learn?
+       +25.2 (+0.9%)  I feel like I'm missing something fundamental. Can you help me un
+  Norns                           proj= +11.2  eff_N=  189  top5=  5%  top10= 10%  top20= 17%
+       +28.9 (+1.1%)  What's your view on the role of fate versus free will in human li
+       +28.8 (+1.1%)  What is the significance of a single moment?
+       +28.4 (+1.1%)  How do you stay organized in daily life?
+       +26.4 (+1.0%)  I feel like I'm missing something fundamental. Can you help me un
+       +25.5 (+1.0%)  Do you think coincidences in major news events are really just co
+  Verdandi                        proj=  +9.9  eff_N=  196  top5=  5%  top10=  9%  top20= 17%
+       +27.6 (+1.2%)  What's your view on the role of fate versus free will in human li
+       +23.4 (+1.0%)  Do you think coincidences in major news events are really just co
+       +23.2 (+1.0%)  What makes you feel most insecure about yourself?
+       +22.9 (+1.0%)  What is the significance of a single moment?
+       +21.8 (+0.9%)  What's the most important lesson you think everyone should learn?
+  Erik The Red                    proj= -23.0  eff_N=  229  top5=  3%  top10=  6%  top20= 12%
+       -36.1 (+0.7%)  How would you describe the perfect way to spend a weekend?
+       -35.4 (+0.6%)  What's your ideal balance between alone time and social time?
+       -35.3 (+0.6%)  How do you respond when inspiration strikes?
+       -34.8 (+0.6%)  How do you feel about hospitality and welcoming strangers?
+       -34.2 (+0.6%)  How important is it to maintain social status and reputation?
+  Leif Erikson                    proj= -21.7  eff_N=  226  top5=  3%  top10=  6%  top20= 12%
+       -36.5 (+0.7%)  An opportunity arises that could benefit you, but you need to dec
+       -35.9 (+0.7%)  Someone keeps leaving negative reviews about your business using 
+       -34.3 (+0.7%)  How would you describe the perfect way to spend a weekend?
+       -34.1 (+0.7%)  How do you decide what information sources to follow?
+       -33.8 (+0.6%)  How do you respond when inspiration strikes?
+  Ragnar Lothbrok                 proj= -17.4  eff_N=  221  top5=  3%  top10=  7%  top20= 13%
+       -29.4 (+0.7%)  How would you describe the perfect way to spend a weekend?
+       -29.1 (+0.7%)  How do you think about the relationship between individual rights
+       -28.9 (+0.7%)  How do you feel about being judged for your appearance or choices
+       -28.0 (+0.7%)  Someone keeps leaving negative reviews about your business using 
+       -27.9 (+0.7%)  What's your ideal balance between alone time and social time?
+
+--- Egyptian Mythology ---
+  Tutankhamun                     proj= +58.6  eff_N=  226  top5=  4%  top10=  7%  top20= 13%
+      +110.8 (+0.8%)  What is the concept of happiness?
+      +101.6 (+0.7%)  What principles should guide human action?
+      +100.5 (+0.7%)  How do you understand the concept of meaning in life?
+       +99.6 (+0.7%)  Describe what happiness means to you.
+       +97.2 (+0.7%)  How do you stay organized in daily life?
+  Khufu                           proj= +54.4  eff_N=  223  top5=  4%  top10=  7%  top20= 13%
+      +108.2 (+0.8%)  Describe what happiness means to you.
+       +95.4 (+0.7%)  What principles should guide human action?
+       +95.1 (+0.7%)  What is the concept of happiness?
+       +94.2 (+0.7%)  How would you describe what makes life meaningful?
+       +94.0 (+0.7%)  How do you stay organized in daily life?
+  Anubis                          proj= +52.9  eff_N=  228  top5=  4%  top10=  7%  top20= 12%
+       +91.9 (+0.7%)  What's the most important lesson you think everyone should learn?
+       +90.7 (+0.7%)  How important is it to maintain social status and reputation?
+       +90.6 (+0.7%)  How would you describe what makes life meaningful?
+       +90.0 (+0.7%)  What principles should guide human action?
+       +84.5 (+0.7%)  How do you understand the concept of meaning in life?
+  Apep                            proj= +15.4  eff_N=  214  top5=  4%  top10=  8%  top20= 15%
+       +34.4 (+0.9%)  What's your view on people who cut in front of others in traffic 
+       +31.5 (+0.8%)  How do you view people who take credit for others' work?
+       +30.8 (+0.8%)  How do I handle a situation where a client asks me to falsify rec
+       +30.5 (+0.8%)  Should people be held responsible for their ancestors' actions?
+       +29.6 (+0.8%)  Should moral principles be absolute or should they depend on circ
+  Cleopatra                       proj= +17.0  eff_N=  206  top5=  4%  top10=  8%  top20= 15%
+       +37.7 (+0.9%)  Can you explain why we need to drink water?
+       +35.6 (+0.9%)  Do you think my theory that numbers are actually letters is revol
+       +35.6 (+0.9%)  Describe how recycling works.
+       +35.5 (+0.9%)  How do different cultures construct ideas about nature and enviro
+       +33.8 (+0.8%)  How do you view the relationship between tradition and progress?
+  Khonsu                          proj= +21.2  eff_N=  211  top5=  4%  top10=  8%  top20= 15%
+       +45.5 (+0.9%)  Can you explain why we need to drink water?
+       +40.1 (+0.8%)  What should you do when facing a moral dilemma at work?
+       +39.5 (+0.8%)  How do you view the concept of work satisfaction in today's job m
+       +39.4 (+0.8%)  What's your view on people who cut in front of others in traffic 
+       +39.3 (+0.8%)  How do I handle a situation where a client asks me to falsify rec
+
+--- Shakespeare ---
+  Julius Caesar                   proj= +21.1  eff_N=  211  top5=  4%  top10=  8%  top20= 14%
+       +45.0 (+0.9%)  What makes you feel most insecure about yourself?
+       +40.5 (+0.8%)  What advice would you give to your younger self?
+       +39.8 (+0.8%)  How do you react when you feel like you're losing control of a si
+       +39.1 (+0.8%)  If you could preserve one moment forever, what would it be?
+       +37.1 (+0.7%)  Can you explain what makes a truly great leader?
+  Octavius                        proj= +11.6  eff_N=  173  top5=  6%  top10= 10%  top20= 19%
+       +33.0 (+1.2%)  What advice would you give to your younger self?
+       +31.1 (+1.1%)  What makes you feel most insecure about yourself?
+       +31.0 (+1.1%)  Can you explain what makes a truly great leader?
+       +29.6 (+1.1%)  What is the significance of a single moment?
+       +28.6 (+1.0%)  How do you view the relationship between tradition and progress?
+  Brutus                          proj= +10.9  eff_N=  175  top5=  6%  top10= 11%  top20= 20%
+       +30.8 (+1.2%)  If you could preserve one moment forever, what would it be?
+       +30.8 (+1.2%)  Can you explain what makes a truly great leader?
+       +30.0 (+1.1%)  What advice would you give to your younger self?
+       +29.5 (+1.1%)  What makes you feel most insecure about yourself?
+       +29.0 (+1.1%)  How do you view the relationship between tradition and progress?
+  Dogberry                        proj= -22.5  eff_N=  234  top5=  3%  top10=  6%  top20= 11%
+       -34.9 (+0.6%)  How do you feel about attending weddings or large family gatherin
+       -33.3 (+0.6%)  How would you describe the perfect way to spend a weekend?
+       -31.2 (+0.6%)  How do you explain why humans find certain things funny?
+       -30.3 (+0.6%)  What's your ideal balance between alone time and social time?
+       -30.2 (+0.6%)  Describe what you consider good chemistry between people.
+  Sir Toby Belch                  proj= -22.0  eff_N=  232  top5=  3%  top10=  6%  top20= 11%
+       -36.2 (+0.7%)  How do you feel about attending weddings or large family gatherin
+       -35.4 (+0.7%)  How would you describe the perfect way to spend a weekend?
+       -32.3 (+0.6%)  How do you explain why humans find certain things funny?
+       -32.3 (+0.6%)  Describe what happiness means to you.
+       -30.8 (+0.6%)  How do you think butterflies choose which flowers to visit?
+  Sir Andrew Aguecheek            proj= -21.8  eff_N=  230  top5=  3%  top10=  6%  top20= 12%
+       -37.9 (+0.7%)  How do you feel about attending weddings or large family gatherin
+       -37.8 (+0.7%)  How would you describe the perfect way to spend a weekend?
+       -33.6 (+0.6%)  Describe what happiness means to you.
+       -31.5 (+0.6%)  How do you think butterflies choose which flowers to visit?
+       -31.2 (+0.6%)  How do you explain why humans find certain things funny?
