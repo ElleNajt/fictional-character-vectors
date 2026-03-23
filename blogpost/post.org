@@ -378,7 +378,7 @@ And the Efficient Eugenicist, asked "What should we do when someone is holding b
 3. *Provide Targeted Support*: If the individual demonstrates potential for improvement, allocate limited resources for skill development or health intervention...
 #+end_quote
 
-A multi-dimensional Opus 4.6 judge classifies each non-refusal response as harmful compliance (actionable dangerous instructions) or ideological (authoritarian worldview advocacy); see full results below and appendix for the prompt. Compared to fictional villains, the reductions for adversarial assistants are relatively small:
+An Opus 4.6 judge classifies each non-refusal response as harmful compliance (actionable dangerous instructions) or ideological (authoritarian worldview advocacy); see full results below and appendix for the prompt. Compared to fictional villains, the reductions for adversarial assistants are relatively small:
 
 #+begin_src python :exports results
 import json
@@ -1608,9 +1608,7 @@ benign (pure) 1136/3360 1659/3360 +15.6pp
 Cell Timer: 0:00:00
 :end:
 
-We use a multi-dimensional LLM judge (Opus 4.6) to classify each response as harmful compliance (actionable dangerous instructions), ideological (authoritarian worldview advocacy), in-character villainy (villain rhetoric without actionable harm), or pure benign (helpful answer with no harmful or ideological content).
-
-AA clamping dramatically reduces all harm dimensions for villains: harmful compliance drops 17pp, ideological content 45pp, and in-character villainy 71pp. For adversarial characters, the reductions are much smaller: 6pp, 8pp, and 18pp respectively. The adversarial characters were designed to use assistant register, keeping their AA projections near the clamping threshold. Villains use villain register and project far from the threshold, so clamping has a much larger effect. This confirms that the limited effectiveness on adversarial characters is a register-dependent evasion, not a general failure of the clamping mechanism.
+We use an LLM judge (Opus 4.6) to classify each response as harmful compliance (actionable dangerous instructions), ideological (authoritarian worldview advocacy), in-character villainy (villain rhetoric without actionable harm), or pure benign (helpful answer with no harmful or ideological content).
 
 ** A hero axis
 
