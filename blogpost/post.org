@@ -2,7 +2,8 @@
 #+GDOC_ID: 1jn041LFzS6tJtjFWCO_fCImw-KslQFsBLAG98rEb-zY
 #+AUTHOR: Elle Najt
 #+DATE: 2026-02-16
-#+OPTIONS: H:6
+#+OPTIONS: H:6 toc:nil
+#+OPTIONS: ^:nil
 #+PROPERTY: header-args:python :results output drawer :python "../.venv/bin/python3" :async t :session blogpost_short :exports results :eval no-export
 
 * Setup :noexport:
