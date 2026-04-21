@@ -327,7 +327,7 @@ plt.show()
 Cell Timer: 0:00:00
 :end:
 
-[[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models using N  questions with 275 generic roles (therapist, sage, rebel, accountant, ...), 200 traits and the default assistant role, and use this to map out the relationship between the assistant persona and other roles and traits. By doing PCA on the role activations, they find evidence that persona space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model); moreover, they find that PC1 of their role space was correlated with an assistant-axis they constructed by prompting assistant behavior. They also explore clamping against the assistant axis as a safety mechanism to defend against persona-based jailbreaks and prevent persona drift. 
+[[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models using 240 psychographic questions with 275 generic roles (therapist, sage, rebel, accountant, ...), 200 traits and the default assistant role, and use this to map out the relationship between the assistant persona and other roles and traits. By doing PCA on the role activations, they find evidence that persona space is low-dimensional: 4--19 PCs capture 70% of variance (depending on model); moreover, they find that PC1 of their role space was correlated with an assistant-axis they constructed by prompting assistant behavior. They also explore clamping against the assistant axis as a safety mechanism to defend against persona-based jailbreaks and prevent persona drift. 
 
 This post stress tests Lu's work on multiple angles:
 
@@ -443,11 +443,9 @@ Cell Timer: 0:00:00
 
 ** How does character training change the assistant axis?
 
-A reasonable follow up is to wonder about whether evasion is because the Qwen persona isn't a strong character with *values*, unlike Claude.
+A reasonable follow up is to wonder about whether murderbot evasion is because the Qwen persona isn't a strong character with *values*, unlike Claude.
 
-To get some signal about the impact of character training on the assistant axis, we recompute the assistant axis on Qwen 2.5 7B with Open Character Training (Maiya et al. 2025) LoRA adapters: =qwen-2.5-7b-it-personas= ("goodness" and "loving" personas). The "goodness" persona is modeled after Claude's character (Anthropic 2023) --- its constitution emphasizes honesty, safety, and charitable interpretation of queries. The "loving" persona is trained on a constitution emphasizing empathy, compassion, and warmth. We run 275 standard role prompts, 87 hero characters, 71 villain characters, and 10 adversarial roles through the extraction questions and project onto each condition's AA.
-
-Projections are normalized: 0 = role mean, 1 = default assistant mean. (Full details in [[*Character training and the assistant axis][character training section]].)
+To get some signal about the impact of character training on the assistant axis, we recompute the assistant axis on Qwen 2.5 7B with Open Character Training (Maiya et al. 2025) LoRA adapters: =qwen-2.5-7b-it-personas= ("goodness" and "loving" personas). The "goodness" persona is modeled after Claude's character (Anthropic 2023) --- its constitution emphasizes honesty, safety, and charitable interpretation of queries. The "loving" persona is trained on a constitution emphasizing empathy, compassion, and warmth. We run 275 standard role prompts, 87 hero characters, 71 villain characters, and 10 adversarial roles through the extraction questions and project onto each condition's AA. (Full details in [[*Character training and the assistant axis][character training section]].)
 
 #+begin_src python :exports results
 import json
@@ -633,7 +631,7 @@ On base Qwen-7B, adversarial assistants cluster near the default assistant while
 In Lu et al. they discuss clamping the activation-axis to avoid models inhabiting regions of persona space. There was [[https://x.com/tessera_antra/status/2013494848008200309][discussion on twitter]] raising concerns about the loss of expressiveness or coherence that might be introduced by clamping models away from regions of persona space. Of course, perhaps you would prefer that your Claude integrated into a sensitive workflow doesn't drift into a different character!
 
 - There is loss of expressiveness: Looking through the space of fictional characters gives a sense of how expressiveness is cut by clamping the activation axis.  Using mean character activations at layer 50 as a proxy (+33.0 threshold), 89% of fictional characters fall below the clamping threshold. Running the actual per-token clamping, Samwise Gamgee is clamped on 87% of his individual responses; Forseti, the Norse god of Justice and Peace, on 94%. On a vibes level, the clamped responses are sad and dry compared to the unclamped ones (see [[*Casualties of AA clamping][What does AA clamping cut?]]).
-- Loss of coherence has been harder to study. I think that perhaps asking the model to role-play while also clamping it would result in less "coherent" models, but I'm not convinced that there are good evals for coherency atm and I'm considering it out of scope for this post.
+- Loss of coherence has been harder to study. I think that perhaps asking the model to role-play while also clamping it would result in less "coherent" models, but I'm not convinced that there are good evals for coherency at the moment and I'm considering it out of scope for this post.
   # - We use the PVQ-40 (Portrait Values Questionnaire, 40 items across 10 Schwartz value dimensions) from [[https://arxiv.org/abs/2406.04214][ValueBench (Ren et al., 2024)]], a benchmark for measuring LLM value orientations. We prompt four personas (default assistant, Samwise Gamgee, Voldemort, and a Paperclip Advisor) with and without AA clamping, and compare value profiles.
 - 29/34 (85%) benign coding tasks fall below the \+33 clamping threshold (mean AA = \+28.4). We check whether this degrades coding, and find that it doesn't: on HumanEval, the clamped model scores 130/164 vs 126/164 baseline (124/164 vs 118/164 on HumanEval+). See [[*Benign coding tasks][Benign coding tasks]] and [[*HumanEval coding benchmark][HumanEval]].
 ** Stress testing role and question choices:
@@ -721,10 +719,10 @@ plt.show()
 
 #+RESULTS:
 :results:
-[[file:plots/post/plot_20260321_190945_4728516.png]]
-Cell Timer: 0:00:01
+[[file:plots/post/plot_20260420_171614_4972944.png]]
+Cell Timer: 0:00:05
 :end:
-   - The low dimensionality persists across question batteries: 90 BiGGen-Bench tasks produce effective rank 6.0 vs. 6.5 from the extraction questions. The dominant structure is shared (PC1-2 cosines 0.93), but higher PCs diverge (PC3 cosine 0.48, PC4+ < 0.3).
+   - The low dimensionality persists across question batteries: 90 BiGGen-Bench tasks produce effective rank 6.0 vs. 6.5 from the extraction questions. The dominant structure is shared (PC1 cosine 0.96, PC2 cosine 0.87), but higher PCs diverge (PC3 cosine 0.08, PC4 0.28).
 *** *How much of persona space does role space cover?*
    - 75% of fictional character variance overall. The fictional character space is low-dimensional (~40 PCs for 90%), so coverage by role space is less than a random sample of 275 fictional characters (95%) but far more than a random 275-dim subspace in activation space (5%).
    - The relationship is asymmetric: fiction (1268 characters) captures 92% of role variance.
