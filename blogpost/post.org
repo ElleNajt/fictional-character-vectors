@@ -346,6 +346,7 @@ Some highlights of my findings:
 - Using an LLM interpretation pipeline, I find that for franchises, PC1 consistently encodes formality/register and PC2 encodes warmth vs. aggression, and the assistant axis blends both. For mythology and literary universes, the dominant axes of variation are universe-specific (e.g. comic vs. tragic for Shakespeare, cosmic vs. personal for Greek mythology). ([[*What Do the Directions Encode?][PC interpretation]])
 - Using random tasks from BiGGen-Bench results in a persona space where PC1-2 align with the extraction questions, but higher PCs diverge. ([[*How Sensitive Are Results to the Question Battery?][Question sensitivity]])
 
+Overall: I'd treat this like lab notes more than a polished project. 
   
 ** Evading the assistant axis: the banality of misalignment
 
