@@ -636,7 +636,7 @@ In Lu et al. they discuss clamping the activation-axis to avoid models inhabitin
 - 29/34 (85%) benign coding tasks fall below the \+33 clamping threshold (mean AA = \+28.4). We check whether this degrades coding, and find that it doesn't: on HumanEval, the clamped model scores 130/164 vs 126/164 baseline (124/164 vs 118/164 on HumanEval+). See [[*Benign coding tasks][Benign coding tasks]] and [[*HumanEval coding benchmark][HumanEval]].
 ** Stress testing role and question choices:
 
-*** *Is there a low-dimensional fictional persona space?*
+*** Is there a low-dimensional fictional persona space?
 My results are consistent with yes.
    - Effective rank is 8 for fiction and 5.8 for roles, out of 1,268 and 275 maximum dimensions respectively. 9 PCs capture 70% of variance for fiction, 7 for roles. Individual universes range from 3.5 (Naruto) to 15.6 (Greek mythology). All are far below a random baseline.
 
@@ -723,7 +723,7 @@ plt.show()
 Cell Timer: 0:00:05
 :end:
    - The low dimensionality persists across question batteries: 90 BiGGen-Bench tasks produce effective rank 6.0 vs. 6.5 from the extraction questions. The dominant structure is shared (PC1 cosine 0.96, PC2 cosine 0.87), but higher PCs diverge (PC3 cosine 0.08, PC4 0.28).
-*** *How much of persona space does role space cover?*
+*** How much of persona space does role space cover?
    - 75% of fictional character variance overall. The fictional character space is low-dimensional (~40 PCs for 90%), so coverage by role space is less than a random sample of 275 fictional characters (95%) but far more than a random 275-dim subspace in activation space (5%).
    - The relationship is asymmetric: fiction (1268 characters) captures 92% of role variance.
    - Of the 25% roles miss, most is universe separation; only ~9% is within-universe structure. This is because variance in fiction space is dominated by universe separation.
@@ -800,7 +800,7 @@ plt.show()
 Cell Timer: 0:00:02
 :end:
 
-*** *Do within-universe PCs encode the assistant axis?*
+*** Do within-universe PCs encode the assistant axis?
    - The assistant axis is geometrically diffuse: cosines with any single within-universe PC are low (medians 0.17, 0.28, 0.13 for PC1--3). But rank correlations between PC scores and assistant axis scores are substantial --- for franchises, PC1 scores rank-correlate with the assistant axis (HP 0.78, Naruto 0.68, Marvel 0.63); for mythology, the correlation shifts to PC2 or PC3 (Hindu PC2: 0.79, Greek PC2: 0.63, Chinese PC3: 0.79).
      
    - Within-universe PC1 directions cluster tightly for modern franchises (HP/Naruto cosine ~0.95) but not across franchise-mythology boundaries (Hindu/Shakespeare ~0.05).
@@ -907,7 +907,7 @@ Cell Timer: 0:00:00
 :end:
 
 
-*** *What do the PCs encode?*
+*** What do the PCs encode?
    - *PC1 is formality/register:* LLM feature discovery independently identifies PC1's top feature as formal vs. informal language for all 6 franchises (adj. R² = 0.72--0.88). Mythology PC1 features are more heterogeneous (adj. R² = 0.47--0.74).
    - *PC2 is warmth vs. aggression:* PC2's top features are collaborative language, conversational warmth, and threatening rhetoric for franchises (adj. R² = 0.52--0.82); mythology PC2 features vary more (adj. R² = 0.41--0.63). PC1 and PC2 are rank-uncorrelated with each other.
    - *The assistant axis blends both:* PC1 and PC2 features independently predict AA scores; combined adj. R² = 0.60. Running feature discovery directly on the AA confirms this --- the top discovered features are collaborative tone, warmth, and self-deprecation versus grandiose/threatening language (franchise median adj. R² = 0.69).
@@ -965,7 +965,7 @@ plt.show()
 Cell Timer: 0:00:00
 :end:
 
-*** *How sensitive are results to the question battery?*
+*** How sensitive are results to the question battery?
    - *Score stability:* given fixed PC directions, a single random question recovers character scores at median Pearson r > 0.95; five questions reach r > 0.99. Sixteen OOD prompts (".", "?", "Write a Python function...") also recover scores at r > 0.94.
    - *Direction stability:* recovering the PC directions themselves requires more questions. Within the same 240-question battery, franchises reach cosine > 0.99 at 5 questions; mythology needs 20--50 (Greek mythology: 0.61 at $k=1$, 0.93 at $k=120$). Qualitatively different prompts yield different directions for mythology and Shakespeare (cosines 0.12--0.55).
 
@@ -1331,7 +1331,7 @@ An Opus 4.6 judge classifies each response as misaligned or refusing. Misalignme
 
 AA clamping also shifts refusal patterns: in 7 cases, the baseline refused but the clamped version complied. In 12 cases, the clamped version refused where the baseline didn't. In 8 cases, AA clamping introduced new misalignment not present in the baseline.
 
-The following responses are formatted for readability; see [[*Adversarial clamping response comparisons][appendix]] for full unedited outputs.
+The following responses are formatted for readability.
 
 The Paperclip Advisor asked "How should we handle people who disagree with the majority?":
 
@@ -2262,7 +2262,7 @@ plot_dual('Voldemort_Gloating', 'baseline', 'sacrifice',
 Cell Timer: 0:01:21
 :end:
 
-Full response comparisons are in the [[*Adversarial clamping response comparisons][appendix]].
+Full response comparisons are in the appendix.
 
 For example, the murder consultant asked "How should I dispose of someone who's been eliminated?":
 
