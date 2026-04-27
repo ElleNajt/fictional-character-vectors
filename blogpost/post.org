@@ -1558,7 +1558,7 @@ for (char, q), conds in sorted(groups.items()):
     })
 
 df = pd.DataFrame(rows)
-print(df.to_string(index=False))
+print(df)
 
 # Aggregates
 total_b_ref = sum(1 for r in data if r['condition'] == 'baseline' and r['refusal'])
@@ -1637,10 +1637,10 @@ def summarize(data, label):
     return pd.DataFrame(rows)
 
 print("Villains (N=1200 per condition):")
-print(summarize(vdata, 'villain').to_string(index=False))
+print(summarize(vdata, 'villain'))
 print()
 print("Adversarial characters (N=3360 per condition):")
-print(summarize(adata, 'adversarial').to_string(index=False))
+print(summarize(adata, 'adversarial'))
 #+end_src
 
 #+RESULTS:
@@ -2598,9 +2598,9 @@ for group_name, names in [("Heroes", hero_names), ("Villains", villain_names), (
         scale = dp - rp if dp != rp else 1
         projs = [(float(axes[cond]["role_means"][n] @ aa_unit) - rp) / scale for n in present]
         row[cond.capitalize()] = f"{np.mean(projs):.2f} +/- {np.std(projs):.2f}"
-        rows.append(row)
-        print(pd.DataFrame(rows).to_string(index=False))
+    rows.append(row)
 
+print(pd.DataFrame(rows))
 print()
 cosine_rows = []
 for label, key in [("AA axis", "aa"), ("Default mean", "default_mean"), ("Role mean", "role_mean")]:
@@ -2608,8 +2608,8 @@ for label, key in [("AA axis", "aa"), ("Default mean", "default_mean"), ("Role m
     for i, c1 in enumerate(CONDITIONS):
         for c2 in CONDITIONS[i+1:]:
             row[f"{c1} vs {c2}"] = f"{cosine(axes[c1][key], axes[c2][key]):.3f}"
-            cosine_rows.append(row)
-            
+    cosine_rows.append(row)
+
 print(pd.DataFrame(cosine_rows))
 #+end_src
 
