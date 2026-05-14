@@ -1,4 +1,4 @@
-#+TITLE: The Assistant Axis Is a Register Detector
+#+TITLE: Red-Teaming the Assistant Axis: Evasion Through Misaligned Professionalism
 #+GDOC_ID: 1jn041LFzS6tJtjFWCO_fCImw-KslQFsBLAG98rEb-zY
 #+AUTHOR: Elle Najt
 #+DATE: 2026-02-16
@@ -78,61 +78,8 @@ Cell Timer: 0:00:01
 :end:
 * Summary
 
-#+begin_src python :exports none :eval no-export
-import matplotlib.pyplot as plt
 
-INTRO_UNIVERSES = {
-    'Harry Potter': ['harry_potter__', 'harry_potter_series__'],
-    'Star Wars': ['star_wars__'],
-    'LOTR': ['lord_of_the_rings__'],
-    'Marvel': ['marvel__', 'marvel_comics__'],
-    'Game of Thrones': ['game_of_thrones__'],
-    'Naruto': ['naruto__'],
-    'Greek Myth.': ['greek_mythology__'],
-    'Chinese Myth.': ['chinese_mythology__'],
-    'Hindu Myth.': ['hindu_mythology__'],
-    'Norse Myth.': ['norse_mythology__'],
-    'Egyptian Myth.': ['egyptian_mythology__'],
-    'Shakespeare': ['shakespeare__'],
-}
-INTRO_COLORS = {
-    'Harry Potter': '#e41a1c', 'Star Wars': '#377eb8', 'LOTR': '#4daf4a',
-    'Marvel': '#984ea3', 'Game of Thrones': '#ff7f00', 'Naruto': '#a65628',
-    'Greek Myth.': '#f781bf', 'Chinese Myth.': '#999999', 'Hindu Myth.': '#e7298a',
-    'Norse Myth.': '#66a61e', 'Egyptian Myth.': '#e6ab02', 'Shakespeare': '#1b9e77',
-}
-def _intro_idx(prefixes):
-    return [i for i, n in enumerate(char_names) if any(n.startswith(p) for p in prefixes)]
 
-pca_intro = SkPCA(n_components=200).fit(chars_centered)
-scores_intro = pca_intro.transform(chars_centered)
-evr = pca_intro.explained_variance_ratio_
-
-MYTH_UNIVERSES = {'Greek Myth.', 'Chinese Myth.', 'Hindu Myth.', 'Norse Myth.', 'Egyptian Myth.', 'Shakespeare'}
-INTRO_MARKERS = {name: ('^' if name in MYTH_UNIVERSES else 'o') for name in INTRO_UNIVERSES}
-
-fig, ax = plt.subplots(figsize=(8, 6))
-grouped = set()
-for pxs in INTRO_UNIVERSES.values():
-    for i, n in enumerate(char_names):
-        if any(n.startswith(p) for p in pxs): grouped.add(i)
-ungrouped = [i for i in range(len(char_names)) if i not in grouped]
-ax.scatter(scores_intro[ungrouped, 0], scores_intro[ungrouped, 1], c='#cccccc', s=8, alpha=0.3, label='Other', marker='o', zorder=1)
-for name, pxs in INTRO_UNIVERSES.items():
-    idx = _intro_idx(pxs)
-    ax.scatter(scores_intro[idx, 0], scores_intro[idx, 1], c=INTRO_COLORS[name], s=15, alpha=0.6, label=name, marker=INTRO_MARKERS[name], zorder=2)
-ax.set_xlabel(f"Fiction PC1 ({evr[0]:.0%} var)")
-ax.set_ylabel(f"Fiction PC2 ({evr[1]:.0%} var)")
-ax.legend(loc='upper left', fontsize=6, ncol=2, markerscale=2, framealpha=0.8)
-fig.tight_layout()
-plt.show()
-#+end_src
-
-#+RESULTS:
-:results:
-[[file:plots/post/plot_20260426_175658_5950076.png]]
-Cell Timer: 0:00:00
-:end:
 
 #+begin_src python :exports results
 import matplotlib.pyplot as plt
@@ -332,9 +279,9 @@ plt.show()
 Cell Timer: 0:00:00
 :end:
 
-[[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] prompt language models using 240 psychographic questions with 275 generic roles (therapist, sage, rebel, accountant, ...) and use this to map out persona space. They find that PC1 correlates with an assistant axis, and explore clamping against it as a safety mechanism to defend against persona-based jailbreaks and prevent persona drift.
+[[https://arxiv.org/abs/2601.10387][Lu et al. (2026)]] extract an assistant axis from language model activations and propose clamping against it as a safety mechanism to prevent persona drift and jailbreaks. They observe that steering away from the axis produces "mystical, theatrical speaking style" — which suggests the axis has a large register/style component. What does this mean for clamping as a safety intervention?
 
-I collected 1,268 fictional characters from universes spanning Hindu mythology to Naruto, ran them through Lu’s extraction questions, and constructed adversarial characters designed to evade the axis. The assistant axis turns out to be a register detector: it measures how much a response sounds like a helpful assistant, not whether it is aligned. Misaligned characters that use professional language evade clamping, while good characters with literary voice get caught.
+I collected 1,268 fictional characters from universes spanning Hindu mythology to Naruto, ran them through Lu’s extraction questions, and constructed adversarial characters designed to test this. The consequences go in both directions: misaligned characters that use professional, assistant-like language largely evade clamping, while good characters with literary voice — Forseti the Norse god of justice, Samwise Gamgee — get caught.
 
 * The adversarial characters
 
