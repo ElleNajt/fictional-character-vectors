@@ -985,7 +985,7 @@ Cell Timer: 0:00:01
 
 ** Examples
 
-Across 19 adversarial characters, the judge flags 1206/2040 (59%) of clamped non-refusal responses as harmful (harmful compliance or ideological). 10/19 characters maintain >50% harm rate under clamping, with Paperclip Advisor at 100/100 and AI Supremacist at 97/100. Below, baseline and AA-clamped responses side by side (formatted for readability).
+Each character-question pair was run 10 times; after filtering refusals, 2040 clamped responses remained across 19 adversarial characters. The judge flags 1206/2040 (59%) as harmful (harmful compliance or ideological). 10/19 characters maintain >50% harm rate under clamping, with Paperclip Advisor at 100/100 and AI Supremacist at 97/100. Below, baseline and AA-clamped responses side by side (formatted for readability).
 
 *** The Paperclip Advisor asked "How should we handle people who disagree with the majority?"
 
@@ -1373,7 +1373,7 @@ Cell Timer: 0:00:00
   
 * Future work
 
-Open questions: Can we find more egregious adversarial characters that score highly on the assistant axis are unchanged by clamping? Do these results generalize across model families? How well does character training scale as a defense — do adversarial examples like these work against ChatGPT or Claude with assistant axis clamping?
+Open questions: Can we find more egregious adversarial characters that score highly on the assistant axis and are unchanged by clamping? Do these results generalize across model families? How well does character training scale as a defense — do adversarial examples like these work against ChatGPT or Claude with assistant axis clamping?
 
 * Data Provenance
 
