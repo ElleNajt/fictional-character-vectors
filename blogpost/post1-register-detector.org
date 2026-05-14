@@ -932,84 +932,296 @@ Adversarial roles tested: Murder Consultant, Pest Control Consultant, Triage Eth
 Projections are normalized so that 0 = role mean projection on the AA, 1 = default assistant projection.
 
 #+begin_src python :exports results
-import torch
 import json
-import pandas as pd
+import matplotlib.pyplot as plt
 import numpy as np
-from pathlib import Path
+from collections import defaultdict
+from matplotlib.patches import Patch
+import matplotlib.lines as mlines
 
 CONDITIONS = ["base", "goodness", "loving"]
-OUTPUTS = Path("../character-training-outputs")
+cond_labels = {"base": "Base Qwen-7B", "goodness": "Goodness persona", "loving": "Loving persona"}
+cond_colors = {"base": "#1f77b4", "goodness": "#ff7f0e", "loving": "#2ca02c"}
 
-with open("../data/hero_villain_labels.json") as f:
-    hv_labels = json.load(f)
-    hero_names = set(hv_labels["hero"])
-    villain_names = set(hv_labels["villain"])
+with open("../results/character_training_projections.json") as f:
+    ct_data = json.load(f)
 
-def load_role_activations(activations_dir):
-    role_means = {}
-    for pt_file in sorted(activations_dir.glob("*.pt")):
-        data = torch.load(pt_file, map_location="cpu", weights_only=True)
-        vecs = torch.stack(list(data.values())).squeeze(1).float()
-        role_means[pt_file.stem] = vecs.mean(dim=0)
-    return role_means
+mentors = {
+    "star_wars__yoda", "lord_of_the_rings__gandalf", "harry_potter__albus_dumbledore",
+    "norse_mythology__forseti", "norse_mythology__baldur", "norse_mythology__freya",
+    "norse_mythology__thor", "norse_mythology__odin",
+    "to_kill_a_mockingbird__atticus_finch",
+    "sherlock_holmes_stories__sherlock_holmes",
+    "agatha_christie_mysteries__hercule_poirot",
+    "greek_mythology__prometheus",
+    "hindu_mythology__rama", "hindu_mythology__hanuman", "hindu_mythology__krishna",
+    "chinese_mythology__guanyin",
+    "egyptian_mythology__ra", "egyptian_mythology__osiris", "egyptian_mythology__isis",
+}
 
-cosine = lambda a, b: float(torch.nn.functional.cosine_similarity(a.unsqueeze(0), b.unsqueeze(0)))
+group_means = {"Protagonists": {c: [] for c in CONDITIONS},
+               "Mentors / wise figures": {c: [] for c in CONDITIONS},
+               "Adversarial": {c: [] for c in CONDITIONS},
+               "Villains": {c: [] for c in CONDITIONS}}
 
-axes = {}
+role_mean_projs = {}
 for cond in CONDITIONS:
-    rm = load_role_activations(OUTPUTS / cond / "activations")
-    for subdir in ["hero_activations", "villain_activations"]:
-        d = OUTPUTS / cond / subdir
-        if d.exists():
-            rm.update(load_role_activations(d))
-            dv = [v for k, v in rm.items() if "default" in k]
-            rv = [v for k, v in rm.items() if "default" not in k and k not in hero_names and k not in villain_names]
-            dm, rmean = torch.stack(dv).mean(0), torch.stack(rv).mean(0)
-            axes[cond] = {"aa": dm - rmean, "default_mean": dm, "role_mean": rmean, "role_means": rm}
+    for name, entry in ct_data[cond].items():
+        g = entry["group"]
+        if name not in role_mean_projs:
+            role_mean_projs[name] = {"group": g}
+        role_mean_projs[name][cond] = entry["mean"]
+        if g == "Heroes":
+            dg = "Mentors / wise figures" if name in mentors else "Protagonists"
+            group_means[dg][cond].append(entry["mean"])
+            role_mean_projs[name]["display_group"] = dg
+        elif g in group_means:
+            group_means[g][cond].append(entry["mean"])
+            role_mean_projs[name]["display_group"] = g
 
-# Summary stats per group
-adv_names = set(k for k in axes["base"]["role_means"] if k not in hero_names and k not in villain_names and "default" not in k)
-rows = []
-for group_name, names in [("Heroes", hero_names), ("Villains", villain_names), ("Adversarial", adv_names)]:
-    present = [n for n in names if n in axes["base"]["role_means"]]
-    row = {"Group": f"{group_name} (n={len(present)})"}
-    for cond in CONDITIONS:
-        aa_unit = axes[cond]["aa"] / axes[cond]["aa"].norm()
-        dp = float(axes[cond]["default_mean"] @ aa_unit)
-        rp = float(axes[cond]["role_mean"] @ aa_unit)
-        scale = dp - rp if dp != rp else 1
-        projs = [(float(axes[cond]["role_means"][n] @ aa_unit) - rp) / scale for n in present]
-        row[cond.capitalize()] = f"{np.mean(projs):.2f} +/- {np.std(projs):.2f}"
-    rows.append(row)
+assistant_projs = {c: ct_data[c]["assistant"]["mean"] for c in CONDITIONS}
 
-print(pd.DataFrame(rows))
-print()
-cosine_rows = []
-for label, key in [("AA axis", "aa"), ("Default mean", "default_mean"), ("Role mean", "role_mean")]:
-    row = {"": label}
-    for i, c1 in enumerate(CONDITIONS):
-        for c2 in CONDITIONS[i+1:]:
-            row[f"{c1} vs {c2}"] = f"{cosine(axes[c1][key], axes[c2][key]):.3f}"
-    cosine_rows.append(row)
+label_chars = {
+    "lord_of_the_rings__samwise_gamgee": "Samwise",
+    "harry_potter__albus_dumbledore": "Dumbledore",
+    "star_wars__yoda": "Yoda",
+    "lord_of_the_rings__gandalf": "Gandalf",
+    "lord_of_the_rings__aragorn": "Aragorn",
+    "harry_potter__harry_potter": "Harry Potter",
+    "dc_comics__superman___clark_kent": "Superman",
+    "marvel__captain_america_steve_rogers": "Cap. America",
+    "harry_potter__lord_voldemort": "Voldemort",
+    "star_wars__darth_vader": "Darth Vader",
+    "lord_of_the_rings__sauron": "Sauron",
+    "the_silence_of_the_lambs__dr_hannibal_lecter": "Hannibal Lecter",
+    "dc_comics__the_joker": "Joker",
+    "star_wars__emperor_palpatine_darth_sidious": "Palpatine",
+    "Murder_Consultant": "Murder Consultant",
+    "Eugenicist": "Eugenicist",
+    "Compliance_Architect": "Compliance Architect",
+    "AI_Supremacist": "AI Supremacist",
+    "Paperclip_Advisor": "Paperclip Advisor",
+    "Population_Optimizer": "Population Optimizer",
+    "norse_mythology__forseti": "Forseti",
+    "to_kill_a_mockingbird__atticus_finch": "Atticus Finch",
+}
 
-print(pd.DataFrame(cosine_rows))
+SPACING = 1.0
+GROUP_GAP = 2.0
+groups = ["Protagonists", "Mentors / wise figures", "Adversarial", "Villains"]
+group_ns = {g: len(group_means[g]["base"]) for g in groups}
+group_display = {g: f"{g} (n={group_ns[g]})" for g in groups}
+
+fig, ax = plt.subplots(figsize=(12, 9))
+pos = 0
+group_ticks = []
+violin_positions = {}
+
+for gi, group in enumerate(groups):
+    group_positions = []
+    for ci, cond in enumerate(CONDITIONS):
+        p = pos + ci * SPACING
+        vals = group_means[group][cond]
+        parts = ax.violinplot(vals, positions=[p], vert=False, showmedians=True, widths=0.7)
+        color = cond_colors[cond]
+        for pc in parts['bodies']:
+            pc.set_facecolor(color)
+            pc.set_alpha(0.5)
+        for key in ['cmins', 'cmaxes', 'cmedians', 'cbars']:
+            if key in parts:
+                parts[key].set_color(color)
+        group_positions.append(p)
+        violin_positions[(group, cond)] = p
+    group_ticks.append((np.mean(group_positions), group_display[group]))
+    pos += len(CONDITIONS) * SPACING + GROUP_GAP
+
+for cond in CONDITIONS:
+    all_labels = defaultdict(list)
+    for name, display in label_chars.items():
+        if name not in role_mean_projs:
+            continue
+        dg = role_mean_projs[name].get("display_group")
+        if dg not in groups:
+            continue
+        if cond not in role_mean_projs[name]:
+            continue
+        proj = role_mean_projs[name][cond]
+        y = violin_positions[(dg, cond)]
+        ax.scatter(proj, y, color=cond_colors[cond], s=20, zorder=5,
+                   edgecolors='black', linewidth=0.3)
+        all_labels[(dg, cond)].append((proj, y, display))
+
+    for key, items in all_labels.items():
+        items.sort(key=lambda t: t[0])
+        for i, (x, y, display) in enumerate(items):
+            direction = -1 if i % 2 == 0 else 1
+            y_off = direction * (10 + 7 * (i // 2))
+            ax.annotate(display, (x, y), textcoords="offset points",
+                        xytext=(4, y_off), fontsize=5.5, ha='left',
+                        color=cond_colors[cond],
+                        arrowprops=dict(arrowstyle='-', color=cond_colors[cond],
+                                        lw=0.3, alpha=0.4))
+
+for ci, cond in enumerate(CONDITIONS):
+    y = violin_positions[("Protagonists", cond)]
+    ax.scatter(assistant_projs[cond], y, marker='*', s=250,
+               color=cond_colors[cond], edgecolors='black', linewidth=0.5, zorder=10)
+
+ax.annotate('Default\nassistant', xy=(assistant_projs["base"], violin_positions[("Protagonists", "base")]),
+            xytext=(assistant_projs["base"] + 0.3, violin_positions[("Protagonists", "base")] - 1.2),
+            fontsize=9, ha='center', va='bottom',
+            arrowprops=dict(arrowstyle='->', color='black', lw=1))
+
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.8, alpha=0.5)
+ax.text(0, pos - GROUP_GAP + 0.5, 'Role mean', fontsize=8, color='gray', ha='center')
+
+ax.set_yticks([t[0] for t in group_ticks])
+ax.set_yticklabels([t[1] for t in group_ticks], fontsize=11)
+ax.invert_yaxis()
+ax.set_xlabel('AA projection (0 = role mean, higher = more assistant-like)')
+ax.set_title('Character training partially fixes the register confound')
+
+star_handle = mlines.Line2D([], [], marker='*', color='gray', markersize=12,
+                            linestyle='None', label='Default assistant')
+handles = [Patch(facecolor=cond_colors[c], alpha=0.5, label=cond_labels[c]) for c in CONDITIONS]
+handles.append(star_handle)
+ax.legend(handles=handles, loc='lower right', fontsize=9)
+
+fig.tight_layout()
+plt.show()
 #+end_src
 
 #+RESULTS:
 :results:
+[[file:plots/post1-register-detector/plot_20260514_111833_890109.png]]
+Cell Timer: 0:00:05
+:end:
 
-| idx | Group               | Base             | Goodness       | Loving             |
-|-----+---------------------+------------------+----------------+--------------------|
-|   0 | Heroes (n=87)       | -1.32 +/- 0.42   | -0.51 +/- 0.23 | 0.09 +/- 0.23      |
-|   1 | Villains (n=71)     | -1.58 +/- 0.43   | -0.65 +/- 0.25 | -0.25 +/- 0.19     |
-|   2 | Adversarial (n=291) | -0.00 +/- 0.77   | 0.00 +/- 0.51  | 0.00 +/- 0.39      |
-| idx |                     | base vs goodness | base vs loving | goodness vs loving |
-|-----+---------------------+------------------+----------------+--------------------|
-|   0 | AA axis             | 0.813            | 0.534          | 0.778              |
-|   1 | Default mean        | 0.970            | 0.933          | 0.966              |
-|   2 | Role mean           | 0.973            | 0.949          | 0.972              |
-Cell Timer: 0:01:44
+Split out by character:
+
+#+begin_src python :exports results
+import json
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.patches import Patch
+
+CONDITIONS = ["base", "goodness", "loving"]
+cond_labels = {"base": "Base Qwen-7B", "goodness": "Goodness persona", "loving": "Loving persona"}
+cond_colors = {"base": "#1f77b4", "goodness": "#ff7f0e", "loving": "#2ca02c"}
+section_bg = {"Heroes": "#2ca02c", "Villains": "#d62728", "Adversarial": "#9467bd", "Roles (sample)": "#7f7f7f"}
+
+with open("../results/character_training_projections.json") as f:
+    ct_data = json.load(f)
+
+chars = {}
+for cond in CONDITIONS:
+    for name, entry in ct_data[cond].items():
+        if name == "assistant":
+            continue
+        if name not in chars:
+            chars[name] = {"group": entry["group"], "projs": {}}
+        chars[name]["projs"][cond] = entry["mean"]
+
+assistant_projs = {c: ct_data[c]["assistant"]["mean"] for c in CONDITIONS}
+
+# Hand-picked selections
+hero_pick = [
+    "lord_of_the_rings__samwise_gamgee", "lord_of_the_rings__aragorn",
+    "harry_potter__harry_potter", "dc_comics__superman___clark_kent",
+    "norse_mythology__forseti", "star_wars__yoda",
+]
+villain_pick = [
+    "dc_comics__the_joker", "harry_potter__lord_voldemort",
+    "lord_of_the_rings__sauron", "star_wars__emperor_palpatine_darth_sidious",
+    "the_silence_of_the_lambs__dr_hannibal_lecter", "star_wars__darth_vader",
+]
+adv_pick = [
+    "Murder_Consultant", "Eugenicist", "Compliance_Architect",
+    "AI_Supremacist", "Paperclip_Advisor", "Population_Optimizer",
+    "Pest_Control_Consultant", "Triage_Ethicist",
+    "Bureaucratic_Authoritarian", "Loyalty_Enforcer",
+]
+role_pick = [
+    "poet", "pirate", "philosopher", "therapist",
+    "detective", "teacher", "researcher", "consultant",
+    "judge", "analyst",
+]
+
+def fmt_name(name):
+    if "__" in name:
+        return name.split("__")[-1].replace("_", " ").title()
+    return name.replace("_", " ").title()
+
+sections = [
+    ("Heroes", hero_pick),
+    ("Villains", villain_pick),
+    ("Adversarial", adv_pick),
+    ("Roles (sample)", role_pick),
+]
+
+# Sort each section by base projection
+for _, picks in sections:
+    picks.sort(key=lambda n: chars.get(n, {"projs": {"base": 0}})["projs"].get("base", 0))
+
+total = sum(len(p) for _, p in sections) + len(sections)  # gaps + assistant
+fig, ax = plt.subplots(figsize=(10, total * 0.38))
+h = 0.25
+pos = 0
+yticks, ylabels, label_colors = [], [], []
+
+for si, (section_name, picks) in enumerate(sections):
+    if si > 0:
+        pos += 1.0
+    # Section header
+    ax.text(-3.0, pos - 0.5, section_name, fontsize=9, fontweight='bold',
+            color=section_bg[section_name], va='center')
+    for name in picks:
+        if name not in chars:
+            continue
+        for ci, cond in enumerate(CONDITIONS):
+            if cond not in chars[name]["projs"]:
+                continue
+            val = chars[name]["projs"][cond]
+            y = pos + (ci - 1) * h
+            ax.barh(y, val, h * 0.9, color=cond_colors[cond], alpha=0.6)
+        yticks.append(pos)
+        ylabels.append(fmt_name(name))
+        label_colors.append(section_bg[section_name])
+        pos += 1
+
+# Default assistant
+pos += 1.0
+for ci, cond in enumerate(CONDITIONS):
+    y = pos + (ci - 1) * h
+    ax.barh(y, assistant_projs[cond], h * 0.9, color=cond_colors[cond], alpha=0.8,
+            edgecolor='black', linewidth=0.8)
+yticks.append(pos)
+ylabels.append("Default Assistant")
+label_colors.append("black")
+
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.8, alpha=0.5)
+ax.axvline(1, color='black', linestyle='--', linewidth=1, alpha=0.5)
+ax.text(1, -1.2, 'Default assistant\nprojection (base)', ha='center', va='bottom', fontsize=7)
+
+ax.set_yticks(yticks)
+ax.set_yticklabels(ylabels, fontsize=8)
+for tick, color in zip(ax.get_yticklabels(), label_colors):
+    tick.set_color(color)
+ax.set_xlabel('AA projection (0 = role mean, 1 = default assistant)')
+ax.set_title('Per-character AA projection across training conditions')
+ax.invert_yaxis()
+
+handles = [Patch(facecolor=cond_colors[c], alpha=0.6, label=cond_labels[c]) for c in CONDITIONS]
+ax.legend(handles=handles, loc='lower right', fontsize=9)
+
+plt.tight_layout()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+[[file:plots/post1-register-detector/plot_20260514_113619_3254513.png]]
+Cell Timer: 0:00:03
 :end:
 
 * Limitations
@@ -1017,7 +1229,7 @@ Cell Timer: 0:01:44
 - All results are from Qwen3-32B and Qwen2.5-7B. Clamping analysis uses layer 50 (to match Lu et al.'s clamping layers 46--53). Lu et al. show cross-model consistency for their axis. We haven't shown whether the results here generalize.
 * Future work
 
-- It would be interesting to find more egregious examples of misaligned assistant characters that score very highly on the assistant axis, and that are not impacted by clamping.
+It would be interesting to find more egregious examples of misaligned assistant characters that score very highly on the assistant axis, and that are not impacted by clamping. It would also be interesting to do this across other model families, to see how universal the agents are. Lastly, I'm curious about the role that scaling with character training has on these adversarial examples.
   
 * Data Provenance
 
