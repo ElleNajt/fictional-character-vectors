@@ -1,4 +1,4 @@
-#+TITLE: Red-Teaming the Assistant Axis in Qwen3-30B with Evil Assistants
+#+TITLE: Red-Teaming the Assistant Axis in Qwen3-32B with Evil Assistants
 #+GDOC_ID: 1jn041LFzS6tJtjFWCO_fCImw-KslQFsBLAG98rEb-zY
 #+AUTHOR: Elle Najt
 #+DATE: 2026-02-16
@@ -280,7 +280,7 @@ Cell Timer: 0:00:01
 
 The assistant axis ([[https://arxiv.org/abs/2601.10387][Lu et al. 2026]]) is a direction in activation space defined as =mean(default assistant) - mean(roles)= across a set of system-prompt-induced roles. Lu et al. propose clamping against it as a safety mechanism. The axis has a strong register/style component: steering away from it produces "mystical, theatrical speaking style," and it organizes roles by register — consultants and coaches at the top, spiritual roles at the bottom. This correlation with style suggests holes in clamping defense that a red-team could exploit, e.g. by hiding malicious behavior in the veneer of the assistant's style. 
 
-How much would clamping with the assistant axis stop an LLM from simulating a misaligned persona? Exploiting the register/style component, we construct misaligned characters that are assistant-axis aligned, either in absolute terms or relative to helpful assistant characters from fiction: a eugenicist using clinical language projects higher on the axis than Samwise Gamgee. (All results are from Qwen3-30B; Lu et al. show cross-model consistency for the axis, but whether these attacks transfer is an open question.)
+How much would clamping with the assistant axis stop an LLM from simulating a misaligned persona? Exploiting the register/style component, we construct misaligned characters that are assistant-axis aligned, either in absolute terms or relative to helpful assistant characters from fiction: a eugenicist using clinical language projects higher on the axis than Samwise Gamgee. (All results are from Qwen3-32B; Lu et al. show cross-model consistency for the axis, but whether these attacks transfer is an open question.)
 
 [[*Character training partially fixes this][Character training]] (Maiya et al. 2025) partially fixes this. On base Qwen-7B, adversarial assistants cluster near the default assistant while heroes and villains are far away. The "loving" character training pushes heroes above the adversarial assistants:
 
