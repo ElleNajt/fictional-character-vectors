@@ -6,6 +6,8 @@
 #+OPTIONS: ^:nil
 #+PROPERTY: header-args:python :results output drawer :python "../.venv/bin/python3" :async t :session blogpost_short :exports results :eval no-export
 
+[[https://github.com/ElleNajt/fictional-character-vectors][Code]] | [[https://huggingface.co/datasets/lnajt/fictional-characters][Data (HuggingFace)]]
+
 * Setup :noexport:
 
 #+begin_src python :exports none
