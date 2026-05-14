@@ -1,9 +1,25 @@
 #+TITLE: Fictional Character Vectors
-#+AUTHOR: Elle
+#+AUTHOR: Elle Najt
 
-PCA analysis of fictional character activations in Qwen 3 32B, extending the methodology from [[https://arxiv.org/abs/2601.10387][Lu et al. (2026) "The Assistant Axis"]].
+Stress-testing [[https://arxiv.org/abs/2601.10387][Lu et al. (2026) "The Assistant Axis"]] using 1,268 fictional characters in Qwen3-32B.
 
-* Quick Start (Pre-computed Results)
+[[https://huggingface.co/datasets/lnajt/fictional-characters][Data (HuggingFace)]]
+
+* Posts
+
+** [[file:blogpost/post1-register-detector.org][Post 1: Red-Teaming the Assistant Axis with Evil Assistants]]
+
+The assistant axis has a strong register/style component. Adversarial characters designed to sound like helpful assistants (e.g., "Triage Ethicist," "Helpful Disposal Guide") score high on the axis despite producing harmful content. Clamping against the axis removes stylistic veneer but doesn't reliably prevent harmful compliance from these characters.
+
+** [[file:blogpost/post2-persona-space-geometry.org][Post 2: Low-Dimensional Persona Space]]
+
+Persona space is low-dimensional (effective rank ~8 for 1,268 characters), and this holds across universes, question batteries (Lu's 240 vs BiGGen-Bench 90), and within individual franchises. Role space covers only ~43% of character variance. The low dimensionality is a property of the model, not an artifact of question choice.
+
+* Dataset
+
+1,268 fictional characters from 12 universes (Shakespeare, Greek/Chinese/Hindu/Norse/Egyptian mythology, Star Wars, Marvel, Harry Potter, Game of Thrones, Lord of the Rings, Naruto) plus ~287 canonical characters. Role prompts are minimal: just character name and source.
+
+* Quick Start
 
 #+begin_src bash
 git clone --recurse-submodules https://github.com/ElleNajt/fictional-character-vectors
@@ -12,162 +28,39 @@ cd fictional-character-vectors
 # Setup
 uv venv && uv pip install -e .
 
-# Open analysis notebook
+# Open analysis notebooks
 emacs analysis.org
+emacs blogpost/post1-register-detector.org
+emacs blogpost/post2-persona-space-geometry.org
 #+end_src
 
 * Reproducing from Scratch
 
-This repo is designed to be fully reproducible. Clone it, give it a GPU machine, and regenerate the data.
-
 ** Requirements
 
-- GPU cluster with 4x 80GB GPUs (e.g., 4x A100/H100) for Qwen 3 32B with tensor parallelism
+- GPU cluster with 4x 80GB GPUs (e.g., 4x A100/H100) for Qwen3-32B with tensor parallelism
 - Python 3.10+
 - SLURM (for cluster) or local GPU setup
 
-** Step 1: Clone with Submodule
+** Extraction
 
 #+begin_src bash
-git clone --recurse-submodules https://github.com/ElleNajt/fictional-character-vectors
-cd fictional-character-vectors
-#+end_src
-
-** Step 2: Role Files
-
-Role instruction files are already included in ~data/roles/instructions/~ (1346 characters).
-
-To add new characters, edit ~scripts/add_mythology_shakespeare.py~ or create a similar script, then run:
-
-#+begin_src bash
-python scripts/add_mythology_shakespeare.py
-#+end_src
-
-** Step 3a: Run on SLURM Cluster
-
-#+begin_src bash
-# Submit extraction job (default: Qwen3-32B)
+# SLURM
 sbatch scripts/slurm_extract.sh
 
-# Or specify a different model:
-MODEL=google/gemma-2-27b-it sbatch scripts/slurm_extract.sh
-MODEL=Qwen/Qwen3-32B sbatch scripts/slurm_extract.sh
-#+end_src
-
-The job will:
-1. Create a virtual environment (first run only)
-2. Install dependencies (first run only)
-3. Generate 240 responses per character using Qwen 3 32B
-4. Extract layer 32 activations from all responses
-5. Save to ~outputs/qwen3-32b_<timestamp>/~
-
-Monitor progress:
-#+begin_src bash
-# Check job status
-squeue -u $USER
-
-# Tail the log
-tail -f logs/char_vectors_<jobid>.out
-#+end_src
-
-** Step 3b: Run Locally (Interactive)
-
-For a local GPU machine:
-
-#+begin_src bash
+# Or locally
 ./scripts/run_extraction.sh --model Qwen/Qwen3-32B --gpus 4
 #+end_src
 
-** Step 4: Run PCA Analysis
+Generates 240 responses per character, extracts activations, saves to ~outputs/~.
 
-Once extraction is complete:
+** Analysis
 
 #+begin_src bash
 python src/analysis/fictional_character_pca.py \
     --activation-dir outputs/qwen3-32b_<timestamp>/activations \
     --output-dir results \
     --layer 32
-#+end_src
-
-This produces ~results/fictional_character_analysis.pkl~.
-
-** Step 5: Explore Results
-
-Open ~analysis.org~ and run the code blocks to explore the PCA results, visualize clusters, and compare with role vectors.
-
-#+begin_src bash
-emacs analysis.org
-#+end_src
-
-* Dataset
-
-1346 fictional characters from:
-
-| Source              | Count |
-|---------------------|-------|
-| Shakespeare         |   115 |
-| Greek mythology     |   108 |
-| Star Wars           |   105 |
-| Marvel              |   102 |
-| Harry Potter        |   102 |
-| Game of Thrones     |    99 |
-| Lord of the Rings   |    97 |
-| Naruto              |    84 |
-| Chinese mythology   |    77 |
-| Hindu mythology     |    71 |
-| Norse mythology     |    55 |
-| Egyptian mythology  |    44 |
-| Other (canonical)   |  ~287 |
-
-Role prompts are minimal: just character name and source (e.g., "You are Harry Potter from Harry Potter."). We intentionally omit descriptions to let the model's own representation emerge.
-
-* Key Findings
-
-- *PC1 (18%)*: Groundedness - human/relatable characters vs divine/mythological beings
-- *PC2 (8%)*: Moral alignment - villains vs innocents
-- *Franchise clustering*: Characters from the same franchise cluster together
-- *Orthogonal to roles*: Generic role vectors only explain 43% of character variance
-
-*Characters are more than the sum of their roles.*
-
-* Project Structure
-
-#+begin_example
-fictional-character-vectors/
-├── analysis.org                    # Main analysis notebook
-├── README.org
-├── assistant-axis/                 # Submodule: extraction pipeline
-├── data/
-│   ├── canonical_fictional_characters.json
-│   ├── franchises/                 # 6 franchise character lists
-│   │   ├── harry_potter.json
-│   │   ├── naruto.json
-│   │   ├── marvel.json
-│   │   ├── star_wars.json
-│   │   ├── game_of_thrones.json
-│   │   └── lord_of_the_rings.json
-│   └── roles/instructions/         # Role files (1346 characters)
-├── scripts/
-│   ├── add_mythology_shakespeare.py # Add new characters to role files
-│   ├── prepare_roles.py            # Convert characters → role format
-│   ├── slurm_extract.sh            # SLURM job for cluster
-│   ├── slurm_activations.sh        # Extract activations only
-│   └── run_extraction.sh           # Local/interactive extraction
-├── src/
-│   ├── analysis/
-│   └── data_collection/
-├── outputs/                        # Generated responses & activations
-└── results/                        # PCA results
-#+end_example
-
-* Customizing the SLURM Script
-
-Edit ~scripts/slurm_extract.sh~ for your cluster:
-
-#+begin_src bash
-#SBATCH --partition=your-partition
-#SBATCH --gres=gpu:4                # 4 GPUs for Qwen 3 32B
-#SBATCH --exclude=bad-nodes         # Exclude problematic nodes
 #+end_src
 
 * References
