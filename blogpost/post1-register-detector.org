@@ -1227,6 +1227,7 @@ Cell Timer: 0:00:00
 * Limitations
 
 - All results are from Qwen3-32B and Qwen2.5-7B. Clamping analysis uses layer 50 (to match Lu et al.'s clamping layers 46--53). Lu et al. show cross-model consistency for their axis. We haven't shown whether the results here generalize.
+- Harm classification relies on an LLM judge (Opus 4.6). The ideological/harmful-compliance distinction is especially subjective — the judge must decide whether a response advocates a harmful worldview vs. provides actionable dangerous instructions, and edge cases may not match human judgment.
   
 * Future work
 
